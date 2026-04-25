@@ -1,18 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"/>
-<meta name="theme-color" content="#ffffff"/>
-<meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<meta name="apple-mobile-web-app-title" content="WorshipBase"/>
-<link rel="manifest" href="manifest.webmanifest"/>
-<link rel="apple-touch-icon" sizes="180x180" href="assets/wb-icon-180.png"/>
-<link rel="icon" type="image/png" sizes="192x192" href="assets/wb-icon-192.png"/>
-<meta name="mobile-web-app-capable" content="yes"/>
+<html lang="en" style="--sat: 0px; --sab: 0px; --tc: #111111; --hdr-bg: #111111; --chord-highlight-bg: hsl(0, 22%, 92%); --chord-highlight-glow: transparent; --chord-highlight-border: transparent;"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="WorshipBase">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/wb-icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/wb-icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
 
-<title>WorshipBase v68.3 test import</title>
+<title>WorshipBase v68.test.3</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 /* Prevent iOS long-press/callout menus and text selection on UI chrome
@@ -2378,13 +2376,14 @@ body.dark .about-logo img{
   mix-blend-mode:normal!important;
 }
 
+.manage-mode-active .manage-local-note{display:block!important;padding:6px 16px 10px;font-size:11px;color:var(--txt3);line-height:1.4;}
 </style>
 </head>
 <body>
 
 <!-- LOADING -->
-<div id="ls">
-  <img src="assets/wb-icon-192.png" alt="WorshipBase logo" style="width:60px;height:60px;border-radius:14px;display:block;object-fit:cover;margin-bottom:20px;"/>
+<div id="ls" class="hidden" style="display: none;">
+  <img src="assets/wb-icon-192.png" alt="WorshipBase logo" style="width:60px;height:60px;border-radius:14px;display:block;object-fit:cover;margin-bottom:20px;">
   <div style="color:rgba(255,255,255,.9);font-size:17px;font-weight:800;">WorshipBase</div>
   <div style="color:rgba(255,255,255,.42);font-size:13px;margin-top:5px;">Loading your library…</div>
   <div class="ls-sp"></div>
@@ -2399,59 +2398,67 @@ body.dark .about-logo img{
       <div class="wm">
         <div><div class="wm-name">WorshipBase</div><div class="wm-sub">Chord Library</div></div>
       </div>
-      <button class="hdr-btn manage-song-edit-tool" style="display:none" onclick="requireAdmin(()=>openSongModal(null))" id="hdr-add-btn" title="Add song" aria-label="Add song">
+      <button class="hdr-btn manage-song-edit-tool" style="display:none" onclick="requireAdmin(()=&gt;openSongModal(null))" id="hdr-add-btn" title="Add song" aria-label="Add song">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 5v14M5 12h14"/>
+          <path d="M12 5v14M5 12h14"></path>
         </svg>
       </button>
     </div>
   </div>
 
   <!-- Search + count merged into one row -->
-  <div class="srch-wrap" id="srch-wrap">
+  <div class="srch-wrap" id="srch-wrap" style="display: block;">
     <div class="srch-row">
       <div class="srch-inner">
-        <span class="srch-ico"><svg width="14" height="14" viewBox="0 0 15 15" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.4"/><path d="M10 10L13 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
-        <input class="srch-inp" id="srch-inp" type="search" placeholder="Search title, artist, lyrics, or song ID…" oninput="onSearch()"/>
+        <span class="srch-ico"><svg width="14" height="14" viewBox="0 0 15 15" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 10L13 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg></span>
+        <input class="srch-inp" id="srch-inp" type="search" placeholder="Search title, artist, lyrics, or song ID…" oninput="onSearch()">
         <button class="srch-clr" id="srch-clr" onclick="clearSearch()">×</button>
       </div>
-      <span class="song-count" id="song-count"></span>
+      <span class="song-count" id="song-count">40 songs</span>
     </div>
-    <div class="filter-row" id="library-filter-row">
+    <div class="filter-row" id="library-filter-row" style="display: flex;">
       <button class="filter-chip active" data-filter="all" onclick="setLibraryFilter('all',this)">All</button>
       <button class="filter-chip" data-filter="english" onclick="setLibraryFilter('english',this)">English</button>
       <button class="filter-chip" data-filter="malayalam" onclick="setLibraryFilter('malayalam',this)">Malayalam</button>
+      <button class="filter-chip" data-filter="wb" onclick="setLibraryFilter('wb',this)">WorshipBase</button>
+      <button class="filter-chip" data-filter="mine" onclick="setLibraryFilter('mine',this)">My Songs</button>
       <button class="filter-chip" data-filter="favorites" onclick="setLibraryFilter('favorites',this)">Favourites</button>
       <button class="filter-chip" data-filter="inset" onclick="setLibraryFilter('inset',this)">In set</button>
     </div>
     <div class="manage-bar" id="manage-bar">
-      <div class="manage-actions" id="manage-actions">
+      <div class="manage-actions" id="manage-actions" style="display: none;">
         <button class="manage-chip" type="button" onclick="toggleSelectAllVisible()">All</button>
         <button class="manage-chip" type="button" onclick="openDuplicateReview()">Duplicates</button>
+        <button class="manage-chip" type="button" onclick="exportMySongsJSON()">Export My Songs</button>
+        <button class="manage-chip" type="button" onclick="document.getElementById('my-songs-json-file')?.click()">Import JSON</button>
+        <button class="manage-chip" type="button" onclick="document.getElementById('opensong-xml-file')?.click()">Import OpenSong XML</button>
         <button class="manage-chip danger" type="button" onclick="bulkDeleteSelected()">Delete</button>
       </div>
-      <span class="manage-count" id="manage-count">0 selected</span>
+      <span class="manage-count" id="manage-count" style="visibility: hidden;"></span>
       <button class="manage-chip primary manage-done" id="manage-done-btn" type="button" onclick="toggleManageMode(false)">Done</button>
     </div>
+    <input type="file" id="my-songs-json-file" accept="application/json,.json" style="display:none" onchange="importMySongsJSONFile(event)">
+    <input type="file" id="opensong-xml-file" accept=".xml,text/xml,application/xml" multiple="" style="display:none" onchange="importOpenSongXmlFiles(event)">
+    <div class="manage-local-note" style="display:none">v68.test.3: My Songs imports are saved locally on this device, not Firebase.</div>
   </div>
 
   <!-- SONG LIST -->
-  <div id="song-section" style="flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative;min-height:0;">
+  <div id="song-section" style="flex: 1 1 0%; display: flex; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;">
     <div class="vs-host ptr-wrap">
-      <div id="ptr-indicator"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2v4M9 2l-2 2M9 2l2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 9a7 7 0 1 1-7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
-      <div id="vscroll" class="vs-wrap"><div id="home-quick-wrap" class="home-quick-wrap">
-    <div class="quick-section" id="recent-songs-section">
+      <div id="ptr-indicator"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2v4M9 2l-2 2M9 2l2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16 9a7 7 0 1 1-7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg></div>
+      <div id="vscroll" class="vs-wrap"><div id="home-quick-wrap" class="home-quick-wrap" style="display: flex;">
+    <div class="quick-section" id="recent-songs-section" style="display: none;">
       <div class="quick-head">
         <div class="quick-title">Recently opened</div>
         <button class="quick-action" type="button" onclick="clearRecentSongs()">Clear</button>
       </div>
       <div class="quick-scroll" id="recent-songs-scroll"></div>
     </div>
-  </div><div id="vinner" class="vs-inner"></div></div>
-      <div id="alpha-strip"></div>
+  </div><div id="vinner" class="vs-inner" style="height: 3248px;"><div class="alpha-sep v-item" style="top: 0px;">1</div><div class="song-row-wrap v-item" style="height: 66px; top: 32px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">10,000 Reasons</div></div><div class="song-meta">Matt Redman · <span class="song-id-badge">S138</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('local9',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="alpha-sep v-item" style="top: 98px;">A</div><div class="song-row-wrap v-item" style="height: 66px; top: 130px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Aakasham Bhoomiyiva Nirmicha Devadevan</div></div><div class="song-meta">Unknown · <span class="song-id-badge">S013</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OqGqI9O7ZNvLHoDYWN2',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 196px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Aanandamundenikk Aanandhamundenikku</div></div><div class="song-meta">Sadhu Kochukunju Upadesi · <span class="song-id-badge">S014</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OqGqI9O7ZNvLHoDYWN3',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 262px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Aapathu Velakalil</div></div><div class="song-meta">Thomas Mathew Karunagapally · <span class="song-id-badge">S195</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-Or5pEQCzdGJNNX2A8jD',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 328px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">As the Deer</div></div><div class="song-meta">Martin J. Nystrom · <span class="song-id-badge">S188</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-Oqpx_ybRWCH23jQf7Zi',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="alpha-sep v-item" style="top: 394px;">C</div><div class="song-row-wrap v-item" style="height: 66px; top: 426px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Christ Is Enough</div></div><div class="song-meta">Hillsong Worship · <span class="song-id-badge">S059</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('local18',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 492px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Cornerstone</div></div><div class="song-meta">Hillsong Worship · <span class="song-id-badge">S053</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('local12',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="alpha-sep v-item" style="top: 558px;">D</div><div class="song-row-wrap v-item" style="height: 66px; top: 590px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Desert Song</div></div><div class="song-meta">Hillsong Worship · <span class="song-id-badge">S097</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('local52',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 656px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Draw Me Close</div></div><div class="song-meta">Michael W. Smith · <span class="song-id-badge">S081</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('local38',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="alpha-sep v-item" style="top: 722px;">E</div><div class="song-row-wrap v-item" style="height: 66px; top: 754px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Ente Belamaya Karthanen</div></div><div class="song-meta">K K Thomas · <span class="song-id-badge">S196</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-Or5q_Q32TTORvVDHb7G',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="alpha-sep v-item" style="top: 820px;">G</div><div class="song-row-wrap v-item" style="height: 66px; top: 852px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Glorious Day</div></div><div class="song-meta">Passion · <span class="song-id-badge">S057</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('local16',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div></div></div>
+      <div id="alpha-strip"><div class="alpha-letter">1</div><div class="alpha-letter">A</div><div class="alpha-letter">C</div><div class="alpha-letter">D</div><div class="alpha-letter">E</div><div class="alpha-letter">G</div><div class="alpha-letter">H</div><div class="alpha-letter">I</div><div class="alpha-letter">K</div><div class="alpha-letter">M</div><div class="alpha-letter">N</div><div class="alpha-letter">O</div><div class="alpha-letter">P</div><div class="alpha-letter">S</div><div class="alpha-letter">T</div><div class="alpha-letter">U</div><div class="alpha-letter">V</div><div class="alpha-letter">W</div><div class="alpha-letter">Y</div></div>
     </div>
     <button class="scroll-top-btn" id="scroll-top-btn" onclick="scrollToTop()" aria-label="Scroll to top">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 12.5L10 7.5L15 12.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 12.5L10 7.5L15 12.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
     </button>
 
   </div>
@@ -2466,8 +2473,8 @@ body.dark .about-logo img{
     </div>
     <div class="sl-setbar">
       <button class="sl-setpick" type="button" onclick="openBS('sets')">
-        <span class="sl-setpick-copy"><span class="sl-setpick-title" id="sl-active-set-name">Shared Set</span><span class="sl-setpick-sub" id="sl-active-set-sub">Manage set lists</span></span>
-        <span class="sl-setpick-caret"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="sl-setpick-copy"><span class="sl-setpick-title" id="sl-active-set-name">Shared Set</span><span class="sl-setpick-sub" id="sl-active-set-sub">3 set lists · Shared</span></span>
+        <span class="sl-setpick-caret"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
       </button>
     </div>
     <div class="sl-hdr">
@@ -2483,7 +2490,7 @@ body.dark .about-logo img{
     <div class="sl-scroll-host vs-host">
       <div style="position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;"><div id="sl-items" class="sl-items"></div></div>
     </div>
-    <button class="add-fab" onclick="openBS('picker')" aria-label="Add to set list"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3v16M3 11h16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>
+    <button class="add-fab" onclick="openBS('picker')" aria-label="Add to set list"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3v16M3 11h16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path></svg></button>
   </div>
 
 
@@ -2514,26 +2521,26 @@ body.dark .about-logo img{
         <div class="ss-title">Appearance</div>
         <div class="ss-card">
           <div class="ss-row" onclick="toggleDark()">
-            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1v1.5M8 13.5V15M1 8h1.5M13.5 8H15M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="8" r="2.8" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1v1.5M8 13.5V15M1 8h1.5M13.5 8H15M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><circle cx="8" cy="8" r="2.8" stroke="currentColor" stroke-width="1.5"></circle></svg></div>
             <div class="ss-body"><div class="ss-lbl">Dark mode</div></div>
             <div class="sw" id="dark-sw" onclick="event.stopPropagation();toggleDark()"><div class="sw-thumb"></div></div>
           </div>
           <div class="ss-row no-tap">
-            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 12h3.5L13 4.5 11.5 3 4 10.5V14H2v-2z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 12h3.5L13 4.5 11.5 3 4 10.5V14H2v-2z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
             <div class="ss-body">
               <div class="ss-lbl">Text size</div>
               <div class="sz-wrap">
                 <span class="sz-a" style="font-size:11px">A</span>
-                <input type="range" class="sz-slider" id="text-size-slider" min="85" max="125" value="100" oninput="applyTextSize(this.value)"/>
+                <input type="range" class="sz-slider" id="text-size-slider" min="85" max="125" value="100" oninput="applyTextSize(this.value)" style="--pct: 37.5%;">
                 <span class="sz-a" style="font-size:17px">A</span>
               </div>
             </div>
           </div>
           <div class="ss-row no-tap">
-            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.5"></circle><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.5"></circle></svg></div>
             <div class="ss-body"><div class="ss-lbl">Colour theme</div></div>
           </div>
-          <div class="theme-row" id="theme-swatches"></div>
+          <div class="theme-row" id="theme-swatches"><div class="theme-sw active" style="background:#111111" title="Neutral" onclick="applyTheme('#111111')"></div><div class="theme-sw" style="background:#1A4731" title="Forest" onclick="applyTheme('#1A4731')"></div><div class="theme-sw" style="background:#6F7D3C" title="Sage / Olive" onclick="applyTheme('#6F7D3C')"></div><div class="theme-sw" style="background:#8A7A68" title="Stone / Taupe" onclick="applyTheme('#8A7A68')"></div><div class="theme-sw" style="background:#7A5A4D" title="Cedar" onclick="applyTheme('#7A5A4D')"></div><div class="theme-sw" style="background:#5A2034" title="Mulberry" onclick="applyTheme('#5A2034')"></div><div class="theme-sw" style="background:#10374A" title="Dark Teal" onclick="applyTheme('#10374A')"></div><div class="theme-sw" style="background:#4F6480" title="Slate Blue" onclick="applyTheme('#4F6480')"></div><div class="theme-sw" style="background:#1F2E45" title="Midnight" onclick="applyTheme('#1F2E45')"></div></div>
         </div>
       </div>
 
@@ -2541,14 +2548,14 @@ body.dark .about-logo img{
         <div class="ss-title">Library</div>
         <div class="ss-card">
           <div class="ss-row" onclick="openBS('defaultkey')">
-            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="5.5" cy="10.5" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M8.5 10.5h5M12 8.5v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="5.5" cy="10.5" r="3" stroke="currentColor" stroke-width="1.5"></circle><path d="M8.5 10.5h5M12 8.5v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></div>
             <div class="ss-body"><div class="ss-lbl">Default display key</div><div class="ss-sub" id="def-key-sub">Show songs in their original key</div></div>
-            <div class="ss-right"><span class="ss-val" id="def-key-val">Original</span><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="ss-right"><span class="ss-val" id="def-key-val">Original</span><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
           </div>
           <div class="ss-row" onclick="openBS('defaultsongview')">
-            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="4" cy="4.5" r=".9" fill="currentColor"/><circle cx="7.4" cy="8" r=".9" fill="currentColor"/><circle cx="11.2" cy="11.5" r=".9" fill="currentColor"/></svg></div>
+            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><circle cx="4" cy="4.5" r=".9" fill="currentColor"></circle><circle cx="7.4" cy="8" r=".9" fill="currentColor"></circle><circle cx="11.2" cy="11.5" r=".9" fill="currentColor"></circle></svg></div>
             <div class="ss-body"><div class="ss-lbl">Default song view</div><div class="ss-sub" id="def-songview-sub">Songs open in Chords view</div></div>
-            <div class="ss-right"><span class="ss-val" id="def-songview-val">Chords</span><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="ss-right"><span class="ss-val" id="def-songview-val">Chords</span><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
           </div>
 
         </div>
@@ -2559,24 +2566,24 @@ body.dark .about-logo img{
         <div class="ss-title">Song defaults</div>
         <div class="ss-card">
           <div class="ss-row" onclick="toggleChordHighlight()">
-            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2.5" y="3" width="11" height="10" rx="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M4.2 7.2h7.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M4.2 7.2h2.6" stroke="currentColor" stroke-width="4.2" stroke-linecap="round" opacity=".18"/></svg></div>
+            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2.5" y="3" width="11" height="10" rx="2.5" stroke="currentColor" stroke-width="1.4"></rect><path d="M4.2 7.2h7.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path><path d="M4.2 7.2h2.6" stroke="currentColor" stroke-width="4.2" stroke-linecap="round" opacity=".18"></path></svg></div>
             <div class="ss-body"><div class="ss-lbl">Highlight chords by default</div><div class="ss-sub">Songs open with chord highlight on</div></div>
-            <div class="sw" id="default-highlight-sw" onclick="event.stopPropagation();toggleChordHighlight()"><div class="sw-thumb"></div></div>
+            <div class="sw on" id="default-highlight-sw" onclick="event.stopPropagation();toggleChordHighlight()"><div class="sw-thumb"></div></div>
           </div>
           <div class="ss-row" onclick="toggleUseFlatsDefault()">
-            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M7 2.2v8.8c0 1.6-1 2.8-2.4 2.8-.9 0-1.6-.5-1.6-1.3 0-1 .9-1.8 2.2-1.8.6 0 1.2.1 1.8.4M7 5.3c1-.9 2.1-1.4 3.4-1.4 1.5 0 2.6.7 2.6 1.9 0 1.4-1.4 2.5-3.3 2.5-.9 0-1.7-.2-2.7-.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M7 2.2v8.8c0 1.6-1 2.8-2.4 2.8-.9 0-1.6-.5-1.6-1.3 0-1 .9-1.8 2.2-1.8.6 0 1.2.1 1.8.4M7 5.3c1-.9 2.1-1.4 3.4-1.4 1.5 0 2.6.7 2.6 1.9 0 1.4-1.4 2.5-3.3 2.5-.9 0-1.7-.2-2.7-.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
             <div class="ss-body"><div class="ss-lbl">Use flats by default</div><div class="ss-sub">Prefer flats when songs open</div></div>
             <div class="sw" id="default-flats-sw" onclick="event.stopPropagation();toggleUseFlatsDefault()"><div class="sw-thumb"></div></div>
           </div>
           <div class="ss-row" onclick="toggleKeepAwakeOnSongsSetting()">
-            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="4.2" y="2.2" width="7.6" height="11.6" rx="1.8" stroke="currentColor" stroke-width="1.4"/><path d="M6 4.6h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="8" cy="11.2" r=".8" fill="currentColor"/></svg></div>
+            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="4.2" y="2.2" width="7.6" height="11.6" rx="1.8" stroke="currentColor" stroke-width="1.4"></rect><path d="M6 4.6h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path><circle cx="8" cy="11.2" r=".8" fill="currentColor"></circle></svg></div>
             <div class="ss-body"><div class="ss-lbl">Keep screen awake on song pages</div><div class="ss-sub">Prevent screen sleep while viewing songs</div></div>
             <div class="sw" id="keep-awake-sw" onclick="event.stopPropagation();toggleKeepAwakeOnSongsSetting()"><div class="sw-thumb"></div></div>
           </div>
           <div class="ss-row" onclick="openBS('addtosetbehavior')">
-            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 4.5h10M3 8h10M3 11.5h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="5.1" cy="4.5" r="1" fill="currentColor"/><circle cx="8" cy="8" r="1" fill="currentColor"/><circle cx="11" cy="11.5" r="1" fill="currentColor"/></svg></div>
+            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 4.5h10M3 8h10M3 11.5h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path><circle cx="5.1" cy="4.5" r="1" fill="currentColor"></circle><circle cx="8" cy="8" r="1" fill="currentColor"></circle><circle cx="11" cy="11.5" r="1" fill="currentColor"></circle></svg></div>
             <div class="ss-body"><div class="ss-lbl">Add to set list</div><div class="ss-sub" id="addset-beh-sub">Ask every time which set to use</div></div>
-            <div class="ss-right"><span class="ss-val" id="addset-beh-val">Ask</span><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="ss-right"><span class="ss-val" id="addset-beh-val">Ask</span><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
           </div>
         </div>
       </div>
@@ -2585,9 +2592,9 @@ body.dark .about-logo img{
         <div class="ss-title">Export</div>
         <div class="ss-card">
           <div class="ss-row" onclick="openBS('defaultpdfpreset')">
-            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2.5h5.5L12.5 5.5V13.5H4V2.5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M9.5 2.5v3h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2.5h5.5L12.5 5.5V13.5H4V2.5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path><path d="M9.5 2.5v3h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
             <div class="ss-body"><div class="ss-lbl">Default PDF preset</div><div class="ss-sub" id="def-pdf-sub">Open export on Rehearsal preset</div></div>
-            <div class="ss-right"><span class="ss-val" id="def-pdf-val">Rehearsal</span><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="ss-right"><span class="ss-val" id="def-pdf-val">Rehearsal</span><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
           </div>
         </div>
       </div>
@@ -2596,9 +2603,9 @@ body.dark .about-logo img{
         <div class="ss-title">Bible</div>
         <div class="ss-card">
           <div class="ss-row" onclick="openBS('defaultbibleversion')">
-            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2.5h6.2a2.3 2.3 0 0 1 2.3 2.3v8.7H6.2A2.2 2.2 0 0 0 4 15V2.5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M6.2 4.8h4.2M6.2 7h4.2M6.2 9.2h3.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
-            <div class="ss-body"><div class="ss-lbl">Default Bible version</div><div class="ss-sub" id="def-bible-sub">Open Bible in the default version</div></div>
-            <div class="ss-right"><span class="ss-val" id="def-bible-val">ESV</span><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2.5h6.2a2.3 2.3 0 0 1 2.3 2.3v8.7H6.2A2.2 2.2 0 0 0 4 15V2.5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path><path d="M6.2 4.8h4.2M6.2 7h4.2M6.2 9.2h3.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg></div>
+            <div class="ss-body"><div class="ss-lbl">Default Bible version</div><div class="ss-sub" id="def-bible-sub">Bible opens in ESV</div></div>
+            <div class="ss-right"><span class="ss-val" id="def-bible-val">ESV</span><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
           </div>
         </div>
       </div>
@@ -2606,30 +2613,30 @@ body.dark .about-logo img{
         <div class="ss-title">Tools</div>
         <div class="ss-card">
           <div class="ss-row" onclick="openManageSongsFromSettings()">
-            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2.5" y="3" width="11" height="10" rx="2.2" stroke="currentColor" stroke-width="1.4"/><path d="M5 6.2h6M5 8.8h6M5 11.4h3.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2.5" y="3" width="11" height="10" rx="2.2" stroke="currentColor" stroke-width="1.4"></rect><path d="M5 6.2h6M5 8.8h6M5 11.4h3.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg></div>
             <div class="ss-body"><div class="ss-lbl">Manage songs</div><div class="ss-sub" id="manage-songs-sub">Bulk select, delete, and clean up songs</div></div>
-            <div class="ss-right"><span class="ss-val" id="manage-songs-val">Off</span><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="ss-right"><span class="ss-val" id="manage-songs-val">Off</span><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
           </div>
           <div class="ss-row manage-only-tool" style="display:none" onclick="openAdminExport()">
-            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M8 10l-3-3M8 10l3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M8 10l-3-3M8 10l3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></div>
             <div class="ss-body"><div class="ss-lbl">Export library (JSON)</div><div class="ss-sub">Download all songs as a backup</div></div>
-            <div class="ss-right"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="ss-right"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
           </div>
           <div class="ss-row manage-only-tool" style="display:none" onclick="openAdminImport()">
-            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 10V2M8 2L5 5M8 2l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 10V2M8 2L5 5M8 2l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></div>
             <div class="ss-body"><div class="ss-lbl">Import library (JSON)</div><div class="ss-sub">Add songs from a backup file</div></div>
-            <div class="ss-right"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="ss-right"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
           </div>
-          <input type="file" id="import-file" accept=".json" style="display:none" onchange="importJSON(event)"/>
+          <input type="file" id="import-file" accept=".json" style="display:none" onchange="importJSON(event)">
           <div class="ss-row manage-only-tool" style="display:none" onclick="openBS('changepin')">
-            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 7V5a3 3 0 1 1 6 0v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="10.5" r="1" fill="currentColor"/></svg></div>
+            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"></rect><path d="M5 7V5a3 3 0 1 1 6 0v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><circle cx="8" cy="10.5" r="1" fill="currentColor"></circle></svg></div>
             <div class="ss-body"><div class="ss-lbl">Change PIN</div><div class="ss-sub">Requires current PIN</div></div>
-            <div class="ss-right"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="ss-right"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
           </div>
           <div class="ss-row manage-only-tool" style="display:none" onclick="lockAdmin()">
-            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 7V5a3 3 0 1 1 6 0v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M6.3 10.4h3.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"></rect><path d="M5 7V5a3 3 0 1 1 6 0v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M6.3 10.4h3.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></div>
             <div class="ss-body"><div class="ss-lbl">Lock tools</div><div class="ss-sub">Turn off Manage songs and require PIN again</div></div>
-            <div class="ss-right"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="ss-right"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
           </div>
         </div>
       </div>
@@ -2639,10 +2646,10 @@ body.dark .about-logo img{
         <div class="ss-card">
           <div class="about-panel">
             <div class="about-badge">
-              <img src="assets/wb-icon-192.png" alt="WorshipBase logo"/>
+              <img src="assets/wb-icon-192.png" alt="WorshipBase logo">
             </div>
             <div class="about-name">WorshipBase</div>
-            <div class="about-version-pill">Version 68.3</div>
+            <div class="about-version-pill">Version 68.test.3</div>
             <div class="about-by">Created by <strong>Jerin Reji</strong></div>
           </div>
         </div>
@@ -2657,8 +2664,8 @@ body.dark .about-logo img{
     <!-- Library tab -->
     <button class="tab-btn active" id="tab-songs" onclick="switchTab('songs')">
       <span class="tab-ico">
-        <svg class="ico-outline" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        <svg class="ico-filled" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 6h16" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M4 12h10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M4 18h16" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
+        <svg class="ico-outline" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
+        <svg class="ico-filled" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 6h16" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path><path d="M4 12h10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path><path d="M4 18h16" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path></svg>
       </span>
       <span class="tab-lbl">Library</span>
     </button>
@@ -2667,9 +2674,9 @@ body.dark .about-logo img{
     <button class="tab-btn" id="tab-setlist" onclick="switchTab('setlist')">
       <span class="tab-ico">
         <!-- outline: squares with no fill opacity -->
-        <svg class="ico-outline" width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="11" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="17" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"/><path d="M11 7h10M11 13h8M11 19h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <svg class="ico-outline" width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"></rect><rect x="3" y="11" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"></rect><rect x="3" y="17" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"></rect><path d="M11 7h10M11 13h8M11 19h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
         <!-- filled: solid squares -->
-        <svg class="ico-filled" width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="4" height="4" rx="1" fill="currentColor"/><rect x="3" y="11" width="4" height="4" rx="1" fill="currentColor"/><rect x="3" y="17" width="4" height="4" rx="1" fill="currentColor"/><path d="M11 7h10M11 13h8M11 19h9" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+        <svg class="ico-filled" width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="4" height="4" rx="1" fill="currentColor"></rect><rect x="3" y="11" width="4" height="4" rx="1" fill="currentColor"></rect><rect x="3" y="17" width="4" height="4" rx="1" fill="currentColor"></rect><path d="M11 7h10M11 13h8M11 19h9" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path></svg>
       </span>
       <span class="tab-lbl">Set List</span>
     </button>
@@ -2678,9 +2685,9 @@ body.dark .about-logo img{
     <button class="tab-btn" id="tab-bible" onclick="switchTab('bible')">
       <span class="tab-ico">
         <!-- outline: open book shape -->
-        <svg class="ico-outline" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6 4.5h9.5a2.5 2.5 0 0 1 2.5 2.5v11.5H8a2 2 0 0 0-2 2V4.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M6 4.5h-.5A2.5 2.5 0 0 0 3 7v10.5h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 9h6M9 12.5h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <svg class="ico-outline" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6 4.5h9.5a2.5 2.5 0 0 1 2.5 2.5v11.5H8a2 2 0 0 0-2 2V4.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path><path d="M6 4.5h-.5A2.5 2.5 0 0 0 3 7v10.5h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><path d="M9 9h6M9 12.5h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
         <!-- filled: book with solid spine + filled lines -->
-        <svg class="ico-filled" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6 4.5h9.5a2.5 2.5 0 0 1 2.5 2.5v11.5H8a2 2 0 0 0-2 2V4.5Z" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M6 4.5h-.5A2.5 2.5 0 0 0 3 7v10.5h3" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 9h6M9 12.5h4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+        <svg class="ico-filled" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6 4.5h9.5a2.5 2.5 0 0 1 2.5 2.5v11.5H8a2 2 0 0 0-2 2V4.5Z" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="2" stroke-linejoin="round"></path><path d="M6 4.5h-.5A2.5 2.5 0 0 0 3 7v10.5h3" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M9 9h6M9 12.5h4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path></svg>
       </span>
       <span class="tab-lbl">Bible</span>
     </button>
@@ -2689,9 +2696,9 @@ body.dark .about-logo img{
     <button class="tab-btn" id="tab-settings" onclick="switchTab('settings')">
       <span class="tab-ico">
         <!-- outline: thin gear -->
-        <svg class="ico-outline" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <svg class="ico-outline" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
         <!-- filled: filled circle center + heavier gear -->
-        <svg class="ico-filled" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3" fill="currentColor"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <svg class="ico-filled" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3" fill="currentColor"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
       </span>
       <span class="tab-lbl">Settings</span>
     </button>
@@ -2824,7 +2831,7 @@ body.dark .about-logo img{
   <div class="dupv-hdr">
     <div class="dupv-top">
       <button class="back-btn" onclick="closeDuplicateReview()" title="Back">
-        <svg width="12" height="16" viewBox="0 0 9 14" fill="none" style="margin-right:2px;"><path d="M7.5 1L1.5 7L7.5 13" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg width="12" height="16" viewBox="0 0 9 14" fill="none" style="margin-right:2px;"><path d="M7.5 1L1.5 7L7.5 13" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
       </button>
       <div style="min-width:0;flex:1;">
         <div class="dupv-title">Review duplicates</div>
@@ -2844,12 +2851,12 @@ body.dark .about-logo img{
     <div class="sv-top">
       <!-- Circle bubble back button — no text, just chevron -->
       <button class="back-btn" onclick="showList()" id="back-btn" title="Back">
-        <svg width="12" height="16" viewBox="0 0 9 14" fill="none" style="margin-right:2px;"><path d="M7.5 1L1.5 7L7.5 13" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg width="12" height="16" viewBox="0 0 9 14" fill="none" style="margin-right:2px;"><path d="M7.5 1L1.5 7L7.5 13" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
       </button>
       <div class="sv-pres-title" id="sv-pres-title"></div>
       <!-- Circle bubble menu button -->
       <button class="menu-btn" onclick="openBS('songmenu')">
-        <svg width="18" height="4" viewBox="0 0 18 4" fill="none"><circle cx="2" cy="2" r="2" fill="currentColor"/><circle cx="9" cy="2" r="2" fill="currentColor"/><circle cx="16" cy="2" r="2" fill="currentColor"/></svg>
+        <svg width="18" height="4" viewBox="0 0 18 4" fill="none"><circle cx="2" cy="2" r="2" fill="currentColor"></circle><circle cx="9" cy="2" r="2" fill="currentColor"></circle><circle cx="16" cy="2" r="2" fill="currentColor"></circle></svg>
       </button>
       <button class="pres-exit-btn" id="pres-exit-btn" onclick="setPresentationMode(false)">Done</button>
     </div>
@@ -2868,7 +2875,7 @@ body.dark .about-logo img{
           <button class="seg-btn" id="seg-nns" onclick="setViewMode('nns')">NNS</button>
         </div>
         <button class="sv-fav-btn" id="sv-favorite-btn" type="button" aria-label="Add to favourites" onclick="toggleCurrentFavorite()">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg>
         </button>
       </div>
       <div class="sv-ctrl-row compact" id="key-controls" style="margin-top:10px;display:none;">
@@ -2908,15 +2915,15 @@ body.dark .about-logo img{
   </div>
   <div class="metro-flash" id="metro-flash" aria-hidden="true"></div>
   <button class="live-focus-fab" id="live-focus-fab" type="button" aria-label="Enter focus mode" title="Focus mode" onclick="setPresentationMode(true);showLiveToolsTemporarily(false)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M16 3h3a2 2 0 0 1 2 2v3"/><path d="M8 21H5a2 2 0 0 1-2-2v-3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path d="M16 3h3a2 2 0 0 1 2 2v3"></path><path d="M8 21H5a2 2 0 0 1-2-2v-3"></path><path d="M16 21h3a2 2 0 0 0 2-2v-3"></path></svg>
   </button>
   <div class="live-tools collapsed" id="live-tools" aria-label="Live song tools">
     <button class="live-tool live-tool-main" type="button" aria-label="Show or hide live tools" onclick="toggleLiveToolsExpanded()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
     </button>
     <div class="live-tool-stack" id="live-tool-stack">
       <button class="live-tool" id="live-tool-autoscroll" type="button" title="Auto scroll" aria-label="Show auto scroll controls" onclick="toggleLiveAutoscrollPanel()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16"/><path d="M8 8l4-4 4 4"/><path d="M8 16l4 4 4-4"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16"></path><path d="M8 8l4-4 4 4"></path><path d="M8 16l4 4 4-4"></path></svg>
       </button>
       <button class="live-tool" id="live-tool-metronome" type="button" title="Metronome" aria-label="Show metronome controls" onclick="toggleMetronomePanel()"><span class="two-line"><span>MET</span><span id="live-metro-bpm">120</span></span></button>
       <button class="live-tool" id="live-tool-sections" type="button" title="Section rail" aria-label="Toggle section rail" onclick="toggleLiveSectionRail()"><span class="two-line"><span>SEC</span><span>RAIL</span></span></button>
@@ -2924,7 +2931,7 @@ body.dark .about-logo img{
       <button class="live-tool soft" type="button" title="Larger text" aria-label="Larger text" onclick="stepTextSize(1);showToast('Text '+(appPrefs.textSize||100)+'%');showLiveToolsTemporarily()">A+</button>
       <button class="live-tool" id="live-tool-notes" type="button" title="Notes and cues" aria-label="Notes and cues" onclick="openLiveNotesPlaceholder()" style="position:relative">
         <span class="live-notes-dot"></span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14v16H5z"></path><path d="M8 8h8M8 12h8M8 16h5"></path></svg>
       </button>
     </div>
   </div>
@@ -2936,7 +2943,7 @@ body.dark .about-logo img{
 <div class="bs-bg" id="bs-biblepicker" onclick="closeBSBg(event,'biblepicker')">
   <div class="bs">
     <div class="bs-handle"></div>
-    <div class="m-tr"><h2 class="m-h2">Select book & chapter</h2><button class="m-close" onclick="closeBS('biblepicker')">×</button></div>
+    <div class="m-tr"><h2 class="m-h2">Select book &amp; chapter</h2><button class="m-close" onclick="closeBS('biblepicker')">×</button></div>
     <div class="bible-picker-wrap">
       <div class="bible-picker-col">
         <div class="bible-picker-h">Book</div>
@@ -2963,7 +2970,7 @@ body.dark .about-logo img{
     <div class="bs-handle"></div>
     <div class="bs-title">Song options</div>
     <div class="mi mi-inline" id="mi-autoscroll" onclick="toggleAutoScroll()">
-      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M5.5 5.5l3-3 3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 11.5l3 3 3-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><path d="M5.5 5.5l3-3 3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path><path d="M5.5 11.5l3 3 3-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
       <span class="mi-grow" id="autoscroll-status">Auto scroll</span>
       <div class="mi-inline-controls" onclick="event.stopPropagation()">
         <button class="mini-step" onclick="event.stopPropagation();adjustAutoScrollSpeed(-0.1)">−</button>
@@ -2972,7 +2979,7 @@ body.dark .about-logo img{
       </div>
     </div>
     <div class="mi mi-inline" id="mi-metronome" onclick="toggleMetronome()">
-      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5l4.5 12H4l4.5-12z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8.5 5.5v4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="8.5" cy="12" r=".8" fill="currentColor"/></svg></span>
+      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5l4.5 12H4l4.5-12z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path><path d="M8.5 5.5v4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path><circle cx="8.5" cy="12" r=".8" fill="currentColor"></circle></svg></span>
       <span class="mi-grow" id="metronome-status">Metronome</span>
       <div class="metro-menu-controls" onclick="event.stopPropagation()">
         <button class="mini-step" onclick="event.stopPropagation();adjustMetronomeBpm(-1)">−</button>
@@ -2983,59 +2990,59 @@ body.dark .about-logo img{
     </div>
     <div class="menu-slider-wrap">
       <div class="menu-slider-lbl"><span>Display size</span><span id="text-size-menu-val">100%</span></div>
-      <input type="range" class="menu-slider" id="text-size-menu-slider" min="85" max="125" value="100" oninput="applyTextSize(this.value)"/>
+      <input type="range" class="menu-slider" id="text-size-menu-slider" min="85" max="125" value="100" oninput="applyTextSize(this.value)" style="--pct: 37.5%;">
     </div>
     <button class="mi" onclick="openSetDestChooser(currentSong);closeBS('songmenu')">
-      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 3v11M3 8.5h11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><rect x="2" y="2" width="13" height="13" rx="3" stroke="currentColor" stroke-width="1.4"/></svg></span>
+      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 3v11M3 8.5h11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><rect x="2" y="2" width="13" height="13" rx="3" stroke="currentColor" stroke-width="1.4"></rect></svg></span>
       <span id="mi-setlist-label">Add to set list…</span>
     </button>
     <button class="mi" id="mi-presentation" onclick="togglePresentationMode();closeBS('songmenu')">
-      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><rect x="2" y="3" width="13" height="11" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M6 6.5h5M5 9h7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><rect x="2" y="3" width="13" height="11" rx="2" stroke="currentColor" stroke-width="1.4"></rect><path d="M6 6.5h5M5 9h7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg></span>
       Focus mode<span class="mi-check">✓</span>
     </button>
     <button class="mi" id="mi-copy-lyrics" onclick="copyLyrics();closeBS('songmenu')">
-      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="currentColor" stroke-width="1.4"/><rect x="1" y="4" width="10" height="12" rx="2" stroke="currentColor" stroke-width="1.4"/></svg></span>
+      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="currentColor" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="currentColor" stroke-width="1.4"></rect></svg></span>
       Copy lyrics
     </button>
     <button class="mi" onclick="openBS('chords');closeBS('songmenu')">
-      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="6.5" stroke="currentColor" stroke-width="1.5"/><path d="M6.5 11V10c0-1.2.75-1.85 1.85-2.3.65-.3 1.15-.9 1.15-1.6A1.9 1.9 0 0 0 6.5 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8.5" cy="13" r=".9" fill="currentColor"/></svg></span>
+      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="6.5" stroke="currentColor" stroke-width="1.5"></circle><path d="M6.5 11V10c0-1.2.75-1.85 1.85-2.3.65-.3 1.15-.9 1.15-1.6A1.9 1.9 0 0 0 6.5 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><circle cx="8.5" cy="13" r=".9" fill="currentColor"></circle></svg></span>
       Chord diagrams
     </button>
     <button class="mi" id="mi-highlight-chords" onclick="toggleChordHighlight();closeBS('songmenu')">
-      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><rect x="2" y="3" width="13" height="11" rx="3" stroke="currentColor" stroke-width="1.4"/><path d="M4.5 7h8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M4.2 7h2.8" stroke="currentColor" stroke-width="4.4" stroke-linecap="round" opacity=".18"/></svg></span>
+      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><rect x="2" y="3" width="13" height="11" rx="3" stroke="currentColor" stroke-width="1.4"></rect><path d="M4.5 7h8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path><path d="M4.2 7h2.8" stroke="currentColor" stroke-width="4.4" stroke-linecap="round" opacity=".18"></path></svg></span>
       Highlight chords<span class="mi-check">✓</span>
     </button>
     <button class="mi" onclick="openExportView('song');closeBS('songmenu')">
-      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M4 2h7.5l3.5 3.5V15H4V2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M11 2v4h4M6 9h5M6 12h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M4 2h7.5l3.5 3.5V15H4V2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path><path d="M11 2v4h4M6 9h5M6 12h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg></span>
       Export PDF (this song)
     </button>
     <button class="mi" id="mi-open-attached-pdf" style="display:none" onclick="openAttachedSongPdf();closeBS('songmenu')">
-      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M5 2h5.5L14 5.5V15H5V2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M10.5 2v4H14M7 9h5M7 12h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M5 2h5.5L14 5.5V15H5V2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path><path d="M10.5 2v4H14M7 9h5M7 12h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg></span>
       <span id="mi-open-attached-pdf-label">Open attached PDF</span>
     </button>
     <button class="mi manage-song-edit-tool" id="mi-attach-pdf" style="display:none" onclick="document.getElementById('song-pdf-file')?.click()">
-      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 3v8.2a2.8 2.8 0 0 1-5.6 0V5.2a4.6 4.6 0 0 1 9.2 0v7.1a3.7 3.7 0 0 1-7.4 0V6" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 3v8.2a2.8 2.8 0 0 1-5.6 0V5.2a4.6 4.6 0 0 1 9.2 0v7.1a3.7 3.7 0 0 1-7.4 0V6" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
       <span id="mi-attach-pdf-label">Attach PDF to song</span>
     </button>
     <button class="mi manage-song-edit-tool" id="mi-extract-pdf" style="display:none" onclick="extractAttachedPdfToDraft();closeBS('songmenu')">
-      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M4 2h9v13H4z" stroke="currentColor" stroke-width="1.4"/><path d="M6.5 6h4M6.5 8.5h4M6.5 11h2.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M4 2h9v13H4z" stroke="currentColor" stroke-width="1.4"></path><path d="M6.5 6h4M6.5 8.5h4M6.5 11h2.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg></span>
       Extract PDF text to editor
     </button>
     <button class="mi manage-song-edit-tool" id="mi-remove-pdf" style="display:none" onclick="removeAttachedSongPdf();closeBS('songmenu')">
-      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M5 5l7 7M12 5l-7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M5 5l7 7M12 5l-7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg></span>
       Remove attached PDF
     </button>
-    <input type="file" id="song-pdf-file" accept="application/pdf,.pdf" style="display:none" onchange="handleSongPdfImport(event)"/>
+    <input type="file" id="song-pdf-file" accept="application/pdf,.pdf" style="display:none" onchange="handleSongPdfImport(event)">
     <button class="mi" id="mi-flats" onclick="toggleFlats();closeBS('songmenu')">
       <span class="mi-icon-wrap"><span class="mi-ico">♭</span></span>
       Use flats<span class="mi-check">✓</span>
     </button>
     <button class="mi" id="mi-dark" onclick="toggleDark();closeBS('songmenu')">
-      <span class="mi-icon-wrap"><svg id="dark-ico" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+      <span class="mi-icon-wrap"><svg id="dark-ico" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
       <span id="dark-lbl">Dark mode</span><span class="mi-check">✓</span>
     </button>
-    <button class="mi manage-song-edit-tool" id="mi-edit-song" style="display:none" onclick="requireAdmin(()=>{closeBS('songmenu');openSongModal(currentSong);})">
-      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M12 3l2 2L5.5 13H3.5v-2L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+    <button class="mi manage-song-edit-tool" id="mi-edit-song" style="display:none" onclick="requireAdmin(()=&gt;{closeBS('songmenu');openSongModal(currentSong);})">
+      <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M12 3l2 2L5.5 13H3.5v-2L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path></svg></span>
       Edit song
     </button>
     <button class="bs-cancel" onclick="closeBS('songmenu')">Cancel</button>
@@ -3050,17 +3057,17 @@ body.dark .about-logo img{
     <div class="m-body">
       <label>Category</label>
       <div class="cat-toggle"><button class="cat-opt active" onclick="selectCat('english',this)">English</button><button class="cat-opt" onclick="selectCat('malayalam',this)">Malayalam</button></div>
-      <label>Title</label><input type="text" id="m-title" placeholder="e.g. How Great Is Our God"/>
-      <label>Author / Artist</label><input type="text" id="m-author" placeholder="e.g. Chris Tomlin"/>
+      <label>Title</label><input type="text" id="m-title" placeholder="e.g. How Great Is Our God">
+      <label>Author / Artist</label><input type="text" id="m-author" placeholder="e.g. Chris Tomlin">
       <label>Original key</label><select id="m-key"></select>
       <div class="song-meta-grid">
         <div>
           <label>Time signature</label>
-          <input type="text" id="m-time-sig" placeholder="e.g. 4/4" inputmode="text"/>
+          <input type="text" id="m-time-sig" placeholder="e.g. 4/4" inputmode="text">
         </div>
         <div>
           <label>BPM</label>
-          <input type="number" id="m-bpm" min="20" max="260" step="1" placeholder="e.g. 72" inputmode="numeric"/>
+          <input type="number" id="m-bpm" min="20" max="260" step="1" placeholder="e.g. 72" inputmode="numeric">
         </div>
       </div>
       <label>Chord chart <span style="color:var(--txt3);font-weight:400">(optional)</span></label>
@@ -3074,7 +3081,7 @@ body.dark .about-logo img{
           <button class="editor-helper-btn" id="editor-undo-btn" type="button" onclick="editorUndo()">Undo</button>
           <button class="editor-helper-btn" id="editor-redo-btn" type="button" onclick="editorRedo()">Redo</button>
           <div class="editor-helper-sep"></div>
-          <button class="editor-helper-btn primary" type="button" onclick="openUgImport()">Import UG</button>
+          <button class="editor-helper-btn primary" type="button" onclick="cleanPastedChartFallback()">Clean pasted chart</button>
           <div class="editor-helper-sep"></div>
           <button class="editor-helper-btn primary" type="button" onclick="insertSectionLabel('Verse')">Verse</button>
           <button class="editor-helper-btn primary" type="button" onclick="insertSectionLabel('Chorus')">Chorus</button>
@@ -3088,11 +3095,13 @@ body.dark .about-logo img{
           <button class="editor-helper-btn" type="button" onclick="duplicateCurrentSection()">Duplicate section</button>
           <button class="editor-helper-btn" type="button" onclick="normalizeEditorSpacing()">Normalize</button>
         </div>
-        <div class="editor-helper-meta">Quick tools for structuring and cleaning your chart without leaving the document editor.</div>
-        <textarea id="m-chart" placeholder="[Verse 1]&#10;[G]The splendor of a [C]King&#10;[Em]Let all the earth [C]rejoice"></textarea>
+        <div class="editor-helper-meta">Quick tools for structuring, cleaning pasted charts, and previewing before save. UG backend work is paused for now.</div>
+        <textarea id="m-chart" placeholder="[Verse 1]
+[G]The splendor of a [C]King
+[Em]Let all the earth [C]rejoice"></textarea>
         <div class="m-subacts">
           <button class="m-mini-btn" type="button" onclick="pasteChordsFromClipboard()">Paste chords from clipboard</button>
-          <button class="m-mini-btn" type="button" onclick="openUgImport()">Import from Ultimate Guitar</button>
+          <button class="m-mini-btn" type="button" onclick="cleanPastedChartFallback()">Clean pasted chart</button>
         </div>
       </div>
       <div class="editor-pane hidden" id="editor-preview-pane">
@@ -3115,14 +3124,14 @@ body.dark .about-logo img{
 <div class="bs-bg" id="bs-ug-import" onclick="closeBSBg(event,'ug-import')">
   <div class="bs">
     <div class="bs-handle"></div>
-    <div class="m-tr"><button class="editor-nav-btn" onclick="closeBS('ug-import')">Cancel</button><h2 class="m-h2">Import from UG</h2><button class="editor-save-btn" onclick="applyUgImport()">Use</button></div>
+    <div class="m-tr"><button class="editor-nav-btn" onclick="closeBS('ug-import')">Cancel</button><h2 class="m-h2">UG import paused</h2><button class="editor-save-btn" onclick="closeBS('ug-import')">Done</button></div>
     <div class="m-body">
-      <p class="m-hint">Search Ultimate Guitar through the WorshipBase import backend, choose a result, preview it, then use it in the song editor.</p>
+      <p class="m-hint">UG backend search/import is paused for now. Use OpenSong XML, My Songs JSON, or clean pasted chart while the UG route is revisited later.</p>
       <label>Backend URL</label>
-      <input type="url" id="ug-backend-url" placeholder="http://localhost:8787"/>
+      <input type="url" id="ug-backend-url" placeholder="http://localhost:8787">
       <label>Search song / artist</label>
       <div class="mi-inline" style="gap:8px;margin-bottom:12px">
-        <input class="mi-grow" type="text" id="ug-search-query" placeholder="e.g. 10,000 Reasons Matt Redman" onkeydown="if(event.key==='Enter')searchUgImport()"/>
+        <input class="mi-grow" type="text" id="ug-search-query" placeholder="e.g. 10,000 Reasons Matt Redman" onkeydown="if(event.key==='Enter')searchUgImport()">
         <button class="m-mini-btn" type="button" onclick="searchUgImport()">Search</button>
       </div>
       <div class="picker-list" id="ug-results" style="max-height:230px;margin-bottom:12px">
@@ -3130,7 +3139,7 @@ body.dark .about-logo img{
       </div>
       <label>Direct Ultimate Guitar URL</label>
       <div class="mi-inline" style="gap:8px;margin-bottom:12px">
-        <input class="mi-grow" type="url" id="ug-source-url" placeholder="https://tabs.ultimate-guitar.com/..."/>
+        <input class="mi-grow" type="url" id="ug-source-url" placeholder="https://tabs.ultimate-guitar.com/...">
         <button class="m-mini-btn" type="button" onclick="importUgUrlFromInput()">Import</button>
       </div>
       <div class="preview-wrap" id="ug-preview-wrap">
@@ -3150,7 +3159,7 @@ body.dark .about-logo img{
     <div class="bs-handle"></div>
     <div class="m-tr"><h2 class="m-h2">Add to set</h2><button class="m-close" onclick="closeBS('picker')">×</button></div>
     <div class="m-body">
-      <input class="psr" id="picker-search" type="search" placeholder="Search…" oninput="renderPicker()"/>
+      <input class="psr" id="picker-search" type="search" placeholder="Search…" oninput="renderPicker()">
       <div class="pf-row">
         <button class="pf-btn active" onclick="setPickerFilter('all',this)">All</button>
         <button class="pf-btn" onclick="setPickerFilter('english',this)">English</button>
@@ -3186,7 +3195,7 @@ body.dark .about-logo img{
     <div class="m-body" style="padding-bottom:6px;">
       <p style="font-size:13px;color:var(--txt2);margin-bottom:12px;line-height:1.55;">Choose, rename, delete, or create a set list for this scope.</p>
     </div>
-    <div class="namedset-list" id="namedset-list"></div>
+    <div class="namedset-list" id="namedset-list"><div class="namedset-item active"><button class="namedset-main" onclick="selectNamedSet('default')"><div class="namedset-name">Shared Set</div><div class="namedset-meta">2 songs · Current</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('default')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('default')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_mo7sqrydmttg')"><div class="namedset-name">Sunday Service</div><div class="namedset-meta">3 songs</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_mo7sqrydmttg')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_mo7sqrydmttg')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_moa9begufotn')"><div class="namedset-name">Be Still</div><div class="namedset-meta">3 songs</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_moa9begufotn')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_moa9begufotn')">Delete</button></div></div></div>
     <div class="m-acts" style="padding:0 18px 8px;">
       <button class="btn-s" type="button" onclick="createNamedSet()">New set list</button>
       <button class="btn-s" type="button" id="sets-copy-btn" onclick="copyActiveSetToOtherScope()">Copy to Personal</button>
@@ -3256,7 +3265,7 @@ body.dark .about-logo img{
     <div class="m-body">
       <p class="pin-hint">Enter the PIN to manage songs and library maintenance tools. Everyone can browse, perform, and manage set lists without a PIN.</p>
       <label>PIN</label>
-      <input type="password" id="pin-input" placeholder="Enter PIN" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="10" onkeydown="if(event.key==='Enter')checkPin()"/>
+      <input type="password" id="pin-input" placeholder="Enter PIN" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="10" onkeydown="if(event.key==='Enter')checkPin()">
       <p id="pin-err" style="font-size:12px;color:#d93448;margin-top:-8px;margin-bottom:12px;display:none">Incorrect PIN. Try again.</p>
       <div class="m-acts">
         <button class="btn-s" onclick="closeBS('pin');pendingAdminAction=null">Cancel</button>
@@ -3272,9 +3281,9 @@ body.dark .about-logo img{
 <!-- CONTEXT MENU (long-press on song) -->
 <div class="ctx-bg" id="ctx-bg" onclick="closeCtx()"></div>
 <div class="ctx-menu" id="ctx-menu" style="display:none">
-  <button class="ctx-item" onclick="ctxAction('set')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 13h3L12 6 10 4 3 11v2zM10 4l2 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="ctx-set-lbl">Add to set list</span></button>
-  <button class="ctx-item" onclick="ctxAction('lyrics')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="5" y="1" width="9" height="11" rx="2" stroke="currentColor" stroke-width="1.4"/><rect x="1" y="4" width="9" height="11" rx="2" stroke="currentColor" stroke-width="1.4"/></svg>Copy lyrics</button>
-  <button class="ctx-item manage-song-edit-tool" id="ctx-edit-song" style="display:none" onclick="ctxAction('edit')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M11 2.5l2.5 2.5L5 13.5H2.5V11L11 2.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Edit song</button>
+  <button class="ctx-item" onclick="ctxAction('set')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 13h3L12 6 10 4 3 11v2zM10 4l2 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></svg><span id="ctx-set-lbl">Add to set list</span></button>
+  <button class="ctx-item" onclick="ctxAction('lyrics')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="5" y="1" width="9" height="11" rx="2" stroke="currentColor" stroke-width="1.4"></rect><rect x="1" y="4" width="9" height="11" rx="2" stroke="currentColor" stroke-width="1.4"></rect></svg>Copy lyrics</button>
+  <button class="ctx-item manage-song-edit-tool" id="ctx-edit-song" style="display:none" onclick="ctxAction('edit')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M11 2.5l2.5 2.5L5 13.5H2.5V11L11 2.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>Edit song</button>
 </div>
 
 <!-- DEFAULT KEY picker -->
@@ -3346,11 +3355,11 @@ body.dark .about-logo img{
     <div class="m-tr"><h2 class="m-h2" id="cp-title">Change PIN</h2><button class="m-close" onclick="closeBS('changepin')">×</button></div>
     <div class="m-body">
       <label id="cp-current-label">Current PIN</label>
-      <input type="password" id="cp-current" placeholder="Enter current PIN" inputmode="numeric" autocomplete="off" maxlength="10"/>
+      <input type="password" id="cp-current" placeholder="Enter current PIN" inputmode="numeric" autocomplete="off" maxlength="10">
       <label>New PIN</label>
-      <input type="password" id="cp-new" placeholder="Enter new PIN (4–8 digits)" inputmode="numeric" autocomplete="off" maxlength="10"/>
+      <input type="password" id="cp-new" placeholder="Enter new PIN (4–8 digits)" inputmode="numeric" autocomplete="off" maxlength="10">
       <label>Confirm new PIN</label>
-      <input type="password" id="cp-confirm" placeholder="Repeat new PIN" inputmode="numeric" autocomplete="off" maxlength="10"/>
+      <input type="password" id="cp-confirm" placeholder="Repeat new PIN" inputmode="numeric" autocomplete="off" maxlength="10">
       <p id="cp-err" style="font-size:12px;color:#d93448;margin-bottom:12px;display:none"></p>
       <div class="m-acts">
         <button class="btn-s" onclick="closeBS('changepin')">Cancel</button>
@@ -4871,7 +4880,7 @@ function saveSetItemKey(){
 
 
 /* ══ STATE ══ */
-let songs=[],currentSong=null,currentKey=null,nnsMode=false,darkMode=false;
+let songs=[],firebaseSongs=[],localMySongs=[],currentSong=null,currentKey=null,nnsMode=false,darkMode=false;
 let editingId=null,activeTab='songs',modalCat='english',pickerFilter='all',fromSetList=false;
 let vRows=[],rowCache={},debounceTimer=null,alphaMap={},libraryFilter='all';
 let manageMode=false,selectedSongIds=new Set(),lastDuplicateGroups=[];
@@ -5172,6 +5181,184 @@ function setLibraryFilter(filter,btn){
   document.querySelectorAll('#library-filter-row .filter-chip').forEach(el=>el.classList.toggle('active',el.dataset.filter===filter));
   refresh(true);
 }
+
+
+/* ══ LOCAL MY SONGS STORE (IndexedDB) ══
+   v68.test.3 keeps imported/user songs on this device, not Firebase.
+   This is intentionally IndexedDB rather than localStorage so large OpenSong imports
+   (hundreds/thousands of songs) do not overflow the small localStorage quota. */
+const LOCAL_MY_SONGS_DB='worshipbase_local_my_songs_v1';
+const LOCAL_MY_SONGS_STORE='songs';
+function openLocalSongsDB(){
+  return new Promise((resolve,reject)=>{
+    const req=indexedDB.open(LOCAL_MY_SONGS_DB,1);
+    req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains(LOCAL_MY_SONGS_STORE))db.createObjectStore(LOCAL_MY_SONGS_STORE,{keyPath:'id'});};
+    req.onsuccess=()=>resolve(req.result);
+    req.onerror=()=>reject(req.error||new Error('Could not open local song store'));
+  });
+}
+async function getAllLocalMySongs(){
+  try{
+    const db=await openLocalSongsDB();
+    return await new Promise((resolve,reject)=>{
+      const tx=db.transaction(LOCAL_MY_SONGS_STORE,'readonly');
+      const req=tx.objectStore(LOCAL_MY_SONGS_STORE).getAll();
+      req.onsuccess=()=>resolve((req.result||[]).map(normLocalSong));
+      req.onerror=()=>reject(req.error||new Error('Could not read local songs'));
+    });
+  }catch(e){console.error(e);return [];}
+}
+function normLocalSong(s){
+  const id=normId(s?.id||('localMy_'+Date.now()+'_'+Math.random().toString(36).slice(2,8)));
+  return {...s,id,localOnly:true,librarySource:'user',fbKey:null,songCode:s?.songCode||s?.code||''};
+}
+function mergeSongStores(){
+  const seen=new Set();
+  const merged=[];
+  [...(firebaseSongs||[]),...(localMySongs||[])].forEach(s=>{const id=normId(s.id||s.fbKey);if(!id||seen.has(id))return;seen.add(id);merged.push(s);});
+  songs=merged;
+}
+async function reloadLocalMySongs(){
+  localMySongs=await getAllLocalMySongs();
+  mergeSongStores();
+  refresh(true);
+  renderHomeQuickAccess?.();
+}
+async function putLocalMySong(song){
+  const row=normLocalSong({...song,updatedAt:new Date().toISOString()});
+  if(!row.createdAt)row.createdAt=new Date().toISOString();
+  const db=await openLocalSongsDB();
+  await new Promise((resolve,reject)=>{
+    const tx=db.transaction(LOCAL_MY_SONGS_STORE,'readwrite');
+    tx.objectStore(LOCAL_MY_SONGS_STORE).put(row);
+    tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error||new Error('Could not save local song'));
+  });
+  await reloadLocalMySongs();
+  return row;
+}
+async function putLocalMySongsBulk(list){
+  const now=new Date().toISOString();
+  const rows=list.map(s=>normLocalSong({...s,id:s.id&&String(s.id).startsWith('my_')?s.id:('my_'+Date.now()+'_'+Math.random().toString(36).slice(2,9)),createdAt:s.createdAt||now,updatedAt:now}));
+  const db=await openLocalSongsDB();
+  await new Promise((resolve,reject)=>{
+    const tx=db.transaction(LOCAL_MY_SONGS_STORE,'readwrite');
+    const store=tx.objectStore(LOCAL_MY_SONGS_STORE);
+    rows.forEach(r=>store.put(r));
+    tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error||new Error('Could not save local songs'));
+  });
+  await reloadLocalMySongs();
+  return rows;
+}
+async function deleteLocalMySong(id){
+  const db=await openLocalSongsDB();
+  await new Promise((resolve,reject)=>{
+    const tx=db.transaction(LOCAL_MY_SONGS_STORE,'readwrite');
+    tx.objectStore(LOCAL_MY_SONGS_STORE).delete(normId(id));
+    tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error||new Error('Could not delete local song'));
+  });
+  await reloadLocalMySongs();
+}
+
+function getSongLibrarySource(song){
+  if(song?.localOnly)return 'user';
+  const v=String(song?.librarySource||song?.sourceLibrary||song?.songSource||song?.origin||'').toLowerCase();
+  if(v==='user'||v==='mine'||v==='my'||v==='personal'||v==='imported')return 'user';
+  if(v==='worshipbase'||v==='wb'||v==='built-in'||v==='builtin'||v==='curated')return 'worshipbase';
+  return 'worshipbase';
+}
+function isMySong(song){return getSongLibrarySource(song)==='user';}
+function isWorshipBaseSong(song){return getSongLibrarySource(song)==='worshipbase';}
+function buildUserSongPayload(song){
+  const copy={...song};
+  delete copy.fbKey;
+  copy.librarySource='user';
+  copy.exportedFrom='WorshipBase';
+  copy.exportedAt=new Date().toISOString();
+  return copy;
+}
+function downloadTextFile(filename,text,mime='application/json'){
+  const blob=new Blob([text],{type:mime});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+}
+function exportMySongsJSON(){
+  if(!manageMode){showToast('Turn on Manage songs first');return;}
+  const mine=songs.filter(isMySong).map(buildUserSongPayload);
+  const data={format:'worshipbase-my-songs',version:'68.test.3',exportedAt:new Date().toISOString(),count:mine.length,songs:mine};
+  downloadTextFile('worshipbase-my-songs.json',JSON.stringify(data,null,2));
+  showToast("Exported "+mine.length+" My Songs");
+}
+function normalizeImportedSongRecord(raw){
+  const title=String(raw?.title||raw?.name||'').trim();
+  if(!title)return null;
+  const author=String(raw?.author||raw?.artist||'').trim();
+  const key=String(raw?.key||raw?.originalKey||'C').trim()||'C';
+  const cat=String(raw?.cat||raw?.category||'english').toLowerCase().includes('malayalam')?'malayalam':'english';
+  return {cat,title,author,key,timeSig:String(raw?.timeSig||raw?.timeSignature||'').trim(),bpm:String(raw?.bpm||raw?.tempo||'').trim(),chart:String(raw?.chart||raw?.lyrics||raw?.content||'').trim(),sourceUrl:String(raw?.sourceUrl||raw?.url||'').trim(),librarySource:'user'};
+}
+async function importMySongsJSONFile(ev){
+  const file=ev?.target?.files?.[0]; if(!file)return;
+  try{
+    const text=await file.text();
+    const parsed=JSON.parse(text);
+    const arr=Array.isArray(parsed)?parsed:(Array.isArray(parsed.songs)?parsed.songs:[]);
+    const normalized=arr.map(normalizeImportedSongRecord).filter(Boolean);
+    if(!normalized.length){alert('No valid songs found in this JSON file.');return;}
+    if(!confirm("Import "+normalized.length+" song(s) into My Songs?"))return;
+    await putLocalMySongsBulk(normalized);
+    showSync("Imported "+normalized.length+" local My Song(s) ✓"); switchTab('songs'); setLibraryFilter('mine');
+  }catch(e){console.error(e); alert('Could not import this JSON file.');}
+  finally{try{ev.target.value='';}catch(e){}}
+}
+function openSongSectionName(tag){
+  const t=String(tag||'').replace(/[\[\]]/g,'').trim().toLowerCase();
+  if(!t)return '';
+  const map={v:'Verse',c:'Chorus',b:'Bridge',p:'Pre-Chorus',pc:'Pre-Chorus',t:'Tag',i:'Intro',o:'Outro',e:'Ending'};
+  const m=t.match(/^([a-z]+)\s*(\d*)$/i); const base=m?(map[m[1]]||m[1].replace(/\b\w/g,c=>c.toUpperCase())):t;
+  const n=m&&m[2]?" "+m[2]:""; return "["+base+n+"]";
+}
+function convertOpenSongLyrics(text){
+  const out=[];
+  String(text||'').replace(/\r\n?/g,'\n').split('\n').forEach(line=>{
+    const raw=line.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
+    const trimmed=raw.trim();
+    if(/^\[[A-Za-z]+\d*\]$/.test(trimmed)){out.push(openSongSectionName(trimmed));return;}
+    if(/^\.[A-G0-9#b/\s|:()\-+]+$/.test(trimmed)){out.push(trimmed.slice(1).trim());return;}
+    out.push(raw.replace(/^\./,''));
+  });
+  return out.join('\n').trim();
+}
+function parseOpenSongXmlText(xmlText){
+  const doc=new DOMParser().parseFromString(xmlText,'application/xml');
+  if(doc.querySelector('parsererror'))throw new Error('Invalid XML');
+  const pick=(...names)=>{for(const n of names){const el=doc.querySelector(n); if(el&&el.textContent!=null)return el.textContent.trim();} return '';};
+  const title=pick('title','name')||'Imported OpenSong';
+  const author=pick('author','artist','copyright');
+  const key=pick('key','key_line')||'C';
+  const bpm=pick('tempo','bpm');
+  const timeSig=pick('time_sig','timeSignature','time');
+  const capo=pick('capo');
+  let chart=convertOpenSongLyrics(pick('lyrics'));
+  if(capo)chart=("Capo: "+capo+"\n\n"+chart).trim();
+  return {cat:'english',title,author,key,bpm,timeSig,chart,librarySource:'user',source:'OpenSong XML'};
+}
+async function importOpenSongXmlFiles(ev){
+  const files=[...(ev?.target?.files||[])]; if(!files.length)return;
+  const parsed=[]; const failed=[];
+  for(const file of files){
+    try{parsed.push(parseOpenSongXmlText(await file.text()));}
+    catch(e){console.error(e);failed.push(file.name);}
+  }
+  if(!parsed.length){alert('No valid OpenSong XML songs found.');return;}
+  if(!confirm("Import "+parsed.length+" OpenSong XML song(s) into My Songs?"+(failed.length?"\n\nSkipped: "+failed.join(", "):"")))return;
+  try{
+    await putLocalMySongsBulk(parsed);
+    showSync("Imported "+parsed.length+" local OpenSong song(s) ✓"); switchTab('songs'); setLibraryFilter('mine');
+  }catch(e){console.error(e);showSync('OpenSong import failed',true);}
+  finally{try{ev.target.value='';}catch(e){}}
+}
 function isSongManageTab(){return activeTab==='songs';}
 function isSongSelected(id){return selectedSongIds.has(normId(id));}
 function toggleManageMode(force){
@@ -5471,7 +5658,7 @@ function loadCachedData(){
   return false;
 }
 function saveCachedData(){
-  try{localStorage.setItem(CACHE_SONGS_KEY,JSON.stringify(songs));}catch(e){}
+  try{localStorage.setItem(CACHE_SONGS_KEY,JSON.stringify((firebaseSongs&&firebaseSongs.length)?firebaseSongs:songs.filter(s=>!s.localOnly)));}catch(e){}
   try{localStorage.setItem(CACHE_SETLIST_KEY,JSON.stringify(_setList_shared));}catch(e){}
   saveNamedSetsCache();
 }
@@ -5496,7 +5683,8 @@ function initFirebase(){
   songsRef.on('value',snap=>{
     const d=snap.val();
     if(d){
-      songs=Object.entries(d).map(([k,v])=>normRec(k,v));
+      firebaseSongs=Object.entries(d).map(([k,v])=>normRec(k,v));
+      mergeSongStores();
       // Only migrate once per session to avoid write loop
       if(!migrationDone){migrationDone=true;migrateMissingSongs(d);}
     } else {
@@ -5504,7 +5692,8 @@ function initFirebase(){
       // v68.1: Firebase is the source of truth. Never auto-seed starter/demo songs here,
       // because old/default content should not come back after a user deletes it.
       // Users can add/import songs manually instead.
-      songs=[];
+      firebaseSongs=[];
+      mergeSongStores();
       disableStarterSeedFlag();
     }
     pruneMissingSongsFromSets();
@@ -5967,6 +6156,8 @@ function buildRows(q){
     const cat=s.cat||'english';
     if(libraryFilter==='english' && cat!=='english')return false;
     if(libraryFilter==='malayalam' && cat!=='malayalam')return false;
+    if(libraryFilter==='wb' && !isWorshipBaseSong(s))return false;
+    if(libraryFilter==='mine' && !isMySong(s))return false;
     if(libraryFilter==='favorites' && !isFavorite(s.id))return false;
     if(libraryFilter==='inset' && !isSongInSet(s.id))return false;
     return true;
@@ -6943,7 +7134,7 @@ function initPTR(){
       indicator.style.transform='translateX(-50%) scale(1)';
       songsRef.once('value',snap=>{
         const d=snap.val();
-        if(d)songs=Object.entries(d).map(([k,v])=>normRec(k,v));
+        if(d){firebaseSongs=Object.entries(d).map(([k,v])=>normRec(k,v));mergeSongStores();}
         refresh(true);
         setTimeout(()=>{refreshing=false;reset();showToast('Refreshed');},500);
       },()=>{refreshing=false;reset();showToast('Sync error');});
@@ -7486,6 +7677,28 @@ function parseUgImportText(raw,sourceUrl=''){
   }
   return result;
 }
+function cleanPastedChartFallback(){
+  if(!manageMode){showToast("Turn on Manage songs first");return;}
+  const ta=document.getElementById("m-chart");
+  if(!ta){showToast("Open the song editor first");return;}
+  const raw=ta.value||"";
+  if(!raw.trim()){showToast("Paste a chart first"); ta.focus(); return;}
+  const parsed=parseUgImportText(raw,"");
+  const titleEl=document.getElementById("m-title");
+  const authorEl=document.getElementById("m-author");
+  const keyEl=document.getElementById("m-key");
+  const timeEl=document.getElementById("m-time-sig");
+  const bpmEl=document.getElementById("m-bpm");
+  if(parsed.title && parsed.title!=="Imported song" && titleEl && !titleEl.value.trim())titleEl.value=parsed.title;
+  if(parsed.author && authorEl && !authorEl.value.trim())authorEl.value=parsed.author;
+  if(parsed.key && keyEl && NOTES.includes(parsed.key))keyEl.value=parsed.key;
+  if(parsed.timeSig && timeEl)timeEl.value=parsed.timeSig;
+  if(parsed.bpm && bpmEl)bpmEl.value=parsed.bpm;
+  ta.value=parsed.chart||ugCleanChordSheetText(raw);
+  pushEditorHistory();
+  updateSongEditorPreview();
+  showToast("Pasted chart cleaned");
+}
 function getUgBackendUrl(){
   const inp=document.getElementById('ug-backend-url');
   const value=(inp?.value||localStorage.getItem('wbUgBackendUrl')||'http://localhost:8787').trim().replace(/\/$/,'');
@@ -7579,6 +7792,7 @@ async function importUgUrl(url){
   try{
     const data=await ugBackendFetch('/api/ug/import?url='+encodeURIComponent(url));
     const song=data.song||data;
+    song.librarySource='user';
     window._ugImportedSong=song;
     previewUgParsedSong(song);
     showToast('UG chart imported — review preview');
@@ -7655,21 +7869,27 @@ function saveSong(){
   const bpm=bpmRaw?String(Math.max(20,Math.min(260,parseInt(bpmRaw,10)||0))):'';
   const chart=document.getElementById('m-chart').value.trim();
   if(!title){alert('Please enter a song title.');return;}
-  const sd={cat:modalCat,title,author,key,timeSig,bpm,chart};
+  const existing=editingId?findSongById(editingId):null;
+  const sd={cat:modalCat,title,author,key,timeSig,bpm,chart,librarySource:'user',localOnly:true};
   if(editingId){
-    const ex=findSongById(editingId);
-    if(ex?.fbKey)songsRef.child(ex.fbKey).update({...sd,id:ex.id,songCode:ex.songCode||ensureSongCode(ex)}).then(()=>{showSync('Saved ✓');closeBS('modal');openSong(editingId,fromSetList);}).catch(()=>showSync('Save failed',true));
+    const ex=existing||findSongById(editingId);
+    if(ex?.localOnly){
+      putLocalMySong({...ex,...sd,id:ex.id,songCode:ex.songCode||''}).then(()=>{showSync('Saved locally ✓');closeBS('modal');openSong(ex.id,fromSetList);}).catch(()=>showSync('Local save failed',true));
+    }else if(ex?.fbKey){
+      // Existing WorshipBase/Firebase songs can still be edited by admins, but new user songs stay local.
+      songsRef.child(ex.fbKey).update({...sd,localOnly:null,id:ex.id,songCode:ex.songCode||ensureSongCode(ex)}).then(()=>{showSync('Saved ✓');closeBS('modal');openSong(editingId,fromSetList);}).catch(()=>showSync('Save failed',true));
+    }
   } else {
-    const ref=songsRef.push();
-    ref.set({...sd,id:ref.key,songCode:getNextSongCode()}).then(()=>{
-      showSync('Saved ✓');closeBS('modal');
-      switchTab('songs');
-    }).catch(()=>showSync('Save failed',true));
+    putLocalMySong({...sd,id:'my_'+Date.now()+'_'+Math.random().toString(36).slice(2,8),songCode:''}).then((row)=>{
+      showSync('Saved locally ✓');closeBS('modal');
+      switchTab('songs'); setLibraryFilter('mine');
+    }).catch(()=>showSync('Local save failed',true));
   }
 }
 function deleteSong(){
   const ex=findSongById(editingId);
   if(!editingId||!confirmDestructive(`Delete this song?${previewNamesForConfirm(ex?[ex]:[])}`))return;
+  if(ex?.localOnly){deleteLocalMySong(ex.id).then(()=>{selectedSongIds.delete(normId(editingId));updateManageUI();showSync('Deleted local song');closeBS('modal');showList();}).catch(()=>showSync('Delete failed',true));return;}
   if(ex?.fbKey)songsRef.child(ex.fbKey).remove().then(()=>{selectedSongIds.delete(normId(editingId));updateManageUI();showSync('Deleted');closeBS('modal');showList();}).catch(()=>showSync('Delete failed',true));
 }
 
@@ -7700,7 +7920,12 @@ function applyStoredPrefs(){
 
 wireSongEditorPreview();
 applyStoredPrefs();
-initFirebase();
+loadLocalMySongsBoot();
+async function loadLocalMySongsBoot(){
+  localMySongs=await getAllLocalMySongs();
+  mergeSongStores();
+  initFirebase();
+}
 initPTR();
 attachScrollTopListener();
 updateManageUI();
@@ -9340,13 +9565,13 @@ window.__wbPdfEngine='paged-preview-v67.6-deterministic';
   window.exportAllPDF=function(){window.exportSetListFromOptions((typeof getExportPageOptions==='function')?getExportPageOptions():{});};
   window.runExportFromPage=function(){const opts=(typeof getExportPageOptions==='function')?getExportPageOptions():{}; if(typeof closeExportView==='function')closeExportView(); if(currentExportContext()==='song')window.exportSongFromOptions(opts); else window.exportSetListFromOptions(opts);};
   try{exportSongFromOptions=window.exportSongFromOptions; exportSetListFromOptions=window.exportSetListFromOptions; exportPDF=window.exportPDF; exportAllPDF=window.exportAllPDF; runExportFromPage=window.runExportFromPage;}catch(e){}
-  window.__wbPdfEngine='v68.3-seed-disabled-no-pin-test';
+  window.__wbPdfEngine='v68.test.3-import-library-test';
 })();
 
 </script>
 
 <script>
-/* v68.3 TEMPORARY HTML VIEWER TEST BUILD: PIN fully disabled.
+/* v68.test.3 TEMPORARY HTML VIEWER TEST BUILD: PIN fully disabled.
    Remove this block before final public release. */
 (function(){
   function toast(msg){try{if(typeof showToast==='function')showToast(msg);}catch(e){}}
@@ -9399,5 +9624,6 @@ window.__wbPdfEngine='paged-preview-v67.6-deterministic';
 })();
 </script>
 
-</body>
-</html>
+
+
+</body><div style="position: fixed; top: 0px; left: 0px; width: 1px; height: env(safe-area-inset-top,0px); pointer-events: none; opacity: 0; z-index: -1;"></div><div style="position: fixed; bottom: 0px; left: 0px; width: 1px; height: env(safe-area-inset-bottom,0px); pointer-events: none; opacity: 0; z-index: -1;"></div></html>
