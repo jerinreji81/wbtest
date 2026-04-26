@@ -12,7 +12,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="assets/wb-icon-192.png"/>
 <meta name="mobile-web-app-capable" content="yes"/>
 
-<title>WorshipBase v69</title>
+<title>WorshipBase v68.0</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 /* Prevent iOS long-press/callout menus and text selection on UI chrome
@@ -2378,7 +2378,6 @@ body.dark .about-logo img{
   mix-blend-mode:normal!important;
 }
 
-.manage-mode-active .manage-local-note{display:block!important;padding:6px 16px 10px;font-size:11px;color:var(--txt3);line-height:1.4;}
 </style>
 </head>
 <body>
@@ -2422,8 +2421,6 @@ body.dark .about-logo img{
       <button class="filter-chip active" data-filter="all" onclick="setLibraryFilter('all',this)">All</button>
       <button class="filter-chip" data-filter="english" onclick="setLibraryFilter('english',this)">English</button>
       <button class="filter-chip" data-filter="malayalam" onclick="setLibraryFilter('malayalam',this)">Malayalam</button>
-      <button class="filter-chip" data-filter="wb" onclick="setLibraryFilter('wb',this)">WorshipBase</button>
-      <button class="filter-chip" data-filter="mine" onclick="setLibraryFilter('mine',this)">My Songs</button>
       <button class="filter-chip" data-filter="favorites" onclick="setLibraryFilter('favorites',this)">Favourites</button>
       <button class="filter-chip" data-filter="inset" onclick="setLibraryFilter('inset',this)">In set</button>
     </div>
@@ -2431,20 +2428,11 @@ body.dark .about-logo img{
       <div class="manage-actions" id="manage-actions">
         <button class="manage-chip" type="button" onclick="toggleSelectAllVisible()">All</button>
         <button class="manage-chip" type="button" onclick="openDuplicateReview()">Duplicates</button>
-        <button class="manage-chip" type="button" onclick="exportMySongsJSON()">Export My Songs</button>
-        <button class="manage-chip" type="button" onclick="openUgImport()">Import from Ultimate Guitar</button>
-        <button class="manage-chip" type="button" onclick="document.getElementById('my-songs-json-file')?.click()">Import JSON</button>
-        <button class="manage-chip" type="button" onclick="document.getElementById('opensong-xml-file')?.click()">Import OpenSong XML</button>
-        <button class="manage-chip" type="button" onclick="document.getElementById('onsong-file')?.click()">Import OnSong</button>
         <button class="manage-chip danger" type="button" onclick="bulkDeleteSelected()">Delete</button>
       </div>
       <span class="manage-count" id="manage-count">0 selected</span>
       <button class="manage-chip primary manage-done" id="manage-done-btn" type="button" onclick="toggleManageMode(false)">Done</button>
     </div>
-    <input type="file" id="my-songs-json-file" accept="application/json,.json" style="display:none" onchange="importMySongsJSONFile(event)"/>
-    <input type="file" id="opensong-xml-file" multiple style="display:none" onchange="importOpenSongXmlFiles(event)"/>
-    <input type="file" id="onsong-file" multiple accept="" style="display:none" onchange="importOnSongFiles(event)"/>
-    <div class="manage-local-note" style="display:none">v69: My Songs imports are saved locally on this device, not Firebase.</div>
   </div>
 
   <!-- SONG LIST -->
@@ -2624,25 +2612,15 @@ body.dark .about-logo img{
           </div>
           <div class="ss-row manage-only-tool" style="display:none" onclick="openAdminExport()">
             <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M8 10l-3-3M8 10l3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-            <div class="ss-body"><div class="ss-lbl">Export My Songs (JSON)</div><div class="ss-sub">Download local My Songs as a backup</div></div>
+            <div class="ss-body"><div class="ss-lbl">Export library (JSON)</div><div class="ss-sub">Download all songs as a backup</div></div>
             <div class="ss-right"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           </div>
           <div class="ss-row manage-only-tool" style="display:none" onclick="openAdminImport()">
             <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 10V2M8 2L5 5M8 2l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-            <div class="ss-body"><div class="ss-lbl">Import My Songs (JSON)</div><div class="ss-sub">Restore local My Songs from a backup file</div></div>
+            <div class="ss-body"><div class="ss-lbl">Import library (JSON)</div><div class="ss-sub">Add songs from a backup file</div></div>
             <div class="ss-right"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="ss-row manage-only-tool" style="display:none" onclick="openOpenSongImportFromSettings()">
-            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2.5h5.2L12.5 5.8v7.7H4z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M9.2 2.5v3.3h3.3" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M5.8 8h4.4M5.8 10.2h4.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
-            <div class="ss-body"><div class="ss-lbl">Import OpenSong XML</div><div class="ss-sub">Add OpenSong XML files, including files without .xml extension</div></div>
-            <div class="ss-right"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          </div>
-          <div class="ss-row manage-only-tool" style="display:none" onclick="openOnSongImportFromSettings()">
-            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2.5h5.2L12.5 5.8v7.7H4z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M9.2 2.5v3.3h3.3" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M5.5 7.7h5M5.5 10h5M5.5 12.3h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
-            <div class="ss-body"><div class="ss-lbl">Import OnSong / ChordPro</div><div class="ss-sub">Add OnSong/ChordPro/text files or ZIPs into local My Songs</div></div>
-            <div class="ss-right"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          </div>
-          <input type="file" id="import-file" accept="application/json,.json" style="display:none" onchange="importMySongsJSONFile(event)"/>
+          <input type="file" id="import-file" accept=".json" style="display:none" onchange="importJSON(event)"/>
           <div class="ss-row manage-only-tool" style="display:none" onclick="openBS('changepin')">
             <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 7V5a3 3 0 1 1 6 0v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="10.5" r="1" fill="currentColor"/></svg></div>
             <div class="ss-body"><div class="ss-lbl">Change PIN</div><div class="ss-sub">Requires current PIN</div></div>
@@ -2664,7 +2642,7 @@ body.dark .about-logo img{
               <img src="assets/wb-icon-192.png" alt="WorshipBase logo"/>
             </div>
             <div class="about-name">WorshipBase</div>
-            <div class="about-version-pill">Version 69</div>
+            <div class="about-version-pill">Version 68.0</div>
             <div class="about-by">Created by <strong>Jerin Reji</strong></div>
           </div>
         </div>
@@ -3096,7 +3074,7 @@ body.dark .about-logo img{
           <button class="editor-helper-btn" id="editor-undo-btn" type="button" onclick="editorUndo()">Undo</button>
           <button class="editor-helper-btn" id="editor-redo-btn" type="button" onclick="editorRedo()">Redo</button>
           <div class="editor-helper-sep"></div>
-          <button class="editor-helper-btn primary" type="button" onclick="cleanPastedChartFallback()">Clean pasted chart</button>
+          <button class="editor-helper-btn primary" type="button" onclick="openUgImport()">Import UG text</button>
           <div class="editor-helper-sep"></div>
           <button class="editor-helper-btn primary" type="button" onclick="insertSectionLabel('Verse')">Verse</button>
           <button class="editor-helper-btn primary" type="button" onclick="insertSectionLabel('Chorus')">Chorus</button>
@@ -3110,11 +3088,11 @@ body.dark .about-logo img{
           <button class="editor-helper-btn" type="button" onclick="duplicateCurrentSection()">Duplicate section</button>
           <button class="editor-helper-btn" type="button" onclick="normalizeEditorSpacing()">Normalize</button>
         </div>
-        <div class="editor-helper-meta">Quick tools for structuring, cleaning pasted charts, and previewing before save.</div>
+        <div class="editor-helper-meta">Quick tools for structuring and cleaning your chart without leaving the document editor.</div>
         <textarea id="m-chart" placeholder="[Verse 1]&#10;[G]The splendor of a [C]King&#10;[Em]Let all the earth [C]rejoice"></textarea>
         <div class="m-subacts">
           <button class="m-mini-btn" type="button" onclick="pasteChordsFromClipboard()">Paste chords from clipboard</button>
-          <button class="m-mini-btn" type="button" onclick="cleanPastedChartFallback()">Clean pasted chart</button>
+          <button class="m-mini-btn" type="button" onclick="openUgImport()">Import from Ultimate Guitar</button>
         </div>
       </div>
       <div class="editor-pane hidden" id="editor-preview-pane">
@@ -3133,32 +3111,25 @@ body.dark .about-logo img{
   </div>
 </div>
 
-<!-- ULTIMATE GUITAR SEARCH / IMPORT -->
+<!-- ULTIMATE GUITAR / TEXT IMPORT -->
 <div class="bs-bg" id="bs-ug-import" onclick="closeBSBg(event,'ug-import')">
   <div class="bs">
     <div class="bs-handle"></div>
-    <div class="m-tr"><button class="editor-nav-btn" onclick="closeBS('ug-import')">Cancel</button><h2 class="m-h2">Import from Ultimate Guitar</h2><button class="editor-save-btn" id="ug-apply-btn" onclick="applyUgImport()">Add song</button></div>
+    <div class="m-tr"><button class="editor-nav-btn" onclick="closeBS('ug-import')">Cancel</button><h2 class="m-h2">Import chord sheet</h2><button class="editor-save-btn" onclick="applyUgImport()">Use</button></div>
     <div class="m-body">
-      <p class="m-hint">Search for a worship song or paste a direct Ultimate Guitar URL. Review the preview then tap <strong>Add song</strong>.</p>
-      <label>Backend URL</label>
-      <input type="url" id="ug-backend-url" placeholder="https://worshipbase-ug.YOUR-SUBDOMAIN.workers.dev"/>
-      <label>Search song / artist</label>
-      <div class="mi-inline" style="gap:8px;margin-bottom:12px">
-        <input class="mi-grow" type="text" id="ug-search-query" placeholder="e.g. 10,000 Reasons Matt Redman" onkeydown="if(event.key==='Enter')searchUgImport()"/>
-        <button class="m-mini-btn" type="button" onclick="searchUgImport()">Search</button>
-      </div>
-      <div class="picker-list" id="ug-results" style="max-height:230px;margin-bottom:12px">
-        <div class="preview-empty" style="padding:14px">Search results will appear here.</div>
-      </div>
-      <label>Direct Ultimate Guitar URL</label>
-      <div class="mi-inline" style="gap:8px;margin-bottom:12px">
-        <input class="mi-grow" type="url" id="ug-source-url" placeholder="https://tabs.ultimate-guitar.com/..."/>
-        <button class="m-mini-btn" type="button" onclick="importUgUrlFromInput()">Import</button>
+      <p class="m-hint">Paste text copied from Ultimate Guitar or another chord sheet. URL import is saved as a source note for now; direct fetching is often blocked by the browser/site.</p>
+      <label>Source URL <span style="color:var(--txt3);font-weight:400">(optional)</span></label>
+      <input type="url" id="ug-source-url" placeholder="https://tabs.ultimate-guitar.com/..."/>
+      <label>Copied chord sheet text</label>
+      <textarea id="ug-import-text" placeholder="Paste the full Ultimate Guitar chord sheet here"></textarea>
+      <div class="m-subacts">
+        <button class="m-mini-btn" type="button" onclick="pasteUgImportFromClipboard()">Paste clipboard</button>
+        <button class="m-mini-btn" type="button" onclick="analyzeUgImport(true)">Preview import</button>
       </div>
       <div class="preview-wrap" id="ug-preview-wrap">
         <div class="preview-wrap-head">
-          <div class="preview-wrap-title">Import preview</div>
-          <div class="preview-meta" id="ug-preview-meta">Choose a result or paste a UG URL.</div>
+          <div class="preview-wrap-title">Detected import</div>
+          <div class="preview-meta" id="ug-preview-meta">Paste text, then tap Preview import.</div>
         </div>
         <div class="preview-body" id="ug-preview-body"><div class="preview-empty">No import preview yet.</div></div>
       </div>
@@ -4217,11 +4188,14 @@ let adminUnlocked=false,pendingAdminAction=null;
 function requireAdmin(action){
   if(adminUnlocked){action();return;}
   if(!appPrefs.adminPin){
-    // v68.1 temporary HTML-viewer test build:
-    // allow Manage/Add Song access when no PIN exists, so import can be tested
-    // before publishing to GitHub/PWA. Set a PIN later to re-enable locking.
+    const pin=null; // v64.11: first-time PIN setup uses the Change PIN bottom sheet
+    if(pin===null)return;
+    const clean=String(pin).trim();
+    if(clean.length<4){showToast('PIN must be at least 4 digits');return;}
+    appPrefs.adminPin=clean;
+    savePrefs();
     adminUnlocked=true;
-    showToast('Testing mode: Manage songs unlocked');
+    showToast('Admin PIN created');
     action();
     return;
   }
@@ -4893,7 +4867,7 @@ function saveSetItemKey(){
 
 
 /* ══ STATE ══ */
-let songs=[],firebaseSongs=[],localMySongs=[],currentSong=null,currentKey=null,nnsMode=false,darkMode=false;
+let songs=[],currentSong=null,currentKey=null,nnsMode=false,darkMode=false;
 let editingId=null,activeTab='songs',modalCat='english',pickerFilter='all',fromSetList=false;
 let vRows=[],rowCache={},debounceTimer=null,alphaMap={},libraryFilter='all';
 let manageMode=false,selectedSongIds=new Set(),lastDuplicateGroups=[];
@@ -5194,341 +5168,6 @@ function setLibraryFilter(filter,btn){
   document.querySelectorAll('#library-filter-row .filter-chip').forEach(el=>el.classList.toggle('active',el.dataset.filter===filter));
   refresh(true);
 }
-
-
-/* ══ LOCAL MY SONGS STORE (IndexedDB) ══
-   v69 keeps imported/user songs on this device, not Firebase.
-   This is intentionally IndexedDB rather than localStorage so large OpenSong imports
-   (hundreds/thousands of songs) do not overflow the small localStorage quota. */
-const LOCAL_MY_SONGS_DB='worshipbase_local_my_songs_v1';
-const LOCAL_MY_SONGS_STORE='songs';
-function openLocalSongsDB(){
-  return new Promise((resolve,reject)=>{
-    const req=indexedDB.open(LOCAL_MY_SONGS_DB,1);
-    req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains(LOCAL_MY_SONGS_STORE))db.createObjectStore(LOCAL_MY_SONGS_STORE,{keyPath:'id'});};
-    req.onsuccess=()=>resolve(req.result);
-    req.onerror=()=>reject(req.error||new Error('Could not open local song store'));
-  });
-}
-async function getAllLocalMySongs(){
-  try{
-    const db=await openLocalSongsDB();
-    return await new Promise((resolve,reject)=>{
-      const tx=db.transaction(LOCAL_MY_SONGS_STORE,'readonly');
-      const req=tx.objectStore(LOCAL_MY_SONGS_STORE).getAll();
-      req.onsuccess=()=>resolve((req.result||[]).map(normLocalSong));
-      req.onerror=()=>reject(req.error||new Error('Could not read local songs'));
-    });
-  }catch(e){console.error(e);return [];}
-}
-function normLocalSong(s){
-  const id=normId(s?.id||('localMy_'+Date.now()+'_'+Math.random().toString(36).slice(2,8)));
-  return {...s,id,localOnly:true,librarySource:'user',fbKey:null,songCode:s?.songCode||s?.code||''};
-}
-function mergeSongStores(){
-  const seen=new Set();
-  const merged=[];
-  [...(firebaseSongs||[]),...(localMySongs||[])].forEach(s=>{const id=normId(s.id||s.fbKey);if(!id||seen.has(id))return;seen.add(id);merged.push(s);});
-  songs=merged;
-}
-async function reloadLocalMySongs(){
-  localMySongs=await getAllLocalMySongs();
-  mergeSongStores();
-  refresh(true);
-  renderHomeQuickAccess?.();
-}
-async function putLocalMySong(song){
-  const row=normLocalSong({...song,updatedAt:new Date().toISOString()});
-  if(!row.createdAt)row.createdAt=new Date().toISOString();
-  const db=await openLocalSongsDB();
-  await new Promise((resolve,reject)=>{
-    const tx=db.transaction(LOCAL_MY_SONGS_STORE,'readwrite');
-    tx.objectStore(LOCAL_MY_SONGS_STORE).put(row);
-    tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error||new Error('Could not save local song'));
-  });
-  await reloadLocalMySongs();
-  return row;
-}
-async function putLocalMySongsBulk(list){
-  const now=new Date().toISOString();
-  const rows=list.map(s=>normLocalSong({...s,id:s.id&&String(s.id).startsWith('my_')?s.id:('my_'+Date.now()+'_'+Math.random().toString(36).slice(2,9)),createdAt:s.createdAt||now,updatedAt:now}));
-  const db=await openLocalSongsDB();
-  await new Promise((resolve,reject)=>{
-    const tx=db.transaction(LOCAL_MY_SONGS_STORE,'readwrite');
-    const store=tx.objectStore(LOCAL_MY_SONGS_STORE);
-    rows.forEach(r=>store.put(r));
-    tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error||new Error('Could not save local songs'));
-  });
-  await reloadLocalMySongs();
-  return rows;
-}
-async function deleteLocalMySong(id){
-  const db=await openLocalSongsDB();
-  await new Promise((resolve,reject)=>{
-    const tx=db.transaction(LOCAL_MY_SONGS_STORE,'readwrite');
-    tx.objectStore(LOCAL_MY_SONGS_STORE).delete(normId(id));
-    tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error||new Error('Could not delete local song'));
-  });
-  await reloadLocalMySongs();
-}
-
-function getSongLibrarySource(song){
-  if(song?.localOnly)return 'user';
-  const v=String(song?.librarySource||song?.sourceLibrary||song?.songSource||song?.origin||'').toLowerCase();
-  if(v==='user'||v==='mine'||v==='my'||v==='personal'||v==='imported')return 'user';
-  if(v==='worshipbase'||v==='wb'||v==='built-in'||v==='builtin'||v==='curated')return 'worshipbase';
-  return 'worshipbase';
-}
-function isMySong(song){return getSongLibrarySource(song)==='user';}
-function isWorshipBaseSong(song){return getSongLibrarySource(song)==='worshipbase';}
-function buildUserSongPayload(song){
-  const copy={...song};
-  delete copy.fbKey;
-  copy.librarySource='user';
-  copy.exportedFrom='WorshipBase';
-  copy.exportedAt=new Date().toISOString();
-  return copy;
-}
-function downloadTextFile(filename,text,mime='application/json'){
-  const blob=new Blob([text],{type:mime});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();
-  setTimeout(()=>URL.revokeObjectURL(url),1500);
-}
-function exportMySongsJSON(){
-  if(!manageMode){showToast('Turn on Manage songs first');return;}
-  const mine=songs.filter(isMySong).map(buildUserSongPayload);
-  const data={format:'worshipbase-my-songs',version:'69',exportedAt:new Date().toISOString(),count:mine.length,songs:mine};
-  downloadTextFile('worshipbase-my-songs.json',JSON.stringify(data,null,2));
-  showToast("Exported "+mine.length+" My Songs");
-}
-function normalizeImportedSongRecord(raw){
-  const title=String(raw?.title||raw?.name||'').trim();
-  if(!title)return null;
-  const author=String(raw?.author||raw?.artist||'').trim();
-  const key=String(raw?.key||raw?.originalKey||'C').trim()||'C';
-  const cat=String(raw?.cat||raw?.category||'english').toLowerCase().includes('malayalam')?'malayalam':'english';
-  return {cat,title,author,key,timeSig:String(raw?.timeSig||raw?.timeSignature||'').trim(),bpm:String(raw?.bpm||raw?.tempo||'').trim(),chart:String(raw?.chart||raw?.lyrics||raw?.content||'').trim(),sourceUrl:String(raw?.sourceUrl||raw?.url||'').trim(),librarySource:'user'};
-}
-async function importMySongsJSONFile(ev){
-  const file=ev?.target?.files?.[0]; if(!file)return;
-  try{
-    const text=await file.text();
-    const parsed=JSON.parse(text);
-    const arr=Array.isArray(parsed)?parsed:(Array.isArray(parsed.songs)?parsed.songs:[]);
-    const normalized=arr.map(normalizeImportedSongRecord).filter(Boolean);
-    if(!normalized.length){alert('No valid songs found in this JSON file.');return;}
-    if(!confirm("Import "+normalized.length+" song(s) into My Songs?"))return;
-    await putLocalMySongsBulk(normalized);
-    showSync("Imported "+normalized.length+" local My Song(s) ✓"); switchTab('songs'); setLibraryFilter('mine');
-  }catch(e){console.error(e); alert('Could not import this JSON file.');}
-  finally{try{ev.target.value='';}catch(e){}}
-}
-function openSongSectionName(tag){
-  const t=String(tag||'').replace(/[\[\]]/g,'').trim().toLowerCase();
-  if(!t)return '';
-  const map={v:'Verse',c:'Chorus',b:'Bridge',p:'Pre-Chorus',pc:'Pre-Chorus',t:'Tag',i:'Intro',o:'Outro',e:'Ending'};
-  const m=t.match(/^([a-z]+)\s*(\d*)$/i); const base=m?(map[m[1]]||m[1].replace(/\b\w/g,c=>c.toUpperCase())):t;
-  const n=m&&m[2]?" "+m[2]:""; return "["+base+n+"]";
-}
-function convertOpenSongLyrics(text){
-  const out=[];
-  String(text||'').replace(/\r\n?/g,'\n').split('\n').forEach(line=>{
-    const raw=line.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
-    const trimmed=raw.trim();
-    if(/^\[[A-Za-z]+\d*\]$/.test(trimmed)){out.push(openSongSectionName(trimmed));return;}
-    if(/^\.[A-G0-9#b/\s|:()\-+]+$/.test(trimmed)){out.push(trimmed.slice(1).trim());return;}
-    out.push(raw.replace(/^\./,''));
-  });
-  return out.join('\n').trim();
-}
-function parseOpenSongXmlText(xmlText){
-  const doc=new DOMParser().parseFromString(xmlText,'application/xml');
-  if(doc.querySelector('parsererror'))throw new Error('Invalid XML');
-  const pick=(...names)=>{for(const n of names){const el=doc.querySelector(n); if(el&&el.textContent!=null)return el.textContent.trim();} return '';};
-  const title=pick('title','name')||'Imported OpenSong';
-  const author=pick('author','artist','copyright');
-  const key=pick('key','key_line')||'C';
-  const bpm=pick('tempo','bpm');
-  const timeSig=pick('time_sig','timeSignature','time');
-  const capo=pick('capo');
-  let chart=convertOpenSongLyrics(pick('lyrics'));
-  if(capo)chart=("Capo: "+capo+"\n\n"+chart).trim();
-  return {cat:'english',title,author,key,bpm,timeSig,chart,librarySource:'user',source:'OpenSong XML'};
-}
-async function importOpenSongXmlFiles(ev){
-  const files=[...(ev?.target?.files||[])]; if(!files.length)return;
-  const parsed=[]; const failed=[];
-  for(const file of files){
-    try{parsed.push(parseOpenSongXmlText(await file.text()));}
-    catch(e){console.error(e);failed.push(file.name);}
-  }
-  if(!parsed.length){alert('No valid OpenSong XML songs found.');return;}
-  if(!confirm("Import "+parsed.length+" OpenSong XML song(s) into My Songs?"+(failed.length?"\n\nSkipped: "+failed.join(", "):"")))return;
-  try{
-    await putLocalMySongsBulk(parsed);
-    showSync("Imported "+parsed.length+" local OpenSong song(s) ✓"); switchTab('songs'); setLibraryFilter('mine');
-  }catch(e){console.error(e);showSync('OpenSong import failed',true);}
-  finally{try{ev.target.value='';}catch(e){}}
-}
-
-function decodeOnSongTextBytes(bytes){
-  try{return new TextDecoder('utf-8').decode(bytes);}catch(e){return new TextDecoder().decode(bytes);}
-}
-function cleanOnSongFileName(name){
-  return String(name||'Imported OnSong').split('/').pop().replace(/\.(onsong|txt|pro|cho|crd|chopro|chordpro)$/i,'').replace(/[_-]+/g,' ').trim();
-}
-function parseChordProMetaLine(line){
-  const m=String(line||'').trim().match(/^\{\s*([^:}]+)\s*:\s*([^}]*)\}\s*$/);
-  if(!m)return null;
-  return {key:m[1].trim().toLowerCase(),val:m[2].trim()};
-}
-function isLikelyChordLine(line){
-  const t=String(line||'').trim();
-  if(!t)return false;
-  if(/\[[A-G][#b]?(?:m|maj|min|sus|dim|aug|add)?[0-9]*(?:\/[A-G][#b]?)?\]/.test(t))return true;
-  const parts=t.split(/\s+/).filter(Boolean);
-  if(!parts.length)return false;
-  let chords=0;
-  for(const p of parts){
-    if(/^[A-G][#b]?(?:m|maj|min|sus|dim|aug|add|no)?[0-9]*(?:\/[A-G][#b]?)?$/.test(p.replace(/[|:(),]/g,'')))chords++;
-  }
-  return chords>=Math.max(1,Math.ceil(parts.length*.65));
-}
-function normaliseOnSongSectionLine(line){
-  const t=String(line||'').trim();
-  const m=t.match(/^(intro|verse|chorus|bridge|pre[-\s]?chorus|tag|outro|ending|instrumental|interlude|refrain)\s*(\d*)\s*:?$/i);
-  if(!m)return line;
-  const base=m[1].replace(/[-\s]+/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
-  return '['+base+(m[2]?' '+m[2]:'')+']';
-}
-function parseOnSongText(text,fileName=''){
-  text=String(text||'').replace(/^\uFEFF/,'').replace(/\r\n?/g,'\n');
-  const meta={};
-  const chartLines=[];
-  const lines=text.split('\n');
-  for(const line of lines){
-    const raw=line.replace(/\s+$/,'');
-    const trimmed=raw.trim();
-    const cp=parseChordProMetaLine(trimmed);
-    if(cp){
-      const k=cp.key;
-      if(['title','t'].includes(k))meta.title=cp.val;
-      else if(['artist','subtitle','st','author','composer','writer'].includes(k))meta.author=cp.val;
-      else if(['key','k'].includes(k))meta.key=cp.val;
-      else if(['capo'].includes(k))meta.capo=cp.val;
-      else if(['tempo','bpm'].includes(k))meta.bpm=cp.val;
-      else if(['time','time_sig','time_signature'].includes(k))meta.timeSig=cp.val;
-      else if(['comment','c'].includes(k))chartLines.push('['+cp.val+']');
-      continue;
-    }
-    const m=trimmed.match(/^(Title|Artist|Author|Composer|Writer|Key|Capo|Tempo|BPM|Time|Time Signature)\s*:\s*(.+)$/i);
-    if(m){
-      const k=m[1].toLowerCase(); const v=m[2].trim();
-      if(k==='title')meta.title=v;
-      else if(['artist','author','composer','writer'].includes(k))meta.author=v;
-      else if(k==='key')meta.key=v;
-      else if(k==='capo')meta.capo=v;
-      else if(['tempo','bpm'].includes(k))meta.bpm=v;
-      else meta.timeSig=v;
-      continue;
-    }
-    chartLines.push(normaliseOnSongSectionLine(raw));
-  }
-  if(!meta.title){
-    const idx=chartLines.findIndex(l=>l.trim()&&!isLikelyChordLine(l)&&!/^\[.+\]$/.test(l.trim()));
-    if(idx>=0 && chartLines[idx].trim().length<90){
-      meta.title=chartLines[idx].trim();
-      chartLines.splice(idx,1);
-      const next=chartLines.findIndex(l=>l.trim());
-      if(next>=0 && !meta.author && !isLikelyChordLine(chartLines[next]) && !/^\[.+\]$/.test(chartLines[next].trim()) && chartLines[next].trim().length<90){
-        meta.author=chartLines[next].trim().replace(/^by\s+/i,'');
-        chartLines.splice(next,1);
-      }
-    }
-  }
-  if(!meta.title)meta.title=cleanOnSongFileName(fileName)||'Imported OnSong';
-  let chart=chartLines.join('\n').replace(/^\n+/,'').replace(/\n+$/,'');
-  if(meta.capo)chart=('Capo: '+meta.capo+'\n\n'+chart).trim();
-  return {cat:'english',title:meta.title,author:meta.author||'',key:meta.key||'C',bpm:meta.bpm||'',timeSig:meta.timeSig||'',chart,librarySource:'user',source:'OnSong'};
-}
-function readUint16LE(bytes,off){return bytes[off]|(bytes[off+1]<<8);}
-function readUint32LE(bytes,off){return (bytes[off]|(bytes[off+1]<<8)|(bytes[off+2]<<16)|(bytes[off+3]<<24))>>>0;}
-async function inflateRawBytes(bytes){
-  if(typeof DecompressionStream==='undefined')throw new Error('ZIP deflate is not supported by this browser');
-  const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
-  return new Uint8Array(await new Response(stream).arrayBuffer());
-}
-async function extractTextFilesFromZip(file){
-  const bytes=new Uint8Array(await file.arrayBuffer());
-  let eocd=-1;
-  for(let i=bytes.length-22;i>=Math.max(0,bytes.length-66000);i--){
-    if(readUint32LE(bytes,i)===0x06054b50){eocd=i;break;}
-  }
-  if(eocd<0)throw new Error('Could not read ZIP directory');
-  const total=readUint16LE(bytes,eocd+10);
-  let cdOff=readUint32LE(bytes,eocd+16);
-  const out=[];
-  for(let i=0;i<total;i++){
-    if(readUint32LE(bytes,cdOff)!==0x02014b50)break;
-    const method=readUint16LE(bytes,cdOff+10);
-    const compSize=readUint32LE(bytes,cdOff+20);
-    const uncompSize=readUint32LE(bytes,cdOff+24);
-    const nameLen=readUint16LE(bytes,cdOff+28);
-    const extraLen=readUint16LE(bytes,cdOff+30);
-    const commentLen=readUint16LE(bytes,cdOff+32);
-    const localOff=readUint32LE(bytes,cdOff+42);
-    const name=decodeOnSongTextBytes(bytes.slice(cdOff+46,cdOff+46+nameLen));
-    cdOff+=46+nameLen+extraLen+commentLen;
-    if(/\/$/.test(name))continue;
-    if(!/\.(onsong|txt|pro|cho|crd|chopro|chordpro)$/i.test(name))continue;
-    if(readUint32LE(bytes,localOff)!==0x04034b50)continue;
-    const lfNameLen=readUint16LE(bytes,localOff+26);
-    const lfExtraLen=readUint16LE(bytes,localOff+28);
-    const dataStart=localOff+30+lfNameLen+lfExtraLen;
-    const comp=bytes.slice(dataStart,dataStart+compSize);
-    let data;
-    if(method===0)data=comp;
-    else if(method===8)data=await inflateRawBytes(comp);
-    else throw new Error('Unsupported ZIP compression for '+name);
-    out.push({name,text:decodeOnSongTextBytes(data)});
-  }
-  return out;
-}
-async function importOnSongFiles(ev){
-  const files=[...(ev?.target?.files||[])]; if(!files.length)return;
-  const parsed=[]; const failed=[];
-  for(const file of files){
-    try{
-      const name=String(file.name||'Imported OnSong');
-      const isZip=/\.zip$/i.test(name) || /zip/i.test(String(file.type||''));
-      if(isZip){
-        const entries=await extractTextFilesFromZip(file);
-        for(const entry of entries){
-          try{parsed.push(parseOnSongText(entry.text,entry.name));}
-          catch(e){console.error(e);failed.push(entry.name);}
-        }
-      }else{
-        const text=await file.text();
-        if(!String(text||'').trim())throw new Error('Empty text file');
-        parsed.push(parseOnSongText(text,name));
-      }
-    }catch(e){console.error(e);failed.push(file.name||'Unnamed file');}
-  }
-  if(!parsed.length){alert('No valid OnSong / ChordPro/text songs found. If the iPhone file picker is still blocking files, try putting the files into a ZIP and importing the ZIP.');return;}
-  if(!confirm('Import '+parsed.length+' OnSong / ChordPro/text song(s) into My Songs?'+(failed.length?'\n\nSkipped: '+failed.slice(0,12).join(', ')+(failed.length>12?'…':''):'')))return;
-  try{
-    await putLocalMySongsBulk(parsed);
-    showSync('Imported '+parsed.length+' local OnSong song(s) ✓'); switchTab('songs'); setLibraryFilter('mine');
-  }catch(e){console.error(e);showSync('OnSong import failed',true);}
-  finally{try{ev.target.value='';}catch(e){}}
-}
-function openOnSongImportFromSettings(){
-  if(!manageMode){showToast('Turn on Manage songs first');return;}
-  requireAdmin(()=>document.getElementById('onsong-file')?.click());
-}
-
 function isSongManageTab(){return activeTab==='songs';}
 function isSongSelected(id){return selectedSongIds.has(normId(id));}
 function toggleManageMode(force){
@@ -5551,15 +5190,11 @@ function openManageSongsFromSettings(){
 }
 function openAdminExport(){
   if(!manageMode){showToast('Turn on Manage songs first');return;}
-  requireAdmin(()=>exportMySongsJSON());
+  requireAdmin(()=>exportJSON());
 }
 function openAdminImport(){
   if(!manageMode){showToast('Turn on Manage songs first');return;}
   requireAdmin(()=>document.getElementById('import-file')?.click());
-}
-function openOpenSongImportFromSettings(){
-  if(!manageMode){showToast('Turn on Manage songs first');return;}
-  requireAdmin(()=>document.getElementById('opensong-xml-file')?.click());
 }
 function clearManageSelection(){
   selectedSongIds.clear();
@@ -5832,7 +5467,7 @@ function loadCachedData(){
   return false;
 }
 function saveCachedData(){
-  try{localStorage.setItem(CACHE_SONGS_KEY,JSON.stringify((firebaseSongs&&firebaseSongs.length)?firebaseSongs:songs.filter(s=>!s.localOnly)));}catch(e){}
+  try{localStorage.setItem(CACHE_SONGS_KEY,JSON.stringify(songs));}catch(e){}
   try{localStorage.setItem(CACHE_SETLIST_KEY,JSON.stringify(_setList_shared));}catch(e){}
   saveNamedSetsCache();
 }
@@ -5857,17 +5492,15 @@ function initFirebase(){
   songsRef.on('value',snap=>{
     const d=snap.val();
     if(d){
-      firebaseSongs=Object.entries(d).map(([k,v])=>normRec(k,v));
-      mergeSongStores();
+      songs=Object.entries(d).map(([k,v])=>normRec(k,v));
       // Only migrate once per session to avoid write loop
       if(!migrationDone){migrationDone=true;migrateMissingSongs(d);}
     } else {
       // Cloud empty means there is no shared library yet, or every song was intentionally deleted.
-      // v68.1: Firebase is the source of truth. Never auto-seed starter/demo songs here,
+      // v68.0: Firebase is the source of truth. Never auto-seed starter/demo songs here,
       // because old/default content should not come back after a user deletes it.
       // Users can add/import songs manually instead.
-      firebaseSongs=[];
-      mergeSongStores();
+      songs=[];
       disableStarterSeedFlag();
     }
     pruneMissingSongsFromSets();
@@ -5923,7 +5556,7 @@ function disableStarterSeedFlag(){
   try{firebase.database().ref('appConfig/starterSeedDisabled').set(true);}catch(e){}
 }
 function seedDefaultSongs(){
-  // v68.1: starter/demo auto-seeding is intentionally disabled.
+  // v68.0: starter/demo auto-seeding is intentionally disabled.
   // Firebase remains the source of truth, so deleted starter songs stay deleted.
   disableStarterSeedFlag();
   showSync('Library empty — add or import songs');
@@ -6330,8 +5963,6 @@ function buildRows(q){
     const cat=s.cat||'english';
     if(libraryFilter==='english' && cat!=='english')return false;
     if(libraryFilter==='malayalam' && cat!=='malayalam')return false;
-    if(libraryFilter==='wb' && !isWorshipBaseSong(s))return false;
-    if(libraryFilter==='mine' && !isMySong(s))return false;
     if(libraryFilter==='favorites' && !isFavorite(s.id))return false;
     if(libraryFilter==='inset' && !isSongInSet(s.id))return false;
     return true;
@@ -7308,7 +6939,7 @@ function initPTR(){
       indicator.style.transform='translateX(-50%) scale(1)';
       songsRef.once('value',snap=>{
         const d=snap.val();
-        if(d){firebaseSongs=Object.entries(d).map(([k,v])=>normRec(k,v));mergeSongStores();}
+        if(d)songs=Object.entries(d).map(([k,v])=>normRec(k,v));
         refresh(true);
         setTimeout(()=>{refreshing=false;reset();showToast('Refreshed');},500);
       },()=>{refreshing=false;reset();showToast('Sync error');});
@@ -7851,162 +7482,55 @@ function parseUgImportText(raw,sourceUrl=''){
   }
   return result;
 }
-function cleanPastedChartFallback(){
-  if(!manageMode){showToast("Turn on Manage songs first");return;}
-  const ta=document.getElementById("m-chart");
-  if(!ta){showToast("Open the song editor first");return;}
-  const raw=ta.value||"";
-  if(!raw.trim()){showToast("Paste a chart first"); ta.focus(); return;}
-  const parsed=parseUgImportText(raw,"");
-  const titleEl=document.getElementById("m-title");
-  const authorEl=document.getElementById("m-author");
-  const keyEl=document.getElementById("m-key");
-  const timeEl=document.getElementById("m-time-sig");
-  const bpmEl=document.getElementById("m-bpm");
-  if(parsed.title && parsed.title!=="Imported song" && titleEl && !titleEl.value.trim())titleEl.value=parsed.title;
-  if(parsed.author && authorEl && !authorEl.value.trim())authorEl.value=parsed.author;
-  if(parsed.key && keyEl && NOTES.includes(parsed.key))keyEl.value=parsed.key;
-  if(parsed.timeSig && timeEl)timeEl.value=parsed.timeSig;
-  if(parsed.bpm && bpmEl)bpmEl.value=parsed.bpm;
-  ta.value=parsed.chart||ugCleanChordSheetText(raw);
-  pushEditorHistory();
-  updateSongEditorPreview();
-  showToast("Pasted chart cleaned");
-}
-function getUgBackendUrl(){
-  const inp=document.getElementById('ug-backend-url');
-  const value=(inp?.value||localStorage.getItem('wbUgBackendUrl')||'').trim().replace(/\/$/,'');
-  if(!value){showToast('Paste your Worker URL in the Backend URL field first');return '';}
-  if(inp)inp.value=value;
-  if(value)localStorage.setItem('wbUgBackendUrl',value);
-  return value;
-}
-function setUgPreviewEmpty(msg,meta=''){
-  const body=document.getElementById('ug-preview-body');
-  const m=document.getElementById('ug-preview-meta');
-  if(body)body.innerHTML='<div class="preview-empty">'+escapeHtml(msg)+'</div>';
-  if(m)m.textContent=meta||'Choose a result or paste a UG URL.';
-}
-function renderUgResults(results){
-  const box=document.getElementById('ug-results');
-  if(!box)return;
-  if(!results||!results.length){
-    box.innerHTML='<div class="preview-empty" style="padding:14px">No results found. Try a simpler title/artist search.</div>';
-    return;
-  }
-  box.innerHTML=results.map((r,i)=>{
-    const title=escapeHtml(r.title||'Untitled');
-    const artist=escapeHtml(r.artist||'');
-    const meta=[r.type,r.rating?('★ '+r.rating):'',r.url?new URL(r.url).hostname:''].filter(Boolean).join(' · ');
-    return '<button class="pi" type="button" onclick="importUgResult('+i+')">'
-      +'<div class="pi-info"><div class="pi-title">'+title+'</div><div class="pi-meta">'+escapeHtml([artist,meta].filter(Boolean).join(' · '))+'</div></div>'
-      +'<div class="pi-ck sel">→</div></button>';
-  }).join('');
-  window._ugResults=results;
-}
-async function ugBackendFetch(path){
-  const base=getUgBackendUrl();
-  if(!base)throw new Error('No backend URL set — paste your Worker URL in the Backend URL field.');
-  const res=await fetch(base+path,{headers:{'Accept':'application/json'}});
-  let data=null;
-  try{data=await res.json();}catch(e){}
-  if(!res.ok || (data&&data.ok===false))throw new Error((data&&data.error)||('Backend error '+res.status));
-  return data;
-}
 function openUgImport(){
   if(!manageMode){showToast('Turn on Manage songs first');return;}
   const modal=document.getElementById('bs-modal');
   if(!modal?.classList.contains('open') && !editingId)openSongModal(null);
-  const q=document.getElementById('ug-search-query');
+  const ta=document.getElementById('ug-import-text');
   const url=document.getElementById('ug-source-url');
-  if(q && !q.value){
-    const title=document.getElementById('m-title')?.value||'';
-    const author=document.getElementById('m-author')?.value||'';
-    q.value=[title,author].filter(Boolean).join(' ').trim();
-  }
-  if(url)url.value='';
-  getUgBackendUrl();
-  renderUgResults([]);
-  setUgPreviewEmpty('Search Ultimate Guitar or paste a UG URL.');
+  if(ta)ta.value=''; if(url)url.value='';
+  const meta=document.getElementById('ug-preview-meta'); if(meta)meta.textContent='Paste text, then tap Preview import.';
+  const body=document.getElementById('ug-preview-body'); if(body)body.innerHTML='<div class="preview-empty">No import preview yet.</div>';
   openBS('ug-import');
-  setTimeout(()=>q?.focus({preventScroll:true}),60);
+  setTimeout(()=>ta?.focus({preventScroll:true}),60);
 }
-async function searchUgImport(){
-  const q=(document.getElementById('ug-search-query')?.value||'').trim();
-  if(!q){showToast('Enter a song or artist to search');return;}
-  const box=document.getElementById('ug-results');
-  if(box)box.innerHTML='<div class="preview-empty" style="padding:14px">Searching Ultimate Guitar…</div>';
-  setUgPreviewEmpty('Select a result after search completes.','Searching…');
+async function pasteUgImportFromClipboard(){
+  if(!navigator.clipboard?.readText){showToast('Clipboard paste not supported here');return;}
   try{
-    const data=await ugBackendFetch('/api/ug/search?q='+encodeURIComponent(q));
-    renderUgResults(data.results||[]);
-    const meta=document.getElementById('ug-preview-meta');
-    if(meta)meta.textContent=(data.results||[]).length+' result'+((data.results||[]).length===1?'':'s')+' found.';
-  }catch(err){
-    renderUgResults([]);
-    setUgPreviewEmpty(err.message||'Search failed. Check backend URL.','Search failed');
-    showToast('UG search failed');
-  }
+    const clip=await navigator.clipboard.readText();
+    if(!clip){showToast('Clipboard is empty');return;}
+    const ta=document.getElementById('ug-import-text');
+    if(ta){ta.value=clip;analyzeUgImport(true);}
+  }catch(e){showToast('Clipboard access denied');}
 }
-async function importUgResult(i){
-  const r=(window._ugResults||[])[i];
-  if(!r?.url)return;
-  const urlEl=document.getElementById('ug-source-url');
-  if(urlEl)urlEl.value=r.url;
-  await importUgUrl(r.url);
-}
-async function importUgUrlFromInput(){
-  const url=(document.getElementById('ug-source-url')?.value||'').trim();
-  if(!url){showToast('Paste a UG URL first');return;}
-  await importUgUrl(url);
-}
-async function importUgUrl(url){
+function analyzeUgImport(showMsg=false){
+  const raw=document.getElementById('ug-import-text')?.value||'';
+  const source=document.getElementById('ug-source-url')?.value||'';
   const body=document.getElementById('ug-preview-body');
   const meta=document.getElementById('ug-preview-meta');
-  if(body)body.innerHTML='<div class="preview-empty">Importing chart…</div>';
-  if(meta)meta.textContent='Fetching selected chart…';
-  try{
-    const data=await ugBackendFetch('/api/ug/import?url='+encodeURIComponent(url));
-    const song=data.song||data;
-    song.librarySource='user';
-    window._ugImportedSong=song;
-    previewUgParsedSong(song);
-    showToast('UG chart imported — review preview');
-  }catch(err){
-    window._ugImportedSong=null;
-    setUgPreviewEmpty(err.message||'Import failed. Try another result.','Import failed');
-    showToast('UG import failed');
+  if(!raw.trim()){
+    if(body)body.innerHTML='<div class="preview-empty">Paste copied chord sheet text first.</div>';
+    if(meta)meta.textContent='Nothing to import yet.';
+    return null;
   }
-}
-function previewUgParsedSong(song){
-  const normalized={
-    title:song.title||'Imported song',
-    author:song.artist||song.author||'',
-    key:song.key||'C',
-    timeSig:song.timeSig||song.timeSignature||'',
-    bpm:song.bpm||'',
-    chart:song.chart||'',
-    sourceUrl:song.sourceUrl||''
-  };
-  if(!NOTES.includes(normalized.key))normalized.key='C';
-  const body=document.getElementById('ug-preview-body');
-  const meta=document.getElementById('ug-preview-meta');
-  if(meta)meta.textContent=[normalized.author,'Key of '+normalized.key,normalized.bpm?normalized.bpm+' BPM':'',normalized.timeSig?'Time '+normalized.timeSig:''].filter(Boolean).join(' · ');
+  const parsed=parseUgImportText(raw,source);
+  if(meta)meta.textContent=[parsed.author, 'Key of '+parsed.key, parsed.bpm?parsed.bpm+' BPM':'', parsed.timeSig?'Time '+parsed.timeSig:''].filter(Boolean).join(' · ');
   if(body){
-    body.innerHTML='<div class="preview-empty" style="margin-bottom:10px"><strong>'+escapeHtml(normalized.title)+'</strong>'+(normalized.author?' · '+escapeHtml(normalized.author):'')+'</div>'+renderSheetHTML(normalized,normalized.key,false,false);
+    body.innerHTML='<div class="preview-empty" style="margin-bottom:10px"><strong>'+escapeHtml(parsed.title)+'</strong>'+(parsed.author?' · '+escapeHtml(parsed.author):'')+'</div>'+renderSheetHTML(parsed,parsed.key,false,false);
     body.classList.toggle('chords-highlight',!!appPrefs.highlightChords);
   }
-  window._ugImportedSong=normalized;
+  if(showMsg)showToast('Import preview ready');
+  return parsed;
 }
 function applyUgImport(){
-  const song=window._ugImportedSong;
-  if(!song){showToast('Import or select a chart first');return;}
-  document.getElementById('m-title').value=song.title||'';
-  document.getElementById('m-author').value=song.author||song.artist||'';
-  document.getElementById('m-key').value=NOTES.includes(song.key)?song.key:'C';
-  document.getElementById('m-time-sig').value=song.timeSig||song.timeSignature||'';
-  document.getElementById('m-bpm').value=song.bpm||'';
-  document.getElementById('m-chart').value=song.chart||'';
+  const parsed=analyzeUgImport(false);
+  if(!parsed)return;
+  document.getElementById('m-title').value=parsed.title||'';
+  document.getElementById('m-author').value=parsed.author||'';
+  document.getElementById('m-key').value=parsed.key||'C';
+  document.getElementById('m-time-sig').value=parsed.timeSig||'';
+  document.getElementById('m-bpm').value=parsed.bpm||'';
+  document.getElementById('m-chart').value=parsed.chart||'';
   closeBS('ug-import');
   updateSongEditorPreview();
   setSongEditorMode('preview');
@@ -8045,27 +7569,21 @@ function saveSong(){
   const bpm=bpmRaw?String(Math.max(20,Math.min(260,parseInt(bpmRaw,10)||0))):'';
   const chart=document.getElementById('m-chart').value.trim();
   if(!title){alert('Please enter a song title.');return;}
-  const existing=editingId?findSongById(editingId):null;
-  const sd={cat:modalCat,title,author,key,timeSig,bpm,chart,librarySource:'user',localOnly:true};
+  const sd={cat:modalCat,title,author,key,timeSig,bpm,chart};
   if(editingId){
-    const ex=existing||findSongById(editingId);
-    if(ex?.localOnly){
-      putLocalMySong({...ex,...sd,id:ex.id,songCode:ex.songCode||''}).then(()=>{showSync('Saved locally ✓');closeBS('modal');openSong(ex.id,fromSetList);}).catch(()=>showSync('Local save failed',true));
-    }else if(ex?.fbKey){
-      // Existing WorshipBase/Firebase songs can still be edited by admins, but new user songs stay local.
-      songsRef.child(ex.fbKey).update({...sd,localOnly:null,id:ex.id,songCode:ex.songCode||ensureSongCode(ex)}).then(()=>{showSync('Saved ✓');closeBS('modal');openSong(editingId,fromSetList);}).catch(()=>showSync('Save failed',true));
-    }
+    const ex=findSongById(editingId);
+    if(ex?.fbKey)songsRef.child(ex.fbKey).update({...sd,id:ex.id,songCode:ex.songCode||ensureSongCode(ex)}).then(()=>{showSync('Saved ✓');closeBS('modal');openSong(editingId,fromSetList);}).catch(()=>showSync('Save failed',true));
   } else {
-    putLocalMySong({...sd,id:'my_'+Date.now()+'_'+Math.random().toString(36).slice(2,8),songCode:''}).then((row)=>{
-      showSync('Saved locally ✓');closeBS('modal');
-      switchTab('songs'); setLibraryFilter('mine');
-    }).catch(()=>showSync('Local save failed',true));
+    const ref=songsRef.push();
+    ref.set({...sd,id:ref.key,songCode:getNextSongCode()}).then(()=>{
+      showSync('Saved ✓');closeBS('modal');
+      switchTab('songs');
+    }).catch(()=>showSync('Save failed',true));
   }
 }
 function deleteSong(){
   const ex=findSongById(editingId);
   if(!editingId||!confirmDestructive(`Delete this song?${previewNamesForConfirm(ex?[ex]:[])}`))return;
-  if(ex?.localOnly){deleteLocalMySong(ex.id).then(()=>{selectedSongIds.delete(normId(editingId));updateManageUI();showSync('Deleted local song');closeBS('modal');showList();}).catch(()=>showSync('Delete failed',true));return;}
   if(ex?.fbKey)songsRef.child(ex.fbKey).remove().then(()=>{selectedSongIds.delete(normId(editingId));updateManageUI();showSync('Deleted');closeBS('modal');showList();}).catch(()=>showSync('Delete failed',true));
 }
 
@@ -8096,12 +7614,7 @@ function applyStoredPrefs(){
 
 wireSongEditorPreview();
 applyStoredPrefs();
-loadLocalMySongsBoot();
-async function loadLocalMySongsBoot(){
-  localMySongs=await getAllLocalMySongs();
-  mergeSongStores();
-  initFirebase();
-}
+initFirebase();
 initPTR();
 attachScrollTopListener();
 updateManageUI();
@@ -9741,63 +9254,9 @@ window.__wbPdfEngine='paged-preview-v67.6-deterministic';
   window.exportAllPDF=function(){window.exportSetListFromOptions((typeof getExportPageOptions==='function')?getExportPageOptions():{});};
   window.runExportFromPage=function(){const opts=(typeof getExportPageOptions==='function')?getExportPageOptions():{}; if(typeof closeExportView==='function')closeExportView(); if(currentExportContext()==='song')window.exportSongFromOptions(opts); else window.exportSetListFromOptions(opts);};
   try{exportSongFromOptions=window.exportSongFromOptions; exportSetListFromOptions=window.exportSetListFromOptions; exportPDF=window.exportPDF; exportAllPDF=window.exportAllPDF; runExportFromPage=window.runExportFromPage;}catch(e){}
-  window.__wbPdfEngine='v68.test.3-import-library-test';
+  window.__wbPdfEngine='v68.0-seed-disabled';
 })();
 
-</script>
-
-<script>
-/* v68.test.3 TEMPORARY HTML VIEWER TEST BUILD: PIN fully disabled.
-   Remove this block before final public release. */
-(function(){
-  function toast(msg){try{if(typeof showToast==='function')showToast(msg);}catch(e){}}
-  function forceUnlock(){
-    try{adminUnlocked=true;}catch(e){}
-    try{pendingAdminAction=null;}catch(e){}
-    try{if(typeof syncAdminOnlyUI==='function')syncAdminOnlyUI();}catch(e){}
-    try{if(typeof renderSettings==='function')renderSettings();}catch(e){}
-  }
-  window.WB_TEST_NO_PIN=true;
-  window.requireAdmin=function(action){
-    forceUnlock();
-    try{if(typeof action==='function')action();}catch(e){console.error(e);}
-  };
-  try{requireAdmin=window.requireAdmin;}catch(e){}
-  window.checkPin=function(){
-    forceUnlock();
-    try{closeBS('pin');}catch(e){}
-    toast('Testing mode: PIN disabled');
-  };
-  try{checkPin=window.checkPin;}catch(e){}
-  window.lockAdmin=function(silent){
-    forceUnlock();
-    if(!silent)toast('Testing mode: PIN disabled');
-  };
-  try{lockAdmin=window.lockAdmin;}catch(e){}
-  const previousOpenBS=window.openBS || (typeof openBS==='function'?openBS:null);
-  window.openBS=function(name){
-    if(name==='pin'||name==='changepin'){
-      forceUnlock();
-      toast('Testing mode: PIN disabled');
-      return;
-    }
-    return previousOpenBS?previousOpenBS(name):undefined;
-  };
-  try{openBS=window.openBS;}catch(e){}
-  window.openManageSongsFromSettings=function(){
-    forceUnlock();
-    try{toggleManageMode(true);}catch(e){try{manageMode=true;}catch(_){}}
-    try{switchTab('songs');}catch(e){}
-    setTimeout(function(){
-      try{document.getElementById('srch-wrap')?.scrollIntoView({block:'start'});}catch(e){}
-      toast('Testing mode: Manage songs is on');
-      forceUnlock();
-    },60);
-  };
-  try{openManageSongsFromSettings=window.openManageSongsFromSettings;}catch(e){}
-  document.addEventListener('DOMContentLoaded',function(){setTimeout(forceUnlock,250);});
-  setTimeout(forceUnlock,500);
-})();
 </script>
 
 </body>
