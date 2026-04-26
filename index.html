@@ -12,7 +12,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="assets/wb-icon-192.png"/>
 <meta name="mobile-web-app-capable" content="yes"/>
 
-<title>WorshipBase v68.0</title>
+<title>WorshipBase v68.3 test import</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 /* Prevent iOS long-press/callout menus and text selection on UI chrome
@@ -2642,7 +2642,7 @@ body.dark .about-logo img{
               <img src="assets/wb-icon-192.png" alt="WorshipBase logo"/>
             </div>
             <div class="about-name">WorshipBase</div>
-            <div class="about-version-pill">Version 68.0</div>
+            <div class="about-version-pill">Version 68.3</div>
             <div class="about-by">Created by <strong>Jerin Reji</strong></div>
           </div>
         </div>
@@ -3074,7 +3074,7 @@ body.dark .about-logo img{
           <button class="editor-helper-btn" id="editor-undo-btn" type="button" onclick="editorUndo()">Undo</button>
           <button class="editor-helper-btn" id="editor-redo-btn" type="button" onclick="editorRedo()">Redo</button>
           <div class="editor-helper-sep"></div>
-          <button class="editor-helper-btn primary" type="button" onclick="openUgImport()">Import UG text</button>
+          <button class="editor-helper-btn primary" type="button" onclick="openUgImport()">Import UG</button>
           <div class="editor-helper-sep"></div>
           <button class="editor-helper-btn primary" type="button" onclick="insertSectionLabel('Verse')">Verse</button>
           <button class="editor-helper-btn primary" type="button" onclick="insertSectionLabel('Chorus')">Chorus</button>
@@ -3111,25 +3111,32 @@ body.dark .about-logo img{
   </div>
 </div>
 
-<!-- ULTIMATE GUITAR / TEXT IMPORT -->
+<!-- ULTIMATE GUITAR SEARCH / IMPORT -->
 <div class="bs-bg" id="bs-ug-import" onclick="closeBSBg(event,'ug-import')">
   <div class="bs">
     <div class="bs-handle"></div>
-    <div class="m-tr"><button class="editor-nav-btn" onclick="closeBS('ug-import')">Cancel</button><h2 class="m-h2">Import chord sheet</h2><button class="editor-save-btn" onclick="applyUgImport()">Use</button></div>
+    <div class="m-tr"><button class="editor-nav-btn" onclick="closeBS('ug-import')">Cancel</button><h2 class="m-h2">Import from UG</h2><button class="editor-save-btn" onclick="applyUgImport()">Use</button></div>
     <div class="m-body">
-      <p class="m-hint">Paste text copied from Ultimate Guitar or another chord sheet. URL import is saved as a source note for now; direct fetching is often blocked by the browser/site.</p>
-      <label>Source URL <span style="color:var(--txt3);font-weight:400">(optional)</span></label>
-      <input type="url" id="ug-source-url" placeholder="https://tabs.ultimate-guitar.com/..."/>
-      <label>Copied chord sheet text</label>
-      <textarea id="ug-import-text" placeholder="Paste the full Ultimate Guitar chord sheet here"></textarea>
-      <div class="m-subacts">
-        <button class="m-mini-btn" type="button" onclick="pasteUgImportFromClipboard()">Paste clipboard</button>
-        <button class="m-mini-btn" type="button" onclick="analyzeUgImport(true)">Preview import</button>
+      <p class="m-hint">Search Ultimate Guitar through the WorshipBase import backend, choose a result, preview it, then use it in the song editor.</p>
+      <label>Backend URL</label>
+      <input type="url" id="ug-backend-url" placeholder="http://localhost:8787"/>
+      <label>Search song / artist</label>
+      <div class="mi-inline" style="gap:8px;margin-bottom:12px">
+        <input class="mi-grow" type="text" id="ug-search-query" placeholder="e.g. 10,000 Reasons Matt Redman" onkeydown="if(event.key==='Enter')searchUgImport()"/>
+        <button class="m-mini-btn" type="button" onclick="searchUgImport()">Search</button>
+      </div>
+      <div class="picker-list" id="ug-results" style="max-height:230px;margin-bottom:12px">
+        <div class="preview-empty" style="padding:14px">Search results will appear here.</div>
+      </div>
+      <label>Direct Ultimate Guitar URL</label>
+      <div class="mi-inline" style="gap:8px;margin-bottom:12px">
+        <input class="mi-grow" type="url" id="ug-source-url" placeholder="https://tabs.ultimate-guitar.com/..."/>
+        <button class="m-mini-btn" type="button" onclick="importUgUrlFromInput()">Import</button>
       </div>
       <div class="preview-wrap" id="ug-preview-wrap">
         <div class="preview-wrap-head">
-          <div class="preview-wrap-title">Detected import</div>
-          <div class="preview-meta" id="ug-preview-meta">Paste text, then tap Preview import.</div>
+          <div class="preview-wrap-title">Import preview</div>
+          <div class="preview-meta" id="ug-preview-meta">Choose a result or paste a UG URL.</div>
         </div>
         <div class="preview-body" id="ug-preview-body"><div class="preview-empty">No import preview yet.</div></div>
       </div>
@@ -4188,14 +4195,11 @@ let adminUnlocked=false,pendingAdminAction=null;
 function requireAdmin(action){
   if(adminUnlocked){action();return;}
   if(!appPrefs.adminPin){
-    const pin=null; // v64.11: first-time PIN setup uses the Change PIN bottom sheet
-    if(pin===null)return;
-    const clean=String(pin).trim();
-    if(clean.length<4){showToast('PIN must be at least 4 digits');return;}
-    appPrefs.adminPin=clean;
-    savePrefs();
+    // v68.1 temporary HTML-viewer test build:
+    // allow Manage/Add Song access when no PIN exists, so import can be tested
+    // before publishing to GitHub/PWA. Set a PIN later to re-enable locking.
     adminUnlocked=true;
-    showToast('Admin PIN created');
+    showToast('Testing mode: Manage songs unlocked');
     action();
     return;
   }
@@ -5497,7 +5501,7 @@ function initFirebase(){
       if(!migrationDone){migrationDone=true;migrateMissingSongs(d);}
     } else {
       // Cloud empty means there is no shared library yet, or every song was intentionally deleted.
-      // v68.0: Firebase is the source of truth. Never auto-seed starter/demo songs here,
+      // v68.1: Firebase is the source of truth. Never auto-seed starter/demo songs here,
       // because old/default content should not come back after a user deletes it.
       // Users can add/import songs manually instead.
       songs=[];
@@ -5556,7 +5560,7 @@ function disableStarterSeedFlag(){
   try{firebase.database().ref('appConfig/starterSeedDisabled').set(true);}catch(e){}
 }
 function seedDefaultSongs(){
-  // v68.0: starter/demo auto-seeding is intentionally disabled.
+  // v68.1: starter/demo auto-seeding is intentionally disabled.
   // Firebase remains the source of truth, so deleted starter songs stay deleted.
   disableStarterSeedFlag();
   showSync('Library empty — add or import songs');
@@ -7482,55 +7486,137 @@ function parseUgImportText(raw,sourceUrl=''){
   }
   return result;
 }
+function getUgBackendUrl(){
+  const inp=document.getElementById('ug-backend-url');
+  const value=(inp?.value||localStorage.getItem('wbUgBackendUrl')||'http://localhost:8787').trim().replace(/\/$/,'');
+  if(inp)inp.value=value;
+  if(value)localStorage.setItem('wbUgBackendUrl',value);
+  return value;
+}
+function setUgPreviewEmpty(msg,meta=''){
+  const body=document.getElementById('ug-preview-body');
+  const m=document.getElementById('ug-preview-meta');
+  if(body)body.innerHTML='<div class="preview-empty">'+escapeHtml(msg)+'</div>';
+  if(m)m.textContent=meta||'Choose a result or paste a UG URL.';
+}
+function renderUgResults(results){
+  const box=document.getElementById('ug-results');
+  if(!box)return;
+  if(!results||!results.length){
+    box.innerHTML='<div class="preview-empty" style="padding:14px">No results found. Try a simpler title/artist search.</div>';
+    return;
+  }
+  box.innerHTML=results.map((r,i)=>{
+    const title=escapeHtml(r.title||'Untitled');
+    const artist=escapeHtml(r.artist||'');
+    const meta=[r.type,r.rating?('★ '+r.rating):'',r.url?new URL(r.url).hostname:''].filter(Boolean).join(' · ');
+    return '<button class="pi" type="button" onclick="importUgResult('+i+')">'
+      +'<div class="pi-info"><div class="pi-title">'+title+'</div><div class="pi-meta">'+escapeHtml([artist,meta].filter(Boolean).join(' · '))+'</div></div>'
+      +'<div class="pi-ck sel">→</div></button>';
+  }).join('');
+  window._ugResults=results;
+}
+async function ugBackendFetch(path){
+  const base=getUgBackendUrl();
+  const res=await fetch(base+path,{headers:{'Accept':'application/json'}});
+  let data=null;
+  try{data=await res.json();}catch(e){}
+  if(!res.ok || (data&&data.ok===false))throw new Error((data&&data.error)||('Backend error '+res.status));
+  return data;
+}
 function openUgImport(){
   if(!manageMode){showToast('Turn on Manage songs first');return;}
   const modal=document.getElementById('bs-modal');
   if(!modal?.classList.contains('open') && !editingId)openSongModal(null);
-  const ta=document.getElementById('ug-import-text');
+  const q=document.getElementById('ug-search-query');
   const url=document.getElementById('ug-source-url');
-  if(ta)ta.value=''; if(url)url.value='';
-  const meta=document.getElementById('ug-preview-meta'); if(meta)meta.textContent='Paste text, then tap Preview import.';
-  const body=document.getElementById('ug-preview-body'); if(body)body.innerHTML='<div class="preview-empty">No import preview yet.</div>';
+  if(q && !q.value){
+    const title=document.getElementById('m-title')?.value||'';
+    const author=document.getElementById('m-author')?.value||'';
+    q.value=[title,author].filter(Boolean).join(' ').trim();
+  }
+  if(url)url.value='';
+  getUgBackendUrl();
+  renderUgResults([]);
+  setUgPreviewEmpty('Search Ultimate Guitar or paste a UG URL.');
   openBS('ug-import');
-  setTimeout(()=>ta?.focus({preventScroll:true}),60);
+  setTimeout(()=>q?.focus({preventScroll:true}),60);
 }
-async function pasteUgImportFromClipboard(){
-  if(!navigator.clipboard?.readText){showToast('Clipboard paste not supported here');return;}
+async function searchUgImport(){
+  const q=(document.getElementById('ug-search-query')?.value||'').trim();
+  if(!q){showToast('Enter a song or artist to search');return;}
+  const box=document.getElementById('ug-results');
+  if(box)box.innerHTML='<div class="preview-empty" style="padding:14px">Searching Ultimate Guitar…</div>';
+  setUgPreviewEmpty('Select a result after search completes.','Searching…');
   try{
-    const clip=await navigator.clipboard.readText();
-    if(!clip){showToast('Clipboard is empty');return;}
-    const ta=document.getElementById('ug-import-text');
-    if(ta){ta.value=clip;analyzeUgImport(true);}
-  }catch(e){showToast('Clipboard access denied');}
+    const data=await ugBackendFetch('/api/ug/search?q='+encodeURIComponent(q));
+    renderUgResults(data.results||[]);
+    const meta=document.getElementById('ug-preview-meta');
+    if(meta)meta.textContent=(data.results||[]).length+' result'+((data.results||[]).length===1?'':'s')+' found.';
+  }catch(err){
+    renderUgResults([]);
+    setUgPreviewEmpty(err.message||'Search failed. Check backend URL.','Search failed');
+    showToast('UG search failed');
+  }
 }
-function analyzeUgImport(showMsg=false){
-  const raw=document.getElementById('ug-import-text')?.value||'';
-  const source=document.getElementById('ug-source-url')?.value||'';
+async function importUgResult(i){
+  const r=(window._ugResults||[])[i];
+  if(!r?.url)return;
+  const urlEl=document.getElementById('ug-source-url');
+  if(urlEl)urlEl.value=r.url;
+  await importUgUrl(r.url);
+}
+async function importUgUrlFromInput(){
+  const url=(document.getElementById('ug-source-url')?.value||'').trim();
+  if(!url){showToast('Paste a UG URL first');return;}
+  await importUgUrl(url);
+}
+async function importUgUrl(url){
   const body=document.getElementById('ug-preview-body');
   const meta=document.getElementById('ug-preview-meta');
-  if(!raw.trim()){
-    if(body)body.innerHTML='<div class="preview-empty">Paste copied chord sheet text first.</div>';
-    if(meta)meta.textContent='Nothing to import yet.';
-    return null;
+  if(body)body.innerHTML='<div class="preview-empty">Importing chart…</div>';
+  if(meta)meta.textContent='Fetching selected chart…';
+  try{
+    const data=await ugBackendFetch('/api/ug/import?url='+encodeURIComponent(url));
+    const song=data.song||data;
+    window._ugImportedSong=song;
+    previewUgParsedSong(song);
+    showToast('UG chart imported — review preview');
+  }catch(err){
+    window._ugImportedSong=null;
+    setUgPreviewEmpty(err.message||'Import failed. Try another result.','Import failed');
+    showToast('UG import failed');
   }
-  const parsed=parseUgImportText(raw,source);
-  if(meta)meta.textContent=[parsed.author, 'Key of '+parsed.key, parsed.bpm?parsed.bpm+' BPM':'', parsed.timeSig?'Time '+parsed.timeSig:''].filter(Boolean).join(' · ');
+}
+function previewUgParsedSong(song){
+  const normalized={
+    title:song.title||'Imported song',
+    author:song.artist||song.author||'',
+    key:song.key||'C',
+    timeSig:song.timeSig||song.timeSignature||'',
+    bpm:song.bpm||'',
+    chart:song.chart||'',
+    sourceUrl:song.sourceUrl||''
+  };
+  if(!NOTES.includes(normalized.key))normalized.key='C';
+  const body=document.getElementById('ug-preview-body');
+  const meta=document.getElementById('ug-preview-meta');
+  if(meta)meta.textContent=[normalized.author,'Key of '+normalized.key,normalized.bpm?normalized.bpm+' BPM':'',normalized.timeSig?'Time '+normalized.timeSig:''].filter(Boolean).join(' · ');
   if(body){
-    body.innerHTML='<div class="preview-empty" style="margin-bottom:10px"><strong>'+escapeHtml(parsed.title)+'</strong>'+(parsed.author?' · '+escapeHtml(parsed.author):'')+'</div>'+renderSheetHTML(parsed,parsed.key,false,false);
+    body.innerHTML='<div class="preview-empty" style="margin-bottom:10px"><strong>'+escapeHtml(normalized.title)+'</strong>'+(normalized.author?' · '+escapeHtml(normalized.author):'')+'</div>'+renderSheetHTML(normalized,normalized.key,false,false);
     body.classList.toggle('chords-highlight',!!appPrefs.highlightChords);
   }
-  if(showMsg)showToast('Import preview ready');
-  return parsed;
+  window._ugImportedSong=normalized;
 }
 function applyUgImport(){
-  const parsed=analyzeUgImport(false);
-  if(!parsed)return;
-  document.getElementById('m-title').value=parsed.title||'';
-  document.getElementById('m-author').value=parsed.author||'';
-  document.getElementById('m-key').value=parsed.key||'C';
-  document.getElementById('m-time-sig').value=parsed.timeSig||'';
-  document.getElementById('m-bpm').value=parsed.bpm||'';
-  document.getElementById('m-chart').value=parsed.chart||'';
+  const song=window._ugImportedSong;
+  if(!song){showToast('Import or select a chart first');return;}
+  document.getElementById('m-title').value=song.title||'';
+  document.getElementById('m-author').value=song.author||song.artist||'';
+  document.getElementById('m-key').value=NOTES.includes(song.key)?song.key:'C';
+  document.getElementById('m-time-sig').value=song.timeSig||song.timeSignature||'';
+  document.getElementById('m-bpm').value=song.bpm||'';
+  document.getElementById('m-chart').value=song.chart||'';
   closeBS('ug-import');
   updateSongEditorPreview();
   setSongEditorMode('preview');
@@ -9254,9 +9340,63 @@ window.__wbPdfEngine='paged-preview-v67.6-deterministic';
   window.exportAllPDF=function(){window.exportSetListFromOptions((typeof getExportPageOptions==='function')?getExportPageOptions():{});};
   window.runExportFromPage=function(){const opts=(typeof getExportPageOptions==='function')?getExportPageOptions():{}; if(typeof closeExportView==='function')closeExportView(); if(currentExportContext()==='song')window.exportSongFromOptions(opts); else window.exportSetListFromOptions(opts);};
   try{exportSongFromOptions=window.exportSongFromOptions; exportSetListFromOptions=window.exportSetListFromOptions; exportPDF=window.exportPDF; exportAllPDF=window.exportAllPDF; runExportFromPage=window.runExportFromPage;}catch(e){}
-  window.__wbPdfEngine='v68.0-seed-disabled';
+  window.__wbPdfEngine='v68.3-seed-disabled-no-pin-test';
 })();
 
+</script>
+
+<script>
+/* v68.3 TEMPORARY HTML VIEWER TEST BUILD: PIN fully disabled.
+   Remove this block before final public release. */
+(function(){
+  function toast(msg){try{if(typeof showToast==='function')showToast(msg);}catch(e){}}
+  function forceUnlock(){
+    try{adminUnlocked=true;}catch(e){}
+    try{pendingAdminAction=null;}catch(e){}
+    try{if(typeof syncAdminOnlyUI==='function')syncAdminOnlyUI();}catch(e){}
+    try{if(typeof renderSettings==='function')renderSettings();}catch(e){}
+  }
+  window.WB_TEST_NO_PIN=true;
+  window.requireAdmin=function(action){
+    forceUnlock();
+    try{if(typeof action==='function')action();}catch(e){console.error(e);}
+  };
+  try{requireAdmin=window.requireAdmin;}catch(e){}
+  window.checkPin=function(){
+    forceUnlock();
+    try{closeBS('pin');}catch(e){}
+    toast('Testing mode: PIN disabled');
+  };
+  try{checkPin=window.checkPin;}catch(e){}
+  window.lockAdmin=function(silent){
+    forceUnlock();
+    if(!silent)toast('Testing mode: PIN disabled');
+  };
+  try{lockAdmin=window.lockAdmin;}catch(e){}
+  const previousOpenBS=window.openBS || (typeof openBS==='function'?openBS:null);
+  window.openBS=function(name){
+    if(name==='pin'||name==='changepin'){
+      forceUnlock();
+      toast('Testing mode: PIN disabled');
+      return;
+    }
+    return previousOpenBS?previousOpenBS(name):undefined;
+  };
+  try{openBS=window.openBS;}catch(e){}
+  window.openManageSongsFromSettings=function(){
+    forceUnlock();
+    try{toggleManageMode(true);}catch(e){try{manageMode=true;}catch(_){}}
+    try{switchTab('songs');}catch(e){}
+    setTimeout(function(){
+      try{document.getElementById('srch-wrap')?.scrollIntoView({block:'start'});}catch(e){}
+      toast('Testing mode: Manage songs is on');
+      forceUnlock();
+    },60);
+  };
+  try{openManageSongsFromSettings=window.openManageSongsFromSettings;}catch(e){}
+  document.addEventListener('DOMContentLoaded',function(){setTimeout(forceUnlock,250);});
+  setTimeout(forceUnlock,500);
+})();
 </script>
 
 </body>
