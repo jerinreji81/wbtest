@@ -10,7 +10,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="assets/wb-icon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
 
-<title>WorshipBase v68.8</title>
+<title>WorshipBase v68.9</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 /* Prevent iOS long-press/callout menus and text selection on UI chrome
@@ -586,6 +586,8 @@ label.ctrl-lbl{font-size:11px;color:var(--txt2);font-weight:600;}
 .editor-helper-bar{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:2px 0 12px;margin:-2px 0 2px;}
 .editor-helper-bar::-webkit-scrollbar{display:none;}
 .editor-helper-btn{border:none;background:var(--bg2);color:var(--txt2);padding:9px 12px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap;cursor:pointer;font-family:inherit;border:1px solid var(--bdr2);}
+.editor-icon-btn{display:inline-flex;align-items:center;justify-content:center;width:40px;min-width:40px;height:40px;padding:0;border-radius:12px;}
+.editor-icon-btn svg{width:18px;height:18px;stroke:currentColor;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;}
 .editor-helper-btn:active{transform:scale(.98);}
 .editor-helper-btn.primary{background:var(--tc);color:#fff;border-color:var(--tc);}
 .editor-helper-btn[disabled]{opacity:.4;cursor:default;transform:none;}
@@ -1779,7 +1781,7 @@ body.dark #bs-modal .m-body select:focus,
 body.dark #bs-modal .m-body textarea:focus{box-shadow:0 0 0 4px rgba(255,255,255,.04);}
 body.dark #bs-modal .editor-mode-btn.active{background:var(--accent-strong) !important;color:var(--accent-fg) !important;box-shadow:none;}
 
-/* ── v68.8 compact song editor polish ── */
+/* ── v68.9 compact song editor polish ── */
 #bs-modal .m-tr{
   padding:calc(var(--sat) + 8px) 16px 8px;
   min-height:54px;
@@ -1851,11 +1853,13 @@ body.dark #bs-modal .editor-mode-btn.active{background:var(--accent-strong) !imp
 #bs-modal .editor-icon-btn{
   width:38px;
   min-width:38px;
+  height:38px;
   padding:0;
-  font-size:20px;
-  font-weight:900;
+  border-radius:12px;
+  font-size:0;
   line-height:1;
 }
+#bs-modal .editor-icon-btn svg{width:17px;height:17px;}
 #bs-modal .editor-helper-sep{margin:3px 1px;}
 #bs-modal .editor-helper-meta{
   margin:-2px 0 7px;
@@ -2559,7 +2563,7 @@ body.dark .song-cue-marker::before{color:#ffb3bd!important;}
 
 
 
-/* v68.8 swipe reveal stability polish */
+/* v68.9 swipe reveal stability polish */
 .search-scope-select-wrap{
   width:38px!important;
   height:38px!important;
@@ -2645,7 +2649,7 @@ body.dark .ug-search-row input:focus,body.dark .ug-url-row input:focus{border-co
 
 
 
-/* v68.8 live merge — UG import + cleaner dark search row */
+/* v68.9 live merge — UG import + cleaner dark search row */
 body.dark .srch-wrap{background:#000!important;}
 body.dark .srch-row{background:transparent!important;border-color:transparent!important;box-shadow:none!important;padding:0!important;}
 body.dark .srch-inp{background:#101010!important;border:1px solid rgba(255,255,255,.13)!important;box-shadow:none!important;}
@@ -2934,7 +2938,7 @@ body.dark .search-scope-select-wrap.active{background:color-mix(in srgb,var(--ac
               <img src="assets/wb-icon-192.png" alt="WorshipBase logo">
             </div>
             <div class="about-name">WorshipBase</div>
-            <div class="about-version-pill">Version 68.8</div>
+            <div class="about-version-pill">Version 68.9</div>
             <div class="about-by">Created by <strong>Jerin Reji</strong></div>
           </div>
         </div>
@@ -3400,8 +3404,8 @@ line 18 | Hold / pause"></textarea>
       </div>
       <div class="editor-pane" id="editor-edit-pane">
         <div class="editor-helper-bar" id="editor-helper-bar">
-          <button class="editor-helper-btn editor-icon-btn" id="editor-undo-btn" type="button" onclick="editorUndo()" title="Undo" aria-label="Undo">↶</button>
-          <button class="editor-helper-btn editor-icon-btn" id="editor-redo-btn" type="button" onclick="editorRedo()" title="Redo" aria-label="Redo">↷</button>
+          <button class="editor-helper-btn editor-icon-btn" id="editor-undo-btn" type="button" onclick="editorUndo()" title="Undo" aria-label="Undo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7L5 11L9 15"></path><path d="M6 11H14C18.418 11 22 14.582 22 19"></path></svg></button>
+          <button class="editor-helper-btn editor-icon-btn" id="editor-redo-btn" type="button" onclick="editorRedo()" title="Redo" aria-label="Redo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 7L19 11L15 15"></path><path d="M18 11H10C5.582 11 2 14.582 2 19"></path></svg></button>
           <div class="editor-helper-sep"></div>
           <button class="editor-helper-btn primary" type="button" onclick="insertSectionLabel('Verse')">Verse</button>
           <button class="editor-helper-btn primary" type="button" onclick="insertSectionLabel('Chorus')">Chorus</button>
@@ -8036,7 +8040,7 @@ function parseUgImportText(raw,sourceUrl=''){
   return result;
 }
 
-/* v68.8 — full-page UG import helpers merged into live branch */
+/* v68.9 — full-page UG import helpers merged into live branch */
 function openAddSongMenu(event){
   event?.stopPropagation?.();
   const menu=document.getElementById('add-menu-backdrop');
@@ -10028,7 +10032,7 @@ window.__wbPdfEngine='paged-preview-v67.6-deterministic';
   window.exportAllPDF=function(){window.exportSetListFromOptions((typeof getExportPageOptions==='function')?getExportPageOptions():{});};
   window.runExportFromPage=function(){const opts=(typeof getExportPageOptions==='function')?getExportPageOptions():{}; if(typeof closeExportView==='function')closeExportView(); if(currentExportContext()==='song')window.exportSongFromOptions(opts); else window.exportSetListFromOptions(opts);};
   try{exportSongFromOptions=window.exportSongFromOptions; exportSetListFromOptions=window.exportSetListFromOptions; exportPDF=window.exportPDF; exportAllPDF=window.exportAllPDF; runExportFromPage=window.runExportFromPage;}catch(e){}
-  window.__wbPdfEngine='v68.8-pdf-song-export-fix';
+  window.__wbPdfEngine='v68.9-pdf-song-export-fix';
 })();
 
 </script>
