@@ -10,7 +10,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="assets/wb-icon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
 
-<title>WorshipBase v68.test.5</title>
+<title>WorshipBase v68.test.6</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 /* Prevent iOS long-press/callout menus and text selection on UI chrome
@@ -2432,6 +2432,7 @@ body.dark .about-logo img{
         <button class="manage-chip" type="button" onclick="exportMySongsJSON()">Export My Songs</button>
         <button class="manage-chip" type="button" onclick="document.getElementById('my-songs-json-file')?.click()">Import JSON</button>
         <button class="manage-chip" type="button" onclick="document.getElementById('opensong-xml-file')?.click()">Import OpenSong XML</button>
+        <button class="manage-chip" type="button" onclick="document.getElementById('onsong-file')?.click()">Import OnSong</button>
         <button class="manage-chip danger" type="button" onclick="bulkDeleteSelected()">Delete</button>
       </div>
       <span class="manage-count" id="manage-count" style="visibility: hidden;"></span>
@@ -2439,7 +2440,8 @@ body.dark .about-logo img{
     </div>
     <input type="file" id="my-songs-json-file" accept="application/json,.json" style="display:none" onchange="importMySongsJSONFile(event)">
     <input type="file" id="opensong-xml-file" multiple="" style="display:none" onchange="importOpenSongXmlFiles(event)">
-    <div class="manage-local-note" style="display:none">v68.test.5: My Songs imports are saved locally on this device, not Firebase.</div>
+    <input type="file" id="onsong-file" multiple="" accept=".onsong,.txt,.pro,.cho,.crd,.chopro,.chordpro,.zip,text/plain,application/zip" style="display:none" onchange="importOnSongFiles(event)">
+    <div class="manage-local-note" style="display:none">v68.test.6: My Songs imports are saved locally on this device, not Firebase.</div>
   </div>
 
   <!-- SONG LIST -->
@@ -2632,6 +2634,11 @@ body.dark .about-logo img{
             <div class="ss-body"><div class="ss-lbl">Import OpenSong XML</div><div class="ss-sub">Add OpenSong XML files, including files without .xml extension</div></div>
             <div class="ss-right"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
           </div>
+          <div class="ss-row manage-only-tool" style="display:none" onclick="openOnSongImportFromSettings()">
+            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2.5h5.2L12.5 5.8v7.7H4z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path><path d="M9.2 2.5v3.3h3.3" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path><path d="M5.5 7.7h5M5.5 10h5M5.5 12.3h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg></div>
+            <div class="ss-body"><div class="ss-lbl">Import OnSong / ChordPro</div><div class="ss-sub">Add .onsong, ChordPro/text files, or a ZIP of OnSong files into local My Songs</div></div>
+            <div class="ss-right"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+          </div>
           <input type="file" id="import-file" accept="application/json,.json" style="display:none" onchange="importMySongsJSONFile(event)">
           <div class="ss-row manage-only-tool" style="display:none" onclick="openBS('changepin')">
             <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"></rect><path d="M5 7V5a3 3 0 1 1 6 0v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><circle cx="8" cy="10.5" r="1" fill="currentColor"></circle></svg></div>
@@ -2654,7 +2661,7 @@ body.dark .about-logo img{
               <img src="assets/wb-icon-192.png" alt="WorshipBase logo">
             </div>
             <div class="about-name">WorshipBase</div>
-            <div class="about-version-pill">Version 68.test.5</div>
+            <div class="about-version-pill">Version 68.test.6</div>
             <div class="about-by">Created by <strong>Jerin Reji</strong></div>
           </div>
         </div>
@@ -5189,7 +5196,7 @@ function setLibraryFilter(filter,btn){
 
 
 /* ══ LOCAL MY SONGS STORE (IndexedDB) ══
-   v68.test.5 keeps imported/user songs on this device, not Firebase.
+   v68.test.6 keeps imported/user songs on this device, not Firebase.
    This is intentionally IndexedDB rather than localStorage so large OpenSong imports
    (hundreds/thousands of songs) do not overflow the small localStorage quota. */
 const LOCAL_MY_SONGS_DB='worshipbase_local_my_songs_v1';
@@ -5291,7 +5298,7 @@ function downloadTextFile(filename,text,mime='application/json'){
 function exportMySongsJSON(){
   if(!manageMode){showToast('Turn on Manage songs first');return;}
   const mine=songs.filter(isMySong).map(buildUserSongPayload);
-  const data={format:'worshipbase-my-songs',version:'68.test.5',exportedAt:new Date().toISOString(),count:mine.length,songs:mine};
+  const data={format:'worshipbase-my-songs',version:'68.test.6',exportedAt:new Date().toISOString(),count:mine.length,songs:mine};
   downloadTextFile('worshipbase-my-songs.json',JSON.stringify(data,null,2));
   showToast("Exported "+mine.length+" My Songs");
 }
@@ -5364,6 +5371,159 @@ async function importOpenSongXmlFiles(ev){
   }catch(e){console.error(e);showSync('OpenSong import failed',true);}
   finally{try{ev.target.value='';}catch(e){}}
 }
+
+function decodeOnSongTextBytes(bytes){
+  try{return new TextDecoder('utf-8').decode(bytes);}catch(e){return new TextDecoder().decode(bytes);}
+}
+function cleanOnSongFileName(name){
+  return String(name||'Imported OnSong').split('/').pop().replace(/\.(onsong|txt|pro|cho|crd|chopro|chordpro)$/i,'').replace(/[_-]+/g,' ').trim();
+}
+function parseChordProMetaLine(line){
+  const m=String(line||'').trim().match(/^\{\s*([^:}]+)\s*:\s*([^}]*)\}\s*$/);
+  if(!m)return null;
+  return {key:m[1].trim().toLowerCase(),val:m[2].trim()};
+}
+function isLikelyChordLine(line){
+  const t=String(line||'').trim();
+  if(!t)return false;
+  if(/\[[A-G][#b]?(?:m|maj|min|sus|dim|aug|add)?[0-9]*(?:\/[A-G][#b]?)?\]/.test(t))return true;
+  const parts=t.split(/\s+/).filter(Boolean);
+  if(!parts.length)return false;
+  let chords=0;
+  for(const p of parts){
+    if(/^[A-G][#b]?(?:m|maj|min|sus|dim|aug|add|no)?[0-9]*(?:\/[A-G][#b]?)?$/.test(p.replace(/[|:(),]/g,'')))chords++;
+  }
+  return chords>=Math.max(1,Math.ceil(parts.length*.65));
+}
+function normaliseOnSongSectionLine(line){
+  const t=String(line||'').trim();
+  const m=t.match(/^(intro|verse|chorus|bridge|pre[-\s]?chorus|tag|outro|ending|instrumental|interlude|refrain)\s*(\d*)\s*:?$/i);
+  if(!m)return line;
+  const base=m[1].replace(/[-\s]+/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+  return '['+base+(m[2]?' '+m[2]:'')+']';
+}
+function parseOnSongText(text,fileName=''){
+  text=String(text||'').replace(/^\uFEFF/,'').replace(/\r\n?/g,'\n');
+  const meta={};
+  const chartLines=[];
+  const lines=text.split('\n');
+  for(const line of lines){
+    const raw=line.replace(/\s+$/,'');
+    const trimmed=raw.trim();
+    const cp=parseChordProMetaLine(trimmed);
+    if(cp){
+      const k=cp.key;
+      if(['title','t'].includes(k))meta.title=cp.val;
+      else if(['artist','subtitle','st','author','composer','writer'].includes(k))meta.author=cp.val;
+      else if(['key','k'].includes(k))meta.key=cp.val;
+      else if(['capo'].includes(k))meta.capo=cp.val;
+      else if(['tempo','bpm'].includes(k))meta.bpm=cp.val;
+      else if(['time','time_sig','time_signature'].includes(k))meta.timeSig=cp.val;
+      else if(['comment','c'].includes(k))chartLines.push('['+cp.val+']');
+      continue;
+    }
+    const m=trimmed.match(/^(Title|Artist|Author|Composer|Writer|Key|Capo|Tempo|BPM|Time|Time Signature)\s*:\s*(.+)$/i);
+    if(m){
+      const k=m[1].toLowerCase(); const v=m[2].trim();
+      if(k==='title')meta.title=v;
+      else if(['artist','author','composer','writer'].includes(k))meta.author=v;
+      else if(k==='key')meta.key=v;
+      else if(k==='capo')meta.capo=v;
+      else if(['tempo','bpm'].includes(k))meta.bpm=v;
+      else meta.timeSig=v;
+      continue;
+    }
+    chartLines.push(normaliseOnSongSectionLine(raw));
+  }
+  if(!meta.title){
+    const idx=chartLines.findIndex(l=>l.trim()&&!isLikelyChordLine(l)&&!/^\[.+\]$/.test(l.trim()));
+    if(idx>=0 && chartLines[idx].trim().length<90){
+      meta.title=chartLines[idx].trim();
+      chartLines.splice(idx,1);
+      const next=chartLines.findIndex(l=>l.trim());
+      if(next>=0 && !meta.author && !isLikelyChordLine(chartLines[next]) && !/^\[.+\]$/.test(chartLines[next].trim()) && chartLines[next].trim().length<90){
+        meta.author=chartLines[next].trim().replace(/^by\s+/i,'');
+        chartLines.splice(next,1);
+      }
+    }
+  }
+  if(!meta.title)meta.title=cleanOnSongFileName(fileName)||'Imported OnSong';
+  let chart=chartLines.join('\n').replace(/^\n+/,'').replace(/\n+$/,'');
+  if(meta.capo)chart=('Capo: '+meta.capo+'\n\n'+chart).trim();
+  return {cat:'english',title:meta.title,author:meta.author||'',key:meta.key||'C',bpm:meta.bpm||'',timeSig:meta.timeSig||'',chart,librarySource:'user',source:'OnSong'};
+}
+function readUint16LE(bytes,off){return bytes[off]|(bytes[off+1]<<8);}
+function readUint32LE(bytes,off){return (bytes[off]|(bytes[off+1]<<8)|(bytes[off+2]<<16)|(bytes[off+3]<<24))>>>0;}
+async function inflateRawBytes(bytes){
+  if(typeof DecompressionStream==='undefined')throw new Error('ZIP deflate is not supported by this browser');
+  const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
+  return new Uint8Array(await new Response(stream).arrayBuffer());
+}
+async function extractTextFilesFromZip(file){
+  const bytes=new Uint8Array(await file.arrayBuffer());
+  let eocd=-1;
+  for(let i=bytes.length-22;i>=Math.max(0,bytes.length-66000);i--){
+    if(readUint32LE(bytes,i)===0x06054b50){eocd=i;break;}
+  }
+  if(eocd<0)throw new Error('Could not read ZIP directory');
+  const total=readUint16LE(bytes,eocd+10);
+  let cdOff=readUint32LE(bytes,eocd+16);
+  const out=[];
+  for(let i=0;i<total;i++){
+    if(readUint32LE(bytes,cdOff)!==0x02014b50)break;
+    const method=readUint16LE(bytes,cdOff+10);
+    const compSize=readUint32LE(bytes,cdOff+20);
+    const uncompSize=readUint32LE(bytes,cdOff+24);
+    const nameLen=readUint16LE(bytes,cdOff+28);
+    const extraLen=readUint16LE(bytes,cdOff+30);
+    const commentLen=readUint16LE(bytes,cdOff+32);
+    const localOff=readUint32LE(bytes,cdOff+42);
+    const name=decodeOnSongTextBytes(bytes.slice(cdOff+46,cdOff+46+nameLen));
+    cdOff+=46+nameLen+extraLen+commentLen;
+    if(/\/$/.test(name))continue;
+    if(!/\.(onsong|txt|pro|cho|crd|chopro|chordpro)$/i.test(name))continue;
+    if(readUint32LE(bytes,localOff)!==0x04034b50)continue;
+    const lfNameLen=readUint16LE(bytes,localOff+26);
+    const lfExtraLen=readUint16LE(bytes,localOff+28);
+    const dataStart=localOff+30+lfNameLen+lfExtraLen;
+    const comp=bytes.slice(dataStart,dataStart+compSize);
+    let data;
+    if(method===0)data=comp;
+    else if(method===8)data=await inflateRawBytes(comp);
+    else throw new Error('Unsupported ZIP compression for '+name);
+    out.push({name,text:decodeOnSongTextBytes(data)});
+  }
+  return out;
+}
+async function importOnSongFiles(ev){
+  const files=[...(ev?.target?.files||[])]; if(!files.length)return;
+  const parsed=[]; const failed=[];
+  for(const file of files){
+    try{
+      if(/\.zip$/i.test(file.name)){
+        const entries=await extractTextFilesFromZip(file);
+        for(const entry of entries){
+          try{parsed.push(parseOnSongText(entry.text,entry.name));}
+          catch(e){console.error(e);failed.push(entry.name);}
+        }
+      }else{
+        parsed.push(parseOnSongText(await file.text(),file.name));
+      }
+    }catch(e){console.error(e);failed.push(file.name);}
+  }
+  if(!parsed.length){alert('No valid OnSong / ChordPro songs found.');return;}
+  if(!confirm('Import '+parsed.length+' OnSong / ChordPro song(s) into My Songs?'+(failed.length?'\n\nSkipped: '+failed.slice(0,12).join(', ')+(failed.length>12?'…':''):'')))return;
+  try{
+    await putLocalMySongsBulk(parsed);
+    showSync('Imported '+parsed.length+' local OnSong song(s) ✓'); switchTab('songs'); setLibraryFilter('mine');
+  }catch(e){console.error(e);showSync('OnSong import failed',true);}
+  finally{try{ev.target.value='';}catch(e){}}
+}
+function openOnSongImportFromSettings(){
+  if(!manageMode){showToast('Turn on Manage songs first');return;}
+  requireAdmin(()=>document.getElementById('onsong-file')?.click());
+}
+
 function isSongManageTab(){return activeTab==='songs';}
 function isSongSelected(id){return selectedSongIds.has(normId(id));}
 function toggleManageMode(force){
