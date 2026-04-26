@@ -10,7 +10,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="assets/wb-icon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
 
-<title>WorshipBase v68.test.3</title>
+<title>WorshipBase v68.test.4</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 /* Prevent iOS long-press/callout menus and text selection on UI chrome
@@ -2439,7 +2439,7 @@ body.dark .about-logo img{
     </div>
     <input type="file" id="my-songs-json-file" accept="application/json,.json" style="display:none" onchange="importMySongsJSONFile(event)">
     <input type="file" id="opensong-xml-file" accept=".xml,text/xml,application/xml" multiple="" style="display:none" onchange="importOpenSongXmlFiles(event)">
-    <div class="manage-local-note" style="display:none">v68.test.3: My Songs imports are saved locally on this device, not Firebase.</div>
+    <div class="manage-local-note" style="display:none">v68.test.4: My Songs imports are saved locally on this device, not Firebase.</div>
   </div>
 
   <!-- SONG LIST -->
@@ -2619,15 +2619,20 @@ body.dark .about-logo img{
           </div>
           <div class="ss-row manage-only-tool" style="display:none" onclick="openAdminExport()">
             <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M8 10l-3-3M8 10l3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></div>
-            <div class="ss-body"><div class="ss-lbl">Export library (JSON)</div><div class="ss-sub">Download all songs as a backup</div></div>
+            <div class="ss-body"><div class="ss-lbl">Export My Songs (JSON)</div><div class="ss-sub">Download local My Songs as a backup</div></div>
             <div class="ss-right"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
           </div>
           <div class="ss-row manage-only-tool" style="display:none" onclick="openAdminImport()">
             <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 10V2M8 2L5 5M8 2l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></div>
-            <div class="ss-body"><div class="ss-lbl">Import library (JSON)</div><div class="ss-sub">Add songs from a backup file</div></div>
+            <div class="ss-body"><div class="ss-lbl">Import My Songs (JSON)</div><div class="ss-sub">Restore local My Songs from a backup file</div></div>
             <div class="ss-right"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
           </div>
-          <input type="file" id="import-file" accept=".json" style="display:none" onchange="importJSON(event)">
+          <div class="ss-row manage-only-tool" style="display:none" onclick="openOpenSongImportFromSettings()">
+            <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2.5h5.2L12.5 5.8v7.7H4z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path><path d="M9.2 2.5v3.3h3.3" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path><path d="M5.8 8h4.4M5.8 10.2h4.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg></div>
+            <div class="ss-body"><div class="ss-lbl">Import OpenSong XML</div><div class="ss-sub">Add .xml songs to local My Songs</div></div>
+            <div class="ss-right"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+          </div>
+          <input type="file" id="import-file" accept="application/json,.json" style="display:none" onchange="importMySongsJSONFile(event)">
           <div class="ss-row manage-only-tool" style="display:none" onclick="openBS('changepin')">
             <div class="ss-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"></rect><path d="M5 7V5a3 3 0 1 1 6 0v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><circle cx="8" cy="10.5" r="1" fill="currentColor"></circle></svg></div>
             <div class="ss-body"><div class="ss-lbl">Change PIN</div><div class="ss-sub">Requires current PIN</div></div>
@@ -2649,7 +2654,7 @@ body.dark .about-logo img{
               <img src="assets/wb-icon-192.png" alt="WorshipBase logo">
             </div>
             <div class="about-name">WorshipBase</div>
-            <div class="about-version-pill">Version 68.test.3</div>
+            <div class="about-version-pill">Version 68.test.4</div>
             <div class="about-by">Created by <strong>Jerin Reji</strong></div>
           </div>
         </div>
@@ -5184,7 +5189,7 @@ function setLibraryFilter(filter,btn){
 
 
 /* ══ LOCAL MY SONGS STORE (IndexedDB) ══
-   v68.test.3 keeps imported/user songs on this device, not Firebase.
+   v68.test.4 keeps imported/user songs on this device, not Firebase.
    This is intentionally IndexedDB rather than localStorage so large OpenSong imports
    (hundreds/thousands of songs) do not overflow the small localStorage quota. */
 const LOCAL_MY_SONGS_DB='worshipbase_local_my_songs_v1';
@@ -5286,7 +5291,7 @@ function downloadTextFile(filename,text,mime='application/json'){
 function exportMySongsJSON(){
   if(!manageMode){showToast('Turn on Manage songs first');return;}
   const mine=songs.filter(isMySong).map(buildUserSongPayload);
-  const data={format:'worshipbase-my-songs',version:'68.test.3',exportedAt:new Date().toISOString(),count:mine.length,songs:mine};
+  const data={format:'worshipbase-my-songs',version:'68.test.4',exportedAt:new Date().toISOString(),count:mine.length,songs:mine};
   downloadTextFile('worshipbase-my-songs.json',JSON.stringify(data,null,2));
   showToast("Exported "+mine.length+" My Songs");
 }
@@ -5381,11 +5386,15 @@ function openManageSongsFromSettings(){
 }
 function openAdminExport(){
   if(!manageMode){showToast('Turn on Manage songs first');return;}
-  requireAdmin(()=>exportJSON());
+  requireAdmin(()=>exportMySongsJSON());
 }
 function openAdminImport(){
   if(!manageMode){showToast('Turn on Manage songs first');return;}
   requireAdmin(()=>document.getElementById('import-file')?.click());
+}
+function openOpenSongImportFromSettings(){
+  if(!manageMode){showToast('Turn on Manage songs first');return;}
+  requireAdmin(()=>document.getElementById('opensong-xml-file')?.click());
 }
 function clearManageSelection(){
   selectedSongIds.clear();
