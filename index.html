@@ -12,7 +12,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="assets/wb-icon-192.png"/>
 <meta name="mobile-web-app-capable" content="yes"/>
 
-<title>WorshipBase v69.1</title>
+<title>WorshipBase v69.2</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 /* Prevent iOS long-press/callout menus and text selection on UI chrome
@@ -1783,7 +1783,7 @@ body.dark #bs-modal .m-body select:focus,
 body.dark #bs-modal .m-body textarea:focus{box-shadow:0 0 0 4px rgba(255,255,255,.04);}
 body.dark #bs-modal .editor-mode-btn.active{background:var(--accent-strong) !important;color:var(--accent-fg) !important;box-shadow:none;}
 
-/* ── v69.1 compact song editor polish ── */
+/* ── v69.2 compact song editor polish ── */
 #bs-modal .m-tr{
   padding:calc(var(--sat) + 8px) 16px 8px;
   min-height:54px;
@@ -2565,7 +2565,7 @@ body.dark .song-cue-marker::before{color:#ffb3bd!important;}
 
 
 
-/* v69.1 swipe reveal stability polish */
+/* v69.2 swipe reveal stability polish */
 .search-scope-select-wrap{
   width:38px!important;
   height:38px!important;
@@ -2649,7 +2649,7 @@ body.dark .ug-search-row input,body.dark .ug-url-row input{background:rgba(255,2
 body.dark .ug-search-row input:focus,body.dark .ug-url-row input:focus{border-color:var(--accent-border);box-shadow:0 0 0 1px var(--accent-border);}
 @media(max-width:390px){.ug-head-btn{padding:0 10px;font-size:12px}.ug-head-actions{gap:6px}.ug-page-title{font-size:17px}.ug-action-btn{min-width:82px;padding:0 14px}.ug-search-row,.ug-url-row{gap:8px}}
 
-/* v69.1 — compact UG import page to match the Add Song editor scale */
+/* v69.2 — compact UG import page to match the Add Song editor scale */
 .ug-page-head{
   min-height:calc(var(--sat) + 52px);
   padding:calc(var(--sat) + 8px) 14px 8px;
@@ -2709,13 +2709,31 @@ body.dark .ug-head-btn:not(.primary):not(.secondary){
 
 
 
-/* v69.1 live merge — UG import + cleaner dark search row */
+/* v69.2 live merge — UG import + cleaner dark search row */
 body.dark .srch-wrap{background:#000!important;}
 body.dark .srch-row{background:transparent!important;border-color:transparent!important;box-shadow:none!important;padding:0!important;}
 body.dark .srch-inp{background:#101010!important;border:1px solid rgba(255,255,255,.13)!important;box-shadow:none!important;}
 body.dark .search-scope-select-wrap{background:#101010!important;border-color:rgba(255,255,255,.13)!important;box-shadow:none!important;}
 body.dark .search-scope-select-wrap.active{background:color-mix(in srgb,var(--accent) 12%, #101010)!important;border-color:var(--accent-border)!important;color:var(--accent)!important;}
 
+
+/* v69.2 SOP import result list polish */
+#ug-results .ug-result-item,#sop-results .ug-result-item{width:100%;appearance:none;-webkit-appearance:none;border:0;border-bottom:.5px solid var(--bdr);background:var(--bg1);text-align:left;color:var(--txt1);}
+#ug-results .ug-result-item:last-child,#sop-results .ug-result-item:last-child{border-bottom:none;}
+#sop-results{background:var(--bg1);border-color:var(--surface-border);}
+#sop-results .ug-result-item .pi-title{color:var(--txt1);font-weight:800;}
+#sop-results .ug-result-item .pi-meta{color:var(--txt2);}
+#sop-results .ug-result-item .pi-ck{background:var(--surface-tint);border-color:var(--surface-border);color:var(--tc);}
+body.dark #sop-results{background:#050505;border-color:rgba(255,255,255,.14);}
+body.dark #sop-results .ug-result-item{background:#050505;color:var(--txt1);border-color:rgba(255,255,255,.10);}
+body.dark #sop-results .ug-result-item:active{background:rgba(255,255,255,.06);}
+body.dark #sop-results .ug-result-item .pi-title{color:#fff;}
+body.dark #sop-results .ug-result-item .pi-meta{color:rgba(255,255,255,.62);}
+body.dark #sop-results .ug-result-item .pi-ck{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.16);color:var(--accent);}
+#sop-results .ug-result-item{padding:11px 13px;min-height:58px;}
+#sop-results .ug-result-item .pi-title{font-size:14px;line-height:1.25;}
+#sop-results .ug-result-item .pi-meta{font-size:11px;line-height:1.35;}
+#sop-results .ug-result-item .pi-ck{width:22px;height:22px;min-width:22px;font-size:0;}
 </style>
 </head>
 <body>
@@ -3001,7 +3019,7 @@ body.dark .search-scope-select-wrap.active{background:color-mix(in srgb,var(--ac
               <img src="assets/wb-icon-192.png" alt="WorshipBase logo"/>
             </div>
             <div class="about-name">WorshipBase</div>
-            <div class="about-version-pill">Version 69.1</div>
+            <div class="about-version-pill">Version 69.2</div>
             <div class="about-by">Created by <strong>Jerin Reji</strong></div>
           </div>
         </div>
@@ -8138,7 +8156,7 @@ function parseUgImportText(raw,sourceUrl=''){
   return result;
 }
 
-/* v69.1 — full-page UG import helpers merged into live branch */
+/* v69.2 — full-page UG import helpers merged into live branch */
 function openAddSongMenu(event){
   event?.stopPropagation?.();
   const menu=document.getElementById('add-menu-backdrop');
@@ -8214,7 +8232,7 @@ async function searchUgImport(){
     const data=await ugBackendFetch('/api/ug/search?q='+encodeURIComponent(q));
     renderUgResults(data.results||[]);
     const meta=document.getElementById('ug-preview-meta');
-    if(meta)meta.textContent=(data.results||[]).length+' result'+((data.results||[]).length===1?'':'s')+' found.';
+    if(meta)meta.textContent=(data.results||[]).length+' result'+((data.results||[]).length===1?'':'s')+' found. Scroll the list for more.';
   }catch(err){
     renderUgResults([]);
     setUgPreviewEmpty(err.message||'Search failed. Check backend URL.','Search failed');
@@ -8412,7 +8430,7 @@ function saveUgImportDirect(){
 
 
 
-/* v69.1 — Songs of Praise import helpers */
+/* v69.2 — Songs of Praise import helpers */
 function getImportBackendUrl(){
   return 'https://wb-sop.jerinreji81.workers.dev';
 }
@@ -8426,7 +8444,7 @@ function renderSopResults(results){
   const box=document.getElementById('sop-results');
   if(!box)return;
   if(!results||!results.length){
-    box.innerHTML='<div class="preview-empty" style="padding:14px">No results found. Try another spelling or shorter search.</div>';
+    box.innerHTML='<div class="preview-empty" style="padding:14px">No results found. Try a shorter search, partial word, or alternate spelling.</div>';
     return;
   }
   box.innerHTML=results.map((r,i)=>{
@@ -8475,7 +8493,7 @@ async function searchSopImport(){
     const data=await sopBackendFetch('/api/sop/search?q='+encodeURIComponent(q)+'&lang=Malayalam');
     renderSopResults(data.results||[]);
     const meta=document.getElementById('sop-preview-meta');
-    if(meta)meta.textContent=(data.results||[]).length+' result'+((data.results||[]).length===1?'':'s')+' found.';
+    if(meta)meta.textContent=(data.results||[]).length+' result'+((data.results||[]).length===1?'':'s')+' found. Scroll the list for more.';
   }catch(err){
     renderSopResults([]);
     setSopPreviewEmpty(err.message||'Search failed. Check backend worker.','Search failed');
@@ -10310,7 +10328,7 @@ window.__wbPdfEngine='paged-preview-v67.6-deterministic';
   window.exportAllPDF=function(){window.exportSetListFromOptions((typeof getExportPageOptions==='function')?getExportPageOptions():{});};
   window.runExportFromPage=function(){const opts=(typeof getExportPageOptions==='function')?getExportPageOptions():{}; if(typeof closeExportView==='function')closeExportView(); if(currentExportContext()==='song')window.exportSongFromOptions(opts); else window.exportSetListFromOptions(opts);};
   try{exportSongFromOptions=window.exportSongFromOptions; exportSetListFromOptions=window.exportSetListFromOptions; exportPDF=window.exportPDF; exportAllPDF=window.exportAllPDF; runExportFromPage=window.runExportFromPage;}catch(e){}
-  window.__wbPdfEngine='v69.1-pdf-song-export-fix';
+  window.__wbPdfEngine='v69.2-pdf-song-export-fix';
 })();
 
 </script>
