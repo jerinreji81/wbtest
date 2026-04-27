@@ -12,7 +12,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="assets/wb-icon-192.png"/>
 <meta name="mobile-web-app-capable" content="yes"/>
 
-<title>WorshipBase v69.2</title>
+<title>WorshipBase v69.4</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 /* Prevent iOS long-press/callout menus and text selection on UI chrome
@@ -2717,7 +2717,7 @@ body.dark .search-scope-select-wrap{background:#101010!important;border-color:rg
 body.dark .search-scope-select-wrap.active{background:color-mix(in srgb,var(--accent) 12%, #101010)!important;border-color:var(--accent-border)!important;color:var(--accent)!important;}
 
 
-/* v69.2 SOP import result list polish */
+/* v69.4 SOP import result list + preview polish */
 #ug-results .ug-result-item,#sop-results .ug-result-item{width:100%;appearance:none;-webkit-appearance:none;border:0;border-bottom:.5px solid var(--bdr);background:var(--bg1);text-align:left;color:var(--txt1);}
 #ug-results .ug-result-item:last-child,#sop-results .ug-result-item:last-child{border-bottom:none;}
 #sop-results{background:var(--bg1);border-color:var(--surface-border);}
@@ -2734,6 +2734,13 @@ body.dark #sop-results .ug-result-item .pi-ck{background:rgba(255,255,255,.08);b
 #sop-results .ug-result-item .pi-title{font-size:14px;line-height:1.25;}
 #sop-results .ug-result-item .pi-meta{font-size:11px;line-height:1.35;}
 #sop-results .ug-result-item .pi-ck{width:22px;height:22px;min-width:22px;font-size:0;}
+
+/* v69.4: make SOP search easier to scan and preserve chord/lyric alignment in preview */
+#sop-results{max-height:340px;overflow:auto;}
+@media(max-height:760px){#sop-results{max-height:260px;}}
+#sop-preview-body .lyric-block{max-width:100%;}
+#sop-preview-body .pair-line{font-size:.96em;}
+#sop-preview-body .chord-row,#sop-preview-body .lyric-row{white-space:pre!important;}
 </style>
 </head>
 <body>
@@ -3019,7 +3026,7 @@ body.dark #sop-results .ug-result-item .pi-ck{background:rgba(255,255,255,.08);b
               <img src="assets/wb-icon-192.png" alt="WorshipBase logo"/>
             </div>
             <div class="about-name">WorshipBase</div>
-            <div class="about-version-pill">Version 69.2</div>
+            <div class="about-version-pill">Version 69.4</div>
             <div class="about-by">Created by <strong>Jerin Reji</strong></div>
           </div>
         </div>
@@ -8379,7 +8386,7 @@ function previewUgParsedSong(song){
     meta.textContent=[normalized.author,keyMeta,normalized.bpm?normalized.bpm+' BPM':'',normalized.timeSig?'Time '+normalized.timeSig:''].filter(Boolean).join(' · ');
   }
   if(body){
-    body.innerHTML='<div class="preview-empty" style="margin-bottom:10px"><strong>'+escapeHtml(normalized.title)+'</strong>'+(normalized.author?' · '+escapeHtml(normalized.author):'')+'</div>'+renderSheetHTML(normalized,normalized.key,false,false);
+    body.innerHTML='<div class="preview-empty" style="margin-bottom:10px"><strong>'+escapeHtml(normalized.title)+'</strong>'+(normalized.author?' · '+escapeHtml(normalized.author):'')+'</div>'+renderSheetScreenHTML(normalized,normalized.key,false,false);
     body.classList.toggle('chords-highlight',!!appPrefs.highlightChords);
   }
   window._ugImportedSong=normalized;
@@ -10328,7 +10335,7 @@ window.__wbPdfEngine='paged-preview-v67.6-deterministic';
   window.exportAllPDF=function(){window.exportSetListFromOptions((typeof getExportPageOptions==='function')?getExportPageOptions():{});};
   window.runExportFromPage=function(){const opts=(typeof getExportPageOptions==='function')?getExportPageOptions():{}; if(typeof closeExportView==='function')closeExportView(); if(currentExportContext()==='song')window.exportSongFromOptions(opts); else window.exportSetListFromOptions(opts);};
   try{exportSongFromOptions=window.exportSongFromOptions; exportSetListFromOptions=window.exportSetListFromOptions; exportPDF=window.exportPDF; exportAllPDF=window.exportAllPDF; runExportFromPage=window.runExportFromPage;}catch(e){}
-  window.__wbPdfEngine='v69.2-pdf-song-export-fix';
+  window.__wbPdfEngine='v69.4-pdf-song-export-fix';
 })();
 
 </script>
