@@ -2604,7 +2604,7 @@ body.dark #ug-results .ug-result-item:active{background:rgba(255,255,255,.06);}
 body.dark #ug-results .ug-result-item .pi-title{color:#fff;}
 body.dark #ug-results .ug-result-item .pi-meta{color:rgba(255,255,255,.62);}
 body.dark #ug-results .ug-result-item .pi-ck{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.16);color:var(--accent);}
-#bs-ug-import,#bs-sop-import{z-index:160;}
+#bs-ug-import,#bs-sop-import,#bs-file-import{z-index:160;}
 
 
 /* v68.test.ug.6 — full-page UG import and cleaner add menu */
@@ -2619,8 +2619,8 @@ body.dark #ug-results .ug-result-item .pi-ck{background:rgba(255,255,255,.08);bo
 body.dark .add-menu-pop{background:#050505;border-color:rgba(255,255,255,.14);}
 body.dark .add-menu-item:active{background:rgba(255,255,255,.06);}
 body.dark .add-menu-ico{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.14);color:var(--accent);}
-#bs-ug-import.ug-page.open,#bs-sop-import.ug-page.open{display:flex;align-items:stretch;justify-content:stretch;background:var(--bg1);z-index:180;}
-#bs-ug-import.ug-page .ug-page-panel,#bs-sop-import.ug-page .ug-page-panel{width:100%;height:100vh;max-height:none;border-radius:0;box-shadow:none;border:none;background:var(--bg1);display:flex;flex-direction:column;padding:0;animation:none;overflow:hidden;}
+#bs-ug-import.ug-page.open,#bs-sop-import.ug-page.open,#bs-file-import.ug-page.open{display:flex;align-items:stretch;justify-content:stretch;background:var(--bg1);z-index:180;}
+#bs-ug-import.ug-page .ug-page-panel,#bs-sop-import.ug-page .ug-page-panel,#bs-file-import.ug-page .ug-page-panel{width:100%;height:100vh;max-height:none;border-radius:0;box-shadow:none;border:none;background:var(--bg1);display:flex;flex-direction:column;padding:0;animation:none;overflow:hidden;}
 .ug-page-head{position:sticky;top:0;z-index:5;min-height:calc(var(--sat) + 58px);padding:calc(var(--sat) + 10px) 14px 10px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px;background:color-mix(in srgb,var(--bg1) 94%, transparent);border-bottom:.5px solid var(--bdr);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);}
 .ug-page-title{font-size:18px;font-weight:850;color:var(--txt1);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .ug-head-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;}
@@ -2648,7 +2648,7 @@ body.dark .ug-direct-url{background:rgba(255,255,255,.045);border-color:rgba(255
 .ug-results{max-height:260px;margin-bottom:16px;}
 .ug-preview{margin-top:4px;}
 #ug-preview-body{max-height:none;min-height:230px;}
-body.dark #bs-ug-import.ug-page.open,body.dark #bs-ug-import.ug-page .ug-page-panel,body.dark #bs-sop-import.ug-page.open,body.dark #bs-sop-import.ug-page .ug-page-panel{background:#000;}
+body.dark #bs-ug-import.ug-page.open,body.dark #bs-ug-import.ug-page .ug-page-panel,body.dark #bs-sop-import.ug-page.open,body.dark #bs-sop-import.ug-page .ug-page-panel,body.dark #bs-file-import.ug-page.open,body.dark #bs-file-import.ug-page .ug-page-panel{background:#000;}
 body.dark .ug-page-head{background:rgba(0,0,0,.88);border-bottom-color:rgba(255,255,255,.12);}
 body.dark .ug-head-btn{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.14);color:var(--txt1);}
 body.dark .ug-head-btn.secondary{background:rgba(255,255,255,.08);color:var(--accent);border-color:rgba(255,255,255,.16);}
@@ -2710,7 +2710,7 @@ body.dark .ug-head-btn:not(.primary):not(.secondary){
   color:var(--accent);
 }
 @media(min-width:760px){
-  #bs-ug-import.ug-page .ug-page-panel,#bs-sop-import.ug-page .ug-page-panel{max-width:760px;margin:0 auto;border-left:1px solid var(--bdr);border-right:1px solid var(--bdr);}
+  #bs-ug-import.ug-page .ug-page-panel,#bs-sop-import.ug-page .ug-page-panel,#bs-file-import.ug-page .ug-page-panel{max-width:760px;margin:0 auto;border-left:1px solid var(--bdr);border-right:1px solid var(--bdr);}
   .ug-page-body{padding-left:22px;padding-right:22px;}
 }
 
@@ -2729,6 +2729,37 @@ body.dark .search-scope-select-wrap.active{background:color-mix(in srgb,var(--ac
 /* v69.5 import cleanup: Edit label, direct URL collapsed, duplicate warning, metronome fallback 90, SOP transliteration cleanup */
 #ug-results .ug-result-item,#sop-results .ug-result-item{width:100%;appearance:none;-webkit-appearance:none;border:0;border-bottom:.5px solid var(--bdr);background:var(--bg1);text-align:left;color:var(--txt1);}
 #ug-results .ug-result-item:last-child,#sop-results .ug-result-item:last-child{border-bottom:none;}
+
+/* v69.11 — unified file import page */
+.file-type-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:4px 0 14px;}
+.file-type-btn{appearance:none;-webkit-appearance:none;border:1px solid var(--surface-border);border-radius:14px;background:var(--bg2);color:var(--txt1);font-family:inherit;text-align:left;padding:10px 11px;min-height:58px;cursor:pointer;}
+.file-type-btn strong{display:block;font-size:13px;font-weight:850;line-height:1.15;}
+.file-type-btn small{display:block;font-size:11px;color:var(--txt3);font-weight:650;line-height:1.25;margin-top:3px;}
+.file-type-btn.active{background:var(--surface-tint);border-color:color-mix(in srgb,var(--tc) 35%,var(--surface-border));color:var(--tc);}
+.file-pick-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;margin:4px 0 14px;}
+.file-pick-status{min-height:42px;border:1px solid var(--surface-border);border-radius:14px;background:var(--bg2);padding:10px 12px;color:var(--txt2);font-size:13px;font-weight:650;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+#file-import-preview-body{min-height:260px;}
+.file-import-review{margin:6px 0 14px;border:1px solid var(--surface-border);border-radius:16px;background:var(--bg1);overflow:hidden;}
+.file-import-review[hidden]{display:none!important;}
+.file-import-review-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-bottom:.5px solid var(--bdr);}
+.file-import-review-head strong{font-size:13px;font-weight:850;color:var(--txt1);}
+.file-import-review-head span{font-size:11px;font-weight:750;color:var(--txt3);white-space:nowrap;}
+.file-import-review-actions{display:flex;gap:8px;padding:8px 10px;border-bottom:.5px solid var(--bdr);}
+.file-import-mini-btn{appearance:none;-webkit-appearance:none;border:1px solid var(--surface-border);background:var(--bg2);color:var(--txt2);font-family:inherit;font-size:12px;font-weight:800;border-radius:999px;padding:7px 10px;cursor:pointer;}
+.file-import-list{max-height:260px;overflow:auto;}
+.file-import-song-row{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:center;padding:10px 12px;border-bottom:.5px solid var(--bdr);cursor:pointer;background:var(--bg1);}
+.file-import-song-row:last-child{border-bottom:none;}
+.file-import-song-row.active{background:var(--surface-tint);}
+.file-import-song-row input{width:18px;height:18px;accent-color:var(--tc);}
+.file-import-song-title{display:block;font-size:13px;font-weight:850;line-height:1.25;color:var(--txt1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.file-import-song-meta{display:block;font-size:11px;font-weight:650;line-height:1.3;color:var(--txt3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+body.dark .file-type-btn,body.dark .file-pick-status,body.dark .file-import-mini-btn{background:rgba(255,255,255,.075);border-color:rgba(255,255,255,.14);}
+body.dark .file-import-review{background:#050505;border-color:rgba(255,255,255,.14);}
+body.dark .file-import-song-row{background:#050505;border-color:rgba(255,255,255,.10);}
+body.dark .file-import-song-row.active{background:rgba(255,255,255,.08);}
+body.dark .file-type-btn.active{background:rgba(255,255,255,.10);border-color:var(--accent-border);color:var(--accent);}
+@media(max-width:390px){.file-type-grid{grid-template-columns:1fr}.file-type-btn{min-height:54px}}
+
 #sop-results{background:var(--bg1);border-color:var(--surface-border);}
 #sop-results .ug-result-item .pi-title{color:var(--txt1);font-weight:800;}
 #sop-results .ug-result-item .pi-meta{color:var(--txt2);}
@@ -2784,20 +2815,15 @@ body.dark #sop-results .ug-result-item .pi-ck{background:rgba(255,255,255,.08);b
         <span class="add-menu-ico">＋</span><span><strong>Create new song</strong><small>Start with a blank chart</small></span>
       </button>
       <button class="add-menu-item" type="button" onclick="closeAddSongMenu();openUgImport()">
-        <span class="add-menu-ico">⇣</span><span><strong>Import from UG</strong><small>Search, preview, then save locally or as admin</small></span>
+        <span class="add-menu-ico">⇣</span><span><strong>Import from UG</strong><small>Song lyrics/chords from Ultimate Guitar</small></span>
       </button>
       <button class="add-menu-item" type="button" onclick="closeAddSongMenu();openSopImport()">
         <span class="add-menu-ico">മ</span><span><strong>Import Songs of Praise</strong><small>Malayalam lyrics/chords + metadata</small></span>
       </button>
-      <button class="add-menu-item" type="button" onclick="closeAddSongMenu();document.getElementById('onsong-file')?.click()">
-        <span class="add-menu-ico">♪</span><span><strong>Import OnSong / ChordPro</strong><small>.onsong, .pro, .txt, or ZIP</small></span>
+      <button class="add-menu-item" type="button" onclick="closeAddSongMenu();openFileImportPage()">
+        <span class="add-menu-ico">♪</span><span><strong>Import song file</strong><small>OnSong, ChordPro, TXT, XML, JSON or ZIP</small></span>
       </button>
-      <button class="add-menu-item" type="button" onclick="closeAddSongMenu();document.getElementById('opensong-xml-file')?.click()">
-        <span class="add-menu-ico">XML</span><span><strong>Import OpenSong XML</strong><small>Import XML files</small></span>
-      </button>
-      <button class="add-menu-item" type="button" onclick="closeAddSongMenu();document.getElementById('my-songs-json-file')?.click()">
-        <span class="add-menu-ico">JSON</span><span><strong>Import My Songs JSON</strong><small>Restore or add song backup</small></span>
-      </button>
+      <input type="file" id="file-import-file" multiple="" accept=".onsong,.pro,.txt,.cho,.crd,.chopro,.chordpro,.zip,.xml,.json,text/plain,text/xml,application/xml,application/json" style="display:none" onchange="handleUnifiedImportFiles(event)">
       <input type="file" id="onsong-file" multiple="" accept="" style="display:none" onchange="importOnSongFiles(event)">
       <input type="file" id="opensong-xml-file" multiple="" accept=".xml,text/xml,application/xml" style="display:none" onchange="importOpenSongXmlFiles(event)">
       <input type="file" id="my-songs-json-file" accept=".json,application/json" style="display:none" onchange="importMySongsJSONFile(event)">
@@ -3069,7 +3095,7 @@ body.dark #sop-results .ug-result-item .pi-ck{background:rgba(255,255,255,.08);b
               <img src="assets/wb-icon-192.png" alt="WorshipBase logo">
             </div>
             <div class="about-name">WorshipBase</div>
-            <div class="about-version-pill">Version 69.9</div>
+            <div class="about-version-pill">Version 69.11</div>
             <div class="about-by">Created by <strong>Jerin Reji</strong></div>
           </div>
         </div>
@@ -3655,6 +3681,54 @@ line 18 | Hold / pause"></textarea>
         <div class="preview-body" id="sop-preview-body"><div class="preview-empty">No import preview yet.</div></div>
       </div>
       <div class="m-hint ug-bottom-hint">Edit opens the song editor for review. Save stores locally for normal users; admin can choose Firebase.</div>
+    </div>
+  </div>
+</div>
+
+
+<div class="bs-bg ug-page" id="bs-file-import" onclick="closeBSBg(event,'file-import')">
+  <div class="bs ug-page-panel">
+    <div class="ug-page-head">
+      <button class="ug-head-btn" type="button" onclick="closeBS('file-import')">Cancel</button>
+      <div class="ug-page-title">Import song file</div>
+      <div class="ug-head-actions">
+        <button class="ug-head-btn secondary" type="button" onclick="editUnifiedImportedSong()">Edit</button>
+        <button class="ug-head-btn primary" type="button" onclick="saveUnifiedImportedSongs()">Save</button>
+      </div>
+    </div>
+    <div class="ug-page-body">
+      <p class="m-hint ug-top-hint">Choose the file type, select files or a ZIP, review detected songs, then edit one song or save only the selected songs.</p>
+      <label>Import type</label>
+      <div class="file-type-grid" id="file-import-type-grid">
+        <button class="file-type-btn active" type="button" data-kind="auto" onclick="setUnifiedImportKind('auto')"><strong>Auto detect</strong><small>Best for mixed files</small></button>
+        <button class="file-type-btn" type="button" data-kind="onsong" onclick="setUnifiedImportKind('onsong')"><strong>OnSong / ChordPro</strong><small>.onsong, .pro, .txt, ZIP</small></button>
+        <button class="file-type-btn" type="button" data-kind="opensong" onclick="setUnifiedImportKind('opensong')"><strong>OpenSong XML</strong><small>.xml song files</small></button>
+        <button class="file-type-btn" type="button" data-kind="json" onclick="setUnifiedImportKind('json')"><strong>WorshipBase JSON</strong><small>Song or My Songs backup</small></button>
+      </div>
+      <label>Select file</label>
+      <div class="file-pick-row">
+        <div class="file-pick-status" id="file-import-status">No file selected.</div>
+        <button class="ug-action-btn" type="button" onclick="chooseUnifiedImportFile()">Choose</button>
+      </div>
+      <div class="file-import-review" id="file-import-review" hidden="">
+        <div class="file-import-review-head">
+          <strong id="file-import-review-title">0 songs found</strong>
+          <span id="file-import-review-selected">0 selected</span>
+        </div>
+        <div class="file-import-review-actions">
+          <button class="file-import-mini-btn" type="button" onclick="selectAllUnifiedImportedSongs(true)">Select all</button>
+          <button class="file-import-mini-btn" type="button" onclick="selectAllUnifiedImportedSongs(false)">Clear</button>
+        </div>
+        <div class="file-import-list" id="file-import-song-list"></div>
+      </div>
+      <div class="preview-wrap ug-preview" id="file-import-preview-wrap">
+        <div class="preview-wrap-head">
+          <div class="preview-wrap-title">Import preview</div>
+          <div class="preview-meta" id="file-import-preview-meta">Choose a file to preview.</div>
+        </div>
+        <div class="preview-body" id="file-import-preview-body"><div class="preview-empty">No import preview yet.</div></div>
+      </div>
+      <div class="m-hint ug-bottom-hint">Edit opens the highlighted song in the editor. Save stores selected songs locally for normal users; admin can choose Firebase.</div>
     </div>
   </div>
 </div>
@@ -5782,7 +5856,7 @@ function setSearchScope(scope,btn){
   refresh(true);
 }
 /* ══ LOCAL MY SONGS STORE (IndexedDB) ══
-   v69.9 keeps normal user imports on this device, but lets an unlocked admin choose Firebase.
+   v69.11 keeps normal user imports on this device, but lets an unlocked admin choose Firebase.
    Local storage is intentionally IndexedDB rather than localStorage so large OpenSong imports
    (hundreds/thousands of songs) do not overflow the small localStorage quota. */
 const LOCAL_MY_SONGS_DB='worshipbase_local_my_songs_v1';
@@ -5964,7 +6038,7 @@ function downloadTextFile(filename,text,mime='application/json'){
 }
 function exportMySongsJSON(){
   const mine=songs.filter(isMySong).map(buildUserSongPayload);
-  const data={format:'worshipbase-my-songs',version:'69.9',exportedAt:new Date().toISOString(),count:mine.length,songs:mine};
+  const data={format:'worshipbase-my-songs',version:'69.11',exportedAt:new Date().toISOString(),count:mine.length,songs:mine};
   downloadTextFile('worshipbase-my-songs.json',JSON.stringify(data,null,2));
   showToast("Exported "+mine.length+" My Songs");
 }
@@ -5974,7 +6048,7 @@ function safeDownloadName(name,fallback='worshipbase'){
 function buildPortableSongPayload(song,includeNotes=true){
   const copy=buildUserSongPayload(song||{});
   copy.format='worshipbase-song';
-  copy.version='69.9';
+  copy.version='69.11';
   if(includeNotes){
     const mem=getSongMemory(song);
     if(mem&&Object.keys(mem).length)copy.worshipbaseNotes={...mem};
@@ -5983,7 +6057,7 @@ function buildPortableSongPayload(song,includeNotes=true){
 }
 function exportCurrentSongJSON(){
   if(!currentSong){showToast('Open a song first');return;}
-  const payload={format:'worshipbase-song',version:'69.9',exportedAt:new Date().toISOString(),song:buildPortableSongPayload(currentSong,true)};
+  const payload={format:'worshipbase-song',version:'69.11',exportedAt:new Date().toISOString(),song:buildPortableSongPayload(currentSong,true)};
   downloadTextFile(safeDownloadName(currentSong.title,'worshipbase-song')+'.json',JSON.stringify(payload,null,2));
   showToast('Song JSON exported');
 }
@@ -5996,7 +6070,7 @@ function buildNotesCuesExportRows(){
 }
 function exportNotesCuesJSON(){
   const notes=buildNotesCuesExportRows();
-  const data={format:'worshipbase-notes-cues',version:'69.9',exportedAt:new Date().toISOString(),count:notes.length,notes};
+  const data={format:'worshipbase-notes-cues',version:'69.11',exportedAt:new Date().toISOString(),count:notes.length,notes};
   downloadTextFile('worshipbase-notes-cues.json',JSON.stringify(data,null,2));
   showToast('Exported '+notes.length+' notes/cues');
 }
@@ -6004,7 +6078,7 @@ function exportAppBackupJSON(){
   const admin=!!(adminUnlocked||manageMode);
   const backupSongs=(admin?(songs||[]):(songs||[]).filter(isMySong)).map(s=>buildPortableSongPayload(s,true));
   const data={
-    format:'worshipbase-app-backup',version:'69.9',exportedAt:new Date().toISOString(),
+    format:'worshipbase-app-backup',version:'69.11',exportedAt:new Date().toISOString(),
     scope:admin?'admin-full-library':'local-user',
     songs:backupSongs,
     songMemory:loadSongMemory(),
@@ -6282,14 +6356,213 @@ async function importOnSongFiles(ev){
   }catch(e){console.error(e);showSync('OnSong import failed',true);}
   finally{try{ev.target.value='';}catch(e){}}
 }
+
+/* v69.11 unified file import page */
+let unifiedImportKind='auto';
+let unifiedImportedSongs=[];
+let unifiedImportLastFormat='';
+let unifiedImportPreviewIndex=0;
+let unifiedImportSelectedIndexes=new Set();
+function openFileImportPage(){
+  closeAddSongMenu();
+  unifiedImportedSongs=[]; unifiedImportLastFormat=''; unifiedImportPreviewIndex=0; unifiedImportSelectedIndexes=new Set();
+  setUnifiedImportKind('auto');
+  setUnifiedImportPreviewEmpty('Choose a file to preview.');
+  const st=document.getElementById('file-import-status'); if(st)st.textContent='No file selected.';
+  const review=document.getElementById('file-import-review'); if(review)review.hidden=true;
+  const list=document.getElementById('file-import-song-list'); if(list)list.innerHTML='';
+  const inp=document.getElementById('file-import-file'); if(inp)inp.value='';
+  const sheet=document.getElementById('bs-file-import');
+  if(!sheet){showToast('File import page missing');return;}
+  try{closeAllBS();}catch(e){}
+  sheet.classList.add('open');
+}
+function setUnifiedImportKind(kind){
+  unifiedImportKind=['auto','onsong','opensong','json'].includes(kind)?kind:'auto';
+  document.querySelectorAll('#file-import-type-grid .file-type-btn').forEach(btn=>btn.classList.toggle('active',btn.dataset.kind===unifiedImportKind));
+  const inp=document.getElementById('file-import-file');
+  if(inp){
+    const accept={
+      auto:'.onsong,.pro,.txt,.cho,.crd,.chopro,.chordpro,.zip,.xml,.json,text/plain,text/xml,application/xml,application/json',
+      onsong:'.onsong,.pro,.txt,.cho,.crd,.chopro,.chordpro,.zip,text/plain',
+      opensong:'.xml,text/xml,application/xml',
+      json:'.json,application/json'
+    };
+    inp.accept=accept[unifiedImportKind]||accept.auto;
+    inp.multiple=unifiedImportKind!=='json';
+  }
+}
+function chooseUnifiedImportFile(){document.getElementById('file-import-file')?.click();}
+function setUnifiedImportPreviewEmpty(msg,meta){
+  const body=document.getElementById('file-import-preview-body');
+  const m=document.getElementById('file-import-preview-meta');
+  if(body)body.innerHTML='<div class="preview-empty">'+escapeHtml(msg||'No import preview yet.')+'</div>';
+  if(m)m.textContent=meta||'Choose a file to preview.';
+}
+function detectUnifiedFileKind(file){
+  const name=String(file?.name||'').toLowerCase();
+  if(unifiedImportKind!=='auto')return unifiedImportKind;
+  if(name.endsWith('.xml'))return 'opensong';
+  if(name.endsWith('.json'))return 'json';
+  return 'onsong';
+}
+async function parseUnifiedImportFile(file){
+  const kind=detectUnifiedFileKind(file);
+  const name=String(file?.name||'Imported song');
+  if(kind==='opensong'){
+    return {format:'OpenSong XML',songs:[parseOpenSongXmlText(await file.text())]};
+  }
+  if(kind==='json'){
+    const parsed=JSON.parse(await file.text());
+    const arr=Array.isArray(parsed)?parsed:(parsed.song?[parsed.song]:(Array.isArray(parsed.songs)?parsed.songs:[]));
+    return {format:'WorshipBase JSON',songs:arr.map(normalizeImportedSongRecord).filter(Boolean)};
+  }
+  const isZip=/\.zip$/i.test(name) || /zip/i.test(String(file.type||''));
+  if(isZip){
+    const entries=await extractTextFilesFromZip(file);
+    return {format:'OnSong / ChordPro ZIP',songs:entries.map(entry=>parseOnSongText(entry.text,entry.name)).filter(Boolean)};
+  }
+  const text=await file.text();
+  if(!String(text||'').trim())throw new Error('Empty text file');
+  return {format:'OnSong / ChordPro / TXT',songs:[parseOnSongText(text,name)]};
+}
+async function handleUnifiedImportFiles(ev){
+  const files=[...(ev?.target?.files||[])]; if(!files.length)return;
+  const status=document.getElementById('file-import-status');
+  if(status)status.textContent=files.length===1?files[0].name:(files.length+' files selected');
+  setUnifiedImportPreviewEmpty('Reading selected file…','Importing…');
+  const songs=[]; const formats=[]; const failed=[];
+  for(const file of files){
+    try{
+      const result=await parseUnifiedImportFile(file);
+      if(result.format)formats.push(result.format);
+      songs.push(...(result.songs||[]));
+    }catch(e){console.error(e);failed.push(file.name||'Unnamed file');}
+  }
+  unifiedImportedSongs=songs.filter(Boolean).map(normalizeImportedSongRecord).filter(Boolean);
+  unifiedImportPreviewIndex=0;
+  unifiedImportSelectedIndexes=new Set(unifiedImportedSongs.map((_,i)=>i));
+  unifiedImportLastFormat=[...new Set(formats)].join(', ') || (unifiedImportKind==='auto'?'Auto detect':unifiedImportKind);
+  if(failed.length)showToast('Skipped '+failed.length+' file'+(failed.length===1?'':'s'));
+  renderUnifiedImportPreview();
+  try{ev.target.value='';}catch(e){}
+}
+function getUnifiedSelectedIndexes(){
+  return [...unifiedImportSelectedIndexes].filter(i=>i>=0 && i<unifiedImportedSongs.length).sort((a,b)=>a-b);
+}
+function getUnifiedSelectedSongs(){
+  return getUnifiedSelectedIndexes().map(i=>unifiedImportedSongs[i]).filter(Boolean);
+}
+function renderUnifiedImportSongList(){
+  const review=document.getElementById('file-import-review');
+  const title=document.getElementById('file-import-review-title');
+  const selected=document.getElementById('file-import-review-selected');
+  const list=document.getElementById('file-import-song-list');
+  const total=unifiedImportedSongs.length;
+  if(review)review.hidden=!total;
+  if(title)title.textContent=total+' song'+(total===1?'':'s')+' found';
+  if(selected)selected.textContent=getUnifiedSelectedIndexes().length+' selected';
+  if(!list)return;
+  if(!total){list.innerHTML='';return;}
+  list.innerHTML=unifiedImportedSongs.map((song,i)=>{
+    const checked=unifiedImportSelectedIndexes.has(i);
+    const active=i===unifiedImportPreviewIndex;
+    const meta=[song.author||'',song.key?('Key '+song.key):'',song.cat||song.category||''].filter(Boolean).join(' · ');
+    return '<div class="file-import-song-row '+(active?'active ':'')+(checked?'selected':'')+'" onclick="previewUnifiedImportedSong('+i+')">'
+      +'<input type="checkbox" '+(checked?'checked':'')+' onclick="toggleUnifiedImportSelection('+i+',event)" aria-label="Select '+escapeHtml(song.title||'song')+'">'
+      +'<span><span class="file-import-song-title">'+escapeHtml(song.title||('Imported song '+(i+1)))+'</span><span class="file-import-song-meta">'+escapeHtml(meta||'No metadata')+'</span></span>'
+      +'</div>';
+  }).join('');
+}
+function renderUnifiedImportPreview(){
+  const body=document.getElementById('file-import-preview-body');
+  const meta=document.getElementById('file-import-preview-meta');
+  if(!unifiedImportedSongs.length){
+    const review=document.getElementById('file-import-review'); if(review)review.hidden=true;
+    setUnifiedImportPreviewEmpty('No valid songs found in the selected file.','Import failed');return;
+  }
+  if(unifiedImportPreviewIndex<0 || unifiedImportPreviewIndex>=unifiedImportedSongs.length)unifiedImportPreviewIndex=0;
+  renderUnifiedImportSongList();
+  const song=unifiedImportedSongs[unifiedImportPreviewIndex];
+  if(meta){
+    const count=unifiedImportedSongs.length;
+    const selectedCount=getUnifiedSelectedIndexes().length;
+    meta.textContent=[unifiedImportLastFormat,(count+' song'+(count===1?'':'s')),selectedCount+' selected',song.key?('Key of '+song.key):''].filter(Boolean).join(' · ');
+  }
+  if(body){
+    body.innerHTML='<div class="preview-empty" style="margin-bottom:10px"><strong>'+escapeHtml(song.title||'Imported song')+'</strong>'+(song.author?' · '+escapeHtml(song.author):'')+(unifiedImportedSongs.length>1?' · preview '+(unifiedImportPreviewIndex+1)+' of '+unifiedImportedSongs.length:'')+'</div>'+renderSheetHTML(song,song.key||'C',false,false);
+    body.classList.toggle('chords-highlight',!!appPrefs.highlightChords);
+  }
+}
+function previewUnifiedImportedSong(index){
+  index=Number(index);
+  if(!Number.isFinite(index) || index<0 || index>=unifiedImportedSongs.length)return;
+  unifiedImportPreviewIndex=index;
+  renderUnifiedImportPreview();
+}
+function toggleUnifiedImportSelection(index,ev){
+  if(ev){ev.preventDefault();ev.stopPropagation();}
+  index=Number(index);
+  if(!Number.isFinite(index) || index<0 || index>=unifiedImportedSongs.length)return;
+  if(unifiedImportSelectedIndexes.has(index))unifiedImportSelectedIndexes.delete(index);
+  else unifiedImportSelectedIndexes.add(index);
+  renderUnifiedImportPreview();
+}
+function selectAllUnifiedImportedSongs(flag){
+  unifiedImportSelectedIndexes=new Set(flag?unifiedImportedSongs.map((_,i)=>i):[]);
+  renderUnifiedImportPreview();
+}
+function applyUnifiedSongToEditor(song){
+  if(!song){showToast('Choose a file first');return;}
+  editingId=null;
+  modalCat=(song.cat||song.category||'english').toLowerCase().includes('malayalam')?'malayalam':'english';
+  const heading=document.getElementById('modal-heading'); if(heading)heading.textContent='Add song';
+  const del=document.getElementById('delete-btn'); if(del)del.style.display='none';
+  const keySel=document.getElementById('m-key');
+  const key=NOTES.includes(song.key)?song.key:'C';
+  if(keySel)keySel.innerHTML=NOTES.map(n=>`<option value="${n}"${key===n?' selected':''}>${n}</option>`).join('');
+  document.getElementById('m-title').value=song.title||'';
+  document.getElementById('m-author').value=song.author||'';
+  if(keySel)keySel.value=key;
+  document.getElementById('m-time-sig').value=song.timeSig||'';
+  document.getElementById('m-bpm').value=(song.bpm||'').toString();
+  document.getElementById('m-chart').value=song.chart||'';
+  document.querySelectorAll('.cat-opt').forEach((b,i)=>b.classList.toggle('active',['english','malayalam'][i]===modalCat));
+  closeBS('file-import');
+  setTimeout(()=>{
+    try{openBS('modal');}catch(e){const m=document.getElementById('bs-modal'); if(m)m.classList.add('open'); document.body.classList.add('editor-open');}
+    updateSongEditorPreview(); setSongEditorMode('edit'); resetEditorHistory();
+    setTimeout(()=>{try{getChartEditor()?.focus({preventScroll:true});}catch(e){}},60);
+  },30);
+  showToast('Imported into editor — tap Save when ready');
+}
+function editUnifiedImportedSong(){
+  if(!unifiedImportedSongs.length){showToast('Choose a file first');return;}
+  const song=unifiedImportedSongs[unifiedImportPreviewIndex] || getUnifiedSelectedSongs()[0] || unifiedImportedSongs[0];
+  applyUnifiedSongToEditor(song);
+}
+async function saveUnifiedImportedSongs(){
+  if(!unifiedImportedSongs.length){showToast('Choose a file first');return;}
+  const list=getUnifiedSelectedSongs().map(normalizeImportedSongRecord).filter(Boolean);
+  if(!list.length){showToast('Select at least one song to save');return;}
+  if(list.length===1 && typeof confirmImportNotDuplicate==='function' && !confirmImportNotDuplicate(list[0]))return;
+  const dest=chooseImportDestination(list.length,'song');
+  if(!dest)return;
+  try{
+    const count=await saveImportedSongsToDestination(list,dest);
+    finishBulkImportUI(dest,count,'song');
+    closeBS('file-import');
+    if(dest==='local')setLibraryFilter('mine');
+  }catch(e){console.error(e);showSync('File import failed',true);showToast('Could not save imported song');}
+}
 function openOnSongImportFromSettings(){
   if(!manageMode){showToast('Turn on Manage songs first');return;}
   requireAdmin(()=>document.getElementById('onsong-file')?.click());
 }
 
-function openOpenSongImportFromLibrary(){ document.getElementById('opensong-xml-file')?.click(); }
-function openOnSongImportFromLibrary(){ document.getElementById('onsong-file')?.click(); }
-function openMySongsJsonImportFromLibrary(){ document.getElementById('my-songs-json-file')?.click(); }
+function openOpenSongImportFromLibrary(){ openFileImportPage(); setUnifiedImportKind('opensong'); }
+function openOnSongImportFromLibrary(){ openFileImportPage(); setUnifiedImportKind('onsong'); }
+function openMySongsJsonImportFromLibrary(){ openFileImportPage(); setUnifiedImportKind('json'); }
 function openManageSongsSecret(event){ event?.preventDefault?.(); openManageSongsFromSettings(); }
 
 function isSongManageTab(){return activeTab==='songs';}
@@ -7592,7 +7865,7 @@ function changeBibleChapter(dir){
 function updateHeaderAddButton(tab){
   const btn=document.getElementById('hdr-add-btn');
   if(!btn)return;
-  // v69.9: the library plus button is available to everyone.
+  // v69.11: the library plus button is available to everyone.
   // Normal users create/import into local My Songs; admin/manage mode can choose Firebase.
   btn.style.display=(tab==='songs' && !document.body.classList.contains('song-open'))?'flex':'none';
 }
@@ -7927,7 +8200,7 @@ function openBS(name){
   if(name==='defaultbibleversion')renderDefaultBibleVersionOptions();
   if(name==='setdest')updateSetDestUI();
   if(name==='changepin'){document.getElementById('cp-current').value='';document.getElementById('cp-new').value='';document.getElementById('cp-confirm').value='';document.getElementById('cp-err').style.display='none';}
-  const bs=el.querySelector('.bs');if(bs){bs.style.transform='';bs.style.transition='';if(name!=='modal' && name!=='ug-import' && name!=='sop-import')attachSheetSwipe(bs,name);}
+  const bs=el.querySelector('.bs');if(bs){bs.style.transform='';bs.style.transition='';if(name!=='modal' && name!=='ug-import' && name!=='sop-import' && name!=='file-import')attachSheetSwipe(bs,name);}
 }
 
 /* ══ CHANGE PIN ══ */
