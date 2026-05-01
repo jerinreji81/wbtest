@@ -10,7 +10,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="assets/wb-icon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
 
-<title>WorshipBase v72.5.5</title>
+<title>WorshipBase v72.5.6</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 /* Prevent iOS long-press/callout menus and text selection on UI chrome
@@ -3088,7 +3088,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
       <div class="wm">
         <div><div class="wm-name">WorshipBase</div><div class="wm-sub">Chord Library</div></div>
       </div>
-      <button class="hdr-btn" style="display: none;" onclick="openAddSongMenu(event)" id="hdr-add-btn" title="Add song" aria-label="Add song">
+      <button class="hdr-btn" style="display: flex;" onclick="openAddSongMenu(event)" id="hdr-add-btn" title="Add song" aria-label="Add song">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 5v14M5 12h14"></path>
         </svg>
@@ -3118,7 +3118,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   </div>
 
   <!-- Search + library filters -->
-  <div class="srch-wrap" id="srch-wrap" style="display: none;">
+  <div class="srch-wrap" id="srch-wrap" style="display: block;">
     <div class="srch-row">
       <div class="srch-inner">
         <span class="srch-ico"><svg width="14" height="14" viewBox="0 0 15 15" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 10L13 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg></span>
@@ -3135,7 +3135,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
         </select>
       </label>
     </div>
-    <div class="filter-row" id="library-filter-row" style="display: none;">
+    <div class="filter-row" id="library-filter-row" style="display: flex;">
       <button class="filter-chip active" data-filter="all" onclick="setLibraryFilter('all',this)">All</button>
       <button class="filter-chip" data-filter="mine" onclick="setLibraryFilter('mine',this)">My Songs</button>
       <button class="filter-chip" data-filter="english" onclick="setLibraryFilter('english',this)">English</button>
@@ -3155,7 +3155,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   </div>
 
   <!-- SONG LIST -->
-  <div id="song-section" style="flex: 1 1 0%; display: none; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;">
+  <div id="song-section" style="flex: 1 1 0%; display: flex; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;">
     <div class="vs-host ptr-wrap">
       <div id="ptr-indicator"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2v4M9 2l-2 2M9 2l2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16 9a7 7 0 1 1-7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg></div>
       <div id="vscroll" class="vs-wrap" style="-webkit-overflow-scrolling: touch;"><div class="library-count-row" id="library-count-row"><span class="song-count" id="song-count">73 songs</span></div><div id="home-quick-wrap" class="home-quick-wrap" style="display: flex;">
@@ -3226,7 +3226,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   </div>
 
   <!-- SETTINGS -->
-  <div id="settings-section" style="display: flex; flex: 1 1 0%; flex-direction: column; overflow: hidden; min-height: 0px;">
+  <div id="settings-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;min-height:0;">
     <div class="settings-scroll" style="-webkit-overflow-scrolling: touch;">
 
       <div class="ss-section">
@@ -3381,7 +3381,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
               <img src="assets/wb-icon-192.png" alt="WorshipBase logo">
             </div>
             <div class="about-name">WorshipBase</div>
-            <div class="about-version-pill">Version 72.5.5</div>
+            <div class="about-version-pill">Version 72.5.6</div>
             <div class="about-by">Created by <strong>Jerin Reji</strong></div>
           </div>
         </div>
@@ -3394,7 +3394,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   <div class="tab-bar" id="tab-bar">
 
     <!-- Library tab -->
-    <button class="tab-btn" id="tab-songs" onclick="switchTab('songs')">
+    <button class="tab-btn active" id="tab-songs" onclick="switchTab('songs')">
       <span class="tab-ico">
         <svg class="ico-outline" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
         <svg class="ico-filled" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 6h16" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path><path d="M4 12h10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path><path d="M4 18h16" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path></svg>
@@ -3425,7 +3425,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
     </button>
 
     <!-- Settings tab -->
-    <button class="tab-btn active" id="tab-settings" onclick="switchTab('settings')">
+    <button class="tab-btn" id="tab-settings" onclick="switchTab('settings')">
       <span class="tab-ico">
         <!-- outline: thin gear -->
         <svg class="ico-outline" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
@@ -4078,7 +4078,7 @@ line 18 | Hold / pause"></textarea>
     <div class="m-body" style="padding-bottom:6px;">
       <p style="font-size:13px;color:var(--txt2);margin-bottom:12px;line-height:1.55;">Choose, rename, delete, or create a set list for this scope.</p>
     </div>
-    <div class="namedset-list" id="namedset-list"><div class="namedset-item active"><button class="namedset-main" onclick="selectNamedSet('default')"><div class="namedset-name">Shared Set</div><div class="namedset-meta">0 songs · Current</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('default')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('default')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_mo7sqrydmttg')"><div class="namedset-name">Sunday Service</div><div class="namedset-meta">0 songs</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_mo7sqrydmttg')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_mo7sqrydmttg')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_moa9begufotn')"><div class="namedset-name">Be Still</div><div class="namedset-meta">0 songs</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_moa9begufotn')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_moa9begufotn')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_mon5y9a7u7fn')"><div class="namedset-name">Backup test (Shared)</div><div class="namedset-meta">9 songs</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_mon5y9a7u7fn')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_mon5y9a7u7fn')">Delete</button></div></div></div>
+    <div class="namedset-list" id="namedset-list"><div class="namedset-item active"><button class="namedset-main" onclick="selectNamedSet('default')"><div class="namedset-name">Shared Set</div><div class="namedset-meta">0 songs · Current</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('default')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('default')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_mo7sqrydmttg')"><div class="namedset-name">Sunday Service</div><div class="namedset-meta">0 songs</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_mo7sqrydmttg')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_mo7sqrydmttg')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_moa9begufotn')"><div class="namedset-name">Be Still</div><div class="namedset-meta">0 songs</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_moa9begufotn')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_moa9begufotn')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_mon6hr30g3ra')"><div class="namedset-name">Backup test</div><div class="namedset-meta">9 songs</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_mon6hr30g3ra')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_mon6hr30g3ra')">Delete</button></div></div></div>
     <div class="m-acts" style="padding:0 18px 8px;">
       <button class="btn-s" type="button" onclick="createNamedSet()">New set list</button>
       <button class="btn-s" type="button" id="sets-copy-btn" onclick="copyActiveSetToOtherScope()">Copy to Personal</button>
@@ -13565,7 +13565,7 @@ body.dark .wb-sync-btn.primary .wb-sync-badge{background:rgba(143,180,255,.16)!i
     const backupSongs=((typeof songs!=='undefined'?songs:[])||[]).filter(typeof isMySong==='function'?isMySong:function(s){return String(s&&s.librarySource||'').toLowerCase()==='user';}).map(function(s){return typeof buildPortableSongPayload==='function'?buildPortableSongPayload(s,true):{...s,librarySource:'user'};});
     const prefs={...(typeof appPrefs!=='undefined'?appPrefs:{})};
     delete prefs.adminPin;
-    return {format:'worshipbase-google-drive-backup',version:'72.5.5',backupKind:'personal-appdatafolder',exportedAt:new Date().toISOString(),fileName:GOOGLE_DRIVE_BACKUP_NAME,songs:backupSongs,songMemory:typeof loadSongMemory==='function'?loadSongMemory():{},notes:typeof buildNotesCuesExportRows==='function'?buildNotesCuesExportRows():[],personalSetLists:(typeof _personalSets!=='undefined'?_personalSets:{}),activePersonalSetId:(typeof appPrefs!=='undefined'&&appPrefs.activePersonalSetId)||'default',preferences:prefs};
+    return {format:'worshipbase-google-drive-backup',version:'72.5.6',backupKind:'personal-appdatafolder',exportedAt:new Date().toISOString(),fileName:GOOGLE_DRIVE_BACKUP_NAME,songs:backupSongs,songMemory:typeof loadSongMemory==='function'?loadSongMemory():{},notes:typeof buildNotesCuesExportRows==='function'?buildNotesCuesExportRows():[],personalSetLists:(typeof _personalSets!=='undefined'?_personalSets:{}),activePersonalSetId:(typeof appPrefs!=='undefined'&&appPrefs.activePersonalSetId)||'default',preferences:prefs};
   }
   function multipartBody(metadata,jsonText){
     const boundary='wb_drive_'+Math.random().toString(36).slice(2);
@@ -13704,7 +13704,7 @@ body.dark .wb-sync-mini-row{background:rgba(255,255,255,.04);}
   const oldSaveSetNotes=window.saveSetNotes || (typeof saveSetNotes==='function'?saveSetNotes:null);if(oldSaveSetNotes&&!oldSaveSetNotes.__wbV724){window.saveSetNotes=function(){const r=oldSaveSetNotes();setTimeout(addSetNotesIndicators,80);return r;};window.saveSetNotes.__wbV724=true;try{saveSetNotes=window.saveSetNotes;}catch(e){}}
   const oldSyncAdminUI=window.syncAdminOnlyUI || (typeof syncAdminOnlyUI==='function'?syncAdminOnlyUI:null);if(oldSyncAdminUI&&!oldSyncAdminUI.__wbV724){window.syncAdminOnlyUI=function(){const r=oldSyncAdminUI();try{const mine=!!(currentSong&&currentSong.localOnly);const edit=document.getElementById('mi-edit-song');if(edit&&mine){edit.style.display='flex';const span=edit.querySelector('span:last-child');if(span)span.textContent='Edit My Song';edit.onclick=function(){closeBS('songmenu');openSongModal(currentSong);};}else if(edit){const span=edit.querySelector('span:last-child');if(span)span.textContent='Edit song';edit.onclick=function(){requireAdmin(()=>{closeBS('songmenu');openSongModal(currentSong);});};}const ctx=document.getElementById('ctx-edit-song');if(ctx&&ctxSong&&ctxSong.localOnly){ctx.style.display='flex';ctx.querySelector('span')&&(ctx.querySelector('span').textContent='Edit My Song');}}catch(e){}return r;};window.syncAdminOnlyUI.__wbV724=true;try{syncAdminOnlyUI=window.syncAdminOnlyUI;}catch(e){}}
   const oldCtxAction=window.ctxAction || (typeof ctxAction==='function'?ctxAction:null);if(oldCtxAction&&!oldCtxAction.__wbV724){window.ctxAction=function(action){if(action==='edit'&&ctxSong&&ctxSong.localOnly){const s=ctxSong;closeCtx();openSongModal(s);return;}return oldCtxAction(action);};window.ctxAction.__wbV724=true;try{ctxAction=window.ctxAction;}catch(e){}}
-  function buildEmergencySnapshot(){const backupSongs=((typeof songs!=='undefined'?songs:[])||[]).filter(typeof isMySong==='function'?isMySong:function(s){return String(s&&s.librarySource||'').toLowerCase()==='user';}).map(function(s){return typeof buildPortableSongPayload==='function'?buildPortableSongPayload(s,true):{...s,librarySource:'user'};});const prefs={...(typeof appPrefs!=='undefined'?appPrefs:{})}; delete prefs.adminPin;return {format:'worshipbase-pre-restore-snapshot',version:'72.5.5',createdAt:new Date().toISOString(),songs:backupSongs,songMemory:typeof loadSongMemory==='function'?loadSongMemory():{},personalSetLists:(typeof _personalSets!=='undefined'?_personalSets:{}),activePersonalSetId:(typeof appPrefs!=='undefined'&&appPrefs.activePersonalSetId)||'default',preferences:prefs};}
+  function buildEmergencySnapshot(){const backupSongs=((typeof songs!=='undefined'?songs:[])||[]).filter(typeof isMySong==='function'?isMySong:function(s){return String(s&&s.librarySource||'').toLowerCase()==='user';}).map(function(s){return typeof buildPortableSongPayload==='function'?buildPortableSongPayload(s,true):{...s,librarySource:'user'};});const prefs={...(typeof appPrefs!=='undefined'?appPrefs:{})}; delete prefs.adminPin;return {format:'worshipbase-pre-restore-snapshot',version:'72.5.6',createdAt:new Date().toISOString(),songs:backupSongs,songMemory:typeof loadSongMemory==='function'?loadSongMemory():{},personalSetLists:(typeof _personalSets!=='undefined'?_personalSets:{}),activePersonalSetId:(typeof appPrefs!=='undefined'&&appPrefs.activePersonalSetId)||'default',preferences:prefs};}
   function savePreRestoreSnapshot(){try{const snap=buildEmergencySnapshot();localStorage.setItem(PRE_RESTORE_KEY,JSON.stringify(snap));return snap;}catch(e){console.warn('Could not save pre-restore snapshot',e);return null;}}
   window.downloadPreRestoreSnapshot=function(){try{const raw=localStorage.getItem(PRE_RESTORE_KEY);if(!raw){toast('No backup from before last restore saved yet');return;}const name='worshipbase-backup-before-last-restore.json'; if(typeof downloadTextFile==='function')downloadTextFile(name,raw); else {const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([raw],{type:'application/json'}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);} }catch(e){toast('Could not download backup from before last restore');}};
   const oldRestoreDrive=window.restoreFromGoogleDrive;if(oldRestoreDrive&&!oldRestoreDrive.__wbV724){window.restoreFromGoogleDrive=async function(){savePreRestoreSnapshot();return oldRestoreDrive.apply(this,arguments);};window.restoreFromGoogleDrive.__wbV724=true;}
@@ -13718,7 +13718,7 @@ body.dark .wb-sync-mini-row{background:rgba(255,255,255,.04);}
 
 
 <style id="wb-v72-5-2-backup-settings-polish">
-/* v72.5.5 — polished Backup & Restore settings card layout. */
+/* v72.5.6 — polished Backup & Restore settings card layout. */
 .wb-hidden-settings-section{display:none!important;}
 .wb-backup-card .ss-row{cursor:pointer;}
 .wb-backup-choice{display:flex;align-items:center;gap:12px;padding:15px 20px;border-top:.5px solid var(--bdr);background:transparent;border-left:0;border-right:0;border-bottom:0;width:100%;text-align:left;font-family:inherit;color:var(--txt1);cursor:pointer;}
@@ -13860,7 +13860,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 
 
 <style id="wb-v72-5-5-polish-css">
-/* v72.5.5 — compact Drive status rows and keep them visually secondary. */
+/* v72.5.6 — compact Drive status rows and keep them visually secondary. */
 .wb-drive-status-surface{gap:10px!important;padding:14px 14px 13px!important;border-radius:22px!important;}
 .wb-drive-status-head{gap:10px!important;}
 .wb-drive-status-left{gap:11px!important;}
@@ -13880,7 +13880,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
   'use strict';
   const EDIT_ICON='<svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M12 3l2 2L5.5 13H3.5v-2L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
   function usefulMemory(m){return !!(m&&typeof m==='object'&&(String(m.notes||'').trim()||String(m.cues||'').trim()||String(m.usualKey||'').trim()||String(m.capo||'').trim()||String(m.practiceStatus||'').trim()));}
-  function setVisibleVersion(){try{document.title='WorshipBase v72.5.5';document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 72.5.5';});}catch(e){}}
+  function setVisibleVersion(){try{document.title='WorshipBase v72.5.6';document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 72.5.6';});}catch(e){}}
   function fixSongEditButton(){
     try{
       const btn=document.getElementById('mi-edit-song');
@@ -14023,5 +14023,193 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 })();
 </script>
 
+
+
+<script id="wb-v72-5-6-rich-shared-set-fix">
+(function(){
+  // v72.5.6 — make Personal ↔ Shared set copying use one rich planning-board shape.
+  function toast(msg,err){try{showToast(msg,!!err);}catch(e){try{alert(msg);}catch(_){}}}
+  function normPlanItem(item,idx){
+    try{
+      const x=(typeof normSetItem==='function')?normSetItem(item,idx):(item||{});
+      if(!x||!x.type)return null;
+      if(x.type==='section')return {type:'section',id:String(x.id||((typeof makeSetItemId==='function')?makeSetItemId('section'):'section_'+Date.now()+'_'+idx)),title:String(x.title||'Section'),order:idx};
+      if(x.type==='item')return {type:'item',id:String(x.id||((typeof makeSetItemId==='function')?makeSetItemId('item'):'item_'+Date.now()+'_'+idx)),title:String(x.title||'Service item'),note:String(x.note||''),order:idx};
+      const songId=String(x.songId||x.id||'');
+      return songId?{type:'song',songId,setKey:(typeof normSetKey==='function'?normSetKey(x.setKey):x.setKey)||'original',order:idx}:null;
+    }catch(e){return null;}
+  }
+  function richItems(items,keepIds){
+    return (Array.isArray(items)?items:[]).map((item,idx)=>normPlanItem(item,idx)).filter(Boolean).map((x,idx)=>{
+      if(x.type==='song')return {...x,order:idx};
+      if(!keepIds){
+        if(x.type==='section')x.id=(typeof makeSetItemId==='function')?makeSetItemId('section'):'section_'+Date.now()+'_'+idx;
+        if(x.type==='item')x.id=(typeof makeSetItemId==='function')?makeSetItemId('item'):'item_'+Date.now()+'_'+idx;
+      }
+      return {...x,order:idx};
+    });
+  }
+  function itemCanSave(x){return x&&((x.type==='section')||(x.type==='item')||(x.type==='song'&&x.songId&&((typeof songExistsInLibrary!=='function')||songExistsInLibrary(x.songId))));}
+  function richItemsForSave(items){return richItems(items,true).filter(itemCanSave);}
+  function usefulMemory(m){return !!(m&&typeof m==='object'&&(String(m.notes||'').trim()||String(m.cues||'').trim()||String(m.usualKey||'').trim()||String(m.capo||'').trim()||String(m.practiceStatus||'').trim()));}
+  function memoryKeys(songOrId){
+    const keys=[];
+    try{if(songOrId&&typeof songOrId==='object'){keys.push(songOrId.id,songOrId.fbKey,songOrId.songId,songOrId.songCode);}}catch(e){}
+    try{keys.push((typeof memorySongId==='function')?memorySongId(songOrId):'');}catch(e){}
+    if(typeof songOrId==='string'||typeof songOrId==='number')keys.push(String(songOrId));
+    return [...new Set(keys.map(x=>String(x||'')).filter(Boolean))];
+  }
+  function mergeMemory(base,extra){
+    const out={...(base&&typeof base==='object'?base:{})};
+    if(extra&&typeof extra==='object'){
+      Object.entries(extra).forEach(([k,v])=>{
+        if(v==null)return;
+        if(typeof v==='string'){
+          if(v.trim())out[k]=v;
+        }else if(v!==''&&v!==false){out[k]=v;}
+      });
+    }
+    return out;
+  }
+  function collectRichSongMemory(set,items){
+    const out={};
+    try{
+      const embedded=(set&&set.songMemory&&typeof set.songMemory==='object')?set.songMemory:{};
+      const local=(typeof loadSongMemory==='function')?loadSongMemory():{};
+      Object.keys(embedded).forEach(k=>{if(usefulMemory(embedded[k]))out[String(k)]={...embedded[k]};});
+      (items||[]).filter(x=>x.type==='song'&&x.songId).forEach(item=>{
+        const song=(typeof findSongById==='function')?findSongById(item.songId):null;
+        const keys=memoryKeys(song||item.songId);
+        let mem={};
+        keys.forEach(k=>{mem=mergeMemory(mem,embedded[k]);mem=mergeMemory(mem,local[k]);});
+        mem=mergeMemory(mem,embedded[item.songId]);
+        mem=mergeMemory(mem,local[item.songId]);
+        if(usefulMemory(mem)){
+          const canonical=keys[0]||item.songId;
+          const payload={...mem,songId:canonical,title:mem.title||(song&&song.title)||''};
+          keys.concat([item.songId]).filter(Boolean).forEach(k=>{out[String(k)]={...payload,songId:String(k)};});
+        }
+      });
+    }catch(e){console.warn('Could not collect rich set memory',e);}
+    return out;
+  }
+  function normalizeSetMapRich(raw,fallbackLabel){
+    const out={};
+    try{
+      if(raw&&typeof raw==='object')Object.entries(raw).forEach(([id,val],idx)=>{
+        if(!val||typeof val!=='object')return;
+        out[id]={
+          name:String(val.name||`${fallbackLabel||'Set'} ${idx+1}`),
+          notes:String(val.notes||''),
+          items:richItems(val.items||val.songs||[],true),
+          songMemory:(val.songMemory&&typeof val.songMemory==='object')?val.songMemory:{},
+          updatedAt:Number(val.updatedAt||Date.now())
+        };
+      });
+    }catch(e){}
+    return out;
+  }
+  window.normalizeNamedSetMap=normalizeSetMapRich;
+  try{normalizeNamedSetMap=normalizeSetMapRich;}catch(e){}
+
+  function saveSharedSetsRich(){
+    try{
+      const payload={};
+      Object.entries((typeof _sharedSets!=='undefined'&&_sharedSets)||{}).forEach(([id,set])=>{
+        payload[id]={
+          name:set.name||'Shared Set',
+          notes:String(set.notes||''),
+          updatedAt:Date.now(),
+          items:richItemsForSave(set.items||[]),
+          songMemory:(set.songMemory&&typeof set.songMemory==='object')?set.songMemory:{}
+        };
+      });
+      if(typeof sharedSetsRef!=='undefined'&&sharedSetsRef&&sharedSetsRef.set)sharedSetsRef.set(payload).catch(()=>toast('Sync failed',true));
+      try{
+        // Legacy /setlist gets the active set's songs only for old builds, but the rich /setlists path above is the source of truth.
+        const compat={};
+        const active=(typeof getActiveSet==='function')?getActiveSet('shared'):null;
+        richItemsForSave(active&&active.items||[]).filter(x=>x.type==='song'&&x.songId).forEach((item,i)=>{compat[`i${i}`]={songId:item.songId,order:i,setKey:item.setKey||'original'};});
+        if(typeof setlistRef!=='undefined'&&setlistRef&&setlistRef.set)setlistRef.set(compat).catch(()=>{});
+      }catch(e){}
+      try{if(typeof saveNamedSetsCache==='function')saveNamedSetsCache();else localStorage.setItem('wb_named_sets_cache_v1',JSON.stringify(_sharedSets));}catch(e){}
+    }catch(e){console.warn('Could not save rich shared sets',e);}
+  }
+  window.saveSharedSetsToFB=saveSharedSetsRich;
+  try{saveSharedSetsToFB=saveSharedSetsRich;}catch(e){}
+
+  // Reattach the shared named-set listener so Firebase rich data cannot be flattened by old handlers.
+  try{
+    if(typeof sharedSetsRef!=='undefined'&&sharedSetsRef&&sharedSetsRef.off&&sharedSetsRef.on&&!sharedSetsRef.__wbV7256RichListener){
+      sharedSetsRef.off('value');
+      sharedSetsRef.on('value',snap=>{
+        const d=snap.val();
+        if(d&&Object.keys(d).length){
+          const remembered=(appPrefs&&appPrefs.activeSharedSetId)||'default';
+          _sharedSets=normalizeSetMapRich(d,'Shared Set');
+          if(_sharedSets[remembered])appPrefs.activeSharedSetId=remembered;
+          try{ensureNamedSetState('shared');}catch(e){}
+          try{saveNamedSetsCache();}catch(e){}
+          try{pruneMissingSongsFromSets();}catch(e){}
+          try{if(activeTab==='setlist')renderSetList();}catch(e){}
+          try{renderNamedSetChooserUI();}catch(e){}
+        }
+      });
+      sharedSetsRef.__wbV7256RichListener=true;
+    }
+  }catch(e){console.warn('Could not attach rich shared set listener',e);}
+
+  const previousGetSongMemory=window.getSongMemory || (typeof getSongMemory==='function'?getSongMemory:null);
+  if(previousGetSongMemory&&!previousGetSongMemory.__wbV7256RichMerge){
+    window.getSongMemory=function(song){
+      const local=previousGetSongMemory.apply(this,arguments)||{};
+      let embedded={};
+      try{
+        const set=(typeof getActiveSet==='function')?getActiveSet(appPrefs.setListScope):null;
+        const mem=set&&set.songMemory&&typeof set.songMemory==='object'?set.songMemory:{};
+        memoryKeys(song||currentSong).forEach(k=>{embedded=mergeMemory(embedded,mem[k]);});
+      }catch(e){}
+      // Local values only override embedded values when they have actual content; empty local cue fields should not erase copied shared cues.
+      return mergeMemory(embedded,local);
+    };
+    window.getSongMemory.__wbV7256RichMerge=true;
+    try{getSongMemory=window.getSongMemory;}catch(e){}
+  }
+
+  window.copyActiveSetToOtherScope=function(){
+    try{
+      const from=(typeof setScopeKey==='function')?setScopeKey(appPrefs.setListScope):appPrefs.setListScope;
+      const to=from==='shared'?'personal':'shared';
+      const src=(typeof getActiveSet==='function')?getActiveSet(from):null;
+      if(!src){toast('No active set list to copy',true);return;}
+      const suggested=`${src.name||'Set'} (${(typeof getScopeLabel==='function')?getScopeLabel(to):to})`;
+      const name=(prompt(`Copy to ${(typeof getScopeLabel==='function')?getScopeLabel(to):to} as:`,suggested)||'').trim();
+      if(!name)return;
+      const sourceItems=(typeof getSetList==='function')?getSetList(from):(src.items||[]);
+      const items=richItems(sourceItems&&sourceItems.length?sourceItems:src.items||[],false);
+      const copied={name,notes:String(src.notes||''),items,songMemory:collectRichSongMemory(src,items),updatedAt:Date.now()};
+      const id=(typeof makeSetId==='function')?makeSetId():('set_'+Date.now().toString(36));
+      const sets={...((typeof getNamedSets==='function')?getNamedSets(to):{})};
+      sets[id]=copied;
+      if(to==='personal'){
+        _personalSets=sets;
+        appPrefs.activePersonalSetId=id;
+        try{savePersonalNamedSets();}catch(e){}
+      }else{
+        _sharedSets=sets;
+        appPrefs.activeSharedSetId=id;
+        saveSharedSetsRich();
+      }
+      try{savePrefs();}catch(e){}
+      try{renderNamedSetChooserUI();}catch(e){}
+      try{if(activeTab==='setlist')renderSetList();else refresh(false);}catch(e){}
+      const planCount=items.filter(x=>x.type==='section'||x.type==='item').length;
+      const memCount=Object.keys(copied.songMemory||{}).length;
+      toast(`Copied to ${((typeof getScopeLabel==='function')?getScopeLabel(to):to).toLowerCase()} set lists${planCount?` with ${planCount} section/service item${planCount!==1?'s':''}`:''}${memCount?` and notes/cues for ${memCount} song${memCount!==1?'s':''}`:''}`);
+    }catch(e){console.error(e);toast('Could not copy set list',true);}
+  };
+  try{copyActiveSetToOtherScope=window.copyActiveSetToOtherScope;}catch(e){}
+})();
+</script>
 
 <div id="wb-pad-float" class="wb-pad-float"><button class="wb-pad-float-label" id="wb-pad-float-label" type="button">Pad</button><button class="wb-pad-float-stop" id="wb-pad-float-stop" type="button" aria-label="Stop pad"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"></rect></svg></button></div><input type="file" id="full-app-backup-json-file" accept=".json,application/json" style="display: none;"><div class="bs-bg" id="bs-backuplocal" onclick="closeBSBg(event,'backuplocal')"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><h2 class="m-h2">Local backup</h2><button class="m-close" onclick="closeBS('backuplocal')">×</button></div><div class="m-body"><p class="wb-backup-sheet-note">Save JSON files to your device, or restore from a file you previously exported.</p><div class="wb-backup-group-title">Export to file</div><button class="wb-backup-choice" type="button" onclick="exportMySongsJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">My Songs</span><span class="wb-backup-choice-sub">Songs added on this device only</span></span><span class="wb-backup-choice-tag">JSON</span></button><button class="wb-backup-choice" type="button" onclick="exportNotesCuesJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Notes &amp; Cues</span><span class="wb-backup-choice-sub">Personal notes, cues, usual keys and practice status</span></span><span class="wb-backup-choice-tag">JSON</span></button><button class="wb-backup-choice" type="button" onclick="exportAppBackupJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Everything</span><span class="wb-backup-choice-sub">My Songs, set lists, sections, service items, notes/cues and preferences</span></span><span class="wb-backup-choice-tag">Full</span></button><div class="wb-backup-group-title">Restore from file</div><button class="wb-backup-choice" type="button" onclick="document.getElementById('my-songs-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore My Songs</span><span class="wb-backup-choice-sub">Import a WorshipBase song JSON file</span></span><span class="wb-backup-choice-tag">Import</span></button><button class="wb-backup-choice" type="button" onclick="document.getElementById('notes-cues-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore Notes &amp; Cues</span><span class="wb-backup-choice-sub">Apply notes/cues onto matching songs</span></span><span class="wb-backup-choice-tag">Import</span></button><button class="wb-backup-choice" type="button" onclick="document.getElementById('full-app-backup-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore Everything</span><span class="wb-backup-choice-sub">Replace personal data on this device from a full app backup</span></span><span class="wb-backup-choice-tag">Replace</span></button></div></div></div><div class="bs-bg" id="bs-backupdrive" onclick="closeBSBg(event,'backupdrive')"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><h2 class="m-h2">Google Drive backup</h2><button class="m-close" onclick="closeBS('backupdrive')">×</button></div><div class="m-body"><div id="wb-drive-sheet-body"></div></div></div></div></body><div style="position: fixed; top: 0px; left: 0px; width: 1px; height: env(safe-area-inset-top,0px); pointer-events: none; opacity: 0; z-index: -1;"></div><div style="position: fixed; bottom: 0px; left: 0px; width: 1px; height: env(safe-area-inset-bottom,0px); pointer-events: none; opacity: 0; z-index: -1;"></div></html>
