@@ -10,7 +10,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="assets/wb-icon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
 
-<title>WorshipBase v72.5.8</title>
+<title>WorshipBase v72.6</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 /* Prevent iOS long-press/callout menus and text selection on UI chrome
@@ -3088,7 +3088,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
       <div class="wm">
         <div><div class="wm-name">WorshipBase</div><div class="wm-sub">Chord Library</div></div>
       </div>
-      <button class="hdr-btn" style="display: none;" onclick="openAddSongMenu(event)" id="hdr-add-btn" title="Add song" aria-label="Add song">
+      <button class="hdr-btn" style="display: flex;" onclick="openAddSongMenu(event)" id="hdr-add-btn" title="Add song" aria-label="Add song">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 5v14M5 12h14"></path>
         </svg>
@@ -3118,7 +3118,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   </div>
 
   <!-- Search + library filters -->
-  <div class="srch-wrap" id="srch-wrap" style="display: none;">
+  <div class="srch-wrap" id="srch-wrap" style="display: block;">
     <div class="srch-row">
       <div class="srch-inner">
         <span class="srch-ico"><svg width="14" height="14" viewBox="0 0 15 15" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 10L13 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg></span>
@@ -3135,7 +3135,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
         </select>
       </label>
     </div>
-    <div class="filter-row" id="library-filter-row" style="display: none;">
+    <div class="filter-row" id="library-filter-row" style="display: flex;">
       <button class="filter-chip active" data-filter="all" onclick="setLibraryFilter('all',this)">All</button>
       <button class="filter-chip" data-filter="mine" onclick="setLibraryFilter('mine',this)">My Songs</button>
       <button class="filter-chip" data-filter="english" onclick="setLibraryFilter('english',this)">English</button>
@@ -3155,7 +3155,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   </div>
 
   <!-- SONG LIST -->
-  <div id="song-section" style="flex: 1 1 0%; display: none; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;">
+  <div id="song-section" style="flex: 1 1 0%; display: flex; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;">
     <div class="vs-host ptr-wrap">
       <div id="ptr-indicator"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2v4M9 2l-2 2M9 2l2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16 9a7 7 0 1 1-7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg></div>
       <div id="vscroll" class="vs-wrap" style="-webkit-overflow-scrolling: touch;"><div class="library-count-row" id="library-count-row"><span class="song-count" id="song-count">73 songs</span></div><div id="home-quick-wrap" class="home-quick-wrap" style="display: flex;">
@@ -3226,7 +3226,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   </div>
 
   <!-- SETTINGS -->
-  <div id="settings-section" style="display: flex; flex: 1 1 0%; flex-direction: column; overflow: hidden; min-height: 0px;">
+  <div id="settings-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;min-height:0;">
     <div class="settings-scroll" style="-webkit-overflow-scrolling: touch;">
 
       <div class="ss-section">
@@ -3381,7 +3381,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
               <img src="assets/wb-icon-192.png" alt="WorshipBase logo">
             </div>
             <div class="about-name">WorshipBase</div>
-            <div class="about-version-pill">Version 72.5.8</div>
+            <div class="about-version-pill">Version 72.6</div>
             <div class="about-by">Created by <strong>Jerin Reji</strong></div>
           </div>
         </div>
@@ -3394,7 +3394,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   <div class="tab-bar" id="tab-bar">
 
     <!-- Library tab -->
-    <button class="tab-btn" id="tab-songs" onclick="switchTab('songs')">
+    <button class="tab-btn active" id="tab-songs" onclick="switchTab('songs')">
       <span class="tab-ico">
         <svg class="ico-outline" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
         <svg class="ico-filled" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 6h16" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path><path d="M4 12h10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path><path d="M4 18h16" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path></svg>
@@ -3425,7 +3425,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
     </button>
 
     <!-- Settings tab -->
-    <button class="tab-btn active" id="tab-settings" onclick="switchTab('settings')">
+    <button class="tab-btn" id="tab-settings" onclick="switchTab('settings')">
       <span class="tab-ico">
         <!-- outline: thin gear -->
         <svg class="ico-outline" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
@@ -4078,7 +4078,7 @@ line 18 | Hold / pause"></textarea>
     <div class="m-body" style="padding-bottom:6px;">
       <p style="font-size:13px;color:var(--txt2);margin-bottom:12px;line-height:1.55;">Choose, rename, delete, or create a set list for this scope.</p>
     </div>
-    <div class="namedset-list" id="namedset-list"><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('copy-mon95mae')"><div class="namedset-name">Backup test copy</div><div class="namedset-meta">0 songs</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('copy-mon95mae')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('copy-mon95mae')">Delete</button></div></div><div class="namedset-item active"><button class="namedset-main" onclick="selectNamedSet('default')"><div class="namedset-name">Shared Set</div><div class="namedset-meta">0 songs · Current</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('default')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('default')">Delete</button></div></div></div>
+    <div class="namedset-list" id="namedset-list"><div class="namedset-item active"><button class="namedset-main" onclick="selectNamedSet('default')"><div class="namedset-name">Shared Set</div><div class="namedset-meta">0 songs · Current</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('default')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('default')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_monb9bx0dmp2')"><div class="namedset-name">Backup test (Shared)</div><div class="namedset-meta">6 songs</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_monb9bx0dmp2')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_monb9bx0dmp2')">Delete</button></div></div></div>
     <div class="m-acts" style="padding:0 18px 8px;">
       <button class="btn-s" type="button" onclick="createNamedSet()">New set list</button>
       <button class="btn-s" type="button" id="sets-copy-btn" onclick="copyActiveSetToOtherScope()">Copy to Personal</button>
@@ -13565,7 +13565,7 @@ body.dark .wb-sync-btn.primary .wb-sync-badge{background:rgba(143,180,255,.16)!i
     const backupSongs=((typeof songs!=='undefined'?songs:[])||[]).filter(typeof isMySong==='function'?isMySong:function(s){return String(s&&s.librarySource||'').toLowerCase()==='user';}).map(function(s){return typeof buildPortableSongPayload==='function'?buildPortableSongPayload(s,true):{...s,librarySource:'user'};});
     const prefs={...(typeof appPrefs!=='undefined'?appPrefs:{})};
     delete prefs.adminPin;
-    return {format:'worshipbase-google-drive-backup',version:'72.5.8',backupKind:'personal-appdatafolder',exportedAt:new Date().toISOString(),fileName:GOOGLE_DRIVE_BACKUP_NAME,songs:backupSongs,songMemory:typeof loadSongMemory==='function'?loadSongMemory():{},notes:typeof buildNotesCuesExportRows==='function'?buildNotesCuesExportRows():[],personalSetLists:(typeof _personalSets!=='undefined'?_personalSets:{}),activePersonalSetId:(typeof appPrefs!=='undefined'&&appPrefs.activePersonalSetId)||'default',preferences:prefs};
+    return {format:'worshipbase-google-drive-backup',version:'72.6',backupKind:'personal-appdatafolder',exportedAt:new Date().toISOString(),fileName:GOOGLE_DRIVE_BACKUP_NAME,songs:backupSongs,songMemory:typeof loadSongMemory==='function'?loadSongMemory():{},notes:typeof buildNotesCuesExportRows==='function'?buildNotesCuesExportRows():[],personalSetLists:(typeof _personalSets!=='undefined'?_personalSets:{}),activePersonalSetId:(typeof appPrefs!=='undefined'&&appPrefs.activePersonalSetId)||'default',preferences:prefs};
   }
   function multipartBody(metadata,jsonText){
     const boundary='wb_drive_'+Math.random().toString(36).slice(2);
@@ -13704,7 +13704,7 @@ body.dark .wb-sync-mini-row{background:rgba(255,255,255,.04);}
   const oldSaveSetNotes=window.saveSetNotes || (typeof saveSetNotes==='function'?saveSetNotes:null);if(oldSaveSetNotes&&!oldSaveSetNotes.__wbV724){window.saveSetNotes=function(){const r=oldSaveSetNotes();setTimeout(addSetNotesIndicators,80);return r;};window.saveSetNotes.__wbV724=true;try{saveSetNotes=window.saveSetNotes;}catch(e){}}
   const oldSyncAdminUI=window.syncAdminOnlyUI || (typeof syncAdminOnlyUI==='function'?syncAdminOnlyUI:null);if(oldSyncAdminUI&&!oldSyncAdminUI.__wbV724){window.syncAdminOnlyUI=function(){const r=oldSyncAdminUI();try{const mine=!!(currentSong&&currentSong.localOnly);const edit=document.getElementById('mi-edit-song');if(edit&&mine){edit.style.display='flex';const span=edit.querySelector('span:last-child');if(span)span.textContent='Edit My Song';edit.onclick=function(){closeBS('songmenu');openSongModal(currentSong);};}else if(edit){const span=edit.querySelector('span:last-child');if(span)span.textContent='Edit song';edit.onclick=function(){requireAdmin(()=>{closeBS('songmenu');openSongModal(currentSong);});};}const ctx=document.getElementById('ctx-edit-song');if(ctx&&ctxSong&&ctxSong.localOnly){ctx.style.display='flex';ctx.querySelector('span')&&(ctx.querySelector('span').textContent='Edit My Song');}}catch(e){}return r;};window.syncAdminOnlyUI.__wbV724=true;try{syncAdminOnlyUI=window.syncAdminOnlyUI;}catch(e){}}
   const oldCtxAction=window.ctxAction || (typeof ctxAction==='function'?ctxAction:null);if(oldCtxAction&&!oldCtxAction.__wbV724){window.ctxAction=function(action){if(action==='edit'&&ctxSong&&ctxSong.localOnly){const s=ctxSong;closeCtx();openSongModal(s);return;}return oldCtxAction(action);};window.ctxAction.__wbV724=true;try{ctxAction=window.ctxAction;}catch(e){}}
-  function buildEmergencySnapshot(){const backupSongs=((typeof songs!=='undefined'?songs:[])||[]).filter(typeof isMySong==='function'?isMySong:function(s){return String(s&&s.librarySource||'').toLowerCase()==='user';}).map(function(s){return typeof buildPortableSongPayload==='function'?buildPortableSongPayload(s,true):{...s,librarySource:'user'};});const prefs={...(typeof appPrefs!=='undefined'?appPrefs:{})}; delete prefs.adminPin;return {format:'worshipbase-pre-restore-snapshot',version:'72.5.8',createdAt:new Date().toISOString(),songs:backupSongs,songMemory:typeof loadSongMemory==='function'?loadSongMemory():{},personalSetLists:(typeof _personalSets!=='undefined'?_personalSets:{}),activePersonalSetId:(typeof appPrefs!=='undefined'&&appPrefs.activePersonalSetId)||'default',preferences:prefs};}
+  function buildEmergencySnapshot(){const backupSongs=((typeof songs!=='undefined'?songs:[])||[]).filter(typeof isMySong==='function'?isMySong:function(s){return String(s&&s.librarySource||'').toLowerCase()==='user';}).map(function(s){return typeof buildPortableSongPayload==='function'?buildPortableSongPayload(s,true):{...s,librarySource:'user'};});const prefs={...(typeof appPrefs!=='undefined'?appPrefs:{})}; delete prefs.adminPin;return {format:'worshipbase-pre-restore-snapshot',version:'72.6',createdAt:new Date().toISOString(),songs:backupSongs,songMemory:typeof loadSongMemory==='function'?loadSongMemory():{},personalSetLists:(typeof _personalSets!=='undefined'?_personalSets:{}),activePersonalSetId:(typeof appPrefs!=='undefined'&&appPrefs.activePersonalSetId)||'default',preferences:prefs};}
   function savePreRestoreSnapshot(){try{const snap=buildEmergencySnapshot();localStorage.setItem(PRE_RESTORE_KEY,JSON.stringify(snap));return snap;}catch(e){console.warn('Could not save pre-restore snapshot',e);return null;}}
   window.downloadPreRestoreSnapshot=function(){try{const raw=localStorage.getItem(PRE_RESTORE_KEY);if(!raw){toast('No backup from before last restore saved yet');return;}const name='worshipbase-backup-before-last-restore.json'; if(typeof downloadTextFile==='function')downloadTextFile(name,raw); else {const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([raw],{type:'application/json'}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);} }catch(e){toast('Could not download backup from before last restore');}};
   const oldRestoreDrive=window.restoreFromGoogleDrive;if(oldRestoreDrive&&!oldRestoreDrive.__wbV724){window.restoreFromGoogleDrive=async function(){savePreRestoreSnapshot();return oldRestoreDrive.apply(this,arguments);};window.restoreFromGoogleDrive.__wbV724=true;}
@@ -13718,7 +13718,7 @@ body.dark .wb-sync-mini-row{background:rgba(255,255,255,.04);}
 
 
 <style id="wb-v72-5-2-backup-settings-polish">
-/* v72.5.8 — polished Backup & Restore settings card layout. */
+/* v72.6 — polished Backup & Restore settings card layout. */
 .wb-hidden-settings-section{display:none!important;}
 .wb-backup-card .ss-row{cursor:pointer;}
 .wb-backup-choice{display:flex;align-items:center;gap:12px;padding:15px 20px;border-top:.5px solid var(--bdr);background:transparent;border-left:0;border-right:0;border-bottom:0;width:100%;text-align:left;font-family:inherit;color:var(--txt1);cursor:pointer;}
@@ -13766,7 +13766,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 <script id="wb-v72-5-2-backup-settings-polish-js">
 (function(){
   'use strict';
-  const VERSION='72.5.5';
+  const VERSION='72.6';
   const DRIVE_STATE_KEY='wb_google_drive_backup_v1';
   const PRE_RESTORE_KEY='wb_pre_restore_snapshot_v1';
   function ready(fn){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fn,{once:true});else fn();}
@@ -13860,7 +13860,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 
 
 <style id="wb-v72-5-5-polish-css">
-/* v72.5.8 — compact Drive status rows and keep them visually secondary. */
+/* v72.6 — compact Drive status rows and keep them visually secondary. */
 .wb-drive-status-surface{gap:10px!important;padding:14px 14px 13px!important;border-radius:22px!important;}
 .wb-drive-status-head{gap:10px!important;}
 .wb-drive-status-left{gap:11px!important;}
@@ -13880,7 +13880,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
   'use strict';
   const EDIT_ICON='<svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M12 3l2 2L5.5 13H3.5v-2L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
   function usefulMemory(m){return !!(m&&typeof m==='object'&&(String(m.notes||'').trim()||String(m.cues||'').trim()||String(m.usualKey||'').trim()||String(m.capo||'').trim()||String(m.practiceStatus||'').trim()));}
-  function setVisibleVersion(){try{document.title='WorshipBase v72.5.8';document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 72.5.8';});}catch(e){}}
+  function setVisibleVersion(){try{document.title='WorshipBase v72.6';document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 72.6';});}catch(e){}}
   function fixSongEditButton(){
     try{
       const btn=document.getElementById('mi-edit-song');
@@ -14027,7 +14027,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 
 <script id="wb-v72-5-6-rich-shared-set-fix">
 (function(){
-  // v72.5.8 — make Personal ↔ Shared set copying use one rich planning-board shape.
+  // v72.6 — make Personal ↔ Shared set copying use one rich planning-board shape.
   function toast(msg,err){try{showToast(msg,!!err);}catch(e){try{alert(msg);}catch(_){}}}
   function normPlanItem(item,idx){
     try{
@@ -14214,7 +14214,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 
 <script id="wb-v72-5-7-rich-set-copy-fix">
 (function(){
-  const VERSION='72.5.8';
+  const VERSION='72.6';
 
   const originalFindSongById = window.findSongById || function(){return null;};
   const originalGetSongMemory = window.getSongMemory || function(){return {};};
@@ -14418,7 +14418,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
   };
 
   window.pruneMissingSongsFromSets = function(){
-    /* v72.5.8: keep rich shared planning items and embedded My Song snapshots. */
+    /* v72.6: keep rich shared planning items and embedded My Song snapshots. */
   };
 
   function getEmbeddedMemoryForSong(id,preferredScope){
@@ -14592,11 +14592,11 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
     if(_personalSets)_personalSets=normalizeSetMapRich(_personalSets,'Set');
     if(_sharedSets)_sharedSets=normalizeSetMapRich(_sharedSets,'Shared Set');
     savePersonalSetsRich();
-    /* v72.5.8: do not write shared sets to Firebase during startup/migration.
+    /* v72.6: do not write shared sets to Firebase during startup/migration.
        That was overwriting rich shared set data with whatever local/cache state loaded first.
        Shared sets are now written only after an explicit user change/copy/delete. */
     try{saveNamedSetsCache();}catch(_){}
-  }catch(e){console.warn('v72.5.8 rich set migration skipped',e);}
+  }catch(e){console.warn('v72.6 rich set migration skipped',e);}
 
   try{
     document.title='WorshipBase v'+VERSION;
@@ -14609,7 +14609,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 <script id="wb-v72-5-8-rich-shared-persist-fix">
 (function(){
   'use strict';
-  const VERSION='72.5.8';
+  const VERSION='72.6';
   const BAD_KEY=/[.#$\/[\]]/g;
   function n(v){try{if(typeof normId==='function')return normId(v);}catch(_){}return String(v==null?'':v).trim();}
   function safeKey(v){const k=n(v);return k?k.replace(BAD_KEY,'_'):'';}
@@ -14781,10 +14781,457 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
         }
       });
     }
-  }catch(e){console.warn('v72.5.8 shared listener hardening failed',e);}
+  }catch(e){console.warn('v72.6 shared listener hardening failed',e);}
   try{document.title='WorshipBase v'+VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(el=>{el.textContent='Version '+VERSION;});}catch(_){}
 })();
 </script>
 
+
+<script id="wb-v72-6-setlist-stability-pass">
+
+(function(){
+  'use strict';
+  const VERSION='72.6';
+  const BAD_KEY=/[.#$\/\[\]]/g;
+
+  function n(v){try{if(typeof normId==='function')return normId(v);}catch(_){}return String(v==null?'':v).trim();}
+  function safeKey(v){const k=n(v);return k?k.replace(BAD_KEY,'_'):'';}
+  function clone(v){try{return JSON.parse(JSON.stringify(v));}catch(_){return v;}}
+  function has(v){return String(v||'').trim().length>0;}
+  function now(){return Date.now();}
+  function scopeKey(scope){try{if(typeof setScopeKey==='function')return setScopeKey(scope);}catch(_){}return scope==='personal'?'personal':'shared';}
+  function rawSets(scope){return scopeKey(scope)==='personal'?(_personalSets||{}):(_sharedSets||{});}
+  function setRawSets(scope,map){if(scopeKey(scope)==='personal')_personalSets=map||{};else _sharedSets=map||{};}
+  function makeId(prefix){try{if(typeof makeSetItemId==='function')return makeSetItemId(prefix);}catch(_){}return prefix+'-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,7);}
+  function setKey(v){try{if(typeof normSetKey==='function')return normSetKey(v);}catch(_){}return String(v||'original').trim()||'original';}
+  function toast(msg,err){try{showToast(msg,!!err);}catch(_){try{alert(msg);}catch(__){}}}
+
+  function findInStore(id){
+    const nid=n(id);
+    try{return (songs||[]).find(s=>[s&&s.id,s&&s.fbKey,s&&s.songId,s&&s.localId].map(n).includes(nid))||null;}catch(_){return null;}
+  }
+  function isLocalSong(song){
+    if(!song||typeof song!=='object')return false;
+    try{if(typeof isMySong==='function'&&isMySong(song))return true;}catch(_){}
+    const vals=[song.localOnly,song.isLocal,song.isMySong,song.librarySource,song.source,song.origin,song.scope].map(v=>String(v||'').toLowerCase());
+    return vals.some(v=>['true','my','user','local','personal','device'].includes(v));
+  }
+  function cleanSnapshot(song,fallbackId){
+    if(!song||typeof song!=='object')return null;
+    const id=n(song.id||song.songId||song.fbKey||fallbackId||song.title);
+    if(!id)return null;
+    const out={};
+    ['id','fbKey','songId','localId','title','author','key','cat','songCode','timeSig','timeSignature','bpm','chart','lyrics','body','content','spotifyUrl','youtubeUrl','spotify','youtube','source','librarySource','localOnly'].forEach(k=>{
+      if(song[k]!==undefined&&song[k]!==null)out[k]=song[k];
+    });
+    out.id=n(out.id||id);
+    if(!out.songId)out.songId=out.id;
+    if(!out.title)out.title='Untitled song';
+    if(!out.key)out.key='C';
+    if(!out.cat)out.cat='english';
+    if(isLocalSong(song))out.localOnly=true;
+    return out;
+  }
+  function snapshotFromSetItems(id){
+    const ids=new Set([n(id)]);
+    const store=findInStore(id);
+    if(store)[store.id,store.fbKey,store.songId,store.localId].forEach(x=>{const k=n(x);if(k)ids.add(k);});
+    for(const map of [_sharedSets||{}, _personalSets||{}]){
+      for(const set of Object.values(map||{})){
+        for(const item of ((set&&set.items)||[])){
+          if(!item||item.type!=='song')continue;
+          const snap=item.songSnapshot||item.snapshot||item.song;
+          const keys=[item.songId,item.id,item.fbKey,snap&&snap.id,snap&&snap.fbKey,snap&&snap.songId,snap&&snap.localId].map(n).filter(Boolean);
+          if(keys.some(k=>ids.has(k))){
+            const cleaned=cleanSnapshot(snap||item,item.songId||id);
+            if(cleaned)return cleaned;
+          }
+        }
+      }
+    }
+    return null;
+  }
+  function findSongRich(id){
+    const store=findInStore(id);
+    if(store)return store;
+    const snap=snapshotFromSetItems(id);
+    return snap?Object.assign({},snap,{embeddedSnapshot:true}):null;
+  }
+
+  function memHas(m){return !!(m&&typeof m==='object'&&(has(m.notes)||has(m.cues)||has(m.usualKey)||has(m.capo)||has(m.practiceStatus)));}
+  function cleanMem(m){return {notes:String((m&&m.notes)||''),cues:String((m&&m.cues)||''),usualKey:String((m&&m.usualKey)||''),capo:String((m&&m.capo)||''),practiceStatus:String((m&&m.practiceStatus)||'')};}
+  function mergeMem(){
+    const out={};
+    Array.from(arguments).forEach(m=>{
+      if(!m||typeof m!=='object')return;
+      const c=cleanMem(m);
+      Object.keys(c).forEach(k=>{if(has(c[k]))out[k]=c[k];});
+    });
+    return out;
+  }
+  function itemKeys(item){
+    const keys=[];
+    if(item){
+      const snap=item.songSnapshot||item.snapshot||item.song;
+      [item.songId,item.id,item.fbKey,item.localId,snap&&snap.id,snap&&snap.fbKey,snap&&snap.songId,snap&&snap.localId].forEach(x=>{const k=n(x);if(k)keys.push(k);});
+      const store=findInStore(item.songId||item.id);
+      if(store)[store.id,store.fbKey,store.songId,store.localId].forEach(x=>{const k=n(x);if(k)keys.push(k);});
+    }
+    return Array.from(new Set(keys.filter(Boolean)));
+  }
+  function localMemoryForKeys(keys){
+    let local={};
+    try{local=typeof loadSongMemory==='function'?loadSongMemory():{};}catch(_){}
+    let out={};
+    (keys||[]).forEach(k=>{if(memHas(local[k]))out=mergeMem(out,local[k]); const sk=safeKey(k); if(sk&&memHas(local[sk]))out=mergeMem(out,local[sk]);});
+    return out;
+  }
+  function memoryForItem(set,item){
+    const keys=itemKeys(item);
+    const setMem=(set&&set.songMemory&&typeof set.songMemory==='object')?set.songMemory:{};
+    let out={};
+    keys.forEach(k=>{if(memHas(setMem[k]))out=mergeMem(out,setMem[k]); const sk=safeKey(k); if(sk&&memHas(setMem[sk]))out=mergeMem(out,setMem[sk]);});
+    if(memHas(item&&item.songMemory))out=mergeMem(out,item.songMemory);
+    out=mergeMem(out,localMemoryForKeys(keys));
+    return out;
+  }
+
+  function normalizeItem(item,idx,opts){
+    opts=opts||{};
+    if(typeof item==='string'||typeof item==='number')item={type:'song',songId:item};
+    if(!item||typeof item!=='object')return null;
+    const kind=item.type==='section'?'section':((item.type==='item'||item.type==='service'||item.type==='placeholder')?'item':'song');
+    if(kind==='section'){
+      return {type:'section',id:String((opts.freshIds?null:item.id)||makeId('section')),title:String(item.title||item.label||'Section').trim()||'Section',order:idx};
+    }
+    if(kind==='item'){
+      return {type:'item',id:String((opts.freshIds?null:item.id)||makeId('item')),title:String(item.title||item.label||'Service item').trim()||'Service item',note:String(item.note||item.description||'').trim(),order:idx};
+    }
+    const sid=n(item.songId||item.id||item.fbKey||item.localId);
+    if(!sid)return null;
+    const store=findInStore(sid);
+    const existingSnap=cleanSnapshot(item.songSnapshot||item.snapshot||item.song,sid);
+    let snap=existingSnap;
+    if(!snap&&store&&isLocalSong(store))snap=cleanSnapshot(store,sid);
+    if(!snap&&!store)snap=snapshotFromSetItems(sid);
+    const out={type:'song',songId:sid,order:idx,setKey:setKey(item.setKey)};
+    if(snap)out.songSnapshot=snap;
+    if(memHas(item.songMemory))out.songMemory=cleanMem(item.songMemory);
+    return out;
+  }
+  function normalizeItems(items,opts){return (Array.isArray(items)?items:[]).map((x,i)=>normalizeItem(x,i,opts)).filter(Boolean);}
+  function resolvable(item){
+    if(!item)return false;
+    if(item.type==='section'||item.type==='item')return true;
+    if(item.type==='song'&&item.songId){
+      if(item.songSnapshot)return true;
+      if(findInStore(item.songId))return true;
+      if(snapshotFromSetItems(item.songId))return true;
+    }
+    return false;
+  }
+  function normalizeForDisplay(items){return normalizeItems(items,{withSnapshots:true}).filter(resolvable);}
+  function buildMemory(set,items){
+    const out={};
+    (items||[]).forEach(item=>{
+      if(!item||item.type!=='song')return;
+      const mem=memoryForItem(set,item);
+      if(!memHas(mem))return;
+      item.songMemory=cleanMem(mem);
+      itemKeys(item).forEach(k=>{const sk=safeKey(k); if(sk)out[sk]=cleanMem(mem);});
+    });
+    return out;
+  }
+  function normalizeSetMap(raw,fallback){
+    const out={};
+    Object.entries(raw||{}).forEach(([id,set],idx)=>{
+      if(!set||typeof set!=='object')return;
+      const items=normalizeForDisplay(set.items||set.songs||[]);
+      out[id]={name:String(set.name||`${fallback||'Set'} ${idx+1}`),notes:String(set.notes||''),items,songMemory:buildMemory(set,items),updatedAt:Number(set.updatedAt||now())};
+    });
+    return out;
+  }
+
+  function activeId(scope){try{return getActiveSetId(scopeKey(scope));}catch(_){return scopeKey(scope)==='personal'?(appPrefs.activePersonalSetId||'default'):(appPrefs.activeSharedSetId||'default');}}
+  function activeSetRaw(scope){
+    const sk=scopeKey(scope||appPrefs.setListScope);
+    const map=rawSets(sk);
+    const id=activeId(sk);
+    return map[id]||{name:sk==='personal'?'My Set':'Shared Set',items:[],notes:'',songMemory:{}};
+  }
+  function activeItems(scope){return normalizeForDisplay((activeSetRaw(scope).items)||[]);}
+  function savePersonal(){try{localStorage.setItem(PERSONAL_SETS_KEY,JSON.stringify(_personalSets||{}));}catch(_){} }
+  function cacheShared(){try{if(typeof saveNamedSetsCache==='function')saveNamedSetsCache();else localStorage.setItem('wb_cached_named_sets_v1',JSON.stringify(_sharedSets||{}));}catch(_){} }
+  function saveShared(){
+    const payload={};
+    Object.entries(_sharedSets||{}).forEach(([id,set])=>{
+      const items=normalizeForDisplay((set&&set.items)||[]);
+      const mem=buildMemory(set,items);
+      payload[id]={name:(set&&set.name)||'Shared Set',notes:String((set&&set.notes)||''),updatedAt:now(),items,songMemory:mem};
+      _sharedSets[id]=Object.assign({},set,{items,songMemory:mem,updatedAt:payload[id].updatedAt});
+    });
+    try{if(typeof sharedSetsRef!=='undefined'&&sharedSetsRef&&sharedSetsRef.set)sharedSetsRef.set(payload).catch(()=>{try{showSync('Sync failed',true);}catch(_){}});}catch(_){}
+    try{
+      const compat={};
+      activeItems('shared').filter(x=>x.type==='song'&&x.songId).forEach((item,i)=>{compat['i'+i]={songId:item.songId,order:i,setKey:item.setKey||'original'};});
+      if(typeof setlistRef!=='undefined'&&setlistRef&&setlistRef.set)setlistRef.set(compat).catch(()=>{});
+    }catch(_){}
+    cacheShared();
+  }
+  function saveScope(scope){scopeKey(scope)==='personal'?savePersonal():saveShared();}
+  function updateSet(scope,items,extra){
+    const sk=scopeKey(scope||appPrefs.setListScope);
+    const map=Object.assign({},rawSets(sk));
+    const id=activeId(sk);
+    const prev=map[id]||{name:sk==='personal'?'My Set':'Shared Set',items:[],notes:'',songMemory:{}};
+    const normalized=normalizeForDisplay(items);
+    const next=Object.assign({},prev,extra||{}, {items:normalized,updatedAt:now()});
+    next.songMemory=buildMemory(next,normalized);
+    map[id]=next;
+    setRawSets(sk,map);
+    saveScope(sk);
+    try{renderNamedSetChooserUI();}catch(_){}
+    return next;
+  }
+  function removeFirstSong(items,id){
+    const sid=n(id); let removed=false;
+    return normalizeForDisplay(items).filter(item=>{
+      if(removed||!item||item.type!=='song')return true;
+      const keys=itemKeys(item).concat([item.songId]).map(n);
+      if(keys.includes(sid)){removed=true;return false;}
+      return true;
+    });
+  }
+  function removeAllSong(items,id){
+    const sid=n(id);
+    return normalizeForDisplay(items).filter(item=>{
+      if(!item||item.type!=='song')return true;
+      return !itemKeys(item).concat([item.songId]).map(n).includes(sid);
+    });
+  }
+  function removeExactItem(items,target){
+    const list=normalizeForDisplay(items); let removed=false;
+    const tid=n(target&&target.id), tsid=n(target&&target.songId);
+    return list.filter(item=>{
+      if(removed)return true;
+      if(tid&&n(item.id)===tid){removed=true;return false;}
+      if(target&&target.type==='song'&&item.type==='song'&&tsid&&itemKeys(item).concat([item.songId]).map(n).includes(tsid)){
+        removed=true;return false;
+      }
+      return true;
+    });
+  }
+
+  function copyCurrentSet(){
+    const from=scopeKey(appPrefs.setListScope), to=from==='shared'?'personal':'shared';
+    const src=activeSetRaw(from);
+    const label=to==='personal'?'Personal':'Shared';
+    const suggested=`${src.name||'Set'} (${label})`;
+    const name=(prompt(`Copy to ${label} as:`,suggested)||'').trim();
+    if(!name)return;
+    const sourceItems=normalizeForDisplay(src.items||[]).map((item,idx)=>normalizeItem(clone(item),idx,{freshIds:item.type!=='song'})).filter(resolvable);
+    const copied={name,notes:String(src.notes||''),items:sourceItems,songMemory:buildMemory(src,sourceItems),updatedAt:now()};
+    const target=Object.assign({},rawSets(to));
+    const id=(typeof makeSetId==='function')?makeSetId():('set_'+Date.now().toString(36));
+    target[id]=copied;
+    if(to==='personal'){_personalSets=target;appPrefs.activePersonalSetId=id;savePersonal();}
+    else{_sharedSets=target;appPrefs.activeSharedSetId=id;saveShared();}
+    try{savePrefs();}catch(_){}
+    try{renderSetListScopeUI();renderNamedSetChooserUI();if(activeTab==='setlist')renderSetList();else refresh(false);}catch(_){}
+    toast(`Copied to ${label.toLowerCase()} set lists`);
+  }
+
+  // Source-of-truth overrides. Assign to both window and global bindings so inline handlers and older closures use the same rich model.
+  function install(name,fn){try{window[name]=fn;}catch(_){} try{eval(name+' = window[name]');}catch(_){} }
+  install('findSongById',findSongRich);
+  install('songExistsInLibrary',function(id){return !!findSongRich(id);});
+  install('normalizeSetArray',function(items){return normalizeItems(items,{withSnapshots:true});});
+  install('filterSetItemsToExistingSongs',function(items){return normalizeForDisplay(items);});
+  install('normalizeNamedSetMap',normalizeSetMap);
+  install('getSetList',function(scope){return activeItems(scope||appPrefs.setListScope);});
+  install('getSetSongItems',function(scope){return activeItems(scope||appPrefs.setListScope).filter(x=>x.type==='song'&&x.songId);});
+  install('getSetSongIds',function(scope){return (window.getSetSongItems(scope)||[]).map(x=>x.songId);});
+  install('getSetEntry',function(id,scope){const sid=n(id);return (window.getSetSongItems(scope)||[]).find(item=>itemKeys(item).concat([item.songId]).map(n).includes(sid))||null;});
+  install('isSongInSet',function(id,scope){return !!window.getSetEntry(id,scope);});
+  install('pruneMissingSongsFromSets',function(){/* rich set lists keep sections, service items, and embedded snapshots */});
+  install('savePersonalNamedSets',savePersonal);
+  install('saveSharedSetsToFB',saveShared);
+  install('modSetList',function(newArr,scope){updateSet(scope||appPrefs.setListScope,newArr||[]);});
+  install('addSongToNamedSet',function(id,scope){const sk=scopeKey(scope||appPrefs.setListScope);const cur=activeItems(sk);if(!window.isSongInSet(id,sk)){cur.push(normalizeItem({type:'song',songId:id,setKey:'original'},cur.length));window.modSetList(cur,sk);}});
+  install('removeSongFromNamedSet',function(id,scope){const sk=scopeKey(scope||appPrefs.setListScope);updateSet(sk,removeAllSong(activeSetRaw(sk).items||[],id));});
+  install('toggleSongInNamedSetById',function(id,scope){const sk=scopeKey(scope||appPrefs.setListScope);if(window.isSongInSet(id,sk))window.removeSongFromNamedSet(id,sk);else window.addSongToNamedSet(id,sk);});
+  install('removeFromSetList',function(id){window.removeSongFromNamedSet(id,appPrefs.setListScope);});
+  install('removeFromSet',function(id){const song=findSongRich(id);if(!confirmDestructive(`Remove “${song&&song.title?song.title:'this song'}” from this set list?`))return;updateSet(appPrefs.setListScope,removeFirstSong(activeSetRaw(appPrefs.setListScope).items||[],id));try{renderSetList();}catch(_){} toast('Removed from set list');});
+  install('removeSetPlanItem',function(item){if(!item)return;const title=(item.type==='section'?(item.title||'Section'):(item.type==='item'?(item.title||'Service item'):(findSongRich(item.songId)?.title||'Song')));if(!confirmDestructive(`Remove “${title}” from this set list?`))return;updateSet(appPrefs.setListScope,removeExactItem(activeSetRaw(appPrefs.setListScope).items||[],item));try{renderSetList();}catch(_){} toast('Removed from set list');});
+  install('setSetItemKey',function(songId,key){const sid=n(songId);const next=activeItems(appPrefs.setListScope).map(item=>{if(item.type==='song'&&itemKeys(item).concat([item.songId]).map(n).includes(sid))return Object.assign({},item,{setKey:setKey(key)});return item;});updateSet(appPrefs.setListScope,next);});
+  install('applySetAllKey',function(val){const next=activeItems(appPrefs.setListScope).map(item=>item.type==='song'?Object.assign({},item,{setKey:setKey(val)}):item);if(!next.some(x=>x.type==='song')){toast('No songs in set list');try{closeBS('setallkey');}catch(_){}return;}updateSet(appPrefs.setListScope,next);try{renderSetList();closeBS('setallkey');}catch(_){}toast(val==='original'?'Set keys reset to original':'Set key applied to all songs');});
+  install('toggleSetSong',function(id){const cur=activeItems(appPrefs.setListScope);if(window.isSongInSet(id,appPrefs.setListScope))updateSet(appPrefs.setListScope,removeAllSong(cur,id));else updateSet(appPrefs.setListScope,cur.concat([normalizeItem({type:'song',songId:id,setKey:'original'},cur.length)]));try{renderPicker();renderSetList();refresh(false);}catch(_){} });
+  install('clearSet',function(){if(!activeItems(appPrefs.setListScope).length)return;if(!confirmDestructive(`Clear ${getSetListLabel().toLowerCase()} set list?`))return;updateSet(appPrefs.setListScope,[]);try{renderSetList();}catch(_){} });
+  install('copyActiveSetToOtherScope',copyCurrentSet);
+  install('commitActiveSetObject',function(set){const sk=scopeKey(appPrefs.setListScope);updateSet(sk,set&&set.items||[],{name:set&&set.name,notes:String(set&&set.notes||''),songMemory:set&&set.songMemory||{}});try{renderNamedSetChooserUI();if(activeTab==='setlist')renderSetList();}catch(_){} });
+
+  // Firebase listeners: rich /setlists is the source of truth; legacy /setlist is only a fallback when no rich sets exist.
+  try{
+    if(typeof setlistRef!=='undefined'&&setlistRef&&setlistRef.off&&setlistRef.on){
+      setlistRef.off('value');
+      setlistRef.on('value',snap=>{
+        try{
+          if(Object.keys(_sharedSets||{}).length)return;
+          const d=snap.val();
+          const items=d?Object.values(d).sort((a,b)=>(a.order||0)-(b.order||0)).map((x,i)=>normalizeItem(x,i)).filter(resolvable):[];
+          if(items.length){const id=appPrefs.activeSharedSetId||'default';_sharedSets={[id]:{name:'Shared Set',items,notes:'',songMemory:{},updatedAt:now(),_legacy:true}};cacheShared();if(activeTab==='setlist')renderSetList();renderNamedSetChooserUI();}
+        }catch(_){}
+      });
+    }
+  }catch(e){console.warn('v72.6 legacy setlist listener could not be reset',e);}
+  try{
+    if(typeof sharedSetsRef!=='undefined'&&sharedSetsRef&&sharedSetsRef.off&&sharedSetsRef.on){
+      sharedSetsRef.off('value');
+      sharedSetsRef.on('value',snap=>{
+        try{
+          const d=snap.val();
+          if(d&&Object.keys(d).length){
+            const remembered=(appPrefs&&appPrefs.activeSharedSetId)||'default';
+            _sharedSets=normalizeSetMap(d,'Shared Set');
+            if(_sharedSets[remembered])appPrefs.activeSharedSetId=remembered;
+            try{ensureNamedSetState('shared');}catch(_){}
+            cacheShared();
+            try{renderNamedSetChooserUI();if(activeTab==='setlist')renderSetList();}catch(_){}
+          }
+        }catch(e){console.warn('v72.6 shared set listener failed',e);}
+      });
+    }
+  }catch(e){console.warn('v72.6 shared set listener could not be reset',e);}
+
+  // Normalize current in-memory maps without writing shared data during startup.
+  try{_personalSets=normalizeSetMap(_personalSets,'Set');savePersonal();}catch(_){}
+  try{_sharedSets=normalizeSetMap(_sharedSets,'Shared Set');cacheShared();}catch(_){}
+
+  function setVisibleVersion(){try{document.title='WorshipBase v'+VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(el=>{el.textContent='Version '+VERSION;});}catch(_){} }
+  window.wbSetListAudit=function(){
+    const shared=Object.values(_sharedSets||{}).map(s=>({name:s.name,items:(s.items||[]).map(x=>x.type),songs:(s.items||[]).filter(x=>x.type==='song').length,sections:(s.items||[]).filter(x=>x.type==='section').length,serviceItems:(s.items||[]).filter(x=>x.type==='item').length,hasNotes:!!String(s.notes||'').trim(),memory:Object.keys(s.songMemory||{}).length}));
+    const personal=Object.values(_personalSets||{}).map(s=>({name:s.name,items:(s.items||[]).map(x=>x.type),songs:(s.items||[]).filter(x=>x.type==='song').length,sections:(s.items||[]).filter(x=>x.type==='section').length,serviceItems:(s.items||[]).filter(x=>x.type==='item').length,hasNotes:!!String(s.notes||'').trim(),memory:Object.keys(s.songMemory||{}).length}));
+    console.table(shared);console.table(personal);return {shared,personal};
+  };
+  setVisibleVersion();
+  setTimeout(setVisibleVersion,500);
+  setTimeout(function(){try{if(activeTab==='setlist')renderSetList();renderNamedSetChooserUI();}catch(_){}setVisibleVersion();},1000);
+})();
+
+</script>
+<script id="wb-v72-6-setlist-render-stability">
+
+(function(){
+  'use strict';
+  function esc(v){try{return escapeHtml(v);}catch(_){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}}
+  function n(v){try{return normId(v);}catch(_){return String(v==null?'':v).trim();}}
+  function songTitle(item){try{const s=window.findSongById&&window.findSongById(item.songId);return s&&s.title?s.title:'Song';}catch(_){return 'Song';}}
+  function displayKey(song,item){try{return resolveSongKey(song,item);}catch(_){return song&&song.key?song.key:'C';}}
+  function hasNotes(song){try{return !!hasVisibleSongNotes(song);}catch(_){try{const m=window.getSongMemory&&window.getSongMemory(song);return !!String((m&&m.notes)||'').trim();}catch(__){return false;}}}
+  function songCode(song){try{return song.songCode||ensureSongCode(song);}catch(_){return song.songCode||'';}}
+  function countSongs(items){return (items||[]).filter(x=>x&&x.type==='song'&&x.songId).length;}
+  function countLabel(items){const c=countSongs(items);return c+' song'+(c===1?'':'s');}
+  function setName(){try{return getActiveSetName();}catch(_){return 'Set list';}}
+  function openSongFromSet(song,item){try{openSong(song.id||item.songId,true,true);}catch(_){try{openSong(item.songId,true,true);}catch(__){}}}
+
+  function renderSetListRich(){
+    const sl=(window.getSetList?window.getSetList():[]).slice();
+    const ct=document.getElementById('sl-items');
+    if(!ct)return;
+    const label=countLabel(sl);
+    const countEl=document.getElementById('sl-count'); if(countEl)countEl.textContent=label;
+    const subEl=document.getElementById('sl-active-set-sub'); if(subEl)subEl.textContent=sl.length?`${label} · planning board`:'Planning board';
+    if(!sl.length){
+      ct.innerHTML=`<div class="sl-empty"><div class="wb-empty-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 18.5a2.5 2.5 0 1 1-1-2V5l10-2v11.5a2.5 2.5 0 1 1-1-2V7L9 8.5z"/></svg></div><div class="sl-et">No items in ${esc(setName())}</div><div class="sl-es">Use the set options menu to add songs, sections, or service items.</div></div>`;
+      return;
+    }
+    ct.innerHTML='';
+    sl.forEach(function(item){
+      if(!item)return;
+      if(item.type==='section'){
+        const el=document.createElement('div');el.className='set-item set-section-item';el.dataset.kind='section';el.dataset.itemId=item.id||'';
+        el.innerHTML=`<div class="drag-handle" aria-hidden="true"><span></span><span></span><span></span></div><div class="set-section-copy"><div class="set-section-title">${esc(item.title||'Section')}</div></div><button class="set-rm" aria-label="Remove section" title="Remove" type="button"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>`;
+        el.querySelector('.set-rm').addEventListener('click',function(e){e.stopPropagation();window.removeSetPlanItem&&window.removeSetPlanItem(item);});
+        el.addEventListener('click',function(e){if(e.target.closest('.drag-handle,.set-rm,button'))return;try{window.openSetPlanEditSheet&&window.openSetPlanEditSheet(item.id);}catch(_){}});
+        ct.appendChild(el);return;
+      }
+      if(item.type==='item'){
+        const el=document.createElement('div');el.className='set-item set-placeholder-item';el.dataset.kind='item';el.dataset.itemId=item.id||'';
+        const note=item.note?`<div class="set-meta">${esc(item.note)}</div>`:'';
+        el.innerHTML=`<div class="drag-handle" aria-hidden="true"><span></span><span></span><span></span></div><div class="set-info"><div class="set-title">${esc(item.title||'Service item')}</div>${note}</div><div class="set-actions"><button class="set-rm" aria-label="Remove item" title="Remove" type="button"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>`;
+        el.querySelector('.set-rm').addEventListener('click',function(e){e.stopPropagation();window.removeSetPlanItem&&window.removeSetPlanItem(item);});
+        el.addEventListener('click',function(e){if(e.target.closest('.drag-handle,.set-rm,button'))return;try{window.openSetPlanEditSheet&&window.openSetPlanEditSheet(item.id);}catch(_){}});
+        ct.appendChild(el);return;
+      }
+      const song=(window.findSongById&&window.findSongById(item.songId))||null;
+      if(!song)return;
+      const key=esc(displayKey(song,item));
+      const override=item.setKey&&item.setKey!=='original'&&item.setKey!==song.key;
+      const timeSig=String(song.timeSig||song.timeSignature||'').trim();
+      const bpm=String(song.bpm||'').trim();
+      const chips=[hasNotes(song)?`<span class="set-meta-chip notes-chip">Notes</span>`:'',timeSig?`<span class="set-meta-chip">${esc(timeSig)}</span>`:'',bpm?`<span class="set-meta-chip">${esc(bpm)} BPM</span>`:''].filter(Boolean).join('');
+      const code=esc(songCode(song));
+      const lang=song.cat==='malayalam'?'ML':'EN';
+      const author=song.author?`<div class="set-meta">${esc(song.author)}</div>`:'';
+      const el=document.createElement('div');el.className='set-item';el.dataset.id=song.id||item.songId;el.dataset.kind='song';
+      el.innerHTML=`<div class="drag-handle" aria-hidden="true"><span></span><span></span><span></span></div><div class="set-info"><div class="set-title">${esc(song.title||'Song')}</div>${author}<div class="set-meta-row"><span class="set-key-note"><span class="song-id-badge">${code}</span>&nbsp;<span class="lang-badge">${lang}</span></span><span class="set-meta-chips">${chips}</span></div></div><div class="set-actions"><button class="set-key-btn${override?' override':''}" type="button">Key ${key}</button><button class="set-rm" aria-label="Remove from set list" title="Remove" type="button"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>`;
+      el.querySelector('.set-rm').addEventListener('click',function(e){e.stopPropagation();window.removeFromSet&&window.removeFromSet(item.songId||song.id);});
+      el.querySelector('.set-key-btn').addEventListener('click',function(e){e.stopPropagation();try{openSetKeyEditor(item.songId||song.id);}catch(_){}});
+      el.addEventListener('click',function(e){if(e.target.closest('.drag-handle,.set-rm,.set-key-btn'))return;openSongFromSet(song,item);});
+      ct.appendChild(el);
+    });
+    attachDragRich(ct);
+    try{if(typeof enhanceSetIndicators==='function')enhanceSetIndicators();}catch(_){}
+  }
+
+  function attachDragRich(ct){
+    let ghost=null,dragEl=null,dragIdx=-1,dropIdx=-1,startY=0,origTop=0;
+    const getItems=()=>Array.from(ct.querySelectorAll('.set-item'));
+    ct.querySelectorAll('.drag-handle').forEach(handle=>{
+      handle.addEventListener('touchstart',function(e){
+        try{const sel=window.getSelection&&window.getSelection();if(sel&&sel.removeAllRanges)sel.removeAllRanges();}catch(_){}
+        e.stopPropagation();
+        dragEl=handle.closest('.set-item');dragIdx=getItems().indexOf(dragEl);
+        const rect=dragEl.getBoundingClientRect();startY=e.touches[0].clientY;origTop=rect.top;
+        ghost=document.createElement('div');ghost.className='drag-ghost';ghost.innerHTML=dragEl.innerHTML;ghost.style.top=rect.top+'px';ghost.style.height=rect.height+'px';document.body.appendChild(ghost);
+        dragEl.style.opacity='0.2';dropIdx=dragIdx;
+      },{passive:true});
+    });
+    const onMove=function(e){
+      if(!ghost)return;
+      const y=e.touches[0].clientY;ghost.style.top=(origTop+(y-startY))+'px';
+      const all=getItems();let nd=dragIdx;
+      all.forEach((item,i)=>{if(item===dragEl)return;const r=item.getBoundingClientRect();if(y>r.top+r.height/2)nd=i;});
+      if(nd!==dropIdx){
+        all.forEach((item,i)=>{item.style.transition='transform .15s ease';const rowShift=(dragEl&&dragEl.offsetHeight||72)+'px';if(dragIdx<nd)item.style.transform=(i>dragIdx&&i<=nd)?`translateY(-${rowShift})`:'';else item.style.transform=(i>=nd&&i<dragIdx)?`translateY(${rowShift})`:'';});
+        dropIdx=nd;
+      }
+    };
+    const onEnd=function(){
+      if(!ghost)return;
+      try{ghost.remove();}catch(_){} ghost=null;
+      if(dragEl)dragEl.style.opacity='';
+      getItems().forEach(item=>{item.style.transform='';item.style.transition='';});
+      if(dropIdx!==dragIdx&&dropIdx!==-1){
+        const sl=(window.getSetList?window.getSetList():[]).slice();
+        const moved=sl.splice(dragIdx,1)[0];
+        sl.splice(dropIdx,0,moved);
+        window.modSetList&&window.modSetList(sl);
+        renderSetListRich();
+      }
+      dragEl=null;dragIdx=-1;dropIdx=-1;
+      document.removeEventListener('touchmove',onMove);document.removeEventListener('touchend',onEnd);
+    };
+    document.addEventListener('touchmove',onMove,{passive:true});document.addEventListener('touchend',onEnd,{passive:true});
+  }
+
+  function install(name,fn){try{window[name]=fn;}catch(_){} try{eval(name+' = window[name]');}catch(_){} }
+  install('renderSetList',renderSetListRich);
+  install('attachDrag',attachDragRich);
+  setTimeout(function(){try{if(activeTab==='setlist')renderSetListRich();}catch(_){}},100);
+  setTimeout(function(){try{if(activeTab==='setlist')renderSetListRich();}catch(_){}},700);
+})();
+
+</script>
 
 <div id="wb-pad-float" class="wb-pad-float"><button class="wb-pad-float-label" id="wb-pad-float-label" type="button">Pad</button><button class="wb-pad-float-stop" id="wb-pad-float-stop" type="button" aria-label="Stop pad"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"></rect></svg></button></div><input type="file" id="full-app-backup-json-file" accept=".json,application/json" style="display: none;"><div class="bs-bg" id="bs-backuplocal" onclick="closeBSBg(event,'backuplocal')"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><h2 class="m-h2">Local backup</h2><button class="m-close" onclick="closeBS('backuplocal')">×</button></div><div class="m-body"><p class="wb-backup-sheet-note">Save JSON files to your device, or restore from a file you previously exported.</p><div class="wb-backup-group-title">Export to file</div><button class="wb-backup-choice" type="button" onclick="exportMySongsJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">My Songs</span><span class="wb-backup-choice-sub">Songs added on this device only</span></span><span class="wb-backup-choice-tag">JSON</span></button><button class="wb-backup-choice" type="button" onclick="exportNotesCuesJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Notes &amp; Cues</span><span class="wb-backup-choice-sub">Personal notes, cues, usual keys and practice status</span></span><span class="wb-backup-choice-tag">JSON</span></button><button class="wb-backup-choice" type="button" onclick="exportAppBackupJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Everything</span><span class="wb-backup-choice-sub">My Songs, set lists, sections, service items, notes/cues and preferences</span></span><span class="wb-backup-choice-tag">Full</span></button><div class="wb-backup-group-title">Restore from file</div><button class="wb-backup-choice" type="button" onclick="document.getElementById('my-songs-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore My Songs</span><span class="wb-backup-choice-sub">Import a WorshipBase song JSON file</span></span><span class="wb-backup-choice-tag">Import</span></button><button class="wb-backup-choice" type="button" onclick="document.getElementById('notes-cues-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore Notes &amp; Cues</span><span class="wb-backup-choice-sub">Apply notes/cues onto matching songs</span></span><span class="wb-backup-choice-tag">Import</span></button><button class="wb-backup-choice" type="button" onclick="document.getElementById('full-app-backup-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore Everything</span><span class="wb-backup-choice-sub">Replace personal data on this device from a full app backup</span></span><span class="wb-backup-choice-tag">Replace</span></button></div></div></div><div class="bs-bg" id="bs-backupdrive" onclick="closeBSBg(event,'backupdrive')"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><h2 class="m-h2">Google Drive backup</h2><button class="m-close" onclick="closeBS('backupdrive')">×</button></div><div class="m-body"><div id="wb-drive-sheet-body"></div></div></div></div></body><div style="position: fixed; top: 0px; left: 0px; width: 1px; height: env(safe-area-inset-top,0px); pointer-events: none; opacity: 0; z-index: -1;"></div><div style="position: fixed; bottom: 0px; left: 0px; width: 1px; height: env(safe-area-inset-bottom,0px); pointer-events: none; opacity: 0; z-index: -1;"></div></html>
