@@ -3185,7 +3185,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
     </div>
     <div class="sl-setbar">
       <button class="sl-setpick" type="button" onclick="openBS('sets')">
-        <span class="sl-setpick-copy"><span class="sl-setpick-title" id="sl-active-set-name">Shared Set</span><span class="sl-setpick-sub" id="sl-active-set-sub">2 set lists · Shared</span></span>
+        <span class="sl-setpick-copy"><span class="sl-setpick-title" id="sl-active-set-name">Backup test (Shared)</span><span class="sl-setpick-sub" id="sl-active-set-sub">1 set list · Shared</span><span class="setlist-set-note-chip" style="display: inline-flex;">Notes</span></span>
         <span class="sl-setpick-caret"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
       </button>
     </div>
@@ -4078,7 +4078,7 @@ line 18 | Hold / pause"></textarea>
     <div class="m-body" style="padding-bottom:6px;">
       <p style="font-size:13px;color:var(--txt2);margin-bottom:12px;line-height:1.55;">Choose, rename, delete, or create a set list for this scope.</p>
     </div>
-    <div class="namedset-list" id="namedset-list"><div class="namedset-item active"><button class="namedset-main" onclick="selectNamedSet('default')"><div class="namedset-name">Shared Set</div><div class="namedset-meta">0 songs · Current</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('default')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('default')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_moneuuacm3q5')"><div class="namedset-name">Backup test (Shared)</div><div class="namedset-meta">9 songs</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_moneuuacm3q5')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_moneuuacm3q5')">Delete</button></div></div></div>
+    <div class="namedset-list" id="namedset-list"><div class="namedset-item active"><button class="namedset-main" onclick="selectNamedSet('set_monf1z2vz7ff')"><div class="namedset-name">Backup test (Shared)</div><div class="namedset-meta">0 songs · Current</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_monf1z2vz7ff')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_monf1z2vz7ff')">Delete</button></div></div></div>
     <div class="m-acts" style="padding:0 18px 8px;">
       <button class="btn-s" type="button" onclick="createNamedSet()">New set list</button>
       <button class="btn-s" type="button" id="sets-copy-btn" onclick="copyActiveSetToOtherScope()">Copy to Personal</button>
@@ -4112,7 +4112,7 @@ line 18 | Hold / pause"></textarea>
       <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 8.2l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 14h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span>
       Export
     </button>
-    <button class="mi" onclick="openSetNotesSheet();closeBS('setoptions')">
+    <button class="mi has-set-notes" onclick="openSetNotesSheet();closeBS('setoptions')">
       <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M4 2.5h9v12H4z" stroke="currentColor" stroke-width="1.4"></path><path d="M6.5 6h4M6.5 8.5h4M6.5 11h2.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg></span>
       Set notes
     <span class="set-options-note-badge">Saved</span></button>
@@ -7300,22 +7300,31 @@ function initFirebase(){
     else{showSync('Offline — using cache',true);}
   });
   setlistRef.on('value',snap=>{
+    // v72.7.1: /setlist is legacy songs-only. Only update the _setList_shared array.
+    // Never touch _sharedSets here — /setlists is the source of truth for rich sets.
     const d=snap.val();
     _setList_shared=d?Object.values(d).sort((a,b)=>a.order-b.order).map((x,i)=>normSetItem(x,i)).filter(x=>x.songId):[];
-    if(!Object.keys(_sharedSets).length){
-      const remembered=appPrefs.activeSharedSetId||'default';
-      _sharedSets={[remembered]:{name:'Shared Set',items:normalizeSetArray(_setList_shared),updatedAt:Date.now(),_temporary:true}};
-      saveNamedSetsCache();
-    }
-    if(activeTab==='setlist')renderSetList();
-    renderNamedSetChooserUI();
     saveCachedData();
   });
   sharedSetsRef.on('value',snap=>{
+    // v72.7.1: rich listener. Uses normalizeNamedSetMap (which the v72.7.1 patch block
+    // overrides to preserve sections, items, My Song snapshots, and songMemory).
+    // Staleness guard: if we just saved a rich set locally and Firebase echoes back
+    // a songs-only (or empty planning) version, ignore it for 20 seconds.
     const d=snap.val();
     if(d&&Object.keys(d).length){
       const remembered=appPrefs.activeSharedSetId||'default';
-      _sharedSets=normalizeNamedSetMap(d,'Shared Set');
+      const current=(_sharedSets&&_sharedSets[remembered])||null;
+      const currentPlanCount=current?(current.items||[]).filter(x=>x&&(x.type==='section'||x.type==='item')).length:0;
+      const normalized=normalizeNamedSetMap(d,'Shared Set');
+      const incoming=normalized[remembered]||null;
+      const incomingPlanCount=incoming?(incoming.items||[]).filter(x=>x&&(x.type==='section'||x.type==='item')).length:0;
+      const msSinceSave=window._wbLastRichSaveAt?Date.now()-window._wbLastRichSaveAt:Infinity;
+      if(currentPlanCount>0&&incomingPlanCount===0&&msSinceSave<20000){
+        console.log('[wb-v72.7.1] Ignoring stale Firebase echo (rich local vs songs-only remote, '+Math.round(msSinceSave)+'ms since save)');
+        return;
+      }
+      _sharedSets=normalized;
       if(_sharedSets[remembered])appPrefs.activeSharedSetId=remembered;
       ensureNamedSetState('shared');
       saveNamedSetsCache();
@@ -12100,7 +12109,7 @@ body.dark .pad-chip.active,body.dark .pad-key.active{background:var(--accent-sur
   updatePadUI();
   window.WorshipBasePad={start:startPad,stop:stopPad,setKey:setPadKey,setMode:setPadMode,state:PAD_STATE};
 })();
-</script><div class="bs-bg" id="bs-pad" onclick="closeBSBg(event,'pad')" data-wb-pad-library3-cat="1"><div class="bs"><div class="bs-handle"></div><div class="bs-title">Pad</div><div class="pad-panel"><div class="pad-status-card"><div class="pad-status-copy"><div class="pad-status-title" id="pad-status-title">Pad ready</div><div class="pad-status-sub" id="pad-status-sub" style="display: none;">Peaceful · C</div></div><button class="pad-power" id="pad-power-btn" type="button">Start</button></div><div class="pad-row-title">Category</div><div class="pad-seg"><button class="pad-chip active" type="button" data-pad-mode="peaceful">Peaceful</button><button class="pad-chip" type="button" data-pad-mode="analog">Analog</button><button class="pad-chip" type="button" data-pad-mode="drones">Drones</button></div><div class="pad-row-title">Key</div><div class="pad-key-grid"><button class="pad-key active" type="button" data-pad-key="C">C</button><button class="pad-key" type="button" data-pad-key="C#">C#</button><button class="pad-key" type="button" data-pad-key="D">D</button><button class="pad-key" type="button" data-pad-key="Eb">Eb</button><button class="pad-key" type="button" data-pad-key="E">E</button><button class="pad-key" type="button" data-pad-key="F">F</button><button class="pad-key" type="button" data-pad-key="F#">F#</button><button class="pad-key" type="button" data-pad-key="G">G</button><button class="pad-key" type="button" data-pad-key="Ab">Ab</button><button class="pad-key" type="button" data-pad-key="A">A</button><button class="pad-key" type="button" data-pad-key="Bb">Bb</button><button class="pad-key" type="button" data-pad-key="B">B</button></div></div><button class="bs-cancel" type="button" onclick="closeBS('pad')">Close</button></div></div>
+</script><div class="bs-bg" id="bs-pad" onclick="closeBSBg(event,'pad')" data-wb-pad-library3-cat="1"><div class="bs"><div class="bs-handle"></div><div class="bs-title">Pad</div><div class="pad-panel"><div class="pad-status-card"><div class="pad-status-copy"><div class="pad-status-title" id="pad-status-title">Pad ready</div><div class="pad-status-sub" id="pad-status-sub" style="display: none;"></div></div><button class="pad-power" id="pad-power-btn" type="button">Start</button></div><div class="pad-row-title">Category</div><div class="pad-seg"><button class="pad-chip active" type="button" data-pad-mode="peaceful">Peaceful</button><button class="pad-chip" type="button" data-pad-mode="analog">Analog</button><button class="pad-chip" type="button" data-pad-mode="drones">Drones</button></div><div class="pad-row-title">Key</div><div class="pad-key-grid"><button class="pad-key active" type="button" data-pad-key="C">C</button><button class="pad-key" type="button" data-pad-key="C#">C#</button><button class="pad-key" type="button" data-pad-key="D">D</button><button class="pad-key" type="button" data-pad-key="Eb">Eb</button><button class="pad-key" type="button" data-pad-key="E">E</button><button class="pad-key" type="button" data-pad-key="F">F</button><button class="pad-key" type="button" data-pad-key="F#">F#</button><button class="pad-key" type="button" data-pad-key="G">G</button><button class="pad-key" type="button" data-pad-key="Ab">Ab</button><button class="pad-key" type="button" data-pad-key="A">A</button><button class="pad-key" type="button" data-pad-key="Bb">Bb</button><button class="pad-key" type="button" data-pad-key="B">B</button></div></div><button class="bs-cancel" type="button" onclick="closeBS('pad')">Close</button></div></div>
 
 
 <style>
@@ -14140,7 +14149,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 
   // Reattach the shared named-set listener so Firebase rich data cannot be flattened by old handlers.
   try{
-    if(typeof sharedSetsRef!=='undefined'&&sharedSetsRef&&sharedSetsRef.off&&sharedSetsRef.on&&!sharedSetsRef.__wbV7256RichListener){
+    if(false&&typeof sharedSetsRef!=='undefined'&&sharedSetsRef&&sharedSetsRef.off&&sharedSetsRef.on&&!sharedSetsRef.__wbV7256RichListener){// v72.7.1: disabled — listener managed by base source
       sharedSetsRef.off('value');
       sharedSetsRef.on('value',snap=>{
         const d=snap.val();
@@ -14765,177 +14774,172 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
   };
   try{copyActiveSetToOtherScope=window.copyActiveSetToOtherScope;}catch(_){}
 
-  try{
-    if(typeof sharedSetsRef!=='undefined'&&sharedSetsRef&&sharedSetsRef.off&&sharedSetsRef.on){
-      sharedSetsRef.off('value');
-      sharedSetsRef.on('value',snap=>{
-        const d=snap.val();
-        if(d&&Object.keys(d).length){
-          const remembered=(appPrefs&&appPrefs.activeSharedSetId)||'default';
-          _sharedSets=normalizeSetMap(d,'Shared Set');
-          if(_sharedSets[remembered])appPrefs.activeSharedSetId=remembered;
-          try{ensureNamedSetState('shared');}catch(_){}
-          cacheShared();
-          try{renderNamedSetChooserUI();}catch(_){}
-          try{if(activeTab==='setlist')renderSetList();}catch(_){}
-        }
-      });
-    }
-  }catch(e){console.warn('v72.5.8 shared listener hardening failed',e);}
+  // v72.7.1: listener registration disabled here — managed by base source listener
+  // (original block neutralised to prevent duplicate handlers)
   try{document.title='WorshipBase v'+VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(el=>{el.textContent='Version '+VERSION;});}catch(_){}
 })();
 </script>
 
-
-<script id="wb-v72-7-0-rich-set-fix">
+<script id="wb-v72-7-1-rich-set-fix">
 /*
-  v72.7.0 — Focused rich set-list fix.
-  Base: v72.5.8
-  Patches: saveSharedSetsToFB, normalizeNamedSetMap, copyActiveSetToOtherScope,
-           modSetList, removeFromSet / removeSongFromNamedSet,
-           setlistRef listener (detach), sharedSetsRef listener (reattach rich).
-
-  WHAT WAS WRONG IN v72.5.8 BASE:
-  1. saveSharedSetsToFB – used filterSetItemsToExistingSongs() which drops My Songs
-     (local-only songs whose songId is not in the Firebase songs array).
-  2. copyActiveSetToOtherScope – did not copy set.notes or songMemory.
-  3. normalizeNamedSetMap – did not preserve songMemory from Firebase round-trips.
-  4. setlistRef.on('value') – legacy /setlist listener recreates a songs-only
-     _sharedSets when _sharedSets is empty, silently flattening rich data during
-     the startup race between /setlist and /setlists Firebase callbacks.
-  5. removeFromSet / removeSongFromNamedSet – used getSetList().filter(x=>x.songId!==id)
-     which, via getSetList() → filterSetItemsToExistingSongs(), strips sections and
-     items whose songId is undefined before the filter even runs (they pass through
-     fine, but the base removeFromSet also called renderSetList which could lose the
-     planning items if the set was re-read from a stale snapshot).
-     The direct call chain was safe, but belt-and-suspenders is better.
-  6. pruneMissingSongsFromSets – ran filterSetItemsToExistingSongs which correctly
-     kept sections/items, but also called saveSharedSetsToFB (bug #1) if anything
-     changed, clobbering My Songs in the process.
+  v72.7.1 — Rich set-list fix (function overrides only).
+  Listener fixes are applied directly in the base source above.
+  This block overrides: normalizeNamedSetMap, normalizeSetArray,
+  filterSetItemsToExistingSongs, findSongById, songExistsInLibrary,
+  getSetList, getSetSongItems, saveSharedSetsToFB, modSetList,
+  removeFromSet, removeSongFromNamedSet, pruneMissingSongsFromSets,
+  copyActiveSetToOtherScope.
 */
 (function(){
   'use strict';
-  const VERSION = '72.7.0';
+  const VERSION = '72.7.1';
 
-  /* ─── helpers ─────────────────────────────────────────────────────────── */
+  /* ── helpers ──────────────────────────────────────────────────────────── */
   function nId(v){try{return typeof normId==='function'?normId(v):String(v==null?'':v).trim();}catch(_){return String(v==null?'':v).trim();}}
-  function sKey(scope){return scope==='personal'?'personal':'shared';}
-  function toast(msg){try{showToast(msg);}catch(_){try{alert(msg);}catch(__){}} }
-  function syncMsg(msg,err){try{showSync(msg,!!err);}catch(_){}}
+  function toast(msg){try{showToast(msg);}catch(_){}}
   function has(v){return String(v||'').trim().length>0;}
   function memHas(m){return !!(m&&typeof m==='object'&&(has(m.notes)||has(m.cues)||has(m.usualKey)||has(m.capo)||has(m.practiceStatus)));}
-  function cleanMem(m){return {notes:String((m&&m.notes)||''),cues:String((m&&m.cues)||''),usualKey:String((m&&m.usualKey)||''),capo:String((m&&m.capo)||''),practiceStatus:String((m&&m.practiceStatus)||''),songId:String((m&&m.songId)||''),title:String((m&&m.title)||''),updatedAt:m&&m.updatedAt?m.updatedAt:new Date().toISOString()};}
-  function clone(v){try{return JSON.parse(JSON.stringify(v));}catch(_){return v;}}
-  function makeId(prefix){try{if(typeof makeSetItemId==='function')return makeSetItemId(prefix);}catch(_){}return prefix+'_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7);}
-  function safeSetKey(v){try{if(typeof normSetKey==='function')return normSetKey(v);}catch(_){}return (v==='default'||v==='original')?v:'original';}
+  function cleanMem(m){return {notes:String((m&&m.notes)||''),cues:String((m&&m.cues)||''),usualKey:String((m&&m.usualKey)||''),capo:String((m&&m.capo)||''),practiceStatus:String((m&&m.practiceStatus)||'')};}
+  function cloneJSON(v){try{return JSON.parse(JSON.stringify(v));}catch(_){return v;}}
+  function makeId(prefix){try{return makeSetItemId(prefix);}catch(_){return prefix+'_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7);}}
+  function safeSetKey(v){try{return normSetKey(v);}catch(_){return(v==='default'||v==='original')?v:'original';}}
 
-  /* ─── song lookup (supports My Songs via songSnapshot) ────────────────── */
-  const _baseFindSong = window.findSongById || (typeof findSongById==='function'?findSongById:function(){return null;});
-  function findSnapshotInMaps(id){
-    const ids = new Set([nId(id)]);
-    try{const s=_baseFindSong(nId(id)); if(s)[s.id,s.fbKey,s.songId,s.localId].forEach(x=>{const k=nId(x);if(k)ids.add(k);});}catch(_){}
-    for(const map of [(_sharedSets||{}),(_personalSets||{})]){
-      for(const set of Object.values(map||{})){
+  /* ── song snapshot helpers ────────────────────────────────────────────── */
+  const _origFind = window.findSongById || (typeof findSongById==='function'?findSongById:()=>null);
+
+  function cleanSnap(song, fallbackId){
+    if(!song||typeof song!=='object')return null;
+    const id=nId(song.id||song.songId||song.localId||song.fbKey||fallbackId);
+    if(!id&&!song.title)return null;
+    const out={};
+    ['id','fbKey','songId','localId','title','author','key','cat','songCode','timeSig','timeSignature',
+     'bpm','chart','lyrics','body','content','spotifyUrl','youtubeUrl','source','librarySource','localOnly'
+    ].forEach(k=>{if(song[k]!=null)out[k]=song[k];});
+    out.id=nId(out.id||id);
+    if(!out.songId)out.songId=out.id;
+    if(!out.title)out.title='Untitled song';
+    if(!out.key)out.key='C';
+    if(!out.cat)out.cat='english';
+    if(song.localOnly||song.librarySource==='my'||song.librarySource==='user'||song.source==='my')out.localOnly=true;
+    return out;
+  }
+
+  function findSnapInMaps(id){
+    const needle=nId(id);
+    if(!needle)return null;
+    for(const map of [_sharedSets||{}, _personalSets||{}]){
+      for(const set of Object.values(map)){
         for(const item of (set&&set.items)||[]){
           if(!item||item.type!=='song')continue;
           const snap=item.songSnapshot||item.snapshot||item.song;
-          const keys=[item.songId,item.id,snap&&snap.id,snap&&snap.fbKey,snap&&snap.songId].map(nId).filter(Boolean);
-          if(keys.some(k=>ids.has(k))){const out=cleanSnapshot(snap||item,item.songId); if(out)return out;}
+          const keys=[item.songId,item.id,snap&&snap.id,snap&&snap.fbKey,snap&&snap.songId,snap&&snap.localId].map(nId).filter(Boolean);
+          if(keys.includes(needle)){const s=cleanSnap(snap||item,item.songId);if(s)return s;}
         }
       }
     }
     return null;
   }
-  function cleanSnapshot(song,fallback){
-    if(!song||typeof song!=='object')return null;
-    const id=nId(song.id||song.songId||song.localId||song.fbKey||fallback);
-    if(!id&&!song.title)return null;
-    const out={};
-    ['id','fbKey','songId','localId','title','author','key','cat','songCode','timeSig','timeSignature','bpm','chart','lyrics','body','content','spotifyUrl','youtubeUrl','source','librarySource','localOnly'].forEach(k=>{if(song[k]!==undefined&&song[k]!==null)out[k]=song[k];});
-    out.id=nId(out.id||id); if(!out.songId)out.songId=out.id; if(!out.title)out.title='Untitled song'; if(!out.key)out.key='C'; if(!out.cat)out.cat='english';
-    if(song.localOnly||song.librarySource==='my'||song.librarySource==='user'||song.source==='my')out.localOnly=true;
-    return out;
+
+  function snapForItem(item){
+    const direct=cleanSnap(item&&(item.songSnapshot||item.snapshot||item.song),item&&item.songId);
+    if(direct)return direct;
+    try{const s=_origFind(nId(item&&(item.songId||item.id)));const c=cleanSnap(s,item&&item.songId);if(c)return c;}catch(_){}
+    return findSnapInMaps(item&&(item.songId||item.id));
   }
-  function snapshotForItem(item){
-    const direct=cleanSnapshot(item&&(item.songSnapshot||item.snapshot||item.song),item&&item.songId); if(direct)return direct;
-    try{const s=_baseFindSong(nId(item&&(item.songId||item.id))); const c=cleanSnapshot(s,item&&item.songId); if(c)return c;}catch(_){}
-    return findSnapshotInMaps(item&&item.songId);
-  }
+
+  /* patched findSongById — falls back to embedded snapshots */
   window.findSongById=function(id){
-    const nid=nId(id); const found=_baseFindSong(nid); if(found)return found;
-    const snap=findSnapshotInMaps(nid); if(!snap)return null;
+    const nid=nId(id);
+    const found=_origFind(nid);
+    if(found)return found;
+    const snap=findSnapInMaps(nid);
+    if(!snap)return null;
     return Object.assign({},snap,{id:nId(snap.id||nid),embeddedSnapshot:true});
   };
-  window.songExistsInLibrary=function(id){return !!(window.findSongById(nId(id)));};
+  try{findSongById=window.findSongById;}catch(_){}
 
-  /* ─── item normaliser (preserves sections, items, songs + snapshots) ─── */
-  function normalizeItem(item,idx){
+  window.songExistsInLibrary=function(id){return !!window.findSongById(nId(id));};
+  try{songExistsInLibrary=window.songExistsInLibrary;}catch(_){}
+
+  /* ── item normaliser ──────────────────────────────────────────────────── */
+  function normItem(item, idx){
     if(typeof item==='string'||typeof item==='number')item={type:'song',songId:item};
     if(!item||typeof item!=='object')return null;
-    const kind=item.type==='section'?'section':((item.type==='item'||item.type==='service'||item.type==='placeholder')?'item':'song');
-    if(kind==='section')return {type:'section',id:String(item.id||makeId('section')),title:String(item.title||item.label||'Section').trim()||'Section',order:idx};
-    if(kind==='item')return {type:'item',id:String(item.id||makeId('item')),title:String(item.title||item.label||'Service item').trim()||'Service item',note:String(item.note||item.description||'').trim(),order:idx};
-    const sid=nId(item.songId||item.id||item.fbKey); if(!sid)return null;
+    const kind=item.type==='section'?'section':
+               (item.type==='item'||item.type==='service'||item.type==='placeholder'?'item':'song');
+    if(kind==='section')return{type:'section',id:String(item.id||makeId('section')),title:String(item.title||item.label||'Section').trim()||'Section',order:idx};
+    if(kind==='item')return{type:'item',id:String(item.id||makeId('item')),title:String(item.title||item.label||'Service item').trim()||'Service item',note:String(item.note||item.description||'').trim(),order:idx};
+    const sid=nId(item.songId||item.id||item.fbKey);
+    if(!sid)return null;
     const out={type:'song',songId:sid,setKey:safeSetKey(item.setKey),order:idx};
-    const snap=snapshotForItem(Object.assign({},item,{songId:sid})); if(snap)out.songSnapshot=snap;
+    const snap=snapForItem(Object.assign({},item,{songId:sid}));
+    if(snap)out.songSnapshot=snap;
     if(memHas(item.songMemory))out.songMemory=cleanMem(item.songMemory);
     return out;
   }
-  function normalizeItems(items){return (Array.isArray(items)?items:[]).map((x,i)=>normalizeItem(x,i)).filter(Boolean).map((x,i)=>Object.assign(x,{order:i}));}
-  function itemResolvable(item){
+
+  function normItems(arr){
+    return (Array.isArray(arr)?arr:[]).map((x,i)=>normItem(x,i)).filter(Boolean).map((x,i)=>Object.assign(x,{order:i}));
+  }
+
+  function resolvable(item){
     if(!item)return false;
     if(item.type==='section'||item.type==='item')return true;
-    if(item.type==='song'&&item.songId){if(item.songSnapshot)return true;try{if(window.findSongById(item.songId))return true;}catch(_){}}
+    if(item.type==='song'&&item.songId){
+      if(item.songSnapshot)return true;
+      try{if(window.findSongById(item.songId))return true;}catch(_){}
+    }
     return false;
   }
 
-  /* Override the base normalizeSetArray and filterSetItemsToExistingSongs */
-  window.normalizeSetArray=function(items){return normalizeItems(items);};
+  window.normalizeSetArray=function(arr){return normItems(arr);};
   try{normalizeSetArray=window.normalizeSetArray;}catch(_){}
-  window.filterSetItemsToExistingSongs=function(items){return normalizeItems(items).filter(itemResolvable);};
+
+  window.filterSetItemsToExistingSongs=function(items){return normItems(items).filter(resolvable);};
   try{filterSetItemsToExistingSongs=window.filterSetItemsToExistingSongs;}catch(_){}
 
-  /* ─── song memory helpers ──────────────────────────────────────────────── */
-  function memKeys(songOrId){
-    const keys=[];
-    try{if(songOrId&&typeof songOrId==='object'){[songOrId.id,songOrId.fbKey,songOrId.songId,songOrId.localId].forEach(x=>{const k=nId(x);if(k)keys.push(k);});}}catch(_){}
-    try{const k=nId(typeof memorySongId==='function'?memorySongId(songOrId):'');if(k)keys.push(k);}catch(_){}
-    if(typeof songOrId==='string'||typeof songOrId==='number'){const k=nId(songOrId);if(k)keys.push(k);}
-    return [...new Set(keys.filter(Boolean))];
+  /* ── song memory helpers ──────────────────────────────────────────────── */
+  function memKeysForSong(songOrId){
+    const keys=new Set();
+    try{
+      const id=nId(typeof songOrId==='object'?(songOrId.id||songOrId.songId||songOrId.localId||songOrId.fbKey):songOrId);
+      if(id)keys.add(id);
+      if(songOrId&&typeof songOrId==='object'){[songOrId.fbKey,songOrId.songId,songOrId.localId].forEach(x=>{const k=nId(x);if(k)keys.add(k);});}
+      try{const k=nId(typeof memorySongId==='function'?memorySongId(songOrId):'');if(k)keys.add(k);}catch(_){}
+    }catch(_){}
+    return Array.from(keys).filter(Boolean);
   }
-  function buildSongMemory(sourceSet,items){
-    /* Merge embedded set memory + local device memory for all song items */
+
+  function buildSongMemory(sourceSet, items){
     const out={};
     const existing=(sourceSet&&sourceSet.songMemory&&typeof sourceSet.songMemory==='object')?sourceSet.songMemory:{};
-    // Carry forward all existing memory entries
-    Object.keys(existing).forEach(k=>{if(nId(k)&&memHas(existing[k]))out[nId(k)]=cleanMem(existing[k]);});
-    // Try to find memory for each song item from multiple sources
+    // carry forward all existing entries
+    Object.keys(existing).forEach(k=>{const nk=nId(k);if(nk&&memHas(existing[k]))out[nk]=cleanMem(existing[k]);});
     try{
       const localMem=typeof loadSongMemory==='function'?loadSongMemory():{};
       (items||[]).forEach(item=>{
         if(!item||item.type!=='song'||!item.songId)return;
         const song=window.findSongById(item.songId);
-        const keys=memKeys(song||item.songId);
+        const keys=memKeysForSong(song||item.songId);
         let mem={};
-        // Priority: existing set memory > item-embedded memory > local device memory
         for(const k of keys){if(memHas(existing[k])){mem=cleanMem(existing[k]);break;}}
         if(!memHas(mem)&&memHas(item.songMemory))mem=cleanMem(item.songMemory);
-        if(!memHas(mem)){for(const k of keys){if(memHas(localMem[k])){mem=cleanMem(localMem[k]);mem.songId=k;mem.title=mem.title||(song&&song.title)||'';break;}}}
+        if(!memHas(mem)){for(const k of keys){if(memHas(localMem[k])){mem=cleanMem(localMem[k]);break;}}}
         if(memHas(mem)){
           item.songMemory=cleanMem(mem);
-          keys.forEach(k=>{if(k)out[k]=Object.assign(cleanMem(mem),{songId:k,title:mem.title||(song&&song.title)||''});});
+          keys.forEach(k=>{if(k)out[k]=Object.assign({},cleanMem(mem),{songId:k,title:(song&&song.title)||mem.title||''});});
         }
       });
-    }catch(e){console.warn('[wb-v72.7.0] buildSongMemory error',e);}
+    }catch(e){console.warn('[wb-v72.7.1] buildSongMemory',e);}
     return out;
   }
 
-  /* ─── normalizeNamedSetMap: preserve songMemory on load from Firebase/cache */
-  function normalizeSetMap(raw,fallbackLabel){
+  /* ── normalizeNamedSetMap — used by the patched sharedSetsRef listener ── */
+  function normalizeSetMap(raw, fallbackLabel){
     const out={};
     Object.entries(raw||{}).forEach(([id,set],idx)=>{
       if(!set||typeof set!=='object')return;
-      const items=normalizeItems(set.items||set.songs||[]).filter(itemResolvable);
+      const items=normItems(set.items||set.songs||[]).filter(resolvable);
       out[id]={
         name:String(set.name||fallbackLabel+' '+(idx+1)),
         notes:String(set.notes||''),
@@ -14949,20 +14953,21 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
   window.normalizeNamedSetMap=normalizeSetMap;
   try{normalizeNamedSetMap=normalizeSetMap;}catch(_){}
 
-  /* ─── getSetList: return rich items (sections + items + songs) ─────────── */
+  /* ── getSetList — returns rich items ──────────────────────────────────── */
   window.getSetList=function(scope){
     const set=typeof getActiveSet==='function'?getActiveSet(scope||appPrefs.setListScope):null;
-    return normalizeItems((set&&set.items)||[]).filter(itemResolvable);
+    return normItems((set&&set.items)||[]).filter(resolvable);
   };
   try{getSetList=window.getSetList;}catch(_){}
+
   window.getSetSongItems=function(scope){return window.getSetList(scope).filter(x=>x.type==='song'&&x.songId);};
   try{getSetSongItems=window.getSetSongItems;}catch(_){}
 
-  /* ─── saveSharedSetsToFB: write rich items; only filter unresolvable songs */
+  /* ── saveSharedSetsToFB — rich save, stamps _wbLastRichSaveAt ─────────── */
   function saveSharedRich(){
     const payload={};
     Object.entries(_sharedSets||{}).forEach(([id,set])=>{
-      const items=normalizeItems((set&&set.items)||[]).filter(itemResolvable);
+      const items=normItems((set&&set.items)||[]).filter(resolvable);
       payload[id]={
         name:(set&&set.name)||'Shared Set',
         notes:String((set&&set.notes)||''),
@@ -14971,90 +14976,90 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
         songMemory:buildSongMemory(set,items)
       };
     });
-    // Rich save to /setlists
+    // stamp the save time BEFORE writing so the listener guard works even if
+    // Firebase echoes back synchronously
+    window._wbLastRichSaveAt=Date.now();
     try{
       if(typeof sharedSetsRef!=='undefined'&&sharedSetsRef&&sharedSetsRef.set){
-        const activePlan=Object.values(payload).reduce((n,s)=>n+(s.items||[]).filter(x=>x.type==='section'||x.type==='item').length,0);
-        sharedSetsRef.set(payload).then(()=>{
-          if(activePlan>0)syncMsg('Shared set saved · '+activePlan+' planning item'+(activePlan===1?'':'s'));
-          else syncMsg('Shared set saved');
-        }).catch(err=>{console.error('[wb-v72.7.0] sharedSetsRef.set failed',err);syncMsg('Sync failed',true);});
+        const planTotal=Object.values(payload).reduce((n,s)=>n+(s.items||[]).filter(x=>x.type==='section'||x.type==='item').length,0);
+        sharedSetsRef.set(payload)
+          .then(()=>{try{showSync(planTotal?'Shared set saved · '+planTotal+' planning item'+(planTotal===1?'':'s'):'Shared set saved');}catch(_){}})
+          .catch(err=>{console.error('[wb-v72.7.1] Firebase write failed',err);try{showSync('Sync failed',true);}catch(_){};});
       }
-    }catch(e){console.error('[wb-v72.7.0] saveSharedRich error',e);syncMsg('Sync failed',true);}
-    // Legacy /setlist compat: songs-only for old builds (read-only, no listener should overwrite /setlists with this)
+    }catch(e){console.error('[wb-v72.7.1] saveSharedRich',e);}
+    // legacy /setlist compat (songs only, for old clients — never feeds back into _sharedSets)
     try{
       if(typeof setlistRef!=='undefined'&&setlistRef&&setlistRef.set){
         const compat={};
-        const activeSet=typeof getActiveSet==='function'?getActiveSet('shared'):null;
-        (activeSet&&activeSet.items||[]).filter(x=>x&&x.type==='song'&&x.songId&&itemResolvable(x)).forEach((item,i)=>{
-          compat['i'+i]={songId:item.songId,order:i,setKey:item.setKey||'original'};
-        });
+        const active=typeof getActiveSet==='function'?getActiveSet('shared'):null;
+        normItems((active&&active.items)||[]).filter(x=>x.type==='song'&&x.songId&&resolvable(x))
+          .forEach((item,i)=>{compat['i'+i]={songId:item.songId,order:i,setKey:item.setKey||'original'};});
         setlistRef.set(compat).catch(()=>{});
       }
     }catch(_){}
-    // Update local cache
-    try{if(typeof saveNamedSetsCache==='function')saveNamedSetsCache();else localStorage.setItem('wb_cached_named_sets_v1',JSON.stringify(_sharedSets));}catch(_){}
+    try{if(typeof saveNamedSetsCache==='function')saveNamedSetsCache();}catch(_){}
   }
   window.saveSharedSetsToFB=saveSharedRich;
   try{saveSharedSetsToFB=saveSharedRich;}catch(_){}
   window.saveSetListToFB=saveSharedRich;
 
-  /* ─── modSetList: preserve rich items; only remove the targeted song ─────── */
+  /* ── modSetList — keeps sections/items on every update ───────────────── */
   window.modSetList=function(newArr,scope){
-    const sk=sKey((scope||appPrefs.setListScope)||'shared');
-    const items=normalizeItems(newArr).filter(itemResolvable);
+    const sk=(scope||appPrefs.setListScope||'shared')==='personal'?'personal':'shared';
+    const items=normItems(newArr).filter(resolvable);
     const sets=Object.assign({},sk==='personal'?_personalSets:_sharedSets);
     const id=typeof getActiveSetId==='function'?getActiveSetId(sk):'default';
     const prev=sets[id]||{name:sk==='personal'?'My Set':'Shared Set'};
     sets[id]=Object.assign({},prev,{items,songMemory:buildSongMemory(prev,items),updatedAt:Date.now()});
-    if(sk==='personal'){_personalSets=sets;try{savePersonalNamedSets();}catch(_){try{localStorage.setItem('wb_personal_sets_v1',JSON.stringify(_personalSets));}catch(__){}} }
-    else{_sharedSets=sets;saveSharedRich();}
+    if(sk==='personal'){
+      _personalSets=sets;
+      try{savePersonalNamedSets();}catch(_){try{localStorage.setItem('wb_personal_sets_v1',JSON.stringify(_personalSets));}catch(__){}}
+    }else{
+      _sharedSets=sets;
+      saveSharedRich();
+    }
     try{renderNamedSetChooserUI();}catch(_){}
   };
   try{modSetList=window.modSetList;}catch(_){}
 
-  /* ─── removeFromSet: only drop the song, keep sections/service items ─── */
+  /* ── removeFromSet — only removes the matched song ───────────────────── */
   window.removeFromSet=function(id){
-    const songId=nId(id);
-    const song=typeof findSongById==='function'?findSongById(songId):null;
-    if(typeof confirmDestructive==='function'){if(!confirmDestructive('Remove "'+(song&&song.title?song.title:'this song')+'" from this set list?'))return;}
-    // Filter only song-type items with matching songId; leave sections and service items untouched
-    const current=window.getSetList(appPrefs.setListScope);
-    window.modSetList(current.filter(x=>!(x.type==='song'&&nId(x.songId)===songId)),appPrefs.setListScope);
+    const sid=nId(id);
+    const song=window.findSongById(sid);
+    if(typeof confirmDestructive==='function'){
+      if(!confirmDestructive('Remove "'+(song&&song.title?song.title:'this song')+'" from this set list?'))return;
+    }
+    window.modSetList(window.getSetList(appPrefs.setListScope).filter(x=>!(x.type==='song'&&nId(x.songId)===sid)),appPrefs.setListScope);
     try{renderSetList();}catch(_){}
   };
   try{removeFromSet=window.removeFromSet;}catch(_){}
+
   window.removeSongFromNamedSet=function(id,scope){
-    const songId=nId(id);
-    const current=window.getSetList(scope);
-    window.modSetList(current.filter(x=>!(x.type==='song'&&nId(x.songId)===songId)),scope);
+    const sid=nId(id);
+    window.modSetList(window.getSetList(scope).filter(x=>!(x.type==='song'&&nId(x.songId)===sid)),scope);
   };
   try{removeSongFromNamedSet=window.removeSongFromNamedSet;}catch(_){}
 
-  /* ─── pruneMissingSongsFromSets: safe version that keeps sections/items ─ */
+  /* ── pruneMissingSongsFromSets — safe, never drops sections/items ─────── */
   window.pruneMissingSongsFromSets=function(){
-    /* Only remove song-type items where the song cannot be resolved.
-       Sections and service items are always kept. My Songs embedded as snapshots are also kept. */
-    if(!Array.isArray(typeof songs!=='undefined'?songs:[]))return;
-    let personalChanged=false, sharedChanged=false;
-    function cleanMap(map){
+    function clean(map){
       const out={}; let changed=false;
       Object.entries(map||{}).forEach(([id,set])=>{
-        const before=normalizeItems(set.items||[]);
-        const after=before.filter(itemResolvable);
+        const before=normItems(set.items||[]);
+        const after=before.filter(resolvable);
         if(after.length!==before.length)changed=true;
         out[id]=Object.assign({},set,{items:after});
       });
-      return {out,changed};
+      return{out,changed};
     }
-    try{const r=cleanMap(_personalSets);if(r.changed){_personalSets=r.out;personalChanged=true;try{savePersonalNamedSets();}catch(_){}}}catch(e){console.warn('[wb-v72.7.0] prune personal',e);}
-    try{const r=cleanMap(_sharedSets);if(r.changed){_sharedSets=r.out;sharedChanged=true;saveSharedRich();}}catch(e){console.warn('[wb-v72.7.0] prune shared',e);}
+    try{const r=clean(_personalSets);if(r.changed){_personalSets=r.out;savePersonalNamedSets();}}catch(_){}
+    try{const r=clean(_sharedSets);if(r.changed){_sharedSets=r.out;saveSharedRich();}}catch(_){}
   };
   try{pruneMissingSongsFromSets=window.pruneMissingSongsFromSets;}catch(_){}
 
-  /* ─── copyActiveSetToOtherScope: copies rich items + notes + memory ───── */
+  /* ── copyActiveSetToOtherScope ────────────────────────────────────────── */
   window.copyActiveSetToOtherScope=function(){
-    const from=sKey(appPrefs.setListScope||'shared');
+    const from=(appPrefs.setListScope||'shared')==='personal'?'personal':'shared';
     const to=from==='shared'?'personal':'shared';
     const src=typeof getActiveSet==='function'?getActiveSet(from):null;
     if(!src){toast('No active set list to copy');return;}
@@ -15063,115 +15068,54 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
     const name=(prompt('Copy to '+toLabel+' as:',suggested)||'').trim();
     if(!name)return;
 
-    // Use rich items directly from the active set (not getSetList which calls filterSetItemsToExistingSongs)
-    const sourceItems=normalizeItems(src.items||[]).filter(itemResolvable);
-    const copiedMemory=buildSongMemory(src,sourceItems);
+    // Use raw src.items (not getSetList which re-filters) so we don't lose anything
+    const items=normItems(src.items||[]).filter(resolvable);
+    const mem=buildSongMemory(src,items);
     const id=typeof makeSetId==='function'?makeSetId():('set_'+Date.now().toString(36));
-    const copied={
-      name,
-      notes:String(src.notes||''),
-      items:clone(sourceItems),
-      songMemory:copiedMemory,
-      updatedAt:Date.now()
-    };
+    const copied={name,notes:String(src.notes||''),items:cloneJSON(items),songMemory:mem,updatedAt:Date.now()};
 
-    const targetSets=Object.assign({},to==='personal'?(_personalSets||{}):(_sharedSets||{}));
-    targetSets[id]=copied;
+    const target=Object.assign({},to==='personal'?(_personalSets||{}):(_sharedSets||{}));
+    target[id]=copied;
 
     if(to==='personal'){
-      _personalSets=targetSets;
+      _personalSets=target;
       appPrefs.activePersonalSetId=id;
       try{savePersonalNamedSets();}catch(_){try{localStorage.setItem('wb_personal_sets_v1',JSON.stringify(_personalSets));}catch(__){}}
     }else{
-      _sharedSets=targetSets;
+      _sharedSets=target;
       appPrefs.activeSharedSetId=id;
-      saveSharedRich();
+      saveSharedRich(); // stamps _wbLastRichSaveAt before writing to Firebase
     }
     try{savePrefs();}catch(_){}
     try{renderSetListScopeUI();}catch(_){}
     try{renderNamedSetChooserUI();}catch(_){}
     try{if(activeTab==='setlist')renderSetList();else refresh(false);}catch(_){}
 
-    // Debug toast: report what was copied
-    const songCount=sourceItems.filter(x=>x.type==='song').length;
-    const planCount=sourceItems.filter(x=>x.type==='section'||x.type==='item').length;
-    const memCount=Object.keys(copiedMemory).length;
-    const mySongCount=sourceItems.filter(x=>x.type==='song'&&x.songSnapshot&&x.songSnapshot.localOnly).length;
-    let msg='Copied to '+toLabel.toLowerCase()+' · '+songCount+' song'+(songCount===1?'':'s');
-    if(planCount)msg+=' · '+planCount+' planning item'+(planCount===1?'':'s');
-    if(mySongCount)msg+=' · '+mySongCount+' My Song snapshot'+(mySongCount===1?'':'s');
-    if(memCount)msg+=' · '+memCount+' note/cue'+(memCount===1?'':'s');
+    const songs=items.filter(x=>x.type==='song').length;
+    const plan=items.filter(x=>x.type==='section'||x.type==='item').length;
+    const mySongs=items.filter(x=>x.type==='song'&&x.songSnapshot&&x.songSnapshot.localOnly).length;
+    const mems=Object.keys(mem).length;
+    let msg='Copied to '+toLabel.toLowerCase()+' · '+songs+' song'+(songs===1?'':'s');
+    if(plan)msg+=' · '+plan+' planning item'+(plan===1?'':'s');
+    if(mySongs)msg+=' · '+mySongs+' My Song snapshot'+(mySongs===1?'':'s');
+    if(mems)msg+=' · '+mems+' note/cue'+(mems===1?'':'s');
     toast(msg);
-    console.log('[wb-v72.7.0] copyActiveSetToOtherScope',{from,to,songCount,planCount,mySongCount,memCount,firebasePath:to==='shared'?'/setlists':localStorage});
+    console.log('[wb-v72.7.1] copy',{from,to,songs,plan,mySongs,mems,firebasePath:'/setlists/'+id});
   };
   try{copyActiveSetToOtherScope=window.copyActiveSetToOtherScope;}catch(_){}
 
-  /* ─── Reattach Firebase listeners ─────────────────────────────────────── */
-  // 1. Detach the legacy /setlist listener so it can never recreate a songs-only
-  //    _sharedSets over the top of rich data loaded from /setlists.
-  try{
-    if(typeof setlistRef!=='undefined'&&setlistRef&&setlistRef.off){
-      setlistRef.off('value');
-      // Re-attach a minimal listener that only updates the _setList_shared legacy array
-      // (used by a few export helpers) but NEVER touches _sharedSets.
-      setlistRef.on('value',function(snap){
-        const d=snap.val();
-        try{
-          window._setList_shared=d
-            ?Object.values(d).sort((a,b)=>a.order-b.order).map((x,i)=>typeof normSetItem==='function'?normSetItem(x,i):x).filter(x=>x&&x.songId)
-            :[];
-        }catch(_){}
-        // Do NOT touch _sharedSets here. /setlists is the source of truth for rich sets.
-      });
-    }
-  }catch(e){console.warn('[wb-v72.7.0] Could not reattach setlistRef listener',e);}
-
-  // 2. Reattach the /setlists listener using the rich normalizer.
-  //    Detach any previous version first to avoid duplicate handlers.
-  try{
-    if(typeof sharedSetsRef!=='undefined'&&sharedSetsRef&&sharedSetsRef.off&&sharedSetsRef.on){
-      sharedSetsRef.off('value');
-      sharedSetsRef.on('value',function(snap){
-        const d=snap.val();
-        if(d&&Object.keys(d).length){
-          const remembered=(appPrefs&&appPrefs.activeSharedSetId)||'default';
-          const normalized=normalizeSetMap(d,'Shared Set');
-          // Staleness guard: if we just saved a rich set locally and Firebase is echoing
-          // an older songs-only version back, ignore it for 20 seconds.
-          const current=(_sharedSets&&_sharedSets[remembered])||null;
-          const currentPlan=current?(current.items||[]).filter(x=>x&&(x.type==='section'||x.type==='item')).length:0;
-          const incomingSet=normalized[remembered]||null;
-          const incomingPlan=incomingSet?(incomingSet.items||[]).filter(x=>x&&(x.type==='section'||x.type==='item')).length:0;
-          if(currentPlan>0&&incomingPlan===0&&current&&Date.now()-(current.updatedAt||0)<20000){
-            console.log('[wb-v72.7.0] Ignoring stale Firebase echo (rich local vs songs-only remote)');
-            return;
-          }
-          _sharedSets=normalized;
-          if(_sharedSets[remembered])appPrefs.activeSharedSetId=remembered;
-          else if(Object.keys(_sharedSets).length)appPrefs.activeSharedSetId=Object.keys(_sharedSets)[0];
-          try{if(typeof ensureNamedSetState==='function')ensureNamedSetState('shared');}catch(_){}
-          try{if(typeof saveNamedSetsCache==='function')saveNamedSetsCache();}catch(_){}
-          try{if(typeof savePrefs==='function')savePrefs();}catch(_){}
-          try{if(typeof renderNamedSetChooserUI==='function')renderNamedSetChooserUI();}catch(_){}
-          try{if(typeof activeTab!=='undefined'&&activeTab==='setlist'&&typeof renderSetList==='function')renderSetList();}catch(_){}
-        }
-      });
-    }
-  }catch(e){console.warn('[wb-v72.7.0] Could not reattach sharedSetsRef listener',e);}
-
-  // 3. Re-normalise any already-loaded set data through the new rich normalizer.
+  /* ── re-normalise already-loaded data through rich normaliser ─────────── */
   try{if(_personalSets&&Object.keys(_personalSets).length)_personalSets=normalizeSetMap(_personalSets,'Set');}catch(_){}
   try{if(_sharedSets&&Object.keys(_sharedSets).length)_sharedSets=normalizeSetMap(_sharedSets,'Shared Set');}catch(_){}
-  // Update local cache but do NOT write shared sets to Firebase on startup.
-  try{if(typeof savePersonalNamedSets==='function')savePersonalNamedSets();}catch(_){}
-  try{if(typeof saveNamedSetsCache==='function')saveNamedSetsCache();}catch(_){}
+  try{savePersonalNamedSets();}catch(_){}
+  try{saveNamedSetsCache();}catch(_){} // cache only — do NOT write shared sets to Firebase on startup
 
-  /* ─── Version stamp ───────────────────────────────────────────────────── */
+  /* ── version stamp ────────────────────────────────────────────────────── */
   try{
     document.title='WorshipBase v'+VERSION;
     document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(el=>{el.textContent='Version '+VERSION;});
   }catch(_){}
-  console.log('[WorshipBase] v72.7.0 rich set-list fix applied');
+  console.log('[WorshipBase] v72.7.1 rich set-list fix applied');
 })();
 </script>
 
