@@ -10,7 +10,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="assets/wb-icon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
 
-<title>WorshipBase v72.4</title>
+<title>WorshipBase v72.5.4</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 /* Prevent iOS long-press/callout menus and text selection on UI chrome
@@ -3088,7 +3088,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
       <div class="wm">
         <div><div class="wm-name">WorshipBase</div><div class="wm-sub">Chord Library</div></div>
       </div>
-      <button class="hdr-btn" style="display: flex;" onclick="openAddSongMenu(event)" id="hdr-add-btn" title="Add song" aria-label="Add song">
+      <button class="hdr-btn" style="display: none;" onclick="openAddSongMenu(event)" id="hdr-add-btn" title="Add song" aria-label="Add song">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 5v14M5 12h14"></path>
         </svg>
@@ -3118,7 +3118,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   </div>
 
   <!-- Search + library filters -->
-  <div class="srch-wrap" id="srch-wrap" style="display: block;">
+  <div class="srch-wrap" id="srch-wrap" style="display: none;">
     <div class="srch-row">
       <div class="srch-inner">
         <span class="srch-ico"><svg width="14" height="14" viewBox="0 0 15 15" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 10L13 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg></span>
@@ -3135,7 +3135,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
         </select>
       </label>
     </div>
-    <div class="filter-row" id="library-filter-row" style="display: flex;">
+    <div class="filter-row" id="library-filter-row" style="display: none;">
       <button class="filter-chip active" data-filter="all" onclick="setLibraryFilter('all',this)">All</button>
       <button class="filter-chip" data-filter="mine" onclick="setLibraryFilter('mine',this)">My Songs</button>
       <button class="filter-chip" data-filter="english" onclick="setLibraryFilter('english',this)">English</button>
@@ -3155,7 +3155,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   </div>
 
   <!-- SONG LIST -->
-  <div id="song-section" style="flex: 1 1 0%; display: flex; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;">
+  <div id="song-section" style="flex: 1 1 0%; display: none; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;">
     <div class="vs-host ptr-wrap">
       <div id="ptr-indicator"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2v4M9 2l-2 2M9 2l2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16 9a7 7 0 1 1-7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg></div>
       <div id="vscroll" class="vs-wrap" style="-webkit-overflow-scrolling: touch;"><div class="library-count-row" id="library-count-row"><span class="song-count" id="song-count">73 songs</span></div><div id="home-quick-wrap" class="home-quick-wrap" style="display: flex;">
@@ -3226,7 +3226,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   </div>
 
   <!-- SETTINGS -->
-  <div id="settings-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;min-height:0;">
+  <div id="settings-section" style="display: flex; flex: 1 1 0%; flex-direction: column; overflow: hidden; min-height: 0px;">
     <div class="settings-scroll" style="-webkit-overflow-scrolling: touch;">
 
       <div class="ss-section">
@@ -3300,7 +3300,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
         </div>
       </div>
 
-      <div class="ss-section">
+      <div class="ss-section wb-hidden-settings-section">
         <div class="ss-title">Export</div>
         <div class="ss-card">
           <div class="ss-row" onclick="openBS('defaultpdfpreset')">
@@ -3373,7 +3373,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
         </div>
       </div>
 
-      <div class="ss-section">
+      <div class="ss-section" id="wb-backup-restore-section"><div class="ss-title">Backup &amp; Restore</div><div class="ss-card wb-backup-card"><div class="ss-row" onclick="openLocalBackupSheet()"><div class="ss-ico"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></div><div class="ss-body"><div class="ss-lbl">Local backup</div><div class="ss-sub">Export or restore JSON files on this device</div></div><div class="ss-right"><span class="ss-val">Files</span><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div></div><div class="ss-row wb-drive-row" id="wb-drive-row" onclick="openDriveBackupSheet()"><div class="ss-ico"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M6 13.5H12a3 3 0 0 0 .4-6 4.4 4.4 0 0 0-8.3 1.2A2.5 2.5 0 0 0 6 13.5Z" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="ss-body"><div class="ss-lbl">Google Drive backup</div><div class="ss-sub" id="wb-drive-settings-sub">Hidden personal backup in your Google account</div></div><div class="ss-right"><span class="ss-val" id="wb-drive-settings-val">Drive</span><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div></div><div class="wb-drive-settings-status" id="wb-drive-settings-status"><div class="wb-drive-status-surface"><div class="wb-drive-status-head"><div class="wb-drive-status-left"><span class="wb-drive-status-dot "></span><div class="wb-drive-status-copy"><div class="wb-drive-status-title">Google Drive backup not connected</div><div class="wb-drive-status-subline">Connect Google Drive to create a hidden personal backup</div></div></div><span class="wb-drive-status-pill">Not connected</span></div><div class="wb-drive-settings-grid"><div class="wb-drive-settings-row"><span>Backup file</span><b>Not created yet</b></div><div class="wb-drive-settings-row"><span>Last backup</span><b>Never</b></div><div class="wb-drive-settings-row"><span>Last restore</span><b>Never</b></div><div class="wb-drive-settings-row"><span>Backup from before last restore</span><b>None</b></div></div><div class="wb-drive-settings-hint">Tap Google Drive backup above to back up, restore, or disconnect.</div></div></div></div></div><div class="ss-section">
         <div class="ss-title">About</div>
         <div class="ss-card">
           <div class="about-panel">
@@ -3381,7 +3381,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
               <img src="assets/wb-icon-192.png" alt="WorshipBase logo">
             </div>
             <div class="about-name">WorshipBase</div>
-            <div class="about-version-pill">Version 72</div>
+            <div class="about-version-pill">Version 72.5.4</div>
             <div class="about-by">Created by <strong>Jerin Reji</strong></div>
           </div>
         </div>
@@ -3394,7 +3394,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   <div class="tab-bar" id="tab-bar">
 
     <!-- Library tab -->
-    <button class="tab-btn active" id="tab-songs" onclick="switchTab('songs')">
+    <button class="tab-btn" id="tab-songs" onclick="switchTab('songs')">
       <span class="tab-ico">
         <svg class="ico-outline" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
         <svg class="ico-filled" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 6h16" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path><path d="M4 12h10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path><path d="M4 18h16" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path></svg>
@@ -3425,7 +3425,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
     </button>
 
     <!-- Settings tab -->
-    <button class="tab-btn" id="tab-settings" onclick="switchTab('settings')">
+    <button class="tab-btn active" id="tab-settings" onclick="switchTab('settings')">
       <span class="tab-ico">
         <!-- outline: thin gear -->
         <svg class="ico-outline" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
@@ -3789,9 +3789,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
       <span id="dark-lbl">Dark mode</span><span class="mi-check">✓</span>
     </button>
     <button class="mi manage-song-edit-tool" id="mi-edit-song" style="display:none" onclick="requireAdmin(()=&gt;{closeBS('songmenu');openSongModal(currentSong);})">
-      <span class="mi-icon-wrap">Edit song</span>
-      Edit song
-    </button>
+      <span class="mi-icon-wrap">Edit song</span>Edit</button>
     <button class="bs-cancel" onclick="closeBS('songmenu')">Cancel</button>
   </div>
 </div>
@@ -4231,7 +4229,7 @@ line 18 | Hold / pause"></textarea>
 <div class="ctx-menu" id="ctx-menu" style="display:none">
   <button class="ctx-item" onclick="ctxAction('set')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 13h3L12 6 10 4 3 11v2zM10 4l2 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></svg><span id="ctx-set-lbl">Add to set list</span></button>
   <button class="ctx-item" onclick="ctxAction('lyrics')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="5" y="1" width="9" height="11" rx="2" stroke="currentColor" stroke-width="1.4"></rect><rect x="1" y="4" width="9" height="11" rx="2" stroke="currentColor" stroke-width="1.4"></rect></svg>Copy lyrics</button>
-  <button class="ctx-item manage-song-edit-tool" id="ctx-edit-song" style="display:none" onclick="ctxAction('edit')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M11 2.5l2.5 2.5L5 13.5H2.5V11L11 2.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>Edit song</button>
+  <button class="ctx-item manage-song-edit-tool" id="ctx-edit-song" style="display:none" onclick="ctxAction('edit')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M11 2.5l2.5 2.5L5 13.5H2.5V11L11 2.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>Edit</button>
 </div>
 
 <!-- DEFAULT KEY picker -->
@@ -13566,7 +13564,7 @@ body.dark .wb-sync-btn.primary .wb-sync-badge{background:rgba(143,180,255,.16)!i
     const backupSongs=((typeof songs!=='undefined'?songs:[])||[]).filter(typeof isMySong==='function'?isMySong:function(s){return String(s&&s.librarySource||'').toLowerCase()==='user';}).map(function(s){return typeof buildPortableSongPayload==='function'?buildPortableSongPayload(s,true):{...s,librarySource:'user'};});
     const prefs={...(typeof appPrefs!=='undefined'?appPrefs:{})};
     delete prefs.adminPin;
-    return {format:'worshipbase-google-drive-backup',version:'72.4',backupKind:'personal-appdatafolder',exportedAt:new Date().toISOString(),fileName:GOOGLE_DRIVE_BACKUP_NAME,songs:backupSongs,songMemory:typeof loadSongMemory==='function'?loadSongMemory():{},notes:typeof buildNotesCuesExportRows==='function'?buildNotesCuesExportRows():[],personalSetLists:(typeof _personalSets!=='undefined'?_personalSets:{}),activePersonalSetId:(typeof appPrefs!=='undefined'&&appPrefs.activePersonalSetId)||'default',preferences:prefs};
+    return {format:'worshipbase-google-drive-backup',version:'72.5.3',backupKind:'personal-appdatafolder',exportedAt:new Date().toISOString(),fileName:GOOGLE_DRIVE_BACKUP_NAME,songs:backupSongs,songMemory:typeof loadSongMemory==='function'?loadSongMemory():{},notes:typeof buildNotesCuesExportRows==='function'?buildNotesCuesExportRows():[],personalSetLists:(typeof _personalSets!=='undefined'?_personalSets:{}),activePersonalSetId:(typeof appPrefs!=='undefined'&&appPrefs.activePersonalSetId)||'default',preferences:prefs};
   }
   function multipartBody(metadata,jsonText){
     const boundary='wb_drive_'+Math.random().toString(36).slice(2);
@@ -13705,11 +13703,11 @@ body.dark .wb-sync-mini-row{background:rgba(255,255,255,.04);}
   const oldSaveSetNotes=window.saveSetNotes || (typeof saveSetNotes==='function'?saveSetNotes:null);if(oldSaveSetNotes&&!oldSaveSetNotes.__wbV724){window.saveSetNotes=function(){const r=oldSaveSetNotes();setTimeout(addSetNotesIndicators,80);return r;};window.saveSetNotes.__wbV724=true;try{saveSetNotes=window.saveSetNotes;}catch(e){}}
   const oldSyncAdminUI=window.syncAdminOnlyUI || (typeof syncAdminOnlyUI==='function'?syncAdminOnlyUI:null);if(oldSyncAdminUI&&!oldSyncAdminUI.__wbV724){window.syncAdminOnlyUI=function(){const r=oldSyncAdminUI();try{const mine=!!(currentSong&&currentSong.localOnly);const edit=document.getElementById('mi-edit-song');if(edit&&mine){edit.style.display='flex';const span=edit.querySelector('span:last-child');if(span)span.textContent='Edit My Song';edit.onclick=function(){closeBS('songmenu');openSongModal(currentSong);};}else if(edit){const span=edit.querySelector('span:last-child');if(span)span.textContent='Edit song';edit.onclick=function(){requireAdmin(()=>{closeBS('songmenu');openSongModal(currentSong);});};}const ctx=document.getElementById('ctx-edit-song');if(ctx&&ctxSong&&ctxSong.localOnly){ctx.style.display='flex';ctx.querySelector('span')&&(ctx.querySelector('span').textContent='Edit My Song');}}catch(e){}return r;};window.syncAdminOnlyUI.__wbV724=true;try{syncAdminOnlyUI=window.syncAdminOnlyUI;}catch(e){}}
   const oldCtxAction=window.ctxAction || (typeof ctxAction==='function'?ctxAction:null);if(oldCtxAction&&!oldCtxAction.__wbV724){window.ctxAction=function(action){if(action==='edit'&&ctxSong&&ctxSong.localOnly){const s=ctxSong;closeCtx();openSongModal(s);return;}return oldCtxAction(action);};window.ctxAction.__wbV724=true;try{ctxAction=window.ctxAction;}catch(e){}}
-  function buildEmergencySnapshot(){const backupSongs=((typeof songs!=='undefined'?songs:[])||[]).filter(typeof isMySong==='function'?isMySong:function(s){return String(s&&s.librarySource||'').toLowerCase()==='user';}).map(function(s){return typeof buildPortableSongPayload==='function'?buildPortableSongPayload(s,true):{...s,librarySource:'user'};});const prefs={...(typeof appPrefs!=='undefined'?appPrefs:{})}; delete prefs.adminPin;return {format:'worshipbase-pre-restore-snapshot',version:'72.4',createdAt:new Date().toISOString(),songs:backupSongs,songMemory:typeof loadSongMemory==='function'?loadSongMemory():{},personalSetLists:(typeof _personalSets!=='undefined'?_personalSets:{}),activePersonalSetId:(typeof appPrefs!=='undefined'&&appPrefs.activePersonalSetId)||'default',preferences:prefs};}
+  function buildEmergencySnapshot(){const backupSongs=((typeof songs!=='undefined'?songs:[])||[]).filter(typeof isMySong==='function'?isMySong:function(s){return String(s&&s.librarySource||'').toLowerCase()==='user';}).map(function(s){return typeof buildPortableSongPayload==='function'?buildPortableSongPayload(s,true):{...s,librarySource:'user'};});const prefs={...(typeof appPrefs!=='undefined'?appPrefs:{})}; delete prefs.adminPin;return {format:'worshipbase-pre-restore-snapshot',version:'72.5.3',createdAt:new Date().toISOString(),songs:backupSongs,songMemory:typeof loadSongMemory==='function'?loadSongMemory():{},personalSetLists:(typeof _personalSets!=='undefined'?_personalSets:{}),activePersonalSetId:(typeof appPrefs!=='undefined'&&appPrefs.activePersonalSetId)||'default',preferences:prefs};}
   function savePreRestoreSnapshot(){try{const snap=buildEmergencySnapshot();localStorage.setItem(PRE_RESTORE_KEY,JSON.stringify(snap));return snap;}catch(e){console.warn('Could not save pre-restore snapshot',e);return null;}}
-  window.downloadPreRestoreSnapshot=function(){try{const raw=localStorage.getItem(PRE_RESTORE_KEY);if(!raw){toast('No pre-restore snapshot saved yet');return;}const name='worshipbase-pre-restore-snapshot.json'; if(typeof downloadTextFile==='function')downloadTextFile(name,raw); else {const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([raw],{type:'application/json'}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);} }catch(e){toast('Could not download pre-restore snapshot');}};
+  window.downloadPreRestoreSnapshot=function(){try{const raw=localStorage.getItem(PRE_RESTORE_KEY);if(!raw){toast('No backup from before last restore saved yet');return;}const name='worshipbase-backup-before-last-restore.json'; if(typeof downloadTextFile==='function')downloadTextFile(name,raw); else {const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([raw],{type:'application/json'}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);} }catch(e){toast('Could not download backup from before last restore');}};
   const oldRestoreDrive=window.restoreFromGoogleDrive;if(oldRestoreDrive&&!oldRestoreDrive.__wbV724){window.restoreFromGoogleDrive=async function(){savePreRestoreSnapshot();return oldRestoreDrive.apply(this,arguments);};window.restoreFromGoogleDrive.__wbV724=true;}
-  function polishDriveCard(){try{const card=document.querySelector('#wb-sync-backup-section .wb-sync-card'); if(!card)return;const sub=card.querySelector('#wb-sync-status-sub'); const busy=sub&&/Opening|Preparing|Uploading|Checking|Restoring/i.test(sub.textContent||''); if(busy)return;const st=driveState(); const connected=!!st.connected;const backupFound=!!(st.fileId||st.lastModifiedTime||st.lastBackupAt);const hasSnapshot=!!localStorage.getItem(PRE_RESTORE_KEY);card.innerHTML=`<div class="wb-sync-status"><span class="wb-sync-dot ${connected?'':'disconnected'}"></span><div><div class="wb-sync-status-title">Google Drive Backup</div><div class="wb-sync-status-sub" id="wb-sync-status-sub">${connected?'Connected to hidden Drive backup':'Not connected'}</div></div></div><div class="wb-sync-status-grid"><div class="wb-sync-mini-row"><span>Backup file</span><b>${backupFound?'Found / ready':'Not created yet'}</b></div><div class="wb-sync-mini-row"><span>Last backup</span><b>${esc(fmtTime(st.lastBackupAt||st.lastModifiedTime))}</b></div><div class="wb-sync-mini-row"><span>Last restore</span><b>${esc(fmtTime(st.lastRestoreAt))}</b></div></div><div class="wb-sync-restore-note">Restore replaces personal data on this device. A local emergency snapshot is saved before each Drive restore.</div><div class="wb-sync-actions"><button class="wb-sync-btn${connected?'':' primary'}" type="button" onclick="connectGoogleDriveBackup()"><span>${connected?'Reconnect Google Drive':'Connect Google Drive'}</span><span class="wb-sync-badge">${connected?'Connected':'Drive'}</span></button><button class="wb-sync-btn primary" type="button" onclick="backupToGoogleDrive()"><span>Back up now</span><span class="wb-sync-badge">JSON</span></button><button class="wb-sync-btn" type="button" onclick="restoreFromGoogleDrive()"><span>Restore from Drive</span><span class="wb-sync-badge">Replace local</span></button><button class="wb-sync-btn" type="button" onclick="downloadPreRestoreSnapshot()"><span>Download pre-restore snapshot</span><span class="wb-sync-badge">${hasSnapshot?'Saved':'None'}</span></button><button class="wb-sync-btn" type="button" onclick="disconnectGoogleDriveBackup()"><span>Disconnect on this device</span><span class="wb-sync-badge">Local</span></button></div>`;}catch(e){console.warn('Could not polish Drive card',e);}}
+  function polishDriveCard(){try{const card=document.querySelector('#wb-sync-backup-section .wb-sync-card'); if(!card)return;const sub=card.querySelector('#wb-sync-status-sub'); const busy=sub&&/Opening|Preparing|Uploading|Checking|Restoring/i.test(sub.textContent||''); if(busy)return;const st=driveState(); const connected=!!st.connected;const backupFound=!!(st.fileId||st.lastModifiedTime||st.lastBackupAt);const hasSnapshot=!!localStorage.getItem(PRE_RESTORE_KEY);card.innerHTML=`<div class="wb-sync-status"><span class="wb-sync-dot ${connected?'':'disconnected'}"></span><div><div class="wb-sync-status-title">Google Drive Backup</div><div class="wb-sync-status-sub" id="wb-sync-status-sub">${connected?'Connected to hidden Drive backup':'Not connected'}</div></div></div><div class="wb-sync-status-grid"><div class="wb-sync-mini-row"><span>Backup file</span><b>${backupFound?'Found / ready':'Not created yet'}</b></div><div class="wb-sync-mini-row"><span>Last backup</span><b>${esc(fmtTime(st.lastBackupAt||st.lastModifiedTime))}</b></div><div class="wb-sync-mini-row"><span>Last restore</span><b>${esc(fmtTime(st.lastRestoreAt))}</b></div></div><div class="wb-sync-restore-note">Restore replaces personal data on this device. A local backup is saved before each Drive restore.</div><div class="wb-sync-actions"><button class="wb-sync-btn${connected?'':' primary'}" type="button" onclick="connectGoogleDriveBackup()"><span>${connected?'Reconnect Google Drive':'Connect Google Drive'}</span><span class="wb-sync-badge">${connected?'Connected':'Drive'}</span></button><button class="wb-sync-btn primary" type="button" onclick="backupToGoogleDrive()"><span>Back up now</span><span class="wb-sync-badge">JSON</span></button><button class="wb-sync-btn" type="button" onclick="restoreFromGoogleDrive()"><span>Restore from Drive</span><span class="wb-sync-badge">Replace local</span></button><button class="wb-sync-btn" type="button" onclick="downloadPreRestoreSnapshot()"><span>Download backup from before last restore</span><span class="wb-sync-badge">${hasSnapshot?'Saved':'None'}</span></button><button class="wb-sync-btn" type="button" onclick="disconnectGoogleDriveBackup()"><span>Disconnect on this device</span><span class="wb-sync-badge">Local</span></button></div>`;}catch(e){console.warn('Could not polish Drive card',e);}}
   ['connectGoogleDriveBackup','backupToGoogleDrive','restoreFromGoogleDrive','disconnectGoogleDriveBackup'].forEach(name=>{const fn=window[name]; if(typeof fn==='function'&&!fn.__wbV724Polished){window[name]=function(){const out=fn.apply(this,arguments);setTimeout(polishDriveCard,300);setTimeout(polishDriveCard,1500);return out;};window[name].__wbV724Polished=true;}});
   const oldRenderSettings=window.renderSettings || (typeof renderSettings==='function'?renderSettings:null);if(oldRenderSettings&&!oldRenderSettings.__wbV724){window.renderSettings=function(){const r=oldRenderSettings();setTimeout(polishDriveCard,120);setTimeout(addSetNotesIndicators,120);return r;};window.renderSettings.__wbV724=true;try{renderSettings=window.renderSettings;}catch(e){}}
   ready(function(){setTimeout(()=>{addSetNotesIndicators();polishDriveCard();try{syncAdminOnlyUI();}catch(e){}},500);});
@@ -13717,4 +13715,147 @@ body.dark .wb-sync-mini-row{background:rgba(255,255,255,.04);}
 </script>
 
 
-<div id="wb-pad-float" class="wb-pad-float"><button class="wb-pad-float-label" id="wb-pad-float-label" type="button">Pad</button><button class="wb-pad-float-stop" id="wb-pad-float-stop" type="button" aria-label="Stop pad"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"></rect></svg></button></div></body><div style="position: fixed; top: 0px; left: 0px; width: 1px; height: env(safe-area-inset-top,0px); pointer-events: none; opacity: 0; z-index: -1;"></div><div style="position: fixed; bottom: 0px; left: 0px; width: 1px; height: env(safe-area-inset-bottom,0px); pointer-events: none; opacity: 0; z-index: -1;"></div></html>
+
+<style id="wb-v72-5-2-backup-settings-polish">
+/* v72.5.4 — polished Backup & Restore settings card layout. */
+.wb-hidden-settings-section{display:none!important;}
+.wb-backup-card .ss-row{cursor:pointer;}
+.wb-backup-choice{display:flex;align-items:center;gap:12px;padding:15px 20px;border-top:.5px solid var(--bdr);background:transparent;border-left:0;border-right:0;border-bottom:0;width:100%;text-align:left;font-family:inherit;color:var(--txt1);cursor:pointer;}
+.wb-backup-choice:first-child{border-top:0;}
+.wb-backup-choice:active{background:var(--bg2);}
+.wb-backup-choice-icon{width:30px;min-width:30px;height:30px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--surface-tint);color:var(--tc);}
+.wb-backup-choice-copy{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;}
+.wb-backup-choice-title{display:block;font-size:15px;font-weight:800;color:var(--txt1);line-height:1.2;}
+.wb-backup-choice-sub{display:block;font-size:12px;color:var(--txt3);line-height:1.35;}
+.wb-backup-choice-tag{font-size:10px;font-weight:850;letter-spacing:.04em;text-transform:uppercase;color:var(--tc);background:var(--surface-tint);border-radius:999px;padding:5px 8px;white-space:nowrap;}
+.wb-backup-sheet-note{font-size:12px;color:var(--txt2);line-height:1.55;margin:0 0 12px;padding:0 2px;}
+.wb-backup-group-title{font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--txt3);padding:14px 2px 7px;}
+.wb-drive-sheet-status{border:1px solid var(--surface-border);border-radius:16px;background:var(--surface-tint);padding:14px;margin-bottom:12px;display:flex;flex-direction:column;gap:8px;}
+.wb-drive-status-top{display:flex;align-items:center;gap:10px;}
+.wb-drive-status-dot{width:10px;height:10px;border-radius:50%;background:var(--tc);box-shadow:0 0 0 4px color-mix(in srgb,var(--tc) 13%, transparent);}
+.wb-drive-status-dot.off{background:var(--txt3);box-shadow:0 0 0 4px color-mix(in srgb,var(--txt3) 13%, transparent);}
+.wb-drive-status-title{font-size:14px;font-weight:850;color:var(--txt1);}
+.wb-drive-status-sub{font-size:12px;color:var(--txt2);margin-top:2px;line-height:1.35;}
+.wb-drive-mini-grid{display:grid;grid-template-columns:1fr;gap:6px;margin-top:4px;}
+.wb-drive-mini-row{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:var(--txt2);}
+.wb-drive-mini-row b{color:var(--txt1);font-weight:800;text-align:right;}
+.wb-drive-row.connected .ss-ico{background:rgba(101,125,57,.10);border-color:rgba(101,125,57,.28);color:#657d39;}
+body.dark .wb-drive-row.connected .ss-ico{background:rgba(150,180,105,.12);border-color:rgba(150,180,105,.26);color:#b5d681;}
+.wb-drive-settings-status{margin:14px 16px 18px 16px;padding:0;display:block;}
+.wb-drive-status-surface{width:100%;box-sizing:border-box;border-radius:24px;background:color-mix(in srgb,var(--surface-tint) 82%, var(--bg1));border:1px solid color-mix(in srgb,var(--surface-border) 76%, transparent);padding:18px 18px 16px;display:grid;gap:14px;}
+.wb-drive-status-head{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0;}
+.wb-drive-status-left{display:flex;align-items:center;gap:12px;min-width:0;}
+.wb-drive-status-copy{display:grid;gap:2px;min-width:0;}
+.wb-drive-status-dot{width:12px;height:12px;border-radius:999px;background:var(--txt3);box-shadow:0 0 0 8px color-mix(in srgb,var(--txt3) 12%, transparent);flex-shrink:0;}
+.wb-drive-status-dot.ok{background:#67b17a;box-shadow:0 0 0 8px rgba(103,177,122,.18);}
+.wb-drive-status-title{font-size:14px;font-weight:900;color:var(--txt1);line-height:1.15;}
+.wb-drive-status-subline{font-size:12px;color:var(--txt2);line-height:1.28;}
+.wb-drive-status-pill{border-radius:999px;background:var(--bg1);border:1px solid var(--surface-border);padding:6px 10px;font-size:10px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;color:var(--txt2);white-space:nowrap;}
+.wb-drive-settings-grid{display:grid;grid-template-columns:1fr;gap:10px;}
+.wb-drive-settings-row{display:flex;align-items:center;justify-content:space-between;gap:14px;min-width:0;padding:12px 14px;border-radius:16px;background:color-mix(in srgb,var(--bg1) 90%, transparent);}
+.wb-drive-settings-row span{display:block;font-size:13px;color:var(--txt2);line-height:1.2;}
+.wb-drive-settings-row b{display:block;font-size:13px;color:var(--txt1);font-weight:900;line-height:1.2;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:58%;}
+.wb-drive-settings-hint{font-size:12px;line-height:1.42;color:var(--txt3);padding-top:1px;}
+body.dark .wb-drive-settings-status{background:transparent;border-color:transparent;}
+body.dark .wb-drive-status-surface{background:rgba(255,255,255,.035);border-color:rgba(255,255,255,.08);}
+body.dark .wb-drive-status-pill{background:rgba(255,255,255,.045);border-color:rgba(255,255,255,.08);}
+body.dark .wb-drive-settings-row{background:rgba(255,255,255,.045);}
+body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(--accent-surface);color:var(--accent);} 
+</style>
+<script id="wb-v72-5-2-backup-settings-polish-js">
+(function(){
+  'use strict';
+  const VERSION='72.5.3';
+  const DRIVE_STATE_KEY='wb_google_drive_backup_v1';
+  const PRE_RESTORE_KEY='wb_pre_restore_snapshot_v1';
+  function ready(fn){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fn,{once:true});else fn();}
+  function esc(v){try{return escapeHtml(String(v??''));}catch(e){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}}
+  function toast(msg){try{showToast(msg);}catch(e){try{alert(msg);}catch(_){}}}
+  function fmtTime(t){if(!t)return 'Never';try{return new Date(t).toLocaleString();}catch(e){return 'Never';}}
+  function driveState(){try{return JSON.parse(localStorage.getItem(DRIVE_STATE_KEY)||'{}')||{};}catch(e){return {};}}
+  function hasDriveSnapshot(){try{return !!localStorage.getItem(PRE_RESTORE_KEY);}catch(e){return false;}}
+  function svgBackup(){return '<svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';}
+  function svgRestore(){return '<svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';}
+  function svgCloud(){return '<svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M6 13.5H12a3 3 0 0 0 .4-6 4.4 4.4 0 0 0-8.3 1.2A2.5 2.5 0 0 0 6 13.5Z" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/></svg>';}
+  function choice(title,sub,tag,onclick,icon){return `<button class="wb-backup-choice" type="button" onclick="${onclick}"><span class="wb-backup-choice-icon">${icon||svgBackup()}</span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">${esc(title)}</span><span class="wb-backup-choice-sub">${esc(sub)}</span></span>${tag?`<span class="wb-backup-choice-tag">${esc(tag)}</span>`:''}</button>`;}
+  function findSettingsScroll(){return document.querySelector('#settings-section .settings-scroll')||document.querySelector('#settings-section');}
+  function settingsSections(){return [...document.querySelectorAll('#settings-section .ss-section')];}
+  function sectionTitle(sec){return (sec.querySelector('.ss-title')?.textContent||'').trim().toLowerCase();}
+  function hideOldBackupSections(){
+    settingsSections().forEach(sec=>{const t=sectionTitle(sec); if(t==='export'||sec.id==='wb-sync-backup-section')sec.classList.add('wb-hidden-settings-section');});
+  }
+  function injectBackupRestoreCard(){
+    if(document.getElementById('wb-backup-restore-section'))return;
+    const about=settingsSections().find(sec=>sectionTitle(sec)==='about');
+    const parent=about&&about.parentElement?about.parentElement:findSettingsScroll(); if(!parent)return;
+    const sec=document.createElement('div'); sec.className='ss-section'; sec.id='wb-backup-restore-section';
+    sec.innerHTML=`<div class="ss-title">Backup & Restore</div><div class="ss-card wb-backup-card"><div class="ss-row" onclick="openLocalBackupSheet()"><div class="ss-ico">${svgBackup()}</div><div class="ss-body"><div class="ss-lbl">Local backup</div><div class="ss-sub">Export or restore JSON files on this device</div></div><div class="ss-right"><span class="ss-val">Files</span><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div><div class="ss-row wb-drive-row" id="wb-drive-row" onclick="openDriveBackupSheet()"><div class="ss-ico">${svgCloud()}</div><div class="ss-body"><div class="ss-lbl">Google Drive backup</div><div class="ss-sub" id="wb-drive-settings-sub">Hidden personal backup in your Google account</div></div><div class="ss-right"><span class="ss-val" id="wb-drive-settings-val">Drive</span><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div><div class="wb-drive-settings-status" id="wb-drive-settings-status"></div></div>`;
+    parent.insertBefore(sec,about||null);
+  }
+  function injectBackupSheets(){
+    if(!document.getElementById('full-app-backup-json-file')){
+      const input=document.createElement('input');input.type='file';input.id='full-app-backup-json-file';input.accept='.json,application/json';input.style.display='none';input.onchange=restoreFullAppBackupFromFile;document.body.appendChild(input);
+    }
+    if(!document.getElementById('bs-backuplocal')){
+      const div=document.createElement('div');div.className='bs-bg';div.id='bs-backuplocal';div.setAttribute('onclick',"closeBSBg(event,'backuplocal')");div.innerHTML=`<div class="bs"><div class="bs-handle"></div><div class="m-tr"><h2 class="m-h2">Local backup</h2><button class="m-close" onclick="closeBS('backuplocal')">×</button></div><div class="m-body"><p class="wb-backup-sheet-note">Save JSON files to your device, or restore from a file you previously exported.</p><div class="wb-backup-group-title">Export to file</div>${choice('My Songs','Songs added on this device only','JSON',"exportMySongsJSON();closeBS('backuplocal')",svgBackup())}${choice('Notes & Cues','Personal notes, cues, usual keys and practice status','JSON',"exportNotesCuesJSON();closeBS('backuplocal')",svgBackup())}${choice('Everything','My Songs, set lists, sections, service items, notes/cues and preferences','Full',"exportAppBackupJSON();closeBS('backuplocal')",svgBackup())}<div class="wb-backup-group-title">Restore from file</div>${choice('Restore My Songs','Import a WorshipBase song JSON file','Import',"document.getElementById('my-songs-json-file')?.click();closeBS('backuplocal')",svgRestore())}${choice('Restore Notes & Cues','Apply notes/cues onto matching songs','Import',"document.getElementById('notes-cues-json-file')?.click();closeBS('backuplocal')",svgRestore())}${choice('Restore Everything','Replace personal data on this device from a full app backup','Replace',"document.getElementById('full-app-backup-json-file')?.click();closeBS('backuplocal')",svgRestore())}</div></div>`;document.body.appendChild(div);
+    }
+    if(!document.getElementById('bs-backupdrive')){
+      const div=document.createElement('div');div.className='bs-bg';div.id='bs-backupdrive';div.setAttribute('onclick',"closeBSBg(event,'backupdrive')");div.innerHTML=`<div class="bs"><div class="bs-handle"></div><div class="m-tr"><h2 class="m-h2">Google Drive backup</h2><button class="m-close" onclick="closeBS('backupdrive')">×</button></div><div class="m-body"><div id="wb-drive-sheet-body"></div></div></div>`;document.body.appendChild(div);
+    }
+  }
+  window.openLocalBackupSheet=function(){injectBackupSheets();openBS('backuplocal');};
+  function renderDriveStatusLabels(){try{const st=driveState();const connected=!!st.connected;const found=!!(st.fileId||st.lastBackupAt||st.lastModifiedTime);const snapshot=hasDriveSnapshot();const val=document.getElementById('wb-drive-settings-val');const sub=document.getElementById('wb-drive-settings-sub');const details=document.getElementById('wb-drive-settings-status');const row=document.getElementById('wb-drive-row');if(row)row.classList.toggle('connected',connected);if(val)val.textContent=connected?'Connected':'Drive';if(sub)sub.textContent=connected?'Hidden personal backup connected':'Hidden personal backup in your Google account';if(details){const stateText=connected?(found?'Ready':'Connected'):'Not connected';const fileText=found?'Found / ready':'Not created yet';details.innerHTML=`<div class="wb-drive-status-surface"><div class="wb-drive-status-head"><div class="wb-drive-status-left"><span class="wb-drive-status-dot ${connected?'ok':''}"></span><div class="wb-drive-status-copy"><div class="wb-drive-status-title">${connected?'Google Drive backup ready':'Google Drive backup not connected'}</div><div class="wb-drive-status-subline">${connected?'Hidden personal backup in your Google account':'Connect Google Drive to create a hidden personal backup'}</div></div></div><span class="wb-drive-status-pill">${stateText}</span></div><div class="wb-drive-settings-grid"><div class="wb-drive-settings-row"><span>Backup file</span><b>${fileText}</b></div><div class="wb-drive-settings-row"><span>Last backup</span><b>${esc(fmtTime(st.lastBackupAt||st.lastModifiedTime))}</b></div><div class="wb-drive-settings-row"><span>Last restore</span><b>${esc(fmtTime(st.lastRestoreAt))}</b></div><div class="wb-drive-settings-row"><span>Backup from before last restore</span><b>${snapshot?'Saved':'None'}</b></div></div><div class="wb-drive-settings-hint">Tap Google Drive backup above to back up, restore, or disconnect.</div></div>`;}}catch(e){}}
+  window.renderBackupDriveSheet=function(msg){
+    injectBackupSheets();
+    const body=document.getElementById('wb-drive-sheet-body'); if(!body)return;
+    const st=driveState();const connected=!!st.connected;const found=!!(st.fileId||st.lastBackupAt||st.lastModifiedTime);const snapshot=hasDriveSnapshot();
+    body.innerHTML=`<p class="wb-backup-sheet-note">Google Drive stores one hidden personal WorshipBase backup. Connection status, last backup, and restore details are shown in Settings.</p>${msg?`<p class="wb-backup-sheet-note"><b>${esc(msg)}</b></p>`:''}${choice(connected?'Reconnect Google Drive':'Connect Google Drive','Choose a Google account and approve WorshipBase backup access',connected?'Connected':'Drive',"connectGoogleDriveBackup()",svgCloud())}${choice('Back up now','Upload or replace your latest personal backup','Backup',"backupToGoogleDrive()",svgBackup())}${choice('Restore from Drive','Restore the latest hidden backup onto this device','Replace',"restoreFromGoogleDrive()",svgRestore())}${choice('Download backup from before last restore',snapshot?'Download the backup saved before your last restore':'No backup from before last restore is saved yet',snapshot?'Saved':'None',"downloadPreRestoreSnapshot()",svgBackup())}${choice('Disconnect on this device','Forgets the Drive connection state locally','Local',"disconnectGoogleDriveBackup()",svgCloud())}`;
+    renderDriveStatusLabels();
+  };
+  window.openDriveBackupSheet=function(){injectBackupSheets();renderBackupDriveSheet();openBS('backupdrive');};
+  ['connectGoogleDriveBackup','backupToGoogleDrive','restoreFromGoogleDrive','disconnectGoogleDriveBackup','downloadPreRestoreSnapshot'].forEach(name=>{
+    const fn=window[name];
+    if(typeof fn==='function'&&!fn.__wbV725SheetWrap){window[name]=function(){const out=fn.apply(this,arguments);setTimeout(()=>{renderDriveStatusLabels();if(document.getElementById('bs-backupdrive')?.classList.contains('open'))renderBackupDriveSheet();},250);setTimeout(()=>{renderDriveStatusLabels();if(document.getElementById('bs-backupdrive')?.classList.contains('open'))renderBackupDriveSheet();},1600);return out;};window[name].__wbV725SheetWrap=true;}
+  });
+  async function replaceLocalSongsFromBackupFile(list){
+    if(typeof openLocalSongsDB!=='function')throw new Error('Local song database is not available');
+    const rows=(Array.isArray(list)?list:[]).map(function(raw){const s=raw&&raw.song?raw.song:raw;const row={...s,librarySource:'user',localOnly:true,fbKey:null};if(!row.id)row.id='my_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,8);return typeof normLocalSong==='function'?normLocalSong(row):row;});
+    const db=await openLocalSongsDB();
+    await new Promise((resolve,reject)=>{const tx=db.transaction(LOCAL_MY_SONGS_STORE,'readwrite');const store=tx.objectStore(LOCAL_MY_SONGS_STORE);store.clear();rows.forEach(r=>store.put(r));tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error||new Error('Could not restore My Songs'));});
+    if(typeof reloadLocalMySongs==='function')await reloadLocalMySongs();
+  }
+  async function applyFullAppBackup(data){
+    if(!data||typeof data!=='object')throw new Error('Invalid backup');
+    if(!confirm('Restore full WorshipBase backup?\n\nThis will replace My Songs, personal set lists, notes/cues and local preferences on this device.'))return;
+    if(typeof buildEmergencySnapshot==='function'){try{localStorage.setItem(PRE_RESTORE_KEY,JSON.stringify(buildEmergencySnapshot()));}catch(e){}}
+    await replaceLocalSongsFromBackupFile(Array.isArray(data.songs)?data.songs:[]);
+    try{if(data.songMemory&&typeof data.songMemory==='object'){localStorage.setItem(SONG_MEMORY_KEY,JSON.stringify(data.songMemory));songMemoryCache=null;}}catch(e){}
+    try{if(data.personalSetLists&&typeof data.personalSetLists==='object'){_personalSets=(typeof normalizeNamedSetMap==='function')?normalizeNamedSetMap(data.personalSetLists,'Set'):data.personalSetLists;savePersonalNamedSets();}}catch(e){}
+    try{const prefs=(data.preferences&&typeof data.preferences==='object')?{...data.preferences}:{};delete prefs.adminPin;Object.assign(appPrefs,prefs);if(data.activePersonalSetId)appPrefs.activePersonalSetId=data.activePersonalSetId;appPrefs.setListScope='personal';appPrefs.useDeviceSetList=true;savePrefs();}catch(e){}
+    try{loadPersonalNamedSets();}catch(e){} try{renderSettings&&renderSettings();}catch(e){} try{refresh&&refresh(true);}catch(e){} try{renderSetList&&renderSetList();}catch(e){} try{updateSongNoteIndicators&&updateSongNoteIndicators();}catch(e){}
+    toast('Full app backup restored');
+  }
+  async function restoreFullAppBackupFromFile(ev){const file=ev?.target?.files?.[0];if(!file)return;try{const data=JSON.parse(await file.text());await applyFullAppBackup(data);}catch(e){console.error(e);alert('Could not restore this full app backup.');}finally{try{ev.target.value='';}catch(e){}}}
+  window.restoreFullAppBackupFromFile=restoreFullAppBackupFromFile;
+  function tidySongEditLabels(){try{const mi=document.getElementById('mi-edit-song');if(mi){let textNode=[...mi.childNodes].find(n=>n.nodeType===3&&n.textContent.trim());if(textNode)textNode.textContent='Edit';else if(mi.lastChild)mi.lastChild.textContent='Edit';}const ctx=document.getElementById('ctx-edit-song');if(ctx){[...ctx.childNodes].forEach(n=>{if(n.nodeType===3&&n.textContent.trim())n.textContent='Edit';});const span=ctx.querySelector('span');if(span&&/edit/i.test(span.textContent||''))span.textContent='Edit';}}catch(e){}}
+  const oldSync=window.syncAdminOnlyUI || (typeof syncAdminOnlyUI==='function'?syncAdminOnlyUI:null);if(oldSync&&!oldSync.__wbV725EditLabel){window.syncAdminOnlyUI=function(){const r=oldSync.apply(this,arguments);tidySongEditLabels();return r;};window.syncAdminOnlyUI.__wbV725EditLabel=true;try{syncAdminOnlyUI=window.syncAdminOnlyUI;}catch(e){}}
+  function cloneSetItemsDeep(items){return (Array.isArray(items)?items:[]).map((item,idx)=>{const x=typeof normSetItem==='function'?normSetItem(item,idx):item;if(!x||!x.type)return null;if(x.type==='section')return {type:'section',id:x.id||makeSetItemId('section'),title:x.title||'Section',order:idx};if(x.type==='item')return {type:'item',id:x.id||makeSetItemId('item'),title:x.title||'Service item',note:x.note||'',order:idx};return {type:'song',songId:normId(x.songId||x.id),setKey:normSetKey(x.setKey||'original'),order:idx};}).filter(x=>x&&(x.type==='section'||x.type==='item'||x.songId));}
+  function songMemoryKeyFor(songOrId){try{if(typeof songOrId==='object')return memorySongId(songOrId);const song=findSongById(songOrId);return song?memorySongId(song):String(songOrId||'');}catch(e){return String((songOrId&&songOrId.id)||songOrId||'');}}
+  function memoryHasUsefulContent(m){return !!(m&&typeof m==='object'&&(String(m.notes||'').trim()||String(m.cues||'').trim()||String(m.usualKey||'').trim()||String(m.capo||'').trim()||String(m.practiceStatus||'').trim()));}
+  function collectMemoryForItems(set,items){const out={};try{const embedded=(set&&set.songMemory&&typeof set.songMemory==='object')?set.songMemory:{};Object.keys(embedded).forEach(id=>{const m={...embedded[id]};if(memoryHasUsefulContent(m))out[String(id)]=m;});const local=typeof loadSongMemory==='function'?loadSongMemory():{};items.filter(x=>x.type==='song'&&x.songId).forEach(item=>{const song=typeof findSongById==='function'?findSongById(item.songId):null;const key=songMemoryKeyFor(song||item.songId);const m=local[key]||embedded[key]||embedded[item.songId];if(memoryHasUsefulContent(m))out[key]={...m,songId:key,title:m.title||(song&&song.title)||''};});}catch(e){console.warn('Could not collect set memory',e);}return out;}
+  window.copyActiveSetToOtherScope=function(){
+    const from=setScopeKey(appPrefs.setListScope);const to=from==='shared'?'personal':'shared';const src=getActiveSet(from);const suggested=`${src.name||'Set'} (${getScopeLabel(to)})`;const name=(prompt(`Copy to ${getScopeLabel(to)} as:`,suggested)||'').trim();if(!name)return;
+    const items=cloneSetItemsDeep(src.items||[]);const copied={name,notes:String(src.notes||''),items,songMemory:collectMemoryForItems(src,items),updatedAt:Date.now()};
+    const sets={...getNamedSets(to)};const id=typeof makeSetId==='function'?makeSetId():('set_'+Date.now().toString(36));sets[id]=copied;
+    if(to==='personal'){_personalSets=sets;appPrefs.activePersonalSetId=id;savePersonalNamedSets();}
+    else{_sharedSets=sets;appPrefs.activeSharedSetId=id;saveSharedSetsToFB();}
+    savePrefs();renderNamedSetChooserUI();if(activeTab==='setlist')renderSetList();else refresh(false);
+    const memCount=Object.keys(copied.songMemory||{}).length;const planCount=items.filter(x=>x.type==='section'||x.type==='item').length;toast(`Copied to ${getScopeLabel(to).toLowerCase()} set lists${planCount?` with ${planCount} service/section item${planCount!==1?'s':''}`:''}${memCount?` and notes/cues for ${memCount} song${memCount!==1?'s':''}`:''}`);
+  };
+  try{copyActiveSetToOtherScope=window.copyActiveSetToOtherScope;}catch(e){}
+  ready(function(){hideOldBackupSections();injectBackupRestoreCard();injectBackupSheets();renderDriveStatusLabels();setTimeout(function(){hideOldBackupSections();injectBackupRestoreCard();renderDriveStatusLabels();tidySongEditLabels();},350);});
+})();
+</script>
+
+
+<div id="wb-pad-float" class="wb-pad-float"><button class="wb-pad-float-label" id="wb-pad-float-label" type="button">Pad</button><button class="wb-pad-float-stop" id="wb-pad-float-stop" type="button" aria-label="Stop pad"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"></rect></svg></button></div><input type="file" id="full-app-backup-json-file" accept=".json,application/json" style="display: none;"><div class="bs-bg" id="bs-backuplocal" onclick="closeBSBg(event,'backuplocal')"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><h2 class="m-h2">Local backup</h2><button class="m-close" onclick="closeBS('backuplocal')">×</button></div><div class="m-body"><p class="wb-backup-sheet-note">Save JSON files to your device, or restore from a file you previously exported.</p><div class="wb-backup-group-title">Export to file</div><button class="wb-backup-choice" type="button" onclick="exportMySongsJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">My Songs</span><span class="wb-backup-choice-sub">Songs added on this device only</span></span><span class="wb-backup-choice-tag">JSON</span></button><button class="wb-backup-choice" type="button" onclick="exportNotesCuesJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Notes &amp; Cues</span><span class="wb-backup-choice-sub">Personal notes, cues, usual keys and practice status</span></span><span class="wb-backup-choice-tag">JSON</span></button><button class="wb-backup-choice" type="button" onclick="exportAppBackupJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Everything</span><span class="wb-backup-choice-sub">My Songs, set lists, sections, service items, notes/cues and preferences</span></span><span class="wb-backup-choice-tag">Full</span></button><div class="wb-backup-group-title">Restore from file</div><button class="wb-backup-choice" type="button" onclick="document.getElementById('my-songs-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore My Songs</span><span class="wb-backup-choice-sub">Import a WorshipBase song JSON file</span></span><span class="wb-backup-choice-tag">Import</span></button><button class="wb-backup-choice" type="button" onclick="document.getElementById('notes-cues-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore Notes &amp; Cues</span><span class="wb-backup-choice-sub">Apply notes/cues onto matching songs</span></span><span class="wb-backup-choice-tag">Import</span></button><button class="wb-backup-choice" type="button" onclick="document.getElementById('full-app-backup-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore Everything</span><span class="wb-backup-choice-sub">Replace personal data on this device from a full app backup</span></span><span class="wb-backup-choice-tag">Replace</span></button></div></div></div><div class="bs-bg" id="bs-backupdrive" onclick="closeBSBg(event,'backupdrive')"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><h2 class="m-h2">Google Drive backup</h2><button class="m-close" onclick="closeBS('backupdrive')">×</button></div><div class="m-body"><div id="wb-drive-sheet-body"></div></div></div></div></body><div style="position: fixed; top: 0px; left: 0px; width: 1px; height: env(safe-area-inset-top,0px); pointer-events: none; opacity: 0; z-index: -1;"></div><div style="position: fixed; bottom: 0px; left: 0px; width: 1px; height: env(safe-area-inset-bottom,0px); pointer-events: none; opacity: 0; z-index: -1;"></div></html>
