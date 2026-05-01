@@ -4078,7 +4078,7 @@ line 18 | Hold / pause"></textarea>
     <div class="m-body" style="padding-bottom:6px;">
       <p style="font-size:13px;color:var(--txt2);margin-bottom:12px;line-height:1.55;">Choose, rename, delete, or create a set list for this scope.</p>
     </div>
-    <div class="namedset-list" id="namedset-list"><div class="namedset-item active"><button class="namedset-main" onclick="selectNamedSet('set_monhf3nacpto')"><div class="namedset-name">Backup test (Shared)</div><div class="namedset-meta">0 songs · Current</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_monhf3nacpto')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_monhf3nacpto')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_monhfluk2yxt')"><div class="namedset-name">Backup test (Shared)</div><div class="namedset-meta">9 songs</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_monhfluk2yxt')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_monhfluk2yxt')">Delete</button></div></div></div>
+    <div class="namedset-list" id="namedset-list"><div class="namedset-item active"><button class="namedset-main" onclick="selectNamedSet('set_monhf3nacpto')"><div class="namedset-name">Backup test (Shared)</div><div class="namedset-meta">0 songs · Current</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_monhf3nacpto')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_monhf3nacpto')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_monhmdarniea')"><div class="namedset-name">Backup test (Shared)</div><div class="namedset-meta">9 songs</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_monhmdarniea')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_monhmdarniea')">Delete</button></div></div></div>
     <div class="m-acts" style="padding:0 18px 8px;">
       <button class="btn-s" type="button" onclick="createNamedSet()">New set list</button>
       <button class="btn-s" type="button" id="sets-copy-btn" onclick="copyActiveSetToOtherScope()">Copy to Personal</button>
@@ -6077,7 +6077,11 @@ function copyActiveSetToOtherScope(){
   const sets={...getNamedSets(to)}; const id=makeSetId();
   sets[id]={name,notes:String((src&&src.notes)||''),items,songMemory:(src&&src.songMemory&&typeof src.songMemory==='object')?src.songMemory:{},updatedAt:Date.now()};
   if(to==='personal'){_personalSets=sets;appPrefs.activePersonalSetId=id;savePersonalNamedSets();}else{_sharedSets=sets;appPrefs.activeSharedSetId=id;saveSharedSetsToFB();}
-  savePrefs();renderNamedSetChooserUI(); if(activeTab==='setlist')renderSetList(); else refresh(false); showToast(`Copied to ${getScopeLabel(to).toLowerCase()} set lists`);
+  // Switch scope so the user immediately sees the copied set
+  appPrefs.setListScope=to; appPrefs.useDeviceSetList=(to==='personal'); savePrefs();
+  renderSetListScopeUI(); renderNamedSetChooserUI();
+  if(activeTab==='setlist')renderSetList(); else refresh(false);
+  showToast(`Copied to ${getScopeLabel(to).toLowerCase()} set lists`);
 }
 
 function normId(id){return id==null?'':String(id);}
@@ -7331,7 +7335,8 @@ function initFirebase(){
       mergeSongStores();
       disableStarterSeedFlag();
     }
-    pruneMissingSongsFromSets();
+    // Defer so all patch scripts finish before prune runs
+    setTimeout(()=>{try{pruneMissingSongsFromSets();}catch(_){}},0);
     refresh(true);hideLoading();
     saveCachedData();// update cache with fresh data
   },()=>{
@@ -7349,7 +7354,7 @@ function initFirebase(){
       if(_sharedSets[remembered])appPrefs.activeSharedSetId=remembered;
       ensureNamedSetState('shared');
       saveNamedSetsCache();
-      pruneMissingSongsFromSets();
+      // pruneMissingSongsFromSets not called here — runs deferred from songsRef only
       if(activeTab==='setlist')renderSetList();
       renderNamedSetChooserUI();
     }else{
@@ -15103,6 +15108,8 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
       appPrefs.activeSharedSetId=id;
       saveSharedRich();
     }
+    // Switch scope so the user immediately sees the copied set
+    try{appPrefs.setListScope=to;appPrefs.useDeviceSetList=(to==='personal');}catch(_){}
     try{savePrefs();}catch(_){}
     try{renderSetListScopeUI();}catch(_){}
     try{renderNamedSetChooserUI();}catch(_){}
@@ -15132,7 +15139,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
     document.title='WorshipBase v'+VERSION;
     document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(el=>{el.textContent='Version '+VERSION;});
   }catch(_){}
-  console.log('[WorshipBase] v72.8 rich set-list fix applied');
+  console.log('[WorshipBase] v72.8.2 rich set-list fix applied (prune deferred, scope switch added)');
 })();
 </script>
 
