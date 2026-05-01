@@ -10,7 +10,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="assets/wb-icon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
 
-<title>WorshipBase v72.5.7</title>
+<title>WorshipBase v72.5.8</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 /* Prevent iOS long-press/callout menus and text selection on UI chrome
@@ -3088,7 +3088,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
       <div class="wm">
         <div><div class="wm-name">WorshipBase</div><div class="wm-sub">Chord Library</div></div>
       </div>
-      <button class="hdr-btn" style="display: flex;" onclick="openAddSongMenu(event)" id="hdr-add-btn" title="Add song" aria-label="Add song">
+      <button class="hdr-btn" style="display: none;" onclick="openAddSongMenu(event)" id="hdr-add-btn" title="Add song" aria-label="Add song">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 5v14M5 12h14"></path>
         </svg>
@@ -3118,7 +3118,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   </div>
 
   <!-- Search + library filters -->
-  <div class="srch-wrap" id="srch-wrap" style="display: block;">
+  <div class="srch-wrap" id="srch-wrap" style="display: none;">
     <div class="srch-row">
       <div class="srch-inner">
         <span class="srch-ico"><svg width="14" height="14" viewBox="0 0 15 15" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 10L13 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg></span>
@@ -3135,7 +3135,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
         </select>
       </label>
     </div>
-    <div class="filter-row" id="library-filter-row" style="display: flex;">
+    <div class="filter-row" id="library-filter-row" style="display: none;">
       <button class="filter-chip active" data-filter="all" onclick="setLibraryFilter('all',this)">All</button>
       <button class="filter-chip" data-filter="mine" onclick="setLibraryFilter('mine',this)">My Songs</button>
       <button class="filter-chip" data-filter="english" onclick="setLibraryFilter('english',this)">English</button>
@@ -3155,7 +3155,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   </div>
 
   <!-- SONG LIST -->
-  <div id="song-section" style="flex: 1 1 0%; display: flex; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;">
+  <div id="song-section" style="flex: 1 1 0%; display: none; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;">
     <div class="vs-host ptr-wrap">
       <div id="ptr-indicator"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2v4M9 2l-2 2M9 2l2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16 9a7 7 0 1 1-7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg></div>
       <div id="vscroll" class="vs-wrap" style="-webkit-overflow-scrolling: touch;"><div class="library-count-row" id="library-count-row"><span class="song-count" id="song-count">73 songs</span></div><div id="home-quick-wrap" class="home-quick-wrap" style="display: flex;">
@@ -3185,7 +3185,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
     </div>
     <div class="sl-setbar">
       <button class="sl-setpick" type="button" onclick="openBS('sets')">
-        <span class="sl-setpick-copy"><span class="sl-setpick-title" id="sl-active-set-name">Shared Set</span><span class="sl-setpick-sub" id="sl-active-set-sub">1 set list · Shared</span></span>
+        <span class="sl-setpick-copy"><span class="sl-setpick-title" id="sl-active-set-name">Shared Set</span><span class="sl-setpick-sub" id="sl-active-set-sub">2 set lists · Shared</span></span>
         <span class="sl-setpick-caret"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
       </button>
     </div>
@@ -3226,7 +3226,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   </div>
 
   <!-- SETTINGS -->
-  <div id="settings-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;min-height:0;">
+  <div id="settings-section" style="display: flex; flex: 1 1 0%; flex-direction: column; overflow: hidden; min-height: 0px;">
     <div class="settings-scroll" style="-webkit-overflow-scrolling: touch;">
 
       <div class="ss-section">
@@ -3381,7 +3381,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
               <img src="assets/wb-icon-192.png" alt="WorshipBase logo">
             </div>
             <div class="about-name">WorshipBase</div>
-            <div class="about-version-pill">Version 72.5.7</div>
+            <div class="about-version-pill">Version 72.5.8</div>
             <div class="about-by">Created by <strong>Jerin Reji</strong></div>
           </div>
         </div>
@@ -3394,7 +3394,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   <div class="tab-bar" id="tab-bar">
 
     <!-- Library tab -->
-    <button class="tab-btn active" id="tab-songs" onclick="switchTab('songs')">
+    <button class="tab-btn" id="tab-songs" onclick="switchTab('songs')">
       <span class="tab-ico">
         <svg class="ico-outline" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
         <svg class="ico-filled" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 6h16" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path><path d="M4 12h10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path><path d="M4 18h16" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path></svg>
@@ -3425,7 +3425,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
     </button>
 
     <!-- Settings tab -->
-    <button class="tab-btn" id="tab-settings" onclick="switchTab('settings')">
+    <button class="tab-btn active" id="tab-settings" onclick="switchTab('settings')">
       <span class="tab-ico">
         <!-- outline: thin gear -->
         <svg class="ico-outline" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
@@ -4078,7 +4078,7 @@ line 18 | Hold / pause"></textarea>
     <div class="m-body" style="padding-bottom:6px;">
       <p style="font-size:13px;color:var(--txt2);margin-bottom:12px;line-height:1.55;">Choose, rename, delete, or create a set list for this scope.</p>
     </div>
-    <div class="namedset-list" id="namedset-list"><div class="namedset-item active"><button class="namedset-main" onclick="selectNamedSet('default')"><div class="namedset-name">Shared Set</div><div class="namedset-meta">0 songs · Current</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('default')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('default')">Delete</button></div></div></div>
+    <div class="namedset-list" id="namedset-list"><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('copy-mon95mae')"><div class="namedset-name">Backup test copy</div><div class="namedset-meta">0 songs</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('copy-mon95mae')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('copy-mon95mae')">Delete</button></div></div><div class="namedset-item active"><button class="namedset-main" onclick="selectNamedSet('default')"><div class="namedset-name">Shared Set</div><div class="namedset-meta">0 songs · Current</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('default')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('default')">Delete</button></div></div></div>
     <div class="m-acts" style="padding:0 18px 8px;">
       <button class="btn-s" type="button" onclick="createNamedSet()">New set list</button>
       <button class="btn-s" type="button" id="sets-copy-btn" onclick="copyActiveSetToOtherScope()">Copy to Personal</button>
@@ -13565,7 +13565,7 @@ body.dark .wb-sync-btn.primary .wb-sync-badge{background:rgba(143,180,255,.16)!i
     const backupSongs=((typeof songs!=='undefined'?songs:[])||[]).filter(typeof isMySong==='function'?isMySong:function(s){return String(s&&s.librarySource||'').toLowerCase()==='user';}).map(function(s){return typeof buildPortableSongPayload==='function'?buildPortableSongPayload(s,true):{...s,librarySource:'user'};});
     const prefs={...(typeof appPrefs!=='undefined'?appPrefs:{})};
     delete prefs.adminPin;
-    return {format:'worshipbase-google-drive-backup',version:'72.5.7',backupKind:'personal-appdatafolder',exportedAt:new Date().toISOString(),fileName:GOOGLE_DRIVE_BACKUP_NAME,songs:backupSongs,songMemory:typeof loadSongMemory==='function'?loadSongMemory():{},notes:typeof buildNotesCuesExportRows==='function'?buildNotesCuesExportRows():[],personalSetLists:(typeof _personalSets!=='undefined'?_personalSets:{}),activePersonalSetId:(typeof appPrefs!=='undefined'&&appPrefs.activePersonalSetId)||'default',preferences:prefs};
+    return {format:'worshipbase-google-drive-backup',version:'72.5.8',backupKind:'personal-appdatafolder',exportedAt:new Date().toISOString(),fileName:GOOGLE_DRIVE_BACKUP_NAME,songs:backupSongs,songMemory:typeof loadSongMemory==='function'?loadSongMemory():{},notes:typeof buildNotesCuesExportRows==='function'?buildNotesCuesExportRows():[],personalSetLists:(typeof _personalSets!=='undefined'?_personalSets:{}),activePersonalSetId:(typeof appPrefs!=='undefined'&&appPrefs.activePersonalSetId)||'default',preferences:prefs};
   }
   function multipartBody(metadata,jsonText){
     const boundary='wb_drive_'+Math.random().toString(36).slice(2);
@@ -13704,7 +13704,7 @@ body.dark .wb-sync-mini-row{background:rgba(255,255,255,.04);}
   const oldSaveSetNotes=window.saveSetNotes || (typeof saveSetNotes==='function'?saveSetNotes:null);if(oldSaveSetNotes&&!oldSaveSetNotes.__wbV724){window.saveSetNotes=function(){const r=oldSaveSetNotes();setTimeout(addSetNotesIndicators,80);return r;};window.saveSetNotes.__wbV724=true;try{saveSetNotes=window.saveSetNotes;}catch(e){}}
   const oldSyncAdminUI=window.syncAdminOnlyUI || (typeof syncAdminOnlyUI==='function'?syncAdminOnlyUI:null);if(oldSyncAdminUI&&!oldSyncAdminUI.__wbV724){window.syncAdminOnlyUI=function(){const r=oldSyncAdminUI();try{const mine=!!(currentSong&&currentSong.localOnly);const edit=document.getElementById('mi-edit-song');if(edit&&mine){edit.style.display='flex';const span=edit.querySelector('span:last-child');if(span)span.textContent='Edit My Song';edit.onclick=function(){closeBS('songmenu');openSongModal(currentSong);};}else if(edit){const span=edit.querySelector('span:last-child');if(span)span.textContent='Edit song';edit.onclick=function(){requireAdmin(()=>{closeBS('songmenu');openSongModal(currentSong);});};}const ctx=document.getElementById('ctx-edit-song');if(ctx&&ctxSong&&ctxSong.localOnly){ctx.style.display='flex';ctx.querySelector('span')&&(ctx.querySelector('span').textContent='Edit My Song');}}catch(e){}return r;};window.syncAdminOnlyUI.__wbV724=true;try{syncAdminOnlyUI=window.syncAdminOnlyUI;}catch(e){}}
   const oldCtxAction=window.ctxAction || (typeof ctxAction==='function'?ctxAction:null);if(oldCtxAction&&!oldCtxAction.__wbV724){window.ctxAction=function(action){if(action==='edit'&&ctxSong&&ctxSong.localOnly){const s=ctxSong;closeCtx();openSongModal(s);return;}return oldCtxAction(action);};window.ctxAction.__wbV724=true;try{ctxAction=window.ctxAction;}catch(e){}}
-  function buildEmergencySnapshot(){const backupSongs=((typeof songs!=='undefined'?songs:[])||[]).filter(typeof isMySong==='function'?isMySong:function(s){return String(s&&s.librarySource||'').toLowerCase()==='user';}).map(function(s){return typeof buildPortableSongPayload==='function'?buildPortableSongPayload(s,true):{...s,librarySource:'user'};});const prefs={...(typeof appPrefs!=='undefined'?appPrefs:{})}; delete prefs.adminPin;return {format:'worshipbase-pre-restore-snapshot',version:'72.5.7',createdAt:new Date().toISOString(),songs:backupSongs,songMemory:typeof loadSongMemory==='function'?loadSongMemory():{},personalSetLists:(typeof _personalSets!=='undefined'?_personalSets:{}),activePersonalSetId:(typeof appPrefs!=='undefined'&&appPrefs.activePersonalSetId)||'default',preferences:prefs};}
+  function buildEmergencySnapshot(){const backupSongs=((typeof songs!=='undefined'?songs:[])||[]).filter(typeof isMySong==='function'?isMySong:function(s){return String(s&&s.librarySource||'').toLowerCase()==='user';}).map(function(s){return typeof buildPortableSongPayload==='function'?buildPortableSongPayload(s,true):{...s,librarySource:'user'};});const prefs={...(typeof appPrefs!=='undefined'?appPrefs:{})}; delete prefs.adminPin;return {format:'worshipbase-pre-restore-snapshot',version:'72.5.8',createdAt:new Date().toISOString(),songs:backupSongs,songMemory:typeof loadSongMemory==='function'?loadSongMemory():{},personalSetLists:(typeof _personalSets!=='undefined'?_personalSets:{}),activePersonalSetId:(typeof appPrefs!=='undefined'&&appPrefs.activePersonalSetId)||'default',preferences:prefs};}
   function savePreRestoreSnapshot(){try{const snap=buildEmergencySnapshot();localStorage.setItem(PRE_RESTORE_KEY,JSON.stringify(snap));return snap;}catch(e){console.warn('Could not save pre-restore snapshot',e);return null;}}
   window.downloadPreRestoreSnapshot=function(){try{const raw=localStorage.getItem(PRE_RESTORE_KEY);if(!raw){toast('No backup from before last restore saved yet');return;}const name='worshipbase-backup-before-last-restore.json'; if(typeof downloadTextFile==='function')downloadTextFile(name,raw); else {const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([raw],{type:'application/json'}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);} }catch(e){toast('Could not download backup from before last restore');}};
   const oldRestoreDrive=window.restoreFromGoogleDrive;if(oldRestoreDrive&&!oldRestoreDrive.__wbV724){window.restoreFromGoogleDrive=async function(){savePreRestoreSnapshot();return oldRestoreDrive.apply(this,arguments);};window.restoreFromGoogleDrive.__wbV724=true;}
@@ -13718,7 +13718,7 @@ body.dark .wb-sync-mini-row{background:rgba(255,255,255,.04);}
 
 
 <style id="wb-v72-5-2-backup-settings-polish">
-/* v72.5.7 — polished Backup & Restore settings card layout. */
+/* v72.5.8 — polished Backup & Restore settings card layout. */
 .wb-hidden-settings-section{display:none!important;}
 .wb-backup-card .ss-row{cursor:pointer;}
 .wb-backup-choice{display:flex;align-items:center;gap:12px;padding:15px 20px;border-top:.5px solid var(--bdr);background:transparent;border-left:0;border-right:0;border-bottom:0;width:100%;text-align:left;font-family:inherit;color:var(--txt1);cursor:pointer;}
@@ -13860,7 +13860,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 
 
 <style id="wb-v72-5-5-polish-css">
-/* v72.5.7 — compact Drive status rows and keep them visually secondary. */
+/* v72.5.8 — compact Drive status rows and keep them visually secondary. */
 .wb-drive-status-surface{gap:10px!important;padding:14px 14px 13px!important;border-radius:22px!important;}
 .wb-drive-status-head{gap:10px!important;}
 .wb-drive-status-left{gap:11px!important;}
@@ -13880,7 +13880,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
   'use strict';
   const EDIT_ICON='<svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M12 3l2 2L5.5 13H3.5v-2L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
   function usefulMemory(m){return !!(m&&typeof m==='object'&&(String(m.notes||'').trim()||String(m.cues||'').trim()||String(m.usualKey||'').trim()||String(m.capo||'').trim()||String(m.practiceStatus||'').trim()));}
-  function setVisibleVersion(){try{document.title='WorshipBase v72.5.7';document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 72.5.7';});}catch(e){}}
+  function setVisibleVersion(){try{document.title='WorshipBase v72.5.8';document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 72.5.8';});}catch(e){}}
   function fixSongEditButton(){
     try{
       const btn=document.getElementById('mi-edit-song');
@@ -14027,7 +14027,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 
 <script id="wb-v72-5-6-rich-shared-set-fix">
 (function(){
-  // v72.5.7 — make Personal ↔ Shared set copying use one rich planning-board shape.
+  // v72.5.8 — make Personal ↔ Shared set copying use one rich planning-board shape.
   function toast(msg,err){try{showToast(msg,!!err);}catch(e){try{alert(msg);}catch(_){}}}
   function normPlanItem(item,idx){
     try{
@@ -14214,7 +14214,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 
 <script id="wb-v72-5-7-rich-set-copy-fix">
 (function(){
-  const VERSION='72.5.7';
+  const VERSION='72.5.8';
 
   const originalFindSongById = window.findSongById || function(){return null;};
   const originalGetSongMemory = window.getSongMemory || function(){return {};};
@@ -14418,7 +14418,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
   };
 
   window.pruneMissingSongsFromSets = function(){
-    /* v72.5.7: keep rich shared planning items and embedded My Song snapshots. */
+    /* v72.5.8: keep rich shared planning items and embedded My Song snapshots. */
   };
 
   function getEmbeddedMemoryForSong(id,preferredScope){
@@ -14592,13 +14592,197 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
     if(_personalSets)_personalSets=normalizeSetMapRich(_personalSets,'Set');
     if(_sharedSets)_sharedSets=normalizeSetMapRich(_sharedSets,'Shared Set');
     savePersonalSetsRich();
-    saveSharedSetsRich();
-  }catch(e){console.warn('v72.5.7 rich set migration skipped',e);}
+    /* v72.5.8: do not write shared sets to Firebase during startup/migration.
+       That was overwriting rich shared set data with whatever local/cache state loaded first.
+       Shared sets are now written only after an explicit user change/copy/delete. */
+    try{saveNamedSetsCache();}catch(_){}
+  }catch(e){console.warn('v72.5.8 rich set migration skipped',e);}
 
   try{
     document.title='WorshipBase v'+VERSION;
     document.querySelectorAll('.ver-pill,.version-pill').forEach(el=>{el.textContent='Version '+VERSION;});
   }catch(_){}
+})();
+</script>
+
+
+<script id="wb-v72-5-8-rich-shared-persist-fix">
+(function(){
+  'use strict';
+  const VERSION='72.5.8';
+  const BAD_KEY=/[.#$\/[\]]/g;
+  function n(v){try{if(typeof normId==='function')return normId(v);}catch(_){}return String(v==null?'':v).trim();}
+  function safeKey(v){const k=n(v);return k?k.replace(BAD_KEY,'_'):'';}
+  function clone(v){try{return JSON.parse(JSON.stringify(v));}catch(_){return v;}}
+  function has(v){return String(v||'').trim().length>0;}
+  function memHas(m){return !!(m&&typeof m==='object'&&(has(m.notes)||has(m.cues)||has(m.usualKey)||has(m.capo)||has(m.practiceStatus)));}
+  function cleanMem(m){return {notes:String((m&&m.notes)||''),cues:String((m&&m.cues)||''),usualKey:String((m&&m.usualKey)||''),capo:String((m&&m.capo)||''),practiceStatus:String((m&&m.practiceStatus)||'')};}
+  function makeId(prefix){try{if(typeof makeSetItemId==='function')return makeSetItemId(prefix);}catch(_){}return prefix+'-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,7);}
+  function safeSetKey(v){try{if(typeof normSetKey==='function')return normSetKey(v);}catch(_){}return String(v||'original').trim()||'original';}
+  function snapshot(song,fallback){
+    if(!song||typeof song!=='object')return null;
+    const id=n(song.id||song.songId||fallback||song.fbKey||song.title);
+    if(!id)return null;
+    const out={};
+    ['id','fbKey','songId','title','author','key','cat','songCode','timeSig','timeSignature','bpm','chart','lyrics','body','content','spotifyUrl','youtubeUrl','source','librarySource','localOnly'].forEach(k=>{if(song[k]!==undefined&&song[k]!==null)out[k]=song[k];});
+    out.id=n(out.id||id); if(!out.songId)out.songId=out.id; if(!out.title)out.title='Untitled song'; if(!out.key)out.key='C'; if(!out.cat)out.cat='english';
+    if(song.localOnly||song.librarySource==='my'||song.librarySource==='user'||song.source==='my')out.localOnly=true;
+    return out;
+  }
+  function findSnapshotInSets(id){
+    const ids=new Set([n(id)]);
+    try{const s=window.findSongById&&window.findSongById(id); if(s)[s.id,s.fbKey,s.songId,s.localId].forEach(x=>{const nx=n(x);if(nx)ids.add(nx);});}catch(_){}
+    for(const map of [window._sharedSets||_sharedSets||{}, window._personalSets||_personalSets||{}]){
+      for(const set of Object.values(map||{})){
+        for(const item of ((set&&set.items)||[])){
+          if(!item||item.type!=='song')continue;
+          const snap=item.songSnapshot||item.snapshot||item.song;
+          const keys=[item.songId,item.id,snap&&snap.id,snap&&snap.fbKey,snap&&snap.songId].map(n).filter(Boolean);
+          if(keys.some(k=>ids.has(k))){const s=snapshot(snap||item,item.songId); if(s)return s;}
+        }
+      }
+    }
+    return null;
+  }
+  function snapshotForItem(item){
+    const existing=snapshot(item&& (item.songSnapshot||item.snapshot||item.song), item&&item.songId);
+    if(existing)return existing;
+    try{const s=window.findSongById&&window.findSongById(item.songId||item.id); const snap=snapshot(s,item&&item.songId); if(snap)return snap;}catch(_){}
+    return findSnapshotInSets(item&&item.songId);
+  }
+  function normItem(item,idx,withSnapshot){
+    if(typeof item==='string'||typeof item==='number')item={type:'song',songId:item};
+    if(!item||typeof item!=='object')return null;
+    const kind=item.type==='section'?'section':((item.type==='item'||item.type==='service'||item.type==='placeholder')?'item':'song');
+    if(kind==='section')return {type:'section',id:String(item.id||makeId('section')),title:String(item.title||item.label||'Section').trim()||'Section',order:item.order!=null?item.order:idx};
+    if(kind==='item')return {type:'item',id:String(item.id||makeId('item')),title:String(item.title||item.label||'Service item').trim()||'Service item',note:String(item.note||item.description||'').trim(),order:item.order!=null?item.order:idx};
+    const sid=n(item.songId||item.id||item.fbKey); if(!sid)return null;
+    const out={type:'song',songId:sid,order:item.order!=null?item.order:idx,setKey:safeSetKey(item.setKey)};
+    const snap=withSnapshot?snapshotForItem(Object.assign({},item,{songId:sid})):snapshot(item.songSnapshot||item.snapshot||item.song,sid);
+    if(snap)out.songSnapshot=snap;
+    if(memHas(item.songMemory))out.songMemory=cleanMem(item.songMemory);
+    return out;
+  }
+  function normItems(items,withSnapshot){return (Array.isArray(items)?items:[]).map((x,i)=>normItem(x,i,withSnapshot)).filter(Boolean);}
+  function resolvable(item){
+    if(!item)return false;
+    if(item.type==='section'||item.type==='item')return true;
+    if(item.type==='song'&&item.songId){
+      if(item.songSnapshot)return true;
+      try{if(window.findSongById&&window.findSongById(item.songId))return true;}catch(_){}
+    }
+    return false;
+  }
+  function itemKeys(item){
+    const snap=item&&item.songSnapshot;
+    return [item&&item.songId,item&&item.id,snap&&snap.id,snap&&snap.fbKey,snap&&snap.songId].map(n).filter(Boolean);
+  }
+  function readMemoryForItem(set,item){
+    const sm=(set&&set.songMemory&&typeof set.songMemory==='object')?set.songMemory:{};
+    for(const k of itemKeys(item)){
+      if(memHas(sm[k]))return cleanMem(sm[k]);
+      const sk=safeKey(k); if(sk&&memHas(sm[sk]))return cleanMem(sm[sk]);
+    }
+    if(memHas(item&&item.songMemory))return cleanMem(item.songMemory);
+    try{const gm=window.getSongMemory&&window.getSongMemory(item.songSnapshot||item.songId); if(memHas(gm))return cleanMem(gm);}catch(_){}
+    return {};
+  }
+  function buildMemory(set,items){
+    const out={};
+    const existing=(set&&set.songMemory&&typeof set.songMemory==='object')?set.songMemory:{};
+    Object.keys(existing).forEach(k=>{const sk=safeKey(k); if(sk&&memHas(existing[k]))out[sk]=cleanMem(existing[k]);});
+    (items||[]).forEach(item=>{
+      if(!item||item.type!=='song')return;
+      const mem=readMemoryForItem(set,item);
+      if(!memHas(mem))return;
+      item.songMemory=cleanMem(mem);
+      itemKeys(item).forEach(k=>{const sk=safeKey(k); if(sk)out[sk]=cleanMem(mem);});
+    });
+    return out;
+  }
+  function normalizeSetMap(raw,fallback){
+    const out={};
+    Object.entries(raw||{}).forEach(([id,set],idx)=>{
+      if(!set||typeof set!=='object')return;
+      const items=normItems(set.items||set.songs||[],true).filter(resolvable);
+      out[id]={name:String(set.name||fallback+' '+(idx+1)),notes:String(set.notes||''),items,songMemory:Object.assign({},buildMemory(set,items)),updatedAt:Number(set.updatedAt||Date.now())};
+    });
+    return out;
+  }
+  window.normalizeNamedSetMap=normalizeSetMap;
+  try{normalizeNamedSetMap=normalizeSetMap;}catch(_){}
+  window.normalizeSetArray=function(items){return normItems(items,true);};
+  window.filterSetItemsToExistingSongs=function(items){return normItems(items,true).filter(resolvable);};
+  window.getSetList=function(scope){const set=(typeof getActiveSet==='function')?getActiveSet(scope||appPrefs.setListScope):null;return normItems((set&&set.items)||[],true).filter(resolvable);};
+  window.getSetSongItems=function(scope){return window.getSetList(scope).filter(x=>x.type==='song'&&x.songId);};
+  window.pruneMissingSongsFromSets=function(){};
+
+  function cacheShared(){try{if(typeof saveNamedSetsCache==='function')saveNamedSetsCache();else localStorage.setItem('wb_named_sets_cache_v1',JSON.stringify(_sharedSets));}catch(_){}}
+  function saveSharedSetsRich(){
+    const payload={};
+    Object.entries((typeof _sharedSets!=='undefined'&&_sharedSets)||{}).forEach(([id,set])=>{
+      const items=normItems((set&&set.items)||[],true).filter(resolvable);
+      payload[id]={name:(set&&set.name)||'Shared Set',notes:String((set&&set.notes)||''),updatedAt:Date.now(),items,songMemory:buildMemory(set,items)};
+    });
+    try{if(typeof sharedSetsRef!=='undefined'&&sharedSetsRef&&sharedSetsRef.set)sharedSetsRef.set(payload).catch(()=>{try{showSync('Sync failed',true);}catch(_){}});}catch(_){ }
+    try{const active=(typeof getActiveSet==='function')?getActiveSet('shared'):null;const compat={};normItems((active&&active.items)||[],true).filter(x=>x.type==='song'&&x.songId).forEach((item,i)=>{compat['i'+i]={songId:item.songId,order:i,setKey:item.setKey||'original'};});if(typeof setlistRef!=='undefined'&&setlistRef&&setlistRef.set)setlistRef.set(compat).catch(()=>{});}catch(_){ }
+    cacheShared();
+  }
+  window.saveSharedSetsToFB=saveSharedSetsRich;
+  try{saveSharedSetsToFB=saveSharedSetsRich;}catch(_){}
+
+  window.modSetList=function(newArr,scope){
+    const sk=(typeof setScopeKey==='function')?setScopeKey(scope||appPrefs.setListScope):(scope||appPrefs.setListScope||'shared');
+    const map=sk==='personal'?(_personalSets||{}):(_sharedSets||{});
+    const id=(typeof getActiveSetId==='function')?getActiveSetId(sk):(sk==='personal'?'default':'default');
+    const prev=map[id]||{name:sk==='personal'?'My Set':'Shared Set'};
+    const items=normItems(newArr,true).filter(resolvable);
+    const next=Object.assign({},prev,{items,songMemory:Object.assign({},prev.songMemory||{},buildMemory(prev,items)),updatedAt:Date.now()});
+    const nextMap=Object.assign({},map,{[id]:next});
+    if(sk==='personal'){_personalSets=nextMap;try{savePersonalNamedSets();}catch(_){try{localStorage.setItem(PERSONAL_SETS_KEY,JSON.stringify(_personalSets));}catch(__){}}}
+    else{_sharedSets=nextMap;saveSharedSetsRich();}
+    try{renderNamedSetChooserUI();}catch(_){}
+  };
+
+  window.copyActiveSetToOtherScope=function(){
+    const from=(typeof setScopeKey==='function')?setScopeKey(appPrefs.setListScope):appPrefs.setListScope;
+    const to=from==='shared'?'personal':'shared';
+    const src=(typeof getActiveSet==='function')?getActiveSet(from):null;
+    if(!src){try{showToast('No active set list to copy');}catch(_){} return;}
+    const suggested=(src.name||'Set')+' ('+(to==='personal'?'Personal':'Shared')+')';
+    const name=(prompt('Copy to '+(to==='personal'?'Personal':'Shared')+' as:',suggested)||'').trim();
+    if(!name)return;
+    const sourceItems=normItems((src.items&&src.items.length?src.items:(window.getSetList?window.getSetList(from):[])),true).filter(resolvable);
+    const id=(typeof makeSetId==='function')?makeSetId():('set_'+Date.now().toString(36));
+    const copied={name,notes:String(src.notes||''),items:clone(sourceItems),songMemory:buildMemory(src,sourceItems),updatedAt:Date.now()};
+    const target=Object.assign({},to==='personal'?(_personalSets||{}):(_sharedSets||{}));
+    target[id]=copied;
+    if(to==='personal'){_personalSets=target;appPrefs.activePersonalSetId=id;try{savePersonalNamedSets();}catch(_){}}
+    else{_sharedSets=target;appPrefs.activeSharedSetId=id;saveSharedSetsRich();}
+    try{savePrefs();}catch(_){}
+    try{renderSetListScopeUI();renderNamedSetChooserUI();if(activeTab==='setlist')renderSetList();else refresh(false);}catch(_){}
+    try{showToast('Copied to '+(to==='personal'?'personal':'shared')+' set list');}catch(_){}
+  };
+  try{copyActiveSetToOtherScope=window.copyActiveSetToOtherScope;}catch(_){}
+
+  try{
+    if(typeof sharedSetsRef!=='undefined'&&sharedSetsRef&&sharedSetsRef.off&&sharedSetsRef.on){
+      sharedSetsRef.off('value');
+      sharedSetsRef.on('value',snap=>{
+        const d=snap.val();
+        if(d&&Object.keys(d).length){
+          const remembered=(appPrefs&&appPrefs.activeSharedSetId)||'default';
+          _sharedSets=normalizeSetMap(d,'Shared Set');
+          if(_sharedSets[remembered])appPrefs.activeSharedSetId=remembered;
+          try{ensureNamedSetState('shared');}catch(_){}
+          cacheShared();
+          try{renderNamedSetChooserUI();}catch(_){}
+          try{if(activeTab==='setlist')renderSetList();}catch(_){}
+        }
+      });
+    }
+  }catch(e){console.warn('v72.5.8 shared listener hardening failed',e);}
+  try{document.title='WorshipBase v'+VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(el=>{el.textContent='Version '+VERSION;});}catch(_){}
 })();
 </script>
 
