@@ -10,7 +10,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="assets/wb-icon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
 
-<title>WorshipBase v72.5.8</title>
+<title>WorshipBase v72.8</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 /* Prevent iOS long-press/callout menus and text selection on UI chrome
@@ -3381,7 +3381,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
               <img src="assets/wb-icon-192.png" alt="WorshipBase logo">
             </div>
             <div class="about-name">WorshipBase</div>
-            <div class="about-version-pill">Version 72.5.8</div>
+            <div class="about-version-pill">Version 72.8</div>
             <div class="about-by">Created by <strong>Jerin Reji</strong></div>
           </div>
         </div>
@@ -4078,7 +4078,7 @@ line 18 | Hold / pause"></textarea>
     <div class="m-body" style="padding-bottom:6px;">
       <p style="font-size:13px;color:var(--txt2);margin-bottom:12px;line-height:1.55;">Choose, rename, delete, or create a set list for this scope.</p>
     </div>
-    <div class="namedset-list" id="namedset-list"><div class="namedset-item active"><button class="namedset-main" onclick="selectNamedSet('set_mongw4cjxket')"><div class="namedset-name">Backup test (Shared)</div><div class="namedset-meta">0 songs · Current</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_mongw4cjxket')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_mongw4cjxket')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_monh1bx6half')"><div class="namedset-name">Backup test (Shared)</div><div class="namedset-meta">9 songs</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_monh1bx6half')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_monh1bx6half')">Delete</button></div></div></div>
+    <div class="namedset-list" id="namedset-list"><div class="namedset-item active"><button class="namedset-main" onclick="selectNamedSet('set_monhf3nacpto')"><div class="namedset-name">Backup test (Shared)</div><div class="namedset-meta">0 songs · Current</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_monhf3nacpto')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_monhf3nacpto')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_monhfluk2yxt')"><div class="namedset-name">Backup test (Shared)</div><div class="namedset-meta">9 songs</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_monhfluk2yxt')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_monhfluk2yxt')">Delete</button></div></div></div>
     <div class="m-acts" style="padding:0 18px 8px;">
       <button class="btn-s" type="button" onclick="createNamedSet()">New set list</button>
       <button class="btn-s" type="button" id="sets-copy-btn" onclick="copyActiveSetToOtherScope()">Copy to Personal</button>
@@ -5077,7 +5077,7 @@ function updateSongNoteIndicators(){
 /* ══ FIREBASE ══ */
 const firebaseConfig={apiKey:"AIzaSyAWHTEOh1lXkzq3kB24g3An6Aad54OMlN8",authDomain:"worshipbase-17d1b.firebaseapp.com",databaseURL:"https://worshipbase-17d1b-default-rtdb.europe-west1.firebasedatabase.app",projectId:"worshipbase-17d1b",storageBucket:"worshipbase-17d1b.firebasestorage.app",messagingSenderId:"137901259240",appId:"1:137901259240:web:a1b3e3eecf6d72e049cc5d"};
 firebase.initializeApp(firebaseConfig);
-const db=firebase.database(),songsRef=db.ref('songs'),setlistRef=db.ref('setlist'),sharedSetsRef=db.ref('setlists');
+const db=firebase.database(),songsRef=db.ref('songs'),legacySetlistPathRef=db.ref('setlist'),setlistRef={on(){},off(){},set(){return Promise.resolve();},remove(){return Promise.resolve();}},sharedSetsRef=db.ref('setlists');
 function showSync(msg,err){const b=document.getElementById('sync-badge');b.textContent=msg;b.classList.toggle('error',!!err);b.classList.add('show');clearTimeout(b._t);b._t=setTimeout(()=>b.classList.remove('show'),2200);}
 
 /* ══ TOAST ══ */
@@ -5992,13 +5992,8 @@ function normalizeNamedSetMap(raw,fallbackLabel){
   const out={};
   if(raw&&typeof raw==='object')Object.entries(raw).forEach(([id,val],idx)=>{
     if(!val||typeof val!=='object')return;
-    out[id]={
-      name:String(val.name||`${fallbackLabel} ${idx+1}`),
-      notes:String(val.notes||''),
-      items:normalizeSetArray(val.items||val.songs||[]),
-      songMemory:(val.songMemory&&typeof val.songMemory==='object')?val.songMemory:{},
-      updatedAt:Number(val.updatedAt||Date.now())
-    };
+    const items=filterSetItemsToExistingSongs(val.items||val.songs||[]);
+    out[id]={name:String(val.name||`${fallbackLabel} ${idx+1}`),items,notes:String(val.notes||''),songMemory:(val.songMemory&&typeof val.songMemory==='object')?val.songMemory:{},updatedAt:Number(val.updatedAt||Date.now())};
   });
   return out;
 }
@@ -6033,20 +6028,13 @@ function loadNamedSetsCache(){
 }
 function saveSharedSetsToFB(){
   const payload={};
-  Object.entries(_sharedSets).forEach(([id,set])=>{
-    const items=filterSetItemsToExistingSongs(set.items||[]);
-    const mem=Object.assign({},set.songMemory||{});
-    items.forEach(item=>{
-      if(item.type==='song'&&item.songMemory&&!mem[normId(item.songId)])
-        mem[normId(item.songId)]=item.songMemory;
-    });
-    payload[id]={name:set.name||'Shared Set',notes:String(set.notes||''),updatedAt:Date.now(),items,songMemory:mem};
+  Object.entries(_sharedSets||{}).forEach(([id,set])=>{
+    const items=filterSetItemsToExistingSongs((set&&set.items)||[]);
+    payload[id]={name:(set&&set.name)||'Shared Set',notes:String((set&&set.notes)||''),songMemory:(set&&set.songMemory&&typeof set.songMemory==='object')?set.songMemory:{},updatedAt:Date.now(),items};
   });
-  sharedSetsRef.set(payload).then(()=>{
-    const n=Object.values(payload).reduce((t,s)=>t+(s.items||[]).filter(x=>x.type==='section'||x.type==='item').length,0);
-    if(n)showSync(`Shared set saved · ${n} planning item${n===1?'':'s'}`);
-  }).catch(()=>showSync('Sync failed',true));
-  // /setlist is retired — we no longer write songs-only compat data
+  // v72.8: /setlists is the only shared-set source of truth.
+  // The legacy /setlist songs-only path is intentionally not written.
+  sharedSetsRef.set(payload).catch(()=>showSync('Sync failed',true));
   saveNamedSetsCache();
 }
 function renderNamedSetChooserUI(){
@@ -6084,40 +6072,12 @@ function renameNamedSet(id){const scope=appPrefs.setListScope;const sk=setScopeK
 function deleteNamedSet(id){const scope=appPrefs.setListScope;const sk=setScopeKey(scope);const sets={...getNamedSets(sk)};if(!sets[id])return;if(Object.keys(sets).length===1){if(!confirmDestructive('Delete all songs in this set list?'))return;sets[id]={...sets[id],items:[],updatedAt:Date.now()};}else{if(!confirmDestructive(`Delete ${sets[id].name}?`))return;delete sets[id];if(appPrefs[activeSetPrefKey(sk)]===id)appPrefs[activeSetPrefKey(sk)]=Object.keys(sets)[0];savePrefs();}
   if(sk==='personal')_personalSets=sets;else _sharedSets=sets;commitNamedSetScope(sk);openBS('sets');}
 function copyActiveSetToOtherScope(){
-  const from=setScopeKey(appPrefs.setListScope);
-  const to=from==='shared'?'personal':'shared';
-  const src=getActiveSet(from);
-  const suggested=`${src.name||'Set'} (${getScopeLabel(to)})`;
-  const name=(prompt(`Copy to ${getScopeLabel(to)} as:`,suggested)||'').trim();
-  if(!name)return;
-  const items=normalizeSetArray(src.items||[]);
-  // Collect songMemory from the set and from local device memory
-  const mem=Object.assign({},src.songMemory||{});
-  try{
-    const localMem=typeof loadSongMemory==='function'?loadSongMemory():{};
-    items.forEach(item=>{
-      if(item.type!=='song'||!item.songId)return;
-      const k=normId(item.songId);
-      if(mem[k])return;
-      const song=findSongById(k);
-      const mk=song?normId(song.id||song.fbKey):k;
-      if(mk&&localMem[mk])mem[k]=localMem[mk];
-    });
-  }catch(e){}
-  const sets={...getNamedSets(to)};
-  const id=makeSetId();
-  sets[id]={name,notes:String(src.notes||''),items,songMemory:mem,updatedAt:Date.now()};
-  if(to==='personal'){_personalSets=sets;savePersonalNamedSets();}
-  else{_sharedSets=sets;saveSharedSetsToFB();}
-  renderNamedSetChooserUI();
-  if(activeTab==='setlist')renderSetList(); else refresh(false);
-  const sc=items.filter(x=>x.type==='song').length;
-  const pc=items.filter(x=>x.type==='section'||x.type==='item').length;
-  const ms=items.filter(x=>x.type==='song'&&x.songSnapshot).length;
-  let msg=`Copied to ${getScopeLabel(to).toLowerCase()} · ${sc} song${sc===1?'':'s'}`;
-  if(pc)msg+=` · ${pc} planning item${pc===1?'':'s'}`;
-  if(ms)msg+=` · ${ms} My Song snapshot${ms===1?'':'s'}`;
-  showToast(msg);
+  const from=setScopeKey(appPrefs.setListScope); const to=from==='shared'?'personal':'shared'; const src=getActiveSet(from); const suggested=`${src.name} (${getScopeLabel(to)})`; const name=(prompt(`Copy to ${getScopeLabel(to)} as:`,suggested)||'').trim(); if(!name)return;
+  const items=filterSetItemsToExistingSongs((src&&src.items)||[]);
+  const sets={...getNamedSets(to)}; const id=makeSetId();
+  sets[id]={name,notes:String((src&&src.notes)||''),items,songMemory:(src&&src.songMemory&&typeof src.songMemory==='object')?src.songMemory:{},updatedAt:Date.now()};
+  if(to==='personal'){_personalSets=sets;appPrefs.activePersonalSetId=id;savePersonalNamedSets();}else{_sharedSets=sets;appPrefs.activeSharedSetId=id;saveSharedSetsToFB();}
+  savePrefs();renderNamedSetChooserUI(); if(activeTab==='setlist')renderSetList(); else refresh(false); showToast(`Copied to ${getScopeLabel(to).toLowerCase()} set lists`);
 }
 
 function normId(id){return id==null?'':String(id);}
@@ -6139,75 +6099,67 @@ function normRec(k,s){return{...s,id:normId(s.id||k),songCode:ensureSongCode(s),
 function escapeHtml(str){return String(str??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
 function normSetKey(v){return v==='default'||v==='original'||NOTES.includes(v)?v:'original';}
 function makeSetItemId(prefix='setitem'){return prefix+'_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7);}
-function normSetItem(item,order=0){
-  if(typeof item==='string'||typeof item==='number')return{type:'song',songId:normId(item),order,setKey:'original'};
-  if(!item||typeof item!=='object')return{type:'',songId:'',order,setKey:'original'};
-  const type=item.type==='section'?'section':(item.type==='item'||item.type==='service'?'item':'song');
-  if(type==='section')return{type:'section',id:String(item.id||makeSetItemId('section')),title:String(item.title||item.label||'Section').trim()||'Section',order:item.order??order};
-  if(type==='item')return{type:'item',id:String(item.id||makeSetItemId('item')),title:String(item.title||item.label||'Service item').trim()||'Service item',note:String(item.note||item.description||'').trim(),order:item.order??order};
-  const sid=normId(item.songId||item.id);
-  const out={type:'song',songId:sid,order:item.order??order,setKey:normSetKey(item.setKey)};
-  // Preserve or build songSnapshot so My Songs survive in shared sets on any device
-  if(item.songSnapshot&&typeof item.songSnapshot==='object'){
-    out.songSnapshot=item.songSnapshot;
-  } else {
-    const songObj=songs.find(s=>normId(s.id)===sid||normId(s.fbKey)===sid);
-    if(songObj&&(songObj.localOnly||songObj.librarySource==='user'||songObj.librarySource==='my')){
-      const snap={};
-      ['id','fbKey','songId','localId','title','author','key','cat','songCode','timeSig',
-       'timeSignature','bpm','chart','lyrics','body','content','librarySource','localOnly'
-      ].forEach(k=>{if(songObj[k]!=null)snap[k]=songObj[k];});
-      snap.id=normId(snap.id||sid); if(!snap.songId)snap.songId=snap.id;
-      if(!snap.title)snap.title='Untitled song'; snap.localOnly=true;
-      out.songSnapshot=snap;
+function cleanSongSnapshotForSet(song,fallbackId){
+  if(!song||typeof song!=='object')return null;
+  const id=normId(song.id||song.songId||song.localId||song.fbKey||fallbackId);
+  if(!id&&!song.title)return null;
+  const snap={};
+  ['id','fbKey','songId','localId','title','author','key','cat','songCode','timeSig','timeSignature','bpm','chart','lyrics','body','content','spotifyUrl','youtubeUrl','source','librarySource','localOnly'].forEach(k=>{if(song[k]!=null)snap[k]=song[k];});
+  snap.id=normId(snap.id||id);
+  if(!snap.songId)snap.songId=snap.id;
+  if(!snap.title)snap.title='Untitled song';
+  if(!snap.key)snap.key='C';
+  if(!snap.cat)snap.cat='english';
+  if(song.localOnly||song.librarySource==='my'||song.librarySource==='user'||song.source==='my')snap.localOnly=true;
+  return snap;
+}
+function findSongSnapshotInSets(id){
+  const needle=normId(id); if(!needle)return null;
+  for(const map of [_sharedSets||{},_personalSets||{}]){
+    for(const set of Object.values(map||{})){
+      for(const item of ((set&&set.items)||[])){
+        if(!item||item.type!=='song')continue;
+        const snap=item.songSnapshot||item.snapshot||item.song;
+        const keys=[item.songId,item.id,snap&&snap.id,snap&&snap.fbKey,snap&&snap.songId,snap&&snap.localId].map(normId).filter(Boolean);
+        if(keys.includes(needle)){const cleaned=cleanSongSnapshotForSet(snap||item,item.songId);if(cleaned)return cleaned;}
+      }
     }
   }
-  if(item.songMemory&&typeof item.songMemory==='object')out.songMemory=item.songMemory;
+  return null;
+}
+function normSetItem(item,order=0){
+  if(typeof item==='string'||typeof item==='number')item={type:'song',songId:item,order,setKey:'original'};
+  if(!item||typeof item!=='object')return{type:'',songId:'',order,setKey:'original'};
+  const type=item.type==='section'?'section':(item.type==='item'||item.type==='service'||item.type==='placeholder'?'item':'song');
+  if(type==='section')return{type:'section',id:String(item.id||makeSetItemId('section')),title:String(item.title||item.label||'Section').trim()||'Section',order:item.order??order};
+  if(type==='item')return{type:'item',id:String(item.id||makeSetItemId('item')),title:String(item.title||item.label||'Service item').trim()||'Service item',note:String(item.note||item.description||'').trim(),order:item.order??order};
+  const songId=normId(item.songId||item.id||item.fbKey); if(!songId)return{type:'',songId:'',order,setKey:'original'};
+  const out={type:'song',songId,order:item.order??order,setKey:normSetKey(item.setKey)};
+  const snap=cleanSongSnapshotForSet(item.songSnapshot||item.snapshot||item.song,songId)||cleanSongSnapshotForSet((Array.isArray(songs)?songs:[]).find(s=>normId(s.id)===songId||normId(s.fbKey)===songId),songId)||findSongSnapshotInSets(songId);
+  if(snap)out.songSnapshot=snap;
+  if(item.songMemory&&typeof item.songMemory==='object')out.songMemory={...item.songMemory};
   return out;
 }
 function setScopeKey(scope){return scope==='personal'?'personal':'shared';}
 function getSetStore(scope=appPrefs.setListScope){return getActiveSet(scope).items||[];}
-function normalizeSetArray(arr){return (Array.isArray(arr)?arr:[]).map((item,i)=>normSetItem(item,i)).filter(x=>x.type==='section'||x.type==='item'||x.songId);}
+function normalizeSetArray(arr){return (Array.isArray(arr)?arr:[]).map((item,i)=>normSetItem(item,i)).filter(x=>x.type==='section'||x.type==='item'||(x.type==='song'&&x.songId)).map((x,i)=>({...x,order:i}));}
 /* Always call getSetList() instead of using setList directly */
-function songExistsInLibrary(id){return !!findSongById(normId(id));}
-function filterSetItemsToExistingSongs(items){
-  return normalizeSetArray(items).filter(x=>{
-    if(x.type!=='song')return true;
-    if(x.songSnapshot)return true;
-    return songExistsInLibrary(x.songId);
-  });
-}
+function songExistsInLibrary(id){return !!findSongById(normId(id))||!!findSongSnapshotInSets(normId(id));}
+function itemResolvable(item){return !!(item&&(item.type==='section'||item.type==='item'||(item.type==='song'&&item.songId&&(item.songSnapshot||songExistsInLibrary(item.songId)))));}
+function filterSetItemsToExistingSongs(items){return normalizeSetArray(items).filter(itemResolvable);}
 function getSetList(scope=appPrefs.setListScope){return filterSetItemsToExistingSongs(getSetStore(scope));}
 function getSetSongItems(scope=appPrefs.setListScope){return getSetList(scope).filter(x=>x.type==='song'&&x.songId);}
 function countSetSongs(items){return (items||[]).filter(x=>x.type==='song'&&x.songId).length;}
 function countSetNonSongItems(items){return (items||[]).filter(x=>x.type==='section'||x.type==='item').length;}
 function pruneMissingSongsFromSets(){
-  if(!Array.isArray(songs))return;
-  const cleanMap=(sets)=>{
-    let changed=false; const out={};
-    Object.entries(sets||{}).forEach(([id,set])=>{
-      const before=normalizeSetArray(set.items||[]);
-      const after=before.filter(x=>{
-        if(x.type!=='song')return true;
-        if(x.songSnapshot)return true;
-        return songExistsInLibrary(x.songId);
-      });
-      if(after.length!==before.length)changed=true;
-      out[id]={...set,items:after};
-    });
-    return{out,changed};
-  };
-  try{
-    const personal=cleanMap(_personalSets);
-    if(personal.changed){_personalSets=personal.out;savePersonalNamedSets();}
-    // Update shared in memory only — do not write to Firebase on startup prune
-    const shared=cleanMap(_sharedSets);
-    if(shared.changed){_sharedSets=shared.out;}
-  }catch(e){console.warn('Could not prune missing songs from sets',e);}
+  if(!Array.isArray(songs)||!songs.length)return;
+  const cleanMap=(sets)=>{let changed=false;const out={};Object.entries(sets||{}).forEach(([id,set])=>{const before=normalizeSetArray(set.items);const after=before.filter(itemResolvable);if(after.length!==before.length)changed=true;out[id]={...set,items:after};});return{out,changed};};
+  try{const personal=cleanMap(_personalSets); if(personal.changed){_personalSets=personal.out;savePersonalNamedSets();}}catch(e){}
+  try{const shared=cleanMap(_sharedSets); if(shared.changed){_sharedSets=shared.out;saveSharedSetsToFB();}}catch(e){console.warn('Could not prune missing songs from sets',e);}
 }
 function modSetList(newArr,scope=appPrefs.setListScope){
   const sk=setScopeKey(scope);
-  const normalized=normalizeSetArray(newArr);
+  const normalized=filterSetItemsToExistingSongs(newArr);
   const sets={...getNamedSets(sk)};
   const id=getActiveSetId(sk);
   const prev=sets[id]||{name:`${getScopeLabel(sk)} Set`};
@@ -6228,7 +6180,7 @@ function renderSetListScopeUI(){
   renderNamedSetChooserUI();
 }
 function addSongToNamedSet(id,scope){const sl=getSetList(scope);if(!sl.some(x=>x.songId===normId(id))){modSetList([...sl,{songId:id,setKey:'original'}],scope);}}
-function removeSongFromNamedSet(id,scope){modSetList(getSetList(scope).filter(x=>!(x.type==='song'&&x.songId===normId(id))),scope);}
+function removeSongFromNamedSet(id,scope){modSetList(getSetList(scope).filter(x=>x.songId!==normId(id)),scope);}
 function toggleSongInNamedSetById(id,scope){if(isSongInSet(id,scope))removeSongFromNamedSet(id,scope);else addSongToNamedSet(id,scope);}
 function toggleSongInNamedSet(scope){
   const song=pendingSetDestSong; if(!song)return;
@@ -7319,23 +7271,7 @@ function setSetItemKey(songId,setKey){
 }
 function addToSetList(id){addSongToNamedSet(id,appPrefs.setListScope);}
 function removeFromSetList(id){removeSongFromNamedSet(id,appPrefs.setListScope);}
-function findSongById(id){
-  const n=normId(id);
-  const found=songs.find(s=>normId(s.id)===n||normId(s.fbKey)===n);
-  if(found)return found;
-  // Fallback: scan songSnapshot fields in set items (covers My Songs on shared sets)
-  for(const map of [_sharedSets||{},_personalSets||{}]){
-    for(const set of Object.values(map)){
-      for(const item of (set&&set.items)||[]){
-        if(!item||item.type!=='song'||!item.songSnapshot)continue;
-        const snap=item.songSnapshot;
-        const ids=[normId(snap.id),normId(snap.fbKey),normId(snap.songId),normId(snap.localId)].filter(Boolean);
-        if(ids.includes(n))return Object.assign({},snap,{embeddedSnapshot:true});
-      }
-    }
-  }
-  return null;
-}
+function findSongById(id){const n=normId(id);return songs.find(s=>normId(s.id)===n||normId(s.fbKey)===n)||findSongSnapshotInSets(n)||null;}
 
 /* ══ FIREBASE ══ */
 /* ══ OFFLINE CACHE ══ */
@@ -7395,7 +7331,7 @@ function initFirebase(){
       mergeSongStores();
       disableStarterSeedFlag();
     }
-    setTimeout(()=>{try{pruneMissingSongsFromSets();}catch(_){}},0);
+    pruneMissingSongsFromSets();
     refresh(true);hideLoading();
     saveCachedData();// update cache with fresh data
   },()=>{
@@ -7403,12 +7339,8 @@ function initFirebase(){
     if(!hadCache){showSync('Sync error',true);hideLoading();}
     else{showSync('Offline — using cache',true);}
   });
-  setlistRef.on('value',snap=>{
-    // /setlist is retired. Update legacy array only — never write to _sharedSets.
-    const d=snap.val();
-    _setList_shared=d?Object.values(d).sort((a,b)=>a.order-b.order).map((x,i)=>normSetItem(x,i)).filter(x=>x.songId):[];
-    saveCachedData();
-  });
+  // v72.8: legacy Firebase /setlist is retired. The app no longer reads it.
+  // Shared set lists are loaded only from /setlists, which stores the full rich service plan.
   sharedSetsRef.on('value',snap=>{
     const d=snap.val();
     if(d&&Object.keys(d).length){
@@ -7417,10 +7349,19 @@ function initFirebase(){
       if(_sharedSets[remembered])appPrefs.activeSharedSetId=remembered;
       ensureNamedSetState('shared');
       saveNamedSetsCache();
+      pruneMissingSongsFromSets();
+      if(activeTab==='setlist')renderSetList();
+      renderNamedSetChooserUI();
+    }else{
+      _sharedSets={};
+      ensureNamedSetState('shared');
+      saveNamedSetsCache();
       if(activeTab==='setlist')renderSetList();
       renderNamedSetChooserUI();
     }
   });
+  // Cleanly retire the old songs-only shared set path in Firebase.
+  try{legacySetlistPathRef.remove().catch(()=>{});}catch(e){}
 }
 function hideLoading(){const l=document.getElementById('ls');l.classList.add('hidden');setTimeout(()=>l.style.display='none',380);}
 function saveSetListToFB(){saveSharedSetsToFB();}
@@ -8325,7 +8266,7 @@ function clearSet(){
   modSetList([]);
   renderSetList();
 }
-function removeFromSet(id){modSetList(getSetList().filter(x=>!(x.type==='song'&&x.songId===normId(id))));renderSetList();}
+function removeFromSet(id){modSetList(getSetList().filter(x=>x.songId!==normId(id)));renderSetList();}
 
 /* ══ PICKER ══ */
 function setPickerFilter(f,el){pickerFilter=f;document.querySelectorAll('.pf-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');renderPicker();}
@@ -13785,6 +13726,16 @@ body.dark .wb-sync-mini-row{background:rgba(255,255,255,.04);}
   function activeSetHasNotes(){try{return !!String(getActiveSet()?.notes||'').trim();}catch(e){return false;}}
   function currentSetMemory(){try{const set=getActiveSet();return (set&&set.songMemory&&typeof set.songMemory==='object')?set.songMemory:{};}catch(e){return {};}}
   function songIdForMemory(song){try{return memorySongId(song);}catch(e){return String(song?.id||song?.fbKey||'');}}
+  function memoryHasContent(m){return !!(m&&((m.notes||'').trim()||(m.cues||'').trim()||(m.usualKey||'')||(m.capo||'').trim()||(m.practiceStatus||'')));}
+  function normalizeMemoryForSet(m,song){if(!m||typeof m!=='object')return null;const out={...m};out.songId=out.songId||songIdForMemory(song);out.title=out.title||(song&&song.title)||'';out.updatedAt=out.updatedAt||new Date().toISOString();return memoryHasContent(out)?out:null;}
+  function collectSetSongMemory(set){const out={};try{const embedded=(set&&set.songMemory&&typeof set.songMemory==='object')?set.songMemory:{};Object.keys(embedded).forEach(id=>{const m=normalizeMemoryForSet(embedded[id],{id});if(m)out[String(id)]=m;});const items=normalizeSetArray(set?.items||[]).filter(x=>x.type==='song'&&x.songId);items.forEach(item=>{const song=typeof findSongById==='function'?findSongById(item.songId):{id:item.songId};const id=songIdForMemory(song||{id:item.songId});const local=(typeof loadSongMemory==='function'?loadSongMemory():{})[id];const m=normalizeMemoryForSet(local,song||{id});if(m)out[id]=m;});}catch(e){console.warn('Could not collect set song memory',e);}return out;}
+  function normalizeSetMapWithMemory(raw,fallbackLabel){const out={};if(raw&&typeof raw==='object')Object.entries(raw).forEach(([id,val],idx)=>{if(!val||typeof val!=='object')return;out[id]={name:String(val.name||`${fallbackLabel} ${idx+1}`),items:typeof normalizeSetArray==='function'?normalizeSetArray(val.items||val.songs||[]):[],notes:String(val.notes||''),songMemory:(val.songMemory&&typeof val.songMemory==='object')?val.songMemory:{},updatedAt:Number(val.updatedAt||Date.now())};});return out;}
+  try{ window.normalizeNamedSetMap=normalizeSetMapWithMemory; normalizeNamedSetMap=window.normalizeNamedSetMap; }catch(e){}
+  const oldGetSongMemory=window.getSongMemory || (typeof getSongMemory==='function'?getSongMemory:null);
+  if(oldGetSongMemory && !oldGetSongMemory.__wbV724){window.getSongMemory=function(song){const local=oldGetSongMemory(song)||{};const id=songIdForMemory(song);const fromSet=id?(currentSetMemory()[id]||{}):{};return {...fromSet,...local};};window.getSongMemory.__wbV724=true;try{getSongMemory=window.getSongMemory;}catch(e){}}
+  const oldSaveShared=window.saveSharedSetsToFB || (typeof saveSharedSetsToFB==='function'?saveSharedSetsToFB:null);
+  if(oldSaveShared && !oldSaveShared.__wbV724){window.saveSharedSetsToFB=function(){try{const payload={};Object.entries(_sharedSets||{}).forEach(([id,set])=>{payload[id]={name:set.name||'Shared Set',notes:String(set.notes||''),songMemory:(set.songMemory&&typeof set.songMemory==='object')?set.songMemory:{},updatedAt:Date.now(),items:(Array.isArray(songs)&&songs.length?filterSetItemsToExistingSongs(set.items):normalizeSetArray(set.items))};});sharedSetsRef.set(payload).catch(()=>showSync('Sync failed',true));const compat={}; getSetSongItems('shared').forEach((item,i)=>{compat[`i${i}`]={songId:item.songId,order:i,setKey:item.setKey||'original'};});setlistRef.set(compat).catch(()=>{});saveNamedSetsCache();}catch(e){console.warn('v72.4 saveSharedSetsToFB fallback',e);return oldSaveShared();}};window.saveSharedSetsToFB.__wbV724=true;try{saveSharedSetsToFB=window.saveSharedSetsToFB;}catch(e){}}
+  window.copyActiveSetToOtherScope=function(){const from=setScopeKey(appPrefs.setListScope);const to=from==='shared'?'personal':'shared';const src=getActiveSet(from);const suggested=`${src.name||'Set'} (${getScopeLabel(to)})`;const name=(prompt(`Copy to ${getScopeLabel(to)} as:`,suggested)||'').trim();if(!name)return;const sets={...getNamedSets(to)};const id=makeSetId();const copied={name,notes:String(src.notes||''),items:normalizeSetArray(src.items),songMemory:collectSetSongMemory(src),updatedAt:Date.now()};sets[id]=copied;if(to==='personal'){_personalSets=sets;savePersonalNamedSets();}else{_sharedSets=sets;saveSharedSetsToFB();}renderNamedSetChooserUI();if(activeTab==='setlist')renderSetList(); else refresh(false);const memCount=Object.keys(copied.songMemory||{}).length;toast(`Copied to ${getScopeLabel(to).toLowerCase()} set lists${memCount?` with notes/cues for ${memCount} song${memCount!==1?'s':''}`:''}`);};try{copyActiveSetToOtherScope=window.copyActiveSetToOtherScope;}catch(e){}
   function addSetNotesIndicators(){try{const has=activeSetHasNotes();const sub=document.getElementById('sl-active-set-sub');if(sub){let text=sub.textContent||'';text=text.replace(/\s·\sSet notes/g,'').replace(/Set notes\s·\s/g,'');if(has&&text)sub.textContent=text.replace(' · planning board',' · Set notes · planning board');else if(has)sub.textContent='Set notes';}const title=document.getElementById('sl-active-set-name');if(title){let chip=title.parentElement?.querySelector('.setlist-set-note-chip');if(has&&!chip){chip=document.createElement('span');chip.className='setlist-set-note-chip';chip.textContent='Notes';title.parentElement.appendChild(chip);}if(chip)chip.style.display=has?'inline-flex':'none';}const setNotesBtn=[...document.querySelectorAll('#bs-setoptions .mi')].find(btn=>(btn.textContent||'').trim().startsWith('Set notes'));if(setNotesBtn){setNotesBtn.classList.toggle('has-set-notes',has);let badge=setNotesBtn.querySelector('.set-options-note-badge');if(!badge){badge=document.createElement('span');badge.className='set-options-note-badge';badge.textContent='Saved';setNotesBtn.appendChild(badge);}}}catch(e){}}
   const oldRenderSet=window.renderSetList || (typeof renderSetList==='function'?renderSetList:null);if(oldRenderSet&&!oldRenderSet.__wbV724){window.renderSetList=function(){const r=oldRenderSet();addSetNotesIndicators();return r;};window.renderSetList.__wbV724=true;try{renderSetList=window.renderSetList;}catch(e){}}
   const oldRenderChooser=window.renderNamedSetChooserUI || (typeof renderNamedSetChooserUI==='function'?renderNamedSetChooserUI:null);if(oldRenderChooser&&!oldRenderChooser.__wbV724){window.renderNamedSetChooserUI=function(){const r=oldRenderChooser();addSetNotesIndicators();return r;};window.renderNamedSetChooserUI.__wbV724=true;try{renderNamedSetChooserUI=window.renderNamedSetChooserUI;}catch(e){}}
@@ -13805,7 +13756,7 @@ body.dark .wb-sync-mini-row{background:rgba(255,255,255,.04);}
 
 
 <style id="wb-v72-5-2-backup-settings-polish">
-/* v72.5.8 — polished Backup & Restore settings card layout. */
+/* v72.8 — polished Backup & Restore settings card layout. */
 .wb-hidden-settings-section{display:none!important;}
 .wb-backup-card .ss-row{cursor:pointer;}
 .wb-backup-choice{display:flex;align-items:center;gap:12px;padding:15px 20px;border-top:.5px solid var(--bdr);background:transparent;border-left:0;border-right:0;border-bottom:0;width:100%;text-align:left;font-family:inherit;color:var(--txt1);cursor:pointer;}
@@ -13927,13 +13878,27 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
   window.restoreFullAppBackupFromFile=restoreFullAppBackupFromFile;
   function tidySongEditLabels(){try{const mi=document.getElementById('mi-edit-song');if(mi){let textNode=[...mi.childNodes].find(n=>n.nodeType===3&&n.textContent.trim());if(textNode)textNode.textContent='Edit';else if(mi.lastChild)mi.lastChild.textContent='Edit';}const ctx=document.getElementById('ctx-edit-song');if(ctx){[...ctx.childNodes].forEach(n=>{if(n.nodeType===3&&n.textContent.trim())n.textContent='Edit';});const span=ctx.querySelector('span');if(span&&/edit/i.test(span.textContent||''))span.textContent='Edit';}}catch(e){}}
   const oldSync=window.syncAdminOnlyUI || (typeof syncAdminOnlyUI==='function'?syncAdminOnlyUI:null);if(oldSync&&!oldSync.__wbV725EditLabel){window.syncAdminOnlyUI=function(){const r=oldSync.apply(this,arguments);tidySongEditLabels();return r;};window.syncAdminOnlyUI.__wbV725EditLabel=true;try{syncAdminOnlyUI=window.syncAdminOnlyUI;}catch(e){}}
+  function cloneSetItemsDeep(items){return (Array.isArray(items)?items:[]).map((item,idx)=>{const x=typeof normSetItem==='function'?normSetItem(item,idx):item;if(!x||!x.type)return null;if(x.type==='section')return {type:'section',id:x.id||makeSetItemId('section'),title:x.title||'Section',order:idx};if(x.type==='item')return {type:'item',id:x.id||makeSetItemId('item'),title:x.title||'Service item',note:x.note||'',order:idx};return {type:'song',songId:normId(x.songId||x.id),setKey:normSetKey(x.setKey||'original'),order:idx};}).filter(x=>x&&(x.type==='section'||x.type==='item'||x.songId));}
+  function songMemoryKeyFor(songOrId){try{if(typeof songOrId==='object')return memorySongId(songOrId);const song=findSongById(songOrId);return song?memorySongId(song):String(songOrId||'');}catch(e){return String((songOrId&&songOrId.id)||songOrId||'');}}
+  function memoryHasUsefulContent(m){return !!(m&&typeof m==='object'&&(String(m.notes||'').trim()||String(m.cues||'').trim()||String(m.usualKey||'').trim()||String(m.capo||'').trim()||String(m.practiceStatus||'').trim()));}
+  function collectMemoryForItems(set,items){const out={};try{const embedded=(set&&set.songMemory&&typeof set.songMemory==='object')?set.songMemory:{};Object.keys(embedded).forEach(id=>{const m={...embedded[id]};if(memoryHasUsefulContent(m))out[String(id)]=m;});const local=typeof loadSongMemory==='function'?loadSongMemory():{};items.filter(x=>x.type==='song'&&x.songId).forEach(item=>{const song=typeof findSongById==='function'?findSongById(item.songId):null;const key=songMemoryKeyFor(song||item.songId);const m=local[key]||embedded[key]||embedded[item.songId];if(memoryHasUsefulContent(m))out[key]={...m,songId:key,title:m.title||(song&&song.title)||''};});}catch(e){console.warn('Could not collect set memory',e);}return out;}
+  window.copyActiveSetToOtherScope=function(){
+    const from=setScopeKey(appPrefs.setListScope);const to=from==='shared'?'personal':'shared';const src=getActiveSet(from);const suggested=`${src.name||'Set'} (${getScopeLabel(to)})`;const name=(prompt(`Copy to ${getScopeLabel(to)} as:`,suggested)||'').trim();if(!name)return;
+    const items=cloneSetItemsDeep(src.items||[]);const copied={name,notes:String(src.notes||''),items,songMemory:collectMemoryForItems(src,items),updatedAt:Date.now()};
+    const sets={...getNamedSets(to)};const id=typeof makeSetId==='function'?makeSetId():('set_'+Date.now().toString(36));sets[id]=copied;
+    if(to==='personal'){_personalSets=sets;appPrefs.activePersonalSetId=id;savePersonalNamedSets();}
+    else{_sharedSets=sets;appPrefs.activeSharedSetId=id;saveSharedSetsToFB();}
+    savePrefs();renderNamedSetChooserUI();if(activeTab==='setlist')renderSetList();else refresh(false);
+    const memCount=Object.keys(copied.songMemory||{}).length;const planCount=items.filter(x=>x.type==='section'||x.type==='item').length;toast(`Copied to ${getScopeLabel(to).toLowerCase()} set lists${planCount?` with ${planCount} service/section item${planCount!==1?'s':''}`:''}${memCount?` and notes/cues for ${memCount} song${memCount!==1?'s':''}`:''}`);
+  };
+  try{copyActiveSetToOtherScope=window.copyActiveSetToOtherScope;}catch(e){}
   ready(function(){hideOldBackupSections();injectBackupRestoreCard();injectBackupSheets();renderDriveStatusLabels();setTimeout(function(){hideOldBackupSections();injectBackupRestoreCard();renderDriveStatusLabels();tidySongEditLabels();},350);});
 })();
 </script>
 
 
 <style id="wb-v72-5-5-polish-css">
-/* v72.5.8 — compact Drive status rows and keep them visually secondary. */
+/* v72.8 — compact Drive status rows and keep them visually secondary. */
 .wb-drive-status-surface{gap:10px!important;padding:14px 14px 13px!important;border-radius:22px!important;}
 .wb-drive-status-head{gap:10px!important;}
 .wb-drive-status-left{gap:11px!important;}
@@ -13953,7 +13918,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
   'use strict';
   const EDIT_ICON='<svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M12 3l2 2L5.5 13H3.5v-2L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
   function usefulMemory(m){return !!(m&&typeof m==='object'&&(String(m.notes||'').trim()||String(m.cues||'').trim()||String(m.usualKey||'').trim()||String(m.capo||'').trim()||String(m.practiceStatus||'').trim()));}
-  function setVisibleVersion(){try{document.title='WorshipBase v72.5.8';document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 72.5.8';});}catch(e){}}
+  function setVisibleVersion(){try{document.title='WorshipBase v72.8';document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 72.8';});}catch(e){}}
   function fixSongEditButton(){
     try{
       const btn=document.getElementById('mi-edit-song');
@@ -13987,6 +13952,103 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
     try{updateSongMenuUI=window.updateSongMenuUI;}catch(e){}
   }
 
+  function normItemsKeepPlan(items){
+    try{return (Array.isArray(items)?items:[]).map((item,idx)=>typeof normSetItem==='function'?normSetItem(item,idx):item).filter(x=>x&&(x.type==='section'||x.type==='item'||(x.type==='song'&&x.songId)));}
+    catch(e){return Array.isArray(items)?items.slice():[];}
+  }
+  function filterItemsForSave(items){return normItemsKeepPlan(items).filter(x=>x.type!=='song'||(typeof songExistsInLibrary==='function'?songExistsInLibrary(x.songId):true));}
+  function normalizeSetMapKeepMemory(raw,fallbackLabel){
+    const out={};
+    if(raw&&typeof raw==='object')Object.entries(raw).forEach(([id,val],idx)=>{
+      if(!val||typeof val!=='object')return;
+      const mem=(val.songMemory&&typeof val.songMemory==='object')?val.songMemory:{};
+      out[id]={name:String(val.name||`${fallbackLabel||'Set'} ${idx+1}`),items:normItemsKeepPlan(val.items||val.songs||[]),notes:String(val.notes||''),songMemory:mem,updatedAt:Number(val.updatedAt||Date.now())};
+    });
+    return out;
+  }
+  window.normalizeNamedSetMap=normalizeSetMapKeepMemory;
+  try{normalizeNamedSetMap=normalizeSetMapKeepMemory;}catch(e){}
+
+  function saveSharedSetsKeepingPlanItems(){
+    try{
+      const payload={};
+      Object.entries((typeof _sharedSets!=='undefined'&&_sharedSets)||{}).forEach(([id,set])=>{
+        payload[id]={name:set.name||'Shared Set',notes:String(set.notes||''),updatedAt:Date.now(),items:filterItemsForSave(set.items||[]),songMemory:(set.songMemory&&typeof set.songMemory==='object')?set.songMemory:{}};
+      });
+      if(typeof sharedSetsRef!=='undefined'&&sharedSetsRef&&sharedSetsRef.set)sharedSetsRef.set(payload).catch(()=>{try{showSync('Sync failed',true);}catch(e){}});
+      const compat={};
+      try{(typeof getSetSongItems==='function'?getSetSongItems('shared'):[]).forEach((item,i)=>{compat[`i${i}`]={songId:item.songId,order:i,setKey:item.setKey||'original'};});if(typeof setlistRef!=='undefined'&&setlistRef&&setlistRef.set)setlistRef.set(compat).catch(()=>{});}catch(e){}
+      try{if(typeof saveNamedSetsCache==='function')saveNamedSetsCache();else localStorage.setItem('wb_named_sets_cache_v1',JSON.stringify(_sharedSets));}catch(e){}
+    }catch(e){console.warn('Could not save shared set lists',e);}
+  }
+  window.saveSharedSetsToFB=saveSharedSetsKeepingPlanItems;
+  try{saveSharedSetsToFB=saveSharedSetsKeepingPlanItems;}catch(e){}
+
+  function songMemoryLookupKeys(songOrId){
+    const keys=[];
+    try{if(typeof songOrId==='object'&&songOrId){keys.push(String(songOrId.id||''),String(songOrId.fbKey||''),String(songOrId.songId||''));}}catch(e){}
+    try{keys.push(String(typeof memorySongId==='function'?memorySongId(songOrId):''));}catch(e){}
+    if(typeof songOrId==='string'||typeof songOrId==='number')keys.push(String(songOrId));
+    return [...new Set(keys.filter(Boolean))];
+  }
+  function embeddedMemoryForSong(songOrId,scope){
+    try{
+      const set=typeof getActiveSet==='function'?getActiveSet(scope||appPrefs.setListScope):null;
+      const mem=set&&set.songMemory&&typeof set.songMemory==='object'?set.songMemory:{};
+      const keys=songMemoryLookupKeys(songOrId);
+      for(const k of keys){if(usefulMemory(mem[k]))return {...mem[k]};}
+    }catch(e){}
+    return {};
+  }
+  const previousGetSongMemory=window.getSongMemory || (typeof getSongMemory==='function'?getSongMemory:null);
+  if(previousGetSongMemory&&!previousGetSongMemory.__wbV7255Embedded){
+    window.getSongMemory=function(song){const local=previousGetSongMemory.apply(this,arguments)||{};const embedded=embeddedMemoryForSong(song||currentSong);return {...embedded,...local};};
+    window.getSongMemory.__wbV7255Embedded=true;
+    try{getSongMemory=window.getSongMemory;}catch(e){}
+  }
+  function collectMemoryForCopiedItems(set,items){
+    const out={};
+    try{
+      const embedded=(set&&set.songMemory&&typeof set.songMemory==='object')?set.songMemory:{};
+      Object.keys(embedded).forEach(k=>{if(usefulMemory(embedded[k]))out[String(k)]={...embedded[k]};});
+      const local=typeof loadSongMemory==='function'?loadSongMemory():{};
+      items.filter(x=>x.type==='song'&&x.songId).forEach(item=>{
+        const song=typeof findSongById==='function'?findSongById(item.songId):null;
+        const keys=songMemoryLookupKeys(song||item.songId);
+        for(const k of keys){const m=local[k]||embedded[k]||embedded[item.songId];if(usefulMemory(m)){out[k]={...m,songId:k,title:m.title||(song&&song.title)||''};break;}}
+      });
+    }catch(e){console.warn('Could not collect copied notes/cues',e);}
+    return out;
+  }
+  window.copyActiveSetToOtherScope=function(){
+    try{
+      const from=typeof setScopeKey==='function'?setScopeKey(appPrefs.setListScope):appPrefs.setListScope;
+      const to=from==='shared'?'personal':'shared';
+      const src=typeof getActiveSet==='function'?getActiveSet(from):null;
+      if(!src){try{showToast('No active set list to copy');}catch(e){}return;}
+      const suggested=`${src.name||'Set'} (${typeof getScopeLabel==='function'?getScopeLabel(to):to})`;
+      const name=(prompt(`Copy to ${typeof getScopeLabel==='function'?getScopeLabel(to):to} as:`,suggested)||'').trim();
+      if(!name)return;
+      const items=filterItemsForSave(src.items||[]).map((x,idx)=>{
+        if(x.type==='section')return {type:'section',id:(typeof makeSetItemId==='function'?makeSetItemId('section'):`section_${Date.now()}_${idx}`),title:x.title||'Section',order:idx};
+        if(x.type==='item')return {type:'item',id:(typeof makeSetItemId==='function'?makeSetItemId('item'):`item_${Date.now()}_${idx}`),title:x.title||'Service item',note:x.note||'',order:idx};
+        return {type:'song',songId:String(x.songId||''),setKey:(typeof normSetKey==='function'?normSetKey(x.setKey):x.setKey)||'original',order:idx};
+      }).filter(x=>x.type==='section'||x.type==='item'||x.songId);
+      const copied={name,notes:String(src.notes||''),items,songMemory:collectMemoryForCopiedItems(src,items),updatedAt:Date.now()};
+      const sets={...(typeof getNamedSets==='function'?getNamedSets(to):{})};
+      const id=typeof makeSetId==='function'?makeSetId():('set_'+Date.now().toString(36));
+      sets[id]=copied;
+      if(to==='personal'){_personalSets=sets;appPrefs.activePersonalSetId=id;try{savePersonalNamedSets();}catch(e){}}
+      else{_sharedSets=sets;appPrefs.activeSharedSetId=id;saveSharedSetsKeepingPlanItems();}
+      try{savePrefs();}catch(e){}
+      try{renderNamedSetChooserUI();}catch(e){}
+      try{if(activeTab==='setlist')renderSetList();else refresh(false);}catch(e){}
+      const memCount=Object.keys(copied.songMemory||{}).length;
+      const planCount=items.filter(x=>x.type==='section'||x.type==='item').length;
+      try{showToast(`Copied to ${(typeof getScopeLabel==='function'?getScopeLabel(to):to).toLowerCase()} set lists${planCount?` with ${planCount} section/service item${planCount!==1?'s':''}`:''}${memCount?` and notes/cues for ${memCount} song${memCount!==1?'s':''}`:''}`);}catch(e){}
+    }catch(e){console.error(e);try{showToast('Could not copy set list',true);}catch(_){} }
+  };
+  try{copyActiveSetToOtherScope=window.copyActiveSetToOtherScope;}catch(e){}
   function compactDriveDetails(){try{document.querySelectorAll('.wb-drive-settings-row').forEach(el=>el.setAttribute('role','note'));}catch(e){}}
   const prevRenderDrive=window.renderDriveStatusLabels || (typeof renderDriveStatusLabels==='function'?renderDriveStatusLabels:null);
   if(prevRenderDrive&&!prevRenderDrive.__wbV7255Compact){
@@ -13999,16 +14061,1078 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 })();
 </script>
 
-<script>
-// WorshipBase v72.8.1 — clean in-place rich shared set-list fix
-// All changes made at original source locations. No patch overrides.
+
+
+<script id="wb-v72-5-6-rich-shared-set-fix">
 (function(){
+  // v72.8 — make Personal ↔ Shared set copying use one rich planning-board shape.
+  function toast(msg,err){try{showToast(msg,!!err);}catch(e){try{alert(msg);}catch(_){}}}
+  function normPlanItem(item,idx){
+    try{
+      const x=(typeof normSetItem==='function')?normSetItem(item,idx):(item||{});
+      if(!x||!x.type)return null;
+      if(x.type==='section')return {type:'section',id:String(x.id||((typeof makeSetItemId==='function')?makeSetItemId('section'):'section_'+Date.now()+'_'+idx)),title:String(x.title||'Section'),order:idx};
+      if(x.type==='item')return {type:'item',id:String(x.id||((typeof makeSetItemId==='function')?makeSetItemId('item'):'item_'+Date.now()+'_'+idx)),title:String(x.title||'Service item'),note:String(x.note||''),order:idx};
+      const songId=String(x.songId||x.id||'');
+      return songId?{type:'song',songId,setKey:(typeof normSetKey==='function'?normSetKey(x.setKey):x.setKey)||'original',order:idx}:null;
+    }catch(e){return null;}
+  }
+  function richItems(items,keepIds){
+    return (Array.isArray(items)?items:[]).map((item,idx)=>normPlanItem(item,idx)).filter(Boolean).map((x,idx)=>{
+      if(x.type==='song')return {...x,order:idx};
+      if(!keepIds){
+        if(x.type==='section')x.id=(typeof makeSetItemId==='function')?makeSetItemId('section'):'section_'+Date.now()+'_'+idx;
+        if(x.type==='item')x.id=(typeof makeSetItemId==='function')?makeSetItemId('item'):'item_'+Date.now()+'_'+idx;
+      }
+      return {...x,order:idx};
+    });
+  }
+  function itemCanSave(x){return x&&((x.type==='section')||(x.type==='item')||(x.type==='song'&&x.songId&&((typeof songExistsInLibrary!=='function')||songExistsInLibrary(x.songId))));}
+  function richItemsForSave(items){return richItems(items,true).filter(itemCanSave);}
+  function usefulMemory(m){return !!(m&&typeof m==='object'&&(String(m.notes||'').trim()||String(m.cues||'').trim()||String(m.usualKey||'').trim()||String(m.capo||'').trim()||String(m.practiceStatus||'').trim()));}
+  function memoryKeys(songOrId){
+    const keys=[];
+    try{if(songOrId&&typeof songOrId==='object'){keys.push(songOrId.id,songOrId.fbKey,songOrId.songId,songOrId.songCode);}}catch(e){}
+    try{keys.push((typeof memorySongId==='function')?memorySongId(songOrId):'');}catch(e){}
+    if(typeof songOrId==='string'||typeof songOrId==='number')keys.push(String(songOrId));
+    return [...new Set(keys.map(x=>String(x||'')).filter(Boolean))];
+  }
+  function mergeMemory(base,extra){
+    const out={...(base&&typeof base==='object'?base:{})};
+    if(extra&&typeof extra==='object'){
+      Object.entries(extra).forEach(([k,v])=>{
+        if(v==null)return;
+        if(typeof v==='string'){
+          if(v.trim())out[k]=v;
+        }else if(v!==''&&v!==false){out[k]=v;}
+      });
+    }
+    return out;
+  }
+  function collectRichSongMemory(set,items){
+    const out={};
+    try{
+      const embedded=(set&&set.songMemory&&typeof set.songMemory==='object')?set.songMemory:{};
+      const local=(typeof loadSongMemory==='function')?loadSongMemory():{};
+      Object.keys(embedded).forEach(k=>{if(usefulMemory(embedded[k]))out[String(k)]={...embedded[k]};});
+      (items||[]).filter(x=>x.type==='song'&&x.songId).forEach(item=>{
+        const song=(typeof findSongById==='function')?findSongById(item.songId):null;
+        const keys=memoryKeys(song||item.songId);
+        let mem={};
+        keys.forEach(k=>{mem=mergeMemory(mem,embedded[k]);mem=mergeMemory(mem,local[k]);});
+        mem=mergeMemory(mem,embedded[item.songId]);
+        mem=mergeMemory(mem,local[item.songId]);
+        if(usefulMemory(mem)){
+          const canonical=keys[0]||item.songId;
+          const payload={...mem,songId:canonical,title:mem.title||(song&&song.title)||''};
+          keys.concat([item.songId]).filter(Boolean).forEach(k=>{out[String(k)]={...payload,songId:String(k)};});
+        }
+      });
+    }catch(e){console.warn('Could not collect rich set memory',e);}
+    return out;
+  }
+  function normalizeSetMapRich(raw,fallbackLabel){
+    const out={};
+    try{
+      if(raw&&typeof raw==='object')Object.entries(raw).forEach(([id,val],idx)=>{
+        if(!val||typeof val!=='object')return;
+        out[id]={
+          name:String(val.name||`${fallbackLabel||'Set'} ${idx+1}`),
+          notes:String(val.notes||''),
+          items:richItems(val.items||val.songs||[],true),
+          songMemory:(val.songMemory&&typeof val.songMemory==='object')?val.songMemory:{},
+          updatedAt:Number(val.updatedAt||Date.now())
+        };
+      });
+    }catch(e){}
+    return out;
+  }
+  window.normalizeNamedSetMap=normalizeSetMapRich;
+  try{normalizeNamedSetMap=normalizeSetMapRich;}catch(e){}
+
+  function saveSharedSetsRich(){
+    try{
+      const payload={};
+      Object.entries((typeof _sharedSets!=='undefined'&&_sharedSets)||{}).forEach(([id,set])=>{
+        payload[id]={
+          name:set.name||'Shared Set',
+          notes:String(set.notes||''),
+          updatedAt:Date.now(),
+          items:richItemsForSave(set.items||[]),
+          songMemory:(set.songMemory&&typeof set.songMemory==='object')?set.songMemory:{}
+        };
+      });
+      if(typeof sharedSetsRef!=='undefined'&&sharedSetsRef&&sharedSetsRef.set)sharedSetsRef.set(payload).catch(()=>toast('Sync failed',true));
+      try{
+        // Legacy /setlist gets the active set's songs only for old builds, but the rich /setlists path above is the source of truth.
+        const compat={};
+        const active=(typeof getActiveSet==='function')?getActiveSet('shared'):null;
+        richItemsForSave(active&&active.items||[]).filter(x=>x.type==='song'&&x.songId).forEach((item,i)=>{compat[`i${i}`]={songId:item.songId,order:i,setKey:item.setKey||'original'};});
+        if(typeof setlistRef!=='undefined'&&setlistRef&&setlistRef.set)setlistRef.set(compat).catch(()=>{});
+      }catch(e){}
+      try{if(typeof saveNamedSetsCache==='function')saveNamedSetsCache();else localStorage.setItem('wb_named_sets_cache_v1',JSON.stringify(_sharedSets));}catch(e){}
+    }catch(e){console.warn('Could not save rich shared sets',e);}
+  }
+  window.saveSharedSetsToFB=saveSharedSetsRich;
+  try{saveSharedSetsToFB=saveSharedSetsRich;}catch(e){}
+
+  // Reattach the shared named-set listener so Firebase rich data cannot be flattened by old handlers.
   try{
-    document.title='WorshipBase v72.8.1';
-    document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill')
-      .forEach(function(el){el.textContent='Version 72.8.1';});
+    if(false&&typeof sharedSetsRef!=='undefined'&&sharedSetsRef&&sharedSetsRef.off&&sharedSetsRef.on&&!sharedSetsRef.__wbV7256RichListener){// v72.8: disabled — listener managed by base source
+      sharedSetsRef.off('value');
+      sharedSetsRef.on('value',snap=>{
+        const d=snap.val();
+        if(d&&Object.keys(d).length){
+          const remembered=(appPrefs&&appPrefs.activeSharedSetId)||'default';
+          _sharedSets=normalizeSetMapRich(d,'Shared Set');
+          if(_sharedSets[remembered])appPrefs.activeSharedSetId=remembered;
+          try{ensureNamedSetState('shared');}catch(e){}
+          try{saveNamedSetsCache();}catch(e){}
+          try{pruneMissingSongsFromSets();}catch(e){}
+          try{if(activeTab==='setlist')renderSetList();}catch(e){}
+          try{renderNamedSetChooserUI();}catch(e){}
+        }
+      });
+      sharedSetsRef.__wbV7256RichListener=true;
+    }
+  }catch(e){console.warn('Could not attach rich shared set listener',e);}
+
+  const previousGetSongMemory=window.getSongMemory || (typeof getSongMemory==='function'?getSongMemory:null);
+  if(previousGetSongMemory&&!previousGetSongMemory.__wbV7256RichMerge){
+    window.getSongMemory=function(song){
+      const local=previousGetSongMemory.apply(this,arguments)||{};
+      let embedded={};
+      try{
+        const set=(typeof getActiveSet==='function')?getActiveSet(appPrefs.setListScope):null;
+        const mem=set&&set.songMemory&&typeof set.songMemory==='object'?set.songMemory:{};
+        memoryKeys(song||currentSong).forEach(k=>{embedded=mergeMemory(embedded,mem[k]);});
+      }catch(e){}
+      // Local values only override embedded values when they have actual content; empty local cue fields should not erase copied shared cues.
+      return mergeMemory(embedded,local);
+    };
+    window.getSongMemory.__wbV7256RichMerge=true;
+    try{getSongMemory=window.getSongMemory;}catch(e){}
+  }
+
+  window.copyActiveSetToOtherScope=function(){
+    try{
+      const from=(typeof setScopeKey==='function')?setScopeKey(appPrefs.setListScope):appPrefs.setListScope;
+      const to=from==='shared'?'personal':'shared';
+      const src=(typeof getActiveSet==='function')?getActiveSet(from):null;
+      if(!src){toast('No active set list to copy',true);return;}
+      const suggested=`${src.name||'Set'} (${(typeof getScopeLabel==='function')?getScopeLabel(to):to})`;
+      const name=(prompt(`Copy to ${(typeof getScopeLabel==='function')?getScopeLabel(to):to} as:`,suggested)||'').trim();
+      if(!name)return;
+      const sourceItems=(typeof getSetList==='function')?getSetList(from):(src.items||[]);
+      const items=richItems(sourceItems&&sourceItems.length?sourceItems:src.items||[],false);
+      const copied={name,notes:String(src.notes||''),items,songMemory:collectRichSongMemory(src,items),updatedAt:Date.now()};
+      const id=(typeof makeSetId==='function')?makeSetId():('set_'+Date.now().toString(36));
+      const sets={...((typeof getNamedSets==='function')?getNamedSets(to):{})};
+      sets[id]=copied;
+      if(to==='personal'){
+        _personalSets=sets;
+        appPrefs.activePersonalSetId=id;
+        try{savePersonalNamedSets();}catch(e){}
+      }else{
+        _sharedSets=sets;
+        appPrefs.activeSharedSetId=id;
+        saveSharedSetsRich();
+      }
+      try{savePrefs();}catch(e){}
+      try{renderNamedSetChooserUI();}catch(e){}
+      try{if(activeTab==='setlist')renderSetList();else refresh(false);}catch(e){}
+      const planCount=items.filter(x=>x.type==='section'||x.type==='item').length;
+      const memCount=Object.keys(copied.songMemory||{}).length;
+      toast(`Copied to ${((typeof getScopeLabel==='function')?getScopeLabel(to):to).toLowerCase()} set lists${planCount?` with ${planCount} section/service item${planCount!==1?'s':''}`:''}${memCount?` and notes/cues for ${memCount} song${memCount!==1?'s':''}`:''}`);
+    }catch(e){console.error(e);toast('Could not copy set list',true);}
+  };
+  try{copyActiveSetToOtherScope=window.copyActiveSetToOtherScope;}catch(e){}
+})();
+</script>
+
+<script id="wb-v72-5-7-rich-set-copy-fix">
+(function(){
+  const VERSION='72.5.8';
+
+  const originalFindSongById = window.findSongById || function(){return null;};
+  const originalGetSongMemory = window.getSongMemory || function(){return {};};
+
+  function nId(v){
+    try{
+      if(typeof normId==='function')return normId(v);
+    }catch(_){}
+    return String(v==null?'':v).trim();
+  }
+  function sKey(scope){
+    try{
+      if(typeof setScopeKey==='function')return setScopeKey(scope);
+    }catch(_){}
+    return scope==='personal'?'personal':'shared';
+  }
+  function now(){return Date.now();}
+  function clone(v){
+    try{return JSON.parse(JSON.stringify(v));}catch(_){return v;}
+  }
+  function hasText(v){return String(v||'').trim().length>0;}
+  function makeId(prefix){
+    try{if(typeof makeSetItemId==='function')return makeSetItemId(prefix);}catch(_){}
+    return prefix+'-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,7);
+  }
+  function safeSetKey(v){
+    try{if(typeof normSetKey==='function')return normSetKey(v);}catch(_){}
+    return String(v||'original').trim()||'original';
+  }
+
+  function rawSets(scope){
+    return sKey(scope)==='personal' ? (_personalSets||{}) : (_sharedSets||{});
+  }
+
+  function memoryHasContent(m){
+    return !!(m && (hasText(m.notes)||hasText(m.cues)||hasText(m.usualKey)||hasText(m.capo)||hasText(m.practiceStatus)));
+  }
+  function memorySongKeys(id){
+    const out=new Set();
+    const nid=nId(id);
+    if(nid)out.add(nid);
+    const s=originalFindSongById(nid);
+    if(s){
+      [s.id,s.fbKey,s.songId,s.localId].forEach(x=>{const n=nId(x);if(n)out.add(n);});
+    }
+    return Array.from(out);
+  }
+  function cleanMemory(m){
+    if(!m||typeof m!=='object')return {};
+    return {
+      notes:String(m.notes||''),
+      cues:String(m.cues||''),
+      usualKey:String(m.usualKey||''),
+      capo:String(m.capo||''),
+      practiceStatus:String(m.practiceStatus||'')
+    };
+  }
+
+  function cleanSongSnapshot(song,fallbackId){
+    if(!song||typeof song!=='object')return null;
+    const id=nId(song.id||song.songId||fallbackId||song.fbKey||song.title);
+    if(!id)return null;
+    const snap={};
+    [
+      'id','fbKey','songId','title','author','key','cat','songCode','timeSig','timeSignature','bpm',
+      'chart','lyrics','body','content','spotifyUrl','youtubeUrl','source','librarySource','localOnly'
+    ].forEach(k=>{
+      if(song[k]!==undefined && song[k]!==null)snap[k]=song[k];
+    });
+    snap.id=nId(snap.id||id);
+    if(!snap.songId)snap.songId=snap.id;
+    if(!snap.title)snap.title='Untitled song';
+    if(!snap.key)snap.key='C';
+    if(!snap.cat)snap.cat='english';
+    if(song.localOnly || song.librarySource==='my' || song.source==='my')snap.localOnly=true;
+    return snap;
+  }
+
+  function snapshotFromItem(item){
+    if(!item||typeof item!=='object')return null;
+    const raw=item.songSnapshot || item.snapshot || item.song || null;
+    const fromItem=cleanSongSnapshot(raw,item.songId||item.id);
+    if(fromItem)return fromItem;
+    const song=originalFindSongById(nId(item.songId||item.id));
+    return cleanSongSnapshot(song,item.songId||item.id);
+  }
+
+  function normalizeRichItem(item,order){
+    if(typeof item==='string' || typeof item==='number'){
+      item={type:'song',songId:item,order:order};
+    }
+    if(!item || typeof item!=='object')return null;
+    const kind = item.type==='section' ? 'section' : ((item.type==='item'||item.type==='service'||item.type==='placeholder') ? 'item' : 'song');
+
+    if(kind==='section'){
+      return {
+        type:'section',
+        id:String(item.id||makeId('section')),
+        title:String(item.title||item.label||'Section').trim()||'Section',
+        order:item.order!=null?item.order:order
+      };
+    }
+
+    if(kind==='item'){
+      return {
+        type:'item',
+        id:String(item.id||makeId('item')),
+        title:String(item.title||item.label||'Service item').trim()||'Service item',
+        note:String(item.note||item.description||'').trim(),
+        order:item.order!=null?item.order:order
+      };
+    }
+
+    const sid=nId(item.songId||item.id||item.fbKey);
+    if(!sid)return null;
+    const snap=snapshotFromItem({...item,songId:sid});
+    const out={
+      type:'song',
+      songId:sid,
+      order:item.order!=null?item.order:order,
+      setKey:safeSetKey(item.setKey)
+    };
+    if(snap)out.songSnapshot=snap;
+    if(item.songMemory&&typeof item.songMemory==='object')out.songMemory=cleanMemory(item.songMemory);
+    return out;
+  }
+
+  function normalizeRichItems(arr,withSnapshots){
+    return (Array.isArray(arr)?arr:[]).map((item,i)=>{
+      const x=normalizeRichItem(item,i);
+      if(!x)return null;
+      if(withSnapshots && x.type==='song' && !x.songSnapshot){
+        const snap=snapshotFromItem(x);
+        if(snap)x.songSnapshot=snap;
+      }
+      return x;
+    }).filter(Boolean);
+  }
+
+  function itemResolvable(item){
+    if(!item)return false;
+    if(item.type==='section'||item.type==='item')return true;
+    if(item.type==='song'&&item.songId){
+      if(item.songSnapshot)return true;
+      try{if(originalFindSongById(item.songId))return true;}catch(_){}
+      try{if(findSongSnapshotInSets(item.songId))return true;}catch(_){}
+    }
+    return false;
+  }
+
+  function findSongSnapshotInSetMap(map,id){
+    const ids=new Set(memorySongKeys(id));
+    ids.add(nId(id));
+    for(const set of Object.values(map||{})){
+      const items=Array.isArray(set&&set.items)?set.items:[];
+      for(const item of items){
+        if(!item||item.type!=='song')continue;
+        const snap=item.songSnapshot||item.snapshot||item.song;
+        const keys=[item.songId,item.id,snap&&snap.id,snap&&snap.fbKey,snap&&snap.songId].map(nId).filter(Boolean);
+        if(keys.some(k=>ids.has(k))){
+          const clean=cleanSongSnapshot(snap||item,item.songId);
+          if(clean)return clean;
+        }
+      }
+    }
+    return null;
+  }
+  function findSongSnapshotInSets(id){
+    return findSongSnapshotInSetMap(_sharedSets,id) || findSongSnapshotInSetMap(_personalSets,id);
+  }
+
+  window.findSongById = function(id){
+    const nid=nId(id);
+    const found=originalFindSongById(nid);
+    if(found)return found;
+    const snap=findSongSnapshotInSets(nid);
+    if(!snap)return null;
+    return Object.assign({}, snap, {id:nId(snap.id||nid), embeddedSnapshot:true});
+  };
+
+  window.songExistsInLibrary = function(id){
+    const nid=nId(id);
+    return !!(originalFindSongById(nid) || findSongSnapshotInSets(nid));
+  };
+
+  window.normalizeSetArray = function(arr){
+    return normalizeRichItems(arr,true);
+  };
+
+  window.filterSetItemsToExistingSongs = function(items){
+    return normalizeRichItems(items,true).filter(itemResolvable);
+  };
+
+  window.getSetList = function(scope){
+    const set = (typeof getActiveSet==='function') ? getActiveSet(scope||appPrefs.setListScope) : null;
+    return normalizeRichItems((set&&set.items)||[],true).filter(itemResolvable);
+  };
+
+  window.getSetSongItems = function(scope){
+    return window.getSetList(scope).filter(x=>x.type==='song'&&x.songId);
+  };
+
+  window.pruneMissingSongsFromSets = function(){
+    /* v72.8: keep rich shared planning items and embedded My Song snapshots. */
+  };
+
+  function getEmbeddedMemoryForSong(id,preferredScope){
+    const ids=new Set(memorySongKeys(id));
+    ids.add(nId(id));
+    const scopes=[];
+    if(preferredScope)scopes.push(sKey(preferredScope));
+    if(appPrefs&&appPrefs.setListScope)scopes.push(sKey(appPrefs.setListScope));
+    scopes.push('shared','personal');
+    const seen=new Set();
+    for(const scope of scopes){
+      if(seen.has(scope))continue;
+      seen.add(scope);
+      const map=rawSets(scope);
+      const activeId = scope==='personal' ? (appPrefs&&appPrefs.activePersonalSetId) : (appPrefs&&appPrefs.activeSharedSetId);
+      const entries=Object.entries(map||{}).sort((a,b)=>((a[0]===activeId)?-1:0)+((b[0]===activeId)?1:0));
+      for(const [,set] of entries){
+        const sm=(set&&set.songMemory)||{};
+        for(const key of ids){
+          if(memoryHasContent(sm[key]))return cleanMemory(sm[key]);
+        }
+        for(const item of (set&&set.items)||[]){
+          if(!item||item.type!=='song')continue;
+          const snap=item.songSnapshot||item.snapshot||item.song;
+          const keys=[item.songId,item.id,snap&&snap.id,snap&&snap.fbKey,snap&&snap.songId].map(nId).filter(Boolean);
+          if(keys.some(k=>ids.has(k))){
+            if(memoryHasContent(item.songMemory))return cleanMemory(item.songMemory);
+          }
+        }
+      }
+    }
+    return {};
+  }
+
+  window.getSongMemory = function(songOrId){
+    const id=nId(typeof songOrId==='object' ? (songOrId.id||songOrId.songId||songOrId.fbKey) : songOrId);
+    const local=cleanMemory(originalGetSongMemory(songOrId));
+    const embedded=getEmbeddedMemoryForSong(id);
+    return memoryHasContent(embedded) ? Object.assign({}, local, embedded) : local;
+  };
+
+  function buildSongMemoryForItems(sourceSet,items){
+    const out={};
+    const existing=(sourceSet&&sourceSet.songMemory)||{};
+    const allKeys=new Set();
+    Object.keys(existing||{}).forEach(k=>allKeys.add(nId(k)));
+    for(const item of items){
+      if(!item||item.type!=='song'||!item.songId)continue;
+      const ids=memorySongKeys(item.songId);
+      if(item.songSnapshot){
+        [item.songSnapshot.id,item.songSnapshot.fbKey,item.songSnapshot.songId].forEach(x=>{const n=nId(x);if(n)ids.push(n);});
+      }
+      let mem={};
+      for(const id of ids){
+        if(memoryHasContent(existing[id])){mem=cleanMemory(existing[id]);break;}
+      }
+      if(!memoryHasContent(mem)&&memoryHasContent(item.songMemory))mem=cleanMemory(item.songMemory);
+      if(!memoryHasContent(mem))mem=getEmbeddedMemoryForSong(item.songId);
+      if(!memoryHasContent(mem))mem=cleanMemory(originalGetSongMemory(item.songId));
+      if(memoryHasContent(mem)){
+        ids.forEach(id=>{if(id){out[id]=mem;allKeys.add(id);}});
+        item.songMemory=mem;
+      }
+    }
+    return out;
+  }
+
+  function normalizeSetMapRich(raw,fallbackLabel){
+    const out={};
+    Object.entries(raw||{}).forEach(([id,val],idx)=>{
+      if(!val||typeof val!=='object')return;
+      const items=normalizeRichItems(val.items||val.songs||[],true).filter(itemResolvable);
+      out[id]={
+        name:String(val.name||fallbackLabel+' '+(idx+1)),
+        notes:String(val.notes||''),
+        items,
+        songMemory:Object.assign({}, val.songMemory||{}, buildSongMemoryForItems(val,items)),
+        updatedAt:Number(val.updatedAt||now())
+      };
+    });
+    return out;
+  }
+  window.normalizeNamedSetMap = normalizeSetMapRich;
+
+  function savePersonalSetsRich(){
+    try{localStorage.setItem(PERSONAL_SETS_KEY,JSON.stringify(_personalSets));}catch(_){}
+  }
+  window.savePersonalNamedSets = savePersonalSetsRich;
+
+  function saveSharedSetsRich(){
+    const payload={};
+    Object.entries(_sharedSets||{}).forEach(([id,set])=>{
+      const items=normalizeRichItems((set&&set.items)||[],true).filter(itemResolvable);
+      payload[id]={
+        name:(set&&set.name)||'Shared Set',
+        notes:String((set&&set.notes)||''),
+        updatedAt:now(),
+        items,
+        songMemory:Object.assign({}, (set&&set.songMemory)||{}, buildSongMemoryForItems(set,items))
+      };
+    });
+    try{sharedSetsRef.set(payload).catch(()=>showSync&&showSync('Sync failed',true));}catch(_){}
+    try{
+      const compat={};
+      const active=(typeof getSetSongItems==='function'?getSetSongItems('shared'):[]).filter(x=>x&&x.songId);
+      active.forEach((item,i)=>{compat['i'+i]={songId:item.songId,order:i,setKey:item.setKey||'original'};});
+      setlistRef.set(compat).catch(()=>{});
+    }catch(_){}
+    try{saveNamedSetsCache();}catch(_){}
+  }
+  window.saveSharedSetsToFB = saveSharedSetsRich;
+
+  window.modSetList = function(newArr,scope){
+    const sk=sKey(scope||appPrefs.setListScope);
+    const items=normalizeRichItems(newArr,true).filter(itemResolvable);
+    const sets=Object.assign({}, rawSets(sk));
+    const id=(typeof getActiveSetId==='function')?getActiveSetId(sk):(sk==='personal'?'default':'default');
+    const prev=sets[id]||{name:(sk==='personal'?'Personal Set':'Shared Set')};
+    sets[id]=Object.assign({}, prev, {
+      items,
+      songMemory:Object.assign({}, prev.songMemory||{}, buildSongMemoryForItems(prev,items)),
+      updatedAt:now()
+    });
+    if(sk==='personal'){_personalSets=sets;savePersonalSetsRich();}
+    else{_sharedSets=sets;saveSharedSetsRich();}
+    try{renderNamedSetChooserUI();}catch(_){}
+  };
+
+  window.addSongToNamedSet = function(id,scope){
+    const sk=sKey(scope||appPrefs.setListScope);
+    const set=(typeof getActiveSet==='function')?getActiveSet(sk):null;
+    const cur=normalizeRichItems((set&&set.items)||[],true).filter(itemResolvable);
+    const sid=nId(id);
+    if(!cur.some(x=>x.type==='song'&&nId(x.songId)===sid)){
+      const item=normalizeRichItem({type:'song',songId:sid,setKey:'original'},cur.length);
+      window.modSetList(cur.concat(item?[item]:[]),sk);
+    }
+  };
+
+  window.copyActiveSetToOtherScope = function(){
+    const from=sKey(appPrefs&&appPrefs.setListScope);
+    const to=from==='shared'?'personal':'shared';
+    const src=(typeof getActiveSet==='function')?getActiveSet(from):null;
+    if(!src)return;
+    const sourceItems=normalizeRichItems(src.items||[],true).filter(itemResolvable);
+    const copiedMemory=buildSongMemoryForItems(src,sourceItems);
+    const targetSets=Object.assign({}, rawSets(to));
+    const id='copy-'+Date.now().toString(36);
+    targetSets[id]={
+      name:(src.name||getScopeLabel(from)+' Set')+' copy',
+      notes:String(src.notes||''),
+      items:sourceItems,
+      songMemory:copiedMemory,
+      updatedAt:now()
+    };
+    if(to==='personal'){
+      _personalSets=targetSets;
+      appPrefs.activePersonalSetId=id;
+      savePersonalSetsRich();
+    }else{
+      _sharedSets=targetSets;
+      appPrefs.activeSharedSetId=id;
+      saveSharedSetsRich();
+    }
+    try{savePrefs();}catch(_){}
+    try{renderSetListScopeUI();renderNamedSetChooserUI();renderSetList();}catch(_){}
+    try{showToast('Copied to '+(to==='personal'?'personal':'shared')+' set list');}catch(_){}
+  };
+
+  try{
+    if(_personalSets)_personalSets=normalizeSetMapRich(_personalSets,'Set');
+    if(_sharedSets)_sharedSets=normalizeSetMapRich(_sharedSets,'Shared Set');
+    savePersonalSetsRich();
+    /* v72.8: do not write shared sets to Firebase during startup/migration.
+       That was overwriting rich shared set data with whatever local/cache state loaded first.
+       Shared sets are now written only after an explicit user change/copy/delete. */
+    try{saveNamedSetsCache();}catch(_){}
+  }catch(e){console.warn('v72.8 rich set migration skipped',e);}
+
+  try{
+    document.title='WorshipBase v'+VERSION;
+    document.querySelectorAll('.ver-pill,.version-pill').forEach(el=>{el.textContent='Version '+VERSION;});
   }catch(_){}
-  console.log('[WorshipBase] v72.8.1 loaded');
+})();
+</script>
+
+
+<script id="wb-v72-5-8-rich-shared-persist-fix">
+(function(){
+  'use strict';
+  const VERSION='72.5.8';
+  const BAD_KEY=/[.#$\/[\]]/g;
+  function n(v){try{if(typeof normId==='function')return normId(v);}catch(_){}return String(v==null?'':v).trim();}
+  function safeKey(v){const k=n(v);return k?k.replace(BAD_KEY,'_'):'';}
+  function clone(v){try{return JSON.parse(JSON.stringify(v));}catch(_){return v;}}
+  function has(v){return String(v||'').trim().length>0;}
+  function memHas(m){return !!(m&&typeof m==='object'&&(has(m.notes)||has(m.cues)||has(m.usualKey)||has(m.capo)||has(m.practiceStatus)));}
+  function cleanMem(m){return {notes:String((m&&m.notes)||''),cues:String((m&&m.cues)||''),usualKey:String((m&&m.usualKey)||''),capo:String((m&&m.capo)||''),practiceStatus:String((m&&m.practiceStatus)||'')};}
+  function makeId(prefix){try{if(typeof makeSetItemId==='function')return makeSetItemId(prefix);}catch(_){}return prefix+'-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,7);}
+  function safeSetKey(v){try{if(typeof normSetKey==='function')return normSetKey(v);}catch(_){}return String(v||'original').trim()||'original';}
+  function snapshot(song,fallback){
+    if(!song||typeof song!=='object')return null;
+    const id=n(song.id||song.songId||fallback||song.fbKey||song.title);
+    if(!id)return null;
+    const out={};
+    ['id','fbKey','songId','title','author','key','cat','songCode','timeSig','timeSignature','bpm','chart','lyrics','body','content','spotifyUrl','youtubeUrl','source','librarySource','localOnly'].forEach(k=>{if(song[k]!==undefined&&song[k]!==null)out[k]=song[k];});
+    out.id=n(out.id||id); if(!out.songId)out.songId=out.id; if(!out.title)out.title='Untitled song'; if(!out.key)out.key='C'; if(!out.cat)out.cat='english';
+    if(song.localOnly||song.librarySource==='my'||song.librarySource==='user'||song.source==='my')out.localOnly=true;
+    return out;
+  }
+  function findSnapshotInSets(id){
+    const ids=new Set([n(id)]);
+    try{const s=window.findSongById&&window.findSongById(id); if(s)[s.id,s.fbKey,s.songId,s.localId].forEach(x=>{const nx=n(x);if(nx)ids.add(nx);});}catch(_){}
+    for(const map of [window._sharedSets||_sharedSets||{}, window._personalSets||_personalSets||{}]){
+      for(const set of Object.values(map||{})){
+        for(const item of ((set&&set.items)||[])){
+          if(!item||item.type!=='song')continue;
+          const snap=item.songSnapshot||item.snapshot||item.song;
+          const keys=[item.songId,item.id,snap&&snap.id,snap&&snap.fbKey,snap&&snap.songId].map(n).filter(Boolean);
+          if(keys.some(k=>ids.has(k))){const s=snapshot(snap||item,item.songId); if(s)return s;}
+        }
+      }
+    }
+    return null;
+  }
+  function snapshotForItem(item){
+    const existing=snapshot(item&& (item.songSnapshot||item.snapshot||item.song), item&&item.songId);
+    if(existing)return existing;
+    try{const s=window.findSongById&&window.findSongById(item.songId||item.id); const snap=snapshot(s,item&&item.songId); if(snap)return snap;}catch(_){}
+    return findSnapshotInSets(item&&item.songId);
+  }
+  function normItem(item,idx,withSnapshot){
+    if(typeof item==='string'||typeof item==='number')item={type:'song',songId:item};
+    if(!item||typeof item!=='object')return null;
+    const kind=item.type==='section'?'section':((item.type==='item'||item.type==='service'||item.type==='placeholder')?'item':'song');
+    if(kind==='section')return {type:'section',id:String(item.id||makeId('section')),title:String(item.title||item.label||'Section').trim()||'Section',order:item.order!=null?item.order:idx};
+    if(kind==='item')return {type:'item',id:String(item.id||makeId('item')),title:String(item.title||item.label||'Service item').trim()||'Service item',note:String(item.note||item.description||'').trim(),order:item.order!=null?item.order:idx};
+    const sid=n(item.songId||item.id||item.fbKey); if(!sid)return null;
+    const out={type:'song',songId:sid,order:item.order!=null?item.order:idx,setKey:safeSetKey(item.setKey)};
+    const snap=withSnapshot?snapshotForItem(Object.assign({},item,{songId:sid})):snapshot(item.songSnapshot||item.snapshot||item.song,sid);
+    if(snap)out.songSnapshot=snap;
+    if(memHas(item.songMemory))out.songMemory=cleanMem(item.songMemory);
+    return out;
+  }
+  function normItems(items,withSnapshot){return (Array.isArray(items)?items:[]).map((x,i)=>normItem(x,i,withSnapshot)).filter(Boolean);}
+  function resolvable(item){
+    if(!item)return false;
+    if(item.type==='section'||item.type==='item')return true;
+    if(item.type==='song'&&item.songId){
+      if(item.songSnapshot)return true;
+      try{if(window.findSongById&&window.findSongById(item.songId))return true;}catch(_){}
+    }
+    return false;
+  }
+  function itemKeys(item){
+    const snap=item&&item.songSnapshot;
+    return [item&&item.songId,item&&item.id,snap&&snap.id,snap&&snap.fbKey,snap&&snap.songId].map(n).filter(Boolean);
+  }
+  function readMemoryForItem(set,item){
+    const sm=(set&&set.songMemory&&typeof set.songMemory==='object')?set.songMemory:{};
+    for(const k of itemKeys(item)){
+      if(memHas(sm[k]))return cleanMem(sm[k]);
+      const sk=safeKey(k); if(sk&&memHas(sm[sk]))return cleanMem(sm[sk]);
+    }
+    if(memHas(item&&item.songMemory))return cleanMem(item.songMemory);
+    try{const gm=window.getSongMemory&&window.getSongMemory(item.songSnapshot||item.songId); if(memHas(gm))return cleanMem(gm);}catch(_){}
+    return {};
+  }
+  function buildMemory(set,items){
+    const out={};
+    const existing=(set&&set.songMemory&&typeof set.songMemory==='object')?set.songMemory:{};
+    Object.keys(existing).forEach(k=>{const sk=safeKey(k); if(sk&&memHas(existing[k]))out[sk]=cleanMem(existing[k]);});
+    (items||[]).forEach(item=>{
+      if(!item||item.type!=='song')return;
+      const mem=readMemoryForItem(set,item);
+      if(!memHas(mem))return;
+      item.songMemory=cleanMem(mem);
+      itemKeys(item).forEach(k=>{const sk=safeKey(k); if(sk)out[sk]=cleanMem(mem);});
+    });
+    return out;
+  }
+  function normalizeSetMap(raw,fallback){
+    const out={};
+    Object.entries(raw||{}).forEach(([id,set],idx)=>{
+      if(!set||typeof set!=='object')return;
+      const items=normItems(set.items||set.songs||[],true).filter(resolvable);
+      out[id]={name:String(set.name||fallback+' '+(idx+1)),notes:String(set.notes||''),items,songMemory:Object.assign({},buildMemory(set,items)),updatedAt:Number(set.updatedAt||Date.now())};
+    });
+    return out;
+  }
+  window.normalizeNamedSetMap=normalizeSetMap;
+  try{normalizeNamedSetMap=normalizeSetMap;}catch(_){}
+  window.normalizeSetArray=function(items){return normItems(items,true);};
+  window.filterSetItemsToExistingSongs=function(items){return normItems(items,true).filter(resolvable);};
+  window.getSetList=function(scope){const set=(typeof getActiveSet==='function')?getActiveSet(scope||appPrefs.setListScope):null;return normItems((set&&set.items)||[],true).filter(resolvable);};
+  window.getSetSongItems=function(scope){return window.getSetList(scope).filter(x=>x.type==='song'&&x.songId);};
+  window.pruneMissingSongsFromSets=function(){};
+
+  function cacheShared(){try{if(typeof saveNamedSetsCache==='function')saveNamedSetsCache();else localStorage.setItem('wb_named_sets_cache_v1',JSON.stringify(_sharedSets));}catch(_){}}
+  function saveSharedSetsRich(){
+    const payload={};
+    Object.entries((typeof _sharedSets!=='undefined'&&_sharedSets)||{}).forEach(([id,set])=>{
+      const items=normItems((set&&set.items)||[],true).filter(resolvable);
+      payload[id]={name:(set&&set.name)||'Shared Set',notes:String((set&&set.notes)||''),updatedAt:Date.now(),items,songMemory:buildMemory(set,items)};
+    });
+    try{if(typeof sharedSetsRef!=='undefined'&&sharedSetsRef&&sharedSetsRef.set)sharedSetsRef.set(payload).catch(()=>{try{showSync('Sync failed',true);}catch(_){}});}catch(_){ }
+    try{const active=(typeof getActiveSet==='function')?getActiveSet('shared'):null;const compat={};normItems((active&&active.items)||[],true).filter(x=>x.type==='song'&&x.songId).forEach((item,i)=>{compat['i'+i]={songId:item.songId,order:i,setKey:item.setKey||'original'};});if(typeof setlistRef!=='undefined'&&setlistRef&&setlistRef.set)setlistRef.set(compat).catch(()=>{});}catch(_){ }
+    cacheShared();
+  }
+  window.saveSharedSetsToFB=saveSharedSetsRich;
+  try{saveSharedSetsToFB=saveSharedSetsRich;}catch(_){}
+
+  window.modSetList=function(newArr,scope){
+    const sk=(typeof setScopeKey==='function')?setScopeKey(scope||appPrefs.setListScope):(scope||appPrefs.setListScope||'shared');
+    const map=sk==='personal'?(_personalSets||{}):(_sharedSets||{});
+    const id=(typeof getActiveSetId==='function')?getActiveSetId(sk):(sk==='personal'?'default':'default');
+    const prev=map[id]||{name:sk==='personal'?'My Set':'Shared Set'};
+    const items=normItems(newArr,true).filter(resolvable);
+    const next=Object.assign({},prev,{items,songMemory:Object.assign({},prev.songMemory||{},buildMemory(prev,items)),updatedAt:Date.now()});
+    const nextMap=Object.assign({},map,{[id]:next});
+    if(sk==='personal'){_personalSets=nextMap;try{savePersonalNamedSets();}catch(_){try{localStorage.setItem(PERSONAL_SETS_KEY,JSON.stringify(_personalSets));}catch(__){}}}
+    else{_sharedSets=nextMap;saveSharedSetsRich();}
+    try{renderNamedSetChooserUI();}catch(_){}
+  };
+
+  window.copyActiveSetToOtherScope=function(){
+    const from=(typeof setScopeKey==='function')?setScopeKey(appPrefs.setListScope):appPrefs.setListScope;
+    const to=from==='shared'?'personal':'shared';
+    const src=(typeof getActiveSet==='function')?getActiveSet(from):null;
+    if(!src){try{showToast('No active set list to copy');}catch(_){} return;}
+    const suggested=(src.name||'Set')+' ('+(to==='personal'?'Personal':'Shared')+')';
+    const name=(prompt('Copy to '+(to==='personal'?'Personal':'Shared')+' as:',suggested)||'').trim();
+    if(!name)return;
+    const sourceItems=normItems((src.items&&src.items.length?src.items:(window.getSetList?window.getSetList(from):[])),true).filter(resolvable);
+    const id=(typeof makeSetId==='function')?makeSetId():('set_'+Date.now().toString(36));
+    const copied={name,notes:String(src.notes||''),items:clone(sourceItems),songMemory:buildMemory(src,sourceItems),updatedAt:Date.now()};
+    const target=Object.assign({},to==='personal'?(_personalSets||{}):(_sharedSets||{}));
+    target[id]=copied;
+    if(to==='personal'){_personalSets=target;appPrefs.activePersonalSetId=id;try{savePersonalNamedSets();}catch(_){}}
+    else{_sharedSets=target;appPrefs.activeSharedSetId=id;saveSharedSetsRich();}
+    try{savePrefs();}catch(_){}
+    try{renderSetListScopeUI();renderNamedSetChooserUI();if(activeTab==='setlist')renderSetList();else refresh(false);}catch(_){}
+    try{showToast('Copied to '+(to==='personal'?'personal':'shared')+' set list');}catch(_){}
+  };
+  try{copyActiveSetToOtherScope=window.copyActiveSetToOtherScope;}catch(_){}
+
+  // v72.8: listener registration disabled here — managed by base source listener
+  // (original block neutralised to prevent duplicate handlers)
+  try{document.title='WorshipBase v'+VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(el=>{el.textContent='Version '+VERSION;});}catch(_){}
+})();
+</script>
+
+<script id="wb-v72-7-1-rich-set-fix">
+/*
+  v72.8 — Rich set-list fix (function overrides only).
+  Listener fixes are applied directly in the base source above.
+  This block overrides: normalizeNamedSetMap, normalizeSetArray,
+  filterSetItemsToExistingSongs, findSongById, songExistsInLibrary,
+  getSetList, getSetSongItems, saveSharedSetsToFB, modSetList,
+  removeFromSet, removeSongFromNamedSet, pruneMissingSongsFromSets,
+  copyActiveSetToOtherScope.
+*/
+(function(){
+  'use strict';
+  const VERSION = '72.8';
+
+  /* ── helpers ──────────────────────────────────────────────────────────── */
+  function nId(v){try{return typeof normId==='function'?normId(v):String(v==null?'':v).trim();}catch(_){return String(v==null?'':v).trim();}}
+  function toast(msg){try{showToast(msg);}catch(_){}}
+  function has(v){return String(v||'').trim().length>0;}
+  function memHas(m){return !!(m&&typeof m==='object'&&(has(m.notes)||has(m.cues)||has(m.usualKey)||has(m.capo)||has(m.practiceStatus)));}
+  function cleanMem(m){return {notes:String((m&&m.notes)||''),cues:String((m&&m.cues)||''),usualKey:String((m&&m.usualKey)||''),capo:String((m&&m.capo)||''),practiceStatus:String((m&&m.practiceStatus)||'')};}
+  function cloneJSON(v){try{return JSON.parse(JSON.stringify(v));}catch(_){return v;}}
+  function makeId(prefix){try{return makeSetItemId(prefix);}catch(_){return prefix+'_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7);}}
+  function safeSetKey(v){try{return normSetKey(v);}catch(_){return(v==='default'||v==='original')?v:'original';}}
+
+  /* ── song snapshot helpers ────────────────────────────────────────────── */
+  const _origFind = window.findSongById || (typeof findSongById==='function'?findSongById:()=>null);
+
+  function cleanSnap(song, fallbackId){
+    if(!song||typeof song!=='object')return null;
+    const id=nId(song.id||song.songId||song.localId||song.fbKey||fallbackId);
+    if(!id&&!song.title)return null;
+    const out={};
+    ['id','fbKey','songId','localId','title','author','key','cat','songCode','timeSig','timeSignature',
+     'bpm','chart','lyrics','body','content','spotifyUrl','youtubeUrl','source','librarySource','localOnly'
+    ].forEach(k=>{if(song[k]!=null)out[k]=song[k];});
+    out.id=nId(out.id||id);
+    if(!out.songId)out.songId=out.id;
+    if(!out.title)out.title='Untitled song';
+    if(!out.key)out.key='C';
+    if(!out.cat)out.cat='english';
+    if(song.localOnly||song.librarySource==='my'||song.librarySource==='user'||song.source==='my')out.localOnly=true;
+    return out;
+  }
+
+  function findSnapInMaps(id){
+    const needle=nId(id);
+    if(!needle)return null;
+    for(const map of [_sharedSets||{}, _personalSets||{}]){
+      for(const set of Object.values(map)){
+        for(const item of (set&&set.items)||[]){
+          if(!item||item.type!=='song')continue;
+          const snap=item.songSnapshot||item.snapshot||item.song;
+          const keys=[item.songId,item.id,snap&&snap.id,snap&&snap.fbKey,snap&&snap.songId,snap&&snap.localId].map(nId).filter(Boolean);
+          if(keys.includes(needle)){const s=cleanSnap(snap||item,item.songId);if(s)return s;}
+        }
+      }
+    }
+    return null;
+  }
+
+  function snapForItem(item){
+    const direct=cleanSnap(item&&(item.songSnapshot||item.snapshot||item.song),item&&item.songId);
+    if(direct)return direct;
+    try{const s=_origFind(nId(item&&(item.songId||item.id)));const c=cleanSnap(s,item&&item.songId);if(c)return c;}catch(_){}
+    return findSnapInMaps(item&&(item.songId||item.id));
+  }
+
+  /* patched findSongById — falls back to embedded snapshots */
+  window.findSongById=function(id){
+    const nid=nId(id);
+    const found=_origFind(nid);
+    if(found)return found;
+    const snap=findSnapInMaps(nid);
+    if(!snap)return null;
+    return Object.assign({},snap,{id:nId(snap.id||nid),embeddedSnapshot:true});
+  };
+  try{findSongById=window.findSongById;}catch(_){}
+
+  window.songExistsInLibrary=function(id){return !!window.findSongById(nId(id));};
+  try{songExistsInLibrary=window.songExistsInLibrary;}catch(_){}
+
+  /* ── item normaliser ──────────────────────────────────────────────────── */
+  function normItem(item, idx){
+    if(typeof item==='string'||typeof item==='number')item={type:'song',songId:item};
+    if(!item||typeof item!=='object')return null;
+    const kind=item.type==='section'?'section':
+               (item.type==='item'||item.type==='service'||item.type==='placeholder'?'item':'song');
+    if(kind==='section')return{type:'section',id:String(item.id||makeId('section')),title:String(item.title||item.label||'Section').trim()||'Section',order:idx};
+    if(kind==='item')return{type:'item',id:String(item.id||makeId('item')),title:String(item.title||item.label||'Service item').trim()||'Service item',note:String(item.note||item.description||'').trim(),order:idx};
+    const sid=nId(item.songId||item.id||item.fbKey);
+    if(!sid)return null;
+    const out={type:'song',songId:sid,setKey:safeSetKey(item.setKey),order:idx};
+    const snap=snapForItem(Object.assign({},item,{songId:sid}));
+    if(snap)out.songSnapshot=snap;
+    if(memHas(item.songMemory))out.songMemory=cleanMem(item.songMemory);
+    return out;
+  }
+
+  function normItems(arr){
+    return (Array.isArray(arr)?arr:[]).map((x,i)=>normItem(x,i)).filter(Boolean).map((x,i)=>Object.assign(x,{order:i}));
+  }
+
+  function resolvable(item){
+    if(!item)return false;
+    if(item.type==='section'||item.type==='item')return true;
+    if(item.type==='song'&&item.songId){
+      if(item.songSnapshot)return true;
+      try{if(window.findSongById(item.songId))return true;}catch(_){}
+    }
+    return false;
+  }
+
+  window.normalizeSetArray=function(arr){return normItems(arr);};
+  try{normalizeSetArray=window.normalizeSetArray;}catch(_){}
+
+  window.filterSetItemsToExistingSongs=function(items){return normItems(items).filter(resolvable);};
+  try{filterSetItemsToExistingSongs=window.filterSetItemsToExistingSongs;}catch(_){}
+
+  /* ── song memory helpers ──────────────────────────────────────────────── */
+  function memKeysForSong(songOrId){
+    const keys=new Set();
+    try{
+      const id=nId(typeof songOrId==='object'?(songOrId.id||songOrId.songId||songOrId.localId||songOrId.fbKey):songOrId);
+      if(id)keys.add(id);
+      if(songOrId&&typeof songOrId==='object'){[songOrId.fbKey,songOrId.songId,songOrId.localId].forEach(x=>{const k=nId(x);if(k)keys.add(k);});}
+      try{const k=nId(typeof memorySongId==='function'?memorySongId(songOrId):'');if(k)keys.add(k);}catch(_){}
+    }catch(_){}
+    return Array.from(keys).filter(Boolean);
+  }
+
+  function buildSongMemory(sourceSet, items){
+    const out={};
+    const existing=(sourceSet&&sourceSet.songMemory&&typeof sourceSet.songMemory==='object')?sourceSet.songMemory:{};
+    // carry forward all existing entries
+    Object.keys(existing).forEach(k=>{const nk=nId(k);if(nk&&memHas(existing[k]))out[nk]=cleanMem(existing[k]);});
+    try{
+      const localMem=typeof loadSongMemory==='function'?loadSongMemory():{};
+      (items||[]).forEach(item=>{
+        if(!item||item.type!=='song'||!item.songId)return;
+        const song=window.findSongById(item.songId);
+        const keys=memKeysForSong(song||item.songId);
+        let mem={};
+        for(const k of keys){if(memHas(existing[k])){mem=cleanMem(existing[k]);break;}}
+        if(!memHas(mem)&&memHas(item.songMemory))mem=cleanMem(item.songMemory);
+        if(!memHas(mem)){for(const k of keys){if(memHas(localMem[k])){mem=cleanMem(localMem[k]);break;}}}
+        if(memHas(mem)){
+          item.songMemory=cleanMem(mem);
+          keys.forEach(k=>{if(k)out[k]=Object.assign({},cleanMem(mem),{songId:k,title:(song&&song.title)||mem.title||''});});
+        }
+      });
+    }catch(e){console.warn('[wb-v72.8] buildSongMemory',e);}
+    return out;
+  }
+
+  /* ── normalizeNamedSetMap — used by the patched sharedSetsRef listener ── */
+  function normalizeSetMap(raw, fallbackLabel){
+    const out={};
+    Object.entries(raw||{}).forEach(([id,set],idx)=>{
+      if(!set||typeof set!=='object')return;
+      const items=normItems(set.items||set.songs||[]).filter(resolvable);
+      out[id]={
+        name:String(set.name||fallbackLabel+' '+(idx+1)),
+        notes:String(set.notes||''),
+        items,
+        songMemory:Object.assign({},buildSongMemory(set,items)),
+        updatedAt:Number(set.updatedAt||Date.now())
+      };
+    });
+    return out;
+  }
+  window.normalizeNamedSetMap=normalizeSetMap;
+  try{normalizeNamedSetMap=normalizeSetMap;}catch(_){}
+
+  /* ── getSetList — returns rich items ──────────────────────────────────── */
+  window.getSetList=function(scope){
+    const set=typeof getActiveSet==='function'?getActiveSet(scope||appPrefs.setListScope):null;
+    return normItems((set&&set.items)||[]).filter(resolvable);
+  };
+  try{getSetList=window.getSetList;}catch(_){}
+
+  window.getSetSongItems=function(scope){return window.getSetList(scope).filter(x=>x.type==='song'&&x.songId);};
+  try{getSetSongItems=window.getSetSongItems;}catch(_){}
+
+  /* ── saveSharedSetsToFB — rich save to /setlists only ─────────── */
+  function saveSharedRich(){
+    const payload={};
+    Object.entries(_sharedSets||{}).forEach(([id,set])=>{
+      const items=normItems((set&&set.items)||[]).filter(resolvable);
+      payload[id]={
+        name:(set&&set.name)||'Shared Set',
+        notes:String((set&&set.notes)||''),
+        updatedAt:Date.now(),
+        items,
+        songMemory:buildSongMemory(set,items)
+      };
+    });
+    try{
+      if(typeof sharedSetsRef!=='undefined'&&sharedSetsRef&&sharedSetsRef.set){
+        const planTotal=Object.values(payload).reduce((n,s)=>n+(s.items||[]).filter(x=>x.type==='section'||x.type==='item').length,0);
+        sharedSetsRef.set(payload)
+          .then(()=>{try{showSync(planTotal?'Shared set saved · '+planTotal+' planning item'+(planTotal===1?'':'s'):'Shared set saved');}catch(_){}})
+          .catch(err=>{console.error('[wb-v72.8] Firebase write failed',err);try{showSync('Sync failed',true);}catch(_){};});
+      }
+    }catch(e){console.error('[wb-v72.8] saveSharedRich',e);}
+    // v72.8: intentionally no /setlist compatibility write. /setlists is the only source of truth.
+    try{if(typeof saveNamedSetsCache==='function')saveNamedSetsCache();}catch(_){}
+  }
+  window.saveSharedSetsToFB=saveSharedRich;
+  try{saveSharedSetsToFB=saveSharedRich;}catch(_){}
+  window.saveSetListToFB=saveSharedRich;
+
+  /* ── modSetList — keeps sections/items on every update ───────────────── */
+  window.modSetList=function(newArr,scope){
+    const sk=(scope||appPrefs.setListScope||'shared')==='personal'?'personal':'shared';
+    const items=normItems(newArr).filter(resolvable);
+    const sets=Object.assign({},sk==='personal'?_personalSets:_sharedSets);
+    const id=typeof getActiveSetId==='function'?getActiveSetId(sk):'default';
+    const prev=sets[id]||{name:sk==='personal'?'My Set':'Shared Set'};
+    sets[id]=Object.assign({},prev,{items,songMemory:buildSongMemory(prev,items),updatedAt:Date.now()});
+    if(sk==='personal'){
+      _personalSets=sets;
+      try{savePersonalNamedSets();}catch(_){try{localStorage.setItem('wb_personal_sets_v1',JSON.stringify(_personalSets));}catch(__){}}
+    }else{
+      _sharedSets=sets;
+      saveSharedRich();
+    }
+    try{renderNamedSetChooserUI();}catch(_){}
+  };
+  try{modSetList=window.modSetList;}catch(_){}
+
+  /* ── removeFromSet — only removes the matched song ───────────────────── */
+  window.removeFromSet=function(id){
+    const sid=nId(id);
+    const song=window.findSongById(sid);
+    if(typeof confirmDestructive==='function'){
+      if(!confirmDestructive('Remove "'+(song&&song.title?song.title:'this song')+'" from this set list?'))return;
+    }
+    window.modSetList(window.getSetList(appPrefs.setListScope).filter(x=>!(x.type==='song'&&nId(x.songId)===sid)),appPrefs.setListScope);
+    try{renderSetList();}catch(_){}
+  };
+  try{removeFromSet=window.removeFromSet;}catch(_){}
+
+  window.removeSongFromNamedSet=function(id,scope){
+    const sid=nId(id);
+    window.modSetList(window.getSetList(scope).filter(x=>!(x.type==='song'&&nId(x.songId)===sid)),scope);
+  };
+  try{removeSongFromNamedSet=window.removeSongFromNamedSet;}catch(_){}
+
+  /* ── pruneMissingSongsFromSets — safe, never drops sections/items ─────── */
+  window.pruneMissingSongsFromSets=function(){
+    function clean(map){
+      const out={}; let changed=false;
+      Object.entries(map||{}).forEach(([id,set])=>{
+        const before=normItems(set.items||[]);
+        const after=before.filter(resolvable);
+        if(after.length!==before.length)changed=true;
+        out[id]=Object.assign({},set,{items:after});
+      });
+      return{out,changed};
+    }
+    try{const r=clean(_personalSets);if(r.changed){_personalSets=r.out;savePersonalNamedSets();}}catch(_){}
+    try{const r=clean(_sharedSets);if(r.changed){_sharedSets=r.out;saveSharedRich();}}catch(_){}
+  };
+  try{pruneMissingSongsFromSets=window.pruneMissingSongsFromSets;}catch(_){}
+
+  /* ── copyActiveSetToOtherScope ────────────────────────────────────────── */
+  window.copyActiveSetToOtherScope=function(){
+    const from=(appPrefs.setListScope||'shared')==='personal'?'personal':'shared';
+    const to=from==='shared'?'personal':'shared';
+    const src=typeof getActiveSet==='function'?getActiveSet(from):null;
+    if(!src){toast('No active set list to copy');return;}
+    const toLabel=to==='personal'?'Personal':'Shared';
+    const suggested=(src.name||'Set')+' ('+toLabel+')';
+    const name=(prompt('Copy to '+toLabel+' as:',suggested)||'').trim();
+    if(!name)return;
+
+    // Use raw src.items (not getSetList which re-filters) so we don't lose anything
+    const items=normItems(src.items||[]).filter(resolvable);
+    const mem=buildSongMemory(src,items);
+    const id=typeof makeSetId==='function'?makeSetId():('set_'+Date.now().toString(36));
+    const copied={name,notes:String(src.notes||''),items:cloneJSON(items),songMemory:mem,updatedAt:Date.now()};
+
+    const target=Object.assign({},to==='personal'?(_personalSets||{}):(_sharedSets||{}));
+    target[id]=copied;
+
+    if(to==='personal'){
+      _personalSets=target;
+      appPrefs.activePersonalSetId=id;
+      try{savePersonalNamedSets();}catch(_){try{localStorage.setItem('wb_personal_sets_v1',JSON.stringify(_personalSets));}catch(__){}}
+    }else{
+      _sharedSets=target;
+      appPrefs.activeSharedSetId=id;
+      saveSharedRich();
+    }
+    try{savePrefs();}catch(_){}
+    try{renderSetListScopeUI();}catch(_){}
+    try{renderNamedSetChooserUI();}catch(_){}
+    try{if(activeTab==='setlist')renderSetList();else refresh(false);}catch(_){}
+
+    const songs=items.filter(x=>x.type==='song').length;
+    const plan=items.filter(x=>x.type==='section'||x.type==='item').length;
+    const mySongs=items.filter(x=>x.type==='song'&&x.songSnapshot&&x.songSnapshot.localOnly).length;
+    const mems=Object.keys(mem).length;
+    let msg='Copied to '+toLabel.toLowerCase()+' · '+songs+' song'+(songs===1?'':'s');
+    if(plan)msg+=' · '+plan+' planning item'+(plan===1?'':'s');
+    if(mySongs)msg+=' · '+mySongs+' My Song snapshot'+(mySongs===1?'':'s');
+    if(mems)msg+=' · '+mems+' note/cue'+(mems===1?'':'s');
+    toast(msg);
+    console.log('[wb-v72.8] copy',{from,to,songs,plan,mySongs,mems,firebasePath:'/setlists/'+id});
+  };
+  try{copyActiveSetToOtherScope=window.copyActiveSetToOtherScope;}catch(_){}
+
+  /* ── re-normalise already-loaded data through rich normaliser ─────────── */
+  try{if(_personalSets&&Object.keys(_personalSets).length)_personalSets=normalizeSetMap(_personalSets,'Set');}catch(_){}
+  try{if(_sharedSets&&Object.keys(_sharedSets).length)_sharedSets=normalizeSetMap(_sharedSets,'Shared Set');}catch(_){}
+  try{savePersonalNamedSets();}catch(_){}
+  try{saveNamedSetsCache();}catch(_){} // cache only — do NOT write shared sets to Firebase on startup
+
+  /* ── version stamp ────────────────────────────────────────────────────── */
+  try{
+    document.title='WorshipBase v'+VERSION;
+    document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(el=>{el.textContent='Version '+VERSION;});
+  }catch(_){}
+  console.log('[WorshipBase] v72.8 rich set-list fix applied');
 })();
 </script>
 
