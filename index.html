@@ -10,7 +10,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="assets/wb-icon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
 
-<title>WorshipBase v74.5</title>
+<title>WorshipBase v74.6.1</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 /* Prevent iOS long-press/callout menus and text selection on UI chrome
@@ -3088,7 +3088,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
       <div class="wm">
         <div><div class="wm-name">WorshipBase</div><div class="wm-sub">Chord Library</div></div>
       </div>
-      <button class="hdr-btn" style="display: none;" onclick="openAddSongMenu(event)" id="hdr-add-btn" title="Add song" aria-label="Add song">
+      <button class="hdr-btn" style="display: flex;" onclick="openAddSongMenu(event)" id="hdr-add-btn" title="Add song" aria-label="Add song">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 5v14M5 12h14"></path>
         </svg>
@@ -3118,7 +3118,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   </div>
 
   <!-- Search + library filters -->
-  <div class="srch-wrap" id="srch-wrap" style="display: none;">
+  <div class="srch-wrap" id="srch-wrap" style="display: block;">
     <div class="srch-row">
       <div class="srch-inner">
         <span class="srch-ico"><svg width="14" height="14" viewBox="0 0 15 15" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 10L13 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg></span>
@@ -3135,7 +3135,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
         </select>
       </label>
     </div>
-    <div class="filter-row" id="library-filter-row" style="display: none;">
+    <div class="filter-row" id="library-filter-row" style="display: flex;">
       <button class="filter-chip active" data-filter="all" onclick="setLibraryFilter('all',this)">All</button>
       <button class="filter-chip" data-filter="mine" onclick="setLibraryFilter('mine',this)">My Songs</button>
       <button class="filter-chip" data-filter="english" onclick="setLibraryFilter('english',this)">English</button>
@@ -3155,7 +3155,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   </div>
 
   <!-- SONG LIST -->
-  <div id="song-section" style="flex: 1 1 0%; display: none; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;">
+  <div id="song-section" style="flex: 1 1 0%; display: flex; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;">
     <div class="vs-host ptr-wrap">
       <div id="ptr-indicator"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2v4M9 2l-2 2M9 2l2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16 9a7 7 0 1 1-7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg></div>
       <div id="vscroll" class="vs-wrap" style="-webkit-overflow-scrolling: touch;"><div class="library-count-row" id="library-count-row"><span class="song-count" id="song-count">73 songs</span></div><div id="home-quick-wrap" class="home-quick-wrap" style="display: flex;">
@@ -3176,7 +3176,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   </div>
 
   <!-- SET LIST -->
-  <div id="setlist-section" style="display: flex; flex: 1 1 0%; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;">
+  <div id="setlist-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;position:relative;min-height:0;">
     <div class="sl-scope-row">
       <div class="sl-scope-pills">
         <button class="sl-scope-btn active" id="sl-scope-shared" onclick="setSetListScope('shared')">Shared</button>
@@ -3185,13 +3185,13 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
     </div>
     <div class="sl-setbar">
       <button class="sl-setpick" type="button" onclick="openBS('sets')">
-        <span class="sl-setpick-copy"><span class="sl-setpick-title" id="sl-active-set-name">Backup test (Shared)</span><span class="sl-setpick-sub" id="sl-active-set-sub">Planning board</span><span class="setlist-set-note-chip" style="display: inline-flex;">Notes</span></span>
+        <span class="sl-setpick-copy"><span class="sl-setpick-title" id="sl-active-set-name">Backup test (Shared)</span><span class="sl-setpick-sub" id="sl-active-set-sub">2 set lists · Shared</span></span>
         <span class="sl-setpick-caret"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
       </button>
     </div>
-    <div class="sl-hdr" style="--sl-align-left: 16px; --sl-align-right: 16px;">
+    <div class="sl-hdr">
       <div class="sl-hdr-meta" style="display: flex;">
-        <span class="sl-lbl" id="sl-count">13 songs</span><span id="sl-set-key-info" class="sl-set-key-info">Set key: G</span>
+        <span class="sl-lbl" id="sl-count">8 songs</span><span id="sl-set-key-info" class="sl-set-key-info"></span>
         
       </div>
       <div class="sl-btns">
@@ -3200,7 +3200,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
       </div>
     </div>
     <div class="sl-scroll-host vs-host">
-      <div style="position: absolute; inset: 0px; overflow: hidden auto; -webkit-overflow-scrolling: touch;"><div id="sl-items" class="sl-items"><div class="set-item set-section-item" data-kind="section" data-item-id="section-mon2xpck-1dxl6" data-v721-bound="1"><div class="drag-handle" aria-hidden="true"><span></span><span></span><span></span></div><div class="set-section-copy"><div class="set-section-title">Sunday school</div></div><button class="set-rm" aria-label="Remove section" title="Remove" type="button"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div><div class="set-item" data-id="-OrEur4DdgfSO0FBHYZD" data-kind="song"><div class="drag-handle" aria-hidden="true"><span></span><span></span><span></span></div><div class="set-info"><div class="set-title">10,000 Reasons</div><div class="set-meta">Matt Redman</div><div class="set-meta-row"><span class="set-key-note"><span class="song-id-badge">S138</span>&nbsp;<span class="lang-badge">EN</span></span><span class="set-meta-chips"></span></div></div><div class="set-actions"><button class="set-key-btn" type="button">Key G</button><button class="set-rm" aria-label="Remove from set list" title="Remove" type="button"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div></div><div class="set-item set-section-item" data-kind="section" data-item-id="section-mon2xx4w-r9ui7" data-v721-bound="1"><div class="drag-handle" aria-hidden="true"><span></span><span></span><span></span></div><div class="set-section-copy"><div class="set-section-title">Main service</div></div><button class="set-rm" aria-label="Remove section" title="Remove" type="button"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div><div class="set-item" data-id="-OrEur3i1saI7j89rxWe" data-kind="song"><div class="drag-handle" aria-hidden="true"><span></span><span></span><span></span></div><div class="set-info"><div class="set-title">Aanandamundenikk Aanandhamundenikku</div><div class="set-meta">Sadhu Kochukunju Upadesi</div><div class="set-meta-row"><span class="set-key-note"><span class="song-id-badge">S014</span>&nbsp;<span class="lang-badge">ML</span></span><span class="set-meta-chips"></span></div></div><div class="set-actions"><button class="set-key-btn override" type="button">Key G</button><button class="set-rm" aria-label="Remove from set list" title="Remove" type="button"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div></div><div class="set-item" data-id="-OrEur3sDqVGM-SElJBp" data-kind="song"><div class="drag-handle" aria-hidden="true"><span></span><span></span><span></span></div><div class="set-info"><div class="set-title">As the Deer</div><div class="set-meta">Martin J. Nystrom</div><div class="set-meta-row"><span class="set-key-note"><span class="song-id-badge">S188</span>&nbsp;<span class="lang-badge">EN</span></span><span class="set-meta-chips"></span></div></div><div class="set-actions"><button class="set-key-btn override" type="button">Key G</button><button class="set-rm" aria-label="Remove from set list" title="Remove" type="button"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div></div><div class="set-item set-section-item" data-kind="section" data-item-id="section-mon2ymmx-1a9cz" data-v721-bound="1"><div class="drag-handle" aria-hidden="true"><span></span><span></span><span></span></div><div class="set-section-copy"><div class="set-section-title">Main English</div></div><button class="set-rm" aria-label="Remove section" title="Remove" type="button"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div><div class="set-item" data-id="-OrK6lV_BNPjAUSUMV5s" data-kind="song"><div class="drag-handle" aria-hidden="true"><span></span><span></span><span></span></div><div class="set-info"><div class="set-title">Gratitude</div><div class="set-meta">Brandon Lake</div><div class="set-meta-row"><span class="set-key-note"><span class="song-id-badge">S223</span>&nbsp;<span class="lang-badge">EN</span></span><span class="set-meta-chips"></span></div></div><div class="set-actions"><button class="set-key-btn override" type="button">Key G</button><button class="set-rm" aria-label="Remove from set list" title="Remove" type="button"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div></div><div class="set-item set-placeholder-item" data-kind="item" data-item-id="item-mon2zd33-decda" data-v721-bound="1"><div class="drag-handle" aria-hidden="true"><span></span><span></span><span></span></div><div class="set-info"><div class="set-title">Psalm reading</div><div class="set-meta">Psalms 139</div></div><div class="set-actions"><button class="set-rm" aria-label="Remove item" title="Remove" type="button"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div></div><div class="set-item" data-id="-OrEur3nBN9L1Qbls3z3" data-kind="song"><div class="drag-handle" aria-hidden="true"><span></span><span></span><span></span></div><div class="set-info"><div class="set-title">Manna Jaya Jaya</div><div class="set-meta-row"><span class="set-key-note"><span class="song-id-badge">S182</span>&nbsp;<span class="lang-badge">ML</span></span><span class="set-meta-chips"></span></div></div><div class="set-actions"><button class="set-key-btn override" type="button">Key G</button><button class="set-rm" aria-label="Remove from set list" title="Remove" type="button"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div></div><div class="set-item set-section-item" data-kind="section" data-item-id="section-mon2y2tb-s1r5h" data-v721-bound="1"><div class="drag-handle" aria-hidden="true"><span></span><span></span><span></span></div><div class="set-section-copy"><div class="set-section-title">Youth meeting</div></div><button class="set-rm" aria-label="Remove section" title="Remove" type="button"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div><div class="set-item" data-id="-OrEur3v1crE0q5BeA0R" data-kind="song"><div class="drag-handle" aria-hidden="true"><span></span><span></span><span></span></div><div class="set-info"><div class="set-title">Man of Sorrows</div><div class="set-meta">Hillsong Worship</div><div class="set-meta-row"><span class="set-key-note"><span class="song-id-badge">S193</span>&nbsp;<span class="lang-badge">EN</span></span><span class="set-meta-chips"></span></div></div><div class="set-actions"><button class="set-key-btn override" type="button">Key G</button><button class="set-rm" aria-label="Remove from set list" title="Remove" type="button"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div></div><div class="set-item" data-id="-OrEur4-ob2I_G-ZtXr8" data-kind="song"><div class="drag-handle" aria-hidden="true"><span></span><span></span><span></span></div><div class="set-info"><div class="set-title">Rakshithavine Kaanka Paapi</div><div class="set-meta-row"><span class="set-key-note"><span class="song-id-badge">S200</span>&nbsp;<span class="lang-badge">ML</span></span><span class="set-meta-chips"></span></div></div><div class="set-actions"><button class="set-key-btn override" type="button">Key G</button><button class="set-rm" aria-label="Remove from set list" title="Remove" type="button"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div></div><div class="set-item" data-id="-OrEur3oL2G7_ICFDvHM" data-kind="song"><div class="drag-handle" aria-hidden="true"><span></span><span></span><span></span></div><div class="set-info"><div class="set-title">Ponneshu Narar Thirubali</div><div class="set-meta-row"><span class="set-key-note"><span class="song-id-badge">S184</span>&nbsp;<span class="lang-badge">ML</span></span><span class="set-meta-chips"></span></div></div><div class="set-actions"><button class="set-key-btn override" type="button">Key G</button><button class="set-rm" aria-label="Remove from set list" title="Remove" type="button"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div></div></div></div>
+      <div style="position: absolute; inset: 0px; overflow: hidden auto; -webkit-overflow-scrolling: touch;"><div id="sl-items" class="sl-items"><div class="sl-empty"><div class="wb-empty-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 18.5a2.5 2.5 0 1 1-1-2V5l10-2v11.5a2.5 2.5 0 1 1-1-2V7L9 8.5z"></path></svg></div><div class="sl-et">No items in Shared Set</div><div class="sl-es">Use the set options menu to add songs, sections, or service items.</div></div></div></div>
     </div>
     <button class="add-fab" onclick="openBS('picker')" aria-label="Add to set list"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3v16M3 11h16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path></svg></button>
   </div>
@@ -3381,7 +3381,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
               <img src="assets/wb-icon-192.png" alt="WorshipBase logo">
             </div>
             <div class="about-name">WorshipBase</div>
-            <div class="about-version-pill">Version 74.5</div>
+            <div class="about-version-pill">Version 74.6.1</div>
             <div class="about-by">Created by <strong>Jerin Reji</strong></div>
           </div>
         </div>
@@ -3394,7 +3394,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   <div class="tab-bar" id="tab-bar">
 
     <!-- Library tab -->
-    <button class="tab-btn" id="tab-songs" onclick="switchTab('songs')">
+    <button class="tab-btn active" id="tab-songs" onclick="switchTab('songs')">
       <span class="tab-ico">
         <svg class="ico-outline" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
         <svg class="ico-filled" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 6h16" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path><path d="M4 12h10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path><path d="M4 18h16" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path></svg>
@@ -3403,7 +3403,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
     </button>
 
     <!-- Set List tab -->
-    <button class="tab-btn active" id="tab-setlist" onclick="switchTab('setlist')">
+    <button class="tab-btn" id="tab-setlist" onclick="switchTab('setlist')">
       <span class="tab-ico">
         <!-- outline: squares with no fill opacity -->
         <svg class="ico-outline" width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"></rect><rect x="3" y="11" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"></rect><rect x="3" y="17" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"></rect><path d="M11 7h10M11 13h8M11 19h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
@@ -4072,13 +4072,13 @@ line 18 | Hold / pause"></textarea>
 <!-- EXPORT -->
 
 <div class="bs-bg" id="bs-sets" onclick="closeBSBg(event,'sets')">
-  <div class="bs" data-swipe-attached="1">
+  <div class="bs">
     <div class="bs-handle"></div>
     <div class="m-tr"><h2 class="m-h2" id="sets-title">Shared set lists</h2><button class="m-close" onclick="closeBS('sets')">×</button></div>
     <div class="m-body" style="padding-bottom:6px;">
       <p style="font-size:13px;color:var(--txt2);margin-bottom:12px;line-height:1.55;">Choose, rename, delete, or create a set list for this scope.</p>
     </div>
-    <div class="namedset-list" id="namedset-list"><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_monkw4fkt6yl')"><div class="namedset-name">Backup test (Shared)</div><div class="namedset-meta">0 songs</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_monkw4fkt6yl')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_monkw4fkt6yl')">Delete</button></div></div><div class="namedset-item active"><button class="namedset-main" onclick="selectNamedSet('set_moodobe3w9bf')"><div class="namedset-name">Backup test (Shared)</div><div class="namedset-meta">13 songs · Current</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_moodobe3w9bf')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_moodobe3w9bf')">Delete</button></div></div></div>
+    <div class="namedset-list" id="namedset-list"><div class="namedset-item active"><button class="namedset-main" onclick="selectNamedSet('set_moofo2lem24k')"><div class="namedset-name">Backup test (Shared)</div><div class="namedset-meta">8 songs · Current</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_moofo2lem24k')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_moofo2lem24k')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_moofx7mhucai')"><div class="namedset-name">Backup test 2 (Shared)</div><div class="namedset-meta">1 song</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_moofx7mhucai')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_moofx7mhucai')">Delete</button></div></div></div>
     <div class="m-acts" style="padding:0 18px 8px;">
       <button class="btn-s" type="button" onclick="createNamedSet()">New set list</button>
       <button class="btn-s" type="button" id="sets-copy-btn" onclick="copyActiveSetToOtherScope()">Copy to Personal</button>
@@ -4112,7 +4112,7 @@ line 18 | Hold / pause"></textarea>
       <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 8.2l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 14h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span>
       Export
     </button>
-    <button class="mi has-set-notes" onclick="openSetNotesSheet();closeBS('setoptions')">
+    <button class="mi" onclick="openSetNotesSheet();closeBS('setoptions')">
       <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M4 2.5h9v12H4z" stroke="currentColor" stroke-width="1.4"></path><path d="M6.5 6h4M6.5 8.5h4M6.5 11h2.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg></span>
       Set notes
     <span class="set-options-note-badge">Saved</span></button>
@@ -10191,7 +10191,7 @@ function registerServiceWorker(){
   if(!('serviceWorker' in navigator))return;
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=74.5');
+      const reg=await navigator.serviceWorker.register('./sw.js?v=74.6.1');
       // Ask the browser to check for a newer worker each time the app opens.
       if(reg&&reg.update)reg.update().catch(()=>{});
       if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'});
@@ -13880,7 +13880,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
   'use strict';
   const EDIT_ICON='<svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M12 3l2 2L5.5 13H3.5v-2L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
   function usefulMemory(m){return !!(m&&typeof m==='object'&&(String(m.notes||'').trim()||String(m.cues||'').trim()||String(m.usualKey||'').trim()||String(m.capo||'').trim()||String(m.practiceStatus||'').trim()));}
-  function setVisibleVersion(){try{document.title='WorshipBase v74.5';document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 74.5';});}catch(e){}}
+  function setVisibleVersion(){try{document.title='WorshipBase v74.6.1';document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 74.6.1';});}catch(e){}}
   function fixSongEditButton(){
     try{
       const btn=document.getElementById('mi-edit-song');
@@ -14787,11 +14787,202 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 
 <script id="wb-v74-5-legacy-setlist-disabled-marker">
 (function(){
-  try{document.title='WorshipBase v74.5';document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version 74.5';});}catch(e){}
+  try{document.title='WorshipBase v74.6.1';document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version 74.6.1';});}catch(e){}
   // v74.5: legacy flat shared-set Firebase access is represented by a no-op setlistRef stub above.
   // Active shared set lists continue to use the rich shared-set Firebase path through the existing v72.5.8 logic.
 })();
 </script>
 
+
+
+<script id="wb-v74-6-1-my-songs-snapshot-targeted-fix">
+(function(){
+  'use strict';
+  const VERSION='74.6.1';
+  const oldFindSongById = (typeof findSongById==='function') ? findSongById : function(){return null;};
+  const oldAddSongToNamedSet = (typeof addSongToNamedSet==='function') ? addSongToNamedSet : null;
+  const oldCopyActiveSetToOtherScope = (typeof copyActiveSetToOtherScope==='function') ? copyActiveSetToOtherScope : null;
+  const oldSaveSharedSetsToFB = (typeof saveSharedSetsToFB==='function') ? saveSharedSetsToFB : null;
+
+  function nid(v){
+    try{ if(typeof normId==='function') return normId(v); }catch(_){ }
+    return String(v==null?'':v).trim();
+  }
+  function clone(v){ try{return JSON.parse(JSON.stringify(v));}catch(_){return v;} }
+  function safeKey(v){
+    const k=nid(v);
+    return k ? k.replace(/[.#$\/[\]]/g,'_') : '';
+  }
+  function sameId(a,b){ return !!nid(a) && nid(a)===nid(b); }
+  function findInList(list,id){
+    const n=nid(id);
+    if(!n || !Array.isArray(list)) return null;
+    return list.find(function(s){ return sameId(s&&s.id,n) || sameId(s&&s.fbKey,n) || sameId(s&&s.songId,n) || sameId(s&&s.localId,n); }) || null;
+  }
+  function findSnapshotInSetMaps(id){
+    const wanted = new Set([nid(id)].filter(Boolean));
+    const maps=[];
+    try{ if(typeof _personalSets!=='undefined') maps.push(_personalSets); }catch(_){ }
+    try{ if(typeof _sharedSets!=='undefined') maps.push(_sharedSets); }catch(_){ }
+    for(const map of maps){
+      for(const set of Object.values(map||{})){
+        for(const item of ((set&&set.items)||[])){
+          if(!item || item.type!=='song') continue;
+          const snap=item.songSnapshot||item.snapshot||item.song;
+          const keys=[item.songId,item.id,item.fbKey,snap&&snap.id,snap&&snap.fbKey,snap&&snap.songId,snap&&snap.localId].map(nid).filter(Boolean);
+          if(keys.some(function(k){return wanted.has(k);})){ return snapshotFromSong(snap||item,item.songId||id); }
+        }
+      }
+    }
+    return null;
+  }
+  function findAnySong(id){
+    let s=null;
+    try{s=oldFindSongById(id);}catch(_){s=null;}
+    if(s) return s;
+    try{s=findInList(songs,id); if(s)return s;}catch(_){ }
+    try{s=findInList(firebaseSongs,id); if(s)return s;}catch(_){ }
+    try{s=findInList(localMySongs,id); if(s)return s;}catch(_){ }
+    try{ if(currentSong && (sameId(currentSong.id,id)||sameId(currentSong.fbKey,id)||sameId(currentSong.songId,id))) return currentSong; }catch(_){ }
+    try{ if(pendingSetDestSong && (sameId(pendingSetDestSong.id,id)||sameId(pendingSetDestSong.fbKey,id)||sameId(pendingSetDestSong.songId,id))) return pendingSetDestSong; }catch(_){ }
+    return findSnapshotInSetMaps(id);
+  }
+  function snapshotFromSong(song,fallbackId){
+    if(!song || typeof song!=='object') return null;
+    const id=nid(song.id||song.songId||song.fbKey||song.localId||fallbackId);
+    if(!id) return null;
+    const out={};
+    ['id','fbKey','songId','localId','title','author','key','cat','songCode','timeSig','timeSignature','bpm','chart','lyrics','body','content','spotifyUrl','youtubeUrl','source','librarySource','localOnly','createdAt','updatedAt'].forEach(function(k){
+      if(song[k]!==undefined && song[k]!==null) out[k]=song[k];
+    });
+    out.id=nid(out.id||id);
+    out.songId=nid(out.songId||out.id);
+    if(!out.title) out.title='Untitled song';
+    if(!out.key) out.key='C';
+    if(!out.cat) out.cat='english';
+    if(song.localOnly || song.librarySource==='user' || song.librarySource==='my' || song.source==='my' || String(out.id).indexOf('my_')===0){
+      out.localOnly=true;
+      if(!out.librarySource) out.librarySource='user';
+    }
+    return out;
+  }
+  function setKey(v){
+    try{ if(typeof normSetKey==='function') return normSetKey(v); }catch(_){ }
+    return String(v||'original').trim()||'original';
+  }
+  function enrichSongItem(item){
+    if(typeof item==='string' || typeof item==='number') item={type:'song',songId:item};
+    if(!item || typeof item!=='object') return item;
+    if(item.type==='section' || item.type==='item') return clone(item);
+    const sid=nid(item.songId||item.id||item.fbKey||(item.songSnapshot&&item.songSnapshot.id));
+    if(!sid) return clone(item);
+    const out=Object.assign({},clone(item),{type:'song',songId:sid,setKey:setKey(item.setKey)});
+    if(!out.songSnapshot){
+      const song=findAnySong(sid);
+      const snap=snapshotFromSong(song,sid);
+      if(snap) out.songSnapshot=snap;
+    }else{
+      const snap=snapshotFromSong(out.songSnapshot,sid);
+      if(snap) out.songSnapshot=snap;
+    }
+    return out;
+  }
+  function enrichItems(items){
+    return (Array.isArray(items)?items:[]).map(enrichSongItem);
+  }
+  function getMap(scope){
+    try{ return (scope==='personal') ? _personalSets : _sharedSets; }catch(_){ return {}; }
+  }
+  function activeId(scope){
+    try{ return (typeof getActiveSetId==='function') ? getActiveSetId(scope) : (scope==='personal'?appPrefs.activePersonalSetId:appPrefs.activeSharedSetId); }catch(_){ return 'default'; }
+  }
+  function savePersonal(){
+    try{ if(typeof savePersonalNamedSets==='function') savePersonalNamedSets(); }catch(_){ }
+  }
+  function copyMemoryForItems(sourceSet,items){
+    const out={};
+    try{
+      const existing=(sourceSet&&sourceSet.songMemory&&typeof sourceSet.songMemory==='object')?sourceSet.songMemory:{};
+      Object.keys(existing).forEach(function(k){ const sk=safeKey(k); if(sk) out[sk]=clone(existing[k]); });
+      items.forEach(function(item){
+        if(!item || item.type!=='song') return;
+        const keys=[item.songId,item.id,item.fbKey,item.songSnapshot&&item.songSnapshot.id,item.songSnapshot&&item.songSnapshot.songId,item.songSnapshot&&item.songSnapshot.fbKey].map(nid).filter(Boolean);
+        keys.forEach(function(k){
+          const sk=safeKey(k);
+          if(!sk) return;
+          if(existing[k]) out[sk]=clone(existing[k]);
+          else if(existing[sk]) out[sk]=clone(existing[sk]);
+        });
+      });
+    }catch(_){ }
+    return out;
+  }
+
+  try{
+    findSongById=function(id){
+      const s=findAnySong(id);
+      return s || null;
+    };
+    window.findSongById=findSongById;
+  }catch(_){ }
+
+  addSongToNamedSet=function(id,scope){
+    const sk=(typeof setScopeKey==='function') ? setScopeKey(scope||appPrefs.setListScope) : (scope||appPrefs.setListScope||'shared');
+    const sid=nid(id);
+    if(!sid){ if(oldAddSongToNamedSet) return oldAddSongToNamedSet(id,scope); return; }
+    let list=[];
+    try{ list=(typeof getSetList==='function') ? getSetList(sk).slice() : []; }catch(_){ list=[]; }
+    if(list.some(function(x){return x&&x.type==='song'&&sameId(x.songId,sid);})){ return; }
+    list.push(enrichSongItem({type:'song',songId:sid,setKey:'original'}));
+    try{ modSetList(list,sk); }catch(e){ if(oldAddSongToNamedSet) return oldAddSongToNamedSet(id,scope); }
+  };
+  window.addSongToNamedSet=addSongToNamedSet;
+
+  copyActiveSetToOtherScope=function(){
+    const from=(typeof setScopeKey==='function') ? setScopeKey(appPrefs.setListScope) : (appPrefs.setListScope||'shared');
+    const to=from==='shared'?'personal':'shared';
+    let src=null;
+    try{ src=(typeof getActiveSet==='function') ? getActiveSet(from) : null; }catch(_){ }
+    if(!src && oldCopyActiveSetToOtherScope) return oldCopyActiveSetToOtherScope();
+    if(!src){ try{showToast('No active set list to copy');}catch(_){ } return; }
+    const suggested=(src.name||'Set')+' ('+(to==='personal'?'Personal':'Shared')+')';
+    const name=(prompt('Copy to '+(to==='personal'?'Personal':'Shared')+' as:',suggested)||'').trim();
+    if(!name) return;
+    const sourceItems=enrichItems((src.items&&src.items.length)?src.items:((typeof getSetList==='function')?getSetList(from):[]));
+    const id=(typeof makeSetId==='function') ? makeSetId() : ('set_'+Date.now().toString(36)+Math.random().toString(36).slice(2,6));
+    const copied={name:name,notes:String(src.notes||''),items:clone(sourceItems),songMemory:copyMemoryForItems(src,sourceItems),updatedAt:Date.now()};
+    if(to==='personal'){
+      const target=Object.assign({},getMap('personal'));
+      target[id]=copied;
+      try{_personalSets=target;appPrefs.activePersonalSetId=id;savePersonal();}catch(_){ }
+    }else{
+      const target=Object.assign({},getMap('shared'));
+      target[id]=copied;
+      try{_sharedSets=target;appPrefs.activeSharedSetId=id;if(typeof saveSharedSetsToFB==='function')saveSharedSetsToFB();}catch(_){ }
+    }
+    try{savePrefs();}catch(_){ }
+    try{renderSetListScopeUI();renderNamedSetChooserUI();if(activeTab==='setlist')renderSetList();else refresh(false);}catch(_){ }
+    try{showToast('Copied to '+(to==='personal'?'personal':'shared')+' set list');}catch(_){ }
+  };
+  window.copyActiveSetToOtherScope=copyActiveSetToOtherScope;
+
+  if(oldSaveSharedSetsToFB){
+    saveSharedSetsToFB=function(){
+      try{
+        Object.values(_sharedSets||{}).forEach(function(set){
+          if(set && Array.isArray(set.items)) set.items=enrichItems(set.items);
+        });
+      }catch(_){ }
+      return oldSaveSharedSetsToFB();
+    };
+    window.saveSharedSetsToFB=saveSharedSetsToFB;
+  }
+
+  try{
+    document.title='WorshipBase v'+VERSION;
+    document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version '+VERSION;});
+  }catch(_){ }
+})();
+</script>
 
 <div id="wb-pad-float" class="wb-pad-float"><button class="wb-pad-float-label" id="wb-pad-float-label" type="button">Pad</button><button class="wb-pad-float-stop" id="wb-pad-float-stop" type="button" aria-label="Stop pad"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"></rect></svg></button></div><input type="file" id="full-app-backup-json-file" accept=".json,application/json" style="display: none;"><div class="bs-bg" id="bs-backuplocal" onclick="closeBSBg(event,'backuplocal')"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><h2 class="m-h2">Local backup</h2><button class="m-close" onclick="closeBS('backuplocal')">×</button></div><div class="m-body"><p class="wb-backup-sheet-note">Save JSON files to your device, or restore from a file you previously exported.</p><div class="wb-backup-group-title">Export to file</div><button class="wb-backup-choice" type="button" onclick="exportMySongsJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">My Songs</span><span class="wb-backup-choice-sub">Songs added on this device only</span></span><span class="wb-backup-choice-tag">JSON</span></button><button class="wb-backup-choice" type="button" onclick="exportNotesCuesJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Notes &amp; Cues</span><span class="wb-backup-choice-sub">Personal notes, cues, usual keys and practice status</span></span><span class="wb-backup-choice-tag">JSON</span></button><button class="wb-backup-choice" type="button" onclick="exportAppBackupJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Everything</span><span class="wb-backup-choice-sub">My Songs, set lists, sections, service items, notes/cues and preferences</span></span><span class="wb-backup-choice-tag">Full</span></button><div class="wb-backup-group-title">Restore from file</div><button class="wb-backup-choice" type="button" onclick="document.getElementById('my-songs-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore My Songs</span><span class="wb-backup-choice-sub">Import a WorshipBase song JSON file</span></span><span class="wb-backup-choice-tag">Import</span></button><button class="wb-backup-choice" type="button" onclick="document.getElementById('notes-cues-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore Notes &amp; Cues</span><span class="wb-backup-choice-sub">Apply notes/cues onto matching songs</span></span><span class="wb-backup-choice-tag">Import</span></button><button class="wb-backup-choice" type="button" onclick="document.getElementById('full-app-backup-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore Everything</span><span class="wb-backup-choice-sub">Replace personal data on this device from a full app backup</span></span><span class="wb-backup-choice-tag">Replace</span></button></div></div></div><div class="bs-bg" id="bs-backupdrive" onclick="closeBSBg(event,'backupdrive')"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><h2 class="m-h2">Google Drive backup</h2><button class="m-close" onclick="closeBS('backupdrive')">×</button></div><div class="m-body"><div id="wb-drive-sheet-body"></div></div></div></div></body><div style="position: fixed; top: 0px; left: 0px; width: 1px; height: env(safe-area-inset-top,0px); pointer-events: none; opacity: 0; z-index: -1;"></div><div style="position: fixed; bottom: 0px; left: 0px; width: 1px; height: env(safe-area-inset-bottom,0px); pointer-events: none; opacity: 0; z-index: -1;"></div></html>
