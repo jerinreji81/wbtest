@@ -15982,4 +15982,66 @@ body.dark .wb-personal-local{background:var(--accent-surface)!important;border-c
 </script>
 
 
+<script id="wb-v75-13-1-workspace-selector-fix">
+(function(){
+  'use strict';
+  const VERSION='75.13.1';
+  function qs(id){return document.getElementById(id);}
+  function scopeKey(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
+  function activeKey(scope){try{return activeSetPrefKey(scopeKey(scope));}catch(e){return scopeKey(scope)==='personal'?'activePersonalSetId':'activeSharedSetId';}}
+  function mapFor(scope){const sk=scopeKey(scope);return sk==='personal'?((typeof _personalSets!=='undefined'&&_personalSets)||{}):((typeof _sharedSets!=='undefined'&&_sharedSets)||{});}
+  function editorVisible(){const sec=qs('setlist-section');return !!(sec&&sec.style.display!=='none'&&sec.classList.contains('wb-editor-mode'));}
+  function workspaceEditorVisible(){try{return editorVisible()&&scopeKey(appPrefs&&appPrefs.setListScope)==='shared'&&typeof activeTab!=='undefined'&&activeTab==='workspace';}catch(e){return false;}}
+  function renderAfterSelection(scope){
+    try{if(typeof savePrefs==='function')savePrefs();}catch(e){}
+    try{if(typeof renderSetListScopeUI==='function')renderSetListScopeUI();}catch(e){}
+    try{if(typeof renderNamedSetChooserUI==='function')renderNamedSetChooserUI();}catch(e){}
+    try{if(typeof renderSetList==='function')renderSetList();}catch(e){console.warn('v75.13.1 render after set selection failed',e);}
+    try{if(typeof updateEditorBar==='function')updateEditorBar(scopeKey(scope));}catch(e){}
+    try{if(scopeKey(scope)==='shared'&&typeof renderWorkspace==='function')renderWorkspace();}catch(e){}
+    try{if(scopeKey(scope)==='shared'&&typeof renderWorkspaceSetListsSubview==='function')renderWorkspaceSetListsSubview();}catch(e){}
+  }
+  const previousSelect=window.selectNamedSet || (typeof selectNamedSet==='function'?selectNamedSet:null);
+  window.selectNamedSet=function(id){
+    const currentScope=scopeKey((typeof appPrefs!=='undefined'&&appPrefs.setListScope)||'personal');
+    const sets=mapFor(currentScope);
+    if(!sets[id]){try{return previousSelect?previousSelect.apply(this,arguments):undefined;}catch(e){return;}}
+    if(typeof appPrefs!=='undefined'){
+      appPrefs[activeKey(currentScope)]=id;
+      appPrefs.setListScope=currentScope;
+      appPrefs.useDeviceSetList=currentScope==='personal';
+    }
+    try{if(typeof closeBS==='function')closeBS('sets');}catch(e){}
+    if(editorVisible()){
+      try{if(currentScope==='shared'&&typeof activeTab!=='undefined')activeTab='workspace';}catch(e){}
+      renderAfterSelection(currentScope);
+      return;
+    }
+    if(previousSelect){try{return previousSelect.apply(this,arguments);}catch(e){renderAfterSelection(currentScope);return;}}
+    renderAfterSelection(currentScope);
+  };
+  try{selectNamedSet=window.selectNamedSet;}catch(e){}
+
+  // setActiveNamedSet originally only re-rendered the editor when activeTab === 'setlist'.
+  // Workspace editors live in the Workspace tab while using the set-list editor, so force a render there too.
+  const previousSetActive=window.setActiveNamedSet || (typeof setActiveNamedSet==='function'?setActiveNamedSet:null);
+  if(previousSetActive&&!previousSetActive.__wbV75131){
+    const wrapped=function(scope,id){
+      const out=previousSetActive.apply(this,arguments);
+      try{if(editorVisible())renderAfterSelection(scopeKey(scope));}catch(e){}
+      return out;
+    };
+    wrapped.__wbV75131=true;
+    window.setActiveNamedSet=wrapped;
+    try{setActiveNamedSet=wrapped;}catch(e){}
+  }
+  function setVersion(){
+    try{document.title='WorshipBase v'+VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}
+  }
+  function init(){setVersion();}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(init,120);},{once:true});else setTimeout(init,120);
+})();
+</script>
+
+
 <div id="wb-pad-float" class="wb-pad-float"><button class="wb-pad-float-label" id="wb-pad-float-label" type="button">Pad</button><button class="wb-pad-float-stop" id="wb-pad-float-stop" type="button" aria-label="Stop pad"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"></rect></svg></button></div><input type="file" id="full-app-backup-json-file" accept=".json,application/json" style="display: none;"><div class="bs-bg" id="bs-backuplocal" onclick="closeBSBg(event,'backuplocal')"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><h2 class="m-h2">Local backup</h2><button class="m-close" onclick="closeBS('backuplocal')">×</button></div><div class="m-body"><p class="wb-backup-sheet-note">Save JSON files to your device, or restore from a file you previously exported.</p><div class="wb-backup-group-title">Export to file</div><button class="wb-backup-choice" type="button" onclick="exportMySongsJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">My Songs</span><span class="wb-backup-choice-sub">Songs added on this device only</span></span><span class="wb-backup-choice-tag">JSON</span></button><button class="wb-backup-choice" type="button" onclick="exportNotesCuesJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Notes &amp; Cues</span><span class="wb-backup-choice-sub">Personal notes, cues, usual keys and practice status</span></span><span class="wb-backup-choice-tag">JSON</span></button><button class="wb-backup-choice" type="button" onclick="exportAppBackupJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Everything</span><span class="wb-backup-choice-sub">My Songs, set lists, sections, service items, notes/cues and preferences</span></span><span class="wb-backup-choice-tag">Full</span></button><div class="wb-backup-group-title">Restore from file</div><button class="wb-backup-choice" type="button" onclick="document.getElementById('my-songs-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore My Songs</span><span class="wb-backup-choice-sub">Import a WorshipBase song JSON file</span></span><span class="wb-backup-choice-tag">Import</span></button><button class="wb-backup-choice" type="button" onclick="document.getElementById('notes-cues-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore Notes &amp; Cues</span><span class="wb-backup-choice-sub">Apply notes/cues onto matching songs</span></span><span class="wb-backup-choice-tag">Import</span></button><button class="wb-backup-choice" type="button" onclick="document.getElementById('full-app-backup-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore Everything</span><span class="wb-backup-choice-sub">Replace personal data on this device from a full app backup</span></span><span class="wb-backup-choice-tag">Replace</span></button></div></div></div><div class="bs-bg" id="bs-backupdrive" onclick="closeBSBg(event,'backupdrive')"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><h2 class="m-h2">Google Drive backup</h2><button class="m-close" onclick="closeBS('backupdrive')">×</button></div><div class="m-body"><div id="wb-drive-sheet-body"></div></div></div></div></body><div style="position: fixed; top: 0px; left: 0px; width: 1px; height: env(safe-area-inset-top,0px); pointer-events: none; opacity: 0; z-index: -1;"></div><div style="position: fixed; bottom: 0px; left: 0px; width: 1px; height: env(safe-area-inset-bottom,0px); pointer-events: none; opacity: 0; z-index: -1;"></div></html>
