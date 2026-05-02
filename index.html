@@ -10,7 +10,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="assets/wb-icon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
 
-<title>WorshipBase v75.8</title>
+<title>WorshipBase v75.9</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 /* Prevent iOS long-press/callout menus and text selection on UI chrome
@@ -3176,22 +3176,22 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   </div>
 
   <!-- SET LIST -->
-  <div id="setlist-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;position:relative;min-height:0;"><div id="personal-sets-home" class="personal-sets-home"><div class="personal-sets-hero"><div class="personal-sets-kicker">Set List</div><div class="personal-sets-title">My Set Lists</div><div class="personal-sets-sub">Personal planning lives here. Choose a set to edit, then publish it to Workspace when it is ready.</div></div><div class="personal-sets-panel"><div class="personal-sets-head"><div class="personal-sets-copy"><div class="personal-sets-panel-title">Personal set lists</div><div class="personal-sets-panel-sub" id="personal-sets-sub">0 set lists</div></div><button class="personal-sets-new" type="button" onclick="createPersonalSetFromHome()">New</button></div><div id="personal-sets-list" class="personal-sets-list"><div class="personal-sets-empty"><div class="personal-sets-empty-title">No Personal set lists yet</div><div>Create a set list to start planning privately.</div></div></div></div></div>
+  <div id="setlist-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;position:relative;min-height:0;"><div id="personal-sets-home" class="personal-sets-home"><div class="personal-sets-hero"><div class="personal-sets-kicker">Set List</div><div class="personal-sets-title">My Set Lists</div><div class="personal-sets-summary" id="personal-sets-summary">0 set lists · Saved locally</div></div><div class="personal-sets-panel"><div class="personal-sets-head"><div class="personal-sets-local">Saved locally on this device</div><button class="personal-sets-new" type="button" id="personal-sets-new-btn">New</button></div><div id="personal-sets-list" class="personal-sets-list"><div class="personal-sets-empty"><div class="personal-sets-empty-title">No Personal set lists yet</div><div>Create a set list to start planning privately.</div></div></div></div></div>
     <div class="sl-scope-row">
       <div class="sl-scope-pills">
         <button class="sl-scope-btn active" id="sl-scope-shared" onclick="setSetListScope('shared')">Workspace</button>
         <button class="sl-scope-btn" id="sl-scope-personal" onclick="setSetListScope('personal')">Personal</button>
       </div>
     </div>
-    <div id="personal-editor-bar" class="personal-editor-bar"><button class="personal-editor-back" type="button" onclick="showPersonalSetsHome()">‹ My Set Lists</button><span class="personal-editor-spacer"></span><button class="personal-editor-publish" type="button" onclick="publishCurrentPersonalSetToWorkspace()">Publish to Workspace</button></div><div class="sl-setbar">
+    <div id="personal-editor-bar" class="personal-editor-bar"><button class="personal-editor-back" type="button" id="personal-editor-back-btn">‹ <span class="back-label">My Set Lists</span></button><span class="personal-editor-spacer"></span><button class="personal-editor-publish" type="button" id="personal-editor-publish-btn">Publish to Workspace</button></div><div class="sl-setbar">
       <button class="sl-setpick" type="button" onclick="openBS('sets')">
-        <span class="sl-setpick-copy"><span class="sl-setpick-title" id="sl-active-set-name">Backup test</span><span class="sl-setpick-sub" id="sl-active-set-sub">8 songs · 7 items · Set notes · planning board</span><span class="setlist-set-note-chip" style="display: inline-flex;">Notes</span></span>
+        <span class="sl-setpick-copy"><span class="sl-setpick-title" id="sl-active-set-name">Backup test</span><span class="sl-setpick-sub" id="sl-active-set-sub">8 songs · 7 items · planning board</span></span>
         <span class="sl-setpick-caret"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
       </button>
     </div>
     <div class="sl-hdr">
       <div class="sl-hdr-meta" style="display: flex;">
-        <span class="sl-lbl" id="sl-count">8 songs · 7 items</span><span id="sl-set-key-info" class="sl-set-key-info"></span>
+        <span class="sl-lbl" id="sl-count">8 songs · 7 items</span><span id="sl-set-key-info" class="sl-set-key-info">Set key: G</span>
         
       </div>
       <div class="sl-btns">
@@ -3209,7 +3209,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   <!-- WORKSPACE -->
   <div id="workspace-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;position:relative;min-height:0;">
     <div class="workspace-scroll">
-      <div id="workspace-setlists-subview" class="workspace-subview"><div class="workspace-subview-head"><button class="workspace-subview-back" type="button" onclick="showWorkspaceDashboard()" aria-label="Back to Workspace">‹</button><div class="workspace-subview-title-wrap"><div class="workspace-subview-title">Workspace set lists</div><div class="workspace-subview-sub" id="workspace-subview-sub">3 set lists · 8 songs · 7 items</div></div><button class="workspace-subview-new" type="button" onclick="createWorkspaceSetFromWorkspaceSubview()">New</button></div><div id="workspace-subview-list" class="workspace-subview-list"><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_mooo1l6j2a4v')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_mooo1l6j2a4v')}"><span class="workspace-subview-main"><span class="workspace-subview-name">Bible class test (Shared)</span><span class="workspace-subview-meta"><span>0 songs</span><span class="workspace-subview-updated">Updated 2 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_mooo1l6j2a4v')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_mooo1l6j2a4v')" aria-label="Delete">×</button></span></div><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_mooo43swsfpz')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_mooo43swsfpz')}"><span class="workspace-subview-main"><span class="workspace-subview-name">New Workspace Set</span><span class="workspace-subview-meta"><span>0 songs</span><span class="workspace-subview-updated">Updated 2 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_mooo43swsfpz')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_mooo43swsfpz')" aria-label="Delete">×</button></span></div><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_moony176f478')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_moony176f478')}"><span class="workspace-subview-main"><span class="workspace-subview-name">Backup test</span><span class="workspace-subview-meta"><span>8 songs · 7 items</span><span class="workspace-subview-note">Notes</span><span class="workspace-subview-updated">Updated 2 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_moony176f478')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_moony176f478')" aria-label="Delete">×</button></span></div></div></div><div class="workspace-hero">
+      <div id="workspace-setlists-subview" class="workspace-subview"><div class="workspace-subview-head"><button class="workspace-subview-back" type="button" onclick="showWorkspaceDashboard()" aria-label="Back to Workspace">‹</button><div class="workspace-subview-title-wrap"><div class="workspace-subview-title">Workspace set lists</div><div class="workspace-subview-sub" id="workspace-subview-sub">3 set lists · 8 songs · 11 items</div></div><button class="workspace-subview-new" type="button" onclick="createWorkspaceSetFromWorkspaceSubview()">New</button></div><div id="workspace-subview-list" class="workspace-subview-list"><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_mooop9de2176')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_mooop9de2176')}"><span class="workspace-subview-main"><span class="workspace-subview-name">New Workspace Set</span><span class="workspace-subview-meta"><span>0 songs</span><span class="workspace-subview-updated">Updated 2 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_mooop9de2176')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_mooop9de2176')" aria-label="Delete">×</button></span></div><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_mooorhtct4w7')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_mooorhtct4w7')}"><span class="workspace-subview-main"><span class="workspace-subview-name">New Set (Shared)</span><span class="workspace-subview-meta"><span>0 songs · 4 items</span><span class="workspace-subview-updated">Updated 2 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_mooorhtct4w7')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_mooorhtct4w7')" aria-label="Delete">×</button></span></div><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_moooodg92sy8')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_moooodg92sy8')}"><span class="workspace-subview-main"><span class="workspace-subview-name">Backup test</span><span class="workspace-subview-meta"><span>8 songs · 7 items</span><span class="workspace-subview-note">Notes</span><span class="workspace-subview-updated">Updated 2 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_moooodg92sy8')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_moooodg92sy8')" aria-label="Delete">×</button></span></div></div></div><div class="workspace-hero">
         <div class="workspace-kicker">Workspace</div>
         <div class="workspace-title">Team worship planning</div>
         <div class="workspace-sub">This is the new home for shared/team set lists. v75 keeps the working shared storage from v74.5.2 and presents it as a Workspace while the full members/invites/library system is developed.</div>
@@ -3218,7 +3218,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
       <div class="workspace-grid">
         <button class="workspace-card workspace-card-action" type="button" onclick="openWorkspaceSetLists()">
           <span class="workspace-card-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"></rect><rect x="3" y="11" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"></rect><rect x="3" y="17" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"></rect><path d="M11 7h10M11 13h8M11 19h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg></span>
-          <span class="workspace-card-main"><span class="workspace-card-title">Workspace set lists</span><span class="workspace-card-sub" id="workspace-setlists-sub">3 set lists · 8 songs · 7 items</span></span>
+          <span class="workspace-card-main"><span class="workspace-card-title">Workspace set lists</span><span class="workspace-card-sub" id="workspace-setlists-sub">3 set lists · 8 songs · 11 items</span></span>
           <span class="workspace-card-chevron">›</span>
         </button>
 
@@ -3241,7 +3241,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
         </div>
       </div>
 
-      <div id="workspace-setlist-manager" class="workspace-manager"><div class="workspace-manager-head"><div class="workspace-manager-title-wrap"><div class="workspace-manager-title">Workspace set lists</div><div class="workspace-manager-sub" id="workspace-manager-sub">3 set lists · 8 songs · 7 items</div></div><div class="workspace-manager-actions"><button class="workspace-mini-btn" type="button" onclick="createWorkspaceSetFromWorkspaceTab()">New</button></div></div><div id="workspace-setlist-list" class="workspace-setlist-list"><button class="workspace-setlist-card" type="button" onclick="openWorkspaceSetFromWorkspaceTab('set_mooo1l6j2a4v')"><span class="workspace-setlist-main"><span class="workspace-setlist-name">Bible class test (Shared)</span><span class="workspace-setlist-meta"><span>0 songs</span><span class="workspace-setlist-updated">Updated 2 May</span></span></span><span class="workspace-setlist-actions"><span class="workspace-icon-btn" aria-hidden="true">›</span><span class="workspace-icon-btn danger" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceTab('set_mooo1l6j2a4v')" aria-label="Delete">×</span></span></button><button class="workspace-setlist-card" type="button" onclick="openWorkspaceSetFromWorkspaceTab('set_mooo43swsfpz')"><span class="workspace-setlist-main"><span class="workspace-setlist-name">New Workspace Set</span><span class="workspace-setlist-meta"><span>0 songs</span><span class="workspace-setlist-updated">Updated 2 May</span></span></span><span class="workspace-setlist-actions"><span class="workspace-icon-btn" aria-hidden="true">›</span><span class="workspace-icon-btn danger" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceTab('set_mooo43swsfpz')" aria-label="Delete">×</span></span></button><button class="workspace-setlist-card" type="button" onclick="openWorkspaceSetFromWorkspaceTab('set_moony176f478')"><span class="workspace-setlist-main"><span class="workspace-setlist-name">Backup test</span><span class="workspace-setlist-meta"><span>8 songs · 7 items</span><span class="workspace-setlist-note">Notes</span><span class="workspace-setlist-updated">Updated 2 May</span></span></span><span class="workspace-setlist-actions"><span class="workspace-icon-btn" aria-hidden="true">›</span><span class="workspace-icon-btn danger" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceTab('set_moony176f478')" aria-label="Delete">×</span></span></button></div></div><div class="workspace-note-card">
+      <div id="workspace-setlist-manager" class="workspace-manager"><div class="workspace-manager-head"><div class="workspace-manager-title-wrap"><div class="workspace-manager-title">Workspace set lists</div><div class="workspace-manager-sub" id="workspace-manager-sub">3 set lists · 8 songs · 11 items</div></div><div class="workspace-manager-actions"><button class="workspace-mini-btn" type="button" onclick="createWorkspaceSetFromWorkspaceTab()">New</button></div></div><div id="workspace-setlist-list" class="workspace-setlist-list"><button class="workspace-setlist-card" type="button" onclick="openWorkspaceSetFromWorkspaceTab('set_mooop9de2176')"><span class="workspace-setlist-main"><span class="workspace-setlist-name">New Workspace Set</span><span class="workspace-setlist-meta"><span>0 songs</span><span class="workspace-setlist-updated">Updated 2 May</span></span></span><span class="workspace-setlist-actions"><span class="workspace-icon-btn" aria-hidden="true">›</span><span class="workspace-icon-btn danger" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceTab('set_mooop9de2176')" aria-label="Delete">×</span></span></button><button class="workspace-setlist-card" type="button" onclick="openWorkspaceSetFromWorkspaceTab('set_mooorhtct4w7')"><span class="workspace-setlist-main"><span class="workspace-setlist-name">New Set (Shared)</span><span class="workspace-setlist-meta"><span>0 songs · 4 items</span><span class="workspace-setlist-updated">Updated 2 May</span></span></span><span class="workspace-setlist-actions"><span class="workspace-icon-btn" aria-hidden="true">›</span><span class="workspace-icon-btn danger" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceTab('set_mooorhtct4w7')" aria-label="Delete">×</span></span></button><button class="workspace-setlist-card" type="button" onclick="openWorkspaceSetFromWorkspaceTab('set_moooodg92sy8')"><span class="workspace-setlist-main"><span class="workspace-setlist-name">Backup test</span><span class="workspace-setlist-meta"><span>8 songs · 7 items</span><span class="workspace-setlist-note">Notes</span><span class="workspace-setlist-updated">Updated 2 May</span></span></span><span class="workspace-setlist-actions"><span class="workspace-icon-btn" aria-hidden="true">›</span><span class="workspace-icon-btn danger" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceTab('set_moooodg92sy8')" aria-label="Delete">×</span></span></button></div></div><div class="workspace-note-card">
         <div class="workspace-note-title">v75 direction</div>
         <div class="workspace-note-body">For now, Workspace uses the same stable Firebase <code>/setlists</code> storage that v74.5.2 fixed. The future full Workspace model will add workspace songs, members, invites, and a proper Personal Songs → Workspace Library flow.</div>
       </div>
@@ -3424,7 +3424,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
               <img src="assets/wb-icon-192.png" alt="WorshipBase logo">
             </div>
             <div class="about-name">WorshipBase</div>
-            <div class="about-version-pill">Version 75.8</div>
+            <div class="about-version-pill">Version 75.9</div>
             <div class="about-by">Created by <strong>Jerin Reji</strong></div>
           </div>
         </div>
@@ -4131,7 +4131,7 @@ line 18 | Hold / pause"></textarea>
     <div class="m-body" style="padding-bottom:6px;">
       <p style="font-size:13px;color:var(--txt2);margin-bottom:12px;line-height:1.55;">Choose, rename, delete, or create a set list for this scope.</p>
     </div>
-    <div class="namedset-list" id="namedset-list"><div class="namedset-item active"><button class="namedset-main" onclick="selectNamedSet('set_moony176f478')"><div class="namedset-name">Backup test</div><div class="namedset-meta">8 songs · 7 items · Current · <span class="namedset-note-chip">Notes</span></div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_moony176f478')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_moony176f478')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_mooo1l6j2a4v')"><div class="namedset-name">Bible class test (Shared)</div><div class="namedset-meta">0 songs</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_mooo1l6j2a4v')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_mooo1l6j2a4v')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_mooo43swsfpz')"><div class="namedset-name">New Workspace Set</div><div class="namedset-meta">0 songs</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_mooo43swsfpz')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_mooo43swsfpz')">Delete</button></div></div></div>
+    <div class="namedset-list" id="namedset-list"><div class="namedset-item active"><button class="namedset-main" onclick="selectNamedSet('set_moooodg92sy8')"><div class="namedset-name">Backup test</div><div class="namedset-meta">8 songs · 7 items · Current · <span class="namedset-note-chip">Notes</span></div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_moooodg92sy8')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_moooodg92sy8')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_mooop9de2176')"><div class="namedset-name">New Workspace Set</div><div class="namedset-meta">0 songs</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_mooop9de2176')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_mooop9de2176')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_mooorhtct4w7')"><div class="namedset-name">New Set (Shared)</div><div class="namedset-meta">4 items</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_mooorhtct4w7')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_mooorhtct4w7')">Delete</button></div></div></div>
     <div class="m-acts" style="padding:0 18px 8px;">
       <button class="btn-s" type="button" onclick="createNamedSet()">New set list</button>
       <button class="btn-s" type="button" id="sets-copy-btn" onclick="copyActiveSetToOtherScope()">Copy to Personal</button>
@@ -4165,7 +4165,7 @@ line 18 | Hold / pause"></textarea>
       <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 8.2l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 14h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span>
       Export
     </button>
-    <button class="mi has-set-notes" onclick="openSetNotesSheet();closeBS('setoptions')">
+    <button class="mi" onclick="openSetNotesSheet();closeBS('setoptions')">
       <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M4 2.5h9v12H4z" stroke="currentColor" stroke-width="1.4"></path><path d="M6.5 6h4M6.5 8.5h4M6.5 11h2.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg></span>
       Set notes
     <span class="set-options-note-badge">Saved</span></button>
@@ -13938,7 +13938,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
   'use strict';
   const EDIT_ICON='<svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M12 3l2 2L5.5 13H3.5v-2L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
   function usefulMemory(m){return !!(m&&typeof m==='object'&&(String(m.notes||'').trim()||String(m.cues||'').trim()||String(m.usualKey||'').trim()||String(m.capo||'').trim()||String(m.practiceStatus||'').trim()));}
-  function setVisibleVersion(){try{document.title='WorshipBase v75.8';document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 75.4';});}catch(e){}}
+  function setVisibleVersion(){try{document.title='WorshipBase v75.9';document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 75.4';});}catch(e){}}
   function fixSongEditButton(){
     try{
       const btn=document.getElementById('mi-edit-song');
@@ -14271,7 +14271,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 
 <script id="wb-v72-5-7-rich-set-copy-fix">
 (function(){
-  const VERSION='75.8';
+  const VERSION='75.9';
 
   const originalFindSongById = window.findSongById || function(){return null;};
   const originalGetSongMemory = window.getSongMemory || function(){return {};};
@@ -14666,7 +14666,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 <script id="wb-v72-5-8-rich-shared-persist-fix">
 (function(){
   'use strict';
-  const VERSION='75.8';
+  const VERSION='75.9';
   const BAD_KEY=/[.#$\/[\]]/g;
   function n(v){try{if(typeof normId==='function')return normId(v);}catch(_){}return String(v==null?'':v).trim();}
   function safeKey(v){const k=n(v);return k?k.replace(BAD_KEY,'_'):'';}
@@ -14845,7 +14845,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 
 <script id="wb-v74-5-legacy-setlist-disabled-marker">
 (function(){
-  try{document.title='WorshipBase v75.8';document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version 75.4';});}catch(e){}
+  try{document.title='WorshipBase v75.9';document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version 75.4';});}catch(e){}
   // v74.5.2: legacy flat shared-set Firebase access is represented by a no-op setlistRef stub above.
   // Active shared set lists continue to use the rich shared-set Firebase path through the existing v72.5.8 logic.
 })();
@@ -14883,7 +14883,7 @@ body.dark .namedset-note-chip{background:var(--accent-surface)!important;color:v
 <script id="wb-v74-5-2-setlist-and-export-fixes">
 (function(){
   'use strict';
-  const VERSION='75.8';
+  const VERSION='75.9';
   function norm(v){try{if(typeof normId==='function')return normId(v);}catch(e){}return String(v==null?'':v).trim();}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}}
   function sk(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
@@ -15066,7 +15066,7 @@ body.dark .workspace-note-body code{background:rgba(255,255,255,.05)!important;b
 <script id="wb-v75-1-workspace-tab-script">
 (function(){
   'use strict';
-  const VERSION='75.8';
+  const VERSION='75.9';
   function qs(id){return document.getElementById(id);}
   function setDisplay(id,val){const el=qs(id); if(el)el.style.display=val;}
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
@@ -15157,7 +15157,7 @@ body.dark .workspace-publish-note{background:var(--accent-surface)!important;col
 <script id="wb-v75-2-workspace-publish-picker-script">
 (function(){
   'use strict';
-  const VERSION='75.8';
+  const VERSION='75.9';
   function qs(id){return document.getElementById(id);}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s??'').replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}}
   function sk(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
@@ -15234,7 +15234,7 @@ body.dark .workspace-publish-note{background:var(--accent-surface)!important;col
 
 
 <style id="wb-v75-3-workspace-manager-style">
-/* v75.6 — Workspace set-list manager lives in the Workspace tab. Storage/export logic remains unchanged. */
+/* v75.9 — Workspace set-list manager lives in the Workspace tab. Storage/export logic remains unchanged. */
 .workspace-manager{margin-top:14px;border:1px solid var(--surface-border);background:var(--bg1);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-sm);}
 .workspace-manager-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 15px;border-bottom:1px solid var(--surface-border);}
 .workspace-manager-title-wrap{min-width:0;display:flex;flex-direction:column;gap:2px;}
@@ -15268,7 +15268,7 @@ body.dark .workspace-icon-btn.danger{background:rgba(239,143,162,.12)!important;
 <script id="wb-v75-3-workspace-manager-script">
 (function(){
   'use strict';
-  const VERSION='75.8';
+  const VERSION='75.9';
   function qs(id){return document.getElementById(id);}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s==null?'':s).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}}
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
@@ -15349,7 +15349,7 @@ body.dark .workspace-icon-btn.danger{background:rgba(239,143,162,.12)!important;
 
 
 <style id="wb-v75-4-workspace-subview-style">
-/* v75.6 — Workspace Set Lists becomes a dedicated subview inside the Workspace tab. Bottom nav remains visible. */
+/* v75.9 — Workspace Set Lists becomes a dedicated subview inside the Workspace tab. Bottom nav remains visible. */
 #workspace-section.workspace-setlists-mode .workspace-hero,
 #workspace-section.workspace-setlists-mode .workspace-grid,
 #workspace-section.workspace-setlists-mode .workspace-note-card,
@@ -15388,7 +15388,7 @@ body.dark .workspace-subview-icon.danger{background:rgba(239,143,162,.12)!import
 <script id="wb-v75-4-workspace-subview-script">
 (function(){
   'use strict';
-  const VERSION='75.8';
+  const VERSION='75.9';
   let workspaceView='dashboard';
   function qs(id){return document.getElementById(id);}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s==null?'':s).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}}
@@ -15446,7 +15446,7 @@ body.dark .workspace-subview-icon.danger{background:rgba(239,143,162,.12)!import
 
 
 <style id="wb-v75-6-workspace-safe-polish-style">
-/* v75.6 - safe continuation from v75.4. Keep Workspace list only in the dedicated subview and soften Workspace UI to match the app. */
+/* v75.9 - safe continuation from v75.4. Keep Workspace list only in the dedicated subview and soften Workspace UI to match the app. */
 #workspace-setlist-manager{display:none!important;}
 .workspace-hero{padding:18px 18px 10px!important;}
 .workspace-kicker{font-size:11px!important;font-weight:800!important;letter-spacing:.08em!important;color:var(--txt3)!important;text-transform:uppercase!important;}
@@ -15474,7 +15474,7 @@ body.dark .workspace-subview-icon.danger{background:rgba(239,143,162,.12)!import
 <script id="wb-v75-6-rich-save-guard-script">
 (function(){
   'use strict';
-  const VERSION='75.8';
+  const VERSION='75.9';
   function clone(v){try{return JSON.parse(JSON.stringify(v));}catch(e){return v;}}
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
   function counts(set){let songs=0,plan=0;itemsOf(set).forEach(function(it){const t=String((it&&it.type)||'song').toLowerCase();if(t==='section'||t==='item'||t==='service')plan++;else if(t==='song'||(it&&it.songId))songs++;});return {songs:songs,plan:plan,total:songs+plan};}
@@ -15531,8 +15531,8 @@ body.dark .workspace-subview-icon.danger{background:rgba(239,143,162,.12)!import
 
 
 
-<style id="wb-v75-8-personal-manager-style">
-/* v75.8 — Set List tab is Personal-only, but uses the proven v75.6 set-list engine. */
+<style id="wb-v75-9-personal-workspace-ui-style">
+/* v75.9 — Personal set-list manager + Workspace width polish. Storage/export logic unchanged. */
 #setlist-section .sl-scope-row{display:none!important;}
 #setlist-section.personal-list-mode .sl-setbar,
 #setlist-section.personal-list-mode .sl-hdr,
@@ -15540,19 +15540,22 @@ body.dark .workspace-subview-icon.danger{background:rgba(239,143,162,.12)!import
 #setlist-section.personal-list-mode > .add-fab{display:none!important;}
 #setlist-section.personal-list-mode #personal-sets-home{display:flex!important;}
 #setlist-section:not(.personal-list-mode) #personal-sets-home{display:none!important;}
-#setlist-section.personal-editor-mode #personal-editor-bar{display:flex!important;}
-#setlist-section.personal-list-mode #personal-editor-bar,
-#setlist-section.workspace-editor-mode #personal-editor-bar{display:none!important;}
+#setlist-section.personal-editor-mode #personal-editor-bar,
+#setlist-section.workspace-editor-mode #personal-editor-bar{display:flex!important;}
+#setlist-section.personal-list-mode #personal-editor-bar{display:none!important;}
+#setlist-section.workspace-editor-mode .personal-editor-publish{display:none!important;}
+#setlist-section.workspace-editor-mode .personal-editor-back::after{content:"Workspace Set Lists";}
+#setlist-section.personal-editor-mode .personal-editor-back::after{content:"My Set Lists";}
+#setlist-section.workspace-editor-mode .personal-editor-back .back-label,
+#setlist-section.personal-editor-mode .personal-editor-back .back-label{display:none!important;}
 .personal-sets-home{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;flex-direction:column;padding:16px 16px calc(var(--sab) + 24px);background:var(--bg1);}
 .personal-sets-hero{border:1px solid var(--surface-border);background:linear-gradient(180deg,color-mix(in srgb,var(--bg1) 94%,var(--surface-tint) 6%),var(--bg1));border-radius:18px;padding:17px 17px 15px;box-shadow:var(--shadow-sm);margin-bottom:14px;}
 .personal-sets-kicker{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--txt3);margin-bottom:5px;}
-.personal-sets-title{font-size:22px;font-weight:800;letter-spacing:-.035em;color:var(--txt1);line-height:1.1;}
-.personal-sets-sub{font-size:13px;font-weight:500;line-height:1.45;color:var(--txt2);margin-top:6px;}
+.personal-sets-title{font-size:24px;font-weight:800;letter-spacing:-.04em;color:var(--txt1);line-height:1.05;}
+.personal-sets-summary{font-size:12px;font-weight:600;color:var(--txt3);line-height:1.4;margin-top:7px;}
 .personal-sets-panel{border:1px solid var(--surface-border);background:var(--bg1);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-sm);}
-.personal-sets-head{display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid var(--surface-border);}
-.personal-sets-copy{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;}
-.personal-sets-panel-title{font-size:17px;font-weight:800;letter-spacing:-.025em;color:var(--txt1);line-height:1.1;}
-.personal-sets-panel-sub{font-size:12px;font-weight:500;color:var(--txt3);line-height:1.35;}
+.personal-sets-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 14px;border-bottom:1px solid var(--surface-border);}
+.personal-sets-local{font-size:12px;font-weight:650;color:var(--txt3);}
 .personal-sets-new{border:1px solid var(--surface-border);background:var(--surface-tint);color:var(--tc);border-radius:999px;min-height:34px;padding:0 13px;font-size:12px;font-weight:800;letter-spacing:.01em;cursor:pointer;font-family:inherit;white-space:nowrap;}
 .personal-sets-list{display:flex;flex-direction:column;gap:9px;padding:12px;}
 .personal-set-row{display:flex;align-items:center;gap:12px;width:100%;border:1px solid var(--surface-border);background:color-mix(in srgb,var(--bg1) 94%,var(--surface-tint) 6%);border-radius:16px;padding:12px;text-align:left;color:var(--txt1);font-family:inherit;cursor:pointer;}
@@ -15570,48 +15573,49 @@ body.dark .workspace-subview-icon.danger{background:rgba(239,143,162,.12)!import
 .personal-editor-back{height:34px;border:1px solid var(--surface-border);background:var(--surface-tint);color:var(--tc);border-radius:999px;padding:0 12px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:5px;}
 .personal-editor-spacer{flex:1;min-width:0;}
 .personal-editor-publish{height:34px;border:1px solid var(--surface-border);background:var(--surface-tint);color:var(--tc);border-radius:999px;padding:0 12px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;white-space:nowrap;}
+/* Remove double side-padding in Workspace so cards align with the rest of the app. */
+#workspace-section .workspace-grid{padding:10px 0 8px!important;}
+#workspace-section .workspace-note-card{margin:10px 0 18px!important;}
+#workspace-section .workspace-subview{margin:14px 0 18px!important;}
+#workspace-section .workspace-subview-card{width:100%!important;}
 body.dark .personal-sets-home{background:#000!important;}
 body.dark .personal-sets-hero,body.dark .personal-sets-panel,body.dark .personal-set-row{background:rgba(255,255,255,.035)!important;border-color:rgba(255,255,255,.10)!important;box-shadow:none!important;}
 body.dark .personal-sets-head{border-color:rgba(255,255,255,.10)!important;}
 body.dark .personal-sets-new,body.dark .personal-set-icon,body.dark .personal-set-note,body.dark .personal-editor-back,body.dark .personal-editor-publish{background:var(--accent-surface)!important;border-color:var(--accent-border)!important;color:var(--accent)!important;}
 body.dark .personal-set-icon.danger{background:rgba(239,143,162,.12)!important;border-color:rgba(239,143,162,.24)!important;color:#ef8fa2!important;}
 </style>
-<script id="wb-v75-8-personal-manager-script">
+<script id="wb-v75-9-personal-workspace-ui-script">
 (function(){
   'use strict';
-  const VERSION='75.8';
-  let openingWorkspaceSet=false;
-  function qs(id){return document.getElementById(id);} 
+  const VERSION='75.9';
+  let routeMode='personal-list';
+  function qs(id){return document.getElementById(id);}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s==null?'':s).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}}
-  function sk(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
-  function itemCounts(items){let songs=0,plans=0;(items||[]).forEach(function(it){const t=String((it&&it.type)||'song').toLowerCase();if(t==='section'||t==='item'||t==='service')plans++;else if(t==='song'||(it&&it.songId))songs++;});return {songs:songs,items:plans};}
-  function countLabel(items){const c=itemCounts(items);const out=[c.songs+' song'+(c.songs===1?'':'s')];if(c.items)out.push(c.items+' item'+(c.items===1?'':'s'));return out.join(' · ');}  
+  function itemCounts(items){let songs=0,plan=0;(items||[]).forEach(function(it){const t=String((it&&it.type)||'song').toLowerCase();if(t==='section'||t==='item'||t==='service')plan++;else if(t==='song'||(it&&it.songId))songs++;});return {songs:songs,items:plan,total:songs+plan};}
+  function countLabel(items){const c=itemCounts(items);const parts=[c.songs+' song'+(c.songs===1?'':'s')];if(c.items)parts.push(c.items+' item'+(c.items===1?'':'s'));return parts.join(' · ');}
   function noteText(set){return String((set&&set.notes)||'').trim();}
   function updatedLabel(set){const ts=Number((set&&set.updatedAt)||(set&&set.createdAt)||0);if(!ts)return '';try{const d=new Date(ts);if(!isFinite(d.getTime()))return '';return 'Updated '+d.toLocaleDateString(undefined,{month:'short',day:'numeric'});}catch(e){return '';}}
   function personalSets(){try{return (typeof _personalSets!=='undefined'&&_personalSets)||{};}catch(e){return {};}}
   function isPlaceholder(id,set){if(id!=='default'||!set)return false;const nm=String(set.name||'').trim().toLowerCase();return ['my set','personal set','set'].includes(nm)&&!noteText(set)&&!itemsOf(set).length;}
   function entries(){return Object.entries(personalSets()).filter(function(p){return !isPlaceholder(p[0],p[1]);}).sort(function(a,b){return Number((b[1]&&b[1].updatedAt)||0)-Number((a[1]&&a[1].updatedAt)||0);});}
-  function summary(list){list=list||entries();const totals=list.reduce(function(a,p){const c=itemCounts(itemsOf(p[1]));a.songs+=c.songs;a.items+=c.items;return a;},{songs:0,items:0});const bits=[list.length+' set list'+(list.length===1?'':'s')];if(totals.songs)bits.push(totals.songs+' song'+(totals.songs===1?'':'s'));if(totals.items)bits.push(totals.items+' item'+(totals.items===1?'':'s'));return bits.join(' · ');}  
-  function safeArg(id){return JSON.stringify(String(id)).replace(/</g,'\\u003c');}
-  function forcePersonal(){
-    try{if(typeof setSetListScope==='function')setSetListScope('personal');}catch(e){}
-    try{if(typeof appPrefs!=='undefined'){appPrefs.setListScope='personal';appPrefs.useDeviceSetList=true;if(typeof savePrefs==='function')savePrefs();}}catch(e){}
-  }
-  function ensureHome(){const section=qs('setlist-section');if(!section)return null;let home=qs('personal-sets-home');if(home)return home;home=document.createElement('div');home.id='personal-sets-home';home.className='personal-sets-home';home.innerHTML='<div class="personal-sets-hero"><div class="personal-sets-kicker">Set List</div><div class="personal-sets-title">My Set Lists</div><div class="personal-sets-sub">Personal planning lives here. Choose a set to edit, then publish it to Workspace when it is ready.</div></div><div class="personal-sets-panel"><div class="personal-sets-head"><div class="personal-sets-copy"><div class="personal-sets-panel-title">Personal set lists</div><div class="personal-sets-panel-sub" id="personal-sets-sub">Loading personal set lists…</div></div><button class="personal-sets-new" type="button" onclick="createPersonalSetFromHome()">New</button></div><div id="personal-sets-list" class="personal-sets-list"></div></div>';section.insertBefore(home,section.firstChild);return home;}
-  function ensureEditorBar(){const section=qs('setlist-section');if(!section)return null;let bar=qs('personal-editor-bar');if(bar)return bar;bar=document.createElement('div');bar.id='personal-editor-bar';bar.className='personal-editor-bar';bar.innerHTML='<button class="personal-editor-back" type="button" onclick="showPersonalSetsHome()">‹ My Set Lists</button><span class="personal-editor-spacer"></span><button class="personal-editor-publish" type="button" onclick="publishCurrentPersonalSetToWorkspace()">Publish to Workspace</button>';const setbar=section.querySelector('.sl-setbar');if(setbar)section.insertBefore(bar,setbar);else section.insertBefore(bar,section.firstChild);return bar;}
+  function summary(list){list=list||entries();const totals=list.reduce(function(a,p){const c=itemCounts(itemsOf(p[1]));a.songs+=c.songs;a.items+=c.items;return a;},{songs:0,items:0});const bits=[list.length+' set list'+(list.length===1?'':'s')];if(totals.songs)bits.push(totals.songs+' song'+(totals.songs===1?'':'s'));if(totals.items)bits.push(totals.items+' item'+(totals.items===1?'':'s'));bits.push('Saved locally');return bits.join(' · ');}
+  function forcePersonal(id){try{if(typeof appPrefs!=='undefined'){appPrefs.setListScope='personal';appPrefs.useDeviceSetList=true;if(arguments.length>0)appPrefs.activePersonalSetId=id||'';if(typeof savePrefs==='function')savePrefs();}}catch(e){}try{if(typeof renderSetListScopeUI==='function')renderSetListScopeUI();}catch(e){}}
+  function forceWorkspace(id){try{if(typeof appPrefs!=='undefined'){appPrefs.setListScope='shared';appPrefs.useDeviceSetList=false;if(arguments.length>0)appPrefs.activeSharedSetId=id||'';if(typeof savePrefs==='function')savePrefs();}}catch(e){}try{if(typeof renderSetListScopeUI==='function')renderSetListScopeUI();}catch(e){}}
+  function ensureHome(){const section=qs('setlist-section');if(!section)return null;let home=qs('personal-sets-home');if(home)return home;home=document.createElement('div');home.id='personal-sets-home';home.className='personal-sets-home';home.innerHTML='<div class="personal-sets-hero"><div class="personal-sets-kicker">Set List</div><div class="personal-sets-title">My Set Lists</div><div class="personal-sets-summary" id="personal-sets-summary">Saved locally</div></div><div class="personal-sets-panel"><div class="personal-sets-head"><div class="personal-sets-local">Saved locally on this device</div><button class="personal-sets-new" type="button" id="personal-sets-new-btn">New</button></div><div id="personal-sets-list" class="personal-sets-list"></div></div>';section.insertBefore(home,section.firstChild);const nb=qs('personal-sets-new-btn');if(nb&&!nb.__wbV759){nb.__wbV759=true;nb.addEventListener('click',function(e){e.preventDefault();window.createPersonalSetFromHome();});}return home;}
+  function ensureEditorBar(){const section=qs('setlist-section');if(!section)return null;let bar=qs('personal-editor-bar');if(bar)return bar;bar=document.createElement('div');bar.id='personal-editor-bar';bar.className='personal-editor-bar';bar.innerHTML='<button class="personal-editor-back" type="button" id="personal-editor-back-btn">‹ <span class="back-label">My Set Lists</span></button><span class="personal-editor-spacer"></span><button class="personal-editor-publish" type="button" id="personal-editor-publish-btn">Publish to Workspace</button>';const setbar=section.querySelector('.sl-setbar');if(setbar)section.insertBefore(bar,setbar);else section.insertBefore(bar,section.firstChild);const back=qs('personal-editor-back-btn');if(back&&!back.__wbV759){back.__wbV759=true;back.addEventListener('click',function(e){e.preventDefault();if(routeMode==='workspace-editor'){try{window.switchTab('workspace');setTimeout(function(){if(typeof window.openWorkspaceSetLists==='function')window.openWorkspaceSetLists();},80);}catch(_e){}}else window.showPersonalSetsHome();});}const pub=qs('personal-editor-publish-btn');if(pub&&!pub.__wbV759){pub.__wbV759=true;pub.addEventListener('click',function(e){e.preventDefault();window.publishCurrentPersonalSetToWorkspace();});}return bar;}
   function setMode(mode){const section=qs('setlist-section');if(!section)return;ensureHome();ensureEditorBar();section.classList.remove('personal-list-mode','personal-editor-mode','workspace-editor-mode');section.classList.add(mode==='workspace'?'workspace-editor-mode':(mode==='editor'?'personal-editor-mode':'personal-list-mode'));}
-  function renderHome(){ensureHome();const list=qs('personal-sets-list');if(!list)return;const e=entries();const sub=qs('personal-sets-sub');if(sub)sub.textContent=summary(e);if(!e.length){list.innerHTML='<div class="personal-sets-empty"><div class="personal-sets-empty-title">No Personal set lists yet</div><div>Create a set list to start planning privately.</div></div>';return;}list.innerHTML=e.map(function(p){const id=p[0],set=p[1]||{};const notes=noteText(set)?'<span class="personal-set-note">Notes</span>':'';const upd=updatedLabel(set);return '<div class="personal-set-row" role="button" tabindex="0" onclick="openPersonalSetFromHome('+safeArg(id)+')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();openPersonalSetFromHome('+safeArg(id)+')}"><span class="personal-set-main"><span class="personal-set-name">'+esc(set.name||'Untitled set')+'</span><span class="personal-set-meta"><span>'+esc(countLabel(itemsOf(set)))+'</span>'+notes+(upd?'<span>'+esc(upd)+'</span>':'')+'</span></span><span class="personal-set-actions"><button class="personal-set-icon" type="button" onclick="event.stopPropagation();openPersonalSetFromHome('+safeArg(id)+')" aria-label="Open">›</button><button class="personal-set-icon danger" type="button" onclick="event.stopPropagation();deletePersonalSetFromHome('+safeArg(id)+')" aria-label="Delete">×</button></span></div>';}).join('');}
-  window.showPersonalSetsHome=function(){forcePersonal();setMode('list');renderHome();};
-  window.openPersonalSetFromHome=function(id){try{forcePersonal();const sets=personalSets();if(!sets[id]){try{showToast('Personal set not found');}catch(_e){}renderHome();return;}if(typeof appPrefs!=='undefined'){appPrefs.activePersonalSetId=id;appPrefs.setListScope='personal';appPrefs.useDeviceSetList=true;if(typeof savePrefs==='function')savePrefs();}try{if(typeof renderNamedSetChooserUI==='function')renderNamedSetChooserUI();if(typeof renderSetListScopeUI==='function')renderSetListScopeUI();if(typeof renderSetList==='function')renderSetList();}catch(e){}setMode('editor');}catch(e){console.warn('Open Personal set failed',e);try{showToast('Could not open set list');}catch(_e){}}};
-  window.createPersonalSetFromHome=function(){try{forcePersonal();const name=(prompt('New Personal set list name:','New Set')||'').trim();if(!name)return;const id=(typeof makeSetId==='function'?makeSetId():('set_'+Date.now().toString(36)+Math.random().toString(36).slice(2,7)));const next=Object.assign({},personalSets());next[id]={name:name,notes:'',items:[],songMemory:{},createdAt:Date.now(),updatedAt:Date.now()};_personalSets=next;if(typeof appPrefs!=='undefined'){appPrefs.activePersonalSetId=id;appPrefs.setListScope='personal';appPrefs.useDeviceSetList=true;if(typeof savePrefs==='function')savePrefs();}try{if(typeof savePersonalNamedSets==='function')savePersonalNamedSets();}catch(e){try{localStorage.setItem(PERSONAL_SETS_KEY,JSON.stringify(_personalSets));}catch(_e){}}renderHome();window.openPersonalSetFromHome(id);try{showToast('Personal set created');}catch(_e){}}catch(e){console.warn('Create Personal set failed',e);try{showToast('Could not create set list');}catch(_e){}}};
-  window.deletePersonalSetFromHome=function(id){try{forcePersonal();const next=Object.assign({},personalSets());const set=next[id];if(!set)return;const ok=(typeof confirmDestructive==='function')?confirmDestructive('Delete '+(set.name||'this set list')+'?'):confirm('Delete '+(set.name||'this set list')+'?');if(!ok)return;delete next[id];_personalSets=next;const ids=Object.keys(next).filter(function(k){return !isPlaceholder(k,next[k]);});if(typeof appPrefs!=='undefined'){appPrefs.activePersonalSetId=ids[0]||'';appPrefs.setListScope='personal';appPrefs.useDeviceSetList=true;if(typeof savePrefs==='function')savePrefs();}try{if(typeof savePersonalNamedSets==='function')savePersonalNamedSets();}catch(e){}renderHome();try{if(typeof renderNamedSetChooserUI==='function')renderNamedSetChooserUI();}catch(e){}try{showToast('Personal set deleted');}catch(_e){}}catch(e){console.warn('Delete Personal set failed',e);try{showToast('Could not delete set list');}catch(_e){}}};
-  window.publishCurrentPersonalSetToWorkspace=function(){try{forcePersonal();const active=(typeof getActiveSet==='function')?getActiveSet('personal'):null;if(!active||!active.id){try{showToast('Open a Personal set first');}catch(_e){}return;}if(typeof copyActiveSetToOtherScope==='function')copyActiveSetToOtherScope();else if(window.copyActiveSetToOtherScope)window.copyActiveSetToOtherScope();}catch(e){console.warn('Publish current personal set failed',e);try{showToast('Could not publish set');}catch(_e){}}};
+  function bindList(){const list=qs('personal-sets-list');if(!list||list.__wbV759)return;list.__wbV759=true;list.addEventListener('click',function(e){const del=e.target.closest('[data-action="delete"]');if(del){e.preventDefault();e.stopPropagation();window.deletePersonalSetFromHome(del.getAttribute('data-id'));return;}const open=e.target.closest('[data-action="open"], .personal-set-row');if(open){e.preventDefault();const id=open.getAttribute('data-id')||(open.closest('.personal-set-row')&&open.closest('.personal-set-row').getAttribute('data-id'));if(id)window.openPersonalSetFromHome(id);}});list.addEventListener('keydown',function(e){if(e.key!=='Enter'&&e.key!==' ')return;const row=e.target.closest('.personal-set-row');if(row){e.preventDefault();window.openPersonalSetFromHome(row.getAttribute('data-id'));}});}
+  function renderHome(){ensureHome();bindList();const list=qs('personal-sets-list');if(!list)return;const e=entries();const sum=qs('personal-sets-summary');if(sum)sum.textContent=summary(e);if(!e.length){list.innerHTML='<div class="personal-sets-empty"><div class="personal-sets-empty-title">No Personal set lists yet</div><div>Create a set list to start planning privately.</div></div>';return;}list.innerHTML=e.map(function(p){const id=String(p[0]);const set=p[1]||{};const notes=noteText(set)?'<span class="personal-set-note">Notes</span>':'';const upd=updatedLabel(set);return '<div class="personal-set-row" role="button" tabindex="0" data-id="'+esc(id)+'"><span class="personal-set-main"><span class="personal-set-name">'+esc(set.name||'Untitled set')+'</span><span class="personal-set-meta"><span>'+esc(countLabel(itemsOf(set)))+'</span>'+notes+(upd?'<span>'+esc(upd)+'</span>':'')+'</span></span><span class="personal-set-actions"><button class="personal-set-icon" type="button" data-action="open" data-id="'+esc(id)+'" aria-label="Open">›</button><button class="personal-set-icon danger" type="button" data-action="delete" data-id="'+esc(id)+'" aria-label="Delete">×</button></span></div>';}).join('');}
+  window.showPersonalSetsHome=function(){routeMode='personal-list';forcePersonal();setMode('list');renderHome();};
+  window.openPersonalSetFromHome=function(id){try{const sets=personalSets();if(!sets[id]){try{showToast('Personal set not found');}catch(_e){}renderHome();return;}routeMode='personal-editor';forcePersonal(id);try{if(typeof renderNamedSetChooserUI==='function')renderNamedSetChooserUI();if(typeof renderSetList==='function')renderSetList();}catch(e){}setMode('editor');}catch(e){console.warn('Open Personal set failed',e);try{showToast('Could not open set list');}catch(_e){}}};
+  window.createPersonalSetFromHome=function(){try{const name=(prompt('New Personal set list name:','New Set')||'').trim();if(!name)return;const id=(typeof makeSetId==='function'?makeSetId():('set_'+Date.now().toString(36)+Math.random().toString(36).slice(2,7)));const next=Object.assign({},personalSets());next[id]={name:name,notes:'',items:[],songMemory:{},createdAt:Date.now(),updatedAt:Date.now()};_personalSets=next;forcePersonal(id);try{if(typeof savePersonalNamedSets==='function')savePersonalNamedSets();else if(typeof PERSONAL_SETS_KEY!=='undefined')localStorage.setItem(PERSONAL_SETS_KEY,JSON.stringify(_personalSets));}catch(e){}renderHome();window.openPersonalSetFromHome(id);try{showToast('Personal set created');}catch(_e){}}catch(e){console.warn('Create Personal set failed',e);try{showToast('Could not create set list');}catch(_e){}}};
+  window.deletePersonalSetFromHome=function(id){try{const next=Object.assign({},personalSets());const set=next[id];if(!set)return;const ok=(typeof confirmDestructive==='function')?confirmDestructive('Delete '+(set.name||'this set list')+'?'):confirm('Delete '+(set.name||'this set list')+'?');if(!ok)return;delete next[id];_personalSets=next;const ids=Object.keys(next).filter(function(k){return !isPlaceholder(k,next[k]);});forcePersonal(ids[0]||'');try{if(typeof savePersonalNamedSets==='function')savePersonalNamedSets();}catch(e){}renderHome();try{if(typeof renderNamedSetChooserUI==='function')renderNamedSetChooserUI();}catch(e){}try{showToast('Personal set deleted');}catch(_e){}}catch(e){console.warn('Delete Personal set failed',e);try{showToast('Could not delete set list');}catch(_e){}}};
+  window.publishCurrentPersonalSetToWorkspace=function(){try{const active=(typeof getActiveSet==='function')?getActiveSet('personal'):null;if(!active||!active.id){try{showToast('Open a Personal set first');}catch(_e){}return;}if(typeof publishPersonalSetIdToWorkspace==='function')publishPersonalSetIdToWorkspace(active.id);else if(typeof copyActiveSetToOtherScope==='function')copyActiveSetToOtherScope();}catch(e){console.warn('Publish current personal set failed',e);try{showToast('Could not publish set');}catch(_e){}}};
+  const previousOpenWorkspace=window.openWorkspaceSetFromWorkspaceTab;
+  window.openWorkspaceSetFromWorkspaceTab=function(id){try{routeMode='workspace-editor';forceWorkspace(id);if(typeof renderNamedSetChooserUI==='function')renderNamedSetChooserUI();if(typeof renderSetList==='function')renderSetList();if(typeof window.switchTab==='function')window.switchTab('setlist');setMode('workspace');try{document.querySelectorAll('.tab-btn').forEach(function(el){el.classList.remove('active');});qs('tab-workspace')&&qs('tab-workspace').classList.add('active');if(typeof activeTab!=='undefined')activeTab='workspace';}catch(_e){}return;}catch(e){console.warn('Open Workspace set failed; falling back',e);if(typeof previousOpenWorkspace==='function')return previousOpenWorkspace.apply(this,arguments);}};
   const oldSwitch=window.switchTab;
-  if(typeof oldSwitch==='function'&&!oldSwitch.__wbV758Personal){const wrapped=function(tab){const out=oldSwitch.apply(this,arguments);if(tab==='setlist'){if(openingWorkspaceSet){setMode('workspace');openingWorkspaceSet=false;}else{window.showPersonalSetsHome();}}return out;};wrapped.__wbV758Personal=true;window.switchTab=wrapped;try{switchTab=wrapped;}catch(e){}}
-  const oldOpenWorkspace=window.openWorkspaceSetFromWorkspaceTab;
-  if(typeof oldOpenWorkspace==='function'&&!oldOpenWorkspace.__wbV758Personal){const wrapped=function(){openingWorkspaceSet=true;return oldOpenWorkspace.apply(this,arguments);};wrapped.__wbV758Personal=true;window.openWorkspaceSetFromWorkspaceTab=wrapped;}
-  ['savePersonalNamedSets','renderNamedSetChooserUI','renderSetList'].forEach(function(name){const old=window[name];if(typeof old==='function'&&!old.__wbV758PersonalRefresh){const fn=function(){const out=old.apply(this,arguments);try{renderHome();}catch(e){}return out;};fn.__wbV758PersonalRefresh=true;window[name]=fn;try{eval(name+'=window[name]');}catch(e){}}});
+  if(typeof oldSwitch==='function'&&!oldSwitch.__wbV759Personal){const wrapped=function(tab){if(tab==='setlist'&&routeMode!=='workspace-editor')routeMode='personal-list';const out=oldSwitch.apply(this,arguments);if(tab==='setlist'){if(routeMode==='workspace-editor'){setMode('workspace');}else{window.showPersonalSetsHome();}}return out;};wrapped.__wbV759Personal=true;window.switchTab=wrapped;try{switchTab=wrapped;}catch(e){}}
   function init(){try{document.title='WorshipBase v'+VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}ensureHome();ensureEditorBar();renderHome();try{if(typeof activeTab!=='undefined'&&activeTab==='setlist')window.showPersonalSetsHome();}catch(e){}}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(init,260);},{once:true});else setTimeout(init,260);
 })();
