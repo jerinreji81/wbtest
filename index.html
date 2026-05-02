@@ -10,7 +10,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="assets/wb-icon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
 
-<title>WorshipBase v75.6</title>
+<title>WorshipBase v75.11</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 /* Prevent iOS long-press/callout menus and text selection on UI chrome
@@ -3183,9 +3183,9 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
         <button class="sl-scope-btn" id="sl-scope-personal" onclick="setSetListScope('personal')">Personal</button>
       </div>
     </div>
-    <div id="wb-set-editor-bar"><button class="wb-editor-back" type="button" onclick="goBackFromSetEditor()">‹ Back</button><div class="wb-editor-title-wrap"><div class="wb-editor-title" id="wb-editor-title">Set list</div><div class="wb-editor-sub" id="wb-editor-sub">Planning board</div></div><button class="wb-editor-publish" id="wb-editor-publish" type="button" onclick="publishCurrentPersonalSetToWorkspace()">Publish</button></div><div class="sl-setbar">
+    <div id="wb-set-editor-bar"><button class="wb-editor-back" type="button" onclick="goBackFromSetEditor()" aria-label="Back" title="Back">‹</button><div class="wb-editor-title-wrap"><div class="wb-editor-title" id="wb-editor-title">Set list</div><div class="wb-editor-sub" id="wb-editor-sub">Planning board</div></div><button class="wb-editor-publish" id="wb-editor-publish" type="button" onclick="publishCurrentPersonalSetToWorkspace()">Publish</button></div><div class="sl-setbar">
       <button class="sl-setpick" type="button" onclick="openBS('sets')">
-        <span class="sl-setpick-copy"><span class="sl-setpick-title" id="sl-active-set-name">Backup test</span><span class="sl-setpick-sub" id="sl-active-set-sub">8 songs · 7 items · Set notes · planning board</span><span class="setlist-set-note-chip" style="display: inline-flex;">Notes</span></span>
+        <span class="sl-setpick-copy"><span class="sl-setpick-title" id="sl-active-set-name">Backup test (Workspace)</span><span class="sl-setpick-sub" id="sl-active-set-sub">8 songs · 7 items · Set notes · planning board</span><span class="setlist-set-note-chip" style="display: inline-flex;">Notes</span></span>
         <span class="sl-setpick-caret"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
       </button>
     </div>
@@ -3209,39 +3209,39 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   <!-- WORKSPACE -->
   <div id="workspace-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;position:relative;min-height:0;">
     <div class="workspace-scroll">
-      <div id="workspace-setlists-subview" class="workspace-subview"><div class="workspace-subview-head"><button class="workspace-subview-back" type="button" onclick="showWorkspaceDashboard()" aria-label="Back to Workspace">‹</button><div class="workspace-subview-title-wrap"><div class="workspace-subview-title">Workspace set lists</div><div class="workspace-subview-sub" id="workspace-subview-sub">2 set lists · 8 songs · 11 items</div></div><button class="workspace-subview-new" type="button" onclick="createWorkspaceSetFromWorkspaceSubview()">New</button></div><div id="workspace-subview-list" class="workspace-subview-list"><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_moooodg92sy8')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_moooodg92sy8')}"><span class="workspace-subview-main"><span class="workspace-subview-name">Backup test</span><span class="workspace-subview-meta"><span>8 songs · 7 items</span><span class="workspace-subview-note">Notes</span><span class="workspace-subview-updated">Updated 2 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_moooodg92sy8')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_moooodg92sy8')" aria-label="Delete">×</button></span></div><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_mooorhtct4w7')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_mooorhtct4w7')}"><span class="workspace-subview-main"><span class="workspace-subview-name">New Set (Shared)</span><span class="workspace-subview-meta"><span>0 songs · 4 items</span><span class="workspace-subview-updated">Updated 2 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_mooorhtct4w7')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_mooorhtct4w7')" aria-label="Delete">×</button></span></div></div></div><div class="workspace-hero">
+      <div id="workspace-setlists-subview" class="workspace-subview"><div class="workspace-subview-head"><button class="workspace-subview-back" type="button" onclick="showWorkspaceDashboard()" aria-label="Back" title="Back">‹</button><div class="workspace-subview-title-wrap"><div class="workspace-subview-title">Workspace set lists</div><div class="workspace-subview-sub" id="workspace-subview-sub">3 set lists · 13 songs · 13 items</div></div><button class="workspace-subview-new" type="button" onclick="createWorkspaceSetFromWorkspaceSubview()">New</button></div><div id="workspace-subview-list" class="workspace-subview-list"><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_moouqz6yupzy')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_moouqz6yupzy')}"><span class="workspace-subview-main"><span class="workspace-subview-name">New Workspace Set</span><span class="workspace-subview-meta"><span>3 songs · 2 items</span><span class="workspace-subview-updated">Updated 2 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_moouqz6yupzy')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_moouqz6yupzy')" aria-label="Delete">×</button></span></div><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_moouut5flfso')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_moouut5flfso')}"><span class="workspace-subview-main"><span class="workspace-subview-name">Backup test 2 (Workspace)</span><span class="workspace-subview-meta"><span>2 songs · 4 items</span><span class="workspace-subview-updated">Updated 2 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_moouut5flfso')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_moouut5flfso')" aria-label="Delete">×</button></span></div><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_mooupk5em9xt')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_mooupk5em9xt')}"><span class="workspace-subview-main"><span class="workspace-subview-name">Backup test (Workspace)</span><span class="workspace-subview-meta"><span>8 songs · 7 items</span><span class="workspace-subview-note">Notes</span><span class="workspace-subview-updated">Updated 2 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_mooupk5em9xt')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_mooupk5em9xt')" aria-label="Delete">×</button></span></div></div></div><div class="workspace-hero">
         <div class="workspace-kicker">Workspace</div>
-        <div class="workspace-title">Team worship planning</div>
-        <div class="workspace-sub">This is the new home for shared/team set lists. v75 keeps the working shared storage from v74.5.2 and presents it as a Workspace while the full members/invites/library system is developed.</div>
+        <div class="workspace-title">Workspace</div>
+        <div class="workspace-sub">Team set lists and publishing.</div>
       </div>
 
       <div class="workspace-grid">
         <button class="workspace-card workspace-card-action" type="button" onclick="openWorkspaceSetLists()">
           <span class="workspace-card-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"></rect><rect x="3" y="11" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"></rect><rect x="3" y="17" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"></rect><path d="M11 7h10M11 13h8M11 19h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg></span>
-          <span class="workspace-card-main"><span class="workspace-card-title">Workspace set lists</span><span class="workspace-card-sub" id="workspace-setlists-sub">2 set lists · 8 songs · 11 items</span></span>
+          <span class="workspace-card-main"><span class="workspace-card-title">Workspace set lists</span><span class="workspace-card-sub" id="workspace-setlists-sub">3 set lists · 13 songs · 13 items</span></span>
           <span class="workspace-card-chevron">›</span>
         </button>
 
         <button class="workspace-card workspace-card-action" type="button" onclick="publishPersonalSetToWorkspace()">
           <span class="workspace-card-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3v12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path><path d="M7 8l5-5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M5 15v4h14v-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
-          <span class="workspace-card-main"><span class="workspace-card-title">Publish personal set</span><span class="workspace-card-sub">Choose a Personal set and publish it into Workspace.</span></span>
+          <span class="workspace-card-main"><span class="workspace-card-title">Publish personal set</span><span class="workspace-card-sub">Copy a Personal set</span></span>
           <span class="workspace-card-chevron">›</span>
         </button>
 
         <div class="workspace-card workspace-card-muted">
           <span class="workspace-card-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg></span>
-          <span class="workspace-card-main"><span class="workspace-card-title">Workspace library</span><span class="workspace-card-sub">Coming next: songs shared with this church/team.</span></span>
+          <span class="workspace-card-main"><span class="workspace-card-title">Workspace library</span><span class="workspace-card-sub">Coming soon</span></span>
           <span class="workspace-pill">Planned</span>
         </div>
 
         <div class="workspace-card workspace-card-muted">
           <span class="workspace-card-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M16 11a4 4 0 1 0-8 0" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path><path d="M4 21a8 8 0 0 1 16 0" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path><path d="M18 4v5M15.5 6.5h5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path></svg></span>
-          <span class="workspace-card-main"><span class="workspace-card-title">Members &amp; invites</span><span class="workspace-card-sub">Coming later: invite worship team members and manage roles.</span></span>
+          <span class="workspace-card-main"><span class="workspace-card-title">Members &amp; invites</span><span class="workspace-card-sub">Coming soon</span></span>
           <span class="workspace-pill">Planned</span>
         </div>
       </div>
 
-      <div id="workspace-setlist-manager" class="workspace-manager"><div class="workspace-manager-head"><div class="workspace-manager-title-wrap"><div class="workspace-manager-title">Workspace set lists</div><div class="workspace-manager-sub" id="workspace-manager-sub">2 set lists · 8 songs · 11 items</div></div><div class="workspace-manager-actions"><button class="workspace-mini-btn" type="button" onclick="createWorkspaceSetFromWorkspaceTab()">New</button></div></div><div id="workspace-setlist-list" class="workspace-setlist-list"><button class="workspace-setlist-card" type="button" onclick="openWorkspaceSetFromWorkspaceTab('set_moooodg92sy8')"><span class="workspace-setlist-main"><span class="workspace-setlist-name">Backup test</span><span class="workspace-setlist-meta"><span>8 songs · 7 items</span><span class="workspace-setlist-note">Notes</span><span class="workspace-setlist-updated">Updated 2 May</span></span></span><span class="workspace-setlist-actions"><span class="workspace-icon-btn" aria-hidden="true">›</span><span class="workspace-icon-btn danger" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceTab('set_moooodg92sy8')" aria-label="Delete">×</span></span></button><button class="workspace-setlist-card" type="button" onclick="openWorkspaceSetFromWorkspaceTab('set_mooorhtct4w7')"><span class="workspace-setlist-main"><span class="workspace-setlist-name">New Set (Shared)</span><span class="workspace-setlist-meta"><span>0 songs · 4 items</span><span class="workspace-setlist-updated">Updated 2 May</span></span></span><span class="workspace-setlist-actions"><span class="workspace-icon-btn" aria-hidden="true">›</span><span class="workspace-icon-btn danger" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceTab('set_mooorhtct4w7')" aria-label="Delete">×</span></span></button></div></div><div class="workspace-note-card">
+      <div id="workspace-setlist-manager" class="workspace-manager"><div class="workspace-manager-head"><div class="workspace-manager-title-wrap"><div class="workspace-manager-title">Workspace set lists</div><div class="workspace-manager-sub" id="workspace-manager-sub">3 set lists · 13 songs · 13 items</div></div><div class="workspace-manager-actions"><button class="workspace-mini-btn" type="button" onclick="createWorkspaceSetFromWorkspaceTab()">New</button></div></div><div id="workspace-setlist-list" class="workspace-setlist-list"><button class="workspace-setlist-card" type="button" onclick="openWorkspaceSetFromWorkspaceTab('set_moouqz6yupzy')"><span class="workspace-setlist-main"><span class="workspace-setlist-name">New Workspace Set</span><span class="workspace-setlist-meta"><span>3 songs · 2 items</span><span class="workspace-setlist-updated">Updated 2 May</span></span></span><span class="workspace-setlist-actions"><span class="workspace-icon-btn" aria-hidden="true">›</span><span class="workspace-icon-btn danger" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceTab('set_moouqz6yupzy')" aria-label="Delete">×</span></span></button><button class="workspace-setlist-card" type="button" onclick="openWorkspaceSetFromWorkspaceTab('set_moouut5flfso')"><span class="workspace-setlist-main"><span class="workspace-setlist-name">Backup test 2 (Workspace)</span><span class="workspace-setlist-meta"><span>2 songs · 4 items</span><span class="workspace-setlist-updated">Updated 2 May</span></span></span><span class="workspace-setlist-actions"><span class="workspace-icon-btn" aria-hidden="true">›</span><span class="workspace-icon-btn danger" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceTab('set_moouut5flfso')" aria-label="Delete">×</span></span></button><button class="workspace-setlist-card" type="button" onclick="openWorkspaceSetFromWorkspaceTab('set_mooupk5em9xt')"><span class="workspace-setlist-main"><span class="workspace-setlist-name">Backup test (Workspace)</span><span class="workspace-setlist-meta"><span>8 songs · 7 items</span><span class="workspace-setlist-note">Notes</span><span class="workspace-setlist-updated">Updated 2 May</span></span></span><span class="workspace-setlist-actions"><span class="workspace-icon-btn" aria-hidden="true">›</span><span class="workspace-icon-btn danger" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceTab('set_mooupk5em9xt')" aria-label="Delete">×</span></span></button></div></div><div class="workspace-note-card">
         <div class="workspace-note-title">v75 direction</div>
         <div class="workspace-note-body">For now, Workspace uses the same stable Firebase <code>/setlists</code> storage that v74.5.2 fixed. The future full Workspace model will add workspace songs, members, invites, and a proper Personal Songs → Workspace Library flow.</div>
       </div>
@@ -3424,7 +3424,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
               <img src="assets/wb-icon-192.png" alt="WorshipBase logo">
             </div>
             <div class="about-name">WorshipBase</div>
-            <div class="about-version-pill">Version 75.6</div>
+            <div class="about-version-pill">Version 75.11</div>
             <div class="about-by">Created by <strong>Jerin Reji</strong></div>
           </div>
         </div>
@@ -4131,7 +4131,7 @@ line 18 | Hold / pause"></textarea>
     <div class="m-body" style="padding-bottom:6px;">
       <p style="font-size:13px;color:var(--txt2);margin-bottom:12px;line-height:1.55;">Choose, rename, delete, or create a set list for this scope.</p>
     </div>
-    <div class="namedset-list" id="namedset-list"><div class="namedset-item active"><button class="namedset-main" onclick="selectNamedSet('set_moooodg92sy8')"><div class="namedset-name">Backup test</div><div class="namedset-meta">8 songs · 7 items · Current · <span class="namedset-note-chip">Notes</span></div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_moooodg92sy8')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_moooodg92sy8')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_mooorhtct4w7')"><div class="namedset-name">New Set (Shared)</div><div class="namedset-meta">4 items</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_mooorhtct4w7')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_mooorhtct4w7')">Delete</button></div></div></div>
+    <div class="namedset-list" id="namedset-list"><div class="namedset-item active"><button class="namedset-main" onclick="selectNamedSet('set_mooupk5em9xt')"><div class="namedset-name">Backup test (Workspace)</div><div class="namedset-meta">8 songs · 7 items · Current · <span class="namedset-note-chip">Notes</span></div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_mooupk5em9xt')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_mooupk5em9xt')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_moouqz6yupzy')"><div class="namedset-name">New Workspace Set</div><div class="namedset-meta">3 songs · 2 items</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_moouqz6yupzy')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_moouqz6yupzy')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_moouut5flfso')"><div class="namedset-name">Backup test 2 (Workspace)</div><div class="namedset-meta">2 songs · 4 items</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_moouut5flfso')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_moouut5flfso')">Delete</button></div></div></div>
     <div class="m-acts" style="padding:0 18px 8px;">
       <button class="btn-s" type="button" onclick="createNamedSet()">New set list</button>
       <button class="btn-s" type="button" id="sets-copy-btn" onclick="copyActiveSetToOtherScope()">Copy to Personal</button>
@@ -10249,7 +10249,7 @@ function registerServiceWorker(){
   if(!('serviceWorker' in navigator))return;
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=75.4.0');
+      const reg=await navigator.serviceWorker.register('./sw.js?v=75.11.0');
       // Ask the browser to check for a newer worker each time the app opens.
       if(reg&&reg.update)reg.update().catch(()=>{});
       if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'});
@@ -15723,5 +15723,198 @@ body.dark .wb-card-btn.danger{background:rgba(239,143,162,.12)!important;border-
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(init,250);},{once:true});else setTimeout(init,250);
 })();
 </script>
+
+
+<style id="wb-v75-11-ui-navigation-pass-style">
+/* v75.11 — UI/navigation polish only. Storage, Firebase, PDF export, and backup logic unchanged. */
+#workspace-section .workspace-scroll,
+#wb-personal-manager .wb-personal-scroll{padding-left:14px!important;padding-right:14px!important;}
+.workspace-hero,
+.wb-personal-head,
+.workspace-subview-head{
+  border-radius:18px!important;
+  padding:14px 15px!important;
+  margin-bottom:12px!important;
+  box-shadow:none!important;
+  background:color-mix(in srgb,var(--bg1) 96%,var(--surface-tint) 4%)!important;
+  border:1px solid var(--surface-border)!important;
+}
+.workspace-kicker{display:none!important;}
+.workspace-title,
+.wb-personal-title,
+.workspace-subview-title{
+  font-size:20px!important;
+  font-weight:760!important;
+  letter-spacing:-.035em!important;
+  line-height:1.12!important;
+  color:var(--txt1)!important;
+}
+.workspace-sub,
+.wb-personal-meta,
+.workspace-subview-sub{
+  font-size:12px!important;
+  font-weight:500!important;
+  line-height:1.38!important;
+  color:var(--txt2)!important;
+  margin-top:5px!important;
+}
+.workspace-note-card{display:none!important;}
+.workspace-grid{gap:9px!important;}
+.workspace-card{
+  border-radius:16px!important;
+  padding:13px 13px!important;
+  box-shadow:none!important;
+  background:color-mix(in srgb,var(--bg1) 97%,var(--surface-tint) 3%)!important;
+}
+.workspace-card-icon{width:32px!important;height:32px!important;border-radius:11px!important;}
+.workspace-card-title{font-size:14px!important;font-weight:730!important;letter-spacing:-.01em!important;}
+.workspace-card-sub{font-size:12px!important;font-weight:500!important;line-height:1.32!important;color:var(--txt3)!important;}
+.workspace-pill{font-size:9px!important;font-weight:800!important;min-height:20px!important;padding:2px 7px!important;}
+.workspace-subview{margin:0 0 18px!important;border:none!important;border-radius:0!important;box-shadow:none!important;background:transparent!important;}
+.workspace-subview-head{display:flex!important;align-items:center!important;gap:12px!important;}
+.workspace-subview-list{padding:0!important;gap:9px!important;}
+.workspace-subview-card,
+.wb-personal-card{
+  border-radius:16px!important;
+  padding:13px 12px!important;
+  background:color-mix(in srgb,var(--bg1) 97%,var(--surface-tint) 3%)!important;
+  box-shadow:none!important;
+}
+.workspace-subview-name,
+.wb-personal-name{font-size:15px!important;font-weight:720!important;letter-spacing:-.015em!important;}
+.workspace-subview-meta,
+.wb-personal-card-meta{font-size:11.5px!important;font-weight:550!important;}
+.wb-personal-local{font-weight:750!important;}
+.workspace-subview-back,
+.wb-editor-back{
+  width:36px!important;height:36px!important;min-width:36px!important;max-width:36px!important;
+  padding:0!important;border-radius:50%!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  font-size:23px!important;font-weight:700!important;line-height:1!important;
+  background:var(--bg2)!important;border:.5px solid var(--bdr2)!important;color:var(--tc)!important;
+  box-shadow:none!important;overflow:hidden!important;white-space:nowrap!important;
+}
+.workspace-subview-back:active,
+.wb-editor-back:active{transform:scale(.92)!important;background:var(--bg3)!important;}
+.wb-editor-back{font-family:inherit!important;}
+.wb-editor-title{font-size:15px!important;font-weight:730!important;}
+.wb-editor-sub{font-size:11px!important;font-weight:520!important;}
+.wb-editor-publish{font-weight:750!important;}
+body.dark .workspace-hero,
+body.dark .workspace-card,
+body.dark .wb-personal-head,
+body.dark .wb-personal-card,
+body.dark .workspace-subview-head,
+body.dark .workspace-subview-card{background:rgba(255,255,255,.035)!important;border-color:rgba(255,255,255,.10)!important;box-shadow:none!important;}
+body.dark .workspace-subview-back,
+body.dark .wb-editor-back{background:rgba(255,255,255,.04)!important;border-color:rgba(255,255,255,.10)!important;color:var(--accent)!important;}
+</style>
+<script id="wb-v75-11-ui-navigation-pass-script">
+(function(){
+  'use strict';
+  const VERSION='75.11';
+  function qs(id){return document.getElementById(id);}
+  function setVersion(){
+    try{document.title='WorshipBase v'+VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}
+  }
+  function setText(el,text){if(el&&el.textContent!==text)el.textContent=text;}
+  function polishWorkspaceCopy(){
+    try{
+      setText(document.querySelector('.workspace-title'),'Workspace');
+      setText(document.querySelector('.workspace-sub'),'Team set lists and publishing.');
+      const cards=[].slice.call(document.querySelectorAll('.workspace-card'));
+      cards.forEach(function(card){
+        const title=card.querySelector('.workspace-card-title');
+        const sub=card.querySelector('.workspace-card-sub');
+        const t=(title&&title.textContent||'').trim().toLowerCase();
+        if(!sub)return;
+        if(t==='workspace set lists')sub.textContent=sub.id==='workspace-setlists-sub'?sub.textContent:'Team set lists';
+        else if(t==='publish personal set')sub.textContent='Copy a Personal set';
+        else if(t==='workspace library')sub.textContent='Coming soon';
+        else if(t==='members & invites')sub.textContent='Coming soon';
+      });
+      const sub=qs('workspace-subview-sub');
+      if(sub&&/Team set lists stored/i.test(sub.textContent||''))sub.textContent='Team set lists';
+    }catch(e){}
+  }
+  function polishBackButtons(){
+    try{
+      document.querySelectorAll('.workspace-subview-back,.wb-editor-back').forEach(function(btn){
+        btn.textContent='‹';
+        btn.setAttribute('aria-label','Back');
+        btn.setAttribute('title','Back');
+      });
+    }catch(e){}
+  }
+  function applyUiPolish(){setVersion();polishWorkspaceCopy();polishBackButtons();}
+
+  const oldSwitch=window.switchTab;
+  if(typeof oldSwitch==='function'&&!oldSwitch.__wbV7511RootWorkspace){
+    const wrapped=function(tab){
+      const out=oldSwitch.apply(this,arguments);
+      if(tab==='workspace'){
+        setTimeout(function(){
+          try{if(typeof window.showWorkspaceDashboard==='function')window.showWorkspaceDashboard();}
+          catch(e){}
+          applyUiPolish();
+        },0);
+      }else{
+        setTimeout(applyUiPolish,0);
+      }
+      return out;
+    };
+    wrapped.__wbV7511RootWorkspace=true;
+    window.switchTab=wrapped;
+    try{switchTab=wrapped;}catch(e){}
+  }
+
+  const oldRenderSet=window.renderSetList;
+  if(typeof oldRenderSet==='function'&&!oldRenderSet.__wbV7511BackPolish){
+    const fn=function(){const out=oldRenderSet.apply(this,arguments);setTimeout(applyUiPolish,0);return out;};
+    fn.__wbV7511BackPolish=true;window.renderSetList=fn;try{renderSetList=fn;}catch(e){}
+  }
+  const oldRenderWorkspace=window.renderWorkspace;
+  if(typeof oldRenderWorkspace==='function'&&!oldRenderWorkspace.__wbV7511Polish){
+    const fn=function(){const out=oldRenderWorkspace.apply(this,arguments);setTimeout(applyUiPolish,0);return out;};
+    fn.__wbV7511Polish=true;window.renderWorkspace=fn;
+  }
+
+  function installWorkspaceSubviewSwipe(){
+    const sec=qs('workspace-section');
+    if(!sec||sec.__wbV7511SubviewSwipe)return;
+    sec.__wbV7511SubviewSwipe=true;
+    let start=null;
+    sec.addEventListener('touchstart',function(e){
+      if(!sec.classList.contains('workspace-setlists-mode'))return;
+      if(e.target&&e.target.closest('button,input,textarea,select,.workspace-subview-card'))return;
+      const t=e.touches&&e.touches[0];
+      if(!t||t.clientX>36)return;
+      start={x:t.clientX,y:t.clientY};
+    },{passive:true});
+    sec.addEventListener('touchend',function(e){
+      if(!start)return;
+      const t=e.changedTouches&&e.changedTouches[0];
+      const dx=t?t.clientX-start.x:0;
+      const dy=t?Math.abs(t.clientY-start.y):0;
+      start=null;
+      if(dx>80&&dy<70){
+        try{if(typeof window.showWorkspaceDashboard==='function')window.showWorkspaceDashboard();}catch(_){}
+        setTimeout(applyUiPolish,0);
+      }
+    },{passive:true});
+  }
+
+  ['openWorkspaceSetLists','showWorkspaceDashboard','goBackFromSetEditor'].forEach(function(name){
+    const old=window[name];
+    if(typeof old==='function'&&!old.__wbV7511Polish){
+      const fn=function(){const out=old.apply(this,arguments);setTimeout(applyUiPolish,0);return out;};
+      fn.__wbV7511Polish=true;window[name]=fn;
+    }
+  });
+
+  function init(){installWorkspaceSubviewSwipe();applyUiPolish();setTimeout(applyUiPolish,300);setTimeout(applyUiPolish,900);}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(init,180);},{once:true});else setTimeout(init,180);
+})();
+</script>
+
 
 <div id="wb-pad-float" class="wb-pad-float"><button class="wb-pad-float-label" id="wb-pad-float-label" type="button">Pad</button><button class="wb-pad-float-stop" id="wb-pad-float-stop" type="button" aria-label="Stop pad"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"></rect></svg></button></div><input type="file" id="full-app-backup-json-file" accept=".json,application/json" style="display: none;"><div class="bs-bg" id="bs-backuplocal" onclick="closeBSBg(event,'backuplocal')"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><h2 class="m-h2">Local backup</h2><button class="m-close" onclick="closeBS('backuplocal')">×</button></div><div class="m-body"><p class="wb-backup-sheet-note">Save JSON files to your device, or restore from a file you previously exported.</p><div class="wb-backup-group-title">Export to file</div><button class="wb-backup-choice" type="button" onclick="exportMySongsJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">My Songs</span><span class="wb-backup-choice-sub">Songs added on this device only</span></span><span class="wb-backup-choice-tag">JSON</span></button><button class="wb-backup-choice" type="button" onclick="exportNotesCuesJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Notes &amp; Cues</span><span class="wb-backup-choice-sub">Personal notes, cues, usual keys and practice status</span></span><span class="wb-backup-choice-tag">JSON</span></button><button class="wb-backup-choice" type="button" onclick="exportAppBackupJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Everything</span><span class="wb-backup-choice-sub">My Songs, set lists, sections, service items, notes/cues and preferences</span></span><span class="wb-backup-choice-tag">Full</span></button><div class="wb-backup-group-title">Restore from file</div><button class="wb-backup-choice" type="button" onclick="document.getElementById('my-songs-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore My Songs</span><span class="wb-backup-choice-sub">Import a WorshipBase song JSON file</span></span><span class="wb-backup-choice-tag">Import</span></button><button class="wb-backup-choice" type="button" onclick="document.getElementById('notes-cues-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore Notes &amp; Cues</span><span class="wb-backup-choice-sub">Apply notes/cues onto matching songs</span></span><span class="wb-backup-choice-tag">Import</span></button><button class="wb-backup-choice" type="button" onclick="document.getElementById('full-app-backup-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore Everything</span><span class="wb-backup-choice-sub">Replace personal data on this device from a full app backup</span></span><span class="wb-backup-choice-tag">Replace</span></button></div></div></div><div class="bs-bg" id="bs-backupdrive" onclick="closeBSBg(event,'backupdrive')"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><h2 class="m-h2">Google Drive backup</h2><button class="m-close" onclick="closeBS('backupdrive')">×</button></div><div class="m-body"><div id="wb-drive-sheet-body"></div></div></div></div></body><div style="position: fixed; top: 0px; left: 0px; width: 1px; height: env(safe-area-inset-top,0px); pointer-events: none; opacity: 0; z-index: -1;"></div><div style="position: fixed; bottom: 0px; left: 0px; width: 1px; height: env(safe-area-inset-bottom,0px); pointer-events: none; opacity: 0; z-index: -1;"></div></html>
