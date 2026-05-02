@@ -3176,7 +3176,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   </div>
 
   <!-- SET LIST -->
-  <div id="setlist-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;position:relative;min-height:0;"><div id="wb-personal-manager"><div class="wb-personal-scroll"><div class="wb-personal-head"><div class="wb-personal-copy"><div class="wb-personal-title">My Set Lists</div><div class="wb-personal-meta" id="wb-personal-meta">Saved locally</div></div><button class="wb-personal-new" type="button" onclick="createPersonalSetFromManager()">New</button></div><div id="wb-personal-list" class="wb-personal-list"></div></div></div>
+  <div id="setlist-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;position:relative;min-height:0;"><div id="wb-personal-manager"><div class="wb-personal-scroll"><div class="wb-personal-head"><div class="wb-personal-copy"><div class="wb-personal-title">My Set Lists</div><div class="wb-personal-meta" id="wb-personal-meta">Saved locally <span class="wb-personal-local">Saved locally</span></div></div><button class="wb-personal-new" type="button" onclick="createPersonalSetFromManager()">New</button></div><div id="wb-personal-list" class="wb-personal-list"></div></div></div>
     <div class="sl-scope-row">
       <div class="sl-scope-pills">
         <button class="sl-scope-btn active" id="sl-scope-shared" onclick="setSetListScope('shared')">Workspace</button>
@@ -3209,7 +3209,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   <!-- WORKSPACE -->
   <div id="workspace-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;position:relative;min-height:0;">
     <div class="workspace-scroll">
-      <div id="workspace-setlists-subview" class="workspace-subview"><div class="workspace-subview-head"><button class="workspace-subview-back" type="button" onclick="showWorkspaceDashboard()" aria-label="Back" title="Back">‹</button><div class="workspace-subview-title-wrap"><div class="workspace-subview-title">Workspace set lists</div><div class="workspace-subview-sub" id="workspace-subview-sub">Team set lists</div></div><button class="workspace-subview-new" type="button" onclick="createWorkspaceSetFromWorkspaceSubview()">New</button></div><div id="workspace-subview-list" class="workspace-subview-list"><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_moouqz6yupzy')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_moouqz6yupzy')}"><span class="workspace-subview-main"><span class="workspace-subview-name">New Workspace Set</span><span class="workspace-subview-meta"><span>3 songs · 2 items</span><span class="workspace-subview-updated">Updated 2 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_moouqz6yupzy')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_moouqz6yupzy')" aria-label="Delete">×</button></span></div><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_moouut5flfso')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_moouut5flfso')}"><span class="workspace-subview-main"><span class="workspace-subview-name">Backup test 2 (Workspace)</span><span class="workspace-subview-meta"><span>2 songs · 4 items</span><span class="workspace-subview-updated">Updated 2 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_moouut5flfso')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_moouut5flfso')" aria-label="Delete">×</button></span></div><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_mooupk5em9xt')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_mooupk5em9xt')}"><span class="workspace-subview-main"><span class="workspace-subview-name">Backup test (Workspace)</span><span class="workspace-subview-meta"><span>8 songs · 7 items</span><span class="workspace-subview-note">Notes</span><span class="workspace-subview-updated">Updated 2 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_mooupk5em9xt')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_mooupk5em9xt')" aria-label="Delete">×</button></span></div></div></div><div class="workspace-hero">
+      <div id="workspace-setlists-subview" class="workspace-subview"><div class="workspace-subview-head"><button class="workspace-subview-back" type="button" onclick="showWorkspaceDashboard()" aria-label="Back" title="Back">‹</button><div class="workspace-subview-title-wrap"><div class="workspace-subview-title">Workspace Set Lists</div><div class="workspace-subview-sub" id="workspace-subview-sub">Team set lists</div></div><button class="workspace-subview-new" type="button" onclick="createWorkspaceSetFromWorkspaceSubview()">New</button></div><div id="workspace-subview-list" class="workspace-subview-list"><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_moouqz6yupzy')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_moouqz6yupzy')}"><span class="workspace-subview-main"><span class="workspace-subview-name">New Workspace Set</span><span class="workspace-subview-meta"><span>3 songs · 2 items</span><span class="workspace-subview-updated">Updated 2 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_moouqz6yupzy')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_moouqz6yupzy')" aria-label="Delete">×</button></span></div><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_moouut5flfso')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_moouut5flfso')}"><span class="workspace-subview-main"><span class="workspace-subview-name">Backup test 2 (Workspace)</span><span class="workspace-subview-meta"><span>2 songs · 4 items</span><span class="workspace-subview-updated">Updated 2 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_moouut5flfso')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_moouut5flfso')" aria-label="Delete">×</button></span></div><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_mooupk5em9xt')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_mooupk5em9xt')}"><span class="workspace-subview-main"><span class="workspace-subview-name">Backup test (Workspace)</span><span class="workspace-subview-meta"><span>8 songs · 7 items</span><span class="workspace-subview-note">Notes</span><span class="workspace-subview-updated">Updated 2 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_mooupk5em9xt')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_mooupk5em9xt')" aria-label="Delete">×</button></span></div></div></div><div class="workspace-hero">
         <div class="workspace-kicker">Workspace</div>
         <div class="workspace-title">Workspace</div>
         <div class="workspace-sub">Team set lists and publishing.</div>
@@ -3218,7 +3218,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
       <div class="workspace-grid">
         <button class="workspace-card workspace-card-action" type="button" onclick="openWorkspaceSetLists()">
           <span class="workspace-card-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"></rect><rect x="3" y="11" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"></rect><rect x="3" y="17" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"></rect><path d="M11 7h10M11 13h8M11 19h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg></span>
-          <span class="workspace-card-main"><span class="workspace-card-title">Workspace set lists</span><span class="workspace-card-sub" id="workspace-setlists-sub">3 set lists · 13 songs · 13 items</span></span>
+          <span class="workspace-card-main"><span class="workspace-card-title">Workspace set lists</span><span class="workspace-card-sub" id="workspace-setlists-sub">Team set lists</span></span>
           <span class="workspace-card-chevron">›</span>
         </button>
 
@@ -10249,7 +10249,7 @@ function registerServiceWorker(){
   if(!('serviceWorker' in navigator))return;
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=75.12.0');
+      const reg=await navigator.serviceWorker.register('./sw.js?v=75.14.0');
       // Ask the browser to check for a newer worker each time the app opens.
       if(reg&&reg.update)reg.update().catch(()=>{});
       if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'});
@@ -16040,6 +16040,176 @@ body.dark .wb-personal-local{background:var(--accent-surface)!important;border-c
   }
   function init(){setVersion();}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(init,120);},{once:true});else setTimeout(init,120);
+})();
+</script>
+
+
+<style id="wb-v75-14-stability-polish-style">
+/* v75.14 — stability + visual consistency pass. No storage/Firebase/PDF/Drive changes. */
+:root{--wb-card-pad:14px;--wb-card-radius:18px;--wb-soft-head:linear-gradient(180deg,color-mix(in srgb,var(--bg1) 94%,var(--surface-tint) 6%),var(--bg1));}
+#workspace-section .workspace-scroll,
+#workspace-section .workspace-subview,
+#setlist-section #wb-personal-manager{background:var(--bg1)!important;}
+#workspace-section .workspace-scroll,
+.wb-personal-scroll{padding:12px 14px calc(var(--sab) + 24px)!important;}
+.workspace-hero,.wb-personal-head,.workspace-subview-head{
+  background:var(--wb-soft-head)!important;
+  border:1px solid var(--surface-border)!important;
+  border-radius:20px!important;
+  box-shadow:none!important;
+  padding:15px 15px!important;
+  margin:0 0 12px!important;
+}
+.workspace-title,.wb-personal-title,.workspace-subview-title{
+  font-size:21px!important;
+  font-weight:760!important;
+  letter-spacing:-.035em!important;
+  line-height:1.12!important;
+  color:var(--txt1)!important;
+}
+.workspace-sub,.wb-personal-meta,.workspace-subview-sub{
+  font-size:13px!important;
+  font-weight:560!important;
+  line-height:1.35!important;
+  color:var(--txt2)!important;
+  margin-top:4px!important;
+}
+.workspace-grid,.workspace-subview-list,.wb-personal-list{gap:9px!important;}
+.workspace-card,.workspace-subview-card,.wb-personal-card{
+  width:100%!important;
+  border-radius:var(--wb-card-radius)!important;
+  padding:var(--wb-card-pad)!important;
+  background:color-mix(in srgb,var(--bg1) 97%,var(--surface-tint) 3%)!important;
+  border:1px solid var(--surface-border)!important;
+  box-shadow:none!important;
+}
+.workspace-card:active,.workspace-subview-card:active,.wb-personal-card:active{background:var(--bg2)!important;transform:scale(.996)!important;}
+.workspace-card-title,.workspace-subview-name,.wb-personal-name{
+  font-size:15.5px!important;
+  font-weight:680!important;
+  letter-spacing:-.012em!important;
+  line-height:1.22!important;
+  color:var(--txt1)!important;
+}
+.workspace-card-sub,.workspace-subview-meta,.wb-personal-card-meta{
+  font-size:12.5px!important;
+  font-weight:520!important;
+  line-height:1.35!important;
+  color:var(--txt3)!important;
+}
+.workspace-card-icon{width:34px!important;height:34px!important;min-width:34px!important;border-radius:12px!important;}
+.workspace-pill,.workspace-subview-note,.wb-note-pill,.wb-personal-local{
+  font-size:9.5px!important;
+  font-weight:780!important;
+  min-height:21px!important;
+  padding:3px 8px!important;
+  border-radius:999px!important;
+}
+.workspace-subview-new,.wb-personal-new,.wb-editor-publish{
+  min-height:35px!important;
+  padding:0 14px!important;
+  border-radius:999px!important;
+  font-size:12.5px!important;
+  font-weight:760!important;
+  box-shadow:none!important;
+}
+.workspace-subview-back,.wb-editor-back{
+  width:36px!important;height:36px!important;min-width:36px!important;max-width:36px!important;
+  border-radius:50%!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  padding:0!important;font-size:24px!important;font-weight:650!important;line-height:1!important;
+  background:var(--bg2)!important;border:.5px solid var(--bdr2)!important;color:var(--tc)!important;box-shadow:none!important;
+  overflow:hidden!important;white-space:nowrap!important;
+}
+.workspace-subview-back:active,.wb-editor-back:active{transform:scale(.92)!important;background:var(--bg3)!important;}
+#wb-set-editor-bar{
+  background:var(--wb-soft-head)!important;
+  border-bottom:1px solid var(--surface-border)!important;
+  padding:10px 14px!important;
+}
+.wb-editor-title-wrap{display:none!important;}
+#setlist-section.wb-editor-mode .sl-setbar{background:var(--bg1)!important;border-bottom:.5px solid var(--bdr)!important;}
+#setlist-section.wb-editor-mode .sl-setpick{margin-top:8px!important;}
+body.dark .workspace-hero,body.dark .wb-personal-head,body.dark .workspace-subview-head,body.dark #wb-set-editor-bar{
+  background:rgba(255,255,255,.035)!important;border-color:rgba(255,255,255,.10)!important;
+}
+body.dark .workspace-card,body.dark .workspace-subview-card,body.dark .wb-personal-card{
+  background:rgba(255,255,255,.03)!important;border-color:rgba(255,255,255,.09)!important;
+}
+body.dark .workspace-subview-back,body.dark .wb-editor-back{background:rgba(255,255,255,.04)!important;border-color:rgba(255,255,255,.10)!important;color:var(--accent)!important;}
+</style>
+<script id="wb-v75-14-stability-polish-script">
+(function(){
+  'use strict';
+  const VERSION='75.14';
+  function qs(id){return document.getElementById(id)}
+  function text(el,val){if(el&&el.textContent!==val)el.textContent=val;}
+  function clone(v){try{return JSON.parse(JSON.stringify(v));}catch(e){return v;}}
+  function scopeKey(scope){scope=String(scope||'').toLowerCase();return scope==='shared'||scope==='workspace'||scope==='team'?'shared':'personal';}
+  function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
+  function counts(set){let songs=0,plan=0;itemsOf(set).forEach(function(it){const t=String((it&&it.type)||'song').toLowerCase();if(t==='section'||t==='item'||t==='service')plan++;else if(t==='song'||(it&&it.songId))songs++;});return {songs:songs,plan:plan,total:songs+plan};}
+  function countLabel(set){const c=counts(set);const bits=[];bits.push(c.songs+' '+(c.songs===1?'song':'songs'));if(c.plan)bits.push(c.plan+' '+(c.plan===1?'item':'items'));return bits.join(' · ');}
+  function sharedSets(){try{return (typeof _sharedSets!=='undefined'&&_sharedSets)||{};}catch(e){return {};}}
+  const richCache=window.__wbRichSharedSetCacheV7514||(window.__wbRichSharedSetCacheV7514={});
+  function rememberRich(){try{const shared=sharedSets();Object.keys(shared||{}).forEach(function(id){const set=shared[id]||{};if(counts(set).plan>0)richCache[id]=clone(set);});}catch(e){}}
+  function protectRichBeforeSave(){
+    try{
+      const shared=sharedSets();let changed=false;
+      Object.keys(richCache||{}).forEach(function(id){
+        const cached=richCache[id], next=shared&&shared[id]; if(!cached||!next)return;
+        const oldC=counts(cached), newC=counts(next);
+        if(oldC.plan>0 && newC.plan===0 && newC.songs>0 && newC.songs<=Math.max(oldC.songs,1)){
+          const restored=clone(cached);restored.name=next.name||restored.name;restored.notes=(next.notes!=null?next.notes:restored.notes)||'';restored.updatedAt=Date.now();shared[id]=restored;changed=true;
+        }
+      });
+      if(changed){try{_sharedSets=shared;}catch(e){};try{showToast('Protected Workspace set items');}catch(e){}}
+      rememberRich();
+    }catch(e){console.warn('v75.14 rich-set protection failed',e);}
+  }
+  function setVersion(){
+    try{document.title='WorshipBase v'+VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}
+  }
+  function applyLabels(){
+    try{
+      text(document.querySelector('.workspace-title'),'Workspace');
+      text(document.querySelector('.workspace-sub'),'Team planning and shared sets.');
+      text(document.querySelector('.workspace-subview-title'),'Workspace Set Lists');
+      const wsSub=qs('workspace-subview-sub'); if(wsSub)wsSub.textContent='Team set lists';
+      text(document.querySelector('.wb-personal-title'),'My Set Lists');
+      const meta=qs('wb-personal-meta'); if(meta){
+        let total=0,songs=0,items=0;try{const p=(typeof _personalSets!=='undefined'&&_personalSets)||{};Object.keys(p||{}).forEach(function(id){const c=counts(p[id]);songs+=c.songs;items+=c.plan;total++;});}catch(e){}
+        meta.innerHTML=(total?total+' '+(total===1?'set':'sets')+' · '+songs+' '+(songs===1?'song':'songs')+(items?' · '+items+' '+(items===1?'item':'items'):''):'Saved locally')+' <span class="wb-personal-local">Saved locally</span>';
+      }
+      document.querySelectorAll('.workspace-subview-back,.wb-editor-back').forEach(function(btn){btn.textContent='‹';btn.setAttribute('aria-label','Back');btn.setAttribute('title','Back');});
+      document.querySelectorAll('.workspace-card').forEach(function(card){
+        const title=card.querySelector('.workspace-card-title');const sub=card.querySelector('.workspace-card-sub');if(!title||!sub)return;
+        const t=(title.textContent||'').trim().toLowerCase();
+        if(t==='workspace set lists')sub.textContent='Team set lists';
+        if(t==='publish personal set')sub.textContent='Copy one of My Set Lists';
+        if(t==='workspace library')sub.textContent='Team songs';
+        if(t==='members & invites')sub.textContent='Team access';
+      });
+    }catch(e){}
+  }
+  function ensureWorkspaceRootOnBottomTab(){
+    const old=window.switchTab||(typeof switchTab==='function'?switchTab:null);
+    if(typeof old==='function'&&!old.__wbV7514Root){
+      const wrapped=function(tab){
+        const out=old.apply(this,arguments);
+        if(tab==='workspace')setTimeout(function(){try{if(typeof window.showWorkspaceDashboard==='function')window.showWorkspaceDashboard();}catch(e){};applyLabels();},0);
+        return out;
+      };
+      wrapped.__wbV7514Root=true;window.switchTab=wrapped;try{switchTab=wrapped;}catch(e){}
+    }
+  }
+  function wrap(name,after){const old=window[name];if(typeof old==='function'&&!old.__wbV7514){const fn=function(){if(name.indexOf('saveShared')===0)protectRichBeforeSave();const out=old.apply(this,arguments);setTimeout(after||applyLabels,0);return out;};fn.__wbV7514=true;window[name]=fn;try{eval(name+'=window[name]');}catch(e){}}}
+  function init(){
+    setVersion();rememberRich();ensureWorkspaceRootOnBottomTab();
+    ['renderWorkspace','renderWorkspaceSetListsSubview','renderPersonalManager','renderSetList','openWorkspaceSetLists','showWorkspaceDashboard','goBackFromSetEditor','selectNamedSet','setActiveNamedSet'].forEach(function(n){wrap(n,function(){applyLabels();rememberRich();});});
+    ['saveSharedSetsToFB','saveSharedSetsRich'].forEach(function(n){wrap(n,function(){rememberRich();applyLabels();});});
+    applyLabels();setTimeout(function(){applyLabels();rememberRich();},300);setTimeout(function(){applyLabels();rememberRich();},1200);
+    window.WB_V75_14_CHECKLIST=['Tabs route to their root views','Personal set selector switches Personal only','Workspace selector switches Workspace only','Workspace rich sets are protected from songs-only overwrite','PDF/Drive/Firebase paths unchanged'];
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(init,160);},{once:true});else setTimeout(init,160);
 })();
 </script>
 
