@@ -1,18 +1,15 @@
-<!DOCTYPE html>
-
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
-<meta content="#ffffff" name="theme-color"/>
-<meta content="yes" name="apple-mobile-web-app-capable"/>
-<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
-<meta content="WorshipBase" name="apple-mobile-web-app-title"/>
-<link href="manifest.webmanifest" rel="manifest"/>
-<link href="assets/wb-icon-180.png" rel="apple-touch-icon" sizes="180x180"/>
-<link href="assets/wb-icon-192.png" rel="icon" sizes="192x192" type="image/png"/>
-<meta content="yes" name="mobile-web-app-capable"/>
-<title>WorshipBase v79.10</title>
+<html lang="en" style="--sat: 0px; --sab: 0px; --tc: #111111; --hdr-bg: #111111; --chord-highlight-bg: hsl(0, 22%, 92%); --chord-highlight-glow: transparent; --chord-highlight-border: transparent;"><head>
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport">
+<meta content="#ffffff" name="theme-color">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+<meta content="WorshipBase" name="apple-mobile-web-app-title">
+<link href="manifest.webmanifest" rel="manifest">
+<link href="assets/wb-icon-180.png" rel="apple-touch-icon" sizes="180x180">
+<link href="assets/wb-icon-192.png" rel="icon" sizes="192x192" type="image/png">
+<meta content="yes" name="mobile-web-app-capable">
+<title>WorshipBase v79.13</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 /* Prevent iOS long-press/callout menus and text selection on UI chrome
@@ -3087,7 +3084,7 @@ body:not(.wb-ui-ready) #ls{
 }
 </style>
 <style id="wb-v79-2-workspace-source-owner-style">
-/* v79.10 Workspace source owner: keep list-page metadata intentionally subtle. */
+/* v79.4 Workspace source owner: keep list-page metadata intentionally subtle. */
 #workspace-section .workspace-card-sub,
 #workspace-section .workspace-subview-sub,
 #wb-personal-manager .wb-personal-meta{font-weight:500!important;color:var(--txt3)!important;}
@@ -3096,7 +3093,7 @@ body:not(.wb-ui-ready) #ls{
 #workspace-section .workspace-subview-sub .workspace-subview-scope{display:none!important;}
 </style>
 <style id="wb-v79-4-light-polish-style">
-/* v79.10 audit + light polish. Visual-only refinements after v79.3 stable checkpoint.
+/* v79.4 audit + light polish. Visual-only refinements after v79.3 stable checkpoint.
    No route/storage/export/editor behaviour is changed here. */
 body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-personal-head{padding:17px 20px!important;min-height:76px!important;border-radius:22px!important;margin-bottom:14px!important;}
 body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-personal-title{font-size:24px!important;font-weight:800!important;letter-spacing:-.048em!important;}
@@ -3119,17 +3116,17 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 #wb-set-editor-bar .wb-editor-sub{font-size:11.5px!important;font-weight:500!important;color:var(--txt3)!important;}
 body.dark #workspace-section .workspace-sub,body.dark #workspace-section .workspace-card-sub,body.dark #workspace-section .workspace-subview-meta,body.dark #workspace-section .workspace-subview-sub,body.dark #wb-personal-manager .wb-personal-card-meta,body.dark #wb-set-editor-bar .wb-editor-sub{color:var(--txt3)!important;}
 </style>
-</head>
-<body>
+<script src="https://accounts.google.com/gsi/client" async="" defer="" data-wb-google-identity="1"></script></head>
+<body class="wb-route-lock wb-ui-ready wb-tab-setlist">
 <!-- LOADING -->
-<div id="ls">
-<img alt="WorshipBase logo" src="assets/wb-icon-192.png" style="width:60px;height:60px;border-radius:14px;display:block;object-fit:cover;margin-bottom:20px;"/>
+<div id="ls" class="hidden" style="display: none;">
+<img alt="WorshipBase logo" src="assets/wb-icon-192.png" style="width:60px;height:60px;border-radius:14px;display:block;object-fit:cover;margin-bottom:20px;">
 <div style="color:rgba(255,255,255,.9);font-size:17px;font-weight:800;">WorshipBase</div>
 <div style="color:rgba(255,255,255,.42);font-size:13px;margin-top:5px;">Loading your library…</div>
 <div class="ls-sp"></div>
 </div>
 <div class="sync-badge" id="sync-badge"></div>
-<div id="toast"></div>
+<div id="toast" class="" style="left: 50%; transform: translate3d(-50%, 8px, 0px);">Personal set created</div>
 <!-- ═══ LIST VIEW ═══ -->
 <div id="list-view">
 <div class="hdr">
@@ -3137,8 +3134,8 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 <div class="wm">
 <div><div class="wm-name">WorshipBase</div><div class="wm-sub">Chord Library</div></div>
 </div>
-<button aria-label="Add song" class="hdr-btn" id="hdr-add-btn" onclick="openAddSongMenu(event)" style="display:none" title="Add song">
-<svg fill="none" height="20" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewbox="0 0 24 24" width="20">
+<button aria-label="Add song" class="hdr-btn" id="hdr-add-btn" onclick="openAddSongMenu(event)" style="display: none;" title="Add song">
+<svg fill="none" height="20" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewBox="0 0 24 24" width="20">
 <path d="M12 5v14M5 12h14"></path>
 </svg>
 </button>
@@ -3147,34 +3144,34 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 <div class="add-menu-backdrop" id="add-menu-backdrop" onclick="closeAddSongMenu(event)">
 <div class="add-menu-pop" onclick="event.stopPropagation()">
 <button class="add-menu-item" onclick="closeAddSongMenu();openSongModal(null)" type="button">
-<span aria-hidden="true" class="add-menu-ico"><svg fill="none" viewbox="0 0 24 24"><path d="M6 3.5h8l4 4V20.5H6z"></path><path d="M14 3.5V8h4"></path><path d="M12 11v6M9 14h6"></path></svg></span><span><strong>Create new song</strong><small>Start with a blank chart</small></span>
+<span aria-hidden="true" class="add-menu-ico"><svg fill="none" viewBox="0 0 24 24"><path d="M6 3.5h8l4 4V20.5H6z"></path><path d="M14 3.5V8h4"></path><path d="M12 11v6M9 14h6"></path></svg></span><span><strong>Create new song</strong><small>Start with a blank chart</small></span>
 </button>
 <button class="add-menu-item" onclick="closeAddSongMenu();openUgImport()" type="button">
-<span aria-hidden="true" class="add-menu-ico"><svg fill="none" viewbox="0 0 24 24"><path d="M7.2 18.5h9.1a4.1 4.1 0 0 0 .7-8.1A5.4 5.4 0 0 0 6.8 8.9a4.8 4.8 0 0 0 .4 9.6z"></path><path d="M12 10.5v5"></path><path d="M9.8 13.3 12 15.5l2.2-2.2"></path></svg></span><span><strong>Import from UG</strong><small>Song lyrics/chords from Ultimate Guitar</small></span>
+<span aria-hidden="true" class="add-menu-ico"><svg fill="none" viewBox="0 0 24 24"><path d="M7.2 18.5h9.1a4.1 4.1 0 0 0 .7-8.1A5.4 5.4 0 0 0 6.8 8.9a4.8 4.8 0 0 0 .4 9.6z"></path><path d="M12 10.5v5"></path><path d="M9.8 13.3 12 15.5l2.2-2.2"></path></svg></span><span><strong>Import from UG</strong><small>Song lyrics/chords from Ultimate Guitar</small></span>
 </button>
 <button class="add-menu-item" onclick="closeAddSongMenu();openSopImport()" type="button">
-<span aria-hidden="true" class="add-menu-ico"><svg fill="none" viewbox="0 0 24 24"><path d="M9 18.5a2.5 2.5 0 1 1-1-2V6l10-2v10.5a2.5 2.5 0 1 1-1-2V8L9 9.5z"></path><path d="M9 6l9-2"></path></svg></span><span><strong>Import Malayalam Songs</strong><small>Lyrics/chords from Songs of Praise</small></span>
+<span aria-hidden="true" class="add-menu-ico"><svg fill="none" viewBox="0 0 24 24"><path d="M9 18.5a2.5 2.5 0 1 1-1-2V6l10-2v10.5a2.5 2.5 0 1 1-1-2V8L9 9.5z"></path><path d="M9 6l9-2"></path></svg></span><span><strong>Import Malayalam Songs</strong><small>Lyrics/chords from Songs of Praise</small></span>
 </button>
 <button class="add-menu-item" onclick="closeAddSongMenu();openFileImportPage()" type="button">
-<span aria-hidden="true" class="add-menu-ico"><svg fill="none" viewbox="0 0 24 24"><path d="M6 3.5h8l4 4V20.5H6z"></path><path d="M14 3.5V8h4"></path><path d="M8.5 15.5h7"></path><path d="M8.5 12h7"></path></svg></span><span><strong>Import song file</strong><small>OnSong, ChordPro, TXT, XML, JSON or ZIP</small></span>
+<span aria-hidden="true" class="add-menu-ico"><svg fill="none" viewBox="0 0 24 24"><path d="M6 3.5h8l4 4V20.5H6z"></path><path d="M14 3.5V8h4"></path><path d="M8.5 15.5h7"></path><path d="M8.5 12h7"></path></svg></span><span><strong>Import song file</strong><small>OnSong, ChordPro, TXT, XML, JSON or ZIP</small></span>
 </button>
-<input accept=".onsong,.pro,.txt,.cho,.crd,.chopro,.chordpro,.zip,.xml,.json,text/plain,text/xml,application/xml,application/json" id="file-import-file" multiple="" onchange="handleUnifiedImportFiles(event)" style="display:none" type="file"/>
-<input accept="" id="onsong-file" multiple="" onchange="importOnSongFiles(event)" style="display:none" type="file"/>
-<input accept=".xml,text/xml,application/xml" id="opensong-xml-file" multiple="" onchange="importOpenSongXmlFiles(event)" style="display:none" type="file"/>
-<input accept=".json,application/json" id="my-songs-json-file" onchange="importMySongsJSONFile(event)" style="display:none" type="file"/>
-<input accept=".json,application/json" id="notes-cues-json-file" onchange="importNotesCuesJSONFile(event)" style="display:none" type="file"/>
+<input accept=".onsong,.pro,.txt,.cho,.crd,.chopro,.chordpro,.zip,.xml,.json,text/plain,text/xml,application/xml,application/json" id="file-import-file" multiple="" onchange="handleUnifiedImportFiles(event)" style="display:none" type="file">
+<input accept="" id="onsong-file" multiple="" onchange="importOnSongFiles(event)" style="display:none" type="file">
+<input accept=".xml,text/xml,application/xml" id="opensong-xml-file" multiple="" onchange="importOpenSongXmlFiles(event)" style="display:none" type="file">
+<input accept=".json,application/json" id="my-songs-json-file" onchange="importMySongsJSONFile(event)" style="display:none" type="file">
+<input accept=".json,application/json" id="notes-cues-json-file" onchange="importNotesCuesJSONFile(event)" style="display:none" type="file">
 </div>
 </div>
 <!-- Search + library filters -->
-<div class="srch-wrap" id="srch-wrap">
+<div class="srch-wrap" id="srch-wrap" style="display: none;">
 <div class="srch-row">
 <div class="srch-inner">
-<span class="srch-ico"><svg fill="none" height="14" viewbox="0 0 15 15" width="14"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 10L13 13" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></span>
-<input class="srch-inp" id="srch-inp" oninput="onSearch()" placeholder="Search songs…" type="search"/>
+<span class="srch-ico"><svg fill="none" height="14" viewBox="0 0 15 15" width="14"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 10L13 13" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></span>
+<input class="srch-inp" id="srch-inp" oninput="onSearch()" placeholder="Search songs…" type="search">
 <button class="srch-clr" id="srch-clr" onclick="clearSearch()">×</button>
 </div>
 <label aria-label="Search scope" class="search-scope-select-wrap" title="Search scope">
-<span aria-hidden="true" class="search-scope-icon"><svg focusable="false" viewbox="0 0 24 24"><path d="M6.75 9.25 12 14.5l5.25-5.25"></path></svg></span>
+<span aria-hidden="true" class="search-scope-icon"><svg focusable="false" viewBox="0 0 24 24"><path d="M6.75 9.25 12 14.5l5.25-5.25"></path></svg></span>
 <select class="search-scope-select" id="search-scope-select" onchange="setSearchScope(this.value)">
 <option value="smart">Smart</option>
 <option value="title">Titles</option>
@@ -3183,7 +3180,7 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 </select>
 </label>
 </div>
-<div class="filter-row" id="library-filter-row">
+<div class="filter-row" id="library-filter-row" style="display: none;">
 <button class="filter-chip active" data-filter="all" onclick="setLibraryFilter('all',this)">All</button>
 <button class="filter-chip" data-filter="mine" onclick="setLibraryFilter('mine',this)">My Songs</button>
 <button class="filter-chip" data-filter="english" onclick="setLibraryFilter('english',this)">English</button>
@@ -3192,50 +3189,50 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 <button class="filter-chip" data-filter="inset" onclick="setLibraryFilter('inset',this)">In set</button>
 </div>
 <div class="manage-bar" id="manage-bar">
-<div class="manage-actions" id="manage-actions">
+<div class="manage-actions" id="manage-actions" style="display: none;">
 <button class="manage-chip" onclick="toggleSelectAllVisible()" type="button">All</button>
 <button class="manage-chip" onclick="openDuplicateReview()" type="button">Duplicates</button>
 <button class="manage-chip danger" onclick="bulkDeleteSelected()" type="button">Delete</button>
 </div>
-<span class="manage-count" id="manage-count">0 selected</span>
+<span class="manage-count" id="manage-count" style="visibility: hidden;"></span>
 <button class="manage-chip primary manage-done" id="manage-done-btn" onclick="toggleManageMode(false)" type="button">Done</button>
 </div>
 </div>
 <!-- SONG LIST -->
-<div id="song-section" style="flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative;min-height:0;">
+<div id="song-section" style="flex: 1 1 0%; display: none; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;">
 <div class="vs-host ptr-wrap">
-<div id="ptr-indicator"><svg fill="none" height="18" viewbox="0 0 18 18" width="18"><path d="M9 2v4M9 2l-2 2M9 2l2 2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path><path d="M16 9a7 7 0 1 1-7-7" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path></svg></div>
-<div class="vs-wrap" id="vscroll"><div class="library-count-row" id="library-count-row"><span class="song-count" id="song-count"></span></div><div class="home-quick-wrap" id="home-quick-wrap">
-<div class="quick-section" id="recent-songs-section">
+<div id="ptr-indicator"><svg fill="none" height="18" viewBox="0 0 18 18" width="18"><path d="M9 2v4M9 2l-2 2M9 2l2 2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path><path d="M16 9a7 7 0 1 1-7-7" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path></svg></div>
+<div class="vs-wrap" id="vscroll" style="-webkit-overflow-scrolling: touch;"><div class="library-count-row" id="library-count-row"><span class="song-count" id="song-count">76 songs</span></div><div class="home-quick-wrap" id="home-quick-wrap" style="display: flex;">
+<div class="quick-section" id="recent-songs-section" style="display: none;">
 <div class="quick-head">
 <div class="quick-title">Recently opened</div>
 <button class="quick-action" onclick="clearRecentSongs()" type="button">Clear</button>
 </div>
 <div class="quick-scroll" id="recent-songs-scroll"></div>
 </div>
-</div><div class="vs-inner" id="vinner"></div></div>
-<div id="alpha-strip"></div>
+</div><div class="vs-inner" id="vinner" style="height: 5720px;"><div class="alpha-sep v-item" style="top: 0px;">1</div><div class="song-row-wrap v-item" style="height: 66px; top: 32px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">10,000 Reasons</div></div><div class="song-meta">Matt Redman · <span class="song-id-badge">S138</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrEur4DdgfSO0FBHYZD',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="alpha-sep v-item" style="top: 98px;">A</div><div class="song-row-wrap v-item" style="height: 66px; top: 130px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Aakasham Bhoomiyiva Nirmicha Devadevan</div></div><div class="song-meta">Unknown · <span class="song-id-badge">S013</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrEur3hr2IK-Px_nXUZ',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 196px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Aanandamundenikk Aanandhamundenikku</div></div><div class="song-meta">Sadhu Kochukunju Upadesi · <span class="song-id-badge">S014</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrEur3i1saI7j89rxWe',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 262px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Aapathu Velakalil</div></div><div class="song-meta">Thomas Mathew Karunagapally · <span class="song-id-badge">S195</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrEur3wIR-0nACbvGBi',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 328px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Above All</div></div><div class="song-meta">Michael W. Smith · <span class="song-id-badge">S201</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrEur40XRGF0VykyzG9',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 394px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">All Hail King Jesus</div></div><div class="song-meta">Jeremy Riddle · <span class="song-id-badge">S218</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrK4a1i-K1Dst6QN851',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 460px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Amazing Grace My Chains Are Gone</div></div><div class="song-meta">Chris Tomlin · <span class="song-id-badge">S227</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrK8Xb61gpjNFwsa5t-',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 526px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Anathi Snegathal</div></div><div class="song-meta"> · <span class="song-id-badge">S233</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrgW0gJQGWxKhHE-jep',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 592px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">As the Deer</div></div><div class="song-meta">Martin J. Nystrom · <span class="song-id-badge">S188</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrEur3sDqVGM-SElJBp',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="alpha-sep v-item" style="top: 658px;">B</div><div class="song-row-wrap v-item" style="height: 66px; top: 690px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Back To Life</div></div><div class="song-meta">Bethel Music · <span class="song-id-badge">S224</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrK73kOtrM_4fPqSGAO',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 756px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Battle Belongs</div></div><div class="song-meta">Phil Wickham · <span class="song-id-badge">S202</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrEur40XRGF0VykyzGA',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 822px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Because He Lives</div></div><div class="song-meta">Misc Praise Songs · <span class="song-id-badge">S222</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrK6Q_hq4yhuB77nbzZ',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="alpha-sep v-item" style="top: 888px;">C</div><div class="song-row-wrap v-item" style="height: 66px; top: 920px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Christ Is Enough</div></div><div class="song-meta">Hillsong Worship · <span class="song-id-badge">S059</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrEur47XQeXYsbIeejP',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div></div></div>
+<div id="alpha-strip"><div class="alpha-letter">1</div><div class="alpha-letter">A</div><div class="alpha-letter">B</div><div class="alpha-letter">C</div><div class="alpha-letter">D</div><div class="alpha-letter">E</div><div class="alpha-letter">G</div><div class="alpha-letter">H</div><div class="alpha-letter">I</div><div class="alpha-letter">K</div><div class="alpha-letter">L</div><div class="alpha-letter">M</div><div class="alpha-letter">N</div><div class="alpha-letter">O</div><div class="alpha-letter">P</div><div class="alpha-letter">R</div><div class="alpha-letter">S</div><div class="alpha-letter">T</div><div class="alpha-letter">U</div><div class="alpha-letter">V</div><div class="alpha-letter">W</div><div class="alpha-letter">Y</div></div>
 </div>
 <button aria-label="Scroll to top" class="scroll-top-btn" id="scroll-top-btn" onclick="scrollToTop()">
-<svg fill="none" height="20" viewbox="0 0 20 20" width="20"><path d="M5 12.5L10 7.5L15 12.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4"></path></svg>
+<svg fill="none" height="20" viewBox="0 0 20 20" width="20"><path d="M5 12.5L10 7.5L15 12.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4"></path></svg>
 </button>
 </div>
 <!-- SET LIST -->
-<div id="setlist-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;position:relative;min-height:0;">
+<div id="setlist-section" style="display: flex; flex: 1 1 0%; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;" class="wb-list-mode"><div id="wb-set-editor-bar"><button class="wb-editor-back" type="button" onclick="goBackFromSetEditor()" aria-label="Back to My Set Lists" title="Back to My Set Lists">‹</button><div class="wb-editor-title-wrap"><div class="wb-editor-title" id="wb-editor-title">Untitled set</div><div class="wb-editor-sub" id="wb-editor-sub" style="font-weight: 500; color: var(--txt3);">Personal</div></div><button class="wb-editor-publish" id="wb-editor-publish" type="button" onclick="publishCurrentPersonalSetToWorkspace()">Publish</button></div><div id="wb-personal-manager"><div class="wb-personal-scroll"><div class="wb-personal-head"><div class="wb-personal-copy"><div class="wb-personal-title">My Set Lists</div><div class="wb-personal-meta" id="wb-personal-meta" style="display: flex; visibility: visible; height: auto; min-height: 18px; margin-top: 7px; padding: 0px; overflow: visible; opacity: 1;">0 sets<span class="wb-personal-local">Saved locally</span></div></div><button class="wb-personal-new" type="button" onclick="createPersonalSetFromManager()">New</button></div><div id="wb-personal-list" class="wb-personal-list"><div class="wb-personal-empty"><strong>No personal set lists yet</strong>Create a set list to start planning locally on this device.</div></div></div></div>
 <!-- v79.4: old Personal/Shared segmented control removed. Set List home is personal-only; Workspace owns team/shared sets. -->
 <div class="sl-hdr">
-<div class="sl-hdr-meta">
-<span class="sl-lbl" id="sl-count">0 songs</span>
+<div class="sl-hdr-meta" style="display: flex;">
+<span class="sl-lbl" id="sl-count">0 songs</span><span id="sl-set-key-info" class="sl-set-key-info"></span>
 </div>
 <div class="sl-btns">
-<button aria-label="Set options" class="sl-option-btn icon-only" onclick="openSetListOptions()" title="Set options"><svg aria-hidden="true" fill="none" height="4" viewbox="0 0 18 4" width="18"><circle cx="2" cy="2" fill="currentColor" r="2"></circle><circle cx="9" cy="2" fill="currentColor" r="2"></circle><circle cx="16" cy="2" fill="currentColor" r="2"></circle></svg></button>
+<button aria-label="Set options" class="sl-option-btn icon-only" onclick="openSetListOptions()" title="Set options"><svg aria-hidden="true" fill="none" height="4" viewBox="0 0 18 4" width="18"><circle cx="2" cy="2" fill="currentColor" r="2"></circle><circle cx="9" cy="2" fill="currentColor" r="2"></circle><circle cx="16" cy="2" fill="currentColor" r="2"></circle></svg></button>
 <button class="sl-clear-btn" onclick="clearSet()">Clear</button>
 </div>
 </div>
 <div class="sl-scroll-host vs-host">
-<div style="position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;"><div class="sl-items" id="sl-items"></div></div>
+<div style="position: absolute; inset: 0px; overflow: hidden auto; -webkit-overflow-scrolling: touch;"><div class="sl-items" id="sl-items"><div class="sl-empty"><div class="wb-empty-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 18.5a2.5 2.5 0 1 1-1-2V5l10-2v11.5a2.5 2.5 0 1 1-1-2V7L9 8.5z"></path></svg></div><div class="sl-et">No items in New Set</div><div class="sl-es">Use the set options menu to add songs, sections, or service items.</div></div></div></div>
 </div>
-<button aria-label="Add to set list" class="add-fab" onclick="openBS('picker')"><svg fill="none" height="22" viewbox="0 0 22 22" width="22"><path d="M11 3v16M3 11h16" stroke="currentColor" stroke-linecap="round" stroke-width="2.4"></path></svg></button>
+<button aria-label="Add to set list" class="add-fab" onclick="openBS('picker')"><svg fill="none" height="22" viewBox="0 0 22 22" width="22"><path d="M11 3v16M3 11h16" stroke="currentColor" stroke-linecap="round" stroke-width="2.4"></path></svg></button>
 </div>
 <!-- WORKSPACE -->
 <div id="workspace-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;position:relative;min-height:0;">
@@ -3249,27 +3246,27 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
       </script>
 <div class="workspace-grid" data-wb7617-static="1">
 <button class="workspace-card workspace-card-action" onclick="openWorkspaceSetLists()" type="button">
-<span aria-hidden="true" class="workspace-card-icon"><svg fill="none" height="18" viewbox="0 0 24 24" width="18"><rect height="4" rx="1" stroke="currentColor" stroke-width="1.8" width="4" x="3" y="5"></rect><rect height="4" rx="1" stroke="currentColor" stroke-width="1.8" width="4" x="3" y="11"></rect><rect height="4" rx="1" stroke="currentColor" stroke-width="1.8" width="4" x="3" y="17"></rect><path d="M11 7h10M11 13h8M11 19h9" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path></svg></span>
+<span aria-hidden="true" class="workspace-card-icon"><svg fill="none" height="18" viewBox="0 0 24 24" width="18"><rect height="4" rx="1" stroke="currentColor" stroke-width="1.8" width="4" x="3" y="5"></rect><rect height="4" rx="1" stroke="currentColor" stroke-width="1.8" width="4" x="3" y="11"></rect><rect height="4" rx="1" stroke="currentColor" stroke-width="1.8" width="4" x="3" y="17"></rect><path d="M11 7h10M11 13h8M11 19h9" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path></svg></span>
 <span class="workspace-card-main"><span class="workspace-card-title">Workspace set lists</span><span class="workspace-card-sub">Team set lists</span></span>
 <span class="workspace-card-chevron">›</span>
 </button>
 <button class="workspace-card workspace-card-action" onclick="publishPersonalSetToWorkspace()" type="button">
-<span aria-hidden="true" class="workspace-card-icon"><svg fill="none" height="18" viewbox="0 0 24 24" width="18"><path d="M12 3v12" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path><path d="M7 8l5-5 5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M5 15v4h14v-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></span>
-<span class="workspace-card-main"><span class="workspace-card-title">Publish personal set</span><span class="workspace-card-sub">Copy one of My Set Lists</span></span>
+<span aria-hidden="true" class="workspace-card-icon"><svg fill="none" height="18" viewBox="0 0 24 24" width="18"><path d="M12 3v12" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path><path d="M7 8l5-5 5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M5 15v4h14v-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></span>
+<span class="workspace-card-main"><span class="workspace-card-title">Publish personal set</span><span class="workspace-card-sub">Choose a Personal set and publish it into Workspace.</span></span>
 <span class="workspace-card-chevron">›</span>
 </button>
 <button class="workspace-card workspace-card-action" onclick="openWorkspaceLibraryShell()" type="button">
-<span aria-hidden="true" class="workspace-card-icon"><svg fill="none" height="18" viewbox="0 0 24 24" width="18"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path></svg></span>
+<span aria-hidden="true" class="workspace-card-icon"><svg fill="none" height="18" viewBox="0 0 24 24" width="18"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path></svg></span>
 <span class="workspace-card-main"><span class="workspace-card-title">Workspace library</span><span class="workspace-card-sub">Team songs</span><span class="wb76-workspace-card-extra"><span class="workspace-pill">Model prep</span><span class="wb76-card-kicker">v76.x</span></span></span>
 <span class="workspace-card-chevron">›</span>
 </button>
 <button class="workspace-card workspace-card-action" onclick="openWorkspaceMembersShell()" type="button">
-<span aria-hidden="true" class="workspace-card-icon"><svg fill="none" height="18" viewbox="0 0 24 24" width="18"><path d="M16 11a4 4 0 1 0-8 0" stroke="currentColor" stroke-linecap="round" stroke-width="1.9"></path><path d="M4 21a8 8 0 0 1 16 0" stroke="currentColor" stroke-linecap="round" stroke-width="1.9"></path><path d="M18 4v5M15.5 6.5h5" stroke="currentColor" stroke-linecap="round" stroke-width="1.9"></path></svg></span>
+<span aria-hidden="true" class="workspace-card-icon"><svg fill="none" height="18" viewBox="0 0 24 24" width="18"><path d="M16 11a4 4 0 1 0-8 0" stroke="currentColor" stroke-linecap="round" stroke-width="1.9"></path><path d="M4 21a8 8 0 0 1 16 0" stroke="currentColor" stroke-linecap="round" stroke-width="1.9"></path><path d="M18 4v5M15.5 6.5h5" stroke="currentColor" stroke-linecap="round" stroke-width="1.9"></path></svg></span>
 <span class="workspace-card-main"><span class="workspace-card-title">Members &amp; invites</span><span class="workspace-card-sub">Team access</span><span class="wb76-workspace-card-extra"><span class="workspace-pill">Model prep</span><span class="wb76-card-kicker">Invite codes</span></span></span>
 <span class="workspace-card-chevron">›</span>
 </button>
 <button class="workspace-card workspace-card-action" onclick="openWorkspaceSettingsShell()" type="button">
-<span aria-hidden="true" class="workspace-card-icon"><svg fill="none" height="18" viewbox="0 0 24 24" width="18"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" stroke="currentColor" stroke-width="1.8"></path><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .92V20.5a2 2 0 0 1-4 0v-.18a1.7 1.7 0 0 0-1-.92 1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.92-1H3.5a2 2 0 0 1 0-4h.18a1.7 1.7 0 0 0 .92-1 1.7 1.7 0 0 0-.34-1.88l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.92V3.5a2 2 0 0 1 4 0v.18a1.7 1.7 0 0 0 1 .92 1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.28.35.6.7.92 1h.18a2 2 0 0 1 0 4h-.18a1.7 1.7 0 0 0-.92 1Z" stroke="currentColor" stroke-linecap="round" stroke-width="1.2"></path></svg></span>
+<span aria-hidden="true" class="workspace-card-icon"><svg fill="none" height="18" viewBox="0 0 24 24" width="18"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" stroke="currentColor" stroke-width="1.8"></path><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .92V20.5a2 2 0 0 1-4 0v-.18a1.7 1.7 0 0 0-1-.92 1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.92-1H3.5a2 2 0 0 1 0-4h.18a1.7 1.7 0 0 0 .92-1 1.7 1.7 0 0 0-.34-1.88l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.92V3.5a2 2 0 0 1 4 0v.18a1.7 1.7 0 0 0 1 .92 1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.28.35.6.7.92 1h.18a2 2 0 0 1 0 4h-.18a1.7 1.7 0 0 0-.92 1Z" stroke="currentColor" stroke-linecap="round" stroke-width="1.2"></path></svg></span>
 <span class="workspace-card-main"><span class="workspace-card-title">Workspace settings</span><span class="workspace-card-sub">Name, invite code preview and local shell status.</span></span>
 <span class="workspace-card-chevron">›</span>
 </button>
@@ -3277,7 +3274,7 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 </div>
 </div>
 <!-- BIBLE -->
-<div id="bible-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;min-height:0;">
+<div id="bible-section" style="display: none; flex: 1 1 0%; flex-direction: column; overflow: hidden; min-height: 0px;">
 <div class="bible-combo">
 <button class="bible-combo-btn" onclick="openBiblePicker('book')" type="button"><span class="truncate" id="bible-book-label">Genesis</span></button>
 <span class="bible-combo-divider"></span>
@@ -3286,55 +3283,53 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 <button class="bible-combo-btn version" onclick="openBibleVersionPicker()" type="button"><span class="truncate" id="bible-version-label">ESV</span></button>
 </div>
 <div class="bible-meta" id="bible-meta">ESV Bible</div>
-<div class="bible-scroll" id="bible-scroll">
-<div class="bible-card" id="bible-card">
-<div class="bible-empty" id="bible-empty">Loading Bible…</div>
-</div>
+<div class="bible-scroll" id="bible-scroll" style="-webkit-overflow-scrolling: touch;">
+<div class="bible-card" id="bible-card"><div class="bible-empty">Loading Bible…</div></div>
 </div>
 <button aria-label="Previous chapter" class="bible-fab bible-fab-prev" onclick="changeBibleChapter(-1)" type="button">‹</button>
 <button aria-label="Next chapter" class="bible-fab bible-fab-next" onclick="changeBibleChapter(1)" type="button">›</button>
 </div>
 <!-- SETTINGS -->
-<div id="settings-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;min-height:0;">
-<div class="settings-scroll">
+<div id="settings-section" style="display: none; flex: 1 1 0%; flex-direction: column; overflow: hidden; min-height: 0px;">
+<div class="settings-scroll" style="-webkit-overflow-scrolling: touch;">
 <div class="ss-section">
 <div class="ss-title">Appearance</div>
 <div class="ss-card">
 <div class="ss-row" onclick="toggleDark()">
-<div class="ss-ico"><svg fill="none" height="16" viewbox="0 0 16 16" width="16"><path d="M8 1v1.5M8 13.5V15M1 8h1.5M13.5 8H15M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path><circle cx="8" cy="8" r="2.8" stroke="currentColor" stroke-width="1.5"></circle></svg></div>
+<div class="ss-ico"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><path d="M8 1v1.5M8 13.5V15M1 8h1.5M13.5 8H15M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path><circle cx="8" cy="8" r="2.8" stroke="currentColor" stroke-width="1.5"></circle></svg></div>
 <div class="ss-body"><div class="ss-lbl">Dark mode</div></div>
 <div class="sw" id="dark-sw" onclick="event.stopPropagation();toggleDark()"><div class="sw-thumb"></div></div>
 </div>
 <div class="ss-row no-tap">
-<div class="ss-ico"><svg fill="none" height="16" viewbox="0 0 16 16" width="16"><path d="M2 12h3.5L13 4.5 11.5 3 4 10.5V14H2v-2z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4"></path></svg></div>
+<div class="ss-ico"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><path d="M2 12h3.5L13 4.5 11.5 3 4 10.5V14H2v-2z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4"></path></svg></div>
 <div class="ss-body">
 <div class="ss-lbl">Text size</div>
 <div class="sz-wrap">
 <span class="sz-a" style="font-size:11px">A</span>
-<input class="sz-slider" id="text-size-slider" max="125" min="85" oninput="applyTextSize(this.value)" type="range" value="100"/>
+<input class="sz-slider" id="text-size-slider" max="125" min="85" oninput="applyTextSize(this.value)" type="range" value="100" style="--pct: 37.5%;">
 <span class="sz-a" style="font-size:17px">A</span>
 </div>
 </div>
 </div>
 <div class="ss-row no-tap">
-<div class="ss-ico"><svg fill="none" height="16" viewbox="0 0 16 16" width="16"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.5"></circle><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.5"></circle></svg></div>
+<div class="ss-ico"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.5"></circle><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.5"></circle></svg></div>
 <div class="ss-body"><div class="ss-lbl">Colour theme</div></div>
 </div>
-<div class="theme-row" id="theme-swatches"></div>
+<div class="theme-row" id="theme-swatches"><div class="theme-sw active" style="background:#111111" title="Neutral" onclick="applyTheme('#111111')"></div><div class="theme-sw" style="background:#1A4731" title="Forest" onclick="applyTheme('#1A4731')"></div><div class="theme-sw" style="background:#6F7D3C" title="Sage / Olive" onclick="applyTheme('#6F7D3C')"></div><div class="theme-sw" style="background:#8A7A68" title="Stone / Taupe" onclick="applyTheme('#8A7A68')"></div><div class="theme-sw" style="background:#7A5A4D" title="Cedar" onclick="applyTheme('#7A5A4D')"></div><div class="theme-sw" style="background:#5A2034" title="Mulberry" onclick="applyTheme('#5A2034')"></div><div class="theme-sw" style="background:#3A0A55" title="Deep Purple" onclick="applyTheme('#3A0A55')"></div><div class="theme-sw" style="background:#10374A" title="Dark Teal" onclick="applyTheme('#10374A')"></div><div class="theme-sw" style="background:#4F6480" title="Slate Blue" onclick="applyTheme('#4F6480')"></div><div class="theme-sw" style="background:#2F4565" title="Midnight Navy" onclick="applyTheme('#2F4565')"></div></div>
 </div>
 </div>
 <div class="ss-section">
 <div class="ss-title">Library</div>
 <div class="ss-card">
 <div class="ss-row" onclick="openBS('defaultkey')">
-<div class="ss-ico"><svg aria-hidden="true" fill="none" height="16" viewbox="0 0 16 16" width="16"><path d="M3 5.2h10M3 8h10M3 10.8h10" opacity=".42" stroke="currentColor" stroke-linecap="round" stroke-width="1.15"></path><path d="M9.6 3.4v7.1a2.1 2.1 0 1 1-1.1-1.85" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.45"></path><path d="M11.2 4.2l2-.62v1.8l-2 .62V4.2z" fill="currentColor"></path></svg></div>
+<div class="ss-ico"><svg aria-hidden="true" fill="none" height="16" viewBox="0 0 16 16" width="16"><path d="M3 5.2h10M3 8h10M3 10.8h10" opacity=".42" stroke="currentColor" stroke-linecap="round" stroke-width="1.15"></path><path d="M9.6 3.4v7.1a2.1 2.1 0 1 1-1.1-1.85" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.45"></path><path d="M11.2 4.2l2-.62v1.8l-2 .62V4.2z" fill="currentColor"></path></svg></div>
 <div class="ss-body"><div class="ss-lbl">Default display key</div><div class="ss-sub" id="def-key-sub">Show songs in their original key</div></div>
-<div class="ss-right"><span class="ss-val" id="def-key-val">Original</span><svg fill="none" height="12" viewbox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
+<div class="ss-right"><span class="ss-val" id="def-key-val">Original</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
 </div>
 <div class="ss-row" onclick="openBS('defaultsongview')">
-<div class="ss-ico"><svg fill="none" height="16" viewbox="0 0 16 16" width="16"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path><circle cx="4" cy="4.5" fill="currentColor" r=".9"></circle><circle cx="7.4" cy="8" fill="currentColor" r=".9"></circle><circle cx="11.2" cy="11.5" fill="currentColor" r=".9"></circle></svg></div>
+<div class="ss-ico"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path><circle cx="4" cy="4.5" fill="currentColor" r=".9"></circle><circle cx="7.4" cy="8" fill="currentColor" r=".9"></circle><circle cx="11.2" cy="11.5" fill="currentColor" r=".9"></circle></svg></div>
 <div class="ss-body"><div class="ss-lbl">Default song view</div><div class="ss-sub" id="def-songview-sub">Songs open in Chords view</div></div>
-<div class="ss-right"><span class="ss-val" id="def-songview-val">Chords</span><svg fill="none" height="12" viewbox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
+<div class="ss-right"><span class="ss-val" id="def-songview-val">Chords</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
 </div>
 </div>
 </div>
@@ -3342,54 +3337,54 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 <div class="ss-title">Song defaults</div>
 <div class="ss-card">
 <div class="ss-row" onclick="toggleChordHighlight()">
-<div class="ss-ico"><svg fill="none" height="16" viewbox="0 0 16 16" width="16"><rect height="10" rx="2.5" stroke="currentColor" stroke-width="1.4" width="11" x="2.5" y="3"></rect><path d="M4.2 7.2h7.4" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path><path d="M4.2 7.2h2.6" opacity=".18" stroke="currentColor" stroke-linecap="round" stroke-width="4.2"></path></svg></div>
+<div class="ss-ico"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><rect height="10" rx="2.5" stroke="currentColor" stroke-width="1.4" width="11" x="2.5" y="3"></rect><path d="M4.2 7.2h7.4" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path><path d="M4.2 7.2h2.6" opacity=".18" stroke="currentColor" stroke-linecap="round" stroke-width="4.2"></path></svg></div>
 <div class="ss-body"><div class="ss-lbl">Highlight chords by default</div><div class="ss-sub">Songs open with chord highlight on</div></div>
-<div class="sw" id="default-highlight-sw" onclick="event.stopPropagation();toggleChordHighlight()"><div class="sw-thumb"></div></div>
+<div class="sw on" id="default-highlight-sw" onclick="event.stopPropagation();toggleChordHighlight()"><div class="sw-thumb"></div></div>
 </div>
 <div class="ss-row" onclick="toggleUseFlatsDefault()">
-<div class="ss-ico"><svg fill="none" height="16" viewbox="0 0 16 16" width="16"><path d="M7 2.2v8.8c0 1.6-1 2.8-2.4 2.8-.9 0-1.6-.5-1.6-1.3 0-1 .9-1.8 2.2-1.8.6 0 1.2.1 1.8.4M7 5.3c1-.9 2.1-1.4 3.4-1.4 1.5 0 2.6.7 2.6 1.9 0 1.4-1.4 2.5-3.3 2.5-.9 0-1.7-.2-2.7-.6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3"></path></svg></div>
+<div class="ss-ico"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><path d="M7 2.2v8.8c0 1.6-1 2.8-2.4 2.8-.9 0-1.6-.5-1.6-1.3 0-1 .9-1.8 2.2-1.8.6 0 1.2.1 1.8.4M7 5.3c1-.9 2.1-1.4 3.4-1.4 1.5 0 2.6.7 2.6 1.9 0 1.4-1.4 2.5-3.3 2.5-.9 0-1.7-.2-2.7-.6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3"></path></svg></div>
 <div class="ss-body"><div class="ss-lbl">Use flats by default</div><div class="ss-sub">Prefer flats when songs open</div></div>
 <div class="sw" id="default-flats-sw" onclick="event.stopPropagation();toggleUseFlatsDefault()"><div class="sw-thumb"></div></div>
 </div>
 <div class="ss-row" onclick="toggleKeepAwakeOnSongsSetting()">
-<div class="ss-ico"><svg fill="none" height="16" viewbox="0 0 16 16" width="16"><rect height="11.6" rx="1.8" stroke="currentColor" stroke-width="1.4" width="7.6" x="4.2" y="2.2"></rect><path d="M6 4.6h4" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path><circle cx="8" cy="11.2" fill="currentColor" r=".8"></circle></svg></div>
+<div class="ss-ico"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><rect height="11.6" rx="1.8" stroke="currentColor" stroke-width="1.4" width="7.6" x="4.2" y="2.2"></rect><path d="M6 4.6h4" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path><circle cx="8" cy="11.2" fill="currentColor" r=".8"></circle></svg></div>
 <div class="ss-body"><div class="ss-lbl">Keep screen awake on song pages</div><div class="ss-sub">Prevent screen sleep while viewing songs</div></div>
 <div class="sw" id="keep-awake-sw" onclick="event.stopPropagation();toggleKeepAwakeOnSongsSetting()"><div class="sw-thumb"></div></div>
 </div>
 <div class="ss-row" onclick="openBS('addtosetbehavior')">
-<div class="ss-ico"><svg fill="none" height="16" viewbox="0 0 16 16" width="16"><path d="M3 4.5h10M3 8h10M3 11.5h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path><circle cx="5.1" cy="4.5" fill="currentColor" r="1"></circle><circle cx="8" cy="8" fill="currentColor" r="1"></circle><circle cx="11" cy="11.5" fill="currentColor" r="1"></circle></svg></div>
+<div class="ss-ico"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><path d="M3 4.5h10M3 8h10M3 11.5h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path><circle cx="5.1" cy="4.5" fill="currentColor" r="1"></circle><circle cx="8" cy="8" fill="currentColor" r="1"></circle><circle cx="11" cy="11.5" fill="currentColor" r="1"></circle></svg></div>
 <div class="ss-body"><div class="ss-lbl">Add to set list</div><div class="ss-sub" id="addset-beh-sub">Ask every time which set to use</div></div>
-<div class="ss-right"><span class="ss-val" id="addset-beh-val">Ask</span><svg fill="none" height="12" viewbox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
+<div class="ss-right"><span class="ss-val" id="addset-beh-val">Ask</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
 </div>
 </div>
 </div>
-<div class="ss-section">
+<div class="ss-section wb-hidden-settings-section">
 <div class="ss-title">Export</div>
 <div class="ss-card">
 <div class="ss-row" onclick="openBS('defaultpdfpreset')">
-<div class="ss-ico"><svg fill="none" height="16" viewbox="0 0 16 16" width="16"><path d="M4 2.5h5.5L12.5 5.5V13.5H4V2.5z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.4"></path><path d="M9.5 2.5v3h3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4"></path></svg></div>
+<div class="ss-ico"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><path d="M4 2.5h5.5L12.5 5.5V13.5H4V2.5z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.4"></path><path d="M9.5 2.5v3h3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4"></path></svg></div>
 <div class="ss-body"><div class="ss-lbl">Default PDF preset</div><div class="ss-sub" id="def-pdf-sub">Open export on Rehearsal preset</div></div>
-<div class="ss-right"><span class="ss-val" id="def-pdf-val">Rehearsal</span><svg fill="none" height="12" viewbox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
+<div class="ss-right"><span class="ss-val" id="def-pdf-val">Rehearsal</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
 </div>
 <div class="ss-row" onclick="exportMySongsJSON()">
-<div class="ss-ico"><svg fill="none" height="16" viewbox="0 0 16 16" width="16"><path d="M8 2.5v7.5" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path><path d="M5.2 7.3L8 10.1l2.8-2.8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path><path d="M3 12.5h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg></div>
+<div class="ss-ico"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><path d="M8 2.5v7.5" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path><path d="M5.2 7.3L8 10.1l2.8-2.8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path><path d="M3 12.5h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg></div>
 <div class="ss-body"><div class="ss-lbl">My Songs backup</div><div class="ss-sub">Export songs added on this device</div></div>
-<div class="ss-right"><svg fill="none" height="12" viewbox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
+<div class="ss-right"><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
 </div>
 <div class="ss-row" onclick="exportNotesCuesJSON()">
-<div class="ss-ico"><svg fill="none" height="16" viewbox="0 0 16 16" width="16"><path d="M4 2.5h8v11H4z" stroke="currentColor" stroke-width="1.4"></path><path d="M6 6h4M6 8.5h4M6 11h2.6" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></div>
+<div class="ss-ico"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><path d="M4 2.5h8v11H4z" stroke="currentColor" stroke-width="1.4"></path><path d="M6 6h4M6 8.5h4M6 11h2.6" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></div>
 <div class="ss-body"><div class="ss-lbl">Notes &amp; cues backup</div><div class="ss-sub">Export your personal song notes and cues</div></div>
-<div class="ss-right"><svg fill="none" height="12" viewbox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
+<div class="ss-right"><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
 </div>
 <div class="ss-row" onclick="document.getElementById('notes-cues-json-file')?.click()">
-<div class="ss-ico"><svg fill="none" height="16" viewbox="0 0 16 16" width="16"><path d="M8 13.5V6" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path><path d="M5.2 8.7L8 5.9l2.8 2.8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path><path d="M3 3.5h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg></div>
+<div class="ss-ico"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><path d="M8 13.5V6" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path><path d="M5.2 8.7L8 5.9l2.8 2.8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path><path d="M3 3.5h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg></div>
 <div class="ss-body"><div class="ss-lbl">Restore notes &amp; cues</div><div class="ss-sub">Import notes and cues onto matching songs</div></div>
-<div class="ss-right"><svg fill="none" height="12" viewbox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
+<div class="ss-right"><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
 </div>
 <div class="ss-row" onclick="exportAppBackupJSON()">
-<div class="ss-ico"><svg fill="none" height="16" viewbox="0 0 16 16" width="16"><rect height="10" rx="2" stroke="currentColor" stroke-width="1.4" width="11" x="2.5" y="3"></rect><path d="M5.2 6.5h5.6M5.2 9h5.6" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></div>
+<div class="ss-ico"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><rect height="10" rx="2" stroke="currentColor" stroke-width="1.4" width="11" x="2.5" y="3"></rect><path d="M5.2 6.5h5.6M5.2 9h5.6" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></div>
 <div class="ss-body"><div class="ss-lbl">Full app backup</div><div class="ss-sub">Complete backup of songs, settings, notes and set lists</div></div>
-<div class="ss-right"><svg fill="none" height="12" viewbox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
+<div class="ss-right"><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
 </div>
 </div>
 </div>
@@ -3397,52 +3392,52 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 <div class="ss-title">Bible</div>
 <div class="ss-card">
 <div class="ss-row" onclick="openBS('defaultbibleversion')">
-<div class="ss-ico"><svg fill="none" height="16" viewbox="0 0 16 16" width="16"><path d="M4 2.5h6.2a2.3 2.3 0 0 1 2.3 2.3v8.7H6.2A2.2 2.2 0 0 0 4 15V2.5z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.4"></path><path d="M6.2 4.8h4.2M6.2 7h4.2M6.2 9.2h3.2" stroke="currentColor" stroke-linecap="round" stroke-width="1.3"></path></svg></div>
-<div class="ss-body"><div class="ss-lbl">Default Bible version</div><div class="ss-sub" id="def-bible-sub">Open Bible in the default version</div></div>
-<div class="ss-right"><span class="ss-val" id="def-bible-val">ESV</span><svg fill="none" height="12" viewbox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
+<div class="ss-ico"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><path d="M4 2.5h6.2a2.3 2.3 0 0 1 2.3 2.3v8.7H6.2A2.2 2.2 0 0 0 4 15V2.5z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.4"></path><path d="M6.2 4.8h4.2M6.2 7h4.2M6.2 9.2h3.2" stroke="currentColor" stroke-linecap="round" stroke-width="1.3"></path></svg></div>
+<div class="ss-body"><div class="ss-lbl">Default Bible version</div><div class="ss-sub" id="def-bible-sub">Bible opens in ESV</div></div>
+<div class="ss-right"><span class="ss-val" id="def-bible-val">ESV</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
 </div>
 </div>
 </div>
-<div class="ss-section" id="settings-tools-section">
+<div class="ss-section" id="settings-tools-section" style="display: none;">
 <div class="ss-title">Tools</div>
 <div class="ss-card">
 <div class="ss-row" onclick="openManageSongsFromSettings()" style="display:none">
-<div class="ss-ico"><svg fill="none" height="16" viewbox="0 0 16 16" width="16"><rect height="10" rx="2.2" stroke="currentColor" stroke-width="1.4" width="11" x="2.5" y="3"></rect><path d="M5 6.2h6M5 8.8h6M5 11.4h3.6" stroke="currentColor" stroke-linecap="round" stroke-width="1.3"></path></svg></div>
+<div class="ss-ico"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><rect height="10" rx="2.2" stroke="currentColor" stroke-width="1.4" width="11" x="2.5" y="3"></rect><path d="M5 6.2h6M5 8.8h6M5 11.4h3.6" stroke="currentColor" stroke-linecap="round" stroke-width="1.3"></path></svg></div>
 <div class="ss-body"><div class="ss-lbl">Manage songs</div><div class="ss-sub" id="manage-songs-sub">Bulk select, delete, and clean up songs</div></div>
-<div class="ss-right"><span class="ss-val" id="manage-songs-val">Off</span><svg fill="none" height="12" viewbox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
+<div class="ss-right"><span class="ss-val" id="manage-songs-val">Off</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
 </div>
 <div class="ss-row manage-only-tool" onclick="openAdminExport()" style="display:none">
-<div class="ss-ico"><svg fill="none" height="16" viewbox="0 0 16 16" width="16"><path d="M8 2v8M8 10l-3-3M8 10l3-3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path><path d="M2 12h12" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg></div>
+<div class="ss-ico"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><path d="M8 2v8M8 10l-3-3M8 10l3-3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path><path d="M2 12h12" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg></div>
 <div class="ss-body"><div class="ss-lbl">Full library backup</div><div class="ss-sub">Admin-only complete WorshipBase backup</div></div>
-<div class="ss-right"><svg fill="none" height="12" viewbox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
+<div class="ss-right"><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
 </div>
 <div class="ss-row manage-only-tool" onclick="openAdminImport()" style="display:none">
-<div class="ss-ico"><svg fill="none" height="16" viewbox="0 0 16 16" width="16"><path d="M8 10V2M8 2L5 5M8 2l3 3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path><path d="M2 12h12" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg></div>
+<div class="ss-ico"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><path d="M8 10V2M8 2L5 5M8 2l3 3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path><path d="M2 12h12" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg></div>
 <div class="ss-body"><div class="ss-lbl">Restore library backup</div><div class="ss-sub">Admin-only restore from backup file</div></div>
-<div class="ss-right"><svg fill="none" height="12" viewbox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
+<div class="ss-right"><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
 </div>
-<input accept=".json" id="import-file" onchange="importJSON(event)" style="display:none" type="file"/>
+<input accept=".json" id="import-file" onchange="importJSON(event)" style="display:none" type="file">
 <div class="ss-row manage-only-tool" onclick="openBS('changepin')" style="display:none">
-<div class="ss-ico"><svg fill="none" height="16" viewbox="0 0 16 16" width="16"><rect height="7" rx="1.5" stroke="currentColor" stroke-width="1.5" width="10" x="3" y="7"></rect><path d="M5 7V5a3 3 0 1 1 6 0v2" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path><circle cx="8" cy="10.5" fill="currentColor" r="1"></circle></svg></div>
+<div class="ss-ico"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><rect height="7" rx="1.5" stroke="currentColor" stroke-width="1.5" width="10" x="3" y="7"></rect><path d="M5 7V5a3 3 0 1 1 6 0v2" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path><circle cx="8" cy="10.5" fill="currentColor" r="1"></circle></svg></div>
 <div class="ss-body"><div class="ss-lbl">Change PIN</div><div class="ss-sub">Requires current PIN</div></div>
-<div class="ss-right"><svg fill="none" height="12" viewbox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
+<div class="ss-right"><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
 </div>
 <div class="ss-row manage-only-tool" onclick="lockAdmin()" style="display:none">
-<div class="ss-ico"><svg fill="none" height="16" viewbox="0 0 16 16" width="16"><rect height="7" rx="1.5" stroke="currentColor" stroke-width="1.5" width="10" x="3" y="7"></rect><path d="M5 7V5a3 3 0 1 1 6 0v2" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path><path d="M6.3 10.4h3.4" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg></div>
+<div class="ss-ico"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><rect height="7" rx="1.5" stroke="currentColor" stroke-width="1.5" width="10" x="3" y="7"></rect><path d="M5 7V5a3 3 0 1 1 6 0v2" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path><path d="M6.3 10.4h3.4" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg></div>
 <div class="ss-body"><div class="ss-lbl">Lock tools</div><div class="ss-sub">Turn off Manage songs and require PIN again</div></div>
-<div class="ss-right"><svg fill="none" height="12" viewbox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
+<div class="ss-right"><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div>
 </div>
 </div>
 </div>
-<div class="ss-section">
+<div class="ss-section" id="wb-backup-restore-section"><div class="ss-title">Backup &amp; Restore</div><div class="ss-card wb-backup-card"><div class="ss-row" onclick="openLocalBackupSheet()"><div class="ss-ico"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></div><div class="ss-body"><div class="ss-lbl">Local backup</div><div class="ss-sub">Export or restore JSON files on this device</div></div><div class="ss-right"><span class="ss-val">Files</span><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div></div><div class="ss-row wb-drive-row" id="wb-drive-row" onclick="openDriveBackupSheet()"><div class="ss-ico"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M6 13.5H12a3 3 0 0 0 .4-6 4.4 4.4 0 0 0-8.3 1.2A2.5 2.5 0 0 0 6 13.5Z" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="ss-body"><div class="ss-lbl">Google Drive backup</div><div class="ss-sub" id="wb-drive-settings-sub">Hidden personal backup in your Google account</div></div><div class="ss-right"><span class="ss-val" id="wb-drive-settings-val">Drive</span><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div></div><div class="wb-drive-settings-status" id="wb-drive-settings-status"><div class="wb-drive-status-surface"><div class="wb-drive-status-head"><div class="wb-drive-status-left"><span class="wb-drive-status-dot "></span><div class="wb-drive-status-copy"><div class="wb-drive-status-title">Google Drive backup not connected</div><div class="wb-drive-status-subline">Connect Google Drive to create a hidden personal backup</div></div></div><span class="wb-drive-status-pill">Not connected</span></div><div class="wb-drive-settings-grid"><div class="wb-drive-settings-row" role="note"><span>Backup file</span><b>Not created yet</b></div><div class="wb-drive-settings-row" role="note"><span>Last backup</span><b>Never</b></div><div class="wb-drive-settings-row" role="note"><span>Last restore</span><b>Never</b></div><div class="wb-drive-settings-row" role="note"><span>Backup from before last restore</span><b>None</b></div></div><div class="wb-drive-settings-hint">Tap Google Drive backup above to back up, restore, or disconnect.</div></div></div></div></div><div class="ss-section">
 <div class="ss-title">About</div>
 <div class="ss-card">
 <div class="about-panel">
 <div class="about-badge about-secret-manage" onclick="openManageSongsSecret(event)" title="WorshipBase">
-<img alt="WorshipBase logo" src="assets/wb-icon-192.png"/>
+<img alt="WorshipBase logo" src="assets/wb-icon-192.png">
 </div>
 <div class="about-name">WorshipBase</div>
-<div class="about-version-pill">Version 79.10</div>
+<div class="about-version-pill">Version 79.13</div>
 <div class="about-by">Created by <strong>Jerin Reji</strong></div>
 </div>
 </div>
@@ -3452,28 +3447,28 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 <!-- BOTTOM TAB BAR — last flex child of #list-view -->
 <div class="tab-bar" id="tab-bar">
 <!-- Library tab -->
-<button class="tab-btn active" id="tab-songs" onclick="switchTab('songs')">
+<button class="tab-btn" id="tab-songs" onclick="switchTab('songs')">
 <span class="tab-ico">
-<svg class="ico-outline" fill="none" height="24" viewbox="0 0 24 24" width="24"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path></svg>
-<svg class="ico-filled" fill="none" height="24" viewbox="0 0 24 24" width="24"><path d="M4 6h16" stroke="currentColor" stroke-linecap="round" stroke-width="2.6"></path><path d="M4 12h10" stroke="currentColor" stroke-linecap="round" stroke-width="2.6"></path><path d="M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="2.6"></path></svg>
+<svg class="ico-outline" fill="none" height="24" viewBox="0 0 24 24" width="24"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path></svg>
+<svg class="ico-filled" fill="none" height="24" viewBox="0 0 24 24" width="24"><path d="M4 6h16" stroke="currentColor" stroke-linecap="round" stroke-width="2.6"></path><path d="M4 12h10" stroke="currentColor" stroke-linecap="round" stroke-width="2.6"></path><path d="M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="2.6"></path></svg>
 </span>
 <span class="tab-lbl">Library</span>
 </button>
 <!-- Set List tab -->
-<button class="tab-btn" id="tab-setlist" onclick="switchTab('setlist')">
+<button class="tab-btn active" id="tab-setlist" onclick="switchTab('setlist')">
 <span class="tab-ico">
 <!-- outline: squares with no fill opacity -->
-<svg class="ico-outline" fill="none" height="24" viewbox="0 0 24 24" width="24"><rect height="4" rx="1" stroke="currentColor" stroke-width="1.8" width="4" x="3" y="5"></rect><rect height="4" rx="1" stroke="currentColor" stroke-width="1.8" width="4" x="3" y="11"></rect><rect height="4" rx="1" stroke="currentColor" stroke-width="1.8" width="4" x="3" y="17"></rect><path d="M11 7h10M11 13h8M11 19h9" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path></svg>
+<svg class="ico-outline" fill="none" height="24" viewBox="0 0 24 24" width="24"><rect height="4" rx="1" stroke="currentColor" stroke-width="1.8" width="4" x="3" y="5"></rect><rect height="4" rx="1" stroke="currentColor" stroke-width="1.8" width="4" x="3" y="11"></rect><rect height="4" rx="1" stroke="currentColor" stroke-width="1.8" width="4" x="3" y="17"></rect><path d="M11 7h10M11 13h8M11 19h9" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path></svg>
 <!-- filled: solid squares -->
-<svg class="ico-filled" fill="none" height="24" viewbox="0 0 24 24" width="24"><rect fill="currentColor" height="4" rx="1" width="4" x="3" y="5"></rect><rect fill="currentColor" height="4" rx="1" width="4" x="3" y="11"></rect><rect fill="currentColor" height="4" rx="1" width="4" x="3" y="17"></rect><path d="M11 7h10M11 13h8M11 19h9" stroke="currentColor" stroke-linecap="round" stroke-width="2.4"></path></svg>
+<svg class="ico-filled" fill="none" height="24" viewBox="0 0 24 24" width="24"><rect fill="currentColor" height="4" rx="1" width="4" x="3" y="5"></rect><rect fill="currentColor" height="4" rx="1" width="4" x="3" y="11"></rect><rect fill="currentColor" height="4" rx="1" width="4" x="3" y="17"></rect><path d="M11 7h10M11 13h8M11 19h9" stroke="currentColor" stroke-linecap="round" stroke-width="2.4"></path></svg>
 </span>
 <span class="tab-lbl">Set List</span>
 </button>
 <!-- Workspace tab -->
 <button class="tab-btn" id="tab-workspace" onclick="switchTab('workspace')">
 <span class="tab-ico">
-<svg class="ico-outline" fill="none" height="24" viewbox="0 0 24 24" width="24"><path d="M4 20V8.5L12 4l8 4.5V20" stroke="currentColor" stroke-linejoin="round" stroke-width="1.8"></path><path d="M9 20v-6h6v6" stroke="currentColor" stroke-linejoin="round" stroke-width="1.8"></path><path d="M7.5 10.5h2M14.5 10.5h2" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path></svg>
-<svg class="ico-filled" fill="none" height="24" viewbox="0 0 24 24" width="24"><path d="M4 20V8.5L12 4l8 4.5V20" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-linejoin="round" stroke-width="2.2"></path><path d="M9 20v-6h6v6" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="2.2"></path><path d="M7.5 10.5h2M14.5 10.5h2" stroke="currentColor" stroke-linecap="round" stroke-width="2.2"></path></svg>
+<svg class="ico-outline" fill="none" height="24" viewBox="0 0 24 24" width="24"><path d="M4 20V8.5L12 4l8 4.5V20" stroke="currentColor" stroke-linejoin="round" stroke-width="1.8"></path><path d="M9 20v-6h6v6" stroke="currentColor" stroke-linejoin="round" stroke-width="1.8"></path><path d="M7.5 10.5h2M14.5 10.5h2" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path></svg>
+<svg class="ico-filled" fill="none" height="24" viewBox="0 0 24 24" width="24"><path d="M4 20V8.5L12 4l8 4.5V20" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-linejoin="round" stroke-width="2.2"></path><path d="M9 20v-6h6v6" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="2.2"></path><path d="M7.5 10.5h2M14.5 10.5h2" stroke="currentColor" stroke-linecap="round" stroke-width="2.2"></path></svg>
 </span>
 <span class="tab-lbl">Workspace</span>
 </button>
@@ -3481,9 +3476,9 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 <button class="tab-btn" id="tab-bible" onclick="switchTab('bible')">
 <span class="tab-ico">
 <!-- outline: open book shape -->
-<svg class="ico-outline" fill="none" height="24" viewbox="0 0 24 24" width="24"><path d="M6 4.5h9.5a2.5 2.5 0 0 1 2.5 2.5v11.5H8a2 2 0 0 0-2 2V4.5Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.8"></path><path d="M6 4.5h-.5A2.5 2.5 0 0 0 3 7v10.5h3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path><path d="M9 9h6M9 12.5h4" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path></svg>
+<svg class="ico-outline" fill="none" height="24" viewBox="0 0 24 24" width="24"><path d="M6 4.5h9.5a2.5 2.5 0 0 1 2.5 2.5v11.5H8a2 2 0 0 0-2 2V4.5Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.8"></path><path d="M6 4.5h-.5A2.5 2.5 0 0 0 3 7v10.5h3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path><path d="M9 9h6M9 12.5h4" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path></svg>
 <!-- filled: book with solid spine + filled lines -->
-<svg class="ico-filled" fill="none" height="24" viewbox="0 0 24 24" width="24"><path d="M6 4.5h9.5a2.5 2.5 0 0 1 2.5 2.5v11.5H8a2 2 0 0 0-2 2V4.5Z" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path><path d="M6 4.5h-.5A2.5 2.5 0 0 0 3 7v10.5h3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4"></path><path d="M9 9h6M9 12.5h4" stroke="currentColor" stroke-linecap="round" stroke-width="2.2"></path></svg>
+<svg class="ico-filled" fill="none" height="24" viewBox="0 0 24 24" width="24"><path d="M6 4.5h9.5a2.5 2.5 0 0 1 2.5 2.5v11.5H8a2 2 0 0 0-2 2V4.5Z" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path><path d="M6 4.5h-.5A2.5 2.5 0 0 0 3 7v10.5h3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4"></path><path d="M9 9h6M9 12.5h4" stroke="currentColor" stroke-linecap="round" stroke-width="2.2"></path></svg>
 </span>
 <span class="tab-lbl">Bible</span>
 </button>
@@ -3491,9 +3486,9 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 <button class="tab-btn" id="tab-settings" onclick="switchTab('settings')">
 <span class="tab-ico">
 <!-- outline: thin gear -->
-<svg class="ico-outline" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+<svg class="ico-outline" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewBox="0 0 24 24" width="24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
 <!-- filled: filled circle center + heavier gear -->
-<svg class="ico-filled" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewbox="0 0 24 24" width="24"><circle cx="12" cy="12" fill="currentColor" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+<svg class="ico-filled" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewBox="0 0 24 24" width="24"><circle cx="12" cy="12" fill="currentColor" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
 </span>
 <span class="tab-lbl">Settings</span>
 </button>
@@ -3615,7 +3610,7 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 <div class="dupv-hdr">
 <div class="dupv-top">
 <button class="back-btn" onclick="closeDuplicateReview()" title="Back">
-<svg fill="none" height="16" style="margin-right:2px;" viewbox="0 0 9 14" width="12"><path d="M7.5 1L1.5 7L7.5 13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3"></path></svg>
+<svg fill="none" height="16" style="margin-right:2px;" viewBox="0 0 9 14" width="12"><path d="M7.5 1L1.5 7L7.5 13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3"></path></svg>
 </button>
 <div style="min-width:0;flex:1;">
 <div class="dupv-title">Review duplicates</div>
@@ -3633,16 +3628,16 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 <div class="sv-top">
 <!-- Circle bubble back button — no text, just chevron -->
 <button class="back-btn" id="back-btn" onclick="showList()" title="Back">
-<svg fill="none" height="16" style="margin-right:2px;" viewbox="0 0 9 14" width="12"><path d="M7.5 1L1.5 7L7.5 13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3"></path></svg>
+<svg fill="none" height="16" style="margin-right:2px;" viewBox="0 0 9 14" width="12"><path d="M7.5 1L1.5 7L7.5 13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3"></path></svg>
 </button>
 <div class="sv-pres-title" id="sv-pres-title"></div>
 <!-- Song action buttons -->
-<div class="sv-top-actions">
+<div class="sv-top-actions"><button class="pad-btn pad-text" id="song-pad-btn" type="button" title="Pad" aria-label="Open pad controls">Pad</button>
 <button aria-label="Open playback links" class="playback-btn" id="song-playback-btn" onclick="openPlaybackOptions()" title="Playback" type="button">
-<svg aria-hidden="true" fill="none" height="15" viewbox="0 0 24 24" width="15"><path d="M8 5.5v13l10-6.5-10-6.5z" fill="currentColor"></path></svg>
+<svg aria-hidden="true" fill="none" height="15" viewBox="0 0 24 24" width="15"><path d="M8 5.5v13l10-6.5-10-6.5z" fill="currentColor"></path></svg>
 </button>
 <button aria-label="Song options" class="menu-btn" onclick="openBS('songmenu')">
-<svg fill="none" height="4" viewbox="0 0 18 4" width="18"><circle cx="2" cy="2" fill="currentColor" r="2"></circle><circle cx="9" cy="2" fill="currentColor" r="2"></circle><circle cx="16" cy="2" fill="currentColor" r="2"></circle></svg>
+<svg fill="none" height="4" viewBox="0 0 18 4" width="18"><circle cx="2" cy="2" fill="currentColor" r="2"></circle><circle cx="9" cy="2" fill="currentColor" r="2"></circle><circle cx="16" cy="2" fill="currentColor" r="2"></circle></svg>
 </button>
 </div>
 <button class="pres-exit-btn" id="pres-exit-btn" onclick="setPresentationMode(false)">Done</button>
@@ -3652,7 +3647,7 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 <div class="sv-orig-key" id="sv-orig-key"></div>
 <div class="sv-song-id" id="sv-song-id"></div>
 </div>
-<div class="sv-scroll" id="sv-scroll">
+<div class="sv-scroll" id="sv-scroll" style="-webkit-overflow-scrolling: touch;">
 <div class="sv-ctrls">
 <div class="sv-main-row">
 <div class="seg-bar" id="view-seg">
@@ -3662,13 +3657,13 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 </div>
 <div class="sv-inline-actions">
 <button aria-label="Add to set list" class="sv-set-btn" id="sv-add-set-btn" onclick="openSetDestChooser(currentSong)" title="Add to set list" type="button">
-<svg aria-hidden="true" fill="none" height="18" viewbox="0 0 24 24" width="18"><path d="M5 6h8M5 12h8M5 18h6" stroke="currentColor" stroke-linecap="round" stroke-width="1.9"></path><path d="M17 14v6M14 17h6" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path></svg>
+<svg aria-hidden="true" fill="none" height="18" viewBox="0 0 24 24" width="18"><path d="M5 6h8M5 12h8M5 18h6" stroke="currentColor" stroke-linecap="round" stroke-width="1.9"></path><path d="M17 14v6M14 17h6" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path></svg>
 </button>
 <button aria-label="Add to favourites" class="sv-fav-btn" id="sv-favorite-btn" onclick="toggleCurrentFavorite()" type="button">
-<svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="18"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg>
+<svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewBox="0 0 24 24" width="18"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg>
 </button>
 <button aria-label="View song notes" class="sv-notes-btn hidden" id="sv-notes-preview-btn" onclick="openSongNotesPreview(currentSong)" title="View song notes" type="button">
-<svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewbox="0 0 24 24" width="18"><path d="M5 4h14v16H5z"></path><path d="M8 8h8M8 12h8M8 16h5"></path></svg>
+<svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewBox="0 0 24 24" width="18"><path d="M5 4h14v16H5z"></path><path d="M8 8h8M8 12h8M8 16h5"></path></svg>
 </button>
 </div>
 </div>
@@ -3709,21 +3704,21 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 </div>
 <div aria-hidden="true" class="metro-flash" id="metro-flash"></div>
 <button aria-label="Enter focus mode" class="live-focus-fab" id="live-focus-fab" onclick="setPresentationMode(true);showLiveToolsTemporarily(false)" title="Focus mode" type="button">
-<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path d="M16 3h3a2 2 0 0 1 2 2v3"></path><path d="M8 21H5a2 2 0 0 1-2-2v-3"></path><path d="M16 21h3a2 2 0 0 0 2-2v-3"></path></svg>
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path d="M16 3h3a2 2 0 0 1 2 2v3"></path><path d="M8 21H5a2 2 0 0 1-2-2v-3"></path><path d="M16 21h3a2 2 0 0 0 2-2v-3"></path></svg>
 </button>
 <div aria-label="Live song tools" class="live-tools collapsed" id="live-tools">
 <button aria-label="Show or hide live tools" class="live-tool live-tool-main" onclick="toggleLiveToolsExpanded()" type="button">
-<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
 </button>
 <div class="live-tool-stack" id="live-tool-stack">
 <button aria-label="Show auto scroll controls" class="live-tool" id="live-tool-autoscroll" onclick="toggleLiveAutoscrollPanel()" title="Auto scroll" type="button">
-<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewbox="0 0 24 24"><path d="M12 4v16"></path><path d="M8 8l4-4 4 4"></path><path d="M8 16l4 4 4-4"></path></svg>
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewBox="0 0 24 24"><path d="M12 4v16"></path><path d="M8 8l4-4 4 4"></path><path d="M8 16l4 4 4-4"></path></svg>
 </button>
 <button aria-label="Show metronome controls" class="live-tool" id="live-tool-metronome" onclick="toggleMetronomePanel()" title="Metronome" type="button"><span class="two-line"><span>MET</span><span id="live-metro-bpm">120</span></span></button>
 <button aria-label="Change chart view" class="live-tool" id="live-tool-view" onclick="cycleLiveViewMode()" title="Chart view" type="button"><span class="two-line"><span>VIEW</span><span id="live-view-label">CHORDS</span></span></button>
 <button aria-label="Smaller text" class="live-tool soft" onclick="stepTextSize(-1);showToast('Text '+(appPrefs.textSize||100)+'%');showLiveToolsTemporarily()" title="Smaller text" type="button">A−</button>
 <button aria-label="Larger text" class="live-tool soft" onclick="stepTextSize(1);showToast('Text '+(appPrefs.textSize||100)+'%');showLiveToolsTemporarily()" title="Larger text" type="button">A+</button>
-<button aria-label="Show or hide cues" class="live-tool" id="live-tool-cues" onclick="toggleFocusCues()" title="Show or hide cues" type="button"><span class="two-line"><span>CUES</span><span id="live-cues-label">ON</span></span></button>
+<button aria-label="No cues saved for this song" class="live-tool" id="live-tool-cues" onclick="toggleFocusCues()" title="No cues saved for this song" type="button"><span class="two-line"><span>CUES</span><span id="live-cues-label">ON</span></span></button>
 </div>
 </div>
 </div>
@@ -3759,7 +3754,7 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 <div class="bs-handle"></div>
 <div class="bs-title">Song options</div>
 <div class="mi mi-inline" id="mi-autoscroll" onclick="toggleAutoScroll()">
-<span class="mi-icon-wrap"><svg fill="none" height="17" viewbox="0 0 17 17" width="17"><path d="M8.5 2.5v12" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path><path d="M5.5 5.5l3-3 3 3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"></path><path d="M5.5 11.5l3 3 3-3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"></path></svg></span>
+<span class="mi-icon-wrap"><svg fill="none" height="17" viewBox="0 0 17 17" width="17"><path d="M8.5 2.5v12" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path><path d="M5.5 5.5l3-3 3 3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"></path><path d="M5.5 11.5l3 3 3-3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"></path></svg></span>
 <span class="mi-grow" id="autoscroll-status">Auto scroll</span>
 <div class="mi-inline-controls" onclick="event.stopPropagation()">
 <button class="mini-step" onclick="event.stopPropagation();adjustAutoScrollSpeed(-0.1)">−</button>
@@ -3768,76 +3763,75 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 </div>
 </div>
 <div class="mi mi-inline" id="mi-metronome" onclick="toggleMetronome()">
-<span class="mi-icon-wrap"><svg fill="none" height="17" viewbox="0 0 17 17" width="17"><path d="M8.5 2.5l4.5 12H4l4.5-12z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.4"></path><path d="M8.5 5.5v4.5" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path><circle cx="8.5" cy="12" fill="currentColor" r=".8"></circle></svg></span>
+<span class="mi-icon-wrap"><svg fill="none" height="17" viewBox="0 0 17 17" width="17"><path d="M8.5 2.5l4.5 12H4l4.5-12z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.4"></path><path d="M8.5 5.5v4.5" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path><circle cx="8.5" cy="12" fill="currentColor" r=".8"></circle></svg></span>
 <span class="mi-grow" id="metronome-status">Metronome</span>
 <div class="metro-menu-controls" onclick="event.stopPropagation()">
 <button class="mini-step" onclick="event.stopPropagation();adjustMetronomeBpm(-1)">−</button>
-<span class="metro-menu-bpm"><span id="metro-menu-bpm">120</span><br/>BPM</span>
+<span class="metro-menu-bpm"><span id="metro-menu-bpm">120</span><br>BPM</span>
 <button class="mini-step" onclick="event.stopPropagation();adjustMetronomeBpm(1)">+</button>
 <button class="metro-tap" onclick="event.stopPropagation();tapMetronomeTempo()">Tap</button>
 </div>
 </div>
 <div class="menu-slider-wrap">
 <div class="menu-slider-lbl"><span>Display size</span><span id="text-size-menu-val">100%</span></div>
-<input class="menu-slider" id="text-size-menu-slider" max="125" min="85" oninput="applyTextSize(this.value)" type="range" value="100"/>
+<input class="menu-slider" id="text-size-menu-slider" max="125" min="85" oninput="applyTextSize(this.value)" type="range" value="100" style="--pct: 37.5%;">
 </div>
 <button class="mi" id="mi-song-notes" onclick="openSongNotesSheet();closeBS('songmenu')">
-<span class="mi-icon-wrap"><svg fill="none" height="17" viewbox="0 0 17 17" width="17"><path d="M4 2.5h9v12H4z" stroke="currentColor" stroke-width="1.4"></path><path d="M6.5 6h4M6.5 8.5h4M6.5 11h2.8" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></span>
+<span class="mi-icon-wrap"><svg fill="none" height="17" viewBox="0 0 17 17" width="17"><path d="M4 2.5h9v12H4z" stroke="currentColor" stroke-width="1.4"></path><path d="M6.5 6h4M6.5 8.5h4M6.5 11h2.8" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></span>
       Notes &amp; cues<span class="song-note-badge hidden" id="mi-song-notes-badge">NOTE</span>
 </button>
 <button class="mi" id="mi-presentation" onclick="togglePresentationMode();closeBS('songmenu')">
-<span class="mi-icon-wrap"><svg fill="none" height="17" viewbox="0 0 17 17" width="17"><rect height="11" rx="2" stroke="currentColor" stroke-width="1.4" width="13" x="2" y="3"></rect><path d="M6 6.5h5M5 9h7" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></span>
+<span class="mi-icon-wrap"><svg fill="none" height="17" viewBox="0 0 17 17" width="17"><rect height="11" rx="2" stroke="currentColor" stroke-width="1.4" width="13" x="2" y="3"></rect><path d="M6 6.5h5M5 9h7" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></span>
       Focus mode<span class="mi-check">✓</span>
 </button>
 <button class="mi" id="mi-copy-lyrics" onclick="copyLyrics();closeBS('songmenu')">
-<span class="mi-icon-wrap"><svg fill="none" height="17" viewbox="0 0 17 17" width="17"><rect height="12" rx="2" stroke="currentColor" stroke-width="1.4" width="10" x="6" y="1"></rect><rect height="12" rx="2" stroke="currentColor" stroke-width="1.4" width="10" x="1" y="4"></rect></svg></span>
+<span class="mi-icon-wrap"><svg fill="none" height="17" viewBox="0 0 17 17" width="17"><rect height="12" rx="2" stroke="currentColor" stroke-width="1.4" width="10" x="6" y="1"></rect><rect height="12" rx="2" stroke="currentColor" stroke-width="1.4" width="10" x="1" y="4"></rect></svg></span>
       Copy lyrics
     </button>
 <button class="mi" onclick="openBS('chords');closeBS('songmenu')">
-<span class="mi-icon-wrap"><svg fill="none" height="17" viewbox="0 0 17 17" width="17"><circle cx="8.5" cy="8.5" r="6.5" stroke="currentColor" stroke-width="1.5"></circle><path d="M6.5 11V10c0-1.2.75-1.85 1.85-2.3.65-.3 1.15-.9 1.15-1.6A1.9 1.9 0 0 0 6.5 6" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path><circle cx="8.5" cy="13" fill="currentColor" r=".9"></circle></svg></span>
+<span class="mi-icon-wrap"><svg fill="none" height="17" viewBox="0 0 17 17" width="17"><circle cx="8.5" cy="8.5" r="6.5" stroke="currentColor" stroke-width="1.5"></circle><path d="M6.5 11V10c0-1.2.75-1.85 1.85-2.3.65-.3 1.15-.9 1.15-1.6A1.9 1.9 0 0 0 6.5 6" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path><circle cx="8.5" cy="13" fill="currentColor" r=".9"></circle></svg></span>
       Chord diagrams
     </button>
 <button class="mi" id="mi-highlight-chords" onclick="toggleChordHighlight();closeBS('songmenu')">
-<span class="mi-icon-wrap"><svg fill="none" height="17" viewbox="0 0 17 17" width="17"><rect height="11" rx="3" stroke="currentColor" stroke-width="1.4" width="13" x="2" y="3"></rect><path d="M4.5 7h8" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path><path d="M4.2 7h2.8" opacity=".18" stroke="currentColor" stroke-linecap="round" stroke-width="4.4"></path></svg></span>
+<span class="mi-icon-wrap"><svg fill="none" height="17" viewBox="0 0 17 17" width="17"><rect height="11" rx="3" stroke="currentColor" stroke-width="1.4" width="13" x="2" y="3"></rect><path d="M4.5 7h8" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path><path d="M4.2 7h2.8" opacity=".18" stroke="currentColor" stroke-linecap="round" stroke-width="4.4"></path></svg></span>
       Highlight chords<span class="mi-check">✓</span>
 </button>
 <button class="mi" onclick="openExportView('song');closeBS('songmenu')">
-<span class="mi-icon-wrap"><svg fill="none" height="17" viewbox="0 0 17 17" width="17"><path d="M4 2h7.5l3.5 3.5V15H4V2z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.4"></path><path d="M11 2v4h4M6 9h5M6 12h4" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></span>
+<span class="mi-icon-wrap"><svg fill="none" height="17" viewBox="0 0 17 17" width="17"><path d="M4 2h7.5l3.5 3.5V15H4V2z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.4"></path><path d="M11 2v4h4M6 9h5M6 12h4" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></span>
       Export PDF (this song)
     </button>
 <button class="mi" onclick="exportCurrentSongJSON();closeBS('songmenu')">
-<span class="mi-icon-wrap"><svg fill="none" height="17" viewbox="0 0 17 17" width="17"><path d="M4 2h7.5l3.5 3.5V15H4V2z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.4"></path><path d="M11 2v4h4M6 8.5h5M6 11h4" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path><path d="M8.5 13.4v-3" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></span>
+<span class="mi-icon-wrap"><svg fill="none" height="17" viewBox="0 0 17 17" width="17"><path d="M4 2h7.5l3.5 3.5V15H4V2z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.4"></path><path d="M11 2v4h4M6 8.5h5M6 11h4" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path><path d="M8.5 13.4v-3" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></span>
       Export song JSON
     </button>
 <button class="mi" id="mi-open-attached-pdf" onclick="openAttachedSongPdf();closeBS('songmenu')" style="display:none">
-<span class="mi-icon-wrap"><svg fill="none" height="17" viewbox="0 0 17 17" width="17"><path d="M5 2h5.5L14 5.5V15H5V2z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.4"></path><path d="M10.5 2v4H14M7 9h5M7 12h4" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></span>
+<span class="mi-icon-wrap"><svg fill="none" height="17" viewBox="0 0 17 17" width="17"><path d="M5 2h5.5L14 5.5V15H5V2z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.4"></path><path d="M10.5 2v4H14M7 9h5M7 12h4" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></span>
 <span id="mi-open-attached-pdf-label">Open attached PDF</span>
 </button>
 <button class="mi manage-song-edit-tool" id="mi-attach-pdf" onclick="document.getElementById('song-pdf-file')?.click()" style="display:none">
-<span class="mi-icon-wrap"><svg fill="none" height="17" viewbox="0 0 17 17" width="17"><path d="M8.5 3v8.2a2.8 2.8 0 0 1-5.6 0V5.2a4.6 4.6 0 0 1 9.2 0v7.1a3.7 3.7 0 0 1-7.4 0V6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.35"></path></svg></span>
+<span class="mi-icon-wrap"><svg fill="none" height="17" viewBox="0 0 17 17" width="17"><path d="M8.5 3v8.2a2.8 2.8 0 0 1-5.6 0V5.2a4.6 4.6 0 0 1 9.2 0v7.1a3.7 3.7 0 0 1-7.4 0V6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.35"></path></svg></span>
 <span id="mi-attach-pdf-label">Attach PDF to song</span>
 </button>
 <button class="mi manage-song-edit-tool" id="mi-extract-pdf" onclick="extractAttachedPdfToDraft();closeBS('songmenu')" style="display:none">
-<span class="mi-icon-wrap"><svg fill="none" height="17" viewbox="0 0 17 17" width="17"><path d="M4 2h9v13H4z" stroke="currentColor" stroke-width="1.4"></path><path d="M6.5 6h4M6.5 8.5h4M6.5 11h2.6" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></span>
+<span class="mi-icon-wrap"><svg fill="none" height="17" viewBox="0 0 17 17" width="17"><path d="M4 2h9v13H4z" stroke="currentColor" stroke-width="1.4"></path><path d="M6.5 6h4M6.5 8.5h4M6.5 11h2.6" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></span>
       Extract PDF text to editor
     </button>
 <button class="mi manage-song-edit-tool" id="mi-remove-pdf" onclick="removeAttachedSongPdf();closeBS('songmenu')" style="display:none">
-<span class="mi-icon-wrap"><svg fill="none" height="17" viewbox="0 0 17 17" width="17"><path d="M5 5l7 7M12 5l-7 7" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg></span>
+<span class="mi-icon-wrap"><svg fill="none" height="17" viewBox="0 0 17 17" width="17"><path d="M5 5l7 7M12 5l-7 7" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg></span>
       Remove attached PDF
     </button>
-<input accept="application/pdf,.pdf" id="song-pdf-file" onchange="handleSongPdfImport(event)" style="display:none" type="file"/>
+<input accept="application/pdf,.pdf" id="song-pdf-file" onchange="handleSongPdfImport(event)" style="display:none" type="file">
 <button class="mi" id="mi-flats" onclick="toggleFlats();closeBS('songmenu')">
 <span class="mi-icon-wrap"><span class="mi-ico">♭</span></span>
       Use flats<span class="mi-check">✓</span>
 </button>
 <button class="mi" id="mi-dark" onclick="toggleDark();closeBS('songmenu')">
-<span class="mi-icon-wrap"><svg fill="none" height="17" id="dark-ico" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="17"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
+<span class="mi-icon-wrap"><svg fill="none" height="17" id="dark-ico" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewBox="0 0 24 24" width="17"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
 <span id="dark-lbl">Dark mode</span><span class="mi-check">✓</span>
 </button>
 <button class="mi manage-song-edit-tool" id="mi-edit-song" onclick="requireAdmin(()=&gt;{closeBS('songmenu');openSongModal(currentSong);})" style="display:none">
-<span class="mi-icon-wrap"><svg fill="none" height="17" viewbox="0 0 17 17" width="17"><path d="M12 3l2 2L5.5 13H3.5v-2L12 3z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.4"></path></svg></span>
-<span class="mi-label" id="mi-edit-song-label">Edit</span>
-</button>
+<span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M12 3l2 2L5.5 13H3.5v-2L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path></svg></span>
+<span class="mi-label" id="mi-edit-song-label">Edit</span></button>
 <button class="bs-cancel" onclick="closeBS('songmenu')">Cancel</button>
 </div>
 </div>
@@ -3877,29 +3871,29 @@ line 18 | Hold / pause"></textarea>
 <div class="m-body">
 <label>Category</label>
 <div class="cat-toggle"><button class="cat-opt active" onclick="selectCat('english',this)">English</button><button class="cat-opt" onclick="selectCat('malayalam',this)">Malayalam</button></div>
-<label>Title</label><input id="m-title" placeholder="e.g. How Great Is Our God" type="text"/>
-<label>Author / Artist</label><input id="m-author" placeholder="e.g. Chris Tomlin" type="text"/>
+<label>Title</label><input id="m-title" placeholder="e.g. How Great Is Our God" type="text">
+<label>Author / Artist</label><input id="m-author" placeholder="e.g. Chris Tomlin" type="text">
 <div class="song-meta-grid editor-compact-grid">
 <div>
 <label>Original key</label><select id="m-key"></select>
 </div>
 <div>
 <label>Time signature</label>
-<input id="m-time-sig" inputmode="text" placeholder="e.g. 4/4" type="text"/>
+<input id="m-time-sig" inputmode="text" placeholder="e.g. 4/4" type="text">
 </div>
 <div>
 <label>BPM</label>
-<input id="m-bpm" inputmode="numeric" max="260" min="20" placeholder="e.g. 72" step="1" type="number"/>
+<input id="m-bpm" inputmode="numeric" max="260" min="20" placeholder="e.g. 72" step="1" type="number">
 </div>
 </div>
 <div class="song-link-grid editor-compact-grid">
 <div>
 <label>Spotify link</label>
-<input id="m-spotify-url" inputmode="url" placeholder="https://open.spotify.com/..." type="url"/>
+<input id="m-spotify-url" inputmode="url" placeholder="https://open.spotify.com/..." type="url">
 </div>
 <div>
 <label>YouTube / YouTube Music link</label>
-<input id="m-youtube-url" inputmode="url" placeholder="https://youtube.com or music.youtube.com" type="url"/>
+<input id="m-youtube-url" inputmode="url" placeholder="https://youtube.com or music.youtube.com" type="url">
 </div>
 </div>
 <label>Chart <span style="color:var(--txt3);font-weight:400">(lyrics/chords)</span></label>
@@ -3910,8 +3904,8 @@ line 18 | Hold / pause"></textarea>
 </div>
 <div class="editor-pane" id="editor-edit-pane">
 <div class="editor-helper-bar" id="editor-helper-bar">
-<button aria-label="Undo" class="editor-helper-btn editor-icon-btn" id="editor-undo-btn" onclick="editorUndo()" title="Undo" type="button"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M9 7L5 11L9 15"></path><path d="M6 11H14C18.418 11 22 14.582 22 19"></path></svg></button>
-<button aria-label="Redo" class="editor-helper-btn editor-icon-btn" id="editor-redo-btn" onclick="editorRedo()" title="Redo" type="button"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M15 7L19 11L15 15"></path><path d="M18 11H10C5.582 11 2 14.582 2 19"></path></svg></button>
+<button aria-label="Undo" class="editor-helper-btn editor-icon-btn" id="editor-undo-btn" onclick="editorUndo()" title="Undo" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 7L5 11L9 15"></path><path d="M6 11H14C18.418 11 22 14.582 22 19"></path></svg></button>
+<button aria-label="Redo" class="editor-helper-btn editor-icon-btn" id="editor-redo-btn" onclick="editorRedo()" title="Redo" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M15 7L19 11L15 15"></path><path d="M18 11H10C5.582 11 2 14.582 2 19"></path></svg></button>
 <div class="editor-helper-sep"></div>
 <button class="editor-helper-btn primary" onclick="insertSectionLabel('Verse')" type="button">Verse</button>
 <button class="editor-helper-btn primary" onclick="insertSectionLabel('Chorus')" type="button">Chorus</button>
@@ -3961,10 +3955,10 @@ line 18 | Hold / pause"></textarea>
 </div>
 <div class="ug-page-body">
 <p class="m-hint ug-top-hint">Search Ultimate Guitar, choose a result, preview it, then edit it in the song editor or save directly.</p>
-<input id="ug-backend-url" type="hidden" value="https://worshipbase-ug.worshipbase.workers.dev"/>
+<input id="ug-backend-url" type="hidden" value="https://worshipbase-ug.worshipbase.workers.dev">
 <label>Search song / artist</label>
 <div class="ug-search-row">
-<input id="ug-search-query" onkeydown="if(event.key==='Enter')searchUgImport()" placeholder="e.g. 10,000 Reasons Matt Redman" type="text"/>
+<input id="ug-search-query" onkeydown="if(event.key==='Enter')searchUgImport()" placeholder="e.g. 10,000 Reasons Matt Redman" type="text">
 <button class="ug-action-btn" onclick="searchUgImport()" type="button">Search</button>
 </div>
 <div class="picker-list ug-results" id="ug-results">
@@ -3974,7 +3968,7 @@ line 18 | Hold / pause"></textarea>
 <summary>Import by direct URL</summary>
 <label>Direct Ultimate Guitar URL</label>
 <div class="ug-url-row">
-<input id="ug-source-url" onkeydown="if(event.key==='Enter')importUgUrlFromInput()" placeholder="https://tabs.ultimate-guitar.com/tab/..." type="url"/>
+<input id="ug-source-url" onkeydown="if(event.key==='Enter')importUgUrlFromInput()" placeholder="https://tabs.ultimate-guitar.com/tab/..." type="url">
 <button class="ug-action-btn" onclick="importUgUrlFromInput()" type="button">Import</button>
 </div>
 </details>
@@ -4003,7 +3997,7 @@ line 18 | Hold / pause"></textarea>
 <p class="m-hint ug-top-hint">Search Songs of Praise Malayalam, choose a result, preview it, then edit it in the song editor or save directly.</p>
 <label>Search Malayalam song</label>
 <div class="ug-search-row">
-<input id="sop-search-query" onkeydown="if(event.key==='Enter')searchSopImport()" placeholder="e.g. Aaradhana, Aakasham, Yeshu" type="text"/>
+<input id="sop-search-query" onkeydown="if(event.key==='Enter')searchSopImport()" placeholder="e.g. Aaradhana, Aakasham, Yeshu" type="text">
 <button class="ug-action-btn" onclick="searchSopImport()" type="button">Search</button>
 </div>
 <div class="picker-list ug-results" id="sop-results">
@@ -4013,7 +4007,7 @@ line 18 | Hold / pause"></textarea>
 <summary>Import by direct URL</summary>
 <label>Direct Songs of Praise URL</label>
 <div class="ug-url-row">
-<input id="sop-source-url" onkeydown="if(event.key==='Enter')importSopUrlFromInput()" placeholder="https://songsofpraise.in/song.php?title=..." type="url"/>
+<input id="sop-source-url" onkeydown="if(event.key==='Enter')importSopUrlFromInput()" placeholder="https://songsofpraise.in/song.php?title=..." type="url">
 <button class="ug-action-btn" onclick="importSopUrlFromInput()" type="button">Import</button>
 </div>
 </details>
@@ -4080,7 +4074,7 @@ line 18 | Hold / pause"></textarea>
 <div class="bs-handle"></div>
 <div class="m-tr"><h2 class="m-h2">Add to set</h2><button class="m-close" onclick="closeBS('picker')">×</button></div>
 <div class="m-body">
-<input class="psr" id="picker-search" oninput="renderPicker()" placeholder="Search…" type="search"/>
+<input class="psr" id="picker-search" oninput="renderPicker()" placeholder="Search…" type="search">
 <div class="pf-row">
 <button class="pf-btn active" onclick="setPickerFilter('all',this)">All</button>
 <button class="pf-btn" onclick="setPickerFilter('english',this)">English</button>
@@ -4109,14 +4103,14 @@ line 18 | Hold / pause"></textarea>
 <div class="bs-bg" id="bs-sets" onclick="closeBSBg(event,'sets')">
 <div class="bs">
 <div class="bs-handle"></div>
-<div class="m-tr"><h2 class="m-h2" id="sets-title">Shared set lists</h2><button class="m-close" onclick="closeBS('sets')">×</button></div>
+<div class="m-tr"><h2 class="m-h2" id="sets-title">Personal set lists</h2><button class="m-close" onclick="closeBS('sets')">×</button></div>
 <div class="m-body" style="padding-bottom:6px;">
 <p style="font-size:13px;color:var(--txt2);margin-bottom:12px;line-height:1.55;">Choose, rename, delete, or create a set list for this scope.</p>
 </div>
-<div class="namedset-list" id="namedset-list"></div>
+<div class="namedset-list" id="namedset-list"><div style="padding:18px;color:var(--txt3);text-align:center">No set lists yet</div></div>
 <div class="m-acts" style="padding:0 18px 8px;">
 <button class="btn-s" onclick="createNamedSet()" type="button">New set list</button>
-<button class="btn-s" id="sets-copy-btn" onclick="copyActiveSetToOtherScope()" type="button">Copy to Personal</button>
+<button class="btn-s" id="sets-copy-btn" onclick="copyActiveSetToOtherScope()" type="button">Copy to Shared</button>
 </div>
 <button class="bs-cancel" onclick="closeBS('sets')">Done</button>
 </div>
@@ -4141,23 +4135,23 @@ line 18 | Hold / pause"></textarea>
 <div class="bs-handle"></div>
 <div class="bs-title">Set options</div>
 <button class="mi" onclick="renameCurrentSetFromOptions();closeBS('setoptions')">
-<span class="mi-icon-wrap"><svg aria-hidden="true" fill="none" height="17" viewbox="0 0 17 17" width="17"><path d="M3.2 12.9l.7-3.1L10.8 3a1.6 1.6 0 0 1 2.3 2.3L6.2 12.2l-3 .7Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.35"></path><path d="M9.8 4l2.2 2.2" stroke="currentColor" stroke-linecap="round" stroke-width="1.35"></path></svg></span>
+<span class="mi-icon-wrap"><svg aria-hidden="true" fill="none" height="17" viewBox="0 0 17 17" width="17"><path d="M3.2 12.9l.7-3.1L10.8 3a1.6 1.6 0 0 1 2.3 2.3L6.2 12.2l-3 .7Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.35"></path><path d="M9.8 4l2.2 2.2" stroke="currentColor" stroke-linecap="round" stroke-width="1.35"></path></svg></span>
       Rename set
     </button>
 <button class="mi" onclick="deleteCurrentSetFromOptions();closeBS('setoptions')">
-<span class="mi-icon-wrap"><svg aria-hidden="true" fill="none" height="17" viewbox="0 0 17 17" width="17"><path d="M3.4 4.6h10.2" stroke="currentColor" stroke-linecap="round" stroke-width="1.35"></path><path d="M6.4 4.6V3.3h4.2v1.3" stroke="currentColor" stroke-linecap="round" stroke-width="1.35"></path><path d="M5.1 6.4l.5 7.1h5.8l.5-7.1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.35"></path></svg></span>
+<span class="mi-icon-wrap"><svg aria-hidden="true" fill="none" height="17" viewBox="0 0 17 17" width="17"><path d="M3.4 4.6h10.2" stroke="currentColor" stroke-linecap="round" stroke-width="1.35"></path><path d="M6.4 4.6V3.3h4.2v1.3" stroke="currentColor" stroke-linecap="round" stroke-width="1.35"></path><path d="M5.1 6.4l.5 7.1h5.8l.5-7.1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.35"></path></svg></span>
       Delete set
     </button>
 <button class="mi" onclick="openExportView('setlist');closeBS('setoptions')">
-<span class="mi-icon-wrap"><svg fill="none" height="17" viewbox="0 0 17 17" width="17"><path d="M8.5 2.5v8" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path><path d="M5.7 8.2l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path><path d="M3 14h11" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg></span>
+<span class="mi-icon-wrap"><svg fill="none" height="17" viewBox="0 0 17 17" width="17"><path d="M8.5 2.5v8" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path><path d="M5.7 8.2l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path><path d="M3 14h11" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg></span>
       Export
     </button>
 <button class="mi" onclick="openSetNotesSheet();closeBS('setoptions')">
-<span class="mi-icon-wrap"><svg fill="none" height="17" viewbox="0 0 17 17" width="17"><path d="M4 2.5h9v12H4z" stroke="currentColor" stroke-width="1.4"></path><path d="M6.5 6h4M6.5 8.5h4M6.5 11h2.8" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></span>
+<span class="mi-icon-wrap"><svg fill="none" height="17" viewBox="0 0 17 17" width="17"><path d="M4 2.5h9v12H4z" stroke="currentColor" stroke-width="1.4"></path><path d="M6.5 6h4M6.5 8.5h4M6.5 11h2.8" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></span>
       Set notes
-    </button>
+    <span class="set-options-note-badge">Saved</span></button>
 <button class="mi" onclick="openSetAllKeySheet();closeBS('setoptions')">
-<span class="mi-icon-wrap"><svg aria-hidden="true" fill="none" height="17" viewbox="0 0 17 17" width="17"><path d="M3.2 5.4h10.6M3.2 8.4h10.6M3.2 11.4h10.6" opacity=".42" stroke="currentColor" stroke-linecap="round" stroke-width="1.15"></path><path d="M9.6 3.3v7.6a2.2 2.2 0 1 1-1.15-1.95" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.45"></path><path d="M11.4 4.2l2.1-.65v1.9l-2.1.65V4.2z" fill="currentColor"></path></svg></span>
+<span class="mi-icon-wrap"><svg aria-hidden="true" fill="none" height="17" viewBox="0 0 17 17" width="17"><path d="M3.2 5.4h10.6M3.2 8.4h10.6M3.2 11.4h10.6" opacity=".42" stroke="currentColor" stroke-linecap="round" stroke-width="1.15"></path><path d="M9.6 3.3v7.6a2.2 2.2 0 1 1-1.15-1.95" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.45"></path><path d="M11.4 4.2l2.1-.65v1.9l-2.1.65V4.2z" fill="currentColor"></path></svg></span>
       Set key
     </button>
 <button class="bs-cancel" onclick="closeBS('setoptions')">Cancel</button>
@@ -4245,7 +4239,7 @@ line 18 | Hold / pause"></textarea>
 <div class="m-body">
 <p class="pin-hint">Enter the PIN to manage songs and library maintenance tools. Everyone can browse, perform, and manage set lists without a PIN.</p>
 <label>PIN</label>
-<input autocomplete="off" id="pin-input" inputmode="numeric" maxlength="10" onkeydown="if(event.key==='Enter')checkPin()" pattern="[0-9]*" placeholder="Enter PIN" type="password"/>
+<input autocomplete="off" id="pin-input" inputmode="numeric" maxlength="10" onkeydown="if(event.key==='Enter')checkPin()" pattern="[0-9]*" placeholder="Enter PIN" type="password">
 <p id="pin-err" style="font-size:12px;color:#d93448;margin-top:-8px;margin-bottom:12px;display:none">Incorrect PIN. Try again.</p>
 <div class="m-acts">
 <button class="btn-s" onclick="closeBS('pin');pendingAdminAction=null">Cancel</button>
@@ -4259,9 +4253,9 @@ line 18 | Hold / pause"></textarea>
 <!-- CONTEXT MENU (long-press on song) -->
 <div class="ctx-bg" id="ctx-bg" onclick="closeCtx()"></div>
 <div class="ctx-menu" id="ctx-menu" style="display:none">
-<button class="ctx-item" onclick="ctxAction('set')"><svg fill="none" height="16" viewbox="0 0 16 16" width="16"><path d="M2 13h3L12 6 10 4 3 11v2zM10 4l2 2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4"></path></svg><span id="ctx-set-lbl">Add to set list</span></button>
-<button class="ctx-item" onclick="ctxAction('lyrics')"><svg fill="none" height="16" viewbox="0 0 16 16" width="16"><rect height="11" rx="2" stroke="currentColor" stroke-width="1.4" width="9" x="5" y="1"></rect><rect height="11" rx="2" stroke="currentColor" stroke-width="1.4" width="9" x="1" y="4"></rect></svg>Copy lyrics</button>
-<button class="ctx-item manage-song-edit-tool" id="ctx-edit-song" onclick="ctxAction('edit')" style="display:none"><svg fill="none" height="16" viewbox="0 0 16 16" width="16"><path d="M11 2.5l2.5 2.5L5 13.5H2.5V11L11 2.5z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4"></path></svg>Edit song</button>
+<button class="ctx-item" onclick="ctxAction('set')"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><path d="M2 13h3L12 6 10 4 3 11v2zM10 4l2 2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4"></path></svg><span id="ctx-set-lbl">Add to set list</span></button>
+<button class="ctx-item" onclick="ctxAction('lyrics')"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><rect height="11" rx="2" stroke="currentColor" stroke-width="1.4" width="9" x="5" y="1"></rect><rect height="11" rx="2" stroke="currentColor" stroke-width="1.4" width="9" x="1" y="4"></rect></svg>Copy lyrics</button>
+<button class="ctx-item manage-song-edit-tool" id="ctx-edit-song" onclick="ctxAction('edit')" style="display:none"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><path d="M11 2.5l2.5 2.5L5 13.5H2.5V11L11 2.5z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4"></path></svg>Edit</button>
 </div>
 <!-- DEFAULT KEY picker -->
 <div class="bs-bg" id="bs-defaultkey" onclick="closeBSBg(event,'defaultkey')">
@@ -4326,11 +4320,11 @@ line 18 | Hold / pause"></textarea>
 <div class="m-tr"><h2 class="m-h2" id="cp-title">Change PIN</h2><button class="m-close" onclick="closeBS('changepin')">×</button></div>
 <div class="m-body">
 <label id="cp-current-label">Current PIN</label>
-<input autocomplete="off" id="cp-current" inputmode="numeric" maxlength="10" placeholder="Enter current PIN" type="password"/>
+<input autocomplete="off" id="cp-current" inputmode="numeric" maxlength="10" placeholder="Enter current PIN" type="password">
 <label>New PIN</label>
-<input autocomplete="off" id="cp-new" inputmode="numeric" maxlength="10" placeholder="Enter new PIN (4–8 digits)" type="password"/>
+<input autocomplete="off" id="cp-new" inputmode="numeric" maxlength="10" placeholder="Enter new PIN (4–8 digits)" type="password">
 <label>Confirm new PIN</label>
-<input autocomplete="off" id="cp-confirm" inputmode="numeric" maxlength="10" placeholder="Repeat new PIN" type="password"/>
+<input autocomplete="off" id="cp-confirm" inputmode="numeric" maxlength="10" placeholder="Repeat new PIN" type="password">
 <p id="cp-err" style="font-size:12px;color:#d93448;margin-bottom:12px;display:none"></p>
 <div class="m-acts">
 <button class="btn-s" onclick="closeBS('changepin')">Cancel</button>
@@ -12134,7 +12128,7 @@ body.dark .pad-chip.active,body.dark .pad-key.active{background:var(--accent-sur
   updatePadUI();
   window.WorshipBasePad={start:startPad,stop:stopPad,setKey:setPadKey,setMode:setPadMode,state:PAD_STATE};
 })();
-</script>
+</script><div class="bs-bg" id="bs-pad" onclick="closeBSBg(event,'pad')" data-wb-pad-library3-cat="1"><div class="bs"><div class="bs-handle"></div><div class="bs-title">Pad</div><div class="pad-panel"><div class="pad-status-card"><div class="pad-status-copy"><div class="pad-status-title" id="pad-status-title">Pad ready</div><div class="pad-status-sub" id="pad-status-sub" style="display: none;">Peaceful · C</div></div><button class="pad-power" id="pad-power-btn" type="button">Start</button></div><div class="pad-row-title">Category</div><div class="pad-seg"><button class="pad-chip active" type="button" data-pad-mode="peaceful">Peaceful</button><button class="pad-chip" type="button" data-pad-mode="analog">Analog</button><button class="pad-chip" type="button" data-pad-mode="drones">Drones</button></div><div class="pad-row-title">Key</div><div class="pad-key-grid"><button class="pad-key active" type="button" data-pad-key="C">C</button><button class="pad-key" type="button" data-pad-key="C#">C#</button><button class="pad-key" type="button" data-pad-key="D">D</button><button class="pad-key" type="button" data-pad-key="Eb">Eb</button><button class="pad-key" type="button" data-pad-key="E">E</button><button class="pad-key" type="button" data-pad-key="F">F</button><button class="pad-key" type="button" data-pad-key="F#">F#</button><button class="pad-key" type="button" data-pad-key="G">G</button><button class="pad-key" type="button" data-pad-key="Ab">Ab</button><button class="pad-key" type="button" data-pad-key="A">A</button><button class="pad-key" type="button" data-pad-key="Bb">Bb</button><button class="pad-key" type="button" data-pad-key="B">B</button></div></div><button class="bs-cancel" type="button" onclick="closeBS('pad')">Close</button></div></div>
 <style>
 /* ── v70.2 corrections: visible set counter, clear pad affordance, musical-key icons ── */
 #setlist-section .sl-hdr{
@@ -13749,7 +13743,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 <script id="wb-v72-5-2-backup-settings-polish-js">
 (function(){
   'use strict';
-  const VERSION='72.5.5';
+  const VERSION='79.13';
   const DRIVE_STATE_KEY='wb_google_drive_backup_v1';
   const PRE_RESTORE_KEY='wb_pre_restore_snapshot_v1';
   function ready(fn){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fn,{once:true});else fn();}
@@ -13861,7 +13855,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
   'use strict';
   const EDIT_ICON='<svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M12 3l2 2L5.5 13H3.5v-2L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
   function usefulMemory(m){return !!(m&&typeof m==='object'&&(String(m.notes||'').trim()||String(m.cues||'').trim()||String(m.usualKey||'').trim()||String(m.capo||'').trim()||String(m.practiceStatus||'').trim()));}
-  function setVisibleVersion(){try{document.title='WorshipBase v79.10';document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 79.10';});}catch(e){}}
+  function setVisibleVersion(){try{document.title='WorshipBase v79.13';document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 79.13';});}catch(e){}}
   function fixSongEditButton(){
     try{
       const btn=document.getElementById('mi-edit-song');
@@ -14190,7 +14184,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 </script>
 <script id="wb-v72-5-7-rich-set-copy-fix">
 (function(){
-  const VERSION='79.10';
+  const VERSION='79.13';
 
   const originalFindSongById = window.findSongById || function(){return null;};
   const originalGetSongMemory = window.getSongMemory || function(){return {};};
@@ -14583,7 +14577,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 <script id="wb-v72-5-8-rich-shared-persist-fix">
 (function(){
   'use strict';
-  const VERSION='79.10';
+  const VERSION='79.13';
   const BAD_KEY=/[.#$\/[\]]/g;
   function n(v){try{if(typeof normId==='function')return normId(v);}catch(_){}return String(v==null?'':v).trim();}
   function safeKey(v){const k=n(v);return k?k.replace(BAD_KEY,'_'):'';}
@@ -14761,7 +14755,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 </script>
 <script id="wb-v74-5-legacy-setlist-disabled-marker">
 (function(){
-  try{document.title='WorshipBase v79.10';document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version 79.10';});}catch(e){}
+  try{document.title='WorshipBase v79.13';document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version 79.13';});}catch(e){}
   // v74.5.2: legacy flat shared-set Firebase access is represented by a no-op setlistRef stub above.
   // Active shared set lists continue to use the rich shared-set Firebase path through the existing v72.5.8 logic.
 })();
@@ -14796,7 +14790,7 @@ body.dark .namedset-note-chip{background:var(--accent-surface)!important;color:v
 <script id="wb-v74-5-2-setlist-and-export-fixes">
 (function(){
   'use strict';
-  const VERSION='79.10';
+  const VERSION='79.13';
   function norm(v){try{if(typeof normId==='function')return normId(v);}catch(e){}return String(v==null?'':v).trim();}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}}
   function sk(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
@@ -15001,7 +14995,7 @@ body.dark .workspace-publish-note{background:var(--accent-surface)!important;col
 <script id="wb-v75-2-workspace-publish-picker-script">
 (function(){
   'use strict';
-  const VERSION='79.10';
+  const VERSION='79.13';
   function qs(id){return document.getElementById(id);}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s??'').replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}}
   function sk(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
@@ -15191,7 +15185,7 @@ body.dark .workspace-subview-icon.danger{background:rgba(239,143,162,.12)!import
 <script id="wb-v75-6-rich-save-guard-script">
 (function(){
   'use strict';
-  const VERSION='79.10';
+  const VERSION='79.13';
   function clone(v){try{return JSON.parse(JSON.stringify(v));}catch(e){return v;}}
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
   function counts(set){let songs=0,plan=0;itemsOf(set).forEach(function(it){const t=String((it&&it.type)||'song').toLowerCase();if(t==='section'||t==='item'||t==='service')plan++;else if(t==='song'||(it&&it.songId))songs++;});return {songs:songs,plan:plan,total:songs+plan};}
@@ -15459,7 +15453,7 @@ body.dark .wb-personal-local{background:var(--accent-surface)!important;border-c
 <script id="wb-v75-13-1-workspace-selector-fix">
 (function(){
   'use strict';
-  const VERSION='79.10';
+  const VERSION='79.13';
   function qs(id){return document.getElementById(id);}
   function scopeKey(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
   function activeKey(scope){try{return activeSetPrefKey(scopeKey(scope));}catch(e){return scopeKey(scope)==='personal'?'activePersonalSetId':'activeSharedSetId';}}
@@ -15621,7 +15615,7 @@ body.dark .workspace-subview-back,body.dark .wb-editor-back{background:rgba(255,
 <script id="wb-v75-15-version-normalizer">
 (function(){
   'use strict';
-  const VERSION='79.10';
+  const VERSION='79.13';
   function setVersionLabels(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
     try{
@@ -15678,7 +15672,7 @@ body.dark #wb-set-editor-bar{
 <script id="wb-v75-16-version-normalizer-final">
 (function(){
   'use strict';
-  const VERSION='79.10';
+  const VERSION='79.13';
   function setVersionLabels(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
     try{
@@ -15917,7 +15911,7 @@ body.dark #workspace-section .wb765-mini-action.secondary{background:rgba(255,25
 @media (max-width:390px){.pres-section-chip{min-width:46px!important;height:36px!important;padding:0 12px!important;font-size:12.5px!important;}}
 .performance-mode .sheet{padding-right:124px!important;}
 </style>
-<!-- WorshipBase v76.17 Workspace title + metadata cleanup -->
+<!-- WorshipBase v79.13 Workspace title + metadata cleanup -->
 <style id="wb-v76-10-title-cleanup-style">
 /* v76.17 - reduce title/metadata flicker by making Workspace titles source-level and hiding the old Personal metadata line. */
 /* v79.4: old Personal metadata hide removed. */
@@ -15958,7 +15952,7 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
   window.WB_V793_RETIRED_LAYERS.push('wb-v76-10-title-cleanup-script');
 })();
 </script>
-<!-- WorshipBase v76.17 final Workspace shell stability polish -->
+<!-- WorshipBase v79.13 final Workspace shell stability polish -->
 <style id="wb-v76-11-stability-style">
 /* v76.17 - final stability candidate. Visual-only guard against header/card morph flicker. */
 #setlist-section .wb-personal-head,
@@ -15976,14 +15970,14 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
 <script id="wb-v76-11-version-check">
 (function(){
   try{
-    var VERSION='79.10';
+    var VERSION='79.13';
     document.title='WorshipBase v'+VERSION;
     document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version '+VERSION;});
     window.WB_CURRENT_VERSION=VERSION;
   }catch(e){}
 })();
 </script>
-<!-- WorshipBase v76.17 source-level Workspace render cleanup -->
+<!-- WorshipBase v79.13 source-level Workspace render cleanup -->
 <style id="wb-v76-12-source-workspace-style">
 /* v76.17 - render Workspace home from one final source to prevent old card flash. */
 #workspace-section .workspace-scroll{contain:layout paint;}
@@ -16040,7 +16034,7 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
   window.WB_V793_RETIRED_LAYERS.push('wb-v76-12-source-workspace-script');
 })();
 </script>
-<!-- WorshipBase v76.17 - Restore stable set editor and source-level Workspace title fix -->
+<!-- WorshipBase v79.13 - Restore stable set editor and source-level Workspace title fix -->
 <script id="wb-v76-14-stable-recovery-script">
 /* v79.4 source cleanup: Retired old title recovery switchTab/render wrapper. v78 owns route and title recovery.
    Original legacy code removed from runtime rather than hidden by a later overlay. */
@@ -16060,7 +16054,7 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
 .wb-editor-sub{font-size:12px!important;font-weight:700!important;color:var(--txt2)!important;}
 body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 12%,var(--bg1)),var(--bg1))!important;box-shadow:none!important;}
 </style>
-<!-- WorshipBase v76.17 - current set actions and cleaner set cards -->
+<!-- WorshipBase v79.13 - current set actions and cleaner set cards -->
 <style id="wb-v76-16-set-card-actions-style">
 /* Set cards are whole-row buttons, so remove redundant right chevrons while keeping delete controls. */
 .wb-personal-actions .wb-card-btn:not(.danger),
@@ -16074,7 +16068,7 @@ body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb
 <script id="wb-v76-16-current-set-actions-script">
 (function(){
   'use strict';
-  var VERSION='79.10';
+  var VERSION='79.13';
   function qs(id){return document.getElementById(id);} 
   function scopeKeySafe(v){try{return setScopeKey(v||((appPrefs&&appPrefs.setListScope)||'personal'));}catch(e){return v==='shared'?'shared':'personal';}}
   function activeId(scope){try{return (appPrefs&&appPrefs[activeSetPrefKey(scope)])||'';}catch(e){return scope==='shared'?(appPrefs&&appPrefs.activeSharedSetId)||'':(appPrefs&&appPrefs.activePersonalSetId)||'';}}
@@ -16088,8 +16082,8 @@ body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb
   function init(){refreshEditorTitle();setTimeout(refreshEditorTitle,250);} 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
-</script>
-<!-- WorshipBase v76.17 - Workspace home source cleanup / no staged metadata changes -->
+</script><div id="wb-pad-float" class="wb-pad-float"><button class="wb-pad-float-label" id="wb-pad-float-label" type="button">Pad</button><button class="wb-pad-float-stop" id="wb-pad-float-stop" type="button" aria-label="Stop pad"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"></rect></svg></button></div>
+<!-- WorshipBase v79.13 - Workspace home source cleanup / no staged metadata changes -->
 <style id="wb-v76-17-workspace-cleanup-style">
 #workspace-section .workspace-note-card,
 #workspace-section #wb763-current-card,
@@ -16106,7 +16100,7 @@ body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb
   window.WB_V793_RETIRED_LAYERS.push('wb-v76-17-workspace-cleanup-script');
 })();
 </script>
-<!-- WorshipBase v79.10 - Personal Set Lists header polish
+<!-- WorshipBase v79.13 - Personal Set Lists header polish
      Stage A.6 UI repair: keep v78.4-v78.5 routing/personal renderer fixes,
      restore the fuller My Set Lists header metadata by neutralising old v76.x
      Personal metadata hide rules. No routing/storage/backend/PDF changes. -->
@@ -16162,7 +16156,7 @@ body.wb-route-lock.wb-tab-songs #library-filter-row{display:flex!important;}
 <script id="wb-v79-2-canonical-router-and-setlist-nav">
 (function(){
   'use strict';
-  var VERSION='79.10';
+  var VERSION='79.13';
   var ROUTES={songs:'song-section',setlist:'setlist-section',workspace:'workspace-section',bible:'bible-section',settings:'settings-section'};
   var TAB_CLASSES=['wb-tab-songs','wb-tab-setlist','wb-tab-workspace','wb-tab-bible','wb-tab-settings'];
   var routeSeq=0;
@@ -16245,9 +16239,9 @@ body.wb-route-lock.wb-tab-songs #library-filter-row{display:flex!important;}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-<!-- WorshipBase v79.10 Personal Set Lists header authority -->
+<!-- WorshipBase v79.13 Personal Set Lists header authority -->
 <style id="wb-v79-2-personal-header-authority-style">
-/* v79.10 - Final Personal Set Lists header owner for the cleanup line.
+/* v79.4 - Final Personal Set Lists header owner for the cleanup line.
    This deliberately overrides old v75/v76 Personal metadata hiding/compacting rules. */
 body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-personal-head{
   display:flex!important;
@@ -16348,7 +16342,7 @@ body.dark.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-
 <script id="wb-v79-2-personal-header-authority-script">
 (function(){
   'use strict';
-  var VERSION='79.10';
+  var VERSION='79.13';
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s==null?'':s).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c];});}}
   function qs(id){return document.getElementById(id);} 
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
@@ -16366,13 +16360,13 @@ body.dark.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-
       meta.style.display='flex';meta.style.visibility='visible';meta.style.height='auto';meta.style.minHeight='18px';meta.style.marginTop='7px';meta.style.padding='0';meta.style.overflow='visible';meta.style.opacity='1';
     }
     var title=document.querySelector('#wb-personal-manager .wb-personal-title');if(title)title.textContent='My Set Lists';
-  }catch(e){console.warn('v79.10 Personal header restore failed',e);}}
+  }catch(e){console.warn('v79.4 Personal header restore failed',e);}}
   function wrap(name){var old=window[name];if(typeof old==='function'&&!old.__wb786PersonalHeader){var fn=function(){var out=old.apply(this,arguments);restore();setTimeout(restore,0);setTimeout(restore,80);setTimeout(restore,260);return out;};fn.__wb786PersonalHeader=true;window[name]=fn;try{eval(name+'=window[name]');}catch(e){}}}
   function init(){['showPersonalList','renderPersonalManager','switchTab','createPersonalSetFromManager','deletePersonalSetFromManager'].forEach(wrap);restore();[0,80,220,520,920,1400].forEach(function(ms){setTimeout(restore,ms);});}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-<!-- WorshipBase v79.10 - startup gate + Workspace metadata polish -->
+<!-- WorshipBase v79.13 - startup gate + Workspace metadata polish -->
 <style id="wb-v79-2-startup-workspace-polish-style">
 /* Softer Personal header metadata: visible but less heavy than the title. */
 body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-personal-meta,
@@ -16496,7 +16490,7 @@ body.dark.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-
   window.WB_V793_RETIRED_LAYERS.push('wb-v79-2-startup-workspace-polish-script');
 })();
 </script>
-<!-- WorshipBase v79.10 - Workspace title and metadata polish
+<!-- WorshipBase v79.13 - Workspace title and metadata polish
      Scope: visual/text polish only. Align Workspace Set Lists title to the active
      workspace name, soften Personal/Workspace header metadata, reduce oversized
      title-card typography, and lighten set-editor metadata. No storage, Firebase,
@@ -16608,7 +16602,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-2-router-cleanup-audit">
 (function(){
   'use strict';
-  var VERSION='79.10';
+  var VERSION='79.13';
   function setVersion(){try{document.title='WorshipBase v'+VERSION;window.WB_CURRENT_VERSION=VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}}
   window.WBRouterCleanupAudit=function(){
     var retired=window.WB_V793_RETIRED_LAYERS||[];
@@ -16621,14 +16615,14 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-<!-- WorshipBase v79.10 - interaction repair after router source cleanup
+<!-- WorshipBase v79.13 - interaction repair after router source cleanup
      Scope: restore action functions that were useful but accidentally retired with
      old v75/v76 routing layers. No Firebase path migration, backup, PDF export,
      bottom-sheet, song editor, or data-model rewrite. -->
 <script id="wb-v79-2-interaction-repair-script">
 (function(){
   'use strict';
-  var VERSION='79.10';
+  var VERSION='79.13';
   function qs(id){return document.getElementById(id);} 
   function escText(s){return String(s==null?'':s);}
   function cloneDeep(obj){
@@ -16767,7 +16761,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-2-setlist-source-cleanup-audit">
 (function(){
   'use strict';
-  var VERSION='79.10';
+  var VERSION='79.13';
   function qs(id){return document.getElementById(id);} 
   function setVersion(){try{document.title='WorshipBase v'+VERSION;window.WB_CURRENT_VERSION=VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}}
   function removeRetiredSegment(){try{document.querySelectorAll('#setlist-section .sl-scope-row').forEach(function(el){el.remove();});}catch(e){}}
@@ -16792,7 +16786,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 </script><script id="wb-v79-2-workspace-source-owner">
 (function(){
   'use strict';
-  var VERSION='79.10';
+  var VERSION='79.13';
   var KEY='wb.workspace.shell.v1';
   var readyDone=false;
   var previousHideLoading=window.hideLoading;
@@ -16908,28 +16902,28 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-4-action-audit-and-polish-script">
 (function(){
   'use strict';
-  var VERSION='79.10';
+  var VERSION='79.13';
   var EXPECTED_ACTIONS=['switchTab','openSong','openSongModal','openBS','closeBS','closeBSBg','openSetListOptions','openSetNotesSheet','openExportView','closeExportView','showPersonalList','renderPersonalManager','createPersonalSetFromManager','openPersonalSetFromManager','deletePersonalSetFromManager','publishPersonalSetToWorkspace','publishPersonalSetIdToWorkspace','goBackFromSetEditor','openWorkspaceSetLists','showWorkspaceDashboard','renderWorkspace','createWorkspaceSetFromWorkspaceTab','createWorkspaceSetFromWorkspaceSubview','openWorkspaceSetFromWorkspaceTab','deleteWorkspaceSetFromWorkspaceSubview','openWorkspaceLibraryShell','openWorkspaceMembersShell','openWorkspaceSettingsShell','openWorkspaceStoragePrepShell','backToWorkspaceHomeShell','copyWorkspaceInviteCodeShell','regenerateWorkspaceInviteShell','renameWorkspaceShell','leaveWorkspaceShell','openLocalBackupSheet','exportAppBackupJSON','importJSON','openDriveBackupSheet','connectGoogleDriveBackup','backupToGoogleDrive','disconnectGoogleDriveBackup','openAdminExport','openAdminImport','importMySongsJSONFile','importNotesCuesJSONFile','exportMySongsJSON','exportNotesCuesJSON','openBiblePicker','openBibleVersionPicker','changeBibleChapter','renderSettings'];
   var IGNORE_REFS={'event.stopPropagation':true,'window.close':true,'window.print':true,'history.back':true,'document.getElementById':true,'setTimeout':true,'clearTimeout':true,'confirm':true,'prompt':true,'alert':true,'parseInt':true,'parseFloat':true,'Number':true,'String':true,'Boolean':true,'Date':true,'Math':true};
   function exists(name){try{var root=window,parts=String(name||'').split('.');if(parts[0]==='window')parts.shift();for(var i=0;i<parts.length;i++){if(root==null)return false;root=root[parts[i]];}return typeof root==='function';}catch(e){return false;}}
   function scanInlineHandlers(){var attrs=['onclick','onchange','oninput','onsubmit','onkeydown','ontouchstart','ontouchend'];var found={},refs=[];try{document.querySelectorAll('*').forEach(function(el){attrs.forEach(function(attr){var code=el.getAttribute&&el.getAttribute(attr);if(!code)return;var re=/((?:window|document|history|event)\.[A-Za-z_$][\w$]*|[A-Za-z_$][\w$]*)\s*\(/g,m;while((m=re.exec(code))){var name=m[1];if(['if','for','while','switch','return','catch','function','typeof'].indexOf(name)>=0)continue;if(IGNORE_REFS[name]||IGNORE_REFS[name.split('.')[0]])continue;if(!found[name]){found[name]=true;refs.push({name:name,attr:attr,code:code.slice(0,160)});}}});});}catch(e){}return refs;}
-  function classify(){var refs=scanInlineHandlers();var missingRefs=refs.filter(function(r){return !exists(r.name);});var expectedMissing=EXPECTED_ACTIONS.filter(function(name){return !exists(name);});return {version:VERSION,generatedAt:new Date().toISOString(),expectedChecked:EXPECTED_ACTIONS.length,expectedMissing:expectedMissing,inlineActionRefs:refs.length,inlineMissing:missingRefs,routeAudit:(window.WBRouteAudit&&typeof window.WBRouteAudit==='function')?window.WBRouteAudit():null,startupAudit:(window.WBStartupGateAudit&&typeof window.WBStartupGateAudit==='function')?window.WBStartupGateAudit():null,setEditorSubtitle:(window.WBSetEditorSubtitleAudit&&typeof window.WBSetEditorSubtitleAudit==='function')?window.WBSetEditorSubtitleAudit():null,workspaceAudit:(window.WBWorkspaceSourceAudit&&typeof window.WBWorkspaceSourceAudit==='function')?window.WBWorkspaceSourceAudit():null,note:'v79.10 is an audit + light UI polish build. It does not intentionally change routing, storage, backup, PDF export, bottom sheets, or song editor behaviour.'};}
+  function classify(){var refs=scanInlineHandlers();var missingRefs=refs.filter(function(r){return !exists(r.name);});var expectedMissing=EXPECTED_ACTIONS.filter(function(name){return !exists(name);});return {version:VERSION,generatedAt:new Date().toISOString(),expectedChecked:EXPECTED_ACTIONS.length,expectedMissing:expectedMissing,inlineActionRefs:refs.length,inlineMissing:missingRefs,routeAudit:(window.WBRouteAudit&&typeof window.WBRouteAudit==='function')?window.WBRouteAudit():null,startupAudit:(window.WBStartupGateAudit&&typeof window.WBStartupGateAudit==='function')?window.WBStartupGateAudit():null,setEditorSubtitle:(window.WBSetEditorSubtitleAudit&&typeof window.WBSetEditorSubtitleAudit==='function')?window.WBSetEditorSubtitleAudit():null,workspaceAudit:(window.WBWorkspaceSourceAudit&&typeof window.WBWorkspaceSourceAudit==='function')?window.WBWorkspaceSourceAudit():null,note:'v79.4 is an audit + light UI polish build. It does not intentionally change routing, storage, backup, PDF export, bottom sheets, or song editor behaviour.'};}
   function setVersion(){try{document.title='WorshipBase v'+VERSION;window.WB_CURRENT_VERSION=VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}}
   window.WBActionAudit=classify;window.WBFullAudit=function(){return classify();};window.WB_ACTION_AUDIT_EXPECTED=EXPECTED_ACTIONS.slice();
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setVersion,{once:true});else setVersion();
 })();
 </script>
 
-<!-- WorshipBase v79.10 - source organisation prep
+<!-- WorshipBase v79.13 - source organisation prep
      No visual/runtime feature changes intended. This block documents current source ownership
      and exposes audit helpers before future modularisation while preserving single-file HTML testing. -->
 <script id="wb-v79-5-source-organisation-prep-script">
 (function(){
   'use strict';
-  var VERSION='79.10';
+  var VERSION='79.13';
   var SOURCE_OWNERSHIP={
     version:'v79.5',
-    base:'v79.10 audit + light polish',
+    base:'v79.4 audit + light polish',
     purpose:'source organisation prep without splitting the single-file test build',
     rule:'single source owner per screen/feature; old public names may remain only as adapters',
     currentOwners:[
@@ -17013,7 +17007,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-7-workspace-route-memory-active-tab-fix-script">
 (function(){
   'use strict';
-  var VERSION='79.10';
+  var VERSION='79.13';
   var restoring=false;
   var lastWorkspaceRoute={route:'home',setId:null,updatedAt:Date.now()};
   var oldSwitchTab=window.switchTab;
@@ -17197,7 +17191,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-8-workspace-song-return-context-fix-script">
 (function(){
   'use strict';
-  var VERSION='79.10';
+  var VERSION='79.13';
   function qs(id){return document.getElementById(id);}
   function setVersion(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
@@ -17246,7 +17240,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
         else if(setId&&sharedSetExists(setId)&&window.WBAppRouter&&typeof window.WBAppRouter.openSetEditor==='function')window.WBAppRouter.openSetEditor('shared',setId);
         else if(typeof window.openWorkspaceSetLists==='function')window.openWorkspaceSetLists();
         else if(window.WBAppRouter&&typeof window.WBAppRouter.openWorkspaceSetLists==='function')window.WBAppRouter.openWorkspaceSetLists();
-      }catch(e){console.warn('v79.10 Workspace song return restore failed',e);}
+      }catch(e){console.warn('v79.8 Workspace song return restore failed',e);}
       try{if(typeof queueSaveLastState==='function')queueSaveLastState();}catch(e){}
       setVersion();
     }
@@ -17271,7 +17265,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-9-navigation-context-authority-script">
 (function(){
   'use strict';
-  var VERSION='79.10';
+  var VERSION='79.13';
   function qs(id){return document.getElementById(id);} 
   function setVersion(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
@@ -17425,10 +17419,10 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 
 
 
-<script id="wb-v79-10-navigation-order-context-authority-script">
+<script id="wb-v79-12-navigation-order-context-authority-script">
 (function(){
   'use strict';
-  var VERSION='79.10';
+  var VERSION='79.13';
 
   var oldSwitchTab=window.switchTab;
   var oldShowPersonalList=window.showPersonalList;
@@ -17702,5 +17696,349 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 })();
 </script>
 
-</body>
-</html>
+
+
+<script id="wb-v79-12-whole-app-action-audit-script">
+(function(){
+  'use strict';
+  var VERSION='79.13';
+  function safe(fn,fallback){try{return fn();}catch(e){return fallback;}}
+  function setVersion(){
+    safe(function(){document.title='WorshipBase v'+VERSION;});
+    safe(function(){window.WB_CURRENT_VERSION=VERSION;});
+    safe(function(){if(window.WBAppRouter)window.WBAppRouter.version=VERSION;});
+    safe(function(){if(window.WBWorkspaceRouteMemory)window.WBWorkspaceRouteMemory.version=VERSION;});
+    safe(function(){document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});});
+  }
+  function uniq(arr){var seen={};return arr.filter(function(x){if(!x||seen[x])return false;seen[x]=true;return true;});}
+  function fnExists(name){return typeof window[name]==='function';}
+  function inlineActionNames(){
+    var names=[];
+    var skip={if:1,return:1,function:1,for:1,while:1,switch:1,catch:1,console:1,setTimeout:1,Math:1,Date:1,String:1,Number:1,Boolean:1,Object:1,Array:1};
+    safe(function(){
+      document.querySelectorAll('[onclick]').forEach(function(el){
+        var code=el.getAttribute('onclick')||'';
+        var re=/(^|[^\.\w$])([A-Za-z_$][\w$]*)\s*\(/g, m;
+        while((m=re.exec(code))){
+          var name=m[2];
+          if(!skip[name])names.push(name);
+        }
+      });
+    });
+    return uniq(names).sort();
+  }
+  function missingInlineActions(){return inlineActionNames().filter(function(name){return !fnExists(name);});}
+  function sectionVisible(id){var el=document.getElementById(id);return !!(el&&safe(function(){return getComputedStyle(el).display!=='none';},false));}
+  function activeButtons(){var out=[];safe(function(){document.querySelectorAll('.tab-btn.active').forEach(function(btn){out.push((btn.dataset&&btn.dataset.tab)||String(btn.id||'').replace(/^tab-/,'')||btn.textContent.trim());});});return out;}
+  var requiredCore=[
+    'switchTab','openSong','showList','showPersonalList','renderPersonalManager','openPersonalSetFromManager',
+    'openWorkspaceSetLists','openWorkspaceSetFromWorkspaceTab','showWorkspaceDashboard','renderWorkspace','goBackFromSetEditor',
+    'createPersonalSetFromManager','deletePersonalSetFromManager','publishCurrentPersonalSetToWorkspace','publishPersonalSetToWorkspace',
+    'createWorkspaceSetFromWorkspaceSubview','deleteNamedSet','renameCurrentSetFromOptions','deleteCurrentSetFromOptions',
+    'openSetListOptions','openSetNotesSheet','openAddSongMenu','saveSetAddItem','clearSet',
+    'openSongModal','saveSong','deleteSong','toggleCurrentFavorite','toggleSetSong','openSongNotesSheet','saveSongNotes',
+    'openLocalBackupSheet','exportAppBackupJSON','openDriveBackupSheet','backupToGoogleDrive','restoreFromGoogleDrive',
+    'openExportView','runExportFromPage','sharePdfFromPage','openBiblePicker','selectBibleBook','selectBibleChapter','selectBibleVersion'
+  ];
+  window.WBActionAudit=function(){
+    var inline=inlineActionNames();
+    var missingInline=missingInlineActions();
+    var missingCore=requiredCore.filter(function(name){return !fnExists(name);});
+    var active=activeButtons();
+    return {
+      version:VERSION,
+      status:(missingInline.length===0&&missingCore.length===0&&active.length<=1)?'pass':'check',
+      inlineActionCount:inline.length,
+      missingInlineActions:missingInline,
+      requiredCoreCount:requiredCore.length,
+      missingRequiredCore:missingCore,
+      activeTab:safe(function(){return window.activeTab;},null),
+      activeButtons:active,
+      singleActiveButton:active.length<=1,
+      visibleSections:{library:sectionVisible('song-section'),setlist:sectionVisible('setlist-section'),workspace:sectionVisible('workspace-section'),bible:sectionVisible('bible-section'),settings:sectionVisible('settings-section'),songView:!!(document.getElementById('song-view')&&document.getElementById('song-view').classList.contains('visible'))},
+      bodyClasses:{routeLock:document.body.classList.contains('wb-route-lock'),setEditorMode:document.body.classList.contains('wb-set-editor-mode'),workspaceEditor:document.body.classList.contains('wb-set-editor-workspace'),personalEditor:document.body.classList.contains('wb-set-editor-personal')},
+      routeMemory:safe(function(){return window.WBWorkspaceRouteMemory&&window.WBWorkspaceRouteMemory.audit?window.WBWorkspaceRouteMemory.audit():null;},null),
+      notes:[
+        'This audit is non-invasive and does not click buttons or modify user data.',
+        'A pass means all inline onclick functions and required public actions exist at runtime.',
+        'Manual testing is still required for backup, PDF export, Firebase persistence, and song editor flows.'
+      ]
+    };
+  };
+  window.WBFullAudit=function(){
+    return {
+      version:VERSION,
+      actionAudit:window.WBActionAudit(),
+      sourceOwnership:safe(function(){return window.WBSourceOwnership||null;},null),
+      sourceOrgAudit:safe(function(){return typeof window.WBSourceOrgAudit==='function'?window.WBSourceOrgAudit():null;},null),
+      navigationOrderAudit:safe(function(){return typeof window.WBNavigationOrderAudit==='function'?window.WBNavigationOrderAudit():null;},null),
+      workspaceMemoryAudit:safe(function(){return window.WBWorkspaceRouteMemory&&window.WBWorkspaceRouteMemory.audit?window.WBWorkspaceRouteMemory.audit():null;},null)
+    };
+  };
+  setVersion();
+  [0,100,500,1500].forEach(function(ms){setTimeout(setVersion,ms);});
+})();
+</script>
+
+
+
+<script id="wb-v79-12-legacy-patch-audit-script">
+(function(){
+  'use strict';
+  var VERSION='79.13';
+  function safe(fn,fallback){try{return fn();}catch(e){return fallback;}}
+  function setVersion(){
+    safe(function(){document.title='WorshipBase v'+VERSION;});
+    safe(function(){window.WB_CURRENT_VERSION=VERSION;});
+    safe(function(){if(window.WBAppRouter)window.WBAppRouter.version=VERSION;});
+    safe(function(){if(window.WBWorkspaceRouteMemory)window.WBWorkspaceRouteMemory.version=VERSION;});
+    safe(function(){document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});});
+  }
+  function scriptInfo(){
+    var out=[];
+    safe(function(){
+      document.querySelectorAll('script').forEach(function(s,idx){
+        var id=s.id||'';
+        var text=s.textContent||'';
+        var version=(id.match(/v(\d+)[\.-]?(\d+)?/i)||[]).slice(1).filter(Boolean).join('.');
+        out.push({
+          index:idx,
+          id:id||'(inline/no-id)',
+          bytes:text.length,
+          version:version||null,
+          isOldPatch:/v7[0-8]|patch|cleanup|recovery|override|legacy/i.test(id),
+          mentionsSwitchTab:/switchTab/.test(text),
+          mentionsRenderWorkspace:/renderWorkspace/.test(text),
+          mentionsSetTimeout:/setTimeout\s*\(/.test(text),
+          mentionsFirebase:/firebase|database\(/i.test(text),
+          mentionsGoogleDrive:/google|drive|gapi/i.test(text),
+          mentionsPdf:/pdf|jsPDF|export/i.test(text)
+        });
+      });
+    });
+    return out;
+  }
+  function currentVersionMarkers(){
+    var markers=[];
+    safe(function(){
+      document.querySelectorAll('title,.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){markers.push({tag:el.tagName.toLowerCase(),text:(el.textContent||'').trim()});});
+    });
+    return markers;
+  }
+  function publicFunctions(){
+    var names=[];
+    for(var k in window){
+      if(/^WB[A-Z_]/.test(k)||/^(open|show|render|create|delete|rename|publish|backup|restore|export|share|save|select|switch|goBack)/.test(k)){
+        if(typeof window[k]==='function')names.push(k);
+      }
+    }
+    names.sort();
+    return names;
+  }
+  function countBy(list,fn){
+    var m={};
+    list.forEach(function(x){var k=fn(x)||'unknown';m[k]=(m[k]||0)+1;});
+    return m;
+  }
+  var previousFullAudit=window.WBFullAudit;
+  window.WBLegacyPatchAudit=function(){
+    var scripts=scriptInfo();
+    var old=scripts.filter(function(s){return s.isOldPatch;});
+    var currentMarkers=currentVersionMarkers();
+    var markerProblems=currentMarkers.filter(function(m){return m.text&&m.text.indexOf('79.12')===-1&&/version|worshipbase/i.test(m.text);});
+    return {
+      version:VERSION,
+      status:markerProblems.length?'check':'pass',
+      purpose:'Non-invasive inventory before future dead-code cleanup. It does not click buttons or change app data.',
+      scriptCount:scripts.length,
+      oldPatchLikeScriptCount:old.length,
+      scriptVersions:countBy(scripts,function(s){return s.version||'none';}),
+      oldPatchLikeScripts:old.map(function(s){return {id:s.id,bytes:s.bytes,mentionsSwitchTab:s.mentionsSwitchTab,mentionsRenderWorkspace:s.mentionsRenderWorkspace,mentionsSetTimeout:s.mentionsSetTimeout,mentionsFirebase:s.mentionsFirebase,mentionsGoogleDrive:s.mentionsGoogleDrive,mentionsPdf:s.mentionsPdf};}),
+      versionMarkers:currentMarkers,
+      versionMarkerProblems:markerProblems,
+      publicWBActions:publicFunctions().filter(function(n){return /^WB/.test(n);}),
+      notes:[
+        'Old patch-like scripts are not automatically bad; this list is an inventory for future targeted cleanup.',
+        'Do not remove scripts that mention Firebase, Google Drive, PDF, bottom sheets, or song editor until feature-specific tests pass.',
+        'The next safe cleanup should remove only items classified as dead/unreferenced after manual review.'
+      ]
+    };
+  };
+  window.WBFullAudit=function(){
+    var base=safe(function(){return typeof previousFullAudit==='function'?previousFullAudit():{};},{});
+    base.version=VERSION;
+    base.legacyPatchAudit=safe(function(){return window.WBLegacyPatchAudit();},null);
+    return base;
+  };
+  setVersion();
+  [0,100,500,1500].forEach(function(ms){setTimeout(setVersion,ms);});
+})();
+</script>
+
+
+
+<script id="wb-v79-13-setlist-route-memory-script">
+(function(){
+  'use strict';
+  var VERSION='79.13';
+  var restoring=false;
+  var lastSetListRoute={route:'home',setId:null,updatedAt:Date.now()};
+  var oldSwitchTab=window.switchTab;
+  var oldRouterShow=window.WBAppRouter&&window.WBAppRouter.show;
+  var oldRouterOpenSetEditor=window.WBAppRouter&&window.WBAppRouter.openSetEditor;
+  var oldShowPersonalList=window.showPersonalList;
+  var oldRenderPersonalManager=window.renderPersonalManager;
+  var oldOpenPersonalSet=window.openPersonalSetFromManager;
+  var oldCreatePersonalSet=window.createPersonalSetFromManager;
+  var oldDeletePersonalSet=window.deletePersonalSetFromManager;
+  var oldGoBackFromSetEditor=window.goBackFromSetEditor;
+  var previousFullAudit=window.WBFullAudit;
+
+  function setVersion(){
+    try{document.title='WorshipBase v'+VERSION;}catch(e){}
+    try{window.WB_CURRENT_VERSION=VERSION;}catch(e){}
+    try{if(window.WBAppRouter)window.WBAppRouter.version=VERSION;}catch(e){}
+    try{if(window.WBWorkspaceRouteMemory)window.WBWorkspaceRouteMemory.version=VERSION;}catch(e){}
+    try{if(window.WBActionAudit&&window.WBActionAudit.version!==undefined)window.WBActionAudit.version=VERSION;}catch(e){}
+    try{document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}
+  }
+  function canonical(tab){
+    tab=String(tab||'songs').toLowerCase();
+    if(tab==='library'||tab==='songs'||tab==='english'||tab==='malayalam'||tab==='my'||tab==='favourites')return 'songs';
+    if(tab==='setlist'||tab==='sets'||tab==='personal')return 'setlist';
+    if(tab==='workspace'||tab==='team'||tab==='shared')return 'workspace';
+    if(tab==='bible')return 'bible';
+    if(tab==='settings')return 'settings';
+    return tab;
+  }
+  function safe(fn,fallback){try{return fn();}catch(e){return fallback;}}
+  function currentTab(){return safe(function(){return typeof activeTab!=='undefined'?activeTab:null;},null);}
+  function personalSets(){return safe(function(){return (typeof _personalSets!=='undefined'&&_personalSets)||{};},{});}
+  function activePersonalId(){return safe(function(){return (appPrefs&&appPrefs.activePersonalSetId)||'';},'');}
+  function setExists(id){var sets=personalSets();return !!(id&&sets&&sets[id]);}
+  function isPersonalEditorVisible(){
+    return safe(function(){return document.body.classList.contains('wb-set-editor-personal')||((appPrefs&&appPrefs.setListScope)==='personal'&&document.body.classList.contains('wb-set-editor-mode'));},false);
+  }
+  function setActiveBottomSetList(){
+    safe(function(){document.querySelectorAll('.tab-btn').forEach(function(btn){var key=(btn.dataset&&btn.dataset.tab)||String(btn.id||'').replace(/^tab-/,'');btn.classList.toggle('active',key==='setlist');});});
+  }
+  function activateSetListSection(){
+    safe(function(){document.body.classList.add('wb-route-lock','wb-tab-setlist');['songs','workspace','bible','settings'].forEach(function(t){document.body.classList.remove('wb-tab-'+t);});});
+    safe(function(){['song-section','workspace-section','bible-section','settings-section'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});var sl=document.getElementById('setlist-section');if(sl)sl.style.display='flex';});
+    safe(function(){var sw=document.getElementById('srch-wrap');if(sw)sw.style.display='none';var fr=document.getElementById('library-filter-row');if(fr)fr.style.display='none';});
+    safe(function(){activeTab='setlist';});
+    setActiveBottomSetList();
+  }
+  function record(route,setId){
+    if(restoring)return;
+    route=route||'home';
+    lastSetListRoute={route:route,setId:route==='editor'?(setId||activePersonalId()||null):null,updatedAt:Date.now()};
+    safe(function(){window.WB_SETLIST_ROUTE_MEMORY=Object.assign({},lastSetListRoute);});
+  }
+  function openHome(){
+    record('home');
+    activateSetListSection();
+    if(typeof oldShowPersonalList==='function')return oldShowPersonalList.apply(this,arguments);
+    if(typeof oldRenderPersonalManager==='function')return oldRenderPersonalManager.apply(this,arguments);
+    if(typeof oldSwitchTab==='function')return oldSwitchTab.call(this,'setlist');
+  }
+  function openPersonalSet(id){
+    if(typeof oldOpenPersonalSet==='function')return oldOpenPersonalSet.call(this,id);
+    if(window.WBAppRouter&&typeof oldRouterOpenSetEditor==='function')return oldRouterOpenSetEditor.call(window.WBAppRouter,'personal',id);
+  }
+  function restoreSetListRoute(){
+    var target=(lastSetListRoute&&lastSetListRoute.route)||'home';
+    var setId=(lastSetListRoute&&lastSetListRoute.setId)||null;
+    restoring=true;
+    try{
+      if(target==='editor'){
+        if(setExists(setId)){activateSetListSection();return openPersonalSet(setId);}
+        lastSetListRoute={route:'home',setId:null,updatedAt:Date.now()};
+        return openHome();
+      }
+      return openHome();
+    }finally{
+      safe(function(){window.WB_SETLIST_ROUTE_MEMORY=Object.assign({},lastSetListRoute);});
+      setTimeout(function(){restoring=false;},0);
+      setVersion();
+    }
+  }
+  function shouldHomeOnActiveSetList(){
+    return safe(function(){return canonical(currentTab())==='setlist'||document.body.classList.contains('wb-tab-setlist')||isPersonalEditorVisible();},false);
+  }
+  function forceSetListHome(){
+    lastSetListRoute={route:'home',setId:null,updatedAt:Date.now()};
+    safe(function(){window.WB_SETLIST_ROUTE_MEMORY=Object.assign({},lastSetListRoute);});
+    restoring=true;
+    try{
+      safe(function(){document.body.classList.remove('wb-set-editor-mode','wb-set-editor-personal','wb-set-editor-workspace');});
+      activateSetListSection();
+      return openHome();
+    }finally{
+      setTimeout(function(){restoring=false;},0);
+      setVersion();
+    }
+  }
+
+  window.switchTab=function(tab){
+    if(canonical(tab)==='setlist'){
+      if(shouldHomeOnActiveSetList())return forceSetListHome();
+      return restoreSetListRoute();
+    }
+    return typeof oldSwitchTab==='function'?oldSwitchTab.apply(this,arguments):undefined;
+  };
+  try{switchTab=window.switchTab;}catch(e){}
+
+  window.showPersonalList=function(){return openHome.apply(this,arguments);};
+  window.renderPersonalManager=function(){return openHome.apply(this,arguments);};
+  window.openPersonalSetFromManager=function(id){record('editor',id);return openPersonalSet.call(this,id);};
+  window.createPersonalSetFromManager=function(){
+    var before=activePersonalId();
+    var out=typeof oldCreatePersonalSet==='function'?oldCreatePersonalSet.apply(this,arguments):undefined;
+    var after=activePersonalId();
+    if(after&&after!==before)record('editor',after);
+    return out;
+  };
+  window.deletePersonalSetFromManager=function(id){
+    if(lastSetListRoute.route==='editor'&&lastSetListRoute.setId===String(id||''))record('home');
+    var out=typeof oldDeletePersonalSet==='function'?oldDeletePersonalSet.apply(this,arguments):undefined;
+    if(lastSetListRoute.route==='editor'&&!setExists(lastSetListRoute.setId))record('home');
+    return out;
+  };
+  window.goBackFromSetEditor=function(){
+    if(isPersonalEditorVisible())record('home');
+    return typeof oldGoBackFromSetEditor==='function'?oldGoBackFromSetEditor.apply(this,arguments):undefined;
+  };
+
+  if(window.WBAppRouter){
+    window.WBAppRouter.version=VERSION;
+    window.WBAppRouter.show=function(tab){
+      if(canonical(tab)==='setlist')return window.switchTab('setlist');
+      return typeof oldRouterShow==='function'?oldRouterShow.call(window.WBAppRouter,tab):undefined;
+    };
+    window.WBAppRouter.openPersonalHome=window.showPersonalList;
+    window.WBAppRouter.openSetEditor=function(scope,id){
+      if(canonical(scope)==='setlist'||String(scope||'').toLowerCase()==='personal'){record('editor',id);return openPersonalSet(id);}
+      return typeof oldRouterOpenSetEditor==='function'?oldRouterOpenSetEditor.call(window.WBAppRouter,scope,id):undefined;
+    };
+  }
+  window.WBSetListRouteMemory={
+    version:VERSION,
+    get:function(){return Object.assign({},lastSetListRoute);},
+    clear:function(){record('home');return this.get();},
+    restore:restoreSetListRoute,
+    audit:function(){return {version:VERSION,memory:Object.assign({},lastSetListRoute),activeTab:currentTab(),setlistVisible:safe(function(){var el=document.getElementById('setlist-section');return !!(el&&getComputedStyle(el).display!=='none');},false),workspaceVisible:safe(function(){var el=document.getElementById('workspace-section');return !!(el&&getComputedStyle(el).display!=='none');},false),editorMode:document.body.classList.contains('wb-set-editor-mode'),editorPersonal:document.body.classList.contains('wb-set-editor-personal'),activeSetListHomeTapWouldHome:shouldHomeOnActiveSetList()};}
+  };
+  window.WBFullAudit=function(){
+    var base=safe(function(){return typeof previousFullAudit==='function'?previousFullAudit():{};},{});
+    base.version=VERSION;
+    base.setListMemoryAudit=window.WBSetListRouteMemory.audit();
+    return base;
+  };
+  setVersion();
+  [0,100,500,1500].forEach(function(ms){setTimeout(setVersion,ms);});
+})();
+</script>
+
+
+<input type="file" id="full-app-backup-json-file" accept=".json,application/json" style="display: none;"><div class="bs-bg" id="bs-backuplocal" onclick="closeBSBg(event,'backuplocal')"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><h2 class="m-h2">Local backup</h2><button class="m-close" onclick="closeBS('backuplocal')">×</button></div><div class="m-body"><p class="wb-backup-sheet-note">Save JSON files to your device, or restore from a file you previously exported.</p><div class="wb-backup-group-title">Export to file</div><button class="wb-backup-choice" type="button" onclick="exportMySongsJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">My Songs</span><span class="wb-backup-choice-sub">Songs added on this device only</span></span><span class="wb-backup-choice-tag">JSON</span></button><button class="wb-backup-choice" type="button" onclick="exportNotesCuesJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Notes &amp; Cues</span><span class="wb-backup-choice-sub">Personal notes, cues, usual keys and practice status</span></span><span class="wb-backup-choice-tag">JSON</span></button><button class="wb-backup-choice" type="button" onclick="exportAppBackupJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Everything</span><span class="wb-backup-choice-sub">My Songs, set lists, sections, service items, notes/cues and preferences</span></span><span class="wb-backup-choice-tag">Full</span></button><div class="wb-backup-group-title">Restore from file</div><button class="wb-backup-choice" type="button" onclick="document.getElementById('my-songs-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore My Songs</span><span class="wb-backup-choice-sub">Import a WorshipBase song JSON file</span></span><span class="wb-backup-choice-tag">Import</span></button><button class="wb-backup-choice" type="button" onclick="document.getElementById('notes-cues-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore Notes &amp; Cues</span><span class="wb-backup-choice-sub">Apply notes/cues onto matching songs</span></span><span class="wb-backup-choice-tag">Import</span></button><button class="wb-backup-choice" type="button" onclick="document.getElementById('full-app-backup-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore Everything</span><span class="wb-backup-choice-sub">Replace personal data on this device from a full app backup</span></span><span class="wb-backup-choice-tag">Replace</span></button></div></div></div><div class="bs-bg" id="bs-backupdrive" onclick="closeBSBg(event,'backupdrive')"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><h2 class="m-h2">Google Drive backup</h2><button class="m-close" onclick="closeBS('backupdrive')">×</button></div><div class="m-body"><div id="wb-drive-sheet-body"></div></div></div></div></body><div style="position: fixed; top: 0px; left: 0px; width: 1px; height: env(safe-area-inset-top,0px); pointer-events: none; opacity: 0; z-index: -1;"></div><div style="position: fixed; bottom: 0px; left: 0px; width: 1px; height: env(safe-area-inset-bottom,0px); pointer-events: none; opacity: 0; z-index: -1;"></div></html>
