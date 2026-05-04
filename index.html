@@ -1,6 +1,6 @@
 <html lang="en" style="--sat: 0px; --sab: 0px; --tc: #111111; --hdr-bg: #111111; --chord-highlight-bg: hsl(0, 22%, 92%); --chord-highlight-glow: transparent; --chord-highlight-border: transparent;"><head>
 <style id="wb-v80-8-first-paint-safearea-style">
-/* v80.8 first-paint guard: reserve safe-area before late renderer scripts run. */
+/* v81.0 first-paint guard: reserve safe-area before late renderer scripts run. */
 :root{--sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);}
 .hdr{padding-top:calc(max(env(safe-area-inset-top,0px),var(--sat,0px)) + 14px)!important;}
 .sync-badge{top:calc(max(env(safe-area-inset-top,0px),var(--sat,0px)) + 8px)!important;}
@@ -24,7 +24,7 @@ body:not(.wb-ui-ready) #workspace-section .wb765-subview{display:none!important;
 <link href="assets/wb-icon-180.png" rel="apple-touch-icon" sizes="180x180">
 <link href="assets/wb-icon-192.png" rel="icon" sizes="192x192" type="image/png">
 <meta content="yes" name="mobile-web-app-capable">
-<title>WorshipBase v80.8</title>
+<title>WorshipBase v81.0</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 /* Prevent iOS long-press/callout menus and text selection on UI chrome
@@ -3460,7 +3460,7 @@ body.wb-workspace-subview-open #workspace-section .wb806-subview.open{display:fl
 <img alt="WorshipBase logo" src="assets/wb-icon-192.png">
 </div>
 <div class="about-name">WorshipBase</div>
-<div class="about-version-pill">Version 80.8</div>
+<div class="about-version-pill">Version 81.0</div>
 <div class="about-by">Created by <strong>Jerin Reji</strong></div>
 </div>
 </div>
@@ -12151,7 +12151,7 @@ body.dark .pad-chip.active,body.dark .pad-key.active{background:var(--accent-sur
   updatePadUI();
   window.WorshipBasePad={start:startPad,stop:stopPad,setKey:setPadKey,setMode:setPadMode,state:PAD_STATE};
 })();
-</script><div class="bs-bg" id="bs-pad" onclick="closeBSBg(event,'pad')" data-wb-pad-library3-cat="1"><div class="bs"><div class="bs-handle"></div><div class="bs-title">Pad</div><div class="pad-panel"><div class="pad-status-card"><div class="pad-status-copy"><div class="pad-status-title" id="pad-status-title">Pad ready</div><div class="pad-status-sub" id="pad-status-sub" style="display: none;"></div></div><button class="pad-power" id="pad-power-btn" type="button">Start</button></div><div class="pad-row-title">Category</div><div class="pad-seg"><button class="pad-chip active" type="button" data-pad-mode="peaceful">Peaceful</button><button class="pad-chip" type="button" data-pad-mode="analog">Analog</button><button class="pad-chip" type="button" data-pad-mode="drones">Drones</button></div><div class="pad-row-title">Key</div><div class="pad-key-grid"><button class="pad-key active" type="button" data-pad-key="C">C</button><button class="pad-key" type="button" data-pad-key="C#">C#</button><button class="pad-key" type="button" data-pad-key="D">D</button><button class="pad-key" type="button" data-pad-key="Eb">Eb</button><button class="pad-key" type="button" data-pad-key="E">E</button><button class="pad-key" type="button" data-pad-key="F">F</button><button class="pad-key" type="button" data-pad-key="F#">F#</button><button class="pad-key" type="button" data-pad-key="G">G</button><button class="pad-key" type="button" data-pad-key="Ab">Ab</button><button class="pad-key" type="button" data-pad-key="A">A</button><button class="pad-key" type="button" data-pad-key="Bb">Bb</button><button class="pad-key" type="button" data-pad-key="B">B</button></div></div><button class="bs-cancel" type="button" onclick="closeBS('pad')">Close</button></div></div>
+</script><div class="bs-bg" id="bs-pad" onclick="closeBSBg(event,'pad')" data-wb-pad-library3-cat="1"><div class="bs"><div class="bs-handle"></div><div class="bs-title">Pad</div><div class="pad-panel"><div class="pad-status-card"><div class="pad-status-copy"><div class="pad-status-title" id="pad-status-title">Pad ready</div><div class="pad-status-sub" id="pad-status-sub" style="display: none;">Peaceful · C</div></div><button class="pad-power" id="pad-power-btn" type="button">Start</button></div><div class="pad-row-title">Category</div><div class="pad-seg"><button class="pad-chip active" type="button" data-pad-mode="peaceful">Peaceful</button><button class="pad-chip" type="button" data-pad-mode="analog">Analog</button><button class="pad-chip" type="button" data-pad-mode="drones">Drones</button></div><div class="pad-row-title">Key</div><div class="pad-key-grid"><button class="pad-key active" type="button" data-pad-key="C">C</button><button class="pad-key" type="button" data-pad-key="C#">C#</button><button class="pad-key" type="button" data-pad-key="D">D</button><button class="pad-key" type="button" data-pad-key="Eb">Eb</button><button class="pad-key" type="button" data-pad-key="E">E</button><button class="pad-key" type="button" data-pad-key="F">F</button><button class="pad-key" type="button" data-pad-key="F#">F#</button><button class="pad-key" type="button" data-pad-key="G">G</button><button class="pad-key" type="button" data-pad-key="Ab">Ab</button><button class="pad-key" type="button" data-pad-key="A">A</button><button class="pad-key" type="button" data-pad-key="Bb">Bb</button><button class="pad-key" type="button" data-pad-key="B">B</button></div></div><button class="bs-cancel" type="button" onclick="closeBS('pad')">Close</button></div></div>
 <style>
 /* ── v70.2 corrections: visible set counter, clear pad affordance, musical-key icons ── */
 #setlist-section .sl-hdr{
@@ -13766,7 +13766,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 <script id="wb-v72-5-2-backup-settings-polish-js">
 (function(){
   'use strict';
-  const VERSION='80.8';
+  const VERSION='81.0';
   const DRIVE_STATE_KEY='wb_google_drive_backup_v1';
   const PRE_RESTORE_KEY='wb_pre_restore_snapshot_v1';
   function ready(fn){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fn,{once:true});else fn();}
@@ -13878,7 +13878,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
   'use strict';
   const EDIT_ICON='<svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M12 3l2 2L5.5 13H3.5v-2L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
   function usefulMemory(m){return !!(m&&typeof m==='object'&&(String(m.notes||'').trim()||String(m.cues||'').trim()||String(m.usualKey||'').trim()||String(m.capo||'').trim()||String(m.practiceStatus||'').trim()));}
-  function setVisibleVersion(){try{document.title='WorshipBase v80.8';document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 80.8';});}catch(e){}}
+  function setVisibleVersion(){try{document.title='WorshipBase v81.0';document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 81.0';});}catch(e){}}
   function fixSongEditButton(){
     try{
       const btn=document.getElementById('mi-edit-song');
@@ -14207,7 +14207,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 </script>
 <script id="wb-v72-5-7-rich-set-copy-fix">
 (function(){
-  const VERSION='80.8';
+  const VERSION='81.0';
 
   const originalFindSongById = window.findSongById || function(){return null;};
   const originalGetSongMemory = window.getSongMemory || function(){return {};};
@@ -14600,7 +14600,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 <script id="wb-v72-5-8-rich-shared-persist-fix">
 (function(){
   'use strict';
-  const VERSION='80.8';
+  const VERSION='81.0';
   const BAD_KEY=/[.#$\/[\]]/g;
   function n(v){try{if(typeof normId==='function')return normId(v);}catch(_){}return String(v==null?'':v).trim();}
   function safeKey(v){const k=n(v);return k?k.replace(BAD_KEY,'_'):'';}
@@ -14778,7 +14778,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 </script>
 <script id="wb-v74-5-legacy-setlist-disabled-marker">
 (function(){
-  try{document.title='WorshipBase v80.8';document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version 80.8';});}catch(e){}
+  try{document.title='WorshipBase v81.0';document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version 81.0';});}catch(e){}
   // v74.5.2: legacy flat shared-set Firebase access is represented by a no-op setlistRef stub above.
   // Active shared set lists continue to use the rich shared-set Firebase path through the existing v72.5.8 logic.
 })();
@@ -14813,7 +14813,7 @@ body.dark .namedset-note-chip{background:var(--accent-surface)!important;color:v
 <script id="wb-v74-5-2-setlist-and-export-fixes">
 (function(){
   'use strict';
-  const VERSION='80.8';
+  const VERSION='81.0';
   function norm(v){try{if(typeof normId==='function')return normId(v);}catch(e){}return String(v==null?'':v).trim();}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}}
   function sk(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
@@ -15018,7 +15018,7 @@ body.dark .workspace-publish-note{background:var(--accent-surface)!important;col
 <script id="wb-v75-2-workspace-publish-picker-script">
 (function(){
   'use strict';
-  const VERSION='80.8';
+  const VERSION='81.0';
   function qs(id){return document.getElementById(id);}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s??'').replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}}
   function sk(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
@@ -15208,7 +15208,7 @@ body.dark .workspace-subview-icon.danger{background:rgba(239,143,162,.12)!import
 <script id="wb-v75-6-rich-save-guard-script">
 (function(){
   'use strict';
-  const VERSION='80.8';
+  const VERSION='81.0';
   function clone(v){try{return JSON.parse(JSON.stringify(v));}catch(e){return v;}}
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
   function counts(set){let songs=0,plan=0;itemsOf(set).forEach(function(it){const t=String((it&&it.type)||'song').toLowerCase();if(t==='section'||t==='item'||t==='service')plan++;else if(t==='song'||(it&&it.songId))songs++;});return {songs:songs,plan:plan,total:songs+plan};}
@@ -15476,7 +15476,7 @@ body.dark .wb-personal-local{background:var(--accent-surface)!important;border-c
 <script id="wb-v75-13-1-workspace-selector-fix">
 (function(){
   'use strict';
-  const VERSION='80.8';
+  const VERSION='81.0';
   function qs(id){return document.getElementById(id);}
   function scopeKey(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
   function activeKey(scope){try{return activeSetPrefKey(scopeKey(scope));}catch(e){return scopeKey(scope)==='personal'?'activePersonalSetId':'activeSharedSetId';}}
@@ -15638,7 +15638,7 @@ body.dark .workspace-subview-back,body.dark .wb-editor-back{background:rgba(255,
 <script id="wb-v75-15-version-normalizer">
 (function(){
   'use strict';
-  const VERSION='80.8';
+  const VERSION='81.0';
   function setVersionLabels(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
     try{
@@ -15695,7 +15695,7 @@ body.dark #wb-set-editor-bar{
 <script id="wb-v75-16-version-normalizer-final">
 (function(){
   'use strict';
-  const VERSION='80.8';
+  const VERSION='81.0';
   function setVersionLabels(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
     try{
@@ -15934,7 +15934,7 @@ body.dark #workspace-section .wb765-mini-action.secondary{background:rgba(255,25
 @media (max-width:390px){.pres-section-chip{min-width:46px!important;height:36px!important;padding:0 12px!important;font-size:12.5px!important;}}
 .performance-mode .sheet{padding-right:124px!important;}
 </style>
-<!-- WorshipBase v80.8 Workspace title + metadata cleanup -->
+<!-- WorshipBase v81.0 Workspace title + metadata cleanup -->
 <style id="wb-v76-10-title-cleanup-style">
 /* v76.17 - reduce title/metadata flicker by making Workspace titles source-level and hiding the old Personal metadata line. */
 /* v79.4: old Personal metadata hide removed. */
@@ -15975,7 +15975,7 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
   window.WB_V793_RETIRED_LAYERS.push('wb-v76-10-title-cleanup-script');
 })();
 </script>
-<!-- WorshipBase v80.8 final Workspace shell stability polish -->
+<!-- WorshipBase v81.0 final Workspace shell stability polish -->
 <style id="wb-v76-11-stability-style">
 /* v76.17 - final stability candidate. Visual-only guard against header/card morph flicker. */
 #setlist-section .wb-personal-head,
@@ -15993,14 +15993,14 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
 <script id="wb-v76-11-version-check">
 (function(){
   try{
-    var VERSION='80.8';
+    var VERSION='81.0';
     document.title='WorshipBase v'+VERSION;
     document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version '+VERSION;});
     window.WB_CURRENT_VERSION=VERSION;
   }catch(e){}
 })();
 </script>
-<!-- WorshipBase v80.8 source-level Workspace render cleanup -->
+<!-- WorshipBase v81.0 source-level Workspace render cleanup -->
 <style id="wb-v76-12-source-workspace-style">
 /* v76.17 - render Workspace home from one final source to prevent old card flash. */
 #workspace-section .workspace-scroll{contain:layout paint;}
@@ -16057,7 +16057,7 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
   window.WB_V793_RETIRED_LAYERS.push('wb-v76-12-source-workspace-script');
 })();
 </script>
-<!-- WorshipBase v80.8 - Restore stable set editor and source-level Workspace title fix -->
+<!-- WorshipBase v81.0 - Restore stable set editor and source-level Workspace title fix -->
 <script id="wb-v76-14-stable-recovery-script">
 /* v79.4 source cleanup: Retired old title recovery switchTab/render wrapper. v78 owns route and title recovery.
    Original legacy code removed from runtime rather than hidden by a later overlay. */
@@ -16077,7 +16077,7 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
 .wb-editor-sub{font-size:12px!important;font-weight:700!important;color:var(--txt2)!important;}
 body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 12%,var(--bg1)),var(--bg1))!important;box-shadow:none!important;}
 </style>
-<!-- WorshipBase v80.8 - current set actions and cleaner set cards -->
+<!-- WorshipBase v81.0 - current set actions and cleaner set cards -->
 <style id="wb-v76-16-set-card-actions-style">
 /* Set cards are whole-row buttons, so remove redundant right chevrons while keeping delete controls. */
 .wb-personal-actions .wb-card-btn:not(.danger),
@@ -16091,7 +16091,7 @@ body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb
 <script id="wb-v76-16-current-set-actions-script">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   function qs(id){return document.getElementById(id);} 
   function scopeKeySafe(v){try{return setScopeKey(v||((appPrefs&&appPrefs.setListScope)||'personal'));}catch(e){return v==='shared'?'shared':'personal';}}
   function activeId(scope){try{return (appPrefs&&appPrefs[activeSetPrefKey(scope)])||'';}catch(e){return scope==='shared'?(appPrefs&&appPrefs.activeSharedSetId)||'':(appPrefs&&appPrefs.activePersonalSetId)||'';}}
@@ -16106,7 +16106,7 @@ body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script><div id="wb-pad-float" class="wb-pad-float"><button class="wb-pad-float-label" id="wb-pad-float-label" type="button">Pad</button><button class="wb-pad-float-stop" id="wb-pad-float-stop" type="button" aria-label="Stop pad"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"></rect></svg></button></div>
-<!-- WorshipBase v80.8 - Workspace home source cleanup / no staged metadata changes -->
+<!-- WorshipBase v81.0 - Workspace home source cleanup / no staged metadata changes -->
 <style id="wb-v76-17-workspace-cleanup-style">
 #workspace-section .workspace-note-card,
 #workspace-section #wb763-current-card,
@@ -16123,7 +16123,7 @@ body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb
   window.WB_V793_RETIRED_LAYERS.push('wb-v76-17-workspace-cleanup-script');
 })();
 </script>
-<!-- WorshipBase v80.8 - Personal Set Lists header polish
+<!-- WorshipBase v81.0 - Personal Set Lists header polish
      Stage A.6 UI repair: keep v78.4-v78.5 routing/personal renderer fixes,
      restore the fuller My Set Lists header metadata by neutralising old v76.x
      Personal metadata hide rules. No routing/storage/backend/PDF changes. -->
@@ -16179,7 +16179,7 @@ body.wb-route-lock.wb-tab-songs #library-filter-row{display:flex!important;}
 <script id="wb-v79-2-canonical-router-and-setlist-nav">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   var ROUTES={songs:'song-section',setlist:'setlist-section',workspace:'workspace-section',bible:'bible-section',settings:'settings-section'};
   var TAB_CLASSES=['wb-tab-songs','wb-tab-setlist','wb-tab-workspace','wb-tab-bible','wb-tab-settings'];
   var routeSeq=0;
@@ -16224,7 +16224,7 @@ body.wb-route-lock.wb-tab-songs #library-filter-row{display:flex!important;}
   function noteText(set){return String((set&&set.notes)||'').trim();}
   function updatedLabel(set){var ts=Number((set&&set.updatedAt)||(set&&set.createdAt)||0);if(!ts)return '';try{var d=new Date(ts);if(!isFinite(d.getTime()))return '';return 'Updated '+d.toLocaleDateString(undefined,{month:'short',day:'numeric'});}catch(e){return '';}}
   function personalEntries(){hydratePersonalSets(false);var sets=mapFor('personal')||{};return Object.entries(sets).filter(function(pair){var id=pair[0],set=pair[1]||{};var name=String(set.name||'').trim().toLowerCase();if(id==='default'&&!itemsOf(set).length&&!noteText(set)&&(name==='my set'||name==='set'||!name))return false;return true;}).sort(function(a,b){return Number((b[1]&&b[1].updatedAt)||(b[1]&&b[1].createdAt)||0)-Number((a[1]&&a[1].updatedAt)||(a[1]&&a[1].createdAt)||0);});}
-  function personalTotals(entries){var songs=0,plan=0;(entries||[]).forEach(function(p){var c=itemCounts(itemsOf(p[1]));songs+=c.songs;plan+=c.items;});var bits=[(entries||[]).length+' set'+((entries||[]).length===1?'':'s')];if(songs)bits.push(songs+' song'+(songs===1?'':'s'));if(plan)bits.push(plan+' item'+(plan===1?'':'s'));return bits.join(' · ');}
+  function personalTotals(entries){var n=(entries||[]).length;return n+' set'+(n===1?'':'s');}
   function ensurePersonalHomeRoot(){var wrap=qs('wb-personal-manager');var section=qs('setlist-section');if(!section)return null;if(!wrap){wrap=document.createElement('div');wrap.id='wb-personal-manager';section.insertBefore(wrap,section.firstChild);}wrap.innerHTML='<div class="wb-personal-scroll"><div class="wb-personal-head"><div class="wb-personal-copy"><div class="wb-personal-title">My Set Lists</div><div class="wb-personal-meta" id="wb-personal-meta">Saved locally</div></div><button class="wb-personal-new" type="button" onclick="createPersonalSetFromManager()">New</button></div><div id="wb-personal-list" class="wb-personal-list"></div></div>';return wrap;}
   function renderPersonalHomeDirect(forceHydrate){if(forceHydrate)hydratedPersonalOnce=false;hydratePersonalSets(!!forceHydrate);ensurePersonalHomeRoot();setSetListHomeMode();var entries=personalEntries();var meta=qs('wb-personal-meta');if(meta)meta.innerHTML=esc(personalTotals(entries))+'<span class="wb-personal-local">Saved locally</span>';var list=qs('wb-personal-list');if(!list)return;if(!entries.length){list.innerHTML='<div class="wb-personal-empty"><strong>No personal set lists yet</strong>Create a set list to start planning locally on this device.</div>';return;}list.innerHTML=entries.map(function(pair){var id=String(pair[0]),set=pair[1]||{};var sid=id.replace(/'/g,"\'");var notes=noteText(set)?'<span class="wb-note-pill">Notes</span>':'';var upd=updatedLabel(set);return '<button class="wb-personal-card" type="button" onclick="openPersonalSetFromManager(\''+sid+'\')"><span class="wb-personal-main"><span class="wb-personal-name">'+esc(set.name||'Untitled set')+'</span><span class="wb-personal-card-meta"><span>'+esc(countLabel(itemsOf(set)))+'</span>'+notes+(upd?'<span>'+esc(upd)+'</span>':'')+'</span></span><span class="wb-personal-actions"><span class="wb-card-btn" aria-hidden="true">›</span><span class="wb-card-btn danger" onclick="event.stopPropagation();deletePersonalSetFromManager(\''+sid+'\')" aria-label="Delete">×</span></span></button>';}).join('');}
 
@@ -16262,7 +16262,7 @@ body.wb-route-lock.wb-tab-songs #library-filter-row{display:flex!important;}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-<!-- WorshipBase v80.8 Personal Set Lists header authority -->
+<!-- WorshipBase v81.0 Personal Set Lists header authority -->
 <style id="wb-v79-2-personal-header-authority-style">
 /* v79.4 - Final Personal Set Lists header owner for the cleanup line.
    This deliberately overrides old v75/v76 Personal metadata hiding/compacting rules. */
@@ -16365,7 +16365,7 @@ body.dark.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-
 <script id="wb-v79-2-personal-header-authority-script">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s==null?'':s).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c];});}}
   function qs(id){return document.getElementById(id);} 
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
@@ -16389,7 +16389,7 @@ body.dark.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-<!-- WorshipBase v80.8 - startup gate + Workspace metadata polish -->
+<!-- WorshipBase v81.0 - startup gate + Workspace metadata polish -->
 <style id="wb-v79-2-startup-workspace-polish-style">
 /* Softer Personal header metadata: visible but less heavy than the title. */
 body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-personal-meta,
@@ -16513,7 +16513,7 @@ body.dark.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-
   window.WB_V793_RETIRED_LAYERS.push('wb-v79-2-startup-workspace-polish-script');
 })();
 </script>
-<!-- WorshipBase v80.8 - Workspace title and metadata polish
+<!-- WorshipBase v81.0 - Workspace title and metadata polish
      Scope: visual/text polish only. Align Workspace Set Lists title to the active
      workspace name, soften Personal/Workspace header metadata, reduce oversized
      title-card typography, and lighten set-editor metadata. No storage, Firebase,
@@ -16625,7 +16625,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-2-router-cleanup-audit">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   function setVersion(){try{document.title='WorshipBase v'+VERSION;window.WB_CURRENT_VERSION=VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}}
   window.WBRouterCleanupAudit=function(){
     var retired=window.WB_V793_RETIRED_LAYERS||[];
@@ -16638,14 +16638,14 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-<!-- WorshipBase v80.8 - interaction repair after router source cleanup
+<!-- WorshipBase v81.0 - interaction repair after router source cleanup
      Scope: restore action functions that were useful but accidentally retired with
      old v75/v76 routing layers. No Firebase path migration, backup, PDF export,
      bottom-sheet, song editor, or data-model rewrite. -->
 <script id="wb-v79-2-interaction-repair-script">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   function qs(id){return document.getElementById(id);} 
   function escText(s){return String(s==null?'':s);}
   function cloneDeep(obj){
@@ -16784,7 +16784,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-2-setlist-source-cleanup-audit">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   function qs(id){return document.getElementById(id);} 
   function setVersion(){try{document.title='WorshipBase v'+VERSION;window.WB_CURRENT_VERSION=VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}}
   function removeRetiredSegment(){try{document.querySelectorAll('#setlist-section .sl-scope-row').forEach(function(el){el.remove();});}catch(e){}}
@@ -16809,7 +16809,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 </script><script id="wb-v79-2-workspace-source-owner">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   var KEY='wb.workspace.shell.v1';
   var readyDone=false;
   var previousHideLoading=window.hideLoading;
@@ -16908,7 +16908,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
   window.openWorkspaceLibraryShell=function(){var html='<div class="wb763-scroll">'+subviewHead('Workspace library','Planned song library for this church/team.')+'<div class="wb763-card"><div class="wb763-card-title">Song sources</div><div class="wb763-card-copy">Future model: WorshipBase curated songs, Workspace songs, and My Songs stay clearly separated. No storage changed in this cleanup build.</div></div><div class="wb763-card"><div class="wb763-card-title">Status</div><div class="wb763-card-copy">Workspace Library is still a shell. Current working set lists remain unchanged.</div></div></div>';showShellSubview('wb-v79-2-library-view',html);};
   window.copyWorkspaceInviteCodeShell=function(){var c=(getWs()||{}).inviteCode||'Not generated';if(!c||c==='Not generated'){toast('No invite code yet');return;}try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(c).then(function(){toast('Invite code copied');}).catch(function(){prompt('Copy invite code:',c);});}else prompt('Copy invite code:',c);}catch(e){try{prompt('Copy invite code:',c);}catch(_){}}};
   window.openWorkspaceMembersShell=function(){var ws=getWs()||{};var html='<div class="wb763-scroll">'+subviewHead('Members & invites','Invite-code shell for future workspace membership')+'<div class="wb763-card"><div class="wb763-card-title">Invite code</div><div class="wb763-card-copy">Share this preview code with the team later. It is still local-only until the real Workspace backend is built.</div><div class="wb765-invite-box"><div class="wb765-invite-label">Preview code</div><div class="wb765-invite-code">'+esc(ws.inviteCode||'Not generated')+'</div><div class="wb765-action-row"><button class="wb765-mini-action" type="button" onclick="copyWorkspaceInviteCodeShell()">Copy code</button><button class="wb765-mini-action secondary" type="button" onclick="regenerateWorkspaceInviteShell();openWorkspaceMembersShell()">Regenerate</button></div></div></div><div class="wb763-card"><div class="wb763-card-title">Roles preview</div><div class="wb763-card-copy">Owner, Editor and Viewer roles are planned for the real Workspace backend.</div></div><div class="wb763-card"><div class="wb763-card-title">Current shell status</div><div class="wb763-card-copy">Workspace: '+esc(ws.name||'Not set')+'<br>Role preview: '+esc(ws.role||'Member')+'<br>Real members and access rules are not enabled yet.</div></div></div>';showShellSubview('wb-v79-2-members-view',html);};
-  window.openWorkspaceStoragePrepShell=function(){var html='<div class="wb763-scroll">'+subviewHead('Storage & diagnostics','Workspace backend preparation. No migration is active yet.')+'<div class="wb763-card"><div class="wb763-card-title">Current storage</div><div class="wb763-card-copy">Workspace set lists still use the existing transitional shared storage path. No data path changed in v80.8.</div></div><button class="wb764-action secondary" type="button" onclick="backToWorkspaceHomeShell()">Back to Workspace</button></div>';showShellSubview('wb-v79-2-storage-view',html);};
+  window.openWorkspaceStoragePrepShell=function(){var html='<div class="wb763-scroll">'+subviewHead('Storage & diagnostics','Workspace backend preparation. No migration is active yet.')+'<div class="wb763-card"><div class="wb763-card-title">Current storage</div><div class="wb763-card-copy">Workspace set lists still use the existing transitional shared storage path. No data path changed in v81.0.</div></div><button class="wb764-action secondary" type="button" onclick="backToWorkspaceHomeShell()">Back to Workspace</button></div>';showShellSubview('wb-v79-2-storage-view',html);};
   window.wb765RegenerateInvite=function(){regenerateWorkspaceInviteShell();setTimeout(function(){try{openWorkspaceMembersShell();}catch(e){}},20);};
   function installShellSwipeBack(){if(window.__wb793ShellSwipeInstalled)return;window.__wb793ShellSwipeInstalled=true;var sx=0,sy=0,active=false;document.addEventListener('touchstart',function(ev){try{var t=ev.touches&&ev.touches[0];if(!t)return;var open=document.querySelector('#workspace-section .wb762-subview.open,#workspace-section .wb763-subview.open,#workspace-section .wb764-subview.open,#workspace-section .wb765-subview.open');active=!!open&&t.clientX<32;sx=t.clientX;sy=t.clientY;}catch(e){active=false;}},{passive:true});document.addEventListener('touchend',function(ev){try{if(!active)return;var t=ev.changedTouches&&ev.changedTouches[0];if(!t)return;var dx=t.clientX-sx,dy=Math.abs(t.clientY-sy);active=false;if(dx>70&&dy<70)backToWorkspaceHomeShell();}catch(e){active=false;}},{passive:true});}
   function adjustPersonalMeta(){try{var meta=qs('wb-personal-meta');if(meta){var cards=document.querySelectorAll('#wb-personal-list .wb-personal-card').length;var label=cards+' set'+(cards===1?'':'s');meta.innerHTML=label+'<span class="wb-personal-local">Saved locally</span>';meta.style.fontWeight='520';meta.style.color='var(--txt3)';}var title=document.querySelector('#wb-personal-manager .wb-personal-title');if(title)title.textContent='My Set Lists';var sub=qs('wb-editor-sub');if(sub){sub.style.fontWeight='500';sub.style.color='var(--txt3)';}}catch(e){}}
@@ -16925,28 +16925,28 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-4-action-audit-and-polish-script">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   var EXPECTED_ACTIONS=['switchTab','openSong','openSongModal','openBS','closeBS','closeBSBg','openSetListOptions','openSetNotesSheet','openExportView','closeExportView','showPersonalList','renderPersonalManager','createPersonalSetFromManager','openPersonalSetFromManager','deletePersonalSetFromManager','publishPersonalSetToWorkspace','publishPersonalSetIdToWorkspace','goBackFromSetEditor','openWorkspaceSetLists','showWorkspaceDashboard','renderWorkspace','createWorkspaceSetFromWorkspaceTab','createWorkspaceSetFromWorkspaceSubview','openWorkspaceSetFromWorkspaceTab','deleteWorkspaceSetFromWorkspaceSubview','openWorkspaceLibraryShell','openWorkspaceMembersShell','openWorkspaceSettingsShell','openWorkspaceStoragePrepShell','backToWorkspaceHomeShell','copyWorkspaceInviteCodeShell','regenerateWorkspaceInviteShell','renameWorkspaceShell','leaveWorkspaceShell','openLocalBackupSheet','exportAppBackupJSON','importJSON','openDriveBackupSheet','connectGoogleDriveBackup','backupToGoogleDrive','disconnectGoogleDriveBackup','openAdminExport','openAdminImport','importMySongsJSONFile','importNotesCuesJSONFile','exportMySongsJSON','exportNotesCuesJSON','openBiblePicker','openBibleVersionPicker','changeBibleChapter','renderSettings'];
   var IGNORE_REFS={'event.stopPropagation':true,'window.close':true,'window.print':true,'history.back':true,'document.getElementById':true,'setTimeout':true,'clearTimeout':true,'confirm':true,'prompt':true,'alert':true,'parseInt':true,'parseFloat':true,'Number':true,'String':true,'Boolean':true,'Date':true,'Math':true};
   function exists(name){try{var root=window,parts=String(name||'').split('.');if(parts[0]==='window')parts.shift();for(var i=0;i<parts.length;i++){if(root==null)return false;root=root[parts[i]];}return typeof root==='function';}catch(e){return false;}}
   function scanInlineHandlers(){var attrs=['onclick','onchange','oninput','onsubmit','onkeydown','ontouchstart','ontouchend'];var found={},refs=[];try{document.querySelectorAll('*').forEach(function(el){attrs.forEach(function(attr){var code=el.getAttribute&&el.getAttribute(attr);if(!code)return;var re=/((?:window|document|history|event)\.[A-Za-z_$][\w$]*|[A-Za-z_$][\w$]*)\s*\(/g,m;while((m=re.exec(code))){var name=m[1];if(['if','for','while','switch','return','catch','function','typeof'].indexOf(name)>=0)continue;if(IGNORE_REFS[name]||IGNORE_REFS[name.split('.')[0]])continue;if(!found[name]){found[name]=true;refs.push({name:name,attr:attr,code:code.slice(0,160)});}}});});}catch(e){}return refs;}
-  function classify(){var refs=scanInlineHandlers();var missingRefs=refs.filter(function(r){return !exists(r.name);});var expectedMissing=EXPECTED_ACTIONS.filter(function(name){return !exists(name);});return {version:VERSION,generatedAt:new Date().toISOString(),expectedChecked:EXPECTED_ACTIONS.length,expectedMissing:expectedMissing,inlineActionRefs:refs.length,inlineMissing:missingRefs,routeAudit:(window.WBRouteAudit&&typeof window.WBRouteAudit==='function')?window.WBRouteAudit():null,startupAudit:(window.WBStartupGateAudit&&typeof window.WBStartupGateAudit==='function')?window.WBStartupGateAudit():null,setEditorSubtitle:(window.WBSetEditorSubtitleAudit&&typeof window.WBSetEditorSubtitleAudit==='function')?window.WBSetEditorSubtitleAudit():null,workspaceAudit:(window.WBWorkspaceSourceAudit&&typeof window.WBWorkspaceSourceAudit==='function')?window.WBWorkspaceSourceAudit():null,note:'v80.8 is a route-memory hardening build. It does not intentionally change routing, storage, backup, PDF export, bottom sheets, or song editor behaviour.'};}
+  function classify(){var refs=scanInlineHandlers();var missingRefs=refs.filter(function(r){return !exists(r.name);});var expectedMissing=EXPECTED_ACTIONS.filter(function(name){return !exists(name);});return {version:VERSION,generatedAt:new Date().toISOString(),expectedChecked:EXPECTED_ACTIONS.length,expectedMissing:expectedMissing,inlineActionRefs:refs.length,inlineMissing:missingRefs,routeAudit:(window.WBRouteAudit&&typeof window.WBRouteAudit==='function')?window.WBRouteAudit():null,startupAudit:(window.WBStartupGateAudit&&typeof window.WBStartupGateAudit==='function')?window.WBStartupGateAudit():null,setEditorSubtitle:(window.WBSetEditorSubtitleAudit&&typeof window.WBSetEditorSubtitleAudit==='function')?window.WBSetEditorSubtitleAudit():null,workspaceAudit:(window.WBWorkspaceSourceAudit&&typeof window.WBWorkspaceSourceAudit==='function')?window.WBWorkspaceSourceAudit():null,note:'v81.0 is a route-memory hardening build. It does not intentionally change routing, storage, backup, PDF export, bottom sheets, or song editor behaviour.'};}
   function setVersion(){try{document.title='WorshipBase v'+VERSION;window.WB_CURRENT_VERSION=VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}}
   window.WBActionAudit=classify;window.WBFullAudit=function(){return classify();};window.WB_ACTION_AUDIT_EXPECTED=EXPECTED_ACTIONS.slice();
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setVersion,{once:true});else setVersion();
 })();
 </script>
 
-<!-- WorshipBase v80.8 - source organisation prep
+<!-- WorshipBase v81.0 - source organisation prep
      No visual/runtime feature changes intended. This block documents current source ownership
      and exposes audit helpers before future modularisation while preserving single-file HTML testing. -->
 <script id="wb-v79-5-source-organisation-prep-script">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   var SOURCE_OWNERSHIP={
     version:'v79.5',
-    base:'v80.8 route memory hardening',
+    base:'v81.0 route memory hardening',
     purpose:'source organisation prep without splitting the single-file test build',
     rule:'single source owner per screen/feature; old public names may remain only as adapters',
     currentOwners:[
@@ -17030,7 +17030,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-7-workspace-route-memory-active-tab-fix-script">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   var restoring=false;
   var lastWorkspaceRoute={route:'home',setId:null,updatedAt:Date.now()};
   var oldSwitchTab=window.switchTab;
@@ -17214,7 +17214,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-8-workspace-song-return-context-fix-script">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   function qs(id){return document.getElementById(id);}
   function setVersion(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
@@ -17288,7 +17288,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-9-navigation-context-authority-script">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   function qs(id){return document.getElementById(id);} 
   function setVersion(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
@@ -17445,7 +17445,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-12-navigation-order-context-authority-script">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
 
   var oldSwitchTab=window.switchTab;
   var oldShowPersonalList=window.showPersonalList;
@@ -17724,7 +17724,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-12-whole-app-action-audit-script">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   function safe(fn,fallback){try{return fn();}catch(e){return fallback;}}
   function setVersion(){
     safe(function(){document.title='WorshipBase v'+VERSION;});
@@ -17808,7 +17808,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-12-legacy-patch-audit-script">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   function safe(fn,fallback){try{return fn();}catch(e){return fallback;}}
   function setVersion(){
     safe(function(){document.title='WorshipBase v'+VERSION;});
@@ -17868,7 +17868,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
     var scripts=scriptInfo();
     var old=scripts.filter(function(s){return s.isOldPatch;});
     var currentMarkers=currentVersionMarkers();
-    var markerProblems=currentMarkers.filter(function(m){return m.text&&m.text.indexOf('80.8')===-1&&/version|worshipbase/i.test(m.text);});
+    var markerProblems=currentMarkers.filter(function(m){return m.text&&m.text.indexOf('81.0')===-1&&/version|worshipbase/i.test(m.text);});
     return {
       version:VERSION,
       status:markerProblems.length?'check':'pass',
@@ -17903,7 +17903,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-13-setlist-route-memory-script">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   var restoring=false;
   var lastSetListRoute={route:'home',setId:null,updatedAt:Date.now()};
   var oldSwitchTab=window.switchTab;
@@ -18068,7 +18068,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-14-route-memory-navigation-hardening-script">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   var previousFullAudit=window.WBFullAudit;
   var oldSwitchTab=window.switchTab;
   var oldShowList=window.showList;
@@ -18252,7 +18252,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 </script>
 
 
-<!-- WorshipBase v80.8 - UI/UX polish pass
+<!-- WorshipBase v81.0 - UI/UX polish pass
      Scope: safe visual polish only. No routing, Firebase, backup, PDF, bottom
      sheet behaviour, song editor behaviour, or data-model changes. -->
 <style id="wb-v79-18-ui-ux-polish-style">
@@ -18424,7 +18424,7 @@ body.dark #workspace-section.workspace-setlists-mode #workspace-setlists-subview
 <script id="wb-v79-18-ui-ux-polish-audit">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   var previousFullAudit=window.WBFullAudit;
   function setVersion(){
     try{
@@ -18457,7 +18457,7 @@ body.dark #workspace-section.workspace-setlists-mode #workspace-setlists-subview
 </script>
 
 
-<!-- WorshipBase v80.8 - safe set editor strip refinement
+<!-- WorshipBase v81.0 - safe set editor strip refinement
      Scope: extremely small, scoped visual refinement only. This deliberately does
      not change app/page height, safe-area variables, section display, overflow,
      margins, routing, storage, Library rendering, or data model. -->
@@ -18492,7 +18492,7 @@ body.dark #wb-set-editor-bar{
 <script id="wb-v79-18-stable-continuation-audit">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   var previousFullAudit=window.WBFullAudit;
   function setVersion(){
     try{
@@ -18535,7 +18535,7 @@ body.dark #wb-set-editor-bar{
 })();
 </script>
 
-<!-- WorshipBase v80.8 - safe set title section redesign
+<!-- WorshipBase v81.0 - safe set title section redesign
      Scope: CSS-only final override for the set editor title strip. Removes the
      detached gradient feel without changing app height, safe-area variables,
      section display, overflow, routing, storage, Library rendering, or data model. -->
@@ -18583,7 +18583,7 @@ body.dark #wb-set-editor-bar .wb-editor-back{
 <script id="wb-v79-19-set-title-section-audit">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   var previousFullAudit=window.WBFullAudit;
   function setVersion(){
     try{
@@ -18618,7 +18618,7 @@ body.dark #wb-set-editor-bar .wb-editor-back{
 <script id="wb-v79-20-stable-candidate-prep">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   var previousFullAudit=window.WBFullAudit;
   function setVersion(){
     try{
@@ -18678,7 +18678,7 @@ body.dark #wb-set-editor-bar .wb-editor-back{
 </script>
 
 
-<!-- WorshipBase v80.8 - Set List / Workspace formatting consistency
+<!-- WorshipBase v81.0 - Set List / Workspace formatting consistency
      Source: rebuilt directly from the working stable baseline uploaded in this chat.
      Scope: visual CSS only for Set List and Workspace title containers/cards/buttons.
      No Library, safe-area, section display, app-height, overflow, routing, storage,
@@ -18794,7 +18794,7 @@ body.dark #workspace-section.workspace-setlists-mode #workspace-setlists-subview
 <script id="wb-v79-23-formatting-tune-audit">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   var previousFullAudit=window.WBFullAudit;
   function setVersion(){
     try{
@@ -18830,7 +18830,7 @@ body.dark #workspace-section.workspace-setlists-mode #workspace-setlists-subview
 </script>
 
 
-<!-- WorshipBase v80.8 - premium light fill for title cards
+<!-- WorshipBase v81.0 - premium light fill for title cards
      Source: built from the user-approved previous formatting tune.
      Scope: CSS-only light surface fill for My Set Lists, Workspace home, and Workspace Set Lists title containers.
      No Library, safe-area, section display, app-height, overflow, routing, storage,
@@ -18886,7 +18886,7 @@ body.dark #workspace-section.workspace-setlists-mode #workspace-setlists-subview
 <script id="wb-v79-24-title-card-light-fill-audit">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   var previousFullAudit=window.WBFullAudit;
   function setVersion(){
     try{
@@ -18921,7 +18921,7 @@ body.dark #workspace-section.workspace-setlists-mode #workspace-setlists-subview
 </script>
 
 
-<!-- WorshipBase v80.8 - restrained typography and theme-aware title/card colour tune
+<!-- WorshipBase v81.0 - restrained typography and theme-aware title/card colour tune
      Source: built directly from the user-approved prior baseline file.
      Scope: CSS-only. Only set-list/workspace typography weight, metadata softness,
      title-card theme-aware fill, and workspace icon/pill theme colour are adjusted.
@@ -19003,7 +19003,7 @@ body.dark #workspace-section.workspace-setlists-mode #workspace-setlists-subview
 <script id="wb-v79-26-semi-bold-theme-tune-audit">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   var previousFullAudit=window.WBFullAudit;
   function setVersion(){
     try{
@@ -19044,7 +19044,7 @@ body.dark #workspace-section.workspace-setlists-mode #workspace-setlists-subview
 <script id="wb-v80-5-polish-lock">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   var previousFullAudit=window.WBFullAudit;
   function safe(fn,fallback){try{return fn();}catch(e){return fallback||{error:String(e&&e.message||e)};}}
   function exists(sel){return !!document.querySelector(sel);}
@@ -19083,7 +19083,7 @@ body.dark #workspace-section.workspace-setlists-mode #workspace-setlists-subview
 })();
 </script>
 <style id="wb-v80-5-workspace-shell-style">
-/* v80.8 - Workspace subpage polish and startup safety. Built from the v80.8 stable baseline line. */
+/* v81.0 - Workspace subpage polish and startup safety. Built from the v81.0 stable baseline line. */
 #workspace-section .wb805-subview{
   display:none!important;
   flex:1 1 auto!important;
@@ -19236,7 +19236,7 @@ body.dark #workspace-section .wb805-code,body.dark #workspace-section .wb805-sou
 <script id="wb-v80-5-workspace-members-startup-fix-script">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   var KEY='wb.workspace.shell.v1';
   var oldFullAudit=window.WBFullAudit;
   var oldRenderWorkspace=window.renderWorkspace;
@@ -19263,7 +19263,7 @@ body.dark #workspace-section .wb805-code,body.dark #workspace-section .wb805-sou
   function countLabel(items){var c=countItems(items),bits=[c.songs+' song'+(c.songs===1?'':'s')];if(c.items)bits.push(c.items+' item'+(c.items===1?'':'s'));return bits.join(' · ');}
   function entries(scope){return Object.entries(map(scope)||{}).filter(function(pair){var set=pair[1]||{};var name=String(set.name||'').trim().toLowerCase();return !(pair[0]==='default'&&!itemsOf(set).length&&!noteText(set)&&(name==='shared set'||name==='workspace set'||name==='set'||!name));}).sort(function(a,b){return Number((b[1]&&b[1].updatedAt)||0)-Number((a[1]&&a[1].updatedAt)||0);});}
   function uniqueWorkspaceName(name){var base=String(name||'Published set').trim()||'Published set';var used={};entries('shared').forEach(function(p){used[String((p[1]&&p[1].name)||'').toLowerCase()]=true;});var n=base;if(!/workspace/i.test(n))n=n+' (Workspace)';var out=n,i=2;while(used[String(out).toLowerCase()]){out=n+' '+i;i++;}return out;}
-  function saveShared(){try{if(typeof saveSharedSetsToFB==='function')saveSharedSetsToFB();else if(typeof saveSharedSetsRich==='function')saveSharedSetsRich();}catch(e){console.warn('v80.8 shared save failed',e);}try{if(typeof savePrefs==='function')savePrefs();}catch(e){}}
+  function saveShared(){try{if(typeof saveSharedSetsToFB==='function')saveSharedSetsToFB();else if(typeof saveSharedSetsRich==='function')saveSharedSetsRich();}catch(e){console.warn('v81.0 shared save failed',e);}try{if(typeof savePrefs==='function')savePrefs();}catch(e){}}
   function savePersonal(){try{if(typeof savePersonalNamedSets==='function')savePersonalNamedSets();}catch(e){}try{if(typeof savePrefs==='function')savePrefs();}catch(e){}}
   function setActiveWorkspaceHome(){try{document.body.classList.remove('wb805-subview-active');}catch(e){}qsa('#workspace-section .wb805-subview').forEach(function(el){el.classList.remove('open');el.innerHTML='';});try{if(typeof oldBackToWorkspaceHome==='function')oldBackToWorkspaceHome();else if(typeof oldRenderWorkspace==='function')oldRenderWorkspace();}catch(e){}setTimeout(updateHomeCopy,0);}
   function updateHomeCopy(){try{var hero=document.querySelector('#workspace-section .workspace-hero');if(hero){var name=hero.querySelector('.wb76-workspace-name,.workspace-name');if(name)name.textContent=workspaceHomeTitle();var sub=hero.querySelector('.workspace-sub');if(sub)sub.textContent=workspaceDescription();}var cards=qsa('#workspace-section .workspace-card-title');cards.forEach(function(title){var txt=String(title.textContent||'');var sub=title.parentElement&&title.parentElement.querySelector('.workspace-card-sub');if(!sub)return;if(/Workspace settings/i.test(txt))sub.textContent='Name, invite code preview and local profile status.';if(/Members & invites/i.test(txt))sub.textContent='Preview roles and future team access.';if(/Workspace library/i.test(txt))sub.textContent='Song sources and future team library.';if(/Publish personal set/i.test(txt))sub.textContent='Choose a Personal set and publish it into this workspace.';});}catch(e){}setVersion();}
@@ -19309,7 +19309,7 @@ body.dark #workspace-section .wb805-code,body.dark #workspace-section .wb805-sou
   window.openWorkspacePublishPicker=function(){renderPublishPicker();try{openBS('workspace-publish');}catch(e){ensurePublishSheet().classList.add('open');}setVersion();};
   window.publishPersonalSetToWorkspace=function(){window.openWorkspacePublishPicker();};
   window.selectPersonalSetForWorkspacePublishV805=function(id){var src=(map('personal')||{})[id];if(!src){toast('Personal set not found');renderPublishPicker();return;}var el=ensurePublishSheet();el.innerHTML='<div class="bs"><div class="bs-handle"></div><div class="m-tr"><div><div class="m-h2">Create Workspace copy</div><div style="font-size:12px;color:var(--txt3);margin-top:3px">Personal original stays unchanged.</div></div><button class="m-close" type="button" onclick="closeBS(\'workspace-publish\')">×</button></div><div class="wb805-publish-detail"><div class="wb805-publish-selected"><div class="wb805-publish-name">'+esc(src.name||'Untitled set')+'</div><div class="wb805-publish-meta">'+esc(countLabel(itemsOf(src)))+(noteText(src)?' <span class="wb805-publish-note">Notes</span>':'')+'</div></div><div><div class="wb805-field-label">Workspace copy name</div><input id="wb805-publish-name" class="wb805-field-input" value="'+esc(uniqueWorkspaceName(src.name||'Published set'))+'"></div><div class="wb805-mini-note">This will add a new set under Workspace Set Lists. It will not link back to the Personal set.</div><div class="wb805-actions"><button class="wb805-action primary" type="button" onclick="createWorkspaceCopyFromPersonalV805(\''+attr(id)+'\')">Create Workspace copy</button><button class="wb805-action" type="button" onclick="openWorkspacePublishPicker()">Back</button></div></div><button class="bs-cancel" type="button" onclick="closeBS(\'workspace-publish\')">Cancel</button></div>';};
-  window.createWorkspaceCopyFromPersonalV805=function(id){try{var src=(map('personal')||{})[id];if(!src){toast('Personal set not found');return;}var name=String((qs('wb805-publish-name')&&qs('wb805-publish-name').value)||'').trim()||uniqueWorkspaceName(src.name||'Published set');var setId=typeof makeSetId==='function'?makeSetId():('set_'+Date.now().toString(36)+Math.random().toString(36).slice(2,7));var memory={};try{memory=(typeof collectSetSongMemory==='function'?collectSetSongMemory(src):Object.assign({},src.songMemory||{}));}catch(e){memory=Object.assign({},src.songMemory||{});}var shared=Object.assign({},map('shared'));shared[setId]={name:name,notes:String(src.notes||''),items:JSON.parse(JSON.stringify(itemsOf(src)||[])),songMemory:JSON.parse(JSON.stringify(memory||{})),createdAt:Date.now(),updatedAt:Date.now()};try{_sharedSets=shared;}catch(e){}try{if(appPrefs){appPrefs.activeSharedSetId=setId;appPrefs.setListScope='shared';appPrefs.useDeviceSetList=false;}}catch(e){}saveShared();try{closeBS('workspace-publish');}catch(e){}try{if(typeof oldRenderWorkspace==='function')oldRenderWorkspace();}catch(e){}try{if(typeof openWorkspaceSetLists==='function')openWorkspaceSetLists();}catch(e){}toast('Published to Workspace');}catch(err){console.warn('v80.8 publish failed',err);toast('Could not publish set');}};
+  window.createWorkspaceCopyFromPersonalV805=function(id){try{var src=(map('personal')||{})[id];if(!src){toast('Personal set not found');return;}var name=String((qs('wb805-publish-name')&&qs('wb805-publish-name').value)||'').trim()||uniqueWorkspaceName(src.name||'Published set');var setId=typeof makeSetId==='function'?makeSetId():('set_'+Date.now().toString(36)+Math.random().toString(36).slice(2,7));var memory={};try{memory=(typeof collectSetSongMemory==='function'?collectSetSongMemory(src):Object.assign({},src.songMemory||{}));}catch(e){memory=Object.assign({},src.songMemory||{});}var shared=Object.assign({},map('shared'));shared[setId]={name:name,notes:String(src.notes||''),items:JSON.parse(JSON.stringify(itemsOf(src)||[])),songMemory:JSON.parse(JSON.stringify(memory||{})),createdAt:Date.now(),updatedAt:Date.now()};try{_sharedSets=shared;}catch(e){}try{if(appPrefs){appPrefs.activeSharedSetId=setId;appPrefs.setListScope='shared';appPrefs.useDeviceSetList=false;}}catch(e){}saveShared();try{closeBS('workspace-publish');}catch(e){}try{if(typeof oldRenderWorkspace==='function')oldRenderWorkspace();}catch(e){}try{if(typeof openWorkspaceSetLists==='function')openWorkspaceSetLists();}catch(e){}toast('Published to Workspace');}catch(err){console.warn('v81.0 publish failed',err);toast('Could not publish set');}};
   function repairStartupFlicker(){try{document.body.classList.remove('wb805-subview-active');}catch(e){}qsa('#workspace-section .wb805-subview,#workspace-section .wb762-subview,#workspace-section .wb763-subview,#workspace-section .wb764-subview,#workspace-section .wb765-subview').forEach(function(el){el.classList.remove('open');});try{if((typeof activeTab!=='undefined'?activeTab:null)==='songs'){var ws=qs('workspace-section');if(ws)ws.style.display='none';var set=qs('setlist-section');if(set)set.style.display='none';var song=qs('song-section');if(song)song.style.display='flex';}}catch(e){} }
   function wrapRender(){if(typeof oldRenderWorkspace==='function'&&!oldRenderWorkspace.__wb805Wrapped){var fn=function(){var out=oldRenderWorkspace.apply(this,arguments);setTimeout(updateHomeCopy,0);return out;};fn.__wb805Wrapped=true;window.renderWorkspace=fn;try{renderWorkspace=window.renderWorkspace;}catch(e){}}}
   function install(){setVersion();wrapRender();repairStartupFlicker();setTimeout(repairStartupFlicker,0);setTimeout(repairStartupFlicker,120);setTimeout(function(){try{if((typeof activeTab!=='undefined'?activeTab:null)==='workspace')updateHomeCopy();}catch(e){}},450);}
@@ -19388,7 +19388,7 @@ body.dark #workspace-section .wb806-code,body.dark #workspace-section .wb806-sou
 <script id="wb-v80-6-workspace-routing-publish-fix-script">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   var KEY='wb.workspace.shell.v1';
   var oldSwitchTab=window.switchTab;
   var oldFullAudit=window.WBFullAudit;
@@ -19434,7 +19434,7 @@ body.dark #workspace-section .wb806-code,body.dark #workspace-section .wb806-sou
   window.openWorkspacePublishPicker=function(){var el=ensurePublishSheet(),count=entries('personal').length;el.innerHTML='<div class="bs"><div class="bs-handle"></div><div class="m-tr"><div><div class="m-h2">Publish personal set</div><div style="font-size:12px;color:var(--txt3);margin-top:3px">Choose a Personal set to copy into Workspace.</div></div><button class="m-close" type="button" onclick="closeBS(\'workspace-publish\')">×</button></div><div class="wb806-publish-top">Publishing creates an independent Workspace copy. The Personal original stays private and unchanged.</div><div class="wb806-publish-search-wrap"><input id="wb806-publish-search" placeholder="Search '+count+' personal set'+(count===1?'':'s')+'..." oninput="renderWorkspacePublishListV806()"></div><div id="wb806-publish-list" class="wb806-publish-list"></div><button class="bs-cancel" type="button" onclick="closeBS(\'workspace-publish\')">Cancel</button></div>';renderPublishList();try{openBS('workspace-publish');}catch(e){el.classList.add('open');}setVersion();};
   window.publishPersonalSetToWorkspace=function(){window.openWorkspacePublishPicker();};
   window.selectPersonalSetForWorkspacePublishV806=function(id){var src=(map('personal')||{})[id];if(!src){toast('Personal set not found');window.openWorkspacePublishPicker();return;}var el=ensurePublishSheet();el.innerHTML='<div class="bs"><div class="bs-handle"></div><div class="m-tr"><div><div class="m-h2">Publish to Workspace</div><div style="font-size:12px;color:var(--txt3);margin-top:3px">Personal original stays unchanged.</div></div><button class="m-close" type="button" onclick="closeBS(\'workspace-publish\')">×</button></div><div class="wb806-publish-detail"><div class="wb806-publish-selected"><div class="wb806-publish-name">'+esc(src.name||'Untitled set')+'</div><div class="wb806-publish-meta">'+esc(countLabel(itemsOf(src)))+(noteText(src)?' <span class="wb806-publish-note">Notes</span>':'')+'</div></div><div><div class="wb806-field-label">Workspace copy name</div><input id="wb806-publish-name" class="wb806-field-input" value="'+esc(uniqueWorkspaceName(src.name||'Published set'))+'"></div><div class="wb806-mini-note">This adds a new set under Workspace Set Lists. It will not link back to the Personal set.</div><div class="wb806-actions"><button class="wb806-action" type="button" onclick="openWorkspacePublishPicker()">Back</button><button class="wb806-action primary" type="button" onclick="createWorkspaceCopyFromPersonalV806(\''+attr(id)+'\')">Publish</button></div></div><button class="bs-cancel" type="button" onclick="closeBS(\'workspace-publish\')">Cancel</button></div>';try{openBS('workspace-publish');}catch(e){el.classList.add('open');}};
-  window.createWorkspaceCopyFromPersonalV806=function(id){try{var src=(map('personal')||{})[id];if(!src){toast('Personal set not found');return;}var name=String((qs('wb806-publish-name')||{}).value||'').trim()||uniqueWorkspaceName(src.name||'Published set');var setId=typeof makeSetId==='function'?makeSetId():('set_'+Date.now().toString(36)+Math.random().toString(36).slice(2,7));var memory={};try{memory=typeof collectSetSongMemory==='function'?collectSetSongMemory(src):Object.assign({},src.songMemory||{});}catch(e){memory=Object.assign({},src.songMemory||{});}var shared=Object.assign({},map('shared'));shared[setId]={name:name,notes:String(src.notes||''),items:JSON.parse(JSON.stringify(itemsOf(src)||[])),songMemory:JSON.parse(JSON.stringify(memory||{})),createdAt:Date.now(),updatedAt:Date.now()};try{_sharedSets=shared;}catch(e){}try{if(appPrefs){appPrefs.activeSharedSetId=setId;appPrefs.setListScope='shared';appPrefs.useDeviceSetList=false;}}catch(e){}try{saveShared();}catch(e){}try{closeBS('workspace-publish');}catch(e){}try{if(typeof openWorkspaceSetLists==='function')openWorkspaceSetLists();}catch(e){workspaceHome();}toast('Published to Workspace');}catch(err){console.warn('v80.8 publish failed',err);toast('Could not publish set');}};
+  window.createWorkspaceCopyFromPersonalV806=function(id){try{var src=(map('personal')||{})[id];if(!src){toast('Personal set not found');return;}var name=String((qs('wb806-publish-name')||{}).value||'').trim()||uniqueWorkspaceName(src.name||'Published set');var setId=typeof makeSetId==='function'?makeSetId():('set_'+Date.now().toString(36)+Math.random().toString(36).slice(2,7));var memory={};try{memory=typeof collectSetSongMemory==='function'?collectSetSongMemory(src):Object.assign({},src.songMemory||{});}catch(e){memory=Object.assign({},src.songMemory||{});}var shared=Object.assign({},map('shared'));shared[setId]={name:name,notes:String(src.notes||''),items:JSON.parse(JSON.stringify(itemsOf(src)||[])),songMemory:JSON.parse(JSON.stringify(memory||{})),createdAt:Date.now(),updatedAt:Date.now()};try{_sharedSets=shared;}catch(e){}try{if(appPrefs){appPrefs.activeSharedSetId=setId;appPrefs.setListScope='shared';appPrefs.useDeviceSetList=false;}}catch(e){}try{saveShared();}catch(e){}try{closeBS('workspace-publish');}catch(e){}try{if(typeof openWorkspaceSetLists==='function')openWorkspaceSetLists();}catch(e){workspaceHome();}toast('Published to Workspace');}catch(err){console.warn('v81.0 publish failed',err);toast('Could not publish set');}};
   function cleanupStartup(){closeWorkspaceSubviews();try{document.body.classList.add('wb-ui-ready');}catch(e){}try{var t=typeof activeTab!=='undefined'?activeTab:null;if(t==='songs'||t==='library'){var ws=qs('workspace-section');if(ws)ws.style.display='none';var ss=qs('song-section');if(ss)ss.style.display='flex';}}catch(e){} }
   function installSwitch(){if(typeof oldSwitchTab==='function'&&!oldSwitchTab.__wb806Base){window.switchTab=function(tab){var t=String(tab||'').toLowerCase();if(t==='workspace'||t==='shared'||t==='team'){var hasSubview=document.body.classList.contains('wb-workspace-subview-open')||qsa('#workspace-section .wb806-subview.open,#workspace-section .wb805-subview.open,#workspace-section .wb763-subview.open,#workspace-section .wb765-subview.open').length;if(hasSubview){workspaceHome();return;}var out=oldSwitchTab.apply(this,arguments);setTimeout(syncHomeMeta,0);setTimeout(syncHomeMeta,150);setVersion();return out;}closeWorkspaceSubviews();return oldSwitchTab.apply(this,arguments);};try{switchTab=window.switchTab;}catch(e){}}}
   function wrapRender(){if(typeof oldRenderWorkspace==='function'&&!oldRenderWorkspace.__wb806Wrap){window.renderWorkspace=function(){var out=oldRenderWorkspace.apply(this,arguments);setTimeout(syncHomeMeta,0);return out;};try{renderWorkspace=window.renderWorkspace;}catch(e){}}}
@@ -19447,7 +19447,7 @@ body.dark #workspace-section .wb806-code,body.dark #workspace-section .wb806-sou
 
 
 
-<!-- WorshipBase v80.8 - startup safe-area and Workspace metadata flicker lock -->
+<!-- WorshipBase v81.0 - startup safe-area and Workspace metadata flicker lock -->
 <style id="wb-v80-7-startup-safearea-workspace-flicker-style">
 /* First-paint safe-area fallback: prevents the header briefly sitting under the iOS status bar before the JS probe writes --sat. */
 :root{
@@ -19480,7 +19480,7 @@ body:not(.wb-ui-ready) #workspace-section .wb765-subview{
 <script id="wb-v80-7-startup-safearea-workspace-flicker-script">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   var KEY='wb.workspace.shell.v1';
   var previousSwitchTab=window.switchTab;
   var previousRenderWorkspace=window.renderWorkspace;
@@ -19579,7 +19579,7 @@ body:not(.wb-ui-ready) #workspace-section .wb765-subview{
 </script>
 
 
-<!-- WorshipBase v80.8 - Set List / Workspace renderer cleanup and metadata authority -->
+<!-- WorshipBase v81.0 - Set List / Workspace renderer cleanup and metadata authority -->
 <style id="wb-v80-8-render-cleanup-style">
 /* Keep title metadata stable while old renderer layers settle. */
 #wb-personal-meta,
@@ -19596,7 +19596,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager #wb-perso
 <script id="wb-v80-8-render-cleanup-script">
 (function(){
   'use strict';
-  var VERSION='80.8';
+  var VERSION='81.0';
   var KEY='wb.workspace.shell.v1';
   var previousSwitchTab=window.switchTab;
   var previousRenderWorkspace=window.renderWorkspace;
@@ -19718,6 +19718,56 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager #wb-perso
   function init(){setVersion();installObservers();scheduleSyncAll();setTimeout(scheduleSyncAll,250);setTimeout(scheduleSyncAll,900);}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
   window.addEventListener('pageshow',scheduleSyncAll,{passive:true});
+})();
+</script>
+
+
+
+<!-- WorshipBase v81.0 - Personal Set Lists metadata source fix -->
+<script id="wb-v81-0-personal-meta-source-fix">
+(function(){
+  'use strict';
+  var VERSION='81.0';
+  function qs(id){return document.getElementById(id);} 
+  function esc(s){try{return escapeHtml(s);}catch(e){return String(s==null?'':s).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c];});}}
+  function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
+  function noteText(set){return String((set&&set.notes)||'').trim();}
+  function personalSets(){try{if(typeof loadPersonalNamedSets==='function')loadPersonalNamedSets();}catch(e){}try{return (typeof _personalSets!=='undefined'&&_personalSets)||{};}catch(e){return {};}}
+  function isEmptyDefault(id,set){var name=String((set&&set.name)||'').trim().toLowerCase();return id==='default'&&!itemsOf(set).length&&!noteText(set)&&(name==='my set'||name==='set'||!name);}
+  function personalSetCount(){var sets=personalSets();return Object.keys(sets||{}).filter(function(id){return !isEmptyDefault(id,(sets||{})[id]);}).length;}
+  function label(n){return n+' set'+(n===1?'':'s');}
+  function setVersion(){try{document.title='WorshipBase v'+VERSION;window.WB_CURRENT_VERSION=VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}}
+  function normalizePersonalHeader(){
+    try{
+      setVersion();
+      var meta=qs('wb-personal-meta');
+      if(!meta)return;
+      var html=esc(label(personalSetCount()))+'<span class="wb-personal-local">Saved locally</span>';
+      if(meta.innerHTML!==html)meta.innerHTML=html;
+      meta.style.display='flex';meta.style.visibility='visible';meta.style.opacity='1';meta.style.minHeight='18px';meta.style.overflow='visible';meta.style.color='var(--txt3)';meta.style.fontWeight='520';
+      var title=document.querySelector('#wb-personal-manager .wb-personal-title');if(title)title.textContent='My Set Lists';
+    }catch(e){}
+  }
+  function schedule(){normalizePersonalHeader();try{requestAnimationFrame(normalizePersonalHeader);}catch(e){}[0,40,120,240,520].forEach(function(ms){setTimeout(normalizePersonalHeader,ms);});}
+  var previousSwitchTab=window.switchTab;
+  if(typeof previousSwitchTab==='function'&&!previousSwitchTab.__wb809PersonalMeta){
+    window.switchTab=function(tab){var out=previousSwitchTab.apply(this,arguments);if(String(tab||'').toLowerCase()==='setlist')schedule();return out;};
+    window.switchTab.__wb809PersonalMeta=true;try{switchTab=window.switchTab;}catch(e){}
+  }
+  ['showPersonalList','renderPersonalManager','openPersonalHome'].forEach(function(name){
+    var old=window[name];
+    if(typeof old==='function'&&!old.__wb809PersonalMeta){
+      var wrapped=function(){var out=old.apply(this,arguments);schedule();return out;};
+      wrapped.__wb809PersonalMeta=true;window[name]=wrapped;try{eval(name+'=window[name]');}catch(e){}
+    }
+  });
+  try{var btn=qs('tab-setlist');if(btn&&!btn.__wb809PersonalMetaClick){btn.__wb809PersonalMetaClick=true;btn.addEventListener('click',schedule,true);}}catch(e){}
+  try{if(window.MutationObserver){var obs=new MutationObserver(function(){var meta=qs('wb-personal-meta');if(meta&&/\bsongs?\b|\bitems?\b/i.test(meta.textContent||''))normalizePersonalHeader();});obs.observe(document.body,{subtree:true,childList:true,characterData:true});}}catch(e){}
+  var previousFullAudit=window.WBFullAudit;
+  window.WBSetListMetadataV809Audit=function(){return {version:VERSION,personalMeta:(qs('wb-personal-meta')||{}).textContent||'',showsSongOrItemCounters:/\bsongs?\b|\bitems?\b/i.test((qs('wb-personal-meta')||{}).textContent||''),sourcePersonalTotals:'set-count-only'};};
+  window.WBFullAudit=function(){var base={};try{base=typeof previousFullAudit==='function'?previousFullAudit():{};}catch(e){base={error:String(e&&e.message||e)};}base.version=VERSION;base.setListMetadataV809=window.WBSetListMetadataV809Audit();return base;};
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule,{once:true});else schedule();
+  window.addEventListener('pageshow',schedule,{passive:true});
 })();
 </script>
 
