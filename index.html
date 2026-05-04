@@ -9,7 +9,7 @@
 <link href="assets/wb-icon-180.png" rel="apple-touch-icon" sizes="180x180">
 <link href="assets/wb-icon-192.png" rel="icon" sizes="192x192" type="image/png">
 <meta content="yes" name="mobile-web-app-capable">
-<title>WorshipBase v79.27</title>
+<title>WorshipBase v80.1</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 /* Prevent iOS long-press/callout menus and text selection on UI chrome
@@ -3117,7 +3117,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 body.dark #workspace-section .workspace-sub,body.dark #workspace-section .workspace-card-sub,body.dark #workspace-section .workspace-subview-meta,body.dark #workspace-section .workspace-subview-sub,body.dark #wb-personal-manager .wb-personal-card-meta,body.dark #wb-set-editor-bar .wb-editor-sub{color:var(--txt3)!important;}
 </style>
 <script src="https://accounts.google.com/gsi/client" async="" defer="" data-wb-google-identity="1"></script></head>
-<body class="wb-route-lock wb-ui-ready wb-tab-songs">
+<body class="wb-route-lock wb-ui-ready wb-tab-workspace">
 <!-- LOADING -->
 <div id="ls" class="hidden" style="display: none;">
 <img alt="WorshipBase logo" src="assets/wb-icon-192.png" style="width:60px;height:60px;border-radius:14px;display:block;object-fit:cover;margin-bottom:20px;">
@@ -3163,7 +3163,7 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 </div>
 </div>
 <!-- Search + library filters -->
-<div class="srch-wrap" id="srch-wrap" style="display: block;">
+<div class="srch-wrap" id="srch-wrap" style="display: none;">
 <div class="srch-row">
 <div class="srch-inner">
 <span class="srch-ico"><svg fill="none" height="14" viewBox="0 0 15 15" width="14"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 10L13 13" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></span>
@@ -3180,7 +3180,7 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 </select>
 </label>
 </div>
-<div class="filter-row" id="library-filter-row" style="display: flex;">
+<div class="filter-row" id="library-filter-row" style="display: none;">
 <button class="filter-chip active" data-filter="all" onclick="setLibraryFilter('all',this)">All</button>
 <button class="filter-chip" data-filter="mine" onclick="setLibraryFilter('mine',this)">My Songs</button>
 <button class="filter-chip" data-filter="english" onclick="setLibraryFilter('english',this)">English</button>
@@ -3199,10 +3199,10 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 </div>
 </div>
 <!-- SONG LIST -->
-<div id="song-section" style="flex: 1 1 0%; display: flex; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;">
+<div id="song-section" style="flex: 1 1 0%; display: none; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;">
 <div class="vs-host ptr-wrap">
 <div id="ptr-indicator"><svg fill="none" height="18" viewBox="0 0 18 18" width="18"><path d="M9 2v4M9 2l-2 2M9 2l2 2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path><path d="M16 9a7 7 0 1 1-7-7" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path></svg></div>
-<div class="vs-wrap" id="vscroll"><div class="library-count-row" id="library-count-row"><span class="song-count" id="song-count">76 songs</span></div><div class="home-quick-wrap" id="home-quick-wrap" style="display: flex;">
+<div class="vs-wrap" id="vscroll" style="-webkit-overflow-scrolling: touch;"><div class="library-count-row" id="library-count-row"><span class="song-count" id="song-count">76 songs</span></div><div class="home-quick-wrap" id="home-quick-wrap" style="display: flex;">
 <div class="quick-section" id="recent-songs-section" style="display: none;">
 <div class="quick-head">
 <div class="quick-title">Recently opened</div>
@@ -3210,7 +3210,7 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 </div>
 <div class="quick-scroll" id="recent-songs-scroll"></div>
 </div>
-</div><div class="vs-inner" id="vinner" style="height: 5720px;"><div class="alpha-sep v-item" style="top: 0px;">1</div><div class="song-row-wrap v-item" style="height: 66px; top: 32px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">10,000 Reasons</div></div><div class="song-meta">Matt Redman · <span class="song-id-badge">S138</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrEur4DdgfSO0FBHYZD',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="alpha-sep v-item" style="top: 98px;">A</div><div class="song-row-wrap v-item" style="height: 66px; top: 130px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Aakasham Bhoomiyiva Nirmicha Devadevan</div></div><div class="song-meta">Unknown · <span class="song-id-badge">S013</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrEur3hr2IK-Px_nXUZ',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 196px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Aanandamundenikk Aanandhamundenikku</div></div><div class="song-meta">Sadhu Kochukunju Upadesi · <span class="song-id-badge">S014</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrEur3i1saI7j89rxWe',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 262px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Aapathu Velakalil</div></div><div class="song-meta">Thomas Mathew Karunagapally · <span class="song-id-badge">S195</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrEur3wIR-0nACbvGBi',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 328px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Above All</div></div><div class="song-meta">Michael W. Smith · <span class="song-id-badge">S201</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrEur40XRGF0VykyzG9',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 394px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">All Hail King Jesus</div></div><div class="song-meta">Jeremy Riddle · <span class="song-id-badge">S218</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrK4a1i-K1Dst6QN851',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 460px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Amazing Grace My Chains Are Gone</div></div><div class="song-meta">Chris Tomlin · <span class="song-id-badge">S227</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrK8Xb61gpjNFwsa5t-',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 526px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Anathi Snegathal</div></div><div class="song-meta"> · <span class="song-id-badge">S233</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrgW0gJQGWxKhHE-jep',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 592px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">As the Deer</div></div><div class="song-meta">Martin J. Nystrom · <span class="song-id-badge">S188</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrEur3sDqVGM-SElJBp',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="alpha-sep v-item" style="top: 658px;">B</div><div class="song-row-wrap v-item" style="height: 66px; top: 690px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Back To Life</div></div><div class="song-meta">Bethel Music · <span class="song-id-badge">S224</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrK73kOtrM_4fPqSGAO',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 756px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Battle Belongs</div></div><div class="song-meta">Phil Wickham · <span class="song-id-badge">S202</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrEur40XRGF0VykyzGA',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 822px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Because He Lives</div></div><div class="song-meta">Misc Praise Songs · <span class="song-id-badge">S222</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrK6Q_hq4yhuB77nbzZ',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="alpha-sep v-item" style="top: 888px;">C</div></div></div>
+</div><div class="vs-inner" id="vinner" style="height: 5720px;"><div class="alpha-sep v-item" style="top: 0px;">1</div><div class="song-row-wrap v-item" style="height: 66px; top: 32px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">10,000 Reasons</div></div><div class="song-meta">Matt Redman · <span class="song-id-badge">S138</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrEur4DdgfSO0FBHYZD',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="alpha-sep v-item" style="top: 98px;">A</div><div class="song-row-wrap v-item" style="height: 66px; top: 130px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Aakasham Bhoomiyiva Nirmicha Devadevan</div></div><div class="song-meta">Unknown · <span class="song-id-badge">S013</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrEur3hr2IK-Px_nXUZ',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 196px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Aanandamundenikk Aanandhamundenikku</div></div><div class="song-meta">Sadhu Kochukunju Upadesi · <span class="song-id-badge">S014</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrEur3i1saI7j89rxWe',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 262px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Aapathu Velakalil</div></div><div class="song-meta">Thomas Mathew Karunagapally · <span class="song-id-badge">S195</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrEur3wIR-0nACbvGBi',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 328px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Above All</div></div><div class="song-meta">Michael W. Smith · <span class="song-id-badge">S201</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrEur40XRGF0VykyzG9',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 394px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">All Hail King Jesus</div></div><div class="song-meta">Jeremy Riddle · <span class="song-id-badge">S218</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrK4a1i-K1Dst6QN851',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 460px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Amazing Grace My Chains Are Gone</div></div><div class="song-meta">Chris Tomlin · <span class="song-id-badge">S227</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrK8Xb61gpjNFwsa5t-',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 526px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Anathi Snegathal</div></div><div class="song-meta"> · <span class="song-id-badge">S233</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrgW0gJQGWxKhHE-jep',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 592px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">As the Deer</div></div><div class="song-meta">Martin J. Nystrom · <span class="song-id-badge">S188</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrEur3sDqVGM-SElJBp',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="alpha-sep v-item" style="top: 658px;">B</div><div class="song-row-wrap v-item" style="height: 66px; top: 690px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Back To Life</div></div><div class="song-meta">Bethel Music · <span class="song-id-badge">S224</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrK73kOtrM_4fPqSGAO',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 756px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Battle Belongs</div></div><div class="song-meta">Phil Wickham · <span class="song-id-badge">S202</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrEur40XRGF0VykyzGA',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="song-row-wrap v-item" style="height: 66px; top: 822px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Because He Lives</div></div><div class="song-meta">Misc Praise Songs · <span class="song-id-badge">S222</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrK6Q_hq4yhuB77nbzZ',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div><div class="alpha-sep v-item" style="top: 888px;">C</div><div class="song-row-wrap v-item" style="height: 66px; top: 920px;"><div class="song-row-reveal-l"><svg width="18" height="18" viewBox="0 0 17 17" fill="none"><rect x="6" y="1" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect><rect x="1" y="4" width="10" height="12" rx="2" stroke="white" stroke-width="1.4"></rect></svg><span class="rv-lbl">Copy</span></div><div class="song-row-reveal-r"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.5" stroke-linecap="round"></path></svg><span class="rv-lbl">Add</span></div><div class="song-item" style="height: 66px;"><div class="song-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18V6.8l9-1.8v10.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7" cy="18" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><circle cx="16" cy="16" r="2.4" stroke="currentColor" stroke-width="1.8"></circle></svg></div><div class="song-info"><div class="song-title-row"><div class="song-title">Christ Is Enough</div></div><div class="song-meta">Hillsong Worship · <span class="song-id-badge">S059</span></div></div><button class="song-fav-btn" type="button" aria-label="Add to favourites" onclick="event.stopPropagation();toggleFavoriteSongById('-OrEur47XQeXYsbIeejP',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5l-1.2-1.08C5.2 14.36 2 11.46 2 7.9 2 5.08 4.24 3 7.05 3c1.59 0 3.12.74 4.1 1.9C12.83 3.74 14.36 3 15.95 3 18.76 3 21 5.08 21 7.9c0 3.56-3.2 6.46-8.8 11.52L12 20.5z"></path></svg></button></div></div></div></div>
 <div id="alpha-strip"><div class="alpha-letter">1</div><div class="alpha-letter">A</div><div class="alpha-letter">B</div><div class="alpha-letter">C</div><div class="alpha-letter">D</div><div class="alpha-letter">E</div><div class="alpha-letter">G</div><div class="alpha-letter">H</div><div class="alpha-letter">I</div><div class="alpha-letter">K</div><div class="alpha-letter">L</div><div class="alpha-letter">M</div><div class="alpha-letter">N</div><div class="alpha-letter">O</div><div class="alpha-letter">P</div><div class="alpha-letter">R</div><div class="alpha-letter">S</div><div class="alpha-letter">T</div><div class="alpha-letter">U</div><div class="alpha-letter">V</div><div class="alpha-letter">W</div><div class="alpha-letter">Y</div></div>
 </div>
 <button aria-label="Scroll to top" class="scroll-top-btn" id="scroll-top-btn" onclick="scrollToTop()">
@@ -3230,49 +3230,20 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 </div>
 </div>
 <div class="sl-scroll-host vs-host">
-<div style="position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;"><div class="sl-items" id="sl-items"><div class="sl-empty"><div class="wb-empty-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 18.5a2.5 2.5 0 1 1-1-2V5l10-2v11.5a2.5 2.5 0 1 1-1-2V7L9 8.5z"></path></svg></div><div class="sl-et">No set list selected</div><div class="sl-es">Choose a set from My Set Lists or Workspace Set Lists before adding songs, sections, or service items.</div></div></div></div>
+<div style="position: absolute; inset: 0px; overflow: hidden auto; -webkit-overflow-scrolling: touch;"><div class="sl-items" id="sl-items"><div class="sl-empty"><div class="wb-empty-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 18.5a2.5 2.5 0 1 1-1-2V5l10-2v11.5a2.5 2.5 0 1 1-1-2V7L9 8.5z"></path></svg></div><div class="sl-et">No set list selected</div><div class="sl-es">Choose a set from My Set Lists or Workspace Set Lists before adding songs, sections, or service items.</div></div></div></div>
 </div>
 <button aria-label="Add to set list" class="add-fab" onclick="openBS('picker')"><svg fill="none" height="22" viewBox="0 0 22 22" width="22"><path d="M11 3v16M3 11h16" stroke="currentColor" stroke-linecap="round" stroke-width="2.4"></path></svg></button>
 </div>
 <!-- WORKSPACE -->
-<div id="workspace-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;position:relative;min-height:0;">
-<div class="workspace-scroll" data-wb7617-static="1">
-<div class="workspace-hero wb7612-home-hero wb76-workspace-hero">
-<div class="wb76-workspace-name" id="wb-workspace-home-title-static">Workspace</div>
-<div class="workspace-sub">Team planning and shared sets</div>
-</div>
+<div id="workspace-section" style="display: flex; flex: 1 1 0%; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;">
+<div class="workspace-scroll" data-wb7617-static="1" style="display: none;">
+<div class="workspace-hero wb7612-home-hero wb76-workspace-hero"><div class="wb76-workspace-name">Workspace</div><div class="workspace-sub">Team planning and shared sets</div></div>
 <script id="wb-v76-17-workspace-static-title-init">
         (function(){try{var raw=localStorage.getItem('wb.workspace.shell.v1');var ws=raw?JSON.parse(raw):{};var n=String((ws&&ws.name)||'Workspace').trim()||'Workspace';if(!/workspace$/i.test(n))n+=' Workspace';var el=document.getElementById('wb-workspace-home-title-static');if(el)el.textContent=n;}catch(e){}})();
       </script>
-<div class="workspace-grid" data-wb7617-static="1">
-<button class="workspace-card workspace-card-action" onclick="openWorkspaceSetLists()" type="button">
-<span aria-hidden="true" class="workspace-card-icon"><svg fill="none" height="18" viewBox="0 0 24 24" width="18"><rect height="4" rx="1" stroke="currentColor" stroke-width="1.8" width="4" x="3" y="5"></rect><rect height="4" rx="1" stroke="currentColor" stroke-width="1.8" width="4" x="3" y="11"></rect><rect height="4" rx="1" stroke="currentColor" stroke-width="1.8" width="4" x="3" y="17"></rect><path d="M11 7h10M11 13h8M11 19h9" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path></svg></span>
-<span class="workspace-card-main"><span class="workspace-card-title">Workspace set lists</span><span class="workspace-card-sub">Team set lists</span></span>
-<span class="workspace-card-chevron">›</span>
-</button>
-<button class="workspace-card workspace-card-action" onclick="publishPersonalSetToWorkspace()" type="button">
-<span aria-hidden="true" class="workspace-card-icon"><svg fill="none" height="18" viewBox="0 0 24 24" width="18"><path d="M12 3v12" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path><path d="M7 8l5-5 5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M5 15v4h14v-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></span>
-<span class="workspace-card-main"><span class="workspace-card-title">Publish personal set</span><span class="workspace-card-sub">Choose a Personal set and publish it into Workspace.</span></span>
-<span class="workspace-card-chevron">›</span>
-</button>
-<button class="workspace-card workspace-card-action" onclick="openWorkspaceLibraryShell()" type="button">
-<span aria-hidden="true" class="workspace-card-icon"><svg fill="none" height="18" viewBox="0 0 24 24" width="18"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path></svg></span>
-<span class="workspace-card-main"><span class="workspace-card-title">Workspace library</span><span class="workspace-card-sub">Team songs</span><span class="wb76-workspace-card-extra"><span class="workspace-pill">Model prep</span><span class="wb76-card-kicker">v76.x</span></span></span>
-<span class="workspace-card-chevron">›</span>
-</button>
-<button class="workspace-card workspace-card-action" onclick="openWorkspaceMembersShell()" type="button">
-<span aria-hidden="true" class="workspace-card-icon"><svg fill="none" height="18" viewBox="0 0 24 24" width="18"><path d="M16 11a4 4 0 1 0-8 0" stroke="currentColor" stroke-linecap="round" stroke-width="1.9"></path><path d="M4 21a8 8 0 0 1 16 0" stroke="currentColor" stroke-linecap="round" stroke-width="1.9"></path><path d="M18 4v5M15.5 6.5h5" stroke="currentColor" stroke-linecap="round" stroke-width="1.9"></path></svg></span>
-<span class="workspace-card-main"><span class="workspace-card-title">Members &amp; invites</span><span class="workspace-card-sub">Team access</span><span class="wb76-workspace-card-extra"><span class="workspace-pill">Model prep</span><span class="wb76-card-kicker">Invite codes</span></span></span>
-<span class="workspace-card-chevron">›</span>
-</button>
-<button class="workspace-card workspace-card-action" onclick="openWorkspaceSettingsShell()" type="button">
-<span aria-hidden="true" class="workspace-card-icon"><svg fill="none" height="18" viewBox="0 0 24 24" width="18"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" stroke="currentColor" stroke-width="1.8"></path><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .92V20.5a2 2 0 0 1-4 0v-.18a1.7 1.7 0 0 0-1-.92 1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.92-1H3.5a2 2 0 0 1 0-4h.18a1.7 1.7 0 0 0 .92-1 1.7 1.7 0 0 0-.34-1.88l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.92V3.5a2 2 0 0 1 4 0v.18a1.7 1.7 0 0 0 1 .92 1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.28.35.6.7.92 1h.18a2 2 0 0 1 0 4h-.18a1.7 1.7 0 0 0-.92 1Z" stroke="currentColor" stroke-linecap="round" stroke-width="1.2"></path></svg></span>
-<span class="workspace-card-main"><span class="workspace-card-title">Workspace settings</span><span class="workspace-card-sub">Name, invite code preview and local shell status.</span></span>
-<span class="workspace-card-chevron">›</span>
-</button>
+<div class="workspace-grid" data-wb7617-static="1"><button class="workspace-card workspace-card-action" type="button" onclick="openWorkspaceSetLists()"><span class="workspace-card-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"></rect><rect x="3" y="11" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"></rect><rect x="3" y="17" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"></rect><path d="M11 7h10M11 13h8M11 19h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg></span><span class="workspace-card-main"><span class="workspace-card-title">Workspace set lists</span><span class="workspace-card-sub">4 sets</span></span><span class="workspace-card-chevron">›</span></button><button class="workspace-card workspace-card-action" type="button" onclick="publishPersonalSetToWorkspace()"><span class="workspace-card-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3v12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path><path d="M7 8l5-5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M5 15v4h14v-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="workspace-card-main"><span class="workspace-card-title">Publish personal set</span><span class="workspace-card-sub">Choose a Personal set and publish it into this workspace.</span></span><span class="workspace-card-chevron">›</span></button><button class="workspace-card workspace-card-action" type="button" onclick="openWorkspaceLibraryShell()"><span class="workspace-card-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg></span><span class="workspace-card-main"><span class="workspace-card-title">Workspace library</span><span class="workspace-card-sub">Songs shared with this worship team.</span><span class="wb76-workspace-card-extra"><span class="workspace-pill">Planned</span><span class="wb76-card-kicker">v76.x</span></span></span><span class="workspace-card-chevron">›</span></button><button class="workspace-card workspace-card-action" type="button" onclick="openWorkspaceMembersShell()"><span class="workspace-card-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M16 11a4 4 0 1 0-8 0" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path><path d="M4 21a8 8 0 0 1 16 0" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path><path d="M18 4v5M15.5 6.5h5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path></svg></span><span class="workspace-card-main"><span class="workspace-card-title">Members &amp; invites</span><span class="workspace-card-sub">Invite people and manage roles.</span><span class="wb76-workspace-card-extra"><span class="workspace-pill">Planned</span><span class="wb76-card-kicker">Invite codes</span></span></span><span class="workspace-card-chevron">›</span></button><button class="workspace-card workspace-card-action" type="button" onclick="openWorkspaceSettingsShell()"><span class="workspace-card-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" stroke="currentColor" stroke-width="1.8"></path><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .92V20.5a2 2 0 0 1-4 0v-.18a1.7 1.7 0 0 0-1-.92 1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.92-1H3.5a2 2 0 0 1 0-4h.18a1.7 1.7 0 0 0 .92-1 1.7 1.7 0 0 0-.34-1.88l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.92V3.5a2 2 0 0 1 4 0v.18a1.7 1.7 0 0 0 1 .92 1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.28.35.6.7.92 1h.18a2 2 0 0 1 0 4h-.18a1.7 1.7 0 0 0-.92 1Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"></path></svg></span><span class="workspace-card-main"><span class="workspace-card-title">Workspace settings</span><span class="workspace-card-sub">Name, description, invite preview and local status.</span></span><span class="workspace-card-chevron">›</span></button></div>
 </div>
-</div>
-</div>
+<div id="wb-v80-1-workspace-settings-view" class="wb763-subview wb765-subview wb801-settings-view open"><div class="wb801-settings-scroll"><div class="wb763-head"><button class="wb763-back" type="button" onclick="backToWorkspaceHomeShell()" aria-label="Back">‹</button><div class="wb763-titlewrap"><div class="wb763-kicker">Workspace</div><div class="wb763-title">Workspace settings</div><div class="wb763-sub">Local workspace details and future team access shell</div></div></div><div class="wb801-settings-card"><div class="wb801-settings-card-title">Workspace identity</div><div class="wb801-settings-card-copy">These details are saved locally for now. They do not change Personal Set Lists or enable real team access yet.</div><div class="wb801-form-grid"><label class="wb801-field"><span class="wb801-label">Workspace name</span><input id="wb801-ws-name" class="wb801-input" type="text" value="Workspace" placeholder="MGM Workspace"></label><label class="wb801-field"><span class="wb801-label">Subtitle / description</span><textarea id="wb801-ws-desc" class="wb801-textarea" placeholder="Team planning and shared sets">Team planning and shared sets</textarea></label></div><div class="wb801-action-row"><button class="wb801-action primary" type="button" onclick="saveWorkspaceSettingsPage()">Save changes</button><button class="wb801-action" type="button" onclick="backToWorkspaceHomeShell()">Done</button></div></div><div class="wb801-settings-card"><div class="wb801-settings-card-title">Invite code preview</div><div class="wb801-settings-card-copy">Preview only. Real invite links and member permissions are still planned for the future backend.</div><div class="wb801-code-row"><div id="wb801-invite-code" class="wb801-code">V4VL-GYW3</div><button class="wb801-action" type="button" onclick="copyWorkspaceInviteCodeFromSettingsPage()">Copy</button></div><div class="wb801-action-row"><button class="wb801-action" type="button" onclick="regenerateWorkspaceInviteFromSettingsPage()">Regenerate code</button><button class="wb801-action" type="button" onclick="openWorkspaceMembersShell()">Members shell</button></div></div><div class="wb801-settings-card"><div class="wb801-settings-card-title">Local shell status</div><div class="wb801-settings-card-copy">No saved workspace metadata yet. Press Save changes to create the local workspace shell.</div><div class="wb801-status-grid"><div class="wb801-status-row"><span class="wb801-status-label">Storage</span><span class="wb801-status-value"><span class="wb801-chip">Local only</span></span></div><div class="wb801-status-row"><span class="wb801-status-label">Workspace ID</span><span class="wb801-status-value">Not saved yet</span></div><div class="wb801-status-row"><span class="wb801-status-label">Role preview</span><span class="wb801-status-value">Owner</span></div><div class="wb801-status-row"><span class="wb801-status-label">Access</span><span class="wb801-status-value wb801-muted">Private local shell</span></div></div><div class="wb801-action-row"><button class="wb801-action danger" type="button" onclick="leaveWorkspaceShellFromSettingsPage()">Clear local shell</button><button class="wb801-action" type="button" onclick="openWorkspaceStoragePrepShell()">Storage notes</button></div></div></div></div></div>
 <!-- BIBLE -->
 <div id="bible-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;min-height:0;">
 <div class="bible-combo">
@@ -3283,7 +3254,7 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 <button class="bible-combo-btn version" onclick="openBibleVersionPicker()" type="button"><span class="truncate" id="bible-version-label">ESV</span></button>
 </div>
 <div class="bible-meta" id="bible-meta">ESV Bible</div>
-<div class="bible-scroll" id="bible-scroll">
+<div class="bible-scroll" id="bible-scroll" style="-webkit-overflow-scrolling: touch;">
 <div class="bible-card" id="bible-card">
 <div class="bible-empty" id="bible-empty">Loading Bible…</div>
 </div>
@@ -3293,7 +3264,7 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 </div>
 <!-- SETTINGS -->
 <div id="settings-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;min-height:0;">
-<div class="settings-scroll">
+<div class="settings-scroll" style="-webkit-overflow-scrolling: touch;">
 <div class="ss-section">
 <div class="ss-title">Appearance</div>
 <div class="ss-card">
@@ -3439,7 +3410,7 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 <img alt="WorshipBase logo" src="assets/wb-icon-192.png">
 </div>
 <div class="about-name">WorshipBase</div>
-<div class="about-version-pill">Version 79.27</div>
+<div class="about-version-pill">Version 80.1</div>
 <div class="about-by">Created by <strong>Jerin Reji</strong></div>
 </div>
 </div>
@@ -3449,7 +3420,7 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 <!-- BOTTOM TAB BAR — last flex child of #list-view -->
 <div class="tab-bar" id="tab-bar">
 <!-- Library tab -->
-<button class="tab-btn active" id="tab-songs" onclick="switchTab('songs')">
+<button class="tab-btn" id="tab-songs" onclick="switchTab('songs')">
 <span class="tab-ico">
 <svg class="ico-outline" fill="none" height="24" viewBox="0 0 24 24" width="24"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path></svg>
 <svg class="ico-filled" fill="none" height="24" viewBox="0 0 24 24" width="24"><path d="M4 6h16" stroke="currentColor" stroke-linecap="round" stroke-width="2.6"></path><path d="M4 12h10" stroke="currentColor" stroke-linecap="round" stroke-width="2.6"></path><path d="M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="2.6"></path></svg>
@@ -3649,7 +3620,7 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 <div class="sv-orig-key" id="sv-orig-key"></div>
 <div class="sv-song-id" id="sv-song-id"></div>
 </div>
-<div class="sv-scroll" id="sv-scroll">
+<div class="sv-scroll" id="sv-scroll" style="-webkit-overflow-scrolling: touch;">
 <div class="sv-ctrls">
 <div class="sv-main-row">
 <div class="seg-bar" id="view-seg">
@@ -13745,7 +13716,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 <script id="wb-v72-5-2-backup-settings-polish-js">
 (function(){
   'use strict';
-  const VERSION='79.27';
+  const VERSION='80.1';
   const DRIVE_STATE_KEY='wb_google_drive_backup_v1';
   const PRE_RESTORE_KEY='wb_pre_restore_snapshot_v1';
   function ready(fn){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fn,{once:true});else fn();}
@@ -13857,7 +13828,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
   'use strict';
   const EDIT_ICON='<svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M12 3l2 2L5.5 13H3.5v-2L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
   function usefulMemory(m){return !!(m&&typeof m==='object'&&(String(m.notes||'').trim()||String(m.cues||'').trim()||String(m.usualKey||'').trim()||String(m.capo||'').trim()||String(m.practiceStatus||'').trim()));}
-  function setVisibleVersion(){try{document.title='WorshipBase v79.27';document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 79.27';});}catch(e){}}
+  function setVisibleVersion(){try{document.title='WorshipBase v80.1';document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 80.1';});}catch(e){}}
   function fixSongEditButton(){
     try{
       const btn=document.getElementById('mi-edit-song');
@@ -14186,7 +14157,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 </script>
 <script id="wb-v72-5-7-rich-set-copy-fix">
 (function(){
-  const VERSION='79.27';
+  const VERSION='80.1';
 
   const originalFindSongById = window.findSongById || function(){return null;};
   const originalGetSongMemory = window.getSongMemory || function(){return {};};
@@ -14579,7 +14550,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 <script id="wb-v72-5-8-rich-shared-persist-fix">
 (function(){
   'use strict';
-  const VERSION='79.27';
+  const VERSION='80.1';
   const BAD_KEY=/[.#$\/[\]]/g;
   function n(v){try{if(typeof normId==='function')return normId(v);}catch(_){}return String(v==null?'':v).trim();}
   function safeKey(v){const k=n(v);return k?k.replace(BAD_KEY,'_'):'';}
@@ -14757,7 +14728,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 </script>
 <script id="wb-v74-5-legacy-setlist-disabled-marker">
 (function(){
-  try{document.title='WorshipBase v79.27';document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version 79.27';});}catch(e){}
+  try{document.title='WorshipBase v80.1';document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version 80.1';});}catch(e){}
   // v74.5.2: legacy flat shared-set Firebase access is represented by a no-op setlistRef stub above.
   // Active shared set lists continue to use the rich shared-set Firebase path through the existing v72.5.8 logic.
 })();
@@ -14792,7 +14763,7 @@ body.dark .namedset-note-chip{background:var(--accent-surface)!important;color:v
 <script id="wb-v74-5-2-setlist-and-export-fixes">
 (function(){
   'use strict';
-  const VERSION='79.27';
+  const VERSION='80.1';
   function norm(v){try{if(typeof normId==='function')return normId(v);}catch(e){}return String(v==null?'':v).trim();}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}}
   function sk(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
@@ -14997,7 +14968,7 @@ body.dark .workspace-publish-note{background:var(--accent-surface)!important;col
 <script id="wb-v75-2-workspace-publish-picker-script">
 (function(){
   'use strict';
-  const VERSION='79.27';
+  const VERSION='80.1';
   function qs(id){return document.getElementById(id);}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s??'').replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}}
   function sk(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
@@ -15187,7 +15158,7 @@ body.dark .workspace-subview-icon.danger{background:rgba(239,143,162,.12)!import
 <script id="wb-v75-6-rich-save-guard-script">
 (function(){
   'use strict';
-  const VERSION='79.27';
+  const VERSION='80.1';
   function clone(v){try{return JSON.parse(JSON.stringify(v));}catch(e){return v;}}
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
   function counts(set){let songs=0,plan=0;itemsOf(set).forEach(function(it){const t=String((it&&it.type)||'song').toLowerCase();if(t==='section'||t==='item'||t==='service')plan++;else if(t==='song'||(it&&it.songId))songs++;});return {songs:songs,plan:plan,total:songs+plan};}
@@ -15455,7 +15426,7 @@ body.dark .wb-personal-local{background:var(--accent-surface)!important;border-c
 <script id="wb-v75-13-1-workspace-selector-fix">
 (function(){
   'use strict';
-  const VERSION='79.27';
+  const VERSION='80.1';
   function qs(id){return document.getElementById(id);}
   function scopeKey(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
   function activeKey(scope){try{return activeSetPrefKey(scopeKey(scope));}catch(e){return scopeKey(scope)==='personal'?'activePersonalSetId':'activeSharedSetId';}}
@@ -15617,7 +15588,7 @@ body.dark .workspace-subview-back,body.dark .wb-editor-back{background:rgba(255,
 <script id="wb-v75-15-version-normalizer">
 (function(){
   'use strict';
-  const VERSION='79.27';
+  const VERSION='80.1';
   function setVersionLabels(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
     try{
@@ -15674,7 +15645,7 @@ body.dark #wb-set-editor-bar{
 <script id="wb-v75-16-version-normalizer-final">
 (function(){
   'use strict';
-  const VERSION='79.27';
+  const VERSION='80.1';
   function setVersionLabels(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
     try{
@@ -15913,7 +15884,7 @@ body.dark #workspace-section .wb765-mini-action.secondary{background:rgba(255,25
 @media (max-width:390px){.pres-section-chip{min-width:46px!important;height:36px!important;padding:0 12px!important;font-size:12.5px!important;}}
 .performance-mode .sheet{padding-right:124px!important;}
 </style>
-<!-- WorshipBase v79.27 Workspace title + metadata cleanup -->
+<!-- WorshipBase v80.1 Workspace title + metadata cleanup -->
 <style id="wb-v76-10-title-cleanup-style">
 /* v76.17 - reduce title/metadata flicker by making Workspace titles source-level and hiding the old Personal metadata line. */
 /* v79.4: old Personal metadata hide removed. */
@@ -15954,7 +15925,7 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
   window.WB_V793_RETIRED_LAYERS.push('wb-v76-10-title-cleanup-script');
 })();
 </script>
-<!-- WorshipBase v79.27 final Workspace shell stability polish -->
+<!-- WorshipBase v80.1 final Workspace shell stability polish -->
 <style id="wb-v76-11-stability-style">
 /* v76.17 - final stability candidate. Visual-only guard against header/card morph flicker. */
 #setlist-section .wb-personal-head,
@@ -15972,14 +15943,14 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
 <script id="wb-v76-11-version-check">
 (function(){
   try{
-    var VERSION='79.27';
+    var VERSION='80.1';
     document.title='WorshipBase v'+VERSION;
     document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version '+VERSION;});
     window.WB_CURRENT_VERSION=VERSION;
   }catch(e){}
 })();
 </script>
-<!-- WorshipBase v79.27 source-level Workspace render cleanup -->
+<!-- WorshipBase v80.1 source-level Workspace render cleanup -->
 <style id="wb-v76-12-source-workspace-style">
 /* v76.17 - render Workspace home from one final source to prevent old card flash. */
 #workspace-section .workspace-scroll{contain:layout paint;}
@@ -16036,7 +16007,7 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
   window.WB_V793_RETIRED_LAYERS.push('wb-v76-12-source-workspace-script');
 })();
 </script>
-<!-- WorshipBase v79.27 - Restore stable set editor and source-level Workspace title fix -->
+<!-- WorshipBase v80.1 - Restore stable set editor and source-level Workspace title fix -->
 <script id="wb-v76-14-stable-recovery-script">
 /* v79.4 source cleanup: Retired old title recovery switchTab/render wrapper. v78 owns route and title recovery.
    Original legacy code removed from runtime rather than hidden by a later overlay. */
@@ -16056,7 +16027,7 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
 .wb-editor-sub{font-size:12px!important;font-weight:700!important;color:var(--txt2)!important;}
 body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 12%,var(--bg1)),var(--bg1))!important;box-shadow:none!important;}
 </style>
-<!-- WorshipBase v79.27 - current set actions and cleaner set cards -->
+<!-- WorshipBase v80.1 - current set actions and cleaner set cards -->
 <style id="wb-v76-16-set-card-actions-style">
 /* Set cards are whole-row buttons, so remove redundant right chevrons while keeping delete controls. */
 .wb-personal-actions .wb-card-btn:not(.danger),
@@ -16070,7 +16041,7 @@ body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb
 <script id="wb-v76-16-current-set-actions-script">
 (function(){
   'use strict';
-  var VERSION='79.27';
+  var VERSION='80.1';
   function qs(id){return document.getElementById(id);} 
   function scopeKeySafe(v){try{return setScopeKey(v||((appPrefs&&appPrefs.setListScope)||'personal'));}catch(e){return v==='shared'?'shared':'personal';}}
   function activeId(scope){try{return (appPrefs&&appPrefs[activeSetPrefKey(scope)])||'';}catch(e){return scope==='shared'?(appPrefs&&appPrefs.activeSharedSetId)||'':(appPrefs&&appPrefs.activePersonalSetId)||'';}}
@@ -16085,7 +16056,7 @@ body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script><div id="wb-pad-float" class="wb-pad-float"><button class="wb-pad-float-label" id="wb-pad-float-label" type="button">Pad</button><button class="wb-pad-float-stop" id="wb-pad-float-stop" type="button" aria-label="Stop pad"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"></rect></svg></button></div>
-<!-- WorshipBase v79.27 - Workspace home source cleanup / no staged metadata changes -->
+<!-- WorshipBase v80.1 - Workspace home source cleanup / no staged metadata changes -->
 <style id="wb-v76-17-workspace-cleanup-style">
 #workspace-section .workspace-note-card,
 #workspace-section #wb763-current-card,
@@ -16102,7 +16073,7 @@ body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb
   window.WB_V793_RETIRED_LAYERS.push('wb-v76-17-workspace-cleanup-script');
 })();
 </script>
-<!-- WorshipBase v79.27 - Personal Set Lists header polish
+<!-- WorshipBase v80.1 - Personal Set Lists header polish
      Stage A.6 UI repair: keep v78.4-v78.5 routing/personal renderer fixes,
      restore the fuller My Set Lists header metadata by neutralising old v76.x
      Personal metadata hide rules. No routing/storage/backend/PDF changes. -->
@@ -16158,7 +16129,7 @@ body.wb-route-lock.wb-tab-songs #library-filter-row{display:flex!important;}
 <script id="wb-v79-2-canonical-router-and-setlist-nav">
 (function(){
   'use strict';
-  var VERSION='79.27';
+  var VERSION='80.1';
   var ROUTES={songs:'song-section',setlist:'setlist-section',workspace:'workspace-section',bible:'bible-section',settings:'settings-section'};
   var TAB_CLASSES=['wb-tab-songs','wb-tab-setlist','wb-tab-workspace','wb-tab-bible','wb-tab-settings'];
   var routeSeq=0;
@@ -16241,7 +16212,7 @@ body.wb-route-lock.wb-tab-songs #library-filter-row{display:flex!important;}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-<!-- WorshipBase v79.27 Personal Set Lists header authority -->
+<!-- WorshipBase v80.1 Personal Set Lists header authority -->
 <style id="wb-v79-2-personal-header-authority-style">
 /* v79.4 - Final Personal Set Lists header owner for the cleanup line.
    This deliberately overrides old v75/v76 Personal metadata hiding/compacting rules. */
@@ -16344,7 +16315,7 @@ body.dark.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-
 <script id="wb-v79-2-personal-header-authority-script">
 (function(){
   'use strict';
-  var VERSION='79.27';
+  var VERSION='80.1';
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s==null?'':s).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c];});}}
   function qs(id){return document.getElementById(id);} 
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
@@ -16368,7 +16339,7 @@ body.dark.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-<!-- WorshipBase v79.27 - startup gate + Workspace metadata polish -->
+<!-- WorshipBase v80.1 - startup gate + Workspace metadata polish -->
 <style id="wb-v79-2-startup-workspace-polish-style">
 /* Softer Personal header metadata: visible but less heavy than the title. */
 body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-personal-meta,
@@ -16492,7 +16463,7 @@ body.dark.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-
   window.WB_V793_RETIRED_LAYERS.push('wb-v79-2-startup-workspace-polish-script');
 })();
 </script>
-<!-- WorshipBase v79.27 - Workspace title and metadata polish
+<!-- WorshipBase v80.1 - Workspace title and metadata polish
      Scope: visual/text polish only. Align Workspace Set Lists title to the active
      workspace name, soften Personal/Workspace header metadata, reduce oversized
      title-card typography, and lighten set-editor metadata. No storage, Firebase,
@@ -16604,7 +16575,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-2-router-cleanup-audit">
 (function(){
   'use strict';
-  var VERSION='79.27';
+  var VERSION='80.1';
   function setVersion(){try{document.title='WorshipBase v'+VERSION;window.WB_CURRENT_VERSION=VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}}
   window.WBRouterCleanupAudit=function(){
     var retired=window.WB_V793_RETIRED_LAYERS||[];
@@ -16617,14 +16588,14 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-<!-- WorshipBase v79.27 - interaction repair after router source cleanup
+<!-- WorshipBase v80.1 - interaction repair after router source cleanup
      Scope: restore action functions that were useful but accidentally retired with
      old v75/v76 routing layers. No Firebase path migration, backup, PDF export,
      bottom-sheet, song editor, or data-model rewrite. -->
 <script id="wb-v79-2-interaction-repair-script">
 (function(){
   'use strict';
-  var VERSION='79.27';
+  var VERSION='80.1';
   function qs(id){return document.getElementById(id);} 
   function escText(s){return String(s==null?'':s);}
   function cloneDeep(obj){
@@ -16763,7 +16734,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-2-setlist-source-cleanup-audit">
 (function(){
   'use strict';
-  var VERSION='79.27';
+  var VERSION='80.1';
   function qs(id){return document.getElementById(id);} 
   function setVersion(){try{document.title='WorshipBase v'+VERSION;window.WB_CURRENT_VERSION=VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}}
   function removeRetiredSegment(){try{document.querySelectorAll('#setlist-section .sl-scope-row').forEach(function(el){el.remove();});}catch(e){}}
@@ -16788,7 +16759,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 </script><script id="wb-v79-2-workspace-source-owner">
 (function(){
   'use strict';
-  var VERSION='79.27';
+  var VERSION='80.1';
   var KEY='wb.workspace.shell.v1';
   var readyDone=false;
   var previousHideLoading=window.hideLoading;
@@ -16887,7 +16858,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
   window.openWorkspaceLibraryShell=function(){var html='<div class="wb763-scroll">'+subviewHead('Workspace library','Planned song library for this church/team.')+'<div class="wb763-card"><div class="wb763-card-title">Song sources</div><div class="wb763-card-copy">Future model: WorshipBase curated songs, Workspace songs, and My Songs stay clearly separated. No storage changed in this cleanup build.</div></div><div class="wb763-card"><div class="wb763-card-title">Status</div><div class="wb763-card-copy">Workspace Library is still a shell. Current working set lists remain unchanged.</div></div></div>';showShellSubview('wb-v79-2-library-view',html);};
   window.copyWorkspaceInviteCodeShell=function(){var c=(getWs()||{}).inviteCode||'Not generated';if(!c||c==='Not generated'){toast('No invite code yet');return;}try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(c).then(function(){toast('Invite code copied');}).catch(function(){prompt('Copy invite code:',c);});}else prompt('Copy invite code:',c);}catch(e){try{prompt('Copy invite code:',c);}catch(_){}}};
   window.openWorkspaceMembersShell=function(){var ws=getWs()||{};var html='<div class="wb763-scroll">'+subviewHead('Members & invites','Invite-code shell for future workspace membership')+'<div class="wb763-card"><div class="wb763-card-title">Invite code</div><div class="wb763-card-copy">Share this preview code with the team later. It is still local-only until the real Workspace backend is built.</div><div class="wb765-invite-box"><div class="wb765-invite-label">Preview code</div><div class="wb765-invite-code">'+esc(ws.inviteCode||'Not generated')+'</div><div class="wb765-action-row"><button class="wb765-mini-action" type="button" onclick="copyWorkspaceInviteCodeShell()">Copy code</button><button class="wb765-mini-action secondary" type="button" onclick="regenerateWorkspaceInviteShell();openWorkspaceMembersShell()">Regenerate</button></div></div></div><div class="wb763-card"><div class="wb763-card-title">Roles preview</div><div class="wb763-card-copy">Owner, Editor and Viewer roles are planned for the real Workspace backend.</div></div><div class="wb763-card"><div class="wb763-card-title">Current shell status</div><div class="wb763-card-copy">Workspace: '+esc(ws.name||'Not set')+'<br>Role preview: '+esc(ws.role||'Member')+'<br>Real members and access rules are not enabled yet.</div></div></div>';showShellSubview('wb-v79-2-members-view',html);};
-  window.openWorkspaceStoragePrepShell=function(){var html='<div class="wb763-scroll">'+subviewHead('Storage & diagnostics','Workspace backend preparation. No migration is active yet.')+'<div class="wb763-card"><div class="wb763-card-title">Current storage</div><div class="wb763-card-copy">Workspace set lists still use the existing transitional shared storage path. No data path changed in v79.27.</div></div><button class="wb764-action secondary" type="button" onclick="backToWorkspaceHomeShell()">Back to Workspace</button></div>';showShellSubview('wb-v79-2-storage-view',html);};
+  window.openWorkspaceStoragePrepShell=function(){var html='<div class="wb763-scroll">'+subviewHead('Storage & diagnostics','Workspace backend preparation. No migration is active yet.')+'<div class="wb763-card"><div class="wb763-card-title">Current storage</div><div class="wb763-card-copy">Workspace set lists still use the existing transitional shared storage path. No data path changed in v80.1.</div></div><button class="wb764-action secondary" type="button" onclick="backToWorkspaceHomeShell()">Back to Workspace</button></div>';showShellSubview('wb-v79-2-storage-view',html);};
   window.wb765RegenerateInvite=function(){regenerateWorkspaceInviteShell();setTimeout(function(){try{openWorkspaceMembersShell();}catch(e){}},20);};
   function installShellSwipeBack(){if(window.__wb793ShellSwipeInstalled)return;window.__wb793ShellSwipeInstalled=true;var sx=0,sy=0,active=false;document.addEventListener('touchstart',function(ev){try{var t=ev.touches&&ev.touches[0];if(!t)return;var open=document.querySelector('#workspace-section .wb762-subview.open,#workspace-section .wb763-subview.open,#workspace-section .wb764-subview.open,#workspace-section .wb765-subview.open');active=!!open&&t.clientX<32;sx=t.clientX;sy=t.clientY;}catch(e){active=false;}},{passive:true});document.addEventListener('touchend',function(ev){try{if(!active)return;var t=ev.changedTouches&&ev.changedTouches[0];if(!t)return;var dx=t.clientX-sx,dy=Math.abs(t.clientY-sy);active=false;if(dx>70&&dy<70)backToWorkspaceHomeShell();}catch(e){active=false;}},{passive:true});}
   function adjustPersonalMeta(){try{var meta=qs('wb-personal-meta');if(meta){var cards=document.querySelectorAll('#wb-personal-list .wb-personal-card').length;meta.textContent=cards+' set'+(cards===1?'':'s');meta.style.fontWeight='500';meta.style.color='var(--txt3)';}var sub=qs('wb-editor-sub');if(sub){sub.style.fontWeight='500';sub.style.color='var(--txt3)';}}catch(e){}}
@@ -16904,28 +16875,28 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-4-action-audit-and-polish-script">
 (function(){
   'use strict';
-  var VERSION='79.27';
+  var VERSION='80.1';
   var EXPECTED_ACTIONS=['switchTab','openSong','openSongModal','openBS','closeBS','closeBSBg','openSetListOptions','openSetNotesSheet','openExportView','closeExportView','showPersonalList','renderPersonalManager','createPersonalSetFromManager','openPersonalSetFromManager','deletePersonalSetFromManager','publishPersonalSetToWorkspace','publishPersonalSetIdToWorkspace','goBackFromSetEditor','openWorkspaceSetLists','showWorkspaceDashboard','renderWorkspace','createWorkspaceSetFromWorkspaceTab','createWorkspaceSetFromWorkspaceSubview','openWorkspaceSetFromWorkspaceTab','deleteWorkspaceSetFromWorkspaceSubview','openWorkspaceLibraryShell','openWorkspaceMembersShell','openWorkspaceSettingsShell','openWorkspaceStoragePrepShell','backToWorkspaceHomeShell','copyWorkspaceInviteCodeShell','regenerateWorkspaceInviteShell','renameWorkspaceShell','leaveWorkspaceShell','openLocalBackupSheet','exportAppBackupJSON','importJSON','openDriveBackupSheet','connectGoogleDriveBackup','backupToGoogleDrive','disconnectGoogleDriveBackup','openAdminExport','openAdminImport','importMySongsJSONFile','importNotesCuesJSONFile','exportMySongsJSON','exportNotesCuesJSON','openBiblePicker','openBibleVersionPicker','changeBibleChapter','renderSettings'];
   var IGNORE_REFS={'event.stopPropagation':true,'window.close':true,'window.print':true,'history.back':true,'document.getElementById':true,'setTimeout':true,'clearTimeout':true,'confirm':true,'prompt':true,'alert':true,'parseInt':true,'parseFloat':true,'Number':true,'String':true,'Boolean':true,'Date':true,'Math':true};
   function exists(name){try{var root=window,parts=String(name||'').split('.');if(parts[0]==='window')parts.shift();for(var i=0;i<parts.length;i++){if(root==null)return false;root=root[parts[i]];}return typeof root==='function';}catch(e){return false;}}
   function scanInlineHandlers(){var attrs=['onclick','onchange','oninput','onsubmit','onkeydown','ontouchstart','ontouchend'];var found={},refs=[];try{document.querySelectorAll('*').forEach(function(el){attrs.forEach(function(attr){var code=el.getAttribute&&el.getAttribute(attr);if(!code)return;var re=/((?:window|document|history|event)\.[A-Za-z_$][\w$]*|[A-Za-z_$][\w$]*)\s*\(/g,m;while((m=re.exec(code))){var name=m[1];if(['if','for','while','switch','return','catch','function','typeof'].indexOf(name)>=0)continue;if(IGNORE_REFS[name]||IGNORE_REFS[name.split('.')[0]])continue;if(!found[name]){found[name]=true;refs.push({name:name,attr:attr,code:code.slice(0,160)});}}});});}catch(e){}return refs;}
-  function classify(){var refs=scanInlineHandlers();var missingRefs=refs.filter(function(r){return !exists(r.name);});var expectedMissing=EXPECTED_ACTIONS.filter(function(name){return !exists(name);});return {version:VERSION,generatedAt:new Date().toISOString(),expectedChecked:EXPECTED_ACTIONS.length,expectedMissing:expectedMissing,inlineActionRefs:refs.length,inlineMissing:missingRefs,routeAudit:(window.WBRouteAudit&&typeof window.WBRouteAudit==='function')?window.WBRouteAudit():null,startupAudit:(window.WBStartupGateAudit&&typeof window.WBStartupGateAudit==='function')?window.WBStartupGateAudit():null,setEditorSubtitle:(window.WBSetEditorSubtitleAudit&&typeof window.WBSetEditorSubtitleAudit==='function')?window.WBSetEditorSubtitleAudit():null,workspaceAudit:(window.WBWorkspaceSourceAudit&&typeof window.WBWorkspaceSourceAudit==='function')?window.WBWorkspaceSourceAudit():null,note:'v79.27 is a route-memory hardening build. It does not intentionally change routing, storage, backup, PDF export, bottom sheets, or song editor behaviour.'};}
+  function classify(){var refs=scanInlineHandlers();var missingRefs=refs.filter(function(r){return !exists(r.name);});var expectedMissing=EXPECTED_ACTIONS.filter(function(name){return !exists(name);});return {version:VERSION,generatedAt:new Date().toISOString(),expectedChecked:EXPECTED_ACTIONS.length,expectedMissing:expectedMissing,inlineActionRefs:refs.length,inlineMissing:missingRefs,routeAudit:(window.WBRouteAudit&&typeof window.WBRouteAudit==='function')?window.WBRouteAudit():null,startupAudit:(window.WBStartupGateAudit&&typeof window.WBStartupGateAudit==='function')?window.WBStartupGateAudit():null,setEditorSubtitle:(window.WBSetEditorSubtitleAudit&&typeof window.WBSetEditorSubtitleAudit==='function')?window.WBSetEditorSubtitleAudit():null,workspaceAudit:(window.WBWorkspaceSourceAudit&&typeof window.WBWorkspaceSourceAudit==='function')?window.WBWorkspaceSourceAudit():null,note:'v80.1 is a route-memory hardening build. It does not intentionally change routing, storage, backup, PDF export, bottom sheets, or song editor behaviour.'};}
   function setVersion(){try{document.title='WorshipBase v'+VERSION;window.WB_CURRENT_VERSION=VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}}
   window.WBActionAudit=classify;window.WBFullAudit=function(){return classify();};window.WB_ACTION_AUDIT_EXPECTED=EXPECTED_ACTIONS.slice();
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setVersion,{once:true});else setVersion();
 })();
 </script>
 
-<!-- WorshipBase v79.27 - source organisation prep
+<!-- WorshipBase v80.1 - source organisation prep
      No visual/runtime feature changes intended. This block documents current source ownership
      and exposes audit helpers before future modularisation while preserving single-file HTML testing. -->
 <script id="wb-v79-5-source-organisation-prep-script">
 (function(){
   'use strict';
-  var VERSION='79.27';
+  var VERSION='80.1';
   var SOURCE_OWNERSHIP={
     version:'v79.5',
-    base:'v79.27 route memory hardening',
+    base:'v80.1 route memory hardening',
     purpose:'source organisation prep without splitting the single-file test build',
     rule:'single source owner per screen/feature; old public names may remain only as adapters',
     currentOwners:[
@@ -17009,7 +16980,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-7-workspace-route-memory-active-tab-fix-script">
 (function(){
   'use strict';
-  var VERSION='79.27';
+  var VERSION='80.1';
   var restoring=false;
   var lastWorkspaceRoute={route:'home',setId:null,updatedAt:Date.now()};
   var oldSwitchTab=window.switchTab;
@@ -17193,7 +17164,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-8-workspace-song-return-context-fix-script">
 (function(){
   'use strict';
-  var VERSION='79.27';
+  var VERSION='80.1';
   function qs(id){return document.getElementById(id);}
   function setVersion(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
@@ -17267,7 +17238,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-9-navigation-context-authority-script">
 (function(){
   'use strict';
-  var VERSION='79.27';
+  var VERSION='80.1';
   function qs(id){return document.getElementById(id);} 
   function setVersion(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
@@ -17424,7 +17395,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-12-navigation-order-context-authority-script">
 (function(){
   'use strict';
-  var VERSION='79.27';
+  var VERSION='80.1';
 
   var oldSwitchTab=window.switchTab;
   var oldShowPersonalList=window.showPersonalList;
@@ -17703,7 +17674,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-12-whole-app-action-audit-script">
 (function(){
   'use strict';
-  var VERSION='79.27';
+  var VERSION='80.1';
   function safe(fn,fallback){try{return fn();}catch(e){return fallback;}}
   function setVersion(){
     safe(function(){document.title='WorshipBase v'+VERSION;});
@@ -17787,7 +17758,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-12-legacy-patch-audit-script">
 (function(){
   'use strict';
-  var VERSION='79.27';
+  var VERSION='80.1';
   function safe(fn,fallback){try{return fn();}catch(e){return fallback;}}
   function setVersion(){
     safe(function(){document.title='WorshipBase v'+VERSION;});
@@ -17847,7 +17818,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
     var scripts=scriptInfo();
     var old=scripts.filter(function(s){return s.isOldPatch;});
     var currentMarkers=currentVersionMarkers();
-    var markerProblems=currentMarkers.filter(function(m){return m.text&&m.text.indexOf('79.27')===-1&&/version|worshipbase/i.test(m.text);});
+    var markerProblems=currentMarkers.filter(function(m){return m.text&&m.text.indexOf('80.1')===-1&&/version|worshipbase/i.test(m.text);});
     return {
       version:VERSION,
       status:markerProblems.length?'check':'pass',
@@ -17882,7 +17853,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-13-setlist-route-memory-script">
 (function(){
   'use strict';
-  var VERSION='79.27';
+  var VERSION='80.1';
   var restoring=false;
   var lastSetListRoute={route:'home',setId:null,updatedAt:Date.now()};
   var oldSwitchTab=window.switchTab;
@@ -18047,7 +18018,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-14-route-memory-navigation-hardening-script">
 (function(){
   'use strict';
-  var VERSION='79.27';
+  var VERSION='80.1';
   var previousFullAudit=window.WBFullAudit;
   var oldSwitchTab=window.switchTab;
   var oldShowList=window.showList;
@@ -18231,7 +18202,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 </script>
 
 
-<!-- WorshipBase v79.27 - UI/UX polish pass
+<!-- WorshipBase v80.1 - UI/UX polish pass
      Scope: safe visual polish only. No routing, Firebase, backup, PDF, bottom
      sheet behaviour, song editor behaviour, or data-model changes. -->
 <style id="wb-v79-18-ui-ux-polish-style">
@@ -18403,7 +18374,7 @@ body.dark #workspace-section.workspace-setlists-mode #workspace-setlists-subview
 <script id="wb-v79-18-ui-ux-polish-audit">
 (function(){
   'use strict';
-  var VERSION='79.27';
+  var VERSION='80.1';
   var previousFullAudit=window.WBFullAudit;
   function setVersion(){
     try{
@@ -18436,7 +18407,7 @@ body.dark #workspace-section.workspace-setlists-mode #workspace-setlists-subview
 </script>
 
 
-<!-- WorshipBase v79.27 - safe set editor strip refinement
+<!-- WorshipBase v80.1 - safe set editor strip refinement
      Scope: extremely small, scoped visual refinement only. This deliberately does
      not change app/page height, safe-area variables, section display, overflow,
      margins, routing, storage, Library rendering, or data model. -->
@@ -18471,7 +18442,7 @@ body.dark #wb-set-editor-bar{
 <script id="wb-v79-18-stable-continuation-audit">
 (function(){
   'use strict';
-  var VERSION='79.27';
+  var VERSION='80.1';
   var previousFullAudit=window.WBFullAudit;
   function setVersion(){
     try{
@@ -18514,7 +18485,7 @@ body.dark #wb-set-editor-bar{
 })();
 </script>
 
-<!-- WorshipBase v79.27 - safe set title section redesign
+<!-- WorshipBase v80.1 - safe set title section redesign
      Scope: CSS-only final override for the set editor title strip. Removes the
      detached gradient feel without changing app height, safe-area variables,
      section display, overflow, routing, storage, Library rendering, or data model. -->
@@ -18562,7 +18533,7 @@ body.dark #wb-set-editor-bar .wb-editor-back{
 <script id="wb-v79-19-set-title-section-audit">
 (function(){
   'use strict';
-  var VERSION='79.27';
+  var VERSION='80.1';
   var previousFullAudit=window.WBFullAudit;
   function setVersion(){
     try{
@@ -18597,7 +18568,7 @@ body.dark #wb-set-editor-bar .wb-editor-back{
 <script id="wb-v79-20-stable-candidate-prep">
 (function(){
   'use strict';
-  var VERSION='79.27';
+  var VERSION='80.1';
   var previousFullAudit=window.WBFullAudit;
   function setVersion(){
     try{
@@ -18657,7 +18628,7 @@ body.dark #wb-set-editor-bar .wb-editor-back{
 </script>
 
 
-<!-- WorshipBase v79.27 - Set List / Workspace formatting consistency
+<!-- WorshipBase v80.1 - Set List / Workspace formatting consistency
      Source: rebuilt directly from the working stable baseline uploaded in this chat.
      Scope: visual CSS only for Set List and Workspace title containers/cards/buttons.
      No Library, safe-area, section display, app-height, overflow, routing, storage,
@@ -18773,7 +18744,7 @@ body.dark #workspace-section.workspace-setlists-mode #workspace-setlists-subview
 <script id="wb-v79-23-formatting-tune-audit">
 (function(){
   'use strict';
-  var VERSION='79.27';
+  var VERSION='80.1';
   var previousFullAudit=window.WBFullAudit;
   function setVersion(){
     try{
@@ -18809,7 +18780,7 @@ body.dark #workspace-section.workspace-setlists-mode #workspace-setlists-subview
 </script>
 
 
-<!-- WorshipBase v79.27 - premium light fill for title cards
+<!-- WorshipBase v80.1 - premium light fill for title cards
      Source: built from the user-approved previous formatting tune.
      Scope: CSS-only light surface fill for My Set Lists, Workspace home, and Workspace Set Lists title containers.
      No Library, safe-area, section display, app-height, overflow, routing, storage,
@@ -18865,7 +18836,7 @@ body.dark #workspace-section.workspace-setlists-mode #workspace-setlists-subview
 <script id="wb-v79-24-title-card-light-fill-audit">
 (function(){
   'use strict';
-  var VERSION='79.27';
+  var VERSION='80.1';
   var previousFullAudit=window.WBFullAudit;
   function setVersion(){
     try{
@@ -18900,7 +18871,7 @@ body.dark #workspace-section.workspace-setlists-mode #workspace-setlists-subview
 </script>
 
 
-<!-- WorshipBase v79.27 - restrained typography and theme-aware title/card colour tune
+<!-- WorshipBase v80.1 - restrained typography and theme-aware title/card colour tune
      Source: built directly from the user-approved prior baseline file.
      Scope: CSS-only. Only set-list/workspace typography weight, metadata softness,
      title-card theme-aware fill, and workspace icon/pill theme colour are adjusted.
@@ -18982,7 +18953,7 @@ body.dark #workspace-section.workspace-setlists-mode #workspace-setlists-subview
 <script id="wb-v79-26-semi-bold-theme-tune-audit">
 (function(){
   'use strict';
-  var VERSION='79.27';
+  var VERSION='80.1';
   var previousFullAudit=window.WBFullAudit;
   function setVersion(){
     try{
@@ -19023,7 +18994,7 @@ body.dark #workspace-section.workspace-setlists-mode #workspace-setlists-subview
 <script id="wb-v79-27-polish-lock">
 (function(){
   'use strict';
-  var VERSION='79.27';
+  var VERSION='80.1';
   var previousFullAudit=window.WBFullAudit;
   function safe(fn,fallback){try{return fn();}catch(e){return fallback||{error:String(e&&e.message||e)};}}
   function exists(sel){return !!document.querySelector(sel);}
@@ -19061,5 +19032,140 @@ body.dark #workspace-section.workspace-setlists-mode #workspace-setlists-subview
   [0,120,500,1200].forEach(function(ms){setTimeout(setVersion,ms);});
 })();
 </script>
+<style id="wb-v80-1-workspace-settings-screen-style">
+/* v80.1 Workspace Settings feature screen. Visual-only shell; no backend/data-model migration. */
+#workspace-section .wb801-settings-view{background:var(--bg1)!important;}
+#workspace-section .wb801-settings-scroll{display:flex;flex-direction:column;gap:12px;min-height:100%;}
+#workspace-section .wb801-settings-card{border:1px solid var(--surface-border);border-radius:18px;background:color-mix(in srgb,var(--bg1) 92%,var(--surface-tint) 8%);padding:14px 15px;box-shadow:var(--shadow-sm);}
+#workspace-section .wb801-settings-card-title{font-size:15px;font-weight:720;letter-spacing:-.018em;color:var(--txt1);margin-bottom:5px;}
+#workspace-section .wb801-settings-card-copy{font-size:12.5px;line-height:1.5;color:var(--txt2);}
+#workspace-section .wb801-form-grid{display:flex;flex-direction:column;gap:12px;margin-top:10px;}
+#workspace-section .wb801-field{display:flex;flex-direction:column;gap:5px;}
+#workspace-section .wb801-label{font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--txt3);}
+#workspace-section .wb801-input,#workspace-section .wb801-textarea{width:100%;border:1px solid var(--surface-border);border-radius:14px;background:var(--bg1);color:var(--txt1);font-family:inherit;font-size:14px;font-weight:560;padding:11px 12px;outline:none;}
+#workspace-section .wb801-textarea{min-height:76px;resize:vertical;line-height:1.45;}
+#workspace-section .wb801-input:focus,#workspace-section .wb801-textarea:focus{border-color:color-mix(in srgb,var(--accent) 34%,var(--surface-border));box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 10%,transparent);}
+#workspace-section .wb801-code-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;}
+#workspace-section .wb801-code{min-height:42px;border:1px solid var(--surface-border);border-radius:14px;background:color-mix(in srgb,var(--accent) 7%,var(--bg1));color:var(--txt1);display:flex;align-items:center;padding:0 12px;font-size:14px;font-weight:780;letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#workspace-section .wb801-action-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px;}
+#workspace-section .wb801-action{border:1px solid color-mix(in srgb,var(--accent) 32%,var(--surface-border));background:color-mix(in srgb,var(--accent) 10%,var(--bg1));color:var(--accent);border-radius:999px;min-height:40px;padding:0 12px;font-family:inherit;font-size:13px;font-weight:760;cursor:pointer;}
+#workspace-section .wb801-action.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-fg);}
+#workspace-section .wb801-action.danger{background:rgba(217,52,72,.07);border-color:rgba(217,52,72,.24);color:#d93448;}
+#workspace-section .wb801-action:active{transform:scale(.98);}
+#workspace-section .wb801-status-grid{display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px;}
+#workspace-section .wb801-status-row{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--surface-border);border-radius:14px;background:var(--bg1);padding:10px 12px;}
+#workspace-section .wb801-status-label{font-size:12px;color:var(--txt2);font-weight:620;}
+#workspace-section .wb801-status-value{font-size:12px;color:var(--txt1);font-weight:760;text-align:right;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+#workspace-section .wb801-chip{display:inline-flex;align-items:center;justify-content:center;min-height:24px;padding:3px 9px;border-radius:999px;background:color-mix(in srgb,var(--accent) 10%,var(--bg1));border:1px solid color-mix(in srgb,var(--accent) 22%,var(--surface-border));color:var(--accent);font-size:10px;font-weight:820;letter-spacing:.045em;text-transform:uppercase;white-space:nowrap;}
+#workspace-section .wb801-muted{color:var(--txt3)!important;}
+body.dark #workspace-section .wb801-settings-card,body.dark #workspace-section .wb801-status-row,body.dark #workspace-section .wb801-input,body.dark #workspace-section .wb801-textarea{background:rgba(255,255,255,.035)!important;border-color:rgba(255,255,255,.10)!important;box-shadow:none!important;}
+body.dark #workspace-section .wb801-code{background:rgba(143,180,255,.10)!important;border-color:rgba(143,180,255,.20)!important;}
+body.dark #workspace-section .wb801-action{background:rgba(143,180,255,.13)!important;border-color:rgba(143,180,255,.25)!important;color:var(--accent)!important;}
+body.dark #workspace-section .wb801-action.primary{background:var(--accent-strong)!important;border-color:var(--accent-strong)!important;color:var(--accent-fg)!important;}
+body.dark #workspace-section .wb801-action.danger{background:rgba(239,143,162,.12)!important;border-color:rgba(239,143,162,.25)!important;color:#ef8fa2!important;}
+@media(max-width:390px){#workspace-section .wb801-action-row{grid-template-columns:1fr;}#workspace-section .wb801-code-row{grid-template-columns:1fr;}}
+</style>
+<script id="wb-v80-1-workspace-settings-screen-script">
+(function(){
+  'use strict';
+  var VERSION='80.1';
+  var KEY='wb.workspace.shell.v1';
+  function qs(id){return document.getElementById(id);} 
+  function esc(s){try{return escapeHtml(s);}catch(e){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}}
+  function setVersion(){try{document.title='WorshipBase v'+VERSION;window.WB_CURRENT_VERSION=VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}}
+  function getWs(){try{var raw=localStorage.getItem(KEY);return raw?JSON.parse(raw):null;}catch(e){return null;}}
+  function saveWs(ws){try{localStorage.setItem(KEY,JSON.stringify(ws||{}));}catch(e){}}
+  function clearWs(){try{localStorage.removeItem(KEY);}catch(e){}}
+  function makeCode(){var a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',s='';for(var i=0;i<8;i++){if(i===4)s+='-';s+=a[Math.floor(Math.random()*a.length)];}return s;}
+  function nowIso(){try{return new Date().toISOString();}catch(e){return String(Date.now());}}
+  function workspaceName(){var ws=getWs()||{};var n=String(ws.name||'Workspace').trim();return n||'Workspace';}
+  function workspaceDescription(ws){return String((ws&&ws.description)||(ws&&ws.subtitle)||'Team planning and shared sets').trim()||'Team planning and shared sets';}
+  function defaultWs(){var ws=getWs()||{};return {id:ws.id||('ws_'+Date.now().toString(36)),name:String(ws.name||workspaceName()||'Workspace').trim()||'Workspace',description:workspaceDescription(ws),inviteCode:ws.inviteCode||makeCode(),role:ws.role||'Owner',mode:ws.mode||'local-shell',createdAt:ws.createdAt||nowIso(),updatedAt:nowIso()};}
+  function toast(msg){try{showToast(msg);}catch(e){}}
+  function applyWorkspaceSettingsToHome(){
+    try{
+      var ws=getWs()||{};
+      var sub=document.querySelector('#workspace-section .workspace-hero .workspace-sub');
+      if(sub)sub.textContent=workspaceDescription(ws);
+      var title=document.querySelector('#workspace-section .workspace-hero .wb76-workspace-name,#workspace-section .workspace-hero .workspace-title');
+      if(title){var n=String(ws.name||'Workspace').trim()||'Workspace';title.textContent=/workspace$/i.test(n)?n:n+' Workspace';}
+      var settings=[].slice.call(document.querySelectorAll('#workspace-section .workspace-card-title')).find(function(el){return /Workspace settings/i.test(el.textContent||'');});
+      if(settings){var s=settings.parentElement&&settings.parentElement.querySelector('.workspace-card-sub');if(s)s.textContent='Name, description, invite preview and local status.';}
+    }catch(e){}
+  }
+  function ensureSubview(){
+    var sec=qs('workspace-section');if(!sec)return null;
+    var el=qs('wb-v80-1-workspace-settings-view');
+    if(el)return el;
+    el=document.createElement('div');
+    el.id='wb-v80-1-workspace-settings-view';
+    el.className='wb763-subview wb765-subview wb801-settings-view';
+    sec.appendChild(el);
+    return el;
+  }
+  function subviewHead(title,sub){
+    return '<div class="wb763-head"><button class="wb763-back" type="button" onclick="backToWorkspaceHomeShell()" aria-label="Back">‹</button><div class="wb763-titlewrap"><div class="wb763-kicker">'+esc(workspaceName())+'</div><div class="wb763-title">'+esc(title)+'</div>'+(sub?'<div class="wb763-sub">'+esc(sub)+'</div>':'')+'</div></div>';
+  }
+  function statusRows(ws){
+    var has=!!getWs();
+    return '<div class="wb801-status-grid">'+
+      '<div class="wb801-status-row"><span class="wb801-status-label">Storage</span><span class="wb801-status-value"><span class="wb801-chip">Local only</span></span></div>'+
+      '<div class="wb801-status-row"><span class="wb801-status-label">Workspace ID</span><span class="wb801-status-value">'+esc(has?(ws.id||'local'):'Not saved yet')+'</span></div>'+
+      '<div class="wb801-status-row"><span class="wb801-status-label">Role preview</span><span class="wb801-status-value">'+esc(ws.role||'Owner')+'</span></div>'+
+      '<div class="wb801-status-row"><span class="wb801-status-label">Access</span><span class="wb801-status-value wb801-muted">Private local shell</span></div>'+
+    '</div>';
+  }
+  function render(){
+    setVersion();
+    var ws=defaultWs();
+    var saved=!!getWs();
+    var el=ensureSubview();if(!el)return;
+    el.innerHTML='<div class="wb801-settings-scroll">'+subviewHead('Workspace settings','Local workspace details and future team access shell')+
+      '<div class="wb801-settings-card"><div class="wb801-settings-card-title">Workspace identity</div><div class="wb801-settings-card-copy">These details are saved locally for now. They do not change Personal Set Lists or enable real team access yet.</div><div class="wb801-form-grid">'+
+        '<label class="wb801-field"><span class="wb801-label">Workspace name</span><input id="wb801-ws-name" class="wb801-input" type="text" value="'+esc(ws.name)+'" placeholder="MGM Workspace"></label>'+
+        '<label class="wb801-field"><span class="wb801-label">Subtitle / description</span><textarea id="wb801-ws-desc" class="wb801-textarea" placeholder="Team planning and shared sets">'+esc(ws.description)+'</textarea></label>'+
+      '</div><div class="wb801-action-row"><button class="wb801-action primary" type="button" onclick="saveWorkspaceSettingsPage()">Save changes</button><button class="wb801-action" type="button" onclick="backToWorkspaceHomeShell()">Done</button></div></div>'+
+      '<div class="wb801-settings-card"><div class="wb801-settings-card-title">Invite code preview</div><div class="wb801-settings-card-copy">Preview only. Real invite links and member permissions are still planned for the future backend.</div><div class="wb801-code-row"><div id="wb801-invite-code" class="wb801-code">'+esc(ws.inviteCode||'Not generated')+'</div><button class="wb801-action" type="button" onclick="copyWorkspaceInviteCodeFromSettingsPage()">Copy</button></div><div class="wb801-action-row"><button class="wb801-action" type="button" onclick="regenerateWorkspaceInviteFromSettingsPage()">Regenerate code</button><button class="wb801-action" type="button" onclick="openWorkspaceMembersShell()">Members shell</button></div></div>'+
+      '<div class="wb801-settings-card"><div class="wb801-settings-card-title">Local shell status</div><div class="wb801-settings-card-copy">'+(saved?'Workspace metadata is saved on this device.':'No saved workspace metadata yet. Press Save changes to create the local workspace shell.')+'</div>'+statusRows(ws)+'<div class="wb801-action-row"><button class="wb801-action danger" type="button" onclick="leaveWorkspaceShellFromSettingsPage()">Clear local shell</button><button class="wb801-action" type="button" onclick="openWorkspaceStoragePrepShell()">Storage notes</button></div></div>'+
+    '</div>';
+  }
+  window.openWorkspaceSettingsShell=function(){
+    try{if(typeof activeTab!=='undefined')activeTab='workspace';}catch(e){}
+    try{document.body.classList.add('wb-route-lock','wb-tab-workspace');['songs','setlist','bible','settings'].forEach(function(t){document.body.classList.remove('wb-tab-'+t);});}catch(e){}
+    var sec=qs('workspace-section');if(sec)sec.classList.remove('workspace-setlists-mode');
+    var scroll=document.querySelector('#workspace-section .workspace-scroll');if(scroll)scroll.style.display='none';
+    try{document.querySelectorAll('#workspace-section .wb762-subview,#workspace-section .wb763-subview,#workspace-section .wb764-subview,#workspace-section .wb765-subview').forEach(function(node){node.classList.remove('open');});}catch(e){}
+    render();var el=ensureSubview();if(el){el.classList.add('open');try{el.scrollTop=0;}catch(e){}}
+    try{document.querySelectorAll('.tab-btn').forEach(function(btn){var on=(btn.dataset&&btn.dataset.tab)==='workspace';btn.classList.toggle('active',on);});}catch(e){}
+  };
+  window.saveWorkspaceSettingsPage=function(){
+    var old=getWs()||{};
+    var name=(qs('wb801-ws-name')&&qs('wb801-ws-name').value||'').trim()||'Workspace';
+    var desc=(qs('wb801-ws-desc')&&qs('wb801-ws-desc').value||'').trim()||'Team planning and shared sets';
+    var ws=Object.assign({},old,{id:old.id||('ws_'+Date.now().toString(36)),name:name,description:desc,inviteCode:old.inviteCode||makeCode(),role:old.role||'Owner',mode:old.mode||'local-shell',createdAt:old.createdAt||nowIso(),updatedAt:nowIso()});
+    saveWs(ws);applyWorkspaceSettingsToHome();render();toast('Workspace settings saved');
+  };
+  window.regenerateWorkspaceInviteFromSettingsPage=function(){
+    var ws=defaultWs();ws.inviteCode=makeCode();ws.updatedAt=nowIso();saveWs(ws);render();toast('Invite preview regenerated');
+  };
+  window.copyWorkspaceInviteCodeFromSettingsPage=function(){
+    var ws=defaultWs();var c=ws.inviteCode||'Not generated';
+    try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(c).then(function(){toast('Invite code copied');}).catch(function(){prompt('Copy invite code:',c);});}else prompt('Copy invite code:',c);}catch(e){try{prompt('Copy invite code:',c);}catch(_){}}
+  };
+  window.leaveWorkspaceShellFromSettingsPage=function(){
+    var ok=(typeof confirmDestructive==='function')?confirmDestructive('Clear this local Workspace shell? Workspace set lists are not deleted.'):confirm('Clear this local Workspace shell? Workspace set lists are not deleted.');
+    if(!ok)return;clearWs();toast('Local Workspace shell cleared');try{if(typeof backToWorkspaceHomeShell==='function')backToWorkspaceHomeShell();else if(typeof renderWorkspace==='function')renderWorkspace();}catch(e){}
+    setTimeout(applyWorkspaceSettingsToHome,0);
+  };
+  function wrap(name,after){var old=window[name];if(typeof old==='function'&&!old.__wb801){var fn=function(){var out=old.apply(this,arguments);try{after&&setTimeout(after,0);}catch(e){}return out;};fn.__wb801=true;window[name]=fn;try{eval(name+'=window[name]');}catch(e){}}}
+  var previousAudit=window.WBFullAudit;
+  window.WBWorkspaceSettingsAudit=function(){var ws=getWs()||{};return {version:VERSION,screen:typeof window.openWorkspaceSettingsShell==='function',saved:!!getWs(),name:ws.name||'',description:ws.description||'',invitePreview:!!ws.inviteCode,localOnly:true};};
+  window.WBFullAudit=function(){var base={};try{base=typeof previousAudit==='function'?previousAudit():{};}catch(e){base={error:String(e&&e.message||e)};}base.version=VERSION;base.workspaceSettings=window.WBWorkspaceSettingsAudit();return base;};
+  function init(){setVersion();wrap('renderWorkspace',applyWorkspaceSettingsToHome);wrap('showWorkspaceDashboard',applyWorkspaceSettingsToHome);wrap('backToWorkspaceHomeShell',applyWorkspaceSettingsToHome);wrap('switchTab',function(){try{if((typeof activeTab!=='undefined'?activeTab:null)==='workspace')applyWorkspaceSettingsToHome();}catch(e){}});applyWorkspaceSettingsToHome();[0,150,500,1100].forEach(function(ms){setTimeout(function(){setVersion();applyWorkspaceSettingsToHome();},ms);});}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+
+
 
 <input type="file" id="full-app-backup-json-file" accept=".json,application/json" style="display: none;"><div class="bs-bg" id="bs-backuplocal" onclick="closeBSBg(event,'backuplocal')"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><h2 class="m-h2">Local backup</h2><button class="m-close" onclick="closeBS('backuplocal')">×</button></div><div class="m-body"><p class="wb-backup-sheet-note">Save JSON files to your device, or restore from a file you previously exported.</p><div class="wb-backup-group-title">Export to file</div><button class="wb-backup-choice" type="button" onclick="exportMySongsJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">My Songs</span><span class="wb-backup-choice-sub">Songs added on this device only</span></span><span class="wb-backup-choice-tag">JSON</span></button><button class="wb-backup-choice" type="button" onclick="exportNotesCuesJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Notes &amp; Cues</span><span class="wb-backup-choice-sub">Personal notes, cues, usual keys and practice status</span></span><span class="wb-backup-choice-tag">JSON</span></button><button class="wb-backup-choice" type="button" onclick="exportAppBackupJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Everything</span><span class="wb-backup-choice-sub">My Songs, set lists, sections, service items, notes/cues and preferences</span></span><span class="wb-backup-choice-tag">Full</span></button><div class="wb-backup-group-title">Restore from file</div><button class="wb-backup-choice" type="button" onclick="document.getElementById('my-songs-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore My Songs</span><span class="wb-backup-choice-sub">Import a WorshipBase song JSON file</span></span><span class="wb-backup-choice-tag">Import</span></button><button class="wb-backup-choice" type="button" onclick="document.getElementById('notes-cues-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore Notes &amp; Cues</span><span class="wb-backup-choice-sub">Apply notes/cues onto matching songs</span></span><span class="wb-backup-choice-tag">Import</span></button><button class="wb-backup-choice" type="button" onclick="document.getElementById('full-app-backup-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore Everything</span><span class="wb-backup-choice-sub">Replace personal data on this device from a full app backup</span></span><span class="wb-backup-choice-tag">Replace</span></button></div></div></div><div class="bs-bg" id="bs-backupdrive" onclick="closeBSBg(event,'backupdrive')"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><h2 class="m-h2">Google Drive backup</h2><button class="m-close" onclick="closeBS('backupdrive')">×</button></div><div class="m-body"><div id="wb-drive-sheet-body"></div></div></div></div></body><div style="position: fixed; top: 0px; left: 0px; width: 1px; height: env(safe-area-inset-top,0px); pointer-events: none; opacity: 0; z-index: -1;"></div><div style="position: fixed; bottom: 0px; left: 0px; width: 1px; height: env(safe-area-inset-bottom,0px); pointer-events: none; opacity: 0; z-index: -1;"></div></html>
