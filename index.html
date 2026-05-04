@@ -12,7 +12,7 @@
 <link href="assets/wb-icon-180.png" rel="apple-touch-icon" sizes="180x180"/>
 <link href="assets/wb-icon-192.png" rel="icon" sizes="192x192" type="image/png"/>
 <meta content="yes" name="mobile-web-app-capable"/>
-<title>WorshipBase v78.9</title>
+<title>WorshipBase v78.10</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 /* Prevent iOS long-press/callout menus and text selection on UI chrome
@@ -17024,5 +17024,151 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
   function init(){setVersion();}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
-</script></body>
+</script>
+
+<!-- WorshipBase v78.10 - interaction repair after router source cleanup
+     Scope: restore action functions that were useful but accidentally retired with
+     old v75/v76 routing layers. No Firebase path migration, backup, PDF export,
+     bottom-sheet, song editor, or data-model rewrite. -->
+<script id="wb-v78-10-interaction-repair-script">
+(function(){
+  'use strict';
+  var VERSION='78.10';
+  function qs(id){return document.getElementById(id);} 
+  function escText(s){return String(s==null?'':s);}
+  function cloneDeep(obj){
+    try{if(typeof structuredClone==='function')return structuredClone(obj);}catch(e){}
+    try{return JSON.parse(JSON.stringify(obj));}catch(e){return obj;}
+  }
+  function scopeKey(scope){try{return setScopeKey(scope);}catch(e){return scope==='shared'?'shared':'personal';}}
+  function mapFor(scope){var sk=scopeKey(scope);try{return sk==='shared'?((_sharedSets)||{}):((_personalSets)||{});}catch(e){return {};}}
+  function setMap(scope,next){try{if(scopeKey(scope)==='shared')_sharedSets=next||{};else _personalSets=next||{};}catch(e){}}
+  function activeKey(scope){try{return activeSetPrefKey(scopeKey(scope));}catch(e){return scopeKey(scope)==='shared'?'activeSharedSetId':'activePersonalSetId';}}
+  function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
+  function itemCounts(items){var songs=0,plan=0;(items||[]).forEach(function(it){var t=String((it&&it.type)||'song').toLowerCase();if(t==='section'||t==='item'||t==='service')plan++;else if(t==='song'||(it&&it.songId))songs++;});return {songs:songs,items:plan};}
+  function countLabel(items){var c=itemCounts(items);var bits=[c.songs+' song'+(c.songs===1?'':'s')];if(c.items)bits.push(c.items+' item'+(c.items===1?'':'s'));return bits.join(' · ');}
+  function savePrefsSafe(){try{if(typeof savePrefs==='function')savePrefs();}catch(e){}}
+  function saveSharedSafe(){
+    try{if(typeof saveSharedSetsToFB==='function'){saveSharedSetsToFB();return;}}catch(e){console.warn('v78.10 shared save via saveSharedSetsToFB failed',e);}
+    try{if(typeof saveSharedSetsRich==='function'){saveSharedSetsRich();return;}}catch(e){console.warn('v78.10 shared save via saveSharedSetsRich failed',e);}
+  }
+  function savePersonalSafe(){try{if(typeof savePersonalNamedSets==='function')savePersonalNamedSets();}catch(e){console.warn('v78.10 personal save failed',e);}savePrefsSafe();}
+  function makeId(){try{return typeof makeSetId==='function'?makeSetId():('set_'+Date.now().toString(36)+Math.random().toString(36).slice(2,7));}catch(e){return 'set_'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);}}
+  function toast(msg){try{if(typeof showToast==='function')showToast(msg);}catch(e){}}
+  function destructive(msg){try{return typeof confirmDestructive==='function'?confirmDestructive(msg):confirm(msg);}catch(e){return false;}}
+  function setVersion(){try{document.title='WorshipBase v'+VERSION;window.WB_CURRENT_VERSION=VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}}
+  function currentPersonalSet(){
+    try{var s=(typeof getActiveSet==='function'?getActiveSet('personal'):null);if(s&&s.id)return s;}catch(e){}
+    try{var id=(appPrefs&&appPrefs.activePersonalSetId)||'';var set=mapFor('personal')[id];return set?Object.assign({id:id},set):null;}catch(e){return null;}
+  }
+  function currentWorkspaceSetId(){try{return (appPrefs&&appPrefs.activeSharedSetId)||'';}catch(e){return '';}}
+  function refreshWorkspaceList(){
+    try{if(window.WBAppRouter&&typeof window.WBAppRouter.openWorkspaceSetLists==='function'){window.WBAppRouter.openWorkspaceSetLists();return;}}catch(e){}
+    try{if(typeof openWorkspaceSetLists==='function')openWorkspaceSetLists();}catch(e){}
+  }
+  function refreshPersonalHome(){
+    try{if(window.WBAppRouter&&typeof window.WBAppRouter.openPersonalHome==='function'){window.WBAppRouter.openPersonalHome();return;}}catch(e){}
+    try{if(typeof showPersonalList==='function')showPersonalList();}catch(e){}
+  }
+  function refreshEditorHeader(){
+    try{if(typeof renderSetList==='function')renderSetList();}catch(e){}
+    try{if(typeof WBRouteAudit==='function')WBRouteAudit();}catch(e){}
+  }
+
+  // Restores the Personal set-editor Publish action that was accidentally removed
+  // when the old v75.10 routing controller was retired in v78.9.
+  window.publishCurrentPersonalSetToWorkspace=function(){
+    try{
+      var src=currentPersonalSet();
+      if(!src||!src.id){toast('Open a personal set first');return;}
+      var suggested=(escText(src.name||'Set')+' (Workspace)').trim();
+      var name=(prompt('Publish to Workspace as:',suggested)||'').trim();
+      if(!name)return;
+      var id=makeId();
+      var copied={
+        name:name,
+        notes:escText(src.notes||''),
+        items:cloneDeep(itemsOf(src))||[],
+        songMemory:cloneDeep(src.songMemory||{}),
+        createdAt:Date.now(),
+        updatedAt:Date.now()
+      };
+      var shared=Object.assign({},mapFor('shared'));
+      shared[id]=copied;
+      setMap('shared',shared);
+      try{appPrefs.activeSharedSetId=id;}catch(e){}
+      savePrefsSafe();
+      saveSharedSafe();
+      try{if(typeof renderWorkspace==='function')renderWorkspace();}catch(e){}
+      toast('Published to Workspace · '+countLabel(copied.items));
+      setVersion();
+    }catch(err){console.warn('v78.10 publish current personal set failed',err);toast('Could not publish set');}
+  };
+
+  // Restores Workspace Set Lists card delete. The old implementation lived inside
+  // a renderer that v78.9 correctly retired, but this action still belongs in the
+  // new Workspace Set Lists route.
+  window.deleteWorkspaceSetFromWorkspaceSubview=function(id){
+    try{
+      id=String(id||'');
+      var sets=Object.assign({},mapFor('shared'));
+      var set=sets[id];
+      if(!set)return;
+      if(!destructive('Delete '+(set.name||'this Workspace set list')+'?'))return;
+      delete sets[id];
+      setMap('shared',sets);
+      try{if(currentWorkspaceSetId()===id)appPrefs.activeSharedSetId=Object.keys(sets)[0]||'';}catch(e){}
+      savePrefsSafe();
+      saveSharedSafe();
+      refreshWorkspaceList();
+      toast('Workspace set deleted');
+      setVersion();
+    }catch(err){console.warn('v78.10 delete Workspace set failed',err);toast('Could not delete Workspace set');}
+  };
+  // Keep both public names alive while cleanup continues.
+  window.deleteWorkspaceSetFromWorkspaceTab=window.deleteWorkspaceSetFromWorkspaceSubview;
+
+  // Restores iPhone-style left-edge swipe back for the reused set editor and the
+  // Workspace Set Lists subpage. It is intentionally narrow so normal scrolling,
+  // drag handles, song swipe rows, bottom sheets, inputs, and song view gestures
+  // keep their own behavior.
+  var startX=0,startY=0,startT=0,tracking=false;
+  function isEditableTarget(t){return !!(t&&t.closest&&t.closest('input,textarea,select,[contenteditable="true"],.bs-bg.open,.song-row-wrap,.drag-handle,.set-item'))}
+  function editorOpen(){return document.body.classList.contains('wb-set-editor-mode')||!!(qs('setlist-section')&&qs('setlist-section').classList.contains('wb-editor-mode'));}
+  function workspaceSubpageOpen(){var ws=qs('workspace-section');return !!(ws&&ws.classList.contains('workspace-setlists-mode')&&document.body.classList.contains('wb-tab-workspace')&&!document.body.classList.contains('wb-set-editor-mode'));}
+  function canSwipeBack(target){
+    if(isEditableTarget(target))return false;
+    try{var sv=qs('song-view');if(sv&&sv.classList.contains('visible'))return false;}catch(e){}
+    return editorOpen()||workspaceSubpageOpen();
+  }
+  document.addEventListener('touchstart',function(e){
+    try{
+      if(!e.touches||!e.touches.length)return;
+      var t=e.touches[0];
+      tracking=false;
+      if(t.clientX>34)return;
+      if(!canSwipeBack(e.target))return;
+      startX=t.clientX;startY=t.clientY;startT=Date.now();tracking=true;
+    }catch(err){tracking=false;}
+  },{capture:true,passive:true});
+  document.addEventListener('touchend',function(e){
+    try{
+      if(!tracking)return;tracking=false;
+      var t=e.changedTouches&&e.changedTouches[0];if(!t)return;
+      var dx=t.clientX-startX,dy=Math.abs(t.clientY-startY),dt=Date.now()-startT;
+      if(dx<58||dy>70||dt>900)return;
+      if(editorOpen()&&typeof goBackFromSetEditor==='function'){goBackFromSetEditor();return;}
+      if(workspaceSubpageOpen()&&typeof showWorkspaceDashboard==='function'){showWorkspaceDashboard();return;}
+    }catch(err){console.warn('v78.10 edge swipe back failed',err);}
+  },{capture:true,passive:true});
+
+  function init(){
+    setVersion();
+    [0,100,350,900,1600].forEach(function(ms){setTimeout(setVersion,ms);});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+
+</body>
 </html>
