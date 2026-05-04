@@ -10,7 +10,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="assets/wb-icon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
 
-<title>WorshipBase v78.7</title>
+<title>WorshipBase v78.8</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 /* Prevent iOS long-press/callout menus and text selection on UI chrome
@@ -3069,7 +3069,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
 
 
 
-/* v78.7 startup route guard: until the canonical router is ready, never let
+/* v78.8 startup route guard: until the canonical router is ready, never let
    older route scripts expose multiple root sections at once. This prevents the
    raw Workspace/Set List/Settings flash seen in HTML viewers and slow starts. */
 body:not(.wb-route-lock) #list-view > #setlist-section,
@@ -3079,7 +3079,7 @@ body:not(.wb-route-lock) #list-view > #settings-section{display:none!important;}
 body:not(.wb-route-lock) #list-view > #song-section{display:flex!important;}
 
 
-/* v78.7 startup paint gate: keep the loading screen over the app until the
+/* v78.8 startup paint gate: keep the loading screen over the app until the
    canonical router/data load is ready. This avoids the split-second raw Set List
    and Library-empty states caused by older startup render layers. */
 body:not(.wb-ui-ready) #list-view{
@@ -3201,7 +3201,7 @@ body:not(.wb-ui-ready) #ls{
   </div>
 
   <!-- SET LIST -->
-  <div id="setlist-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;position:relative;min-height:0;"><div id="wb-set-editor-bar"><button class="wb-editor-back" type="button" onclick="goBackFromSetEditor()" aria-label="Back" title="Back">‹</button><div class="wb-editor-title-wrap"><div class="wb-editor-title" id="wb-editor-title">Untitled set</div><div class="wb-editor-sub" id="wb-editor-sub">Workspace · 0 songs</div></div><button class="wb-editor-publish" id="wb-editor-publish" type="button" onclick="publishCurrentPersonalSetToWorkspace()">Publish</button></div><div id="wb-personal-manager"><div class="wb-personal-scroll"><div class="wb-personal-head"><div class="wb-personal-copy"><div class="wb-personal-title">My Set Lists</div><div class="wb-personal-meta" id="wb-personal-meta" style="display: flex; visibility: visible; height: auto; min-height: 18px; margin-top: 7px; padding: 0px; overflow: visible; opacity: 1; font-weight: 610; color: var(--txt2);">0 sets<span class="wb-personal-local">Saved locally</span></div></div><button class="wb-personal-new" type="button" onclick="createPersonalSetFromManager()">New</button></div><div id="wb-personal-list" class="wb-personal-list"></div></div></div>
+  <div id="setlist-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;position:relative;min-height:0;"><div id="wb-set-editor-bar"><button class="wb-editor-back" type="button" onclick="goBackFromSetEditor()" aria-label="Back" title="Back">‹</button><div class="wb-editor-title-wrap"><div class="wb-editor-title" id="wb-editor-title">Untitled set</div><div class="wb-editor-sub" id="wb-editor-sub" style="font-weight: 520; color: color-mix(in srgb,var(--txt2) 72%,var(--txt3));">Workspace · 0 songs</div></div><button class="wb-editor-publish" id="wb-editor-publish" type="button" onclick="publishCurrentPersonalSetToWorkspace()">Publish</button></div><div id="wb-personal-manager"><div class="wb-personal-scroll"><div class="wb-personal-head"><div class="wb-personal-copy"><div class="wb-personal-title">My Set Lists</div><div class="wb-personal-meta" id="wb-personal-meta" style="display: flex; visibility: visible; height: auto; min-height: 18px; margin-top: 7px; padding: 0px; overflow: visible; opacity: 1; font-weight: 520; color: color-mix(in srgb,var(--txt2) 76%,var(--txt3));">0 sets<span class="wb-personal-local" style="font-weight: 650; color: var(--txt3);">Saved locally</span></div></div><button class="wb-personal-new" type="button" onclick="createPersonalSetFromManager()">New</button></div><div id="wb-personal-list" class="wb-personal-list"></div></div></div>
     <div class="sl-scope-row">
       <div class="sl-scope-pills">
         <button class="sl-scope-btn active" id="sl-scope-shared" onclick="setSetListScope('shared')">Workspace</button>
@@ -3228,11 +3228,11 @@ body:not(.wb-ui-ready) #ls{
   <!-- WORKSPACE -->
   <div id="workspace-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;position:relative;min-height:0;">
     <div class="workspace-scroll" data-wb7617-static="1">
-      <div id="workspace-setlists-subview" class="workspace-subview"><div class="workspace-subview-head"><button class="workspace-subview-back" type="button" onclick="showWorkspaceDashboard()" aria-label="Back" title="Back">‹</button><div class="workspace-subview-title-wrap"><div class="workspace-subview-title" id="workspace-subview-title">Workspace Set Lists</div><div class="workspace-subview-sub" id="workspace-subview-sub">Workspace planning</div></div><button class="workspace-subview-new" type="button" onclick="createWorkspaceSetFromWorkspaceSubview()">New</button></div><div id="workspace-subview-list" class="workspace-subview-list"><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_mor3cyewi3jv')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_mor3cyewi3jv')}"><span class="workspace-subview-main"><span class="workspace-subview-name">Backup test 2 (Workspace)</span><span class="workspace-subview-meta"><span>2 songs · 4 items</span><span class="workspace-subview-updated">Updated 4 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_mor3cyewi3jv')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_mor3cyewi3jv')" aria-label="Delete">×</button></span></div><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_mor3ctfp4slu')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_mor3ctfp4slu')}"><span class="workspace-subview-main"><span class="workspace-subview-name">Backup test (Workspace)</span><span class="workspace-subview-meta"><span>8 songs · 7 items</span><span class="workspace-subview-note">Notes</span><span class="workspace-subview-updated">Updated 4 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_mor3ctfp4slu')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_mor3ctfp4slu')" aria-label="Delete">×</button></span></div></div></div><div class="workspace-hero wb7612-home-hero wb76-workspace-hero wb7610-home-hero"><div class="wb76-workspace-name">Workspace</div><div class="workspace-sub">Team planning and shared sets</div></div>
+      <div id="workspace-setlists-subview" class="workspace-subview"><div class="workspace-subview-head"><button class="workspace-subview-back" type="button" onclick="showWorkspaceDashboard()" aria-label="Back" title="Back">‹</button><div class="workspace-subview-title-wrap"><div class="workspace-subview-title" id="workspace-subview-title">Workspace Set Lists</div><div class="workspace-subview-sub" id="workspace-subview-sub">Workspace planning</div></div><button class="workspace-subview-new" type="button" onclick="createWorkspaceSetFromWorkspaceSubview()">New</button></div><div id="workspace-subview-list" class="workspace-subview-list"><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_mor3cyewi3jv')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_mor3cyewi3jv')}"><span class="workspace-subview-main"><span class="workspace-subview-name">Backup test 2 (Workspace)</span><span class="workspace-subview-meta"><span>2 songs · 4 items</span><span class="workspace-subview-updated">Updated 4 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_mor3cyewi3jv')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_mor3cyewi3jv')" aria-label="Delete">×</button></span></div><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_mor3ctfp4slu')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_mor3ctfp4slu')}"><span class="workspace-subview-main"><span class="workspace-subview-name">Backup test (Workspace)</span><span class="workspace-subview-meta"><span>8 songs · 7 items</span><span class="workspace-subview-note">Notes</span><span class="workspace-subview-updated">Updated 4 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_mor3ctfp4slu')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_mor3ctfp4slu')" aria-label="Delete">×</button></span></div></div></div><div class="workspace-hero wb7612-home-hero wb76-workspace-hero wb7610-home-hero"><div class="workspace-kicker">Workspace</div><div class="wb76-workspace-name">Join or create a church workspace</div><div class="workspace-sub">Connect this app to your worship team. v76.17 is a safe shell only; set lists still use the existing working Workspace storage.</div></div>
       <script id="wb-v76-17-workspace-static-title-init">
         (function(){try{var raw=localStorage.getItem('wb.workspace.shell.v1');var ws=raw?JSON.parse(raw):{};var n=String((ws&&ws.name)||'Workspace').trim()||'Workspace';if(!/workspace$/i.test(n))n+=' Workspace';var el=document.getElementById('wb-workspace-home-title-static');if(el)el.textContent=n;}catch(e){}})();
       </script>
-      <div class="workspace-grid" data-wb7617-static="1"><button class="workspace-card workspace-card-action" type="button" onclick="openWorkspaceSetLists()"><span class="workspace-card-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"></rect><rect x="3" y="11" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"></rect><rect x="3" y="17" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"></rect><path d="M11 7h10M11 13h8M11 19h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg></span><span class="workspace-card-main"><span class="workspace-card-title">Workspace set lists</span><span class="workspace-card-sub">Team set lists</span></span><span class="workspace-card-chevron">›</span></button><button class="workspace-card workspace-card-action" type="button" onclick="publishPersonalSetToWorkspace()"><span class="workspace-card-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3v12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path><path d="M7 8l5-5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M5 15v4h14v-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="workspace-card-main"><span class="workspace-card-title">Publish personal set</span><span class="workspace-card-sub">Copy one of My Set Lists</span></span><span class="workspace-card-chevron">›</span></button><button class="workspace-card workspace-card-action" type="button" onclick="openWorkspaceLibraryShell()"><span class="workspace-card-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg></span><span class="workspace-card-main"><span class="workspace-card-title">Workspace library</span><span class="workspace-card-sub">Team songs</span><span class="wb76-workspace-card-extra"><span class="workspace-pill">Model prep</span><span class="wb76-card-kicker">v76.x</span></span></span><span class="workspace-card-chevron">›</span></button><button class="workspace-card workspace-card-action" type="button" onclick="openWorkspaceMembersShell()"><span class="workspace-card-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M16 11a4 4 0 1 0-8 0" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path><path d="M4 21a8 8 0 0 1 16 0" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path><path d="M18 4v5M15.5 6.5h5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path></svg></span><span class="workspace-card-main"><span class="workspace-card-title">Members &amp; invites</span><span class="workspace-card-sub">Team access</span><span class="wb76-workspace-card-extra"><span class="workspace-pill">Model prep</span><span class="wb76-card-kicker">Invite codes</span></span></span><span class="workspace-card-chevron">›</span></button><button class="workspace-card workspace-card-action" type="button" onclick="openWorkspaceSettingsShell()"><span class="workspace-card-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" stroke="currentColor" stroke-width="1.8"></path><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .92V20.5a2 2 0 0 1-4 0v-.18a1.7 1.7 0 0 0-1-.92 1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.92-1H3.5a2 2 0 0 1 0-4h.18a1.7 1.7 0 0 0 .92-1 1.7 1.7 0 0 0-.34-1.88l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.92V3.5a2 2 0 0 1 4 0v.18a1.7 1.7 0 0 0 1 .92 1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.28.35.6.7.92 1h.18a2 2 0 0 1 0 4h-.18a1.7 1.7 0 0 0-.92 1Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"></path></svg></span><span class="workspace-card-main"><span class="workspace-card-title">Workspace settings</span><span class="workspace-card-sub">Name, invite code preview and local shell status.</span></span><span class="workspace-card-chevron">›</span></button></div>
+      <div class="workspace-grid" data-wb7617-static="1"><div class="wb76-setup-card"><div class="wb76-setup-title">Set up Workspace</div><div class="wb76-setup-copy">Use an invite code from your worship team, create a local workspace shell for testing, or continue with the current default Workspace.</div><div class="wb76-setup-actions"><button class="wb76-action primary" type="button" onclick="joinWorkspaceWithCodeShell()"><span class="wb76-action-main"><span class="wb76-action-title">Enter invite code</span><span class="wb76-action-sub">Join a church workspace when invites are enabled.</span></span><span class="wb76-action-chevron">›</span></button><button class="wb76-action" type="button" onclick="createWorkspaceShell()"><span class="wb76-action-main"><span class="wb76-action-title">Create workspace shell</span><span class="wb76-action-sub">Name this church/team workspace locally.</span></span><span class="wb76-action-chevron">›</span></button><button class="wb76-action" type="button" onclick="continueDefaultWorkspaceShell()"><span class="wb76-action-main"><span class="wb76-action-title">Continue with current Workspace</span><span class="wb76-action-sub">Use existing Workspace set lists for now.</span></span><span class="wb76-action-chevron">›</span></button></div></div></div>
     <div id="workspace-setlist-manager" class="workspace-manager" style="display: none;"><div class="workspace-manager-head"><div class="workspace-manager-title-wrap"><div class="workspace-manager-title">Workspace set lists</div><div class="workspace-manager-sub" id="workspace-manager-sub">2 set lists · 10 songs · 11 items</div></div><div class="workspace-manager-actions"><button class="workspace-mini-btn" type="button" onclick="createWorkspaceSetFromWorkspaceTab()">New</button></div></div><div id="workspace-setlist-list" class="workspace-setlist-list"><button class="workspace-setlist-card" type="button" onclick="openWorkspaceSetFromWorkspaceTab('set_mor3cyewi3jv')"><span class="workspace-setlist-main"><span class="workspace-setlist-name">Backup test 2 (Workspace)</span><span class="workspace-setlist-meta"><span>2 songs · 4 items</span><span class="workspace-setlist-updated">Updated 4 May</span></span></span><span class="workspace-setlist-actions"><span class="workspace-icon-btn danger" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceTab('set_mor3cyewi3jv')" aria-label="Delete">×</span></span></button><button class="workspace-setlist-card" type="button" onclick="openWorkspaceSetFromWorkspaceTab('set_mor3ctfp4slu')"><span class="workspace-setlist-main"><span class="workspace-setlist-name">Backup test (Workspace)</span><span class="workspace-setlist-meta"><span>8 songs · 7 items</span><span class="workspace-setlist-note">Notes</span><span class="workspace-setlist-updated">Updated 4 May</span></span></span><span class="workspace-setlist-actions"><span class="workspace-icon-btn danger" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceTab('set_mor3ctfp4slu')" aria-label="Delete">×</span></span></button></div></div></div>
   </div>
 
@@ -3412,7 +3412,7 @@ body:not(.wb-ui-ready) #ls{
               <img src="assets/wb-icon-192.png" alt="WorshipBase logo">
             </div>
             <div class="about-name">WorshipBase</div>
-            <div class="about-version-pill">Version 78.7</div>
+            <div class="about-version-pill">Version 78.8</div>
             <div class="about-by">Created by <strong>Jerin Reji</strong></div>
           </div>
         </div>
@@ -13938,7 +13938,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
   'use strict';
   const EDIT_ICON='<svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M12 3l2 2L5.5 13H3.5v-2L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
   function usefulMemory(m){return !!(m&&typeof m==='object'&&(String(m.notes||'').trim()||String(m.cues||'').trim()||String(m.usualKey||'').trim()||String(m.capo||'').trim()||String(m.practiceStatus||'').trim()));}
-  function setVisibleVersion(){try{document.title='WorshipBase v78.7';document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 78.7';});}catch(e){}}
+  function setVisibleVersion(){try{document.title='WorshipBase v78.8';document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 78.8';});}catch(e){}}
   function fixSongEditButton(){
     try{
       const btn=document.getElementById('mi-edit-song');
@@ -14271,7 +14271,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 
 <script id="wb-v72-5-7-rich-set-copy-fix">
 (function(){
-  const VERSION='78.7';
+  const VERSION='78.8';
 
   const originalFindSongById = window.findSongById || function(){return null;};
   const originalGetSongMemory = window.getSongMemory || function(){return {};};
@@ -14666,7 +14666,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 <script id="wb-v72-5-8-rich-shared-persist-fix">
 (function(){
   'use strict';
-  const VERSION='78.7';
+  const VERSION='78.8';
   const BAD_KEY=/[.#$\/[\]]/g;
   function n(v){try{if(typeof normId==='function')return normId(v);}catch(_){}return String(v==null?'':v).trim();}
   function safeKey(v){const k=n(v);return k?k.replace(BAD_KEY,'_'):'';}
@@ -14845,7 +14845,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 
 <script id="wb-v74-5-legacy-setlist-disabled-marker">
 (function(){
-  try{document.title='WorshipBase v78.7';document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version 78.7';});}catch(e){}
+  try{document.title='WorshipBase v78.8';document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version 78.8';});}catch(e){}
   // v74.5.2: legacy flat shared-set Firebase access is represented by a no-op setlistRef stub above.
   // Active shared set lists continue to use the rich shared-set Firebase path through the existing v72.5.8 logic.
 })();
@@ -14883,7 +14883,7 @@ body.dark .namedset-note-chip{background:var(--accent-surface)!important;color:v
 <script id="wb-v74-5-2-setlist-and-export-fixes">
 (function(){
   'use strict';
-  const VERSION='78.7';
+  const VERSION='78.8';
   function norm(v){try{if(typeof normId==='function')return normId(v);}catch(e){}return String(v==null?'':v).trim();}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}}
   function sk(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
@@ -15066,7 +15066,7 @@ body.dark .workspace-note-body code{background:rgba(255,255,255,.05)!important;b
 <script id="wb-v75-1-workspace-tab-script">
 (function(){
   'use strict';
-  const VERSION='78.7';
+  const VERSION='78.8';
   function qs(id){return document.getElementById(id);}
   function setDisplay(id,val){const el=qs(id); if(el)el.style.display=val;}
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
@@ -15156,7 +15156,7 @@ body.dark .workspace-publish-note{background:var(--accent-surface)!important;col
 <script id="wb-v75-2-workspace-publish-picker-script">
 (function(){
   'use strict';
-  const VERSION='78.7';
+  const VERSION='78.8';
   function qs(id){return document.getElementById(id);}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s??'').replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}}
   function sk(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
@@ -15267,7 +15267,7 @@ body.dark .workspace-icon-btn.danger{background:rgba(239,143,162,.12)!important;
 <script id="wb-v75-3-workspace-manager-script">
 (function(){
   'use strict';
-  const VERSION='78.7';
+  const VERSION='78.8';
   function qs(id){return document.getElementById(id);}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s==null?'':s).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}}
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
@@ -15387,7 +15387,7 @@ body.dark .workspace-subview-icon.danger{background:rgba(239,143,162,.12)!import
 <script id="wb-v75-4-workspace-subview-script">
 (function(){
   'use strict';
-  const VERSION='78.7';
+  const VERSION='78.8';
   let workspaceView='dashboard';
   function qs(id){return document.getElementById(id);}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s==null?'':s).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}}
@@ -15474,7 +15474,7 @@ body.dark .workspace-subview-icon.danger{background:rgba(239,143,162,.12)!import
 <script id="wb-v75-6-rich-save-guard-script">
 (function(){
   'use strict';
-  const VERSION='78.7';
+  const VERSION='78.8';
   function clone(v){try{return JSON.parse(JSON.stringify(v));}catch(e){return v;}}
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
   function counts(set){let songs=0,plan=0;itemsOf(set).forEach(function(it){const t=String((it&&it.type)||'song').toLowerCase();if(t==='section'||t==='item'||t==='service')plan++;else if(t==='song'||(it&&it.songId))songs++;});return {songs:songs,plan:plan,total:songs+plan};}
@@ -15588,7 +15588,7 @@ body.dark .wb-card-btn.danger{background:rgba(239,143,162,.12)!important;border-
 <script id="wb-v75-10-setlist-workspace-routing-script">
 (function(){
   'use strict';
-  const VERSION='78.7';
+  const VERSION='78.8';
   let personalMode='list';
   let editorContext='personal';
   let touchStart=null;
@@ -15812,7 +15812,7 @@ body.dark .wb-editor-back{background:rgba(255,255,255,.04)!important;border-colo
 <script id="wb-v75-11-ui-navigation-pass-script">
 (function(){
   'use strict';
-  const VERSION='78.7';
+  const VERSION='78.8';
   function qs(id){return document.getElementById(id);}
   function setVersion(){
     try{document.title='WorshipBase v'+VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}
@@ -15951,7 +15951,7 @@ body.dark .wb-personal-local{background:var(--accent-surface)!important;border-c
 <script id="wb-v75-12-set-workspace-ui-pass-script">
 (function(){
   'use strict';
-  const VERSION='78.7';
+  const VERSION='78.8';
   function qs(id){return document.getElementById(id);}
   function text(el,value){if(el&&el.textContent!==value)el.textContent=value;}
   function setVersion(){try{document.title='WorshipBase v'+VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}}
@@ -15970,7 +15970,7 @@ body.dark .wb-personal-local{background:var(--accent-surface)!important;border-c
 <script id="wb-v75-13-1-workspace-selector-fix">
 (function(){
   'use strict';
-  const VERSION='78.7';
+  const VERSION='78.8';
   function qs(id){return document.getElementById(id);}
   function scopeKey(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
   function activeKey(scope){try{return activeSetPrefKey(scopeKey(scope));}catch(e){return scopeKey(scope)==='personal'?'activePersonalSetId':'activeSharedSetId';}}
@@ -16125,7 +16125,7 @@ body.dark .workspace-subview-back,body.dark .wb-editor-back{background:rgba(255,
 <script id="wb-v75-15-release-candidate-script">
 (function(){
   'use strict';
-  const VERSION='78.7';
+  const VERSION='78.8';
   function qs(id){return document.getElementById(id)}
   function text(el,val){if(el&&el.textContent!==val)el.textContent=val;}
   function clone(v){try{return JSON.parse(JSON.stringify(v));}catch(e){return v;}}
@@ -16189,7 +16189,7 @@ body.dark .workspace-subview-back,body.dark .wb-editor-back{background:rgba(255,
 <script id="wb-v75-15-version-normalizer">
 (function(){
   'use strict';
-  const VERSION='78.7';
+  const VERSION='78.8';
   function setVersionLabels(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
     try{
@@ -16248,7 +16248,7 @@ body.dark #wb-set-editor-bar{
 <script id="wb-v75-16-version-normalizer-final">
 (function(){
   'use strict';
-  const VERSION='78.7';
+  const VERSION='78.8';
   function setVersionLabels(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
     try{
@@ -16272,7 +16272,7 @@ body.dark #wb-set-editor-bar{
    which caused visible flicker. Workspace tab still returns to root from subviews/editors. */
 (function(){
   'use strict';
-  var VERSION='78.7';
+  var VERSION='78.8';
   function qs(id){return document.getElementById(id);}
   function isShown(el){return !!el && el.style.display!=='none' && getComputedStyle(el).display!=='none';}
   function isSetListRoot(){
@@ -16372,7 +16372,7 @@ body.dark .wb76-chip.primary{color:var(--accent);background:rgba(143,180,255,.12
 <script id="wb-v76-0-workspace-shell-script">
 (function(){
   'use strict';
-  var VERSION='78.7';
+  var VERSION='78.8';
   var KEY='wb.workspace.shell.v1';
   function qs(id){return document.getElementById(id);}
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
@@ -16482,7 +16482,7 @@ body.dark .wb762-outline{background:rgba(255,255,255,.045);color:var(--accent);b
 <script id="wb-v76-2-workspace-shell-polish-script">
 (function(){
   'use strict';
-  var VERSION='78.7';
+  var VERSION='78.8';
   var KEY='wb.workspace.shell.v1';
   function qs(id){return document.getElementById(id);}
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
@@ -16601,7 +16601,7 @@ body.dark .wb763-action.primary{background:var(--accent-surface)!important;borde
 <script id="wb-v76-3-workspace-model-prep-script">
 (function(){
   'use strict';
-  var VERSION='78.7';
+  var VERSION='78.8';
   var KEY='wb.workspace.shell.v1';
   function qs(id){return document.getElementById(id);}
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
@@ -16686,7 +16686,7 @@ body.dark #workspace-section .workspace-card[data-wb764-storage]{background:line
 <script id="wb-v76-4-workspace-storage-prep-script">
 (function(){
   'use strict';
-  var VERSION='78.7';
+  var VERSION='78.8';
   var WORKSPACE_KEY='wb.workspace.shell.v1';
   var THEME_MAP={'#220135':'#3A0A55','#1f2e45':'#2F4565'};
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
@@ -16767,7 +16767,7 @@ body.dark #workspace-section .wb765-mini-action.secondary{background:rgba(255,25
 <script id="wb-v76-5-workspace-shell-cleanup-script">
 (function(){
   'use strict';
-  var VERSION='78.7';
+  var VERSION='78.8';
   var WORKSPACE_KEY='wb.workspace.shell.v1';
   function qs(id){return document.getElementById(id);} 
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
@@ -16854,7 +16854,7 @@ body.dark #workspace-section .wb765-mini-action.secondary{background:rgba(255,25
 <!-- WorshipBase v76.17 Workspace title + metadata cleanup -->
 <style id="wb-v76-10-title-cleanup-style">
 /* v76.17 - reduce title/metadata flicker by making Workspace titles source-level and hiding the old Personal metadata line. */
-/* v78.7: old Personal metadata hide removed. */
+/* v78.8: old Personal metadata hide removed. */
 #workspace-section #wb765-current-card,
 #workspace-section #wb768-current-card{
   display:none!important;
@@ -16886,7 +16886,7 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
 <script id="wb-v76-10-title-cleanup-script">
 (function(){
   'use strict';
-  var VERSION='78.7';
+  var VERSION='78.8';
   var KEY='wb.workspace.shell.v1';
   function getWs(){try{var raw=localStorage.getItem(KEY);return raw?JSON.parse(raw):null;}catch(e){return null;}}
   function cleanName(){var ws=getWs()||{};var name=String(ws.name||'Workspace').trim()||'Workspace';return name;}
@@ -16913,7 +16913,7 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
     var ss=document.getElementById('workspace-subview-sub')||document.querySelector('#workspace-setlists-subview .workspace-subview-sub');
     if(ss && /Team set lists stored|Workspace planning|Team set lists/i.test(ss.textContent||''))ss.textContent='Workspace planning';
   }catch(e){console.warn('v76.17 title cleanup failed',e);}}
-  function applyPersonalCleanup(){/* v78.7: Personal Set Lists metadata is owned by the v78 renderer; do not hide it. */}
+  function applyPersonalCleanup(){/* v78.8: Personal Set Lists metadata is owned by the v78 renderer; do not hide it. */}
   function apply(){applyWorkspaceTitles();applyPersonalCleanup();}
   function wrap(name){var old=window[name];if(typeof old==='function'&&!old.__wb7610TitleCleanup){var wrapped=function(){var out=old.apply(this,arguments);apply();setTimeout(apply,0);return out;};wrapped.__wb7610TitleCleanup=true;window[name]=wrapped;try{eval(name+'=window[name]');}catch(e){}}}
   function init(){['renderWorkspaceShell','renderWorkspace','openWorkspaceSetLists','renderWorkspaceSetListsSubview','showWorkspaceDashboard','backToWorkspaceHomeShell','renderPersonalManager','switchTab'].forEach(wrap);apply();setTimeout(apply,200);setTimeout(apply,800);}
@@ -16935,12 +16935,12 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
   transition:none!important;
   animation:none!important;
 }
-/* v78.7: old Personal metadata hide removed. */
+/* v78.8: old Personal metadata hide removed. */
 </style>
 <script id="wb-v76-11-version-check">
 (function(){
   try{
-    var VERSION='78.7';
+    var VERSION='78.8';
     document.title='WorshipBase v'+VERSION;
     document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version '+VERSION;});
     window.WB_CURRENT_VERSION=VERSION;
@@ -16961,7 +16961,7 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
   transition:none!important;
   animation:none!important;
 }
-/* v78.7: old Personal metadata hide removed. */
+/* v78.8: old Personal metadata hide removed. */
 #workspace-section .workspace-note-card,
 #workspace-section #workspace-setlist-manager,
 #workspace-section #wb765-current-card,
@@ -17002,7 +17002,7 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
 <script id="wb-v76-12-source-workspace-script">
 (function(){
   'use strict';
-  var VERSION='78.7';
+  var VERSION='78.8';
   var KEY='wb.workspace.shell.v1';
   function qs(id){return document.getElementById(id);} 
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
@@ -17115,7 +17115,7 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
 <script id="wb-v76-14-stable-recovery-script">
 (function(){
   'use strict';
-  var VERSION='78.7';
+  var VERSION='78.8';
   var KEY='wb.workspace.shell.v1';
   function qs(id){return document.getElementById(id);} 
   function workspaceName(){try{var raw=localStorage.getItem(KEY);var ws=raw?JSON.parse(raw):{};var n=String(ws.name||'Workspace').trim();return n||'Workspace';}catch(e){return 'Workspace';}}
@@ -17133,7 +17133,7 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
     }
     var t=qs('workspace-subview-title')||document.querySelector('#workspace-setlists-subview .workspace-subview-title');
     if(t)t.textContent=workspaceSetListsTitle();
-    /* v78.7: do not hide #wb-personal-meta; v78 renderer owns Personal header metadata. */
+    /* v78.8: do not hide #wb-personal-meta; v78 renderer owns Personal header metadata. */
   }catch(e){console.warn('v76.17 title recovery failed',e);}}
   function wrap(name){var old=window[name];if(typeof old==='function'&&!old.__wb7614StableRecovery){var fn=function(){var out=old.apply(this,arguments);applyWorkspaceTitles();setTimeout(applyWorkspaceTitles,0);return out;};fn.__wb7614StableRecovery=true;window[name]=fn;try{eval(name+'=window[name]');}catch(e){}}}
   function init(){['renderWorkspace','openWorkspaceSetLists','renderWorkspaceSetListsSubview','showWorkspaceDashboard','switchTab'].forEach(wrap);applyWorkspaceTitles();setTimeout(applyWorkspaceTitles,150);}
@@ -17168,7 +17168,7 @@ body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb
 <script id="wb-v76-16-current-set-actions-script">
 (function(){
   'use strict';
-  var VERSION='78.7';
+  var VERSION='78.8';
   function qs(id){return document.getElementById(id);} 
   function scopeKeySafe(v){try{return setScopeKey(v||((appPrefs&&appPrefs.setListScope)||'personal'));}catch(e){return v==='shared'?'shared':'personal';}}
   function activeId(scope){try{return (appPrefs&&appPrefs[activeSetPrefKey(scope)])||'';}catch(e){return scope==='shared'?(appPrefs&&appPrefs.activeSharedSetId)||'':(appPrefs&&appPrefs.activePersonalSetId)||'';}}
@@ -17197,7 +17197,7 @@ body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb
 <script id="wb-v76-17-workspace-cleanup-script">
 (function(){
   'use strict';
-  var VERSION='78.7';
+  var VERSION='78.8';
   var KEY='wb.workspace.shell.v1';
   function qs(id){return document.getElementById(id);}
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
@@ -17221,11 +17221,11 @@ body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb
 </script>
 
 
-<!-- WorshipBase v78.7 - Personal Set Lists header polish
+<!-- WorshipBase v78.8 - Personal Set Lists header polish
      Stage A.6 UI repair: keep v78.4-v78.5 routing/personal renderer fixes,
      restore the fuller My Set Lists header metadata by neutralising old v76.x
      Personal metadata hide rules. No routing/storage/backend/PDF changes. -->
-<style id="wb-v78-7-route-and-set-editor-style">
+<style id="wb-v78-8-route-and-set-editor-style">
 /* Canonical tab isolation: hide every main section by default and show exactly
    the requested root section, unless the shared set-list editor is intentionally
    being reused as a Workspace editor. */
@@ -17274,10 +17274,10 @@ body.wb-route-lock.wb-tab-songs #library-filter-row{display:flex!important;}
 #wb-set-editor-bar .wb-editor-sub{font-size:12px!important;font-weight:700!important;color:var(--txt2)!important;line-height:1.25!important;margin-top:2px!important;}
 #wb-set-editor-bar .wb-editor-publish{flex:0 0 auto!important;}
 </style>
-<script id="wb-v78-7-canonical-router-and-setlist-nav">
+<script id="wb-v78-8-canonical-router-and-setlist-nav">
 (function(){
   'use strict';
-  var VERSION='78.7';
+  var VERSION='78.8';
   var ROUTES={songs:'song-section',setlist:'setlist-section',workspace:'workspace-section',bible:'bible-section',settings:'settings-section'};
   var TAB_CLASSES=['wb-tab-songs','wb-tab-setlist','wb-tab-workspace','wb-tab-bible','wb-tab-settings'];
   var routeSeq=0;
@@ -17329,17 +17329,17 @@ body.wb-route-lock.wb-tab-songs #library-filter-row{display:flex!important;}
   function ensureEditorBar(){var bar=qs('wb-set-editor-bar');if(bar)return bar;var section=qs('setlist-section');if(!section)return null;bar=document.createElement('div');bar.id='wb-set-editor-bar';bar.innerHTML='<button class="wb-editor-back" type="button" onclick="goBackFromSetEditor()" aria-label="Back" title="Back">‹</button><div class="wb-editor-title-wrap"><div class="wb-editor-title" id="wb-editor-title">Set list</div><div class="wb-editor-sub" id="wb-editor-sub">Planning board</div></div><button class="wb-editor-publish" id="wb-editor-publish" type="button" onclick="publishCurrentPersonalSetToWorkspace()">Publish</button>';section.insertBefore(bar,section.firstChild);return bar;}
   function updateEditorHeader(scope){var sk=scopeKey(scope);var bar=ensureEditorBar();if(!bar)return;var set=null;try{set=typeof getActiveSet==='function'?getActiveSet(sk):null;}catch(e){}if(!set){var id=(appPrefs&&appPrefs[activeKey(sk)])||'';set=mapFor(sk)[id]||{};}var back=bar.querySelector('.wb-editor-back');if(back){back.textContent='‹';back.setAttribute('aria-label',sk==='shared'?'Back to Workspace Set Lists':'Back to My Set Lists');back.setAttribute('title',sk==='shared'?'Back to Workspace Set Lists':'Back to My Set Lists');}var title=qs('wb-editor-title');if(title)title.textContent=set.name||'Untitled set';var sub=qs('wb-editor-sub');if(sub)sub.textContent=(sk==='shared'?'Workspace':'Personal')+' · '+countLabel(itemsOf(set));var pub=qs('wb-editor-publish');if(pub)pub.hidden=sk!=='personal';}
   function savePrefsSafe(){try{if(typeof savePrefs==='function')savePrefs();}catch(e){} }
-  function saveScope(scope){try{if(scopeKey(scope)==='shared'){if(typeof saveSharedSetsToFB==='function')saveSharedSetsToFB();}else if(typeof savePersonalNamedSets==='function')savePersonalNamedSets();}catch(e){console.warn('v78.7 save scope failed',e);}savePrefsSafe();}
-  function openSetEditor(scope,id){var sk=scopeKey(scope);hydratePersonalSets(false);var sets=mapFor(sk);if(id&&!sets[id])return;routeSeq++;closeTransient();editorContext=sk==='shared'?'workspace':'personal';try{appPrefs.setListScope=sk;appPrefs.useDeviceSetList=sk==='personal';if(id)appPrefs[activeKey(sk)]=id;savePrefsSafe();}catch(e){}setSetEditorMode(sk);ensureEditorBar();updateEditorHeader(sk);try{if(typeof renderSetListScopeUI==='function')renderSetListScopeUI();}catch(e){}try{if(typeof renderNamedSetChooserUI==='function')renderNamedSetChooserUI();}catch(e){}try{if(typeof renderSetList==='function')renderSetList();}catch(e){console.warn('v78.7 render set editor failed',e);}setSetEditorMode(sk);updateEditorHeader(sk);setVersion();var seq=routeSeq;[0,80,220,600].forEach(function(ms){setTimeout(function(){if(seq!==routeSeq)return;setSetEditorMode(sk);updateEditorHeader(sk);},ms);});}
+  function saveScope(scope){try{if(scopeKey(scope)==='shared'){if(typeof saveSharedSetsToFB==='function')saveSharedSetsToFB();}else if(typeof savePersonalNamedSets==='function')savePersonalNamedSets();}catch(e){console.warn('v78.8 save scope failed',e);}savePrefsSafe();}
+  function openSetEditor(scope,id){var sk=scopeKey(scope);hydratePersonalSets(false);var sets=mapFor(sk);if(id&&!sets[id])return;routeSeq++;closeTransient();editorContext=sk==='shared'?'workspace':'personal';try{appPrefs.setListScope=sk;appPrefs.useDeviceSetList=sk==='personal';if(id)appPrefs[activeKey(sk)]=id;savePrefsSafe();}catch(e){}setSetEditorMode(sk);ensureEditorBar();updateEditorHeader(sk);try{if(typeof renderSetListScopeUI==='function')renderSetListScopeUI();}catch(e){}try{if(typeof renderNamedSetChooserUI==='function')renderNamedSetChooserUI();}catch(e){}try{if(typeof renderSetList==='function')renderSetList();}catch(e){console.warn('v78.8 render set editor failed',e);}setSetEditorMode(sk);updateEditorHeader(sk);setVersion();var seq=routeSeq;[0,80,220,600].forEach(function(ms){setTimeout(function(){if(seq!==routeSeq)return;setSetEditorMode(sk);updateEditorHeader(sk);},ms);});}
   function openPersonalHome(){routeSeq++;closeTransient();clearEditorMode();setRouteClass('setlist');selectBottomTab('setlist');showOnly('setlist');try{appPrefs.setListScope='personal';appPrefs.useDeviceSetList=true;savePrefsSafe();}catch(e){}renderPersonalHomeDirect(true);setSetListHomeMode();try{activeTab='setlist';}catch(e){}setVersion();}
-  function showWorkspaceHome(){routeSeq++;closeTransient();afterRoute('workspace');try{var sec=qs('workspace-section');if(sec)sec.classList.remove('workspace-setlists-mode');}catch(e){}try{if(typeof renderWorkspace==='function')renderWorkspace();}catch(e){console.warn('v78.7 render workspace home failed',e);}try{var sec2=qs('workspace-section');if(sec2)sec2.classList.remove('workspace-setlists-mode');}catch(e){}afterRoute('workspace');}
+  function showWorkspaceHome(){routeSeq++;closeTransient();afterRoute('workspace');try{var sec=qs('workspace-section');if(sec)sec.classList.remove('workspace-setlists-mode');}catch(e){}try{if(typeof renderWorkspace==='function')renderWorkspace();}catch(e){console.warn('v78.8 render workspace home failed',e);}try{var sec2=qs('workspace-section');if(sec2)sec2.classList.remove('workspace-setlists-mode');}catch(e){}afterRoute('workspace');}
   function workspaceName(){try{var raw=localStorage.getItem('wb.workspace.shell.v1');var ws=raw?JSON.parse(raw):{};return String((ws&&ws.name)||'Workspace').trim()||'Workspace';}catch(e){return 'Workspace';}}
   function workspaceSetListsHeading(){try{if(typeof workspaceSetListsTitle==='function')return workspaceSetListsTitle();}catch(e){}return workspaceName()+' Set Lists';}
   function sharedEntries(){var sets=mapFor('shared');return Object.entries(sets||{}).filter(function(pair){var set=pair[1]||{};var name=String(set.name||'').trim().toLowerCase();return !(pair[0]==='default'&&!itemsOf(set).length&&(name==='shared set'||name==='workspace set'||name==='set'||!name));}).sort(function(a,b){return Number((b[1]&&b[1].updatedAt)||0)-Number((a[1]&&a[1].updatedAt)||0);});}
   function sharedSummary(entries){var list=entries||sharedEntries();var totals=list.reduce(function(acc,p){var c=itemCounts(itemsOf(p[1]));acc.songs+=c.songs;acc.items+=c.items;return acc;},{songs:0,items:0});var bits=[list.length+' set list'+(list.length===1?'':'s')];if(totals.songs)bits.push(totals.songs+' song'+(totals.songs===1?'':'s'));if(totals.items)bits.push(totals.items+' item'+(totals.items===1?'':'s'));return bits.join(' · ');}
   function ensureWorkspaceSubview(){var view=qs('workspace-setlists-subview');if(view)return view;var scroll=document.querySelector('#workspace-section .workspace-scroll');if(!scroll)return null;view=document.createElement('div');view.id='workspace-setlists-subview';view.className='workspace-subview';view.innerHTML='<div class="workspace-subview-head"><button class="workspace-subview-back" type="button" onclick="showWorkspaceDashboard()" aria-label="Back to Workspace">‹</button><div class="workspace-subview-title-wrap"><div class="workspace-subview-title" id="workspace-subview-title"></div><div class="workspace-subview-sub" id="workspace-subview-sub"></div></div><button class="workspace-subview-new" type="button" onclick="createWorkspaceSetFromWorkspaceSubview()">New</button></div><div id="workspace-subview-list" class="workspace-subview-list"></div>';var hero=scroll.querySelector('.workspace-hero');if(hero)scroll.insertBefore(view,hero);else scroll.insertBefore(view,scroll.firstChild);return view;}
   function renderWorkspaceSetListsDirect(){ensureWorkspaceSubview();var title=qs('workspace-subview-title');if(title)title.textContent=workspaceSetListsHeading();var entries=sharedEntries();var sub=qs('workspace-subview-sub');if(sub)sub.textContent=sharedSummary(entries);var topSub=qs('workspace-setlists-sub');if(topSub)topSub.textContent=entries.length+' set list'+(entries.length===1?'':'s');var list=qs('workspace-subview-list');if(!list)return;list.innerHTML='';if(!entries.length){list.innerHTML='<div class="workspace-subview-empty"><div class="workspace-subview-empty-title">No Workspace set lists yet</div><div>Publish a Personal set or create a new Workspace set list.</div></div>';return;}entries.forEach(function(pair){var id=String(pair[0]),set=pair[1]||{};var notes=noteText(set)?'<span class="workspace-subview-note">Notes</span>':'';var upd=updatedLabel(set);var card=document.createElement('div');card.className='workspace-subview-card';card.setAttribute('role','button');card.tabIndex=0;card.innerHTML='<span class="workspace-subview-main"><span class="workspace-subview-name">'+esc(set.name||'Untitled Workspace set')+'</span><span class="workspace-subview-meta"><span>'+esc(countLabel(itemsOf(set)))+'</span>'+notes+(upd?'<span class="workspace-subview-updated">'+esc(upd)+'</span>':'')+'</span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" aria-label="Delete">×</button></span>';card.addEventListener('click',function(){openSetEditor('shared',id);});card.addEventListener('keydown',function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();openSetEditor('shared',id);}});var buttons=card.querySelectorAll('button');if(buttons[0])buttons[0].addEventListener('click',function(ev){ev.stopPropagation();openSetEditor('shared',id);});if(buttons[1])buttons[1].addEventListener('click',function(ev){ev.stopPropagation();try{if(typeof deleteWorkspaceSetFromWorkspaceSubview==='function')deleteWorkspaceSetFromWorkspaceSubview(id);}catch(e){}});list.appendChild(card);});}
-  function showWorkspaceSetLists(){routeSeq++;closeTransient();afterRoute('workspace');try{if(typeof renderWorkspace==='function')renderWorkspace();}catch(e){}try{var sec=qs('workspace-section');if(sec)sec.classList.add('workspace-setlists-mode');}catch(e){}try{renderWorkspaceSetListsDirect();}catch(e){console.warn('v78.7 render workspace set lists failed',e);}try{var sec2=qs('workspace-section');if(sec2)sec2.classList.add('workspace-setlists-mode');}catch(e){}afterRoute('workspace');try{var sec3=qs('workspace-section');if(sec3)sec3.classList.add('workspace-setlists-mode');}catch(e){}try{var scroll=document.querySelector('#workspace-section .workspace-scroll');if(scroll)scroll.scrollTo({top:0,behavior:'smooth'});}catch(e){}}
+  function showWorkspaceSetLists(){routeSeq++;closeTransient();afterRoute('workspace');try{if(typeof renderWorkspace==='function')renderWorkspace();}catch(e){}try{var sec=qs('workspace-section');if(sec)sec.classList.add('workspace-setlists-mode');}catch(e){}try{renderWorkspaceSetListsDirect();}catch(e){console.warn('v78.8 render workspace set lists failed',e);}try{var sec2=qs('workspace-section');if(sec2)sec2.classList.add('workspace-setlists-mode');}catch(e){}afterRoute('workspace');try{var sec3=qs('workspace-section');if(sec3)sec3.classList.add('workspace-setlists-mode');}catch(e){}try{var scroll=document.querySelector('#workspace-section .workspace-scroll');if(scroll)scroll.scrollTo({top:0,behavior:'smooth'});}catch(e){}}
   function switchCanonical(tab){var requested=tab,route=canonicalTab(tab),seq=++routeSeq;closeTransient();if(route==='setlist'){openPersonalHome();return;}if(route==='workspace'){showWorkspaceHome();return;}afterRoute(route);if(route==='songs'){try{if(requested==='english'||requested==='malayalam'){document.querySelectorAll('#library-filter-row .filter-chip').forEach(function(el){el.classList.toggle('active',el.dataset.filter===libraryFilter);});}var ss=qs('search-scope-select');if(ss&&typeof searchScope!=='undefined')ss.value=searchScope;}catch(e){}try{if(typeof refresh==='function')refresh(true);}catch(e){}}else if(route==='bible'){try{if(typeof loadBibleData==='function')loadBibleData();}catch(e){}}else if(route==='settings'){try{if(typeof renderSettings==='function')renderSettings();}catch(e){}}afterRoute(route);enforceLater(route,seq);}
 
   window.switchTab=switchCanonical;try{switchTab=switchCanonical;}catch(e){}
@@ -17363,9 +17363,9 @@ body.wb-route-lock.wb-tab-songs #library-filter-row{display:flex!important;}
 
 
 
-<!-- WorshipBase v78.7 Personal Set Lists header authority -->
-<style id="wb-v78-7-personal-header-authority-style">
-/* v78.7 - Final Personal Set Lists header owner for the cleanup line.
+<!-- WorshipBase v78.8 Personal Set Lists header authority -->
+<style id="wb-v78-8-personal-header-authority-style">
+/* v78.8 - Final Personal Set Lists header owner for the cleanup line.
    This deliberately overrides old v75/v76 Personal metadata hiding/compacting rules. */
 body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-personal-head{
   display:flex!important;
@@ -17463,10 +17463,10 @@ body.dark.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-
   border:1px solid var(--accent-border)!important;
 }
 </style>
-<script id="wb-v78-7-personal-header-authority-script">
+<script id="wb-v78-8-personal-header-authority-script">
 (function(){
   'use strict';
-  var VERSION='78.7';
+  var VERSION='78.8';
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s==null?'':s).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c];});}}
   function qs(id){return document.getElementById(id);} 
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
@@ -17484,7 +17484,7 @@ body.dark.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-
       meta.style.display='flex';meta.style.visibility='visible';meta.style.height='auto';meta.style.minHeight='18px';meta.style.marginTop='7px';meta.style.padding='0';meta.style.overflow='visible';meta.style.opacity='1';
     }
     var title=document.querySelector('#wb-personal-manager .wb-personal-title');if(title)title.textContent='My Set Lists';
-  }catch(e){console.warn('v78.7 Personal header restore failed',e);}}
+  }catch(e){console.warn('v78.8 Personal header restore failed',e);}}
   function wrap(name){var old=window[name];if(typeof old==='function'&&!old.__wb786PersonalHeader){var fn=function(){var out=old.apply(this,arguments);restore();setTimeout(restore,0);setTimeout(restore,80);setTimeout(restore,260);return out;};fn.__wb786PersonalHeader=true;window[name]=fn;try{eval(name+'=window[name]');}catch(e){}}}
   function init(){['showPersonalList','renderPersonalManager','switchTab','createPersonalSetFromManager','deletePersonalSetFromManager'].forEach(wrap);restore();[0,80,220,520,920,1400].forEach(function(ms){setTimeout(restore,ms);});}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
@@ -17493,8 +17493,8 @@ body.dark.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-
 
 
 
-<!-- WorshipBase v78.7 - startup gate + Workspace metadata polish -->
-<style id="wb-v78-7-startup-workspace-polish-style">
+<!-- WorshipBase v78.8 - startup gate + Workspace metadata polish -->
+<style id="wb-v78-8-startup-workspace-polish-style">
 /* Softer Personal header metadata: visible but less heavy than the title. */
 body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-personal-meta,
 body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager #wb-personal-meta{
@@ -17609,10 +17609,10 @@ body.dark.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-
   border:1px solid var(--accent-border)!important;
 }
 </style>
-<script id="wb-v78-7-startup-workspace-polish-script">
+<script id="wb-v78-8-startup-workspace-polish-script">
 (function(){
   'use strict';
-  var VERSION='78.7';
+  var VERSION='78.8';
   var readyDone=false;
   var oldHideLoading=window.hideLoading;
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s==null?'':s).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c];});}}
@@ -17625,9 +17625,9 @@ body.dark.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-
   function restoreWorkspaceMeta(){try{
     var sub=document.getElementById('workspace-subview-sub');
     var title=document.getElementById('workspace-subview-title');
-    if(title)title.textContent='Workspace Set Lists';
+    if(title)title.textContent=(typeof window.workspaceSetListsTitle==='function'?window.workspaceSetListsTitle():'Workspace Set Lists');
     if(sub){sub.innerHTML=esc(totals(entriesFor('workspace')))+'<span class="workspace-subview-scope">Workspace</span>';}
-  }catch(e){console.warn('v78.7 Workspace metadata restore failed',e);}}
+  }catch(e){console.warn('v78.8 Workspace metadata restore failed',e);}}
   function restorePersonalSoftness(){try{
     var meta=document.getElementById('wb-personal-meta');
     if(meta){meta.style.fontWeight='610';meta.style.color='var(--txt2)';}
@@ -17647,8 +17647,141 @@ body.dark.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-
     window.hideLoading=guardedHideLoading;
     try{hideLoading=guardedHideLoading;}catch(e){}
   }
-  function wrap(name){var old=window[name];if(typeof old==='function'&&!old.__wb787Polish){var fn=function(){var out=old.apply(this,arguments);polish();setTimeout(polish,0);setTimeout(polish,120);return out;};fn.__wb787Polish=true;window[name]=fn;try{eval(name+'=window[name]');}catch(e){}}}
+  function wrap(name){var old=window[name];if(typeof old==='function'&&!old.__wb788Polish){var fn=function(){var out=old.apply(this,arguments);polish();setTimeout(polish,0);setTimeout(polish,120);return out;};fn.__wb788Polish=true;window[name]=fn;try{eval(name+'=window[name]');}catch(e){}}}
   function init(){setVersion();['openWorkspaceSetLists','renderWorkspaceSetListsSubview','createWorkspaceSetFromWorkspaceTab','createWorkspaceSetFromWorkspaceSubview','deleteWorkspaceSetFromWorkspaceSubview','showPersonalList','renderPersonalManager','createPersonalSetFromManager','deletePersonalSetFromManager'].forEach(wrap);polish();[0,120,360,900,1500].forEach(function(ms){setTimeout(polish,ms);});setTimeout(function(){if(!readyDone)finishReady();},3600);} 
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+
+
+
+<!-- WorshipBase v78.8 - Workspace title and metadata polish
+     Scope: visual/text polish only. Align Workspace Set Lists title to the active
+     workspace name, soften Personal/Workspace header metadata, reduce oversized
+     title-card typography, and lighten set-editor metadata. No storage, Firebase,
+     Google Drive, PDF, bottom-sheet, or data-model changes. -->
+<style id="wb-v78-8-title-metadata-polish-style">
+/* Personal Set Lists title card: closer to the stable main-repo scale, but with
+   the restored summary metadata kept visible and softer. */
+body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-personal-head{
+  padding:17px 24px!important;
+  min-height:76px!important;
+  border-radius:23px!important;
+  gap:13px!important;
+}
+body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-personal-title{
+  font-size:24px!important;
+  font-weight:805!important;
+  letter-spacing:-.047em!important;
+  line-height:1.08!important;
+}
+body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-personal-meta,
+body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager #wb-personal-meta{
+  font-size:13px!important;
+  font-weight:520!important;
+  color:color-mix(in srgb,var(--txt2) 76%,var(--txt3))!important;
+  letter-spacing:-.006em!important;
+  line-height:1.34!important;
+  margin-top:6px!important;
+  gap:7px!important;
+}
+body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-personal-local{
+  min-height:20px!important;
+  padding:3px 9px!important;
+  font-size:10px!important;
+  font-weight:650!important;
+  color:var(--txt3)!important;
+  background:color-mix(in srgb,var(--bg2) 66%,var(--bg1))!important;
+  opacity:.95!important;
+}
+body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-personal-new{
+  min-height:44px!important;
+  padding:11px 20px!important;
+  font-size:14px!important;
+  font-weight:820!important;
+}
+
+/* Workspace Set Lists title card: title must be workspace-name based, not the
+   generic "Workspace Set Lists" label. Typography is intentionally less loud. */
+#workspace-section.workspace-setlists-mode #workspace-setlists-subview .workspace-subview-head{
+  padding:17px 24px!important;
+  min-height:76px!important;
+  border-radius:23px!important;
+  gap:13px!important;
+}
+#workspace-section.workspace-setlists-mode #workspace-setlists-subview .workspace-subview-back{
+  width:34px!important;
+  height:34px!important;
+  min-width:34px!important;
+  max-width:34px!important;
+  font-size:23px!important;
+}
+#workspace-section.workspace-setlists-mode #workspace-setlists-subview .workspace-subview-title{
+  font-size:24px!important;
+  font-weight:805!important;
+  letter-spacing:-.047em!important;
+  line-height:1.08!important;
+  max-width:100%!important;
+}
+#workspace-section.workspace-setlists-mode #workspace-setlists-subview .workspace-subview-sub{
+  font-size:13px!important;
+  font-weight:520!important;
+  color:color-mix(in srgb,var(--txt2) 76%,var(--txt3))!important;
+  letter-spacing:-.006em!important;
+  line-height:1.34!important;
+  margin-top:6px!important;
+  gap:7px!important;
+}
+#workspace-section.workspace-setlists-mode #workspace-setlists-subview .workspace-subview-scope{
+  min-height:20px!important;
+  padding:3px 9px!important;
+  font-size:10px!important;
+  font-weight:650!important;
+  color:var(--txt3)!important;
+  background:color-mix(in srgb,var(--bg2) 66%,var(--bg1))!important;
+  opacity:.95!important;
+}
+#workspace-section.workspace-setlists-mode #workspace-setlists-subview .workspace-subview-new{
+  min-height:44px!important;
+  padding:11px 20px!important;
+  font-size:14px!important;
+  font-weight:820!important;
+}
+
+/* Set editor title strip metadata: keep useful context, reduce visual weight. */
+#wb-set-editor-bar .wb-editor-sub{
+  font-size:11.5px!important;
+  font-weight:520!important;
+  color:color-mix(in srgb,var(--txt2) 72%,var(--txt3))!important;
+  letter-spacing:-.004em!important;
+}
+</style>
+<script id="wb-v78-8-title-metadata-polish-script">
+(function(){
+  'use strict';
+  var VERSION='78.8';
+  function esc(s){try{return escapeHtml(s);}catch(e){return String(s==null?'':s).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c];});}}
+  function qs(id){return document.getElementById(id);} 
+  function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
+  function itemCounts(items){var songs=0,plan=0;(items||[]).forEach(function(it){var t=String((it&&it.type)||'song').toLowerCase();if(t==='section'||t==='item'||t==='service')plan++;else if(t==='song'||(it&&it.songId))songs++;});return {songs:songs,items:plan};}
+  function noteText(set){return String((set&&set.notes)||'').trim();}
+  function workspaceNameSafe(){
+    try{if(typeof window.workspaceName==='function'){var n=String(window.workspaceName()||'').trim();if(n)return n;}}catch(e){}
+    try{var raw=localStorage.getItem('wb.workspace.shell.v1');if(raw){var obj=JSON.parse(raw)||{};var n2=String(obj.name||obj.workspaceName||obj.title||'').trim();if(n2)return n2;}}catch(e){}
+    try{var raw2=localStorage.getItem('wb.workspace.v1');if(raw2){var obj2=JSON.parse(raw2)||{};var n3=String(obj2.name||obj2.workspaceName||obj2.title||'').trim();if(n3)return n3;}}catch(e){}
+    return 'Workspace';
+  }
+  function workspaceSetListsTitleSafe(){return workspaceNameSafe()+' Set Lists';}
+  try{window.workspaceSetListsTitle=workspaceSetListsTitleSafe;}catch(e){}
+  function entriesForWorkspace(){var sets={};try{sets=(typeof _sharedSets!=='undefined'&&_sharedSets)||{};}catch(e){}return Object.entries(sets).filter(function(pair){var id=pair[0],set=pair[1]||{};var name=String(set.name||'').trim().toLowerCase();if(id==='default'&&!itemsOf(set).length&&!noteText(set)&&(name==='shared set'||name==='workspace set'||name==='set'||!name))return false;return true;});}
+  function totals(list){var songs=0,plan=0;(list||[]).forEach(function(p){var c=itemCounts(itemsOf(p[1]));songs+=c.songs;plan+=c.items;});var bits=[(list||[]).length+' set'+((list||[]).length===1?'':'s')];if(songs)bits.push(songs+' song'+(songs===1?'':'s'));if(plan)bits.push(plan+' item'+(plan===1?'':'s'));return bits.join(' · ');}
+  function setVersion(){try{document.title='WorshipBase v'+VERSION;window.WB_CURRENT_VERSION=VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}}
+  function restoreWorkspaceHeader(){try{var title=qs('workspace-subview-title');if(title)title.textContent=workspaceSetListsTitleSafe();var sub=qs('workspace-subview-sub');if(sub)sub.innerHTML=esc(totals(entriesForWorkspace()))+'<span class="workspace-subview-scope">Workspace</span>';var topSub=qs('workspace-setlists-sub');if(topSub)topSub.textContent=totals(entriesForWorkspace());}catch(e){console.warn('v78.8 Workspace header polish failed',e);}}
+  function restorePersonalHeader(){try{var meta=qs('wb-personal-meta');if(meta){meta.style.fontWeight='520';meta.style.color='color-mix(in srgb,var(--txt2) 76%,var(--txt3))';}var local=document.querySelector('#wb-personal-manager .wb-personal-local');if(local){local.style.fontWeight='650';local.style.color='var(--txt3)';}}catch(e){}}
+  function restoreEditorMeta(){try{var sub=qs('wb-editor-sub');if(sub){sub.style.fontWeight='520';sub.style.color='color-mix(in srgb,var(--txt2) 72%,var(--txt3))';}}catch(e){}}
+  function polish(){setVersion();restoreWorkspaceHeader();restorePersonalHeader();restoreEditorMeta();}
+  function wrap(name){var old=window[name];if(typeof old==='function'&&!old.__wb788TitleMeta){var fn=function(){var out=old.apply(this,arguments);polish();setTimeout(polish,0);setTimeout(polish,80);setTimeout(polish,220);return out;};fn.__wb788TitleMeta=true;window[name]=fn;try{eval(name+'=window[name]');}catch(e){}}}
+  function init(){['openWorkspaceSetLists','renderWorkspaceSetListsSubview','createWorkspaceSetFromWorkspaceTab','createWorkspaceSetFromWorkspaceSubview','deleteWorkspaceSetFromWorkspaceSubview','showPersonalList','renderPersonalManager','createPersonalSetFromManager','deletePersonalSetFromManager','renderSetList','goBackFromSetEditor'].forEach(wrap);polish();[0,80,220,520,920,1500].forEach(function(ms){setTimeout(polish,ms);});}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
