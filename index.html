@@ -3117,7 +3117,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 body.dark #workspace-section .workspace-sub,body.dark #workspace-section .workspace-card-sub,body.dark #workspace-section .workspace-subview-meta,body.dark #workspace-section .workspace-subview-sub,body.dark #wb-personal-manager .wb-personal-card-meta,body.dark #wb-set-editor-bar .wb-editor-sub{color:var(--txt3)!important;}
 </style>
 <script src="https://accounts.google.com/gsi/client" async="" defer="" data-wb-google-identity="1"></script></head>
-<body class="wb-route-lock wb-ui-ready wb-tab-songs">
+<body class="wb-route-lock wb-ui-ready wb-set-editor-mode wb-set-editor-personal wb-tab-setlist">
 <!-- LOADING -->
 <div id="ls" class="hidden" style="display: none;">
 <img alt="WorshipBase logo" src="assets/wb-icon-192.png" style="width:60px;height:60px;border-radius:14px;display:block;object-fit:cover;margin-bottom:20px;">
@@ -3126,7 +3126,7 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 <div class="ls-sp"></div>
 </div>
 <div class="sync-badge" id="sync-badge"></div>
-<div id="toast"></div>
+<div id="toast" class="" style="left: 50%; transform: translate3d(-50%, 8px, 0px);">Open a set first</div>
 <!-- ═══ LIST VIEW ═══ -->
 <div id="list-view">
 <div class="hdr">
@@ -3163,7 +3163,7 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 </div>
 </div>
 <!-- Search + library filters -->
-<div class="srch-wrap" id="srch-wrap" style="display: block;">
+<div class="srch-wrap" id="srch-wrap" style="display: none;">
 <div class="srch-row">
 <div class="srch-inner">
 <span class="srch-ico"><svg fill="none" height="14" viewBox="0 0 15 15" width="14"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 10L13 13" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></span>
@@ -3180,7 +3180,7 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 </select>
 </label>
 </div>
-<div class="filter-row" id="library-filter-row" style="display: flex;">
+<div class="filter-row" id="library-filter-row" style="display: none;">
 <button class="filter-chip active" data-filter="all" onclick="setLibraryFilter('all',this)">All</button>
 <button class="filter-chip" data-filter="mine" onclick="setLibraryFilter('mine',this)">My Songs</button>
 <button class="filter-chip" data-filter="english" onclick="setLibraryFilter('english',this)">English</button>
@@ -3199,10 +3199,10 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 </div>
 </div>
 <!-- SONG LIST -->
-<div id="song-section" style="flex: 1 1 0%; display: flex; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;">
+<div id="song-section" style="flex: 1 1 0%; display: none; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;">
 <div class="vs-host ptr-wrap">
 <div id="ptr-indicator"><svg fill="none" height="18" viewBox="0 0 18 18" width="18"><path d="M9 2v4M9 2l-2 2M9 2l2 2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path><path d="M16 9a7 7 0 1 1-7-7" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path></svg></div>
-<div class="vs-wrap" id="vscroll"><div class="library-count-row" id="library-count-row"><span class="song-count" id="song-count">76 songs</span></div><div class="home-quick-wrap" id="home-quick-wrap" style="display: flex;">
+<div class="vs-wrap" id="vscroll" style="-webkit-overflow-scrolling: touch;"><div class="library-count-row" id="library-count-row"><span class="song-count" id="song-count">76 songs</span></div><div class="home-quick-wrap" id="home-quick-wrap" style="display: flex;">
 <div class="quick-section" id="recent-songs-section" style="display: none;">
 <div class="quick-head">
 <div class="quick-title">Recently opened</div>
@@ -3218,11 +3218,11 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 </button>
 </div>
 <!-- SET LIST -->
-<div id="setlist-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;position:relative;min-height:0;">
+<div id="setlist-section" style="display: flex; flex: 1 1 0%; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;" class="wb-editor-mode"><div id="wb-set-editor-bar"><button class="wb-editor-back" type="button" onclick="goBackFromSetEditor()" aria-label="Back to My Set Lists" title="Back to My Set Lists">‹</button><div class="wb-editor-title-wrap"><div class="wb-editor-title" id="wb-editor-title">Untitled set</div><div class="wb-editor-sub" id="wb-editor-sub" style="font-weight: 500; color: var(--txt3);">Personal</div></div><button class="wb-editor-publish" id="wb-editor-publish" type="button" onclick="publishCurrentPersonalSetToWorkspace()">Publish</button></div><div id="wb-personal-manager"><div class="wb-personal-scroll"><div class="wb-personal-head"><div class="wb-personal-copy"><div class="wb-personal-title">My Set Lists</div><div class="wb-personal-meta" id="wb-personal-meta" style="display: flex; visibility: visible; height: auto; min-height: 18px; margin-top: 7px; padding: 0px; overflow: visible; opacity: 1; font-weight: 500; color: var(--txt3);">0 sets<span class="wb-personal-local">Saved locally</span></div></div><button class="wb-personal-new" type="button" onclick="createPersonalSetFromManager()">New</button></div><div id="wb-personal-list" class="wb-personal-list"><div class="wb-personal-empty"><strong>No personal set lists yet</strong>Create a set list to start planning locally on this device.</div></div></div></div>
 <!-- v79.4: old Personal/Shared segmented control removed. Set List home is personal-only; Workspace owns team/shared sets. -->
 <div class="sl-hdr">
 <div class="sl-hdr-meta" style="display: flex;">
-<span class="sl-lbl" id="sl-count">8 songs · 7 items</span><span id="sl-set-key-info" class="sl-set-key-info"></span>
+<span class="sl-lbl" id="sl-count">0 songs</span><span id="sl-set-key-info" class="sl-set-key-info"></span>
 </div>
 <div class="sl-btns">
 <button aria-label="Set options" class="sl-option-btn icon-only" onclick="openSetListOptions()" title="Set options"><svg aria-hidden="true" fill="none" height="4" viewBox="0 0 18 4" width="18"><circle cx="2" cy="2" fill="currentColor" r="2"></circle><circle cx="9" cy="2" fill="currentColor" r="2"></circle><circle cx="16" cy="2" fill="currentColor" r="2"></circle></svg></button>
@@ -3230,7 +3230,7 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 </div>
 </div>
 <div class="sl-scroll-host vs-host">
-<div style="position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;"><div class="sl-items" id="sl-items"><div class="sl-empty"><div class="wb-empty-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 18.5a2.5 2.5 0 1 1-1-2V5l10-2v11.5a2.5 2.5 0 1 1-1-2V7L9 8.5z"></path></svg></div><div class="sl-et">No set list selected</div><div class="sl-es">Choose a set from My Set Lists or Workspace Set Lists before adding songs, sections, or service items.</div></div></div></div>
+<div style="position: absolute; inset: 0px; overflow: hidden auto; -webkit-overflow-scrolling: touch;"><div class="sl-items" id="sl-items"><div class="sl-empty"><div class="wb-empty-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 18.5a2.5 2.5 0 1 1-1-2V5l10-2v11.5a2.5 2.5 0 1 1-1-2V7L9 8.5z"></path></svg></div><div class="sl-et">No items in New Set</div><div class="sl-es">Use the set options menu to add songs, sections, or service items.</div></div></div></div>
 </div>
 <button aria-label="Add to set list" class="add-fab" onclick="openBS('picker')"><svg fill="none" height="22" viewBox="0 0 22 22" width="22"><path d="M11 3v16M3 11h16" stroke="currentColor" stroke-linecap="round" stroke-width="2.4"></path></svg></button>
 </div>
@@ -3283,7 +3283,7 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 <button class="bible-combo-btn version" onclick="openBibleVersionPicker()" type="button"><span class="truncate" id="bible-version-label">ESV</span></button>
 </div>
 <div class="bible-meta" id="bible-meta">ESV Bible</div>
-<div class="bible-scroll" id="bible-scroll">
+<div class="bible-scroll" id="bible-scroll" style="-webkit-overflow-scrolling: touch;">
 <div class="bible-card" id="bible-card">
 <div class="bible-empty" id="bible-empty">Loading Bible…</div>
 </div>
@@ -3293,7 +3293,7 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 </div>
 <!-- SETTINGS -->
 <div id="settings-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;min-height:0;">
-<div class="settings-scroll">
+<div class="settings-scroll" style="-webkit-overflow-scrolling: touch;">
 <div class="ss-section">
 <div class="ss-title">Appearance</div>
 <div class="ss-card">
@@ -3449,7 +3449,7 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 <!-- BOTTOM TAB BAR — last flex child of #list-view -->
 <div class="tab-bar" id="tab-bar">
 <!-- Library tab -->
-<button class="tab-btn active" id="tab-songs" onclick="switchTab('songs')">
+<button class="tab-btn" id="tab-songs" onclick="switchTab('songs')">
 <span class="tab-ico">
 <svg class="ico-outline" fill="none" height="24" viewBox="0 0 24 24" width="24"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path></svg>
 <svg class="ico-filled" fill="none" height="24" viewBox="0 0 24 24" width="24"><path d="M4 6h16" stroke="currentColor" stroke-linecap="round" stroke-width="2.6"></path><path d="M4 12h10" stroke="currentColor" stroke-linecap="round" stroke-width="2.6"></path><path d="M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="2.6"></path></svg>
@@ -3457,7 +3457,7 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 <span class="tab-lbl">Library</span>
 </button>
 <!-- Set List tab -->
-<button class="tab-btn" id="tab-setlist" onclick="switchTab('setlist')">
+<button class="tab-btn active" id="tab-setlist" onclick="switchTab('setlist')">
 <span class="tab-ico">
 <!-- outline: squares with no fill opacity -->
 <svg class="ico-outline" fill="none" height="24" viewBox="0 0 24 24" width="24"><rect height="4" rx="1" stroke="currentColor" stroke-width="1.8" width="4" x="3" y="5"></rect><rect height="4" rx="1" stroke="currentColor" stroke-width="1.8" width="4" x="3" y="11"></rect><rect height="4" rx="1" stroke="currentColor" stroke-width="1.8" width="4" x="3" y="17"></rect><path d="M11 7h10M11 13h8M11 19h9" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path></svg>
@@ -3649,7 +3649,7 @@ body.dark #workspace-section .workspace-sub,body.dark #workspace-section .worksp
 <div class="sv-orig-key" id="sv-orig-key"></div>
 <div class="sv-song-id" id="sv-song-id"></div>
 </div>
-<div class="sv-scroll" id="sv-scroll">
+<div class="sv-scroll" id="sv-scroll" style="-webkit-overflow-scrolling: touch;">
 <div class="sv-ctrls">
 <div class="sv-main-row">
 <div class="seg-bar" id="view-seg">
@@ -4105,14 +4105,14 @@ line 18 | Hold / pause"></textarea>
 <div class="bs-bg" id="bs-sets" onclick="closeBSBg(event,'sets')">
 <div class="bs">
 <div class="bs-handle"></div>
-<div class="m-tr"><h2 class="m-h2" id="sets-title">Shared set lists</h2><button class="m-close" onclick="closeBS('sets')">×</button></div>
+<div class="m-tr"><h2 class="m-h2" id="sets-title">Personal set lists</h2><button class="m-close" onclick="closeBS('sets')">×</button></div>
 <div class="m-body" style="padding-bottom:6px;">
 <p style="font-size:13px;color:var(--txt2);margin-bottom:12px;line-height:1.55;">Choose, rename, delete, or create a set list for this scope.</p>
 </div>
-<div class="namedset-list" id="namedset-list"><div class="namedset-item active"><button class="namedset-main" onclick="selectNamedSet('set_mor6vag7y5sv')"><div class="namedset-name">Backup test (Workspace)</div><div class="namedset-meta">8 songs · 7 items · Current · <span class="namedset-note-chip">Notes</span></div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_mor6vag7y5sv')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_mor6vag7y5sv')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_mor6ven4890n')"><div class="namedset-name">New Workspace Set (Personal) (Workspace)</div><div class="namedset-meta">3 songs · 4 items</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_mor6ven4890n')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_mor6ven4890n')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_morklyc4yg1n')"><div class="namedset-name">New Set1234 (Workspace)</div><div class="namedset-meta">0 songs</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_morklyc4yg1n')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_morklyc4yg1n')">Delete</button></div></div></div>
+<div class="namedset-list" id="namedset-list"><div class="namedset-item active"><button class="namedset-main" onclick="selectNamedSet('set_morl17ny8tcz')"><div class="namedset-name">New Set</div><div class="namedset-meta">0 songs · Current</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_morl17ny8tcz')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_morl17ny8tcz')">Delete</button></div></div></div>
 <div class="m-acts" style="padding:0 18px 8px;">
 <button class="btn-s" onclick="createNamedSet()" type="button">New set list</button>
-<button class="btn-s" id="sets-copy-btn" onclick="copyActiveSetToOtherScope()" type="button">Copy to Personal</button>
+<button class="btn-s" id="sets-copy-btn" onclick="copyActiveSetToOtherScope()" type="button">Copy to Shared</button>
 </div>
 <button class="bs-cancel" onclick="closeBS('sets')">Done</button>
 </div>
@@ -4133,7 +4133,7 @@ line 18 | Hold / pause"></textarea>
 </div>
 <!-- SET LIST OPTIONS -->
 <div class="bs-bg" id="bs-setoptions" onclick="closeBSBg(event,'setoptions')">
-<div class="bs">
+<div class="bs" data-swipe-attached="1">
 <div class="bs-handle"></div>
 <div class="bs-title">Set options</div>
 <button class="mi" onclick="renameCurrentSetFromOptions();closeBS('setoptions')">
@@ -4148,7 +4148,7 @@ line 18 | Hold / pause"></textarea>
 <span class="mi-icon-wrap"><svg fill="none" height="17" viewBox="0 0 17 17" width="17"><path d="M8.5 2.5v8" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path><path d="M5.7 8.2l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path><path d="M3 14h11" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg></span>
       Export
     </button>
-<button class="mi has-set-notes" onclick="openSetNotesSheet();closeBS('setoptions')">
+<button class="mi" onclick="openSetNotesSheet();closeBS('setoptions')">
 <span class="mi-icon-wrap"><svg fill="none" height="17" viewBox="0 0 17 17" width="17"><path d="M4 2.5h9v12H4z" stroke="currentColor" stroke-width="1.4"></path><path d="M6.5 6h4M6.5 8.5h4M6.5 11h2.8" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></span>
       Set notes
     <span class="set-options-note-badge">Saved</span></button>
@@ -12130,7 +12130,7 @@ body.dark .pad-chip.active,body.dark .pad-key.active{background:var(--accent-sur
   updatePadUI();
   window.WorshipBasePad={start:startPad,stop:stopPad,setKey:setPadKey,setMode:setPadMode,state:PAD_STATE};
 })();
-</script><div class="bs-bg" id="bs-pad" onclick="closeBSBg(event,'pad')" data-wb-pad-library3-cat="1"><div class="bs"><div class="bs-handle"></div><div class="bs-title">Pad</div><div class="pad-panel"><div class="pad-status-card"><div class="pad-status-copy"><div class="pad-status-title" id="pad-status-title">Pad ready</div><div class="pad-status-sub" id="pad-status-sub" style="display: none;"></div></div><button class="pad-power" id="pad-power-btn" type="button">Start</button></div><div class="pad-row-title">Category</div><div class="pad-seg"><button class="pad-chip active" type="button" data-pad-mode="peaceful">Peaceful</button><button class="pad-chip" type="button" data-pad-mode="analog">Analog</button><button class="pad-chip" type="button" data-pad-mode="drones">Drones</button></div><div class="pad-row-title">Key</div><div class="pad-key-grid"><button class="pad-key active" type="button" data-pad-key="C">C</button><button class="pad-key" type="button" data-pad-key="C#">C#</button><button class="pad-key" type="button" data-pad-key="D">D</button><button class="pad-key" type="button" data-pad-key="Eb">Eb</button><button class="pad-key" type="button" data-pad-key="E">E</button><button class="pad-key" type="button" data-pad-key="F">F</button><button class="pad-key" type="button" data-pad-key="F#">F#</button><button class="pad-key" type="button" data-pad-key="G">G</button><button class="pad-key" type="button" data-pad-key="Ab">Ab</button><button class="pad-key" type="button" data-pad-key="A">A</button><button class="pad-key" type="button" data-pad-key="Bb">Bb</button><button class="pad-key" type="button" data-pad-key="B">B</button></div></div><button class="bs-cancel" type="button" onclick="closeBS('pad')">Close</button></div></div>
+</script><div class="bs-bg" id="bs-pad" onclick="closeBSBg(event,'pad')" data-wb-pad-library3-cat="1"><div class="bs"><div class="bs-handle"></div><div class="bs-title">Pad</div><div class="pad-panel"><div class="pad-status-card"><div class="pad-status-copy"><div class="pad-status-title" id="pad-status-title">Pad ready</div><div class="pad-status-sub" id="pad-status-sub" style="display: none;">Peaceful · C</div></div><button class="pad-power" id="pad-power-btn" type="button">Start</button></div><div class="pad-row-title">Category</div><div class="pad-seg"><button class="pad-chip active" type="button" data-pad-mode="peaceful">Peaceful</button><button class="pad-chip" type="button" data-pad-mode="analog">Analog</button><button class="pad-chip" type="button" data-pad-mode="drones">Drones</button></div><div class="pad-row-title">Key</div><div class="pad-key-grid"><button class="pad-key active" type="button" data-pad-key="C">C</button><button class="pad-key" type="button" data-pad-key="C#">C#</button><button class="pad-key" type="button" data-pad-key="D">D</button><button class="pad-key" type="button" data-pad-key="Eb">Eb</button><button class="pad-key" type="button" data-pad-key="E">E</button><button class="pad-key" type="button" data-pad-key="F">F</button><button class="pad-key" type="button" data-pad-key="F#">F#</button><button class="pad-key" type="button" data-pad-key="G">G</button><button class="pad-key" type="button" data-pad-key="Ab">Ab</button><button class="pad-key" type="button" data-pad-key="A">A</button><button class="pad-key" type="button" data-pad-key="Bb">Bb</button><button class="pad-key" type="button" data-pad-key="B">B</button></div></div><button class="bs-cancel" type="button" onclick="closeBS('pad')">Close</button></div></div>
 <style>
 /* ── v70.2 corrections: visible set counter, clear pad affordance, musical-key icons ── */
 #setlist-section .sl-hdr{
@@ -17257,6 +17257,163 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
   window.WBSongReturnContextAudit=function(){
     var ctx=window.WB_SONG_RETURN_CONTEXT||null;
     return {version:VERSION,context:ctx?Object.assign({},ctx):null,activeTab:(function(){try{return activeTab;}catch(e){return null;}})(),setListScope:(function(){try{return appPrefs&&appPrefs.setListScope;}catch(e){return null;}})(),workspaceEditor:isWorkspaceEditorContext(),activeSharedSetId:currentSharedSetId(),activeSharedSetExists:sharedSetExists(currentSharedSetId()),songOpen:document.body.classList.contains('song-open')};
+  };
+  setVersion();
+})();
+</script>
+
+
+
+<script id="wb-v79-9-navigation-context-authority-script">
+(function(){
+  'use strict';
+  var VERSION='79.9';
+  function qs(id){return document.getElementById(id);} 
+  function setVersion(){
+    try{document.title='WorshipBase v'+VERSION;}catch(e){}
+    try{window.WB_CURRENT_VERSION=VERSION;}catch(e){}
+    try{document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}
+    try{if(window.WBAppRouter)window.WBAppRouter.version=VERSION;}catch(e){}
+    try{if(window.WBWorkspaceRouteMemory)window.WBWorkspaceRouteMemory.version=VERSION;}catch(e){}
+  }
+  function scopeKey(scope){try{return setScopeKey(scope);}catch(e){return String(scope||'personal')==='shared'?'shared':'personal';}}
+  function activeSetPrefKeySafe(scope){try{return activeSetPrefKey(scopeKey(scope));}catch(e){return scopeKey(scope)==='shared'?'activeSharedSetId':'activePersonalSetId';}}
+  function getSets(scope){try{return scopeKey(scope)==='shared'?((typeof _sharedSets!=='undefined'&&_sharedSets)||{}):((typeof _personalSets!=='undefined'&&_personalSets)||{});}catch(e){return {};}}
+  function setSets(scope,sets){try{if(scopeKey(scope)==='shared')_sharedSets=sets||{};else _personalSets=sets||{};}catch(e){}}
+  function activeId(scope){try{return (appPrefs&&appPrefs[activeSetPrefKeySafe(scope)])||'';}catch(e){return '';}}
+  function setActiveId(scope,id){try{if(appPrefs)appPrefs[activeSetPrefKeySafe(scope)]=id||'';}catch(e){}}
+  function saveScope(scope){
+    try{if(scopeKey(scope)==='shared'){if(typeof saveSharedSetsToFB==='function')saveSharedSetsToFB();}else{if(typeof savePersonalNamedSets==='function')savePersonalNamedSets();}}catch(e){console.warn('v79.9 save scope failed',e);} 
+    try{if(typeof savePrefs==='function')savePrefs();}catch(e){}
+    try{if(typeof queueSaveLastState==='function')queueSaveLastState();}catch(e){}
+  }
+  function currentEditorScope(){
+    try{if(document.body.classList.contains('wb-set-editor-workspace'))return 'shared';}catch(e){}
+    try{if(document.body.classList.contains('wb-set-editor-personal'))return 'personal';}catch(e){}
+    try{if(appPrefs&&appPrefs.setListScope==='shared')return 'shared';}catch(e){}
+    return 'personal';
+  }
+  function setActiveBottom(tab){
+    try{document.querySelectorAll('.tab-btn').forEach(function(btn){var key=(btn.dataset&&btn.dataset.tab)||String(btn.id||'').replace(/^tab-/,'');btn.classList.toggle('active',key===tab);});}catch(e){}
+  }
+  function hideLibraryChrome(){
+    try{var sw=qs('srch-wrap');if(sw)sw.style.display='none';}catch(e){}
+    try{var fr=qs('library-filter-row');if(fr)fr.style.display='none';}catch(e){}
+  }
+  function enforceEditorContext(scope){
+    var sk=scopeKey(scope), tab=sk==='shared'?'workspace':'setlist';
+    try{
+      document.body.classList.add('wb-route-lock','wb-set-editor-mode');
+      ['songs','setlist','workspace','bible','settings'].forEach(function(t){document.body.classList.remove('wb-tab-'+t);});
+      document.body.classList.add('wb-tab-'+tab);
+      document.body.classList.toggle('wb-set-editor-workspace',sk==='shared');
+      document.body.classList.toggle('wb-set-editor-personal',sk!=='shared');
+    }catch(e){}
+    try{var sl=qs('setlist-section');if(sl){sl.style.display='flex';sl.classList.add('wb-editor-mode');sl.classList.remove('wb-list-mode');}}catch(e){}
+    try{['song-section','workspace-section','bible-section','settings-section'].forEach(function(id){var el=qs(id);if(el)el.style.display='none';});}catch(e){}
+    hideLibraryChrome();
+    setActiveBottom(tab);
+    try{activeTab=tab;}catch(e){}
+    try{if(appPrefs){appPrefs.setListScope=sk;appPrefs.useDeviceSetList=sk!=='shared';}}catch(e){}
+    try{if(typeof updateHeaderAddButton==='function')updateHeaderAddButton(tab);}catch(e){}
+    setVersion();
+  }
+  function updateEditorTitle(scope){
+    var sk=scopeKey(scope), sets=getSets(sk), id=activeId(sk), set=sets&&sets[id]||{};
+    try{var title=qs('wb-editor-title');if(title)title.textContent=set.name||'Untitled set';}catch(e){}
+    try{var sub=qs('wb-editor-sub');if(sub)sub.textContent=sk==='shared'?'Workspace':'Personal';}catch(e){}
+    try{var pub=qs('wb-editor-publish');if(pub)pub.hidden=sk==='shared';}catch(e){}
+    try{var back=document.querySelector('#wb-set-editor-bar .wb-editor-back');if(back){back.textContent='‹';back.setAttribute('aria-label',sk==='shared'?'Back to Workspace Set Lists':'Back to My Set Lists');back.setAttribute('title',sk==='shared'?'Back to Workspace Set Lists':'Back to My Set Lists');}}catch(e){}
+  }
+  function openPersonalEditor(id){
+    if(id) setActiveId('personal',id);
+    try{if(window.WBAppRouter&&typeof window.WBAppRouter.openSetEditor==='function')return window.WBAppRouter.openSetEditor('personal',id||activeId('personal'));}catch(e){}
+    try{if(typeof openPersonalSetFromManager==='function')return openPersonalSetFromManager(id||activeId('personal'));}catch(e){}
+  }
+  function openWorkspaceEditor(id){
+    if(id) setActiveId('shared',id);
+    try{if(typeof openWorkspaceSetFromWorkspaceTab==='function')return openWorkspaceSetFromWorkspaceTab(id||activeId('shared'));}catch(e){}
+    try{if(window.WBAppRouter&&typeof window.WBAppRouter.openSetEditor==='function')return window.WBAppRouter.openSetEditor('shared',id||activeId('shared'));}catch(e){}
+  }
+  function closeSongSurfaceOnly(){
+    try{if(typeof stopAutoScroll==='function')stopAutoScroll();}catch(e){}
+    try{if(typeof stopMetronome==='function')stopMetronome();}catch(e){}
+    try{if(typeof setPresentationMode==='function')setPresentationMode(false);}catch(e){}
+    try{document.body.classList.remove('song-open','performance-mode');}catch(e){}
+    try{var sv=qs('song-view');if(sv){sv.classList.remove('visible');sv.style.transform='translateX(100%)';setTimeout(function(){try{sv.style.transform='';}catch(_e){}},280);}}catch(e){}
+  }
+  var oldRename=window.renameCurrentSetFromOptions;
+  window.renameCurrentSetFromOptions=function(){
+    var scope=currentEditorScope(), sk=scopeKey(scope), id=activeId(sk), sets=Object.assign({},getSets(sk)), set=sets[id];
+    if(!set){try{showToast('Open a set first');}catch(e){} return;}
+    var name=(prompt('Rename set list',set.name||'Untitled set')||'').trim();
+    if(!name)return;
+    sets[id]=Object.assign({},set,{name:name,updatedAt:Date.now()});
+    setSets(sk,sets);saveScope(sk);updateEditorTitle(sk);enforceEditorContext(sk);
+    try{if(typeof renderSetList==='function')renderSetList();}catch(e){console.warn('v79.9 render after rename failed',e);}
+    enforceEditorContext(sk);updateEditorTitle(sk);
+    try{showToast('Set renamed');}catch(e){}
+  };
+  try{renameCurrentSetFromOptions=window.renameCurrentSetFromOptions;}catch(e){}
+  var oldDelete=window.deleteCurrentSetFromOptions;
+  window.deleteCurrentSetFromOptions=function(){
+    var scope=currentEditorScope(), sk=scopeKey(scope), id=activeId(sk), sets=Object.assign({},getSets(sk)), set=sets[id];
+    if(!set){try{showToast('Open a set first');}catch(e){} return;}
+    var ok=(typeof confirmDestructive==='function')?confirmDestructive('Delete '+(set.name||'this set list')+'?'):confirm('Delete '+(set.name||'this set list')+'?');
+    if(!ok)return;
+    delete sets[id];setSets(sk,sets);setActiveId(sk,Object.keys(sets)[0]||'');saveScope(sk);
+    try{showToast('Set deleted');}catch(e){}
+    if(sk==='shared'){
+      try{if(window.WBWorkspaceRouteMemory&&typeof window.WBWorkspaceRouteMemory.clear==='function')window.WBWorkspaceRouteMemory.clear();}catch(e){}
+      try{if(typeof openWorkspaceSetLists==='function')return openWorkspaceSetLists();}catch(e){}
+    }else{
+      try{if(typeof showPersonalList==='function')return showPersonalList();}catch(e){}
+    }
+  };
+  try{deleteCurrentSetFromOptions=window.deleteCurrentSetFromOptions;}catch(e){}
+  var oldGoBack=window.goBackFromSetEditor;
+  window.goBackFromSetEditor=function(){
+    var sk=currentEditorScope();
+    if(sk==='shared'){
+      try{if(window.WBWorkspaceRouteMemory&&typeof window.WBWorkspaceRouteMemory.get==='function'){var mem=window.WBWorkspaceRouteMemory.get(); if(mem&&mem.route==='editor'&&typeof window.WBWorkspaceRouteMemory.clear==='function'){} }}catch(e){}
+      try{if(typeof openWorkspaceSetLists==='function')return openWorkspaceSetLists();}catch(e){}
+      return typeof oldGoBack==='function'?oldGoBack.apply(this,arguments):undefined;
+    }
+    try{if(typeof showPersonalList==='function')return showPersonalList();}catch(e){}
+    return typeof oldGoBack==='function'?oldGoBack.apply(this,arguments):undefined;
+  };
+  try{goBackFromSetEditor=window.goBackFromSetEditor;}catch(e){}
+  var oldShowList=window.showList;
+  if(typeof oldShowList==='function'){
+    window.showList=function(){
+      var ctx=window.WB_SONG_RETURN_CONTEXT||{};
+      if(ctx.type==='workspace-editor'){
+        closeSongSurfaceOnly();
+        var wid=ctx.setId||activeId('shared');
+        setTimeout(function(){if(wid&&getSets('shared')[wid])openWorkspaceEditor(wid);else if(typeof openWorkspaceSetLists==='function')openWorkspaceSetLists();},0);
+        return;
+      }
+      if(ctx.type==='personal-editor'){
+        closeSongSurfaceOnly();
+        var pid=ctx.setId||activeId('personal');
+        setTimeout(function(){if(pid&&getSets('personal')[pid])openPersonalEditor(pid);else if(typeof showPersonalList==='function')showPersonalList();},0);
+        return;
+      }
+      return oldShowList.apply(this,arguments);
+    };
+    try{showList=window.showList;}catch(e){}
+  }
+  window.WBContextNavigationAudit=function(){
+    return {
+      version:VERSION,
+      activeTab:(function(){try{return activeTab;}catch(e){return null;}})(),
+      setListScope:(function(){try{return appPrefs&&appPrefs.setListScope;}catch(e){return null;}})(),
+      editorScope:currentEditorScope(),
+      body:{setlist:document.body.classList.contains('wb-tab-setlist'),workspace:document.body.classList.contains('wb-tab-workspace'),editorPersonal:document.body.classList.contains('wb-set-editor-personal'),editorWorkspace:document.body.classList.contains('wb-set-editor-workspace')},
+      songReturnContext:(function(){try{return Object.assign({},window.WB_SONG_RETURN_CONTEXT||{});}catch(e){return null;}})(),
+      personalActive:activeId('personal'),
+      workspaceActive:activeId('shared')
+    };
   };
   setVersion();
 })();
