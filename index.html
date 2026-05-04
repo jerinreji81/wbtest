@@ -10,7 +10,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="assets/wb-icon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
 
-<title>WorshipBase v78.3</title>
+<title>WorshipBase v78.4</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 /* Prevent iOS long-press/callout menus and text selection on UI chrome
@@ -3067,9 +3067,19 @@ body.dark .choice-dot{background:#101010;border-color:rgba(255,255,255,.18);}
 body.dark .sv-set-btn{background:rgba(255,255,255,.04)!important;border-color:rgba(255,255,255,.08)!important;color:var(--accent)!important;}
 body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,.10)!important;border-color:rgba(143,180,255,.22)!important;color:var(--accent)!important;}
 
+
+
+/* v78.4 startup route guard: until the canonical router is ready, never let
+   older route scripts expose multiple root sections at once. This prevents the
+   raw Workspace/Set List/Settings flash seen in HTML viewers and slow starts. */
+body:not(.wb-route-lock) #list-view > #setlist-section,
+body:not(.wb-route-lock) #list-view > #workspace-section,
+body:not(.wb-route-lock) #list-view > #bible-section,
+body:not(.wb-route-lock) #list-view > #settings-section{display:none!important;}
+body:not(.wb-route-lock) #list-view > #song-section{display:flex!important;}
 </style>
 <script src="https://accounts.google.com/gsi/client" async="" defer="" data-wb-google-identity="1"></script></head>
-<body class="wb-route-lock wb-tab-workspace">
+<body class="wb-route-lock wb-tab-songs">
 
 <!-- LOADING -->
 <div id="ls" class="hidden" style="display: none;">
@@ -3088,7 +3098,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
       <div class="wm">
         <div><div class="wm-name">WorshipBase</div><div class="wm-sub">Chord Library</div></div>
       </div>
-      <button class="hdr-btn" style="display: none;" onclick="openAddSongMenu(event)" id="hdr-add-btn" title="Add song" aria-label="Add song">
+      <button class="hdr-btn" style="display: flex;" onclick="openAddSongMenu(event)" id="hdr-add-btn" title="Add song" aria-label="Add song">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 5v14M5 12h14"></path>
         </svg>
@@ -3118,7 +3128,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   </div>
 
   <!-- Search + library filters -->
-  <div class="srch-wrap" id="srch-wrap" style="display: none;">
+  <div class="srch-wrap" id="srch-wrap" style="display: block;">
     <div class="srch-row">
       <div class="srch-inner">
         <span class="srch-ico"><svg width="14" height="14" viewBox="0 0 15 15" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 10L13 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg></span>
@@ -3135,7 +3145,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
         </select>
       </label>
     </div>
-    <div class="filter-row" id="library-filter-row" style="display: none;">
+    <div class="filter-row" id="library-filter-row" style="display: flex;">
       <button class="filter-chip active" data-filter="all" onclick="setLibraryFilter('all',this)">All</button>
       <button class="filter-chip" data-filter="mine" onclick="setLibraryFilter('mine',this)">My Songs</button>
       <button class="filter-chip" data-filter="english" onclick="setLibraryFilter('english',this)">English</button>
@@ -3155,10 +3165,10 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   </div>
 
   <!-- SONG LIST -->
-  <div id="song-section" style="flex: 1 1 0%; display: none; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;">
+  <div id="song-section" style="flex: 1 1 0%; display: flex; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;">
     <div class="vs-host ptr-wrap">
       <div id="ptr-indicator"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2v4M9 2l-2 2M9 2l2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16 9a7 7 0 1 1-7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg></div>
-      <div id="vscroll" class="vs-wrap" style="-webkit-overflow-scrolling: touch;"><div class="library-count-row" id="library-count-row"><span class="song-count" id="song-count">76 songs</span></div><div id="home-quick-wrap" class="home-quick-wrap" style="display: flex;">
+      <div id="vscroll" class="vs-wrap"><div class="library-count-row" id="library-count-row"><span class="song-count" id="song-count">76 songs</span></div><div id="home-quick-wrap" class="home-quick-wrap" style="display: flex;">
     <div class="quick-section" id="recent-songs-section" style="display: none;">
       <div class="quick-head">
         <div class="quick-title">Recently opened</div>
@@ -3176,16 +3186,16 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   </div>
 
   <!-- SET LIST -->
-  <div id="setlist-section" style="display: none; flex: 1 1 0%; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;" class="wb-list-mode"><div id="wb-set-editor-bar"><button class="wb-editor-back" type="button" onclick="goBackFromSetEditor()" aria-label="Back" title="Back">‹</button><div class="wb-editor-title-wrap"><div class="wb-editor-title" id="wb-editor-title">Untitled set</div><div class="wb-editor-sub" id="wb-editor-sub">Workspace · 0 songs</div></div><button class="wb-editor-publish" id="wb-editor-publish" type="button" onclick="publishCurrentPersonalSetToWorkspace()">Publish</button></div><div id="wb-personal-manager"><div class="wb-personal-scroll"><div class="wb-personal-head"><div class="wb-personal-copy"><div class="wb-personal-title">My Set Lists</div><div class="wb-personal-meta" id="wb-personal-meta" style="display: none;"></div></div><button class="wb-personal-new" type="button" onclick="createPersonalSetFromManager()">New</button></div><div id="wb-personal-list" class="wb-personal-list"></div></div></div>
+  <div id="setlist-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;position:relative;min-height:0;"><div id="wb-set-editor-bar"><button class="wb-editor-back" type="button" onclick="goBackFromSetEditor()" aria-label="Back" title="Back">‹</button><div class="wb-editor-title-wrap"><div class="wb-editor-title" id="wb-editor-title">Untitled set</div><div class="wb-editor-sub" id="wb-editor-sub">Workspace · 0 songs</div></div><button class="wb-editor-publish" id="wb-editor-publish" type="button" onclick="publishCurrentPersonalSetToWorkspace()">Publish</button></div><div id="wb-personal-manager"><div class="wb-personal-scroll"><div class="wb-personal-head"><div class="wb-personal-copy"><div class="wb-personal-title">My Set Lists</div><div class="wb-personal-meta" id="wb-personal-meta" style="display: none;"></div></div><button class="wb-personal-new" type="button" onclick="createPersonalSetFromManager()">New</button></div><div id="wb-personal-list" class="wb-personal-list"></div></div></div>
     <div class="sl-scope-row">
       <div class="sl-scope-pills">
-        <button class="sl-scope-btn" id="sl-scope-shared" onclick="setSetListScope('shared')">Workspace</button>
-        <button class="sl-scope-btn active" id="sl-scope-personal" onclick="setSetListScope('personal')">Personal</button>
+        <button class="sl-scope-btn active" id="sl-scope-shared" onclick="setSetListScope('shared')">Workspace</button>
+        <button class="sl-scope-btn" id="sl-scope-personal" onclick="setSetListScope('personal')">Personal</button>
       </div>
     </div>
     <div class="sl-hdr">
       <div class="sl-hdr-meta" style="display: flex;">
-        <span class="sl-lbl" id="sl-count">0 songs</span><span id="sl-set-key-info" class="sl-set-key-info"></span>
+        <span class="sl-lbl" id="sl-count">6 songs · 3 items</span><span id="sl-set-key-info" class="sl-set-key-info"></span>
         
       </div>
       <div class="sl-btns">
@@ -3194,21 +3204,21 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
       </div>
     </div>
     <div class="sl-scroll-host vs-host">
-      <div style="position: absolute; inset: 0px; overflow: hidden auto; -webkit-overflow-scrolling: touch;"><div id="sl-items" class="sl-items"><div class="sl-empty"><div class="wb-empty-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 18.5a2.5 2.5 0 1 1-1-2V5l10-2v11.5a2.5 2.5 0 1 1-1-2V7L9 8.5z"></path></svg></div><div class="sl-et">No set list selected</div><div class="sl-es">Choose a set from My Set Lists or Workspace Set Lists before adding songs, sections, or service items.</div></div></div></div>
+      <div style="position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;"><div id="sl-items" class="sl-items"><div class="sl-empty"><div class="wb-empty-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 18.5a2.5 2.5 0 1 1-1-2V5l10-2v11.5a2.5 2.5 0 1 1-1-2V7L9 8.5z"></path></svg></div><div class="sl-et">No set list selected</div><div class="sl-es">Choose a set from My Set Lists or Workspace Set Lists before adding songs, sections, or service items.</div></div></div></div>
     </div>
     <button class="add-fab" onclick="openBS('picker')" aria-label="Add to set list"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3v16M3 11h16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path></svg></button>
   </div>
 
 
   <!-- WORKSPACE -->
-  <div id="workspace-section" style="display: flex; flex: 1 1 0%; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;" class="">
+  <div id="workspace-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;position:relative;min-height:0;">
     <div class="workspace-scroll" data-wb7617-static="1">
-      <div id="workspace-setlists-subview" class="workspace-subview"><div class="workspace-subview-head"><button class="workspace-subview-back" type="button" onclick="showWorkspaceDashboard()" aria-label="Back" title="Back">‹</button><div class="workspace-subview-title-wrap"><div class="workspace-subview-title" id="workspace-subview-title">Workspace Set Lists</div><div class="workspace-subview-sub" id="workspace-subview-sub">Workspace planning</div></div><button class="workspace-subview-new" type="button" onclick="createWorkspaceSetFromWorkspaceSubview()">New</button></div><div id="workspace-subview-list" class="workspace-subview-list"><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_moqaoa1sc8q2')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_moqaoa1sc8q2')}"><span class="workspace-subview-main"><span class="workspace-subview-name">Backup test (Workspace)</span><span class="workspace-subview-meta"><span>8 songs · 7 items</span><span class="workspace-subview-note">Notes</span><span class="workspace-subview-updated">Updated 3 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_moqaoa1sc8q2')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_moqaoa1sc8q2')" aria-label="Delete">×</button></span></div><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_mopdmqye6k1a')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_mopdmqye6k1a')}"><span class="workspace-subview-main"><span class="workspace-subview-name">Sunday service - 03/05/2026</span><span class="workspace-subview-meta"><span>6 songs · 3 items</span><span class="workspace-subview-updated">Updated 3 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_mopdmqye6k1a')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_mopdmqye6k1a')" aria-label="Delete">×</button></span></div></div></div><div class="workspace-hero wb7612-home-hero wb76-workspace-hero wb7610-home-hero"><div class="wb76-workspace-name">Workspace</div><div class="workspace-sub">Team planning and shared sets</div></div>
+      <div id="workspace-setlists-subview" class="workspace-subview"><div class="workspace-subview-head"><button class="workspace-subview-back" type="button" onclick="showWorkspaceDashboard()" aria-label="Back" title="Back">‹</button><div class="workspace-subview-title-wrap"><div class="workspace-subview-title" id="workspace-subview-title">Workspace Set Lists</div><div class="workspace-subview-sub" id="workspace-subview-sub">Workspace planning</div></div><button class="workspace-subview-new" type="button" onclick="createWorkspaceSetFromWorkspaceSubview()">New</button></div><div id="workspace-subview-list" class="workspace-subview-list"><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_mor2p08v0bko')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_mor2p08v0bko')}"><span class="workspace-subview-main"><span class="workspace-subview-name">New Workspace Set</span><span class="workspace-subview-meta"><span>0 songs</span><span class="workspace-subview-updated">Updated 4 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_mor2p08v0bko')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_mor2p08v0bko')" aria-label="Delete">×</button></span></div><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_moqaoa1sc8q2')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_moqaoa1sc8q2')}"><span class="workspace-subview-main"><span class="workspace-subview-name">Backup test (Workspace)</span><span class="workspace-subview-meta"><span>8 songs · 7 items</span><span class="workspace-subview-note">Notes</span><span class="workspace-subview-updated">Updated 4 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_moqaoa1sc8q2')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_moqaoa1sc8q2')" aria-label="Delete">×</button></span></div><div class="workspace-subview-card" role="button" tabindex="0" onclick="openWorkspaceSetFromWorkspaceTab('set_mopdmqye6k1a')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWorkspaceSetFromWorkspaceTab('set_mopdmqye6k1a')}"><span class="workspace-subview-main"><span class="workspace-subview-name">Sunday service - 03/05/2026</span><span class="workspace-subview-meta"><span>6 songs · 3 items</span><span class="workspace-subview-updated">Updated 4 May</span></span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" onclick="event.stopPropagation();openWorkspaceSetFromWorkspaceTab('set_mopdmqye6k1a')" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceSubview('set_mopdmqye6k1a')" aria-label="Delete">×</button></span></div></div></div><div class="workspace-hero wb7612-home-hero wb76-workspace-hero wb7610-home-hero"><div class="wb76-workspace-name">Workspace</div><div class="workspace-sub">Team planning and shared sets</div></div>
       <script id="wb-v76-17-workspace-static-title-init">
         (function(){try{var raw=localStorage.getItem('wb.workspace.shell.v1');var ws=raw?JSON.parse(raw):{};var n=String((ws&&ws.name)||'Workspace').trim()||'Workspace';if(!/workspace$/i.test(n))n+=' Workspace';var el=document.getElementById('wb-workspace-home-title-static');if(el)el.textContent=n;}catch(e){}})();
       </script>
       <div class="workspace-grid" data-wb7617-static="1"><button class="workspace-card workspace-card-action" type="button" onclick="openWorkspaceSetLists()"><span class="workspace-card-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"></rect><rect x="3" y="11" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"></rect><rect x="3" y="17" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.8"></rect><path d="M11 7h10M11 13h8M11 19h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg></span><span class="workspace-card-main"><span class="workspace-card-title">Workspace set lists</span><span class="workspace-card-sub">Team set lists</span></span><span class="workspace-card-chevron">›</span></button><button class="workspace-card workspace-card-action" type="button" onclick="publishPersonalSetToWorkspace()"><span class="workspace-card-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3v12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path><path d="M7 8l5-5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M5 15v4h14v-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="workspace-card-main"><span class="workspace-card-title">Publish personal set</span><span class="workspace-card-sub">Copy one of My Set Lists</span></span><span class="workspace-card-chevron">›</span></button><button class="workspace-card workspace-card-action" type="button" onclick="openWorkspaceLibraryShell()"><span class="workspace-card-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg></span><span class="workspace-card-main"><span class="workspace-card-title">Workspace library</span><span class="workspace-card-sub">Team songs</span><span class="wb76-workspace-card-extra"><span class="workspace-pill">Model prep</span><span class="wb76-card-kicker">v76.x</span></span></span><span class="workspace-card-chevron">›</span></button><button class="workspace-card workspace-card-action" type="button" onclick="openWorkspaceMembersShell()"><span class="workspace-card-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M16 11a4 4 0 1 0-8 0" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path><path d="M4 21a8 8 0 0 1 16 0" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path><path d="M18 4v5M15.5 6.5h5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path></svg></span><span class="workspace-card-main"><span class="workspace-card-title">Members &amp; invites</span><span class="workspace-card-sub">Team access</span><span class="wb76-workspace-card-extra"><span class="workspace-pill">Model prep</span><span class="wb76-card-kicker">Invite codes</span></span></span><span class="workspace-card-chevron">›</span></button><button class="workspace-card workspace-card-action" type="button" onclick="openWorkspaceSettingsShell()"><span class="workspace-card-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" stroke="currentColor" stroke-width="1.8"></path><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .92V20.5a2 2 0 0 1-4 0v-.18a1.7 1.7 0 0 0-1-.92 1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.92-1H3.5a2 2 0 0 1 0-4h.18a1.7 1.7 0 0 0 .92-1 1.7 1.7 0 0 0-.34-1.88l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.92V3.5a2 2 0 0 1 4 0v.18a1.7 1.7 0 0 0 1 .92 1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.28.35.6.7.92 1h.18a2 2 0 0 1 0 4h-.18a1.7 1.7 0 0 0-.92 1Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"></path></svg></span><span class="workspace-card-main"><span class="workspace-card-title">Workspace settings</span><span class="workspace-card-sub">Name, invite code preview and local shell status.</span></span><span class="workspace-card-chevron">›</span></button></div>
-    <div id="workspace-setlist-manager" class="workspace-manager" style="display: none;"><div class="workspace-manager-head"><div class="workspace-manager-title-wrap"><div class="workspace-manager-title">Workspace set lists</div><div class="workspace-manager-sub" id="workspace-manager-sub">2 set lists · 14 songs · 10 items</div></div><div class="workspace-manager-actions"><button class="workspace-mini-btn" type="button" onclick="createWorkspaceSetFromWorkspaceTab()">New</button></div></div><div id="workspace-setlist-list" class="workspace-setlist-list"><button class="workspace-setlist-card" type="button" onclick="openWorkspaceSetFromWorkspaceTab('set_moqaoa1sc8q2')"><span class="workspace-setlist-main"><span class="workspace-setlist-name">Backup test (Workspace)</span><span class="workspace-setlist-meta"><span>8 songs · 7 items</span><span class="workspace-setlist-note">Notes</span><span class="workspace-setlist-updated">Updated 3 May</span></span></span><span class="workspace-setlist-actions"><span class="workspace-icon-btn danger" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceTab('set_moqaoa1sc8q2')" aria-label="Delete">×</span></span></button><button class="workspace-setlist-card" type="button" onclick="openWorkspaceSetFromWorkspaceTab('set_mopdmqye6k1a')"><span class="workspace-setlist-main"><span class="workspace-setlist-name">Sunday service - 03/05/2026</span><span class="workspace-setlist-meta"><span>6 songs · 3 items</span><span class="workspace-setlist-updated">Updated 3 May</span></span></span><span class="workspace-setlist-actions"><span class="workspace-icon-btn danger" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceTab('set_mopdmqye6k1a')" aria-label="Delete">×</span></span></button></div></div></div>
+    <div id="workspace-setlist-manager" class="workspace-manager" style="display: none;"><div class="workspace-manager-head"><div class="workspace-manager-title-wrap"><div class="workspace-manager-title">Workspace set lists</div><div class="workspace-manager-sub" id="workspace-manager-sub">3 set lists · 14 songs · 10 items</div></div><div class="workspace-manager-actions"><button class="workspace-mini-btn" type="button" onclick="createWorkspaceSetFromWorkspaceTab()">New</button></div></div><div id="workspace-setlist-list" class="workspace-setlist-list"><button class="workspace-setlist-card" type="button" onclick="openWorkspaceSetFromWorkspaceTab('set_mor2p08v0bko')"><span class="workspace-setlist-main"><span class="workspace-setlist-name">New Workspace Set</span><span class="workspace-setlist-meta"><span>0 songs</span><span class="workspace-setlist-updated">Updated 4 May</span></span></span><span class="workspace-setlist-actions"><span class="workspace-icon-btn danger" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceTab('set_mor2p08v0bko')" aria-label="Delete">×</span></span></button><button class="workspace-setlist-card" type="button" onclick="openWorkspaceSetFromWorkspaceTab('set_moqaoa1sc8q2')"><span class="workspace-setlist-main"><span class="workspace-setlist-name">Backup test (Workspace)</span><span class="workspace-setlist-meta"><span>8 songs · 7 items</span><span class="workspace-setlist-note">Notes</span><span class="workspace-setlist-updated">Updated 4 May</span></span></span><span class="workspace-setlist-actions"><span class="workspace-icon-btn danger" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceTab('set_moqaoa1sc8q2')" aria-label="Delete">×</span></span></button><button class="workspace-setlist-card" type="button" onclick="openWorkspaceSetFromWorkspaceTab('set_mopdmqye6k1a')"><span class="workspace-setlist-main"><span class="workspace-setlist-name">Sunday service - 03/05/2026</span><span class="workspace-setlist-meta"><span>6 songs · 3 items</span><span class="workspace-setlist-updated">Updated 4 May</span></span></span><span class="workspace-setlist-actions"><span class="workspace-icon-btn danger" onclick="event.stopPropagation();deleteWorkspaceSetFromWorkspaceTab('set_mopdmqye6k1a')" aria-label="Delete">×</span></span></button></div></div></div>
   </div>
 
 
@@ -3222,7 +3232,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
       <button class="bible-combo-btn version" type="button" onclick="openBibleVersionPicker()"><span class="truncate" id="bible-version-label">ESV</span></button>
     </div>
     <div class="bible-meta" id="bible-meta">ESV Bible</div>
-    <div class="bible-scroll" id="bible-scroll" style="-webkit-overflow-scrolling: touch;">
+    <div class="bible-scroll" id="bible-scroll">
       <div class="bible-card" id="bible-card">
         <div class="bible-empty" id="bible-empty">Loading Bible…</div>
       </div>
@@ -3233,7 +3243,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
 
   <!-- SETTINGS -->
   <div id="settings-section" style="display:none;flex:1;flex-direction:column;overflow:hidden;min-height:0;">
-    <div class="settings-scroll" style="-webkit-overflow-scrolling: touch;">
+    <div class="settings-scroll">
 
       <div class="ss-section">
         <div class="ss-title">Appearance</div>
@@ -3387,7 +3397,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
               <img src="assets/wb-icon-192.png" alt="WorshipBase logo">
             </div>
             <div class="about-name">WorshipBase</div>
-            <div class="about-version-pill">Version 78.3</div>
+            <div class="about-version-pill">Version 78.4</div>
             <div class="about-by">Created by <strong>Jerin Reji</strong></div>
           </div>
         </div>
@@ -3400,7 +3410,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
   <div class="tab-bar" id="tab-bar">
 
     <!-- Library tab -->
-    <button class="tab-btn" id="tab-songs" onclick="switchTab('songs')">
+    <button class="tab-btn active" id="tab-songs" onclick="switchTab('songs')">
       <span class="tab-ico">
         <svg class="ico-outline" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
         <svg class="ico-filled" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 6h16" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path><path d="M4 12h10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path><path d="M4 18h16" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path></svg>
@@ -3420,7 +3430,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
     </button>
 
     <!-- Workspace tab -->
-    <button class="tab-btn active" id="tab-workspace" onclick="switchTab('workspace')">
+    <button class="tab-btn" id="tab-workspace" onclick="switchTab('workspace')">
       <span class="tab-ico">
         <svg class="ico-outline" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 20V8.5L12 4l8 4.5V20" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path><path d="M9 20v-6h6v6" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path><path d="M7.5 10.5h2M14.5 10.5h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
         <svg class="ico-filled" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 20V8.5L12 4l8 4.5V20" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"></path><path d="M9 20v-6h6v6" fill="currentColor" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"></path><path d="M7.5 10.5h2M14.5 10.5h2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path></svg>
@@ -3619,7 +3629,7 @@ body.dark #setlist-section .sl-option-btn.icon-only{background:rgba(143,180,255,
     <div class="sv-song-id" id="sv-song-id"></div>
   </div>
 
-  <div class="sv-scroll" id="sv-scroll" style="-webkit-overflow-scrolling: touch;">
+  <div class="sv-scroll" id="sv-scroll">
     <div class="sv-ctrls">
       <div class="sv-main-row">
         <div class="seg-bar" id="view-seg">
@@ -4090,14 +4100,14 @@ line 18 | Hold / pause"></textarea>
 <div class="bs-bg" id="bs-sets" onclick="closeBSBg(event,'sets')">
   <div class="bs">
     <div class="bs-handle"></div>
-    <div class="m-tr"><h2 class="m-h2" id="sets-title">Personal set lists</h2><button class="m-close" onclick="closeBS('sets')">×</button></div>
+    <div class="m-tr"><h2 class="m-h2" id="sets-title">Workspace set lists</h2><button class="m-close" onclick="closeBS('sets')">×</button></div>
     <div class="m-body" style="padding-bottom:6px;">
       <p style="font-size:13px;color:var(--txt2);margin-bottom:12px;line-height:1.55;">Choose, rename, delete, or create a set list for this scope.</p>
     </div>
-    <div class="namedset-list" id="namedset-list"><div style="padding:18px;color:var(--txt3);text-align:center">No set lists yet</div></div>
+    <div class="namedset-list" id="namedset-list"><div class="namedset-item active"><button class="namedset-main" onclick="selectNamedSet('set_mopdmqye6k1a')"><div class="namedset-name">Sunday service - 03/05/2026</div><div class="namedset-meta">6 songs · 3 items · Current</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_mopdmqye6k1a')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_mopdmqye6k1a')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_moqaoa1sc8q2')"><div class="namedset-name">Backup test (Workspace)</div><div class="namedset-meta">8 songs · 7 items · <span class="namedset-note-chip">Notes</span></div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_moqaoa1sc8q2')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_moqaoa1sc8q2')">Delete</button></div></div><div class="namedset-item"><button class="namedset-main" onclick="selectNamedSet('set_mor2p08v0bko')"><div class="namedset-name">New Workspace Set</div><div class="namedset-meta">0 songs</div></button><div class="namedset-actions"><button class="namedset-action" onclick="event.stopPropagation();renameNamedSet('set_mor2p08v0bko')">Rename</button><button class="namedset-action" onclick="event.stopPropagation();deleteNamedSet('set_mor2p08v0bko')">Delete</button></div></div></div>
     <div class="m-acts" style="padding:0 18px 8px;">
       <button class="btn-s" type="button" onclick="createNamedSet()">New set list</button>
-      <button class="btn-s" type="button" id="sets-copy-btn" onclick="copyActiveSetToOtherScope()">Copy to Workspace</button>
+      <button class="btn-s" type="button" id="sets-copy-btn" onclick="copyActiveSetToOtherScope()">Copy to Personal</button>
     </div>
     <button class="bs-cancel" onclick="closeBS('sets')">Done</button>
   </div>
@@ -13913,7 +13923,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
   'use strict';
   const EDIT_ICON='<svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M12 3l2 2L5.5 13H3.5v-2L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
   function usefulMemory(m){return !!(m&&typeof m==='object'&&(String(m.notes||'').trim()||String(m.cues||'').trim()||String(m.usualKey||'').trim()||String(m.capo||'').trim()||String(m.practiceStatus||'').trim()));}
-  function setVisibleVersion(){try{document.title='WorshipBase v78.3';document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 78.3';});}catch(e){}}
+  function setVisibleVersion(){try{document.title='WorshipBase v78.4';document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 78.4';});}catch(e){}}
   function fixSongEditButton(){
     try{
       const btn=document.getElementById('mi-edit-song');
@@ -14246,7 +14256,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 
 <script id="wb-v72-5-7-rich-set-copy-fix">
 (function(){
-  const VERSION='78.3';
+  const VERSION='78.4';
 
   const originalFindSongById = window.findSongById || function(){return null;};
   const originalGetSongMemory = window.getSongMemory || function(){return {};};
@@ -14641,7 +14651,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 <script id="wb-v72-5-8-rich-shared-persist-fix">
 (function(){
   'use strict';
-  const VERSION='78.3';
+  const VERSION='78.4';
   const BAD_KEY=/[.#$\/[\]]/g;
   function n(v){try{if(typeof normId==='function')return normId(v);}catch(_){}return String(v==null?'':v).trim();}
   function safeKey(v){const k=n(v);return k?k.replace(BAD_KEY,'_'):'';}
@@ -14820,7 +14830,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 
 <script id="wb-v74-5-legacy-setlist-disabled-marker">
 (function(){
-  try{document.title='WorshipBase v78.3';document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version 78.3';});}catch(e){}
+  try{document.title='WorshipBase v78.4';document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version 78.4';});}catch(e){}
   // v74.5.2: legacy flat shared-set Firebase access is represented by a no-op setlistRef stub above.
   // Active shared set lists continue to use the rich shared-set Firebase path through the existing v72.5.8 logic.
 })();
@@ -14858,7 +14868,7 @@ body.dark .namedset-note-chip{background:var(--accent-surface)!important;color:v
 <script id="wb-v74-5-2-setlist-and-export-fixes">
 (function(){
   'use strict';
-  const VERSION='78.3';
+  const VERSION='78.4';
   function norm(v){try{if(typeof normId==='function')return normId(v);}catch(e){}return String(v==null?'':v).trim();}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}}
   function sk(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
@@ -15041,7 +15051,7 @@ body.dark .workspace-note-body code{background:rgba(255,255,255,.05)!important;b
 <script id="wb-v75-1-workspace-tab-script">
 (function(){
   'use strict';
-  const VERSION='78.3';
+  const VERSION='78.4';
   function qs(id){return document.getElementById(id);}
   function setDisplay(id,val){const el=qs(id); if(el)el.style.display=val;}
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
@@ -15131,7 +15141,7 @@ body.dark .workspace-publish-note{background:var(--accent-surface)!important;col
 <script id="wb-v75-2-workspace-publish-picker-script">
 (function(){
   'use strict';
-  const VERSION='78.3';
+  const VERSION='78.4';
   function qs(id){return document.getElementById(id);}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s??'').replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}}
   function sk(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
@@ -15242,7 +15252,7 @@ body.dark .workspace-icon-btn.danger{background:rgba(239,143,162,.12)!important;
 <script id="wb-v75-3-workspace-manager-script">
 (function(){
   'use strict';
-  const VERSION='78.3';
+  const VERSION='78.4';
   function qs(id){return document.getElementById(id);}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s==null?'':s).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}}
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
@@ -15362,7 +15372,7 @@ body.dark .workspace-subview-icon.danger{background:rgba(239,143,162,.12)!import
 <script id="wb-v75-4-workspace-subview-script">
 (function(){
   'use strict';
-  const VERSION='78.3';
+  const VERSION='78.4';
   let workspaceView='dashboard';
   function qs(id){return document.getElementById(id);}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s==null?'':s).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}}
@@ -15449,7 +15459,7 @@ body.dark .workspace-subview-icon.danger{background:rgba(239,143,162,.12)!import
 <script id="wb-v75-6-rich-save-guard-script">
 (function(){
   'use strict';
-  const VERSION='78.3';
+  const VERSION='78.4';
   function clone(v){try{return JSON.parse(JSON.stringify(v));}catch(e){return v;}}
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
   function counts(set){let songs=0,plan=0;itemsOf(set).forEach(function(it){const t=String((it&&it.type)||'song').toLowerCase();if(t==='section'||t==='item'||t==='service')plan++;else if(t==='song'||(it&&it.songId))songs++;});return {songs:songs,plan:plan,total:songs+plan};}
@@ -15562,7 +15572,7 @@ body.dark .wb-card-btn.danger{background:rgba(239,143,162,.12)!important;border-
 <script id="wb-v75-10-setlist-workspace-routing-script">
 (function(){
   'use strict';
-  const VERSION='78.3';
+  const VERSION='78.4';
   let personalMode='list';
   let editorContext='personal';
   let touchStart=null;
@@ -15786,7 +15796,7 @@ body.dark .wb-editor-back{background:rgba(255,255,255,.04)!important;border-colo
 <script id="wb-v75-11-ui-navigation-pass-script">
 (function(){
   'use strict';
-  const VERSION='78.3';
+  const VERSION='78.4';
   function qs(id){return document.getElementById(id);}
   function setVersion(){
     try{document.title='WorshipBase v'+VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}
@@ -15925,7 +15935,7 @@ body.dark .wb-personal-local{background:var(--accent-surface)!important;border-c
 <script id="wb-v75-12-set-workspace-ui-pass-script">
 (function(){
   'use strict';
-  const VERSION='78.3';
+  const VERSION='78.4';
   function qs(id){return document.getElementById(id);}
   function text(el,value){if(el&&el.textContent!==value)el.textContent=value;}
   function setVersion(){try{document.title='WorshipBase v'+VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}}
@@ -15944,7 +15954,7 @@ body.dark .wb-personal-local{background:var(--accent-surface)!important;border-c
 <script id="wb-v75-13-1-workspace-selector-fix">
 (function(){
   'use strict';
-  const VERSION='78.3';
+  const VERSION='78.4';
   function qs(id){return document.getElementById(id);}
   function scopeKey(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
   function activeKey(scope){try{return activeSetPrefKey(scopeKey(scope));}catch(e){return scopeKey(scope)==='personal'?'activePersonalSetId':'activeSharedSetId';}}
@@ -16099,7 +16109,7 @@ body.dark .workspace-subview-back,body.dark .wb-editor-back{background:rgba(255,
 <script id="wb-v75-15-release-candidate-script">
 (function(){
   'use strict';
-  const VERSION='78.3';
+  const VERSION='78.4';
   function qs(id){return document.getElementById(id)}
   function text(el,val){if(el&&el.textContent!==val)el.textContent=val;}
   function clone(v){try{return JSON.parse(JSON.stringify(v));}catch(e){return v;}}
@@ -16163,7 +16173,7 @@ body.dark .workspace-subview-back,body.dark .wb-editor-back{background:rgba(255,
 <script id="wb-v75-15-version-normalizer">
 (function(){
   'use strict';
-  const VERSION='78.3';
+  const VERSION='78.4';
   function setVersionLabels(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
     try{
@@ -16222,7 +16232,7 @@ body.dark #wb-set-editor-bar{
 <script id="wb-v75-16-version-normalizer-final">
 (function(){
   'use strict';
-  const VERSION='78.3';
+  const VERSION='78.4';
   function setVersionLabels(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
     try{
@@ -16246,7 +16256,7 @@ body.dark #wb-set-editor-bar{
    which caused visible flicker. Workspace tab still returns to root from subviews/editors. */
 (function(){
   'use strict';
-  var VERSION='78.3';
+  var VERSION='78.4';
   function qs(id){return document.getElementById(id);}
   function isShown(el){return !!el && el.style.display!=='none' && getComputedStyle(el).display!=='none';}
   function isSetListRoot(){
@@ -16346,7 +16356,7 @@ body.dark .wb76-chip.primary{color:var(--accent);background:rgba(143,180,255,.12
 <script id="wb-v76-0-workspace-shell-script">
 (function(){
   'use strict';
-  var VERSION='78.3';
+  var VERSION='78.4';
   var KEY='wb.workspace.shell.v1';
   function qs(id){return document.getElementById(id);}
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
@@ -16456,7 +16466,7 @@ body.dark .wb762-outline{background:rgba(255,255,255,.045);color:var(--accent);b
 <script id="wb-v76-2-workspace-shell-polish-script">
 (function(){
   'use strict';
-  var VERSION='78.3';
+  var VERSION='78.4';
   var KEY='wb.workspace.shell.v1';
   function qs(id){return document.getElementById(id);}
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
@@ -16575,7 +16585,7 @@ body.dark .wb763-action.primary{background:var(--accent-surface)!important;borde
 <script id="wb-v76-3-workspace-model-prep-script">
 (function(){
   'use strict';
-  var VERSION='78.3';
+  var VERSION='78.4';
   var KEY='wb.workspace.shell.v1';
   function qs(id){return document.getElementById(id);}
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
@@ -16660,7 +16670,7 @@ body.dark #workspace-section .workspace-card[data-wb764-storage]{background:line
 <script id="wb-v76-4-workspace-storage-prep-script">
 (function(){
   'use strict';
-  var VERSION='78.3';
+  var VERSION='78.4';
   var WORKSPACE_KEY='wb.workspace.shell.v1';
   var THEME_MAP={'#220135':'#3A0A55','#1f2e45':'#2F4565'};
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
@@ -16741,7 +16751,7 @@ body.dark #workspace-section .wb765-mini-action.secondary{background:rgba(255,25
 <script id="wb-v76-5-workspace-shell-cleanup-script">
 (function(){
   'use strict';
-  var VERSION='78.3';
+  var VERSION='78.4';
   var WORKSPACE_KEY='wb.workspace.shell.v1';
   function qs(id){return document.getElementById(id);} 
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
@@ -16863,7 +16873,7 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
 <script id="wb-v76-10-title-cleanup-script">
 (function(){
   'use strict';
-  var VERSION='78.3';
+  var VERSION='78.4';
   var KEY='wb.workspace.shell.v1';
   function getWs(){try{var raw=localStorage.getItem(KEY);return raw?JSON.parse(raw):null;}catch(e){return null;}}
   function cleanName(){var ws=getWs()||{};var name=String(ws.name||'Workspace').trim()||'Workspace';return name;}
@@ -16917,7 +16927,7 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
 <script id="wb-v76-11-version-check">
 (function(){
   try{
-    var VERSION='78.3';
+    var VERSION='78.4';
     document.title='WorshipBase v'+VERSION;
     document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version '+VERSION;});
     window.WB_CURRENT_VERSION=VERSION;
@@ -16990,7 +17000,7 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
 <script id="wb-v76-12-source-workspace-script">
 (function(){
   'use strict';
-  var VERSION='78.3';
+  var VERSION='78.4';
   var KEY='wb.workspace.shell.v1';
   function qs(id){return document.getElementById(id);} 
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
@@ -17103,7 +17113,7 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
 <script id="wb-v76-14-stable-recovery-script">
 (function(){
   'use strict';
-  var VERSION='78.3';
+  var VERSION='78.4';
   var KEY='wb.workspace.shell.v1';
   function qs(id){return document.getElementById(id);} 
   function workspaceName(){try{var raw=localStorage.getItem(KEY);var ws=raw?JSON.parse(raw):{};var n=String(ws.name||'Workspace').trim();return n||'Workspace';}catch(e){return 'Workspace';}}
@@ -17157,7 +17167,7 @@ body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb
 <script id="wb-v76-16-current-set-actions-script">
 (function(){
   'use strict';
-  var VERSION='78.3';
+  var VERSION='78.4';
   function qs(id){return document.getElementById(id);} 
   function scopeKeySafe(v){try{return setScopeKey(v||((appPrefs&&appPrefs.setListScope)||'personal'));}catch(e){return v==='shared'?'shared':'personal';}}
   function activeId(scope){try{return (appPrefs&&appPrefs[activeSetPrefKey(scope)])||'';}catch(e){return scope==='shared'?(appPrefs&&appPrefs.activeSharedSetId)||'':(appPrefs&&appPrefs.activePersonalSetId)||'';}}
@@ -17186,7 +17196,7 @@ body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb
 <script id="wb-v76-17-workspace-cleanup-script">
 (function(){
   'use strict';
-  var VERSION='78.3';
+  var VERSION='78.4';
   var KEY='wb.workspace.shell.v1';
   function qs(id){return document.getElementById(id);}
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
@@ -17210,12 +17220,11 @@ body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb
 </script>
 
 
-<!-- WorshipBase v78.3 - Set List / Workspace navigation repair
-     Stage A.3 source-clean repair: keep the route/editor owner from v78.2, fix the
-     set-editor title strip/back-button contract. v78.2 fixed Workspace sets opening as My Set Lists,
-     removed the old Personal/Workspace segmented control from Set List, and
-     keeps the Workspace tab active when editing Workspace sets. -->
-<style id="wb-v78-3-route-and-set-editor-style">
+<!-- WorshipBase v78.4 - startup and Personal Set List home repair
+     Stage A.4 source-clean repair: keep the v78 canonical router, add an early
+     route guard, and make My Set Lists home a direct renderer instead of relying
+     on older Personal/Shared-era render layers. No storage/backend/PDF changes. -->
+<style id="wb-v78-4-route-and-set-editor-style">
 /* Canonical tab isolation: hide every main section by default and show exactly
    the requested root section, unless the shared set-list editor is intentionally
    being reused as a Workspace editor. */
@@ -17231,16 +17240,14 @@ body.wb-route-lock.wb-tab-bible #bible-section{display:flex!important;}
 body.wb-route-lock.wb-tab-settings #settings-section{display:flex!important;}
 
 /* Editor mode is a deliberate exception: the same mature set-list editor DOM is
-   reused for Personal and Workspace sets. In Workspace editor mode the Workspace
-   tab remains active, but #setlist-section is the visible editor surface. */
+   reused for Personal and Workspace sets. The correct bottom tab remains active. */
 body.wb-route-lock.wb-set-editor-mode #setlist-section{display:flex!important;}
 body.wb-route-lock.wb-set-editor-mode #workspace-section,
 body.wb-route-lock.wb-set-editor-mode #song-section,
 body.wb-route-lock.wb-set-editor-mode #bible-section,
 body.wb-route-lock.wb-set-editor-mode #settings-section{display:none!important;}
 
-/* The Personal/Shared segmented control is obsolete after the product split.
-   Set List is Personal. Workspace owns team/shared sets. */
+/* Product split: Set List is Personal. Workspace owns team/shared sets. */
 #setlist-section .sl-scope-row{display:none!important;}
 
 body.wb-route-lock:not(.wb-tab-songs) #srch-wrap{display:none!important;}
@@ -17248,7 +17255,7 @@ body.wb-route-lock.wb-tab-songs #srch-wrap{display:block!important;}
 body.wb-route-lock:not(.wb-tab-songs) #library-filter-row{display:none!important;}
 body.wb-route-lock.wb-tab-songs #library-filter-row{display:flex!important;}
 
-/* Make the Personal manager sit at the top when Set List opens as a home page. */
+/* My Set Lists home owns the Set List tab landing screen. */
 #setlist-section.wb-list-mode{justify-content:flex-start!important;}
 #setlist-section.wb-list-mode #wb-personal-manager{display:flex!important;flex:1 1 auto!important;min-height:0!important;}
 #setlist-section.wb-list-mode .sl-hdr,
@@ -17256,8 +17263,8 @@ body.wb-route-lock.wb-tab-songs #library-filter-row{display:flex!important;}
 #setlist-section.wb-list-mode .add-fab,
 #setlist-section.wb-list-mode #wb-set-editor-bar{display:none!important;}
 #setlist-section.wb-editor-mode #wb-personal-manager{display:none!important;}
-/* v78.3: editor title ownership. Older polish layers hid the title strip and
-   allowed the long back label to be clipped inside the round back button. */
+
+/* Editor title ownership. The back button is a chevron only; title lives in strip. */
 #wb-set-editor-bar{display:flex!important;align-items:center!important;gap:10px!important;min-height:58px!important;padding:9px 14px!important;}
 #wb-set-editor-bar .wb-editor-back{width:36px!important;height:36px!important;min-width:36px!important;max-width:36px!important;border-radius:50%!important;padding:0!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;font-size:25px!important;line-height:1!important;overflow:hidden!important;white-space:nowrap!important;flex:0 0 36px!important;}
 #wb-set-editor-bar .wb-editor-title-wrap{display:flex!important;flex:1 1 auto!important;min-width:0!important;overflow:hidden!important;flex-direction:column!important;justify-content:center!important;align-items:flex-start!important;}
@@ -17266,15 +17273,16 @@ body.wb-route-lock.wb-tab-songs #library-filter-row{display:flex!important;}
 #wb-set-editor-bar .wb-editor-sub{font-size:12px!important;font-weight:700!important;color:var(--txt2)!important;line-height:1.25!important;margin-top:2px!important;}
 #wb-set-editor-bar .wb-editor-publish{flex:0 0 auto!important;}
 </style>
-<script id="wb-v78-3-canonical-router-and-setlist-nav">
+<script id="wb-v78-4-canonical-router-and-setlist-nav">
 (function(){
   'use strict';
-  var VERSION='78.3';
+  var VERSION='78.4';
   var ROUTES={songs:'song-section',setlist:'setlist-section',workspace:'workspace-section',bible:'bible-section',settings:'settings-section'};
   var TAB_CLASSES=['wb-tab-songs','wb-tab-setlist','wb-tab-workspace','wb-tab-bible','wb-tab-settings'];
   var routeSeq=0;
   var editorContext='personal';
-  function qs(id){return document.getElementById(id);}
+  var hydratedPersonalOnce=false;
+  function qs(id){return document.getElementById(id);}  
   function validRoute(tab){return Object.prototype.hasOwnProperty.call(ROUTES,tab);}
   function canonicalTab(tab){
     if(tab==='english'||tab==='malayalam'){
@@ -17291,200 +17299,63 @@ body.wb-route-lock.wb-tab-songs #library-filter-row{display:flex!important;}
   function mapFor(scope){var sk=scopeKey(scope);try{return sk==='shared'?((_sharedSets)||{}):((_personalSets)||{});}catch(e){return {};}}
   function setMap(scope,next){try{if(scopeKey(scope)==='shared')_sharedSets=next||{};else _personalSets=next||{};}catch(e){}}
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
-  function countLabel(items){
-    var songs=0,plan=0;(items||[]).forEach(function(it){var t=String((it&&it.type)||'song').toLowerCase();if(t==='section'||t==='item'||t==='service')plan++;else if(t==='song'||(it&&it.songId))songs++;});
-    var bits=[songs+' song'+(songs===1?'':'s')];if(plan)bits.push(plan+' item'+(plan===1?'':'s'));return bits.join(' · ');
-  }
-  function setVersion(){
-    try{document.title='WorshipBase v'+VERSION;window.WB_CURRENT_VERSION=VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}
-  }
-  function setRouteClass(tab){
-    try{document.body.classList.add('wb-route-lock');TAB_CLASSES.forEach(function(c){document.body.classList.remove(c);});document.body.classList.add('wb-tab-'+tab);}catch(e){}
-  }
-  function selectBottomTab(tab){
-    try{document.querySelectorAll('.tab-btn').forEach(function(el){el.classList.remove('active');});var btn=qs('tab-'+tab);if(btn)btn.classList.add('active');}catch(e){}
-  }
+  function itemCounts(items){var songs=0,plan=0;(items||[]).forEach(function(it){var t=String((it&&it.type)||'song').toLowerCase();if(t==='section'||t==='item'||t==='service')plan++;else if(t==='song'||(it&&it.songId))songs++;});return {songs:songs,items:plan};}
+  function countLabel(items){var c=itemCounts(items);var bits=[c.songs+' song'+(c.songs===1?'':'s')];if(c.items)bits.push(c.items+' item'+(c.items===1?'':'s'));return bits.join(' · ');}
+  function setVersion(){try{document.title='WorshipBase v'+VERSION;window.WB_CURRENT_VERSION=VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}}
+  function setRouteClass(tab){try{document.body.classList.add('wb-route-lock');TAB_CLASSES.forEach(function(c){document.body.classList.remove(c);});document.body.classList.add('wb-tab-'+tab);}catch(e){}}
+  function selectBottomTab(tab){try{document.querySelectorAll('.tab-btn').forEach(function(el){el.classList.remove('active');});var btn=qs('tab-'+tab);if(btn)btn.classList.add('active');}catch(e){}}
   function hideMainSections(){Object.keys(ROUTES).forEach(function(route){var el=qs(ROUTES[route]);if(el)el.style.display='none';});}
-  function showOnly(tab){
-    hideMainSections();
-    var target=qs(ROUTES[tab]);if(target)target.style.display='flex';
-    var sw=qs('srch-wrap');if(sw)sw.style.display=tab==='songs'?'block':'none';
-    var fr=qs('library-filter-row');if(fr)fr.style.display=tab==='songs'?'flex':'none';
-  }
-  function clearEditorMode(){
-    try{document.body.classList.remove('wb-set-editor-mode','wb-set-editor-personal','wb-set-editor-workspace');}catch(e){}
-    try{var sec=qs('setlist-section');if(sec)sec.classList.remove('wb-editor-mode');}catch(e){}
-  }
-  function closeTransient(){
-    try{if(typeof closeAllBS==='function')closeAllBS();}catch(e){}
-    try{document.body.classList.remove('song-open','performance-mode');}catch(e){}
-    try{var sv=qs('song-view');if(sv)sv.classList.remove('visible');}catch(e){}
-  }
-  function afterRoute(tab){
-    clearEditorMode();
-    setRouteClass(tab);showOnly(tab);selectBottomTab(tab);setVersion();
-    try{activeTab=tab;}catch(e){}
-    try{if(typeof updateHeaderAddButton==='function')updateHeaderAddButton(tab);}catch(e){}
-    try{if(typeof updateManageUI==='function')updateManageUI();}catch(e){}
-    try{if(typeof queueSaveLastState==='function')queueSaveLastState();}catch(e){}
-  }
-  function enforceLater(tab,seq){[0,60,180,420].forEach(function(ms){setTimeout(function(){if(seq!==routeSeq)return;afterRoute(tab);},ms);});}
+  function showOnly(tab){hideMainSections();var target=qs(ROUTES[tab]);if(target)target.style.display='flex';var sw=qs('srch-wrap');if(sw)sw.style.display=tab==='songs'?'block':'none';var fr=qs('library-filter-row');if(fr)fr.style.display=tab==='songs'?'flex':'none';}
+  function clearEditorMode(){try{document.body.classList.remove('wb-set-editor-mode','wb-set-editor-personal','wb-set-editor-workspace');}catch(e){}try{var sec=qs('setlist-section');if(sec)sec.classList.remove('wb-editor-mode');}catch(e){}}
+  function closeTransient(){try{if(typeof closeAllBS==='function')closeAllBS();}catch(e){}try{document.body.classList.remove('song-open','performance-mode');}catch(e){}try{var sv=qs('song-view');if(sv)sv.classList.remove('visible');}catch(e){}}
+  function afterRoute(tab){clearEditorMode();setRouteClass(tab);showOnly(tab);selectBottomTab(tab);setVersion();try{activeTab=tab;}catch(e){}try{if(typeof updateHeaderAddButton==='function')updateHeaderAddButton(tab);}catch(e){}try{if(typeof updateManageUI==='function')updateManageUI();}catch(e){}try{if(typeof queueSaveLastState==='function')queueSaveLastState();}catch(e){}}
+  function enforceLater(tab,seq){[0,60,180,420,900].forEach(function(ms){setTimeout(function(){if(seq!==routeSeq)return;afterRoute(tab);if(tab==='setlist')renderPersonalHomeDirect(false);},ms);});}
   function setSetListHomeMode(){var sec=qs('setlist-section');if(!sec)return;sec.classList.add('wb-list-mode');sec.classList.remove('wb-editor-mode');}
-  function setSetEditorMode(scope){
-    var sk=scopeKey(scope);var tab=sk==='shared'?'workspace':'setlist';
-    setRouteClass(tab);selectBottomTab(tab);showOnly('setlist');
-    try{document.body.classList.add('wb-set-editor-mode',sk==='shared'?'wb-set-editor-workspace':'wb-set-editor-personal');}catch(e){}
-    try{activeTab=tab;}catch(e){}
-    var sec=qs('setlist-section');if(sec){sec.classList.remove('wb-list-mode');sec.classList.add('wb-editor-mode');sec.style.display='flex';}
-    var ws=qs('workspace-section');if(ws)ws.style.display='none';
+  function setSetEditorMode(scope){var sk=scopeKey(scope);var tab=sk==='shared'?'workspace':'setlist';setRouteClass(tab);selectBottomTab(tab);showOnly('setlist');try{document.body.classList.add('wb-set-editor-mode',sk==='shared'?'wb-set-editor-workspace':'wb-set-editor-personal');}catch(e){}try{activeTab=tab;}catch(e){}var sec=qs('setlist-section');if(sec){sec.classList.remove('wb-list-mode');sec.classList.add('wb-editor-mode');sec.style.display='flex';}var ws=qs('workspace-section');if(ws)ws.style.display='none';}
+
+  function hydratePersonalSets(force){
+    try{if(force||!hydratedPersonalOnce){if(typeof loadPersonalNamedSets==='function')loadPersonalNamedSets();hydratedPersonalOnce=true;}}catch(e){}
+    try{var map=mapFor('personal');if((!map||!Object.keys(map).length)&&typeof PERSONAL_SETS_KEY!=='undefined'){var raw=JSON.parse(localStorage.getItem(PERSONAL_SETS_KEY)||'null');if(raw&&typeof raw==='object'){if(typeof normalizeNamedSetMap==='function')_personalSets=normalizeNamedSetMap(raw,'Set');else _personalSets=raw;}}}catch(e){}
+    try{if((!_personalSets||!Object.keys(_personalSets).length)&&typeof _deviceSetList!=='undefined'&&Array.isArray(_deviceSetList)&&_deviceSetList.length){_personalSets={default:{name:'My Set',items:itemsOf({items:_deviceSetList}),updatedAt:Date.now()}};}}catch(e){}
   }
-  function ensurePersonalManagerExists(){try{if(typeof showPersonalList==='function'){showPersonalList();return;}}catch(e){} }
-  function ensureEditorBar(){
-    var bar=qs('wb-set-editor-bar');if(bar)return bar;
-    var section=qs('setlist-section');if(!section)return null;
-    bar=document.createElement('div');bar.id='wb-set-editor-bar';
-    bar.innerHTML='<button class="wb-editor-back" type="button" onclick="goBackFromSetEditor()">‹ Back</button><div class="wb-editor-title-wrap"><div class="wb-editor-title" id="wb-editor-title">Set list</div><div class="wb-editor-sub" id="wb-editor-sub">Planning board</div></div><button class="wb-editor-publish" id="wb-editor-publish" type="button" onclick="publishCurrentPersonalSetToWorkspace()">Publish</button>';
-    section.insertBefore(bar,section.firstChild);
-    return bar;
-  }
-  function updateEditorHeader(scope){
-    var sk=scopeKey(scope);var bar=ensureEditorBar();if(!bar)return;
-    var set=null;try{set=typeof getActiveSet==='function'?getActiveSet(sk):null;}catch(e){};
-    if(!set){var id=(appPrefs&&appPrefs[activeKey(sk)])||'';set=mapFor(sk)[id]||{};}
-    var back=bar.querySelector('.wb-editor-back');if(back){back.textContent='‹';back.setAttribute('aria-label',sk==='shared'?'Back to Workspace Set Lists':'Back to My Set Lists');back.setAttribute('title',sk==='shared'?'Back to Workspace Set Lists':'Back to My Set Lists');}
-    var title=qs('wb-editor-title');if(title)title.textContent=set.name||'Untitled set';
-    var sub=qs('wb-editor-sub');if(sub)sub.textContent=(sk==='shared'?'Workspace':'Personal')+' · '+countLabel(itemsOf(set));
-    var pub=qs('wb-editor-publish');if(pub)pub.hidden=sk!=='personal';
-  }
-  function savePrefsSafe(){try{if(typeof savePrefs==='function')savePrefs();}catch(e){} }
-  function saveScope(scope){try{if(scopeKey(scope)==='shared'){if(typeof saveSharedSetsToFB==='function')saveSharedSetsToFB();}else if(typeof savePersonalNamedSets==='function')savePersonalNamedSets();}catch(e){console.warn('v78.3 save scope failed',e);}savePrefsSafe();}
-  function openSetEditor(scope,id){
-    var sk=scopeKey(scope);var sets=mapFor(sk);if(id&&!sets[id])return;
-    routeSeq++;
-    closeTransient();
-    editorContext=sk==='shared'?'workspace':'personal';
-    try{appPrefs.setListScope=sk;appPrefs.useDeviceSetList=sk==='personal';if(id)appPrefs[activeKey(sk)]=id;savePrefsSafe();}catch(e){}
-    setSetEditorMode(sk);ensureEditorBar();updateEditorHeader(sk);
-    try{if(typeof renderSetListScopeUI==='function')renderSetListScopeUI();}catch(e){}
-    try{if(typeof renderNamedSetChooserUI==='function')renderNamedSetChooserUI();}catch(e){}
-    try{if(typeof renderSetList==='function')renderSetList();}catch(e){console.warn('v78.3 render set editor failed',e);}
-    setSetEditorMode(sk);updateEditorHeader(sk);setVersion();
-    var seq=routeSeq;[0,80,220].forEach(function(ms){setTimeout(function(){if(seq!==routeSeq)return;setSetEditorMode(sk);updateEditorHeader(sk);},ms);});
-  }
-  function openPersonalHome(){
-    routeSeq++;
-    closeTransient();
-    clearEditorMode();
-    setRouteClass('setlist');selectBottomTab('setlist');showOnly('setlist');
-    try{appPrefs.setListScope='personal';appPrefs.useDeviceSetList=true;savePrefsSafe();}catch(e){}
-    try{if(typeof showPersonalList==='function')showPersonalList();}catch(e){console.warn('v78.3 show personal list failed',e);}
-    setSetListHomeMode();setRouteClass('setlist');selectBottomTab('setlist');showOnly('setlist');
-    try{activeTab='setlist';}catch(e){}
-    setVersion();
-  }
-  function showWorkspaceHome(){
-    routeSeq++;
-    closeTransient();
-    afterRoute('workspace');
-    try{var sec=qs('workspace-section');if(sec)sec.classList.remove('workspace-setlists-mode');}catch(e){}
-    try{if(typeof renderWorkspace==='function')renderWorkspace();}catch(e){console.warn('v78.3 render workspace home failed',e);}
-    try{var sec2=qs('workspace-section');if(sec2)sec2.classList.remove('workspace-setlists-mode');}catch(e){}
-    afterRoute('workspace');
-  }
-  function workspaceName(){try{if(typeof workspaceName==='function')return workspaceName();}catch(e){}try{var raw=localStorage.getItem('wb.workspace.shell.v1');var ws=raw?JSON.parse(raw):{};return String((ws&&ws.name)||'Workspace').trim()||'Workspace';}catch(e){return 'Workspace';}}
-  function workspaceSetListsHeading(){try{if(typeof workspaceSetListsTitle==='function')return workspaceSetListsTitle();}catch(e){}return workspaceName()+' Set Lists';}
-  function updatedLabel(set){var ts=Number((set&&set.updatedAt)||(set&&set.createdAt)||0);if(!ts)return '';try{var d=new Date(ts);if(!isFinite(d.getTime()))return '';return 'Updated '+d.toLocaleDateString(undefined,{month:'short',day:'numeric'});}catch(e){return '';}}
   function noteText(set){return String((set&&set.notes)||'').trim();}
+  function updatedLabel(set){var ts=Number((set&&set.updatedAt)||(set&&set.createdAt)||0);if(!ts)return '';try{var d=new Date(ts);if(!isFinite(d.getTime()))return '';return 'Updated '+d.toLocaleDateString(undefined,{month:'short',day:'numeric'});}catch(e){return '';}}
+  function personalEntries(){hydratePersonalSets(false);var sets=mapFor('personal')||{};return Object.entries(sets).filter(function(pair){var id=pair[0],set=pair[1]||{};var name=String(set.name||'').trim().toLowerCase();if(id==='default'&&!itemsOf(set).length&&!noteText(set)&&(name==='my set'||name==='set'||!name))return false;return true;}).sort(function(a,b){return Number((b[1]&&b[1].updatedAt)||(b[1]&&b[1].createdAt)||0)-Number((a[1]&&a[1].updatedAt)||(a[1]&&a[1].createdAt)||0);});}
+  function personalTotals(entries){var songs=0,plan=0;(entries||[]).forEach(function(p){var c=itemCounts(itemsOf(p[1]));songs+=c.songs;plan+=c.items;});var bits=[(entries||[]).length+' set list'+((entries||[]).length===1?'':'s')];if(songs)bits.push(songs+' song'+(songs===1?'':'s'));if(plan)bits.push(plan+' item'+(plan===1?'':'s'));bits.push('Saved locally');return bits.join(' · ');}
+  function ensurePersonalHomeRoot(){var wrap=qs('wb-personal-manager');var section=qs('setlist-section');if(!section)return null;if(!wrap){wrap=document.createElement('div');wrap.id='wb-personal-manager';section.insertBefore(wrap,section.firstChild);}wrap.innerHTML='<div class="wb-personal-scroll"><div class="wb-personal-head"><div class="wb-personal-copy"><div class="wb-personal-title">My Set Lists</div><div class="wb-personal-meta" id="wb-personal-meta">Saved locally</div></div><button class="wb-personal-new" type="button" onclick="createPersonalSetFromManager()">New</button></div><div id="wb-personal-list" class="wb-personal-list"></div></div>';return wrap;}
+  function renderPersonalHomeDirect(forceHydrate){if(forceHydrate)hydratedPersonalOnce=false;hydratePersonalSets(!!forceHydrate);ensurePersonalHomeRoot();setSetListHomeMode();var entries=personalEntries();var meta=qs('wb-personal-meta');if(meta)meta.innerHTML=esc(personalTotals(entries)).replace('Saved locally','<span class="wb-personal-local">Saved locally</span>');var list=qs('wb-personal-list');if(!list)return;if(!entries.length){list.innerHTML='<div class="wb-personal-empty"><strong>No personal set lists yet</strong>Create a set list to start planning locally on this device.</div>';return;}list.innerHTML=entries.map(function(pair){var id=String(pair[0]),set=pair[1]||{};var sid=id.replace(/'/g,"\'");var notes=noteText(set)?'<span class="wb-note-pill">Notes</span>':'';var upd=updatedLabel(set);return '<button class="wb-personal-card" type="button" onclick="openPersonalSetFromManager(\''+sid+'\')"><span class="wb-personal-main"><span class="wb-personal-name">'+esc(set.name||'Untitled set')+'</span><span class="wb-personal-card-meta"><span>'+esc(countLabel(itemsOf(set)))+'</span>'+notes+(upd?'<span>'+esc(upd)+'</span>':'')+'</span></span><span class="wb-personal-actions"><span class="wb-card-btn" aria-hidden="true">›</span><span class="wb-card-btn danger" onclick="event.stopPropagation();deletePersonalSetFromManager(\''+sid+'\')" aria-label="Delete">×</span></span></button>';}).join('');}
+
+  function ensureEditorBar(){var bar=qs('wb-set-editor-bar');if(bar)return bar;var section=qs('setlist-section');if(!section)return null;bar=document.createElement('div');bar.id='wb-set-editor-bar';bar.innerHTML='<button class="wb-editor-back" type="button" onclick="goBackFromSetEditor()" aria-label="Back" title="Back">‹</button><div class="wb-editor-title-wrap"><div class="wb-editor-title" id="wb-editor-title">Set list</div><div class="wb-editor-sub" id="wb-editor-sub">Planning board</div></div><button class="wb-editor-publish" id="wb-editor-publish" type="button" onclick="publishCurrentPersonalSetToWorkspace()">Publish</button>';section.insertBefore(bar,section.firstChild);return bar;}
+  function updateEditorHeader(scope){var sk=scopeKey(scope);var bar=ensureEditorBar();if(!bar)return;var set=null;try{set=typeof getActiveSet==='function'?getActiveSet(sk):null;}catch(e){}if(!set){var id=(appPrefs&&appPrefs[activeKey(sk)])||'';set=mapFor(sk)[id]||{};}var back=bar.querySelector('.wb-editor-back');if(back){back.textContent='‹';back.setAttribute('aria-label',sk==='shared'?'Back to Workspace Set Lists':'Back to My Set Lists');back.setAttribute('title',sk==='shared'?'Back to Workspace Set Lists':'Back to My Set Lists');}var title=qs('wb-editor-title');if(title)title.textContent=set.name||'Untitled set';var sub=qs('wb-editor-sub');if(sub)sub.textContent=(sk==='shared'?'Workspace':'Personal')+' · '+countLabel(itemsOf(set));var pub=qs('wb-editor-publish');if(pub)pub.hidden=sk!=='personal';}
+  function savePrefsSafe(){try{if(typeof savePrefs==='function')savePrefs();}catch(e){} }
+  function saveScope(scope){try{if(scopeKey(scope)==='shared'){if(typeof saveSharedSetsToFB==='function')saveSharedSetsToFB();}else if(typeof savePersonalNamedSets==='function')savePersonalNamedSets();}catch(e){console.warn('v78.4 save scope failed',e);}savePrefsSafe();}
+  function openSetEditor(scope,id){var sk=scopeKey(scope);hydratePersonalSets(false);var sets=mapFor(sk);if(id&&!sets[id])return;routeSeq++;closeTransient();editorContext=sk==='shared'?'workspace':'personal';try{appPrefs.setListScope=sk;appPrefs.useDeviceSetList=sk==='personal';if(id)appPrefs[activeKey(sk)]=id;savePrefsSafe();}catch(e){}setSetEditorMode(sk);ensureEditorBar();updateEditorHeader(sk);try{if(typeof renderSetListScopeUI==='function')renderSetListScopeUI();}catch(e){}try{if(typeof renderNamedSetChooserUI==='function')renderNamedSetChooserUI();}catch(e){}try{if(typeof renderSetList==='function')renderSetList();}catch(e){console.warn('v78.4 render set editor failed',e);}setSetEditorMode(sk);updateEditorHeader(sk);setVersion();var seq=routeSeq;[0,80,220,600].forEach(function(ms){setTimeout(function(){if(seq!==routeSeq)return;setSetEditorMode(sk);updateEditorHeader(sk);},ms);});}
+  function openPersonalHome(){routeSeq++;closeTransient();clearEditorMode();setRouteClass('setlist');selectBottomTab('setlist');showOnly('setlist');try{appPrefs.setListScope='personal';appPrefs.useDeviceSetList=true;savePrefsSafe();}catch(e){}renderPersonalHomeDirect(true);setSetListHomeMode();try{activeTab='setlist';}catch(e){}setVersion();}
+  function showWorkspaceHome(){routeSeq++;closeTransient();afterRoute('workspace');try{var sec=qs('workspace-section');if(sec)sec.classList.remove('workspace-setlists-mode');}catch(e){}try{if(typeof renderWorkspace==='function')renderWorkspace();}catch(e){console.warn('v78.4 render workspace home failed',e);}try{var sec2=qs('workspace-section');if(sec2)sec2.classList.remove('workspace-setlists-mode');}catch(e){}afterRoute('workspace');}
+  function workspaceName(){try{var raw=localStorage.getItem('wb.workspace.shell.v1');var ws=raw?JSON.parse(raw):{};return String((ws&&ws.name)||'Workspace').trim()||'Workspace';}catch(e){return 'Workspace';}}
+  function workspaceSetListsHeading(){try{if(typeof workspaceSetListsTitle==='function')return workspaceSetListsTitle();}catch(e){}return workspaceName()+' Set Lists';}
   function sharedEntries(){var sets=mapFor('shared');return Object.entries(sets||{}).filter(function(pair){var set=pair[1]||{};var name=String(set.name||'').trim().toLowerCase();return !(pair[0]==='default'&&!itemsOf(set).length&&(name==='shared set'||name==='workspace set'||name==='set'||!name));}).sort(function(a,b){return Number((b[1]&&b[1].updatedAt)||0)-Number((a[1]&&a[1].updatedAt)||0);});}
-  function summary(entries){var list=entries||sharedEntries();var totals=list.reduce(function(acc,p){var items=itemsOf(p[1]);var songs=0,plan=0;items.forEach(function(it){var t=String((it&&it.type)||'song').toLowerCase();if(t==='section'||t==='item'||t==='service')plan++;else if(t==='song'||(it&&it.songId))songs++;});acc.songs+=songs;acc.items+=plan;return acc;},{songs:0,items:0});var bits=[list.length+' set list'+(list.length===1?'':'s')];if(totals.songs)bits.push(totals.songs+' song'+(totals.songs===1?'':'s'));if(totals.items)bits.push(totals.items+' item'+(totals.items===1?'':'s'));return bits.join(' · ');}
-  function ensureWorkspaceSubview(){
-    var view=qs('workspace-setlists-subview');if(view)return view;
-    var scroll=document.querySelector('#workspace-section .workspace-scroll');if(!scroll)return null;
-    view=document.createElement('div');view.id='workspace-setlists-subview';view.className='workspace-subview';
-    view.innerHTML='<div class="workspace-subview-head"><button class="workspace-subview-back" type="button" onclick="showWorkspaceDashboard()" aria-label="Back to Workspace">‹</button><div class="workspace-subview-title-wrap"><div class="workspace-subview-title" id="workspace-subview-title"></div><div class="workspace-subview-sub" id="workspace-subview-sub"></div></div><button class="workspace-subview-new" type="button" onclick="createWorkspaceSetFromWorkspaceSubview()">New</button></div><div id="workspace-subview-list" class="workspace-subview-list"></div>';
-    var hero=scroll.querySelector('.workspace-hero');if(hero)scroll.insertBefore(view,hero);else scroll.insertBefore(view,scroll.firstChild);
-    return view;
-  }
-  function renderWorkspaceSetListsDirect(){
-    ensureWorkspaceSubview();
-    var title=qs('workspace-subview-title');if(title)title.textContent=workspaceSetListsHeading();
-    var entries=sharedEntries();
-    var sub=qs('workspace-subview-sub');if(sub)sub.textContent=summary(entries);
-    var topSub=qs('workspace-setlists-sub');if(topSub)topSub.textContent=entries.length+' set list'+(entries.length===1?'':'s');
-    var list=qs('workspace-subview-list');if(!list)return;
-    list.innerHTML='';
-    if(!entries.length){list.innerHTML='<div class="workspace-subview-empty"><div class="workspace-subview-empty-title">No Workspace set lists yet</div><div>Publish a Personal set or create a new Workspace set list.</div></div>';return;}
-    entries.forEach(function(pair){
-      var id=String(pair[0]);var set=pair[1]||{};var notes=noteText(set)?'<span class="workspace-subview-note">Notes</span>':'';var upd=updatedLabel(set);
-      var card=document.createElement('div');card.className='workspace-subview-card';card.setAttribute('role','button');card.tabIndex=0;
-      card.innerHTML='<span class="workspace-subview-main"><span class="workspace-subview-name">'+esc(set.name||'Untitled Workspace set')+'</span><span class="workspace-subview-meta"><span>'+esc(countLabel(itemsOf(set)))+'</span>'+notes+(upd?'<span class="workspace-subview-updated">'+esc(upd)+'</span>':'')+'</span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" aria-label="Delete">×</button></span>';
-      card.addEventListener('click',function(){openSetEditor('shared',id);});
-      card.addEventListener('keydown',function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();openSetEditor('shared',id);}});
-      var buttons=card.querySelectorAll('button');
-      if(buttons[0])buttons[0].addEventListener('click',function(ev){ev.stopPropagation();openSetEditor('shared',id);});
-      if(buttons[1])buttons[1].addEventListener('click',function(ev){ev.stopPropagation();try{if(typeof deleteWorkspaceSetFromWorkspaceSubview==='function')deleteWorkspaceSetFromWorkspaceSubview(id);}catch(e){}});
-      list.appendChild(card);
-    });
-  }
-  function showWorkspaceSetLists(){
-    routeSeq++;
-    closeTransient();
-    afterRoute('workspace');
-    try{if(typeof renderWorkspace==='function')renderWorkspace();}catch(e){}
-    try{var sec=qs('workspace-section');if(sec)sec.classList.add('workspace-setlists-mode');}catch(e){}
-    try{renderWorkspaceSetListsDirect();}catch(e){console.warn('v78.3 render workspace set lists failed',e);}
-    try{var sec2=qs('workspace-section');if(sec2)sec2.classList.add('workspace-setlists-mode');}catch(e){}
-    afterRoute('workspace');
-    try{var sec3=qs('workspace-section');if(sec3)sec3.classList.add('workspace-setlists-mode');}catch(e){}
-    try{var scroll=document.querySelector('#workspace-section .workspace-scroll');if(scroll)scroll.scrollTo({top:0,behavior:'smooth'});}catch(e){}
-  }
-  function switchCanonical(tab){
-    var requested=tab;var route=canonicalTab(tab);var seq=++routeSeq;
-    closeTransient();
-    if(route==='setlist'){openPersonalHome();return;}
-    if(route==='workspace'){showWorkspaceHome();return;}
-    afterRoute(route);
-    if(route==='songs'){
-      try{if(requested==='english'||requested==='malayalam'){document.querySelectorAll('#library-filter-row .filter-chip').forEach(function(el){el.classList.toggle('active',el.dataset.filter===libraryFilter);});}var ss=qs('search-scope-select');if(ss&&typeof searchScope!=='undefined')ss.value=searchScope;}catch(e){}
-      try{if(typeof refresh==='function')refresh(true);}catch(e){}
-    }else if(route==='bible'){
-      try{if(typeof loadBibleData==='function')loadBibleData();}catch(e){}
-    }else if(route==='settings'){
-      try{if(typeof renderSettings==='function')renderSettings();}catch(e){}
-    }
-    afterRoute(route);enforceLater(route,seq);
-  }
+  function sharedSummary(entries){var list=entries||sharedEntries();var totals=list.reduce(function(acc,p){var c=itemCounts(itemsOf(p[1]));acc.songs+=c.songs;acc.items+=c.items;return acc;},{songs:0,items:0});var bits=[list.length+' set list'+(list.length===1?'':'s')];if(totals.songs)bits.push(totals.songs+' song'+(totals.songs===1?'':'s'));if(totals.items)bits.push(totals.items+' item'+(totals.items===1?'':'s'));return bits.join(' · ');}
+  function ensureWorkspaceSubview(){var view=qs('workspace-setlists-subview');if(view)return view;var scroll=document.querySelector('#workspace-section .workspace-scroll');if(!scroll)return null;view=document.createElement('div');view.id='workspace-setlists-subview';view.className='workspace-subview';view.innerHTML='<div class="workspace-subview-head"><button class="workspace-subview-back" type="button" onclick="showWorkspaceDashboard()" aria-label="Back to Workspace">‹</button><div class="workspace-subview-title-wrap"><div class="workspace-subview-title" id="workspace-subview-title"></div><div class="workspace-subview-sub" id="workspace-subview-sub"></div></div><button class="workspace-subview-new" type="button" onclick="createWorkspaceSetFromWorkspaceSubview()">New</button></div><div id="workspace-subview-list" class="workspace-subview-list"></div>';var hero=scroll.querySelector('.workspace-hero');if(hero)scroll.insertBefore(view,hero);else scroll.insertBefore(view,scroll.firstChild);return view;}
+  function renderWorkspaceSetListsDirect(){ensureWorkspaceSubview();var title=qs('workspace-subview-title');if(title)title.textContent=workspaceSetListsHeading();var entries=sharedEntries();var sub=qs('workspace-subview-sub');if(sub)sub.textContent=sharedSummary(entries);var topSub=qs('workspace-setlists-sub');if(topSub)topSub.textContent=entries.length+' set list'+(entries.length===1?'':'s');var list=qs('workspace-subview-list');if(!list)return;list.innerHTML='';if(!entries.length){list.innerHTML='<div class="workspace-subview-empty"><div class="workspace-subview-empty-title">No Workspace set lists yet</div><div>Publish a Personal set or create a new Workspace set list.</div></div>';return;}entries.forEach(function(pair){var id=String(pair[0]),set=pair[1]||{};var notes=noteText(set)?'<span class="workspace-subview-note">Notes</span>':'';var upd=updatedLabel(set);var card=document.createElement('div');card.className='workspace-subview-card';card.setAttribute('role','button');card.tabIndex=0;card.innerHTML='<span class="workspace-subview-main"><span class="workspace-subview-name">'+esc(set.name||'Untitled Workspace set')+'</span><span class="workspace-subview-meta"><span>'+esc(countLabel(itemsOf(set)))+'</span>'+notes+(upd?'<span class="workspace-subview-updated">'+esc(upd)+'</span>':'')+'</span></span><span class="workspace-subview-actions"><button class="workspace-subview-icon" type="button" aria-label="Open">›</button><button class="workspace-subview-icon danger" type="button" aria-label="Delete">×</button></span>';card.addEventListener('click',function(){openSetEditor('shared',id);});card.addEventListener('keydown',function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();openSetEditor('shared',id);}});var buttons=card.querySelectorAll('button');if(buttons[0])buttons[0].addEventListener('click',function(ev){ev.stopPropagation();openSetEditor('shared',id);});if(buttons[1])buttons[1].addEventListener('click',function(ev){ev.stopPropagation();try{if(typeof deleteWorkspaceSetFromWorkspaceSubview==='function')deleteWorkspaceSetFromWorkspaceSubview(id);}catch(e){}});list.appendChild(card);});}
+  function showWorkspaceSetLists(){routeSeq++;closeTransient();afterRoute('workspace');try{if(typeof renderWorkspace==='function')renderWorkspace();}catch(e){}try{var sec=qs('workspace-section');if(sec)sec.classList.add('workspace-setlists-mode');}catch(e){}try{renderWorkspaceSetListsDirect();}catch(e){console.warn('v78.4 render workspace set lists failed',e);}try{var sec2=qs('workspace-section');if(sec2)sec2.classList.add('workspace-setlists-mode');}catch(e){}afterRoute('workspace');try{var sec3=qs('workspace-section');if(sec3)sec3.classList.add('workspace-setlists-mode');}catch(e){}try{var scroll=document.querySelector('#workspace-section .workspace-scroll');if(scroll)scroll.scrollTo({top:0,behavior:'smooth'});}catch(e){}}
+  function switchCanonical(tab){var requested=tab,route=canonicalTab(tab),seq=++routeSeq;closeTransient();if(route==='setlist'){openPersonalHome();return;}if(route==='workspace'){showWorkspaceHome();return;}afterRoute(route);if(route==='songs'){try{if(requested==='english'||requested==='malayalam'){document.querySelectorAll('#library-filter-row .filter-chip').forEach(function(el){el.classList.toggle('active',el.dataset.filter===libraryFilter);});}var ss=qs('search-scope-select');if(ss&&typeof searchScope!=='undefined')ss.value=searchScope;}catch(e){}try{if(typeof refresh==='function')refresh(true);}catch(e){}}else if(route==='bible'){try{if(typeof loadBibleData==='function')loadBibleData();}catch(e){}}else if(route==='settings'){try{if(typeof renderSettings==='function')renderSettings();}catch(e){}}afterRoute(route);enforceLater(route,seq);}
+
   window.switchTab=switchCanonical;try{switchTab=switchCanonical;}catch(e){}
+  window.showPersonalList=function(){openPersonalHome();};
+  window.renderPersonalManager=function(){renderPersonalHomeDirect(true);};
   window.openPersonalSetFromManager=function(id){openSetEditor('personal',id);};
+  window.deletePersonalSetFromManager=function(id){var sets=Object.assign({},mapFor('personal'));var set=sets[id];if(!set)return;var ok=(typeof confirmDestructive==='function')?confirmDestructive('Delete '+(set.name||'this set list')+'?'):confirm('Delete '+(set.name||'this set list')+'?');if(!ok)return;delete sets[id];try{if(appPrefs&&appPrefs.activePersonalSetId===id)appPrefs.activePersonalSetId=Object.keys(sets)[0]||'';}catch(e){}setMap('personal',sets);saveScope('personal');renderPersonalHomeDirect(true);try{showToast('Personal set deleted');}catch(e){}};
   window.openWorkspaceSetFromWorkspaceTab=function(id){openSetEditor('shared',id);};
   window.goBackFromSetEditor=function(){if(editorContext==='workspace')showWorkspaceSetLists();else openPersonalHome();};
   window.openWorkspaceSetLists=function(){showWorkspaceSetLists();};
   window.showWorkspaceDashboard=function(){showWorkspaceHome();};
-  window.createPersonalSetFromManager=function(){
-    var name=(prompt('New personal set list name:','New Set')||'').trim();if(!name)return;
-    var id=typeof makeSetId==='function'?makeSetId():('set_'+Date.now().toString(36)+Math.random().toString(36).slice(2,7));
-    var sets=Object.assign({},mapFor('personal'));sets[id]={name:name,notes:'',items:[],songMemory:{},createdAt:Date.now(),updatedAt:Date.now()};setMap('personal',sets);try{appPrefs.activePersonalSetId=id;}catch(e){}saveScope('personal');openSetEditor('personal',id);try{showToast('Personal set created');}catch(e){}
-  };
-  window.createWorkspaceSetFromWorkspaceTab=function(){
-    var name=(prompt('New Workspace set list name:','New Workspace Set')||'').trim();if(!name)return;
-    var id=typeof makeSetId==='function'?makeSetId():('set_'+Date.now().toString(36)+Math.random().toString(36).slice(2,7));
-    var sets=Object.assign({},mapFor('shared'));sets[id]={name:name,notes:'',items:[],songMemory:{},createdAt:Date.now(),updatedAt:Date.now()};setMap('shared',sets);try{appPrefs.activeSharedSetId=id;appPrefs.setListScope='shared';appPrefs.useDeviceSetList=false;}catch(e){}saveScope('shared');openSetEditor('shared',id);try{showToast('Workspace set created');}catch(e){}
-  };
+  window.createPersonalSetFromManager=function(){var name=(prompt('New personal set list name:','New Set')||'').trim();if(!name)return;var id=typeof makeSetId==='function'?makeSetId():('set_'+Date.now().toString(36)+Math.random().toString(36).slice(2,7));hydratePersonalSets(false);var sets=Object.assign({},mapFor('personal'));sets[id]={name:name,notes:'',items:[],songMemory:{},createdAt:Date.now(),updatedAt:Date.now()};setMap('personal',sets);try{appPrefs.activePersonalSetId=id;}catch(e){}saveScope('personal');openSetEditor('personal',id);try{showToast('Personal set created');}catch(e){}};
+  window.createWorkspaceSetFromWorkspaceTab=function(){var name=(prompt('New Workspace set list name:','New Workspace Set')||'').trim();if(!name)return;var id=typeof makeSetId==='function'?makeSetId():('set_'+Date.now().toString(36)+Math.random().toString(36).slice(2,7));var sets=Object.assign({},mapFor('shared'));sets[id]={name:name,notes:'',items:[],songMemory:{},createdAt:Date.now(),updatedAt:Date.now()};setMap('shared',sets);try{appPrefs.activeSharedSetId=id;appPrefs.setListScope='shared';appPrefs.useDeviceSetList=false;}catch(e){}saveScope('shared');openSetEditor('shared',id);try{showToast('Workspace set created');}catch(e){}};
   window.createWorkspaceSetFromWorkspaceSubview=function(){window.createWorkspaceSetFromWorkspaceTab();};
-  window.WBAppRouter={
-    version:VERSION,
-    routes:Object.assign({},ROUTES),
-    current:function(){try{return typeof activeTab!=='undefined'?activeTab:null;}catch(e){return null;}},
-    show:function(tab){return switchCanonical(tab);},
-    openSetEditor:openSetEditor,
-    openPersonalHome:openPersonalHome,
-    openWorkspaceHome:showWorkspaceHome,
-    openWorkspaceSetLists:showWorkspaceSetLists,
-    enforce:function(){var tab=canonicalTab(this.current()||'songs');var seq=++routeSeq;afterRoute(tab);enforceLater(tab,seq);},
-    audit:function(){var rows={};Object.keys(ROUTES).forEach(function(route){var el=qs(ROUTES[route]);rows[route]={exists:!!el,inlineDisplay:el?el.style.display:null,computedDisplay:el?getComputedStyle(el).display:null,bodyActive:document.body.classList.contains('wb-tab-'+route)};});rows.editorMode=document.body.classList.contains('wb-set-editor-mode');rows.editorContext=editorContext;return rows;}
-  };
+  window.WBAppRouter={version:VERSION,routes:Object.assign({},ROUTES),current:function(){try{return typeof activeTab!=='undefined'?activeTab:null;}catch(e){return null;}},show:function(tab){return switchCanonical(tab);},openSetEditor:openSetEditor,openPersonalHome:openPersonalHome,openWorkspaceHome:showWorkspaceHome,openWorkspaceSetLists:showWorkspaceSetLists,enforce:function(){var tab=canonicalTab(this.current()||'songs');var seq=++routeSeq;afterRoute(tab);enforceLater(tab,seq);},audit:function(){var rows={};Object.keys(ROUTES).forEach(function(route){var el=qs(ROUTES[route]);rows[route]={exists:!!el,inlineDisplay:el?el.style.display:null,computedDisplay:el?getComputedStyle(el).display:null,bodyActive:document.body.classList.contains('wb-tab-'+route)};});rows.editorMode=document.body.classList.contains('wb-set-editor-mode');rows.editorContext=editorContext;rows.personalCount=personalEntries().length;return rows;}};
   window.WBRouteAudit=function(){return window.WBAppRouter.audit();};
-  function init(){setVersion();var initial=canonicalTab((function(){try{return typeof activeTab!=='undefined'?activeTab:'songs';}catch(e){return 'songs';}})());if(initial==='setlist')openPersonalHome();else if(initial==='workspace')showWorkspaceHome();else{var seq=++routeSeq;afterRoute(initial);enforceLater(initial,seq);}}
+  function init(){setVersion();try{document.body.classList.add('wb-route-lock','wb-tab-songs');}catch(e){}var initial=canonicalTab((function(){try{return typeof activeTab!=='undefined'?activeTab:'songs';}catch(e){return 'songs';}})());if(initial==='setlist')openPersonalHome();else if(initial==='workspace')showWorkspaceHome();else{var seq=++routeSeq;afterRoute(initial);enforceLater(initial,seq);}}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
