@@ -12130,7 +12130,7 @@ body.dark .pad-chip.active,body.dark .pad-key.active{background:var(--accent-sur
   updatePadUI();
   window.WorshipBasePad={start:startPad,stop:stopPad,setKey:setPadKey,setMode:setPadMode,state:PAD_STATE};
 })();
-</script><div class="bs-bg" id="bs-pad" onclick="closeBSBg(event,'pad')" data-wb-pad-library3-cat="1"><div class="bs"><div class="bs-handle"></div><div class="bs-title">Pad</div><div class="pad-panel"><div class="pad-status-card"><div class="pad-status-copy"><div class="pad-status-title" id="pad-status-title">Pad ready</div><div class="pad-status-sub" id="pad-status-sub" style="display: none;"></div></div><button class="pad-power" id="pad-power-btn" type="button">Start</button></div><div class="pad-row-title">Category</div><div class="pad-seg"><button class="pad-chip active" type="button" data-pad-mode="peaceful">Peaceful</button><button class="pad-chip" type="button" data-pad-mode="analog">Analog</button><button class="pad-chip" type="button" data-pad-mode="drones">Drones</button></div><div class="pad-row-title">Key</div><div class="pad-key-grid"><button class="pad-key active" type="button" data-pad-key="C">C</button><button class="pad-key" type="button" data-pad-key="C#">C#</button><button class="pad-key" type="button" data-pad-key="D">D</button><button class="pad-key" type="button" data-pad-key="Eb">Eb</button><button class="pad-key" type="button" data-pad-key="E">E</button><button class="pad-key" type="button" data-pad-key="F">F</button><button class="pad-key" type="button" data-pad-key="F#">F#</button><button class="pad-key" type="button" data-pad-key="G">G</button><button class="pad-key" type="button" data-pad-key="Ab">Ab</button><button class="pad-key" type="button" data-pad-key="A">A</button><button class="pad-key" type="button" data-pad-key="Bb">Bb</button><button class="pad-key" type="button" data-pad-key="B">B</button></div></div><button class="bs-cancel" type="button" onclick="closeBS('pad')">Close</button></div></div>
+</script><div class="bs-bg" id="bs-pad" onclick="closeBSBg(event,'pad')" data-wb-pad-library3-cat="1"><div class="bs"><div class="bs-handle"></div><div class="bs-title">Pad</div><div class="pad-panel"><div class="pad-status-card"><div class="pad-status-copy"><div class="pad-status-title" id="pad-status-title">Pad ready</div><div class="pad-status-sub" id="pad-status-sub" style="display: none;">Peaceful · C</div></div><button class="pad-power" id="pad-power-btn" type="button">Start</button></div><div class="pad-row-title">Category</div><div class="pad-seg"><button class="pad-chip active" type="button" data-pad-mode="peaceful">Peaceful</button><button class="pad-chip" type="button" data-pad-mode="analog">Analog</button><button class="pad-chip" type="button" data-pad-mode="drones">Drones</button></div><div class="pad-row-title">Key</div><div class="pad-key-grid"><button class="pad-key active" type="button" data-pad-key="C">C</button><button class="pad-key" type="button" data-pad-key="C#">C#</button><button class="pad-key" type="button" data-pad-key="D">D</button><button class="pad-key" type="button" data-pad-key="Eb">Eb</button><button class="pad-key" type="button" data-pad-key="E">E</button><button class="pad-key" type="button" data-pad-key="F">F</button><button class="pad-key" type="button" data-pad-key="F#">F#</button><button class="pad-key" type="button" data-pad-key="G">G</button><button class="pad-key" type="button" data-pad-key="Ab">Ab</button><button class="pad-key" type="button" data-pad-key="A">A</button><button class="pad-key" type="button" data-pad-key="Bb">Bb</button><button class="pad-key" type="button" data-pad-key="B">B</button></div></div><button class="bs-cancel" type="button" onclick="closeBS('pad')">Close</button></div></div>
 <style>
 /* ── v70.2 corrections: visible set counter, clear pad affordance, musical-key icons ── */
 #setlist-section .sl-hdr{
@@ -17002,6 +17002,170 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
   window.WBModuleExtractionPlan=function(){return SOURCE_OWNERSHIP.recommendedExtractionOrder.slice();};
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',versionLabels);else versionLabels();
   [60,300,900].forEach(function(ms){setTimeout(versionLabels,ms);});
+})();
+</script>
+
+
+<script id="wb-v79-6-workspace-route-memory-script">
+(function(){
+  'use strict';
+  var VERSION='79.6';
+  var restoring=false;
+  var lastWorkspaceRoute={route:'home',setId:null,updatedAt:Date.now()};
+  var oldSwitchTab=window.switchTab;
+  var oldRouterShow=window.WBAppRouter&&window.WBAppRouter.show;
+  var oldRouterOpenSetEditor=window.WBAppRouter&&window.WBAppRouter.openSetEditor;
+  var oldOpenWorkspaceHome=window.showWorkspaceDashboard||window.renderWorkspace;
+  var oldRenderWorkspace=window.renderWorkspace;
+  var oldOpenWorkspaceSetLists=window.openWorkspaceSetLists;
+  var oldOpenWorkspaceSet=window.openWorkspaceSetFromWorkspaceTab;
+  var oldCreateWorkspaceSet=window.createWorkspaceSetFromWorkspaceTab;
+  var oldCreateWorkspaceSetSubview=window.createWorkspaceSetFromWorkspaceSubview;
+  var oldDeleteWorkspaceSet=window.deleteWorkspaceSetFromWorkspaceSubview;
+  var oldGoBackFromSetEditor=window.goBackFromSetEditor;
+  var oldBackWorkspaceHomeShell=window.backToWorkspaceHomeShell;
+  var oldOpenLibraryShell=window.openWorkspaceLibraryShell;
+  var oldOpenMembersShell=window.openWorkspaceMembersShell;
+  var oldOpenStorageShell=window.openWorkspaceStoragePrepShell;
+
+  function setVersion(){
+    try{document.title='WorshipBase v'+VERSION;window.WB_CURRENT_VERSION=VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}
+  }
+  function canonical(tab){
+    tab=String(tab||'songs').toLowerCase();
+    if(tab==='library'||tab==='songs'||tab==='english'||tab==='malayalam'||tab==='my'||tab==='favourites')return 'songs';
+    if(tab==='setlist'||tab==='sets')return 'setlist';
+    if(tab==='workspace'||tab==='team'||tab==='shared')return 'workspace';
+    if(tab==='bible')return 'bible';
+    if(tab==='settings')return 'settings';
+    return tab;
+  }
+  function currentTab(){try{return typeof activeTab!=='undefined'?activeTab:null;}catch(e){return null;}}
+  function sharedSets(){try{return (typeof _sharedSets!=='undefined'&&_sharedSets)||{};}catch(e){return {};}}
+  function activeSharedId(){try{return (appPrefs&&appPrefs.activeSharedSetId)||'';}catch(e){return '';}}
+  function setExists(id){var sets=sharedSets();return !!(id&&sets&&sets[id]);}
+  function setActiveBottomWorkspace(){
+    try{document.querySelectorAll('.tab-btn').forEach(function(btn){var on=(btn.dataset&&btn.dataset.tab)==='workspace';btn.classList.toggle('active',on);});}catch(e){}
+  }
+  function activateWorkspaceSection(){
+    try{document.body.classList.add('wb-route-lock','wb-tab-workspace');['songs','setlist','bible','settings'].forEach(function(t){document.body.classList.remove('wb-tab-'+t);});}catch(e){}
+    try{['song-section','setlist-section','bible-section','settings-section'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});var ws=document.getElementById('workspace-section');if(ws)ws.style.display='flex';}catch(e){}
+    try{var sw=document.getElementById('srch-wrap');if(sw)sw.style.display='none';var fr=document.getElementById('library-filter-row');if(fr)fr.style.display='none';}catch(e){}
+    try{activeTab='workspace';}catch(e){}
+    setActiveBottomWorkspace();
+  }
+  function record(route,setId){
+    if(restoring)return;
+    route=route||'home';
+    lastWorkspaceRoute={route:route,setId:route==='editor'?(setId||activeSharedId()||null):null,updatedAt:Date.now()};
+    try{window.WB_WORKSPACE_ROUTE_MEMORY=Object.assign({},lastWorkspaceRoute);}catch(e){}
+  }
+  function openHome(){
+    activateWorkspaceSection();
+    if(typeof oldOpenWorkspaceHome==='function')return oldOpenWorkspaceHome.apply(this,arguments);
+    if(typeof oldRenderWorkspace==='function')return oldRenderWorkspace.apply(this,arguments);
+  }
+  function openSetLists(){
+    activateWorkspaceSection();
+    if(typeof oldOpenWorkspaceSetLists==='function')return oldOpenWorkspaceSetLists.apply(this,arguments);
+  }
+  function openWorkspaceSet(id){
+    if(typeof oldOpenWorkspaceSet==='function')return oldOpenWorkspaceSet.call(this,id);
+    if(window.WBAppRouter&&typeof oldRouterOpenSetEditor==='function')return oldRouterOpenSetEditor.call(window.WBAppRouter,'shared',id);
+  }
+  function restoreWorkspaceRoute(){
+    var target=lastWorkspaceRoute&&lastWorkspaceRoute.route||'home';
+    var setId=lastWorkspaceRoute&&lastWorkspaceRoute.setId||null;
+    restoring=true;
+    try{
+      if(target==='editor'){
+        if(setExists(setId)){return openWorkspaceSet(setId);}
+        lastWorkspaceRoute={route:'setlists',setId:null,updatedAt:Date.now()};
+        return openSetLists();
+      }
+      if(target==='setlists')return openSetLists();
+      if(target==='library'){activateWorkspaceSection();if(typeof oldOpenLibraryShell==='function')return oldOpenLibraryShell.apply(this,arguments);return openHome();}
+      if(target==='members'){activateWorkspaceSection();if(typeof oldOpenMembersShell==='function')return oldOpenMembersShell.apply(this,arguments);return openHome();}
+      if(target==='storage'){activateWorkspaceSection();if(typeof oldOpenStorageShell==='function')return oldOpenStorageShell.apply(this,arguments);return openHome();}
+      return openHome();
+    }finally{
+      try{window.WB_WORKSPACE_ROUTE_MEMORY=Object.assign({},lastWorkspaceRoute);}catch(e){}
+      setTimeout(function(){restoring=false;},0);
+      setVersion();
+    }
+  }
+  function shouldHomeOnActiveWorkspace(){
+    try{return canonical(currentTab())==='workspace'||document.body.classList.contains('wb-tab-workspace');}catch(e){return false;}
+  }
+
+  window.switchTab=function(tab){
+    if(canonical(tab)==='workspace'){
+      if(shouldHomeOnActiveWorkspace()){
+        record('home');
+        restoring=true;
+        try{return openHome();}finally{setTimeout(function(){restoring=false;},0);setVersion();}
+      }
+      return restoreWorkspaceRoute();
+    }
+    return typeof oldSwitchTab==='function'?oldSwitchTab.apply(this,arguments):undefined;
+  };
+  try{switchTab=window.switchTab;}catch(e){}
+
+  window.showWorkspaceDashboard=function(){record('home');return openHome.apply(this,arguments);};
+  window.renderWorkspace=function(){record('home');return openHome.apply(this,arguments);};
+  window.openWorkspaceSetLists=function(){record('setlists');return openSetLists.apply(this,arguments);};
+  window.openWorkspaceSetFromWorkspaceTab=function(id){record('editor',id);return openWorkspaceSet.call(this,id);};
+  window.createWorkspaceSetFromWorkspaceTab=function(){
+    var before=activeSharedId();
+    var out=typeof oldCreateWorkspaceSet==='function'?oldCreateWorkspaceSet.apply(this,arguments):undefined;
+    var after=activeSharedId();
+    if(after&&after!==before)record('editor',after);
+    return out;
+  };
+  window.createWorkspaceSetFromWorkspaceSubview=function(){
+    var before=activeSharedId();
+    var out=typeof oldCreateWorkspaceSetSubview==='function'?oldCreateWorkspaceSetSubview.apply(this,arguments):window.createWorkspaceSetFromWorkspaceTab();
+    var after=activeSharedId();
+    if(after&&after!==before)record('editor',after);
+    return out;
+  };
+  window.deleteWorkspaceSetFromWorkspaceSubview=function(id){
+    if(lastWorkspaceRoute.route==='editor'&&lastWorkspaceRoute.setId===String(id||''))record('setlists');
+    var out=typeof oldDeleteWorkspaceSet==='function'?oldDeleteWorkspaceSet.apply(this,arguments):undefined;
+    if(lastWorkspaceRoute.route==='editor'&&!setExists(lastWorkspaceRoute.setId))record('setlists');
+    return out;
+  };
+  try{window.deleteWorkspaceSetFromWorkspaceTab=window.deleteWorkspaceSetFromWorkspaceSubview;}catch(e){}
+  window.goBackFromSetEditor=function(){
+    try{if(document.body.classList.contains('wb-set-editor-workspace')||((appPrefs&&appPrefs.setListScope)==='shared'))record('setlists');}catch(e){}
+    return typeof oldGoBackFromSetEditor==='function'?oldGoBackFromSetEditor.apply(this,arguments):undefined;
+  };
+  window.openWorkspaceLibraryShell=function(){record('library');activateWorkspaceSection();return typeof oldOpenLibraryShell==='function'?oldOpenLibraryShell.apply(this,arguments):undefined;};
+  window.openWorkspaceMembersShell=function(){record('members');activateWorkspaceSection();return typeof oldOpenMembersShell==='function'?oldOpenMembersShell.apply(this,arguments):undefined;};
+  window.openWorkspaceStoragePrepShell=function(){record('storage');activateWorkspaceSection();return typeof oldOpenStorageShell==='function'?oldOpenStorageShell.apply(this,arguments):undefined;};
+  window.backToWorkspaceHomeShell=function(){record('home');return typeof oldBackWorkspaceHomeShell==='function'?oldBackWorkspaceHomeShell.apply(this,arguments):openHome();};
+
+  if(window.WBAppRouter){
+    window.WBAppRouter.version=VERSION;
+    window.WBAppRouter.show=function(tab){
+      if(canonical(tab)==='workspace')return window.switchTab('workspace');
+      return typeof oldRouterShow==='function'?oldRouterShow.call(window.WBAppRouter,tab):undefined;
+    };
+    window.WBAppRouter.openWorkspaceHome=window.showWorkspaceDashboard;
+    window.WBAppRouter.openWorkspaceSetLists=window.openWorkspaceSetLists;
+    window.WBAppRouter.openSetEditor=function(scope,id){
+      if(canonical(scope)==='workspace'||String(scope||'').toLowerCase()==='shared'){record('editor',id);return openWorkspaceSet(id);}
+      return typeof oldRouterOpenSetEditor==='function'?oldRouterOpenSetEditor.call(window.WBAppRouter,scope,id):undefined;
+    };
+  }
+  window.WBWorkspaceRouteMemory={
+    version:VERSION,
+    get:function(){return Object.assign({},lastWorkspaceRoute);},
+    clear:function(){record('home');return this.get();},
+    restore:restoreWorkspaceRoute,
+    audit:function(){return {version:VERSION,memory:Object.assign({},lastWorkspaceRoute),activeTab:currentTab(),workspaceVisible:(function(){var el=document.getElementById('workspace-section');return !!(el&&getComputedStyle(el).display!=='none');})(),editorMode:document.body.classList.contains('wb-set-editor-mode'),editorWorkspace:document.body.classList.contains('wb-set-editor-workspace')};}
+  };
+  setVersion();
 })();
 </script>
 
