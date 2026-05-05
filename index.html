@@ -3940,7 +3940,7 @@ line 18 | Hold / pause"></textarea>
 <button class="editor-helper-btn" id="editor-wrap-toggle" onclick="toggleEditorWrap()" title="Toggle visual line wrapping in the editor" type="button" aria-hidden="true" tabindex="-1">Wrap: Off</button>
 </div>
 <div class="editor-helper-meta">Quick tools: add sections, insert chord spacing, duplicate a section, or clean extra blank spaces.</div>
-<div id="wb816-editor-note" class="wb816-editor-note">Edit mode preserves chord spacing. Long imported lines scroll sideways; switch to Preview for the wrapped reading view.</div><textarea class="editor-nowrap" id="m-chart" placeholder="[Verse 1]
+<div id="wb816-editor-note" class="wb816-editor-note">Edit mode now preserves spacing using phone-fitted chord/lyric pairs. Use Preview for the final readable view, or Fit lines if an older import still runs wide.</div><textarea class="editor-nowrap" id="m-chart" placeholder="[Verse 1]
 [G]The splendor of a [C]King
 [Em]Let all the earth [C]rejoice" wrap="off" spellcheck="false" style="white-space: pre; overflow: auto;"></textarea>
 <div class="m-subacts">
@@ -3951,7 +3951,7 @@ line 18 | Hold / pause"></textarea>
 <div class="preview-wrap" id="m-preview-wrap">
 <div class="preview-wrap-head">
 <div class="preview-wrap-title">Live preview</div>
-<div class="preview-meta" id="m-preview-meta">This preview uses the same song rendering style as the song page.</div>
+<div class="preview-meta" id="m-preview-meta">Key of C</div>
 </div>
 <div class="preview-body" id="m-preview-body"><div class="preview-empty">Start typing to preview the chart.</div></div>
 </div>
@@ -20550,6 +20550,245 @@ body.dark .wb-backup-confidence-note{background:rgba(143,180,255,.08);border-col
   window.WBFullAudit=function(){var base={};try{base=typeof oldFullAudit==='function'?oldFullAudit():{};}catch(e){base={error:String(e&&e.message||e)};}base.version=VERSION;base.backupEditorStabilityV816=window.WBBackupEditorStabilityV816Audit();return base;};
 
   function init(){setVersion();forceEditorNoWrap();installEditorNote();installBackObserver();installBackupInputHandler();[80,300,900,1600].forEach(function(ms){setTimeout(function(){setVersion();forceEditorNoWrap();upgradeBackButtons(document);installBackupInputHandler();},ms);});}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+
+<!-- WorshipBase v81.6.1 - pair-aware editor import wrapping + preview wrapping fix -->
+<style id="wb-v81-6-1-pair-aware-editor-style">
+/* v81.6.1: keep raw editor stable, but make imported chord/lyric pairs physically phone-fit. */
+#bs-modal #m-chart{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace!important;
+  white-space:pre!important;
+  overflow-x:auto!important;
+  overflow-y:auto!important;
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+  tab-size:4!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-x pan-y!important;
+}
+#bs-modal #m-preview-body .lyric-block{max-width:100%;}
+#bs-modal #m-preview-body .chord-row,
+#bs-modal #m-preview-body .lyric-row{max-width:100%;}
+#bs-modal .wb816-editor-note{font-size:10.8px;line-height:1.42;color:var(--txt3);margin:-2px 0 8px;}
+#bs-modal .wb8161-fit-btn{display:inline-flex!important;align-items:center;justify-content:center;}
+</style>
+<script id="wb-v81-6-1-pair-aware-editor-script">
+(function(){
+  'use strict';
+  var VERSION='81.6.1';
+  function toast(msg){try{showToast(msg);}catch(e){try{console.log(msg);}catch(_){}}}
+  function setVersion(){
+    try{
+      document.title='WorshipBase v'+VERSION;
+      window.WB_CURRENT_VERSION=VERSION;
+      document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});
+    }catch(e){}
+  }
+  function isSection(line){try{return typeof isSectionLabel==='function'&&isSectionLabel(String(line||'').trim());}catch(e){return /^\s*\[[^\]]+\]\s*$/.test(String(line||''));}}
+  function lineIsChord(line){try{return typeof isCL==='function'&&isCL(String(line||''));}catch(e){return /^[\s|:.()\-–—,]*([A-G][#b]?(?:maj|min|m|sus|dim|aug|add|no|\d|\/|[()#b+\-])*[\s|:.()\-–—,]*)+$/.test(String(line||''));}}
+  function lineIsInlineChord(line){try{return typeof isCP==='function'&&isCP(String(line||''));}catch(e){return /\[[A-G][^\]]*\]/.test(String(line||''));}}
+  function rtrim(s){return String(s||'').replace(/[ \t]+$/,'');}
+  function repeatSpace(n){return new Array(Math.max(0,n)+1).join(' ');}
+  function editorCols(){
+    try{
+      var ta=document.getElementById('m-chart');
+      var w=(ta&&ta.clientWidth)||Math.max(300,window.innerWidth-32);
+      var cs=ta?getComputedStyle(ta):null;
+      if(cs)w-=(parseFloat(cs.paddingLeft)||0)+(parseFloat(cs.paddingRight)||0);
+      return Math.max(34,Math.min(72,Math.floor(w/8.4)));
+    }catch(e){return Math.max(34,Math.min(52,Math.floor((window.innerWidth||390)/8.4)));}
+  }
+  function trimCommonLeading(a,b){
+    var n=0, max=Math.min(a.length,b.length);
+    while(n<max && /\s/.test(a.charAt(n)) && /\s/.test(b.charAt(n)))n++;
+    return [a.slice(n),b.slice(n)];
+  }
+  function chooseBreak(chord,lyric,maxCols){
+    var len=Math.max(chord.length,lyric.length);
+    if(len<=maxCols)return len;
+    var min=Math.max(22,Math.floor(maxCols*0.55));
+    var pos;
+    for(pos=maxCols;pos>=min;pos--){
+      if(/\s/.test(lyric.charAt(pos)) || /\s/.test(lyric.charAt(pos-1)))return pos;
+    }
+    for(pos=maxCols;pos>=min;pos--){
+      if(/\s/.test(chord.charAt(pos)) || /\s/.test(chord.charAt(pos-1)))return pos;
+    }
+    return maxCols;
+  }
+  function wrapChordLyricPair(chord,lyric,maxCols){
+    chord=String(chord||'').replace(/\t/g,'    ');
+    lyric=String(lyric||'').replace(/\t/g,'    ');
+    var out=[], guard=0;
+    while(Math.max(chord.length,lyric.length)>maxCols && guard++<80){
+      var width=Math.max(chord.length,lyric.length);
+      chord=chord+repeatSpace(width-chord.length);
+      lyric=lyric+repeatSpace(width-lyric.length);
+      var br=chooseBreak(chord,lyric,maxCols);
+      var c=rtrim(chord.slice(0,br));
+      var l=rtrim(lyric.slice(0,br));
+      if(c.trim())out.push(c);
+      if(l.trim()||c.trim())out.push(l);
+      var rest=trimCommonLeading(chord.slice(br),lyric.slice(br));
+      chord=rest[0]; lyric=rest[1];
+    }
+    var cf=rtrim(chord), lf=rtrim(lyric);
+    if(cf.trim())out.push(cf);
+    if(lf.trim()||cf.trim())out.push(lf);
+    return out;
+  }
+  function wrapChordOnly(line,maxCols){
+    line=String(line||'').replace(/\t/g,'    ');
+    var out=[], guard=0;
+    while(line.length>maxCols && guard++<80){
+      var br=chooseBreak(line,'',maxCols);
+      out.push(rtrim(line.slice(0,br)));
+      line=line.slice(br).replace(/^\s+/,'');
+    }
+    if(line||!out.length)out.push(rtrim(line));
+    return out;
+  }
+  function wrapChartForPhonePairs(chart,cols){
+    cols=cols||editorCols();
+    var lines=String(chart||'').replace(/\r\n?/g,'\n').split('\n');
+    var out=[];
+    for(var i=0;i<lines.length;i++){
+      var line=lines[i];
+      if(!line.trim()){out.push('');continue;}
+      if(isSection(line)){out.push(line.trim());continue;}
+      if(lineIsInlineChord(line)){out.push(line);continue;}
+      if(lineIsChord(line)){
+        var next=(i+1<lines.length)?lines[i+1]:'';
+        var hasLyric=next.trim() && !isSection(next) && !lineIsChord(next) && !lineIsInlineChord(next);
+        if(hasLyric){
+          Array.prototype.push.apply(out,wrapChordLyricPair(line,next,cols));
+          i++;
+        }else{
+          Array.prototype.push.apply(out,wrapChordOnly(line,cols));
+        }
+      }else if(line.length>cols+6){
+        // Lyric-only line: use normal word wrapping, but keep this conservative.
+        Array.prototype.push.apply(out,wrapChordOnly(line,cols));
+      }else{
+        out.push(line);
+      }
+    }
+    return out.join('\n').replace(/\n{4,}/g,'\n\n\n').trimEnd();
+  }
+  window.WBPairWrapImportedChartForEditor=function(chart,cols){return wrapChartForPhonePairs(chart,cols);};
+
+  function fitCurrentEditorChart(showToastFlag){
+    try{
+      var ta=document.getElementById('m-chart');if(!ta)return false;
+      var before=ta.value||'', after=wrapChartForPhonePairs(before,editorCols());
+      if(after===before){if(showToastFlag)toast('Chart already fits the editor width');return false;}
+      var pos=Math.min(ta.selectionStart||0,after.length);
+      if(typeof applyEditorValue==='function')applyEditorValue(after,pos,pos);else{ta.value=after;if(typeof updateSongEditorPreview==='function')updateSongEditorPreview();}
+      if(showToastFlag)toast('Chord/lyric pairs fitted for phone editing');
+      return true;
+    }catch(e){console.warn('v81.6.1 fit failed',e);return false;}
+  }
+  window.fitSongEditorForPhone=function(){fitCurrentEditorChart(true);};
+  try{fitSongEditorForPhone=window.fitSongEditorForPhone;}catch(e){}
+
+  function installFitButtonAndNote(){
+    try{
+      var note=document.getElementById('wb816-editor-note');
+      if(note)note.textContent='Edit mode now preserves spacing using phone-fitted chord/lyric pairs. Use Preview for the final readable view, or Fit lines if an older import still runs wide.';
+      var tools=document.querySelector('#bs-modal .editor-helper-row');
+      if(tools && !document.getElementById('wb8161-fit-editor-btn')){
+        var btn=document.createElement('button');
+        btn.id='wb8161-fit-editor-btn';btn.className='editor-helper-btn wb8161-fit-btn';btn.type='button';btn.textContent='Fit lines';btn.title='Wrap chord/lyric pairs into phone-friendly source lines';
+        btn.onclick=function(){window.fitSongEditorForPhone();};
+        var wrapBtn=document.getElementById('editor-wrap-toggle');
+        if(wrapBtn&&wrapBtn.parentNode===tools)tools.insertBefore(btn,wrapBtn);else tools.appendChild(btn);
+      }
+    }catch(e){}
+  }
+
+  function renderEditorPreviewPairAware(){
+    try{
+      var body=document.getElementById('m-preview-body');
+      var meta=document.getElementById('m-preview-meta');
+      if(!body||!meta)return false;
+      var title=(document.getElementById('m-title')&&document.getElementById('m-title').value||'Untitled song').trim()||'Untitled song';
+      var author=(document.getElementById('m-author')&&document.getElementById('m-author').value||'').trim();
+      var key=(document.getElementById('m-key')&&document.getElementById('m-key').value)||'C';
+      var chart=(document.getElementById('m-chart')&&document.getElementById('m-chart').value)||'';
+      var bpm=(document.getElementById('m-bpm')&&document.getElementById('m-bpm').value||'').trim();
+      var timeSig=(document.getElementById('m-time-sig')&&document.getElementById('m-time-sig').value||'').trim();
+      var extra=[timeSig?'Time: '+timeSig:'',bpm?bpm+' BPM':''].filter(Boolean).join(' · ');
+      meta.textContent=(author?author+' · ':'')+'Key of '+key+(extra?' · '+extra:'');
+      if(!chart.trim()){body.innerHTML='<div class="preview-empty">Start typing to preview the chart.</div>';return true;}
+      var song={title:title,author:author,key:key,chart:chart,bpm:bpm,timeSig:timeSig};
+      body.innerHTML=(typeof renderSheetScreenHTML==='function'?renderSheetScreenHTML(song,key,false,false):renderSheetHTML(song,key,false,false));
+      try{body.classList.toggle('chords-highlight',!!appPrefs.highlightChords);}catch(e){}
+      return true;
+    }catch(e){console.warn('v81.6.1 preview failed',e);return false;}
+  }
+  var oldUpdatePreview=window.updateSongEditorPreview || (typeof updateSongEditorPreview==='function'?updateSongEditorPreview:null);
+  window.updateSongEditorPreview=function(){
+    if(renderEditorPreviewPairAware())return;
+    if(typeof oldUpdatePreview==='function')return oldUpdatePreview.apply(this,arguments);
+  };
+  try{updateSongEditorPreview=window.updateSongEditorPreview;}catch(e){}
+
+  function prepareImportedSongObj(obj){
+    try{if(obj&&typeof obj.chart==='string')obj.chart=wrapChartForPhonePairs(obj.chart,editorCols());}catch(e){}
+    return obj;
+  }
+  function refreshUgPreviewFromCached(){
+    try{
+      var song=window._ugImportedSong, body=document.getElementById('ug-preview-body');
+      if(song&&body){body.innerHTML='<div class="preview-empty" style="margin-bottom:10px"><strong>'+escapeHtml(song.title||'Imported song')+'</strong>'+(song.author?' · '+escapeHtml(song.author):'')+'</div>'+renderSheetScreenHTML(song,song.key||'C',false,false);body.classList.toggle('chords-highlight',!!appPrefs.highlightChords);}
+    }catch(e){}
+  }
+  function refreshSopPreviewFromCached(){
+    try{
+      var song=window._sopImportedSong, body=document.getElementById('sop-preview-body');
+      if(song&&body){body.innerHTML='<div class="preview-empty" style="margin-bottom:10px"><strong>'+escapeHtml(song.title||'Imported song')+'</strong>'+(song.author?' · '+escapeHtml(song.author):'')+'</div>'+renderSheetScreenHTML(song,song.key||'C',false,false);body.classList.toggle('chords-highlight',!!appPrefs.highlightChords);}
+    }catch(e){}
+  }
+
+  var oldPreviewUg=window.previewUgParsedSong || (typeof previewUgParsedSong==='function'?previewUgParsedSong:null);
+  if(typeof oldPreviewUg==='function'&&!oldPreviewUg.__wb8161){
+    window.previewUgParsedSong=function(song){var out=oldPreviewUg.apply(this,arguments);prepareImportedSongObj(window._ugImportedSong);refreshUgPreviewFromCached();return out;};
+    window.previewUgParsedSong.__wb8161=true;try{previewUgParsedSong=window.previewUgParsedSong;}catch(e){}
+  }
+  var oldPreviewSop=window.previewSopParsedSong || (typeof previewSopParsedSong==='function'?previewSopParsedSong:null);
+  if(typeof oldPreviewSop==='function'&&!oldPreviewSop.__wb8161){
+    window.previewSopParsedSong=function(song){var out=oldPreviewSop.apply(this,arguments);prepareImportedSongObj(window._sopImportedSong);refreshSopPreviewFromCached();return out;};
+    window.previewSopParsedSong.__wb8161=true;try{previewSopParsedSong=window.previewSopParsedSong;}catch(e){}
+  }
+  ['applyUgImport','saveUgImportDirect','applySopImport','saveSopImportDirect'].forEach(function(name){
+    var old=window[name];
+    if(typeof old==='function'&&!old.__wb8161PairWrap){
+      var wrapped=function(){prepareImportedSongObj(window._ugImportedSong);prepareImportedSongObj(window._sopImportedSong);return old.apply(this,arguments);};
+      wrapped.__wb8161PairWrap=true;window[name]=wrapped;try{eval(name+'=window[name]');}catch(e){}
+    }
+  });
+
+  var oldSetMode=window.setSongEditorMode || (typeof setSongEditorMode==='function'?setSongEditorMode:null);
+  if(typeof oldSetMode==='function'&&!oldSetMode.__wb8161){
+    window.setSongEditorMode=function(mode){var out=oldSetMode.apply(this,arguments);setTimeout(function(){installFitButtonAndNote();if(mode==='preview')renderEditorPreviewPairAware();},0);return out;};
+    window.setSongEditorMode.__wb8161=true;try{setSongEditorMode=window.setSongEditorMode;}catch(e){}
+  }
+  var oldOpenModal=window.openSongModal || (typeof openSongModal==='function'?openSongModal:null);
+  if(typeof oldOpenModal==='function'&&!oldOpenModal.__wb8161){
+    window.openSongModal=function(){var out=oldOpenModal.apply(this,arguments);setTimeout(installFitButtonAndNote,60);setTimeout(installFitButtonAndNote,300);return out;};
+    window.openSongModal.__wb8161=true;try{openSongModal=window.openSongModal;}catch(e){}
+  }
+
+  window.WBEditorPairWrapV8161Audit=function(){
+    var ta=document.getElementById('m-chart');
+    return {version:VERSION,pairWrapHelper:typeof window.WBPairWrapImportedChartForEditor==='function',previewUsesScreenRenderer:typeof renderSheetScreenHTML==='function',fitButton:!!document.getElementById('wb8161-fit-editor-btn'),textareaWrap:ta?ta.getAttribute('wrap'):null};
+  };
+  var oldFullAudit=window.WBFullAudit;
+  window.WBFullAudit=function(){var base={};try{base=typeof oldFullAudit==='function'?oldFullAudit():{};}catch(e){base={error:String(e&&e.message||e)};}base.version=VERSION;base.editorPairWrapV8161=window.WBEditorPairWrapV8161Audit();return base;};
+
+  function init(){setVersion();installFitButtonAndNote();if(typeof updateSongEditorPreview==='function')setTimeout(function(){try{updateSongEditorPreview();}catch(e){}},0);[80,300,900,1700,2600].forEach(function(ms){setTimeout(function(){setVersion();installFitButtonAndNote();},ms);});}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
