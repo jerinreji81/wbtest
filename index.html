@@ -24,11 +24,11 @@ body:not(.wb-ui-ready) #workspace-section .wb765-subview{display:none!important;
 <link href="assets/wb-icon-180.png" rel="apple-touch-icon" sizes="180x180">
 <link href="assets/wb-icon-192.png" rel="icon" sizes="192x192" type="image/png">
 <meta content="yes" name="mobile-web-app-capable">
-<title>WorshipBase v82.19</title>
+<title>WorshipBase v82.20</title>
 <script id="wb-version-authority-early">
 (function(){
   'use strict';
-  var VERSION='82.19';
+  var VERSION='82.20';
   window.WB_VERSION=VERSION;
   window.WB_VERSION_LABEL='Version '+VERSION;
   window.WB_VERSION_TITLE='WorshipBase v'+VERSION;
@@ -3167,7 +3167,7 @@ body.wb-workspace-subview-open #workspace-section .wb806-subview.open{display:fl
 
 
 <style id="wb-sheet-component-targeted-style">
-/* v82.19 targeted fixes: increase only the Song options handle hit target.
+/* v82.20 targeted fixes: increase only the Song options handle hit target.
    The visual handle remains the same size; the touch target is larger. */
 #bs-songmenu .bs-handle{
   position:relative!important;
@@ -3505,7 +3505,7 @@ body.wb-workspace-subview-open #workspace-section .wb806-subview.open{display:fl
 <img alt="WorshipBase logo" src="assets/wb-icon-192.png">
 </div>
 <div class="about-name">WorshipBase</div>
-<div class="about-version-pill" data-wb-version-label="">Version 82.19</div>
+<div class="about-version-pill" data-wb-version-label="">Version 82.20</div>
 <div class="about-by">Created by <strong>Jerin Reji</strong></div>
 </div>
 </div>
@@ -4260,7 +4260,7 @@ line 18 | Hold / pause"></textarea>
     if(now-setAddCommitStamp<650)return false;
     setAddCommitStamp=now;
     try{
-      /* v82.19: commit immediately while the focused notes textarea is still live.
+      /* v82.20: commit immediately while the focused notes textarea is still live.
          Blurring before save is what allowed iOS/HTML viewer to dismiss the keyboard/sheet
          before saveSetAddItem() could read and commit the note. */
       if(typeof window.saveSetAddItem==='function')window.saveSetAddItem();
@@ -4323,7 +4323,7 @@ line 18 | Hold / pause"></textarea>
     if(ctx.scope!=='shared'||!ctx.set){toast('Open a Workspace set first');return;}
     try{if(typeof closeBS==='function')closeBS('setoptions');}catch(e){}
 
-    /* v82.19 source cleanup:
+    /* v82.20 source cleanup:
        Set Options no longer owns a separate prompt-based Workspace → Personal copy flow.
        It delegates to the shared transfer review bottom sheet used by Publish. */
     setTimeout(function(){
@@ -5385,7 +5385,7 @@ function closeAllBS(){
 function closeBSBg(e,name){
   const bg=document.getElementById('bs-'+name);
   if(e.target!==bg)return;
-  /* v82.19: if the service-item note textarea is focused, a first outside tap
+  /* v82.20: if the service-item note textarea is focused, a first outside tap
      may be the iOS keyboard-dismiss tap. Do not close and lose the entered note. */
   if(name==='setadd'){
     const ae=document.activeElement;
@@ -12401,7 +12401,7 @@ body.dark .pad-chip.active,body.dark .pad-key.active{background:var(--accent-sur
   updatePadUI();
   window.WorshipBasePad={start:startPad,stop:stopPad,setKey:setPadKey,setMode:setPadMode,state:PAD_STATE};
 })();
-</script><div class="bs-bg" id="bs-pad" onclick="closeBSBg(event,'pad')" data-wb-pad-library3-cat="1"><div class="bs"><div class="bs-handle"></div><div class="bs-title">Pad</div><div class="pad-panel"><div class="pad-status-card"><div class="pad-status-copy"><div class="pad-status-title" id="pad-status-title">Pad ready</div><div class="pad-status-sub" id="pad-status-sub" style="display: none;">Peaceful · C</div></div><button class="pad-power" id="pad-power-btn" type="button">Start</button></div><div class="pad-row-title">Category</div><div class="pad-seg"><button class="pad-chip active" type="button" data-pad-mode="peaceful">Peaceful</button><button class="pad-chip" type="button" data-pad-mode="analog">Analog</button><button class="pad-chip" type="button" data-pad-mode="drones">Drones</button></div><div class="pad-row-title">Key</div><div class="pad-key-grid"><button class="pad-key active" type="button" data-pad-key="C">C</button><button class="pad-key" type="button" data-pad-key="C#">C#</button><button class="pad-key" type="button" data-pad-key="D">D</button><button class="pad-key" type="button" data-pad-key="Eb">Eb</button><button class="pad-key" type="button" data-pad-key="E">E</button><button class="pad-key" type="button" data-pad-key="F">F</button><button class="pad-key" type="button" data-pad-key="F#">F#</button><button class="pad-key" type="button" data-pad-key="G">G</button><button class="pad-key" type="button" data-pad-key="Ab">Ab</button><button class="pad-key" type="button" data-pad-key="A">A</button><button class="pad-key" type="button" data-pad-key="Bb">Bb</button><button class="pad-key" type="button" data-pad-key="B">B</button></div></div><button class="bs-cancel" type="button" onclick="closeBS('pad')">Close</button></div></div>
+</script><div class="bs-bg" id="bs-pad" onclick="closeBSBg(event,'pad')" data-wb-pad-library3-cat="1"><div class="bs"><div class="bs-handle"></div><div class="bs-title">Pad</div><div class="pad-panel"><div class="pad-status-card"><div class="pad-status-copy"><div class="pad-status-title" id="pad-status-title">Pad ready</div><div class="pad-status-sub" id="pad-status-sub" style="display: none;"></div></div><button class="pad-power" id="pad-power-btn" type="button">Start</button></div><div class="pad-row-title">Category</div><div class="pad-seg"><button class="pad-chip active" type="button" data-pad-mode="peaceful">Peaceful</button><button class="pad-chip" type="button" data-pad-mode="analog">Analog</button><button class="pad-chip" type="button" data-pad-mode="drones">Drones</button></div><div class="pad-row-title">Key</div><div class="pad-key-grid"><button class="pad-key active" type="button" data-pad-key="C">C</button><button class="pad-key" type="button" data-pad-key="C#">C#</button><button class="pad-key" type="button" data-pad-key="D">D</button><button class="pad-key" type="button" data-pad-key="Eb">Eb</button><button class="pad-key" type="button" data-pad-key="E">E</button><button class="pad-key" type="button" data-pad-key="F">F</button><button class="pad-key" type="button" data-pad-key="F#">F#</button><button class="pad-key" type="button" data-pad-key="G">G</button><button class="pad-key" type="button" data-pad-key="Ab">Ab</button><button class="pad-key" type="button" data-pad-key="A">A</button><button class="pad-key" type="button" data-pad-key="Bb">Bb</button><button class="pad-key" type="button" data-pad-key="B">B</button></div></div><button class="bs-cancel" type="button" onclick="closeBS('pad')">Close</button></div></div>
 <style>
 /* ── v70.2 corrections: visible set counter, clear pad affordance, musical-key icons ── */
 #setlist-section .sl-hdr{
@@ -13376,7 +13376,7 @@ body.dark #live-tool-cues.has-cues::after{background:var(--accent);box-shadow:0 
     function maybeClearBeforeControl(e){
       var target=e.target&&e.target.closest&&e.target.closest(selector);
       if(!target)return;
-      /* v82.19: do not blur the service-item notes textarea before the Add button
+      /* v82.20: do not blur the service-item notes textarea before the Add button
          has a chance to commit. The set planning owner commits this button directly. */
       try{
         var active=document.activeElement;
@@ -14020,7 +14020,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 <script id="wb-backup-settings-card-script">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'82.19');
+  const VERSION=(window.WB_VERSION||'82.20');
   const DRIVE_STATE_KEY='wb_google_drive_backup_v1';
   const PRE_RESTORE_KEY='wb_pre_restore_snapshot_v1';
   function ready(fn){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fn,{once:true});else fn();}
@@ -14132,7 +14132,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
   'use strict';
   const EDIT_ICON='<svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M12 3l2 2L5.5 13H3.5v-2L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
   function usefulMemory(m){return !!(m&&typeof m==='object'&&(String(m.notes||'').trim()||String(m.cues||'').trim()||String(m.usualKey||'').trim()||String(m.capo||'').trim()||String(m.practiceStatus||'').trim()));}
-  function setVisibleVersion(){try{document.title='WorshipBase v'+(window.WB_VERSION||'82.19');document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 82.19';});}catch(e){}}
+  function setVisibleVersion(){try{document.title='WorshipBase v'+(window.WB_VERSION||'82.20');document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 82.20';});}catch(e){}}
   function fixSongEditButton(){
     try{
       const btn=document.getElementById('mi-edit-song');
@@ -14462,7 +14462,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 <script id="wb-setlist-model-module">
 /* Source of truth for rich set-list model; consolidated from previous v72.5.7/v72.5.8 layers. */
 (function(){
-  const VERSION=(window.WB_VERSION||'82.19');
+  const VERSION=(window.WB_VERSION||'82.20');
 
   const originalFindSongById = window.findSongById || function(){return null;};
   const originalGetSongMemory = window.getSongMemory || function(){return {};};
@@ -14853,7 +14853,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 })();
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'82.19');
+  const VERSION=(window.WB_VERSION||'82.20');
   const BAD_KEY=/[.#$\/[\]]/g;
   function n(v){try{if(typeof normId==='function')return normId(v);}catch(_){}return String(v==null?'':v).trim();}
   function safeKey(v){const k=n(v);return k?k.replace(BAD_KEY,'_'):'';}
@@ -15028,7 +15028,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
   }catch(e){console.warn('v72.5.8 shared listener hardening failed',e);}
   try{document.title='WorshipBase v'+VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(el=>{el.textContent='Version '+VERSION;});}catch(_){}
 })();
-(function(){'use strict';function call(n,args,fallback){return typeof window[n]==='function'?window[n].apply(window,args||[]):fallback;}window.WBSetListModel={version:window.WB_VERSION||'82.19',normalizeItems:function(items){return call('normalizeSetArray',[items||[]],items||[]);},normalizeNamedSets:function(raw,label){return call('normalizeNamedSetMap',[raw||{},label],raw||{});},saveShared:function(){return call('saveSharedSetsToFB',[],undefined);},modSetList:function(items,scope){return call('modSetList',[items,scope],undefined);},copyActiveSetToOtherScope:function(){return call('copyActiveSetToOtherScope',[],undefined);},findSong:function(id){return call('findSongById',[id],null);},audit:function(){return {version:window.WB_VERSION||'82.19',hasNormalizeSetArray:typeof window.normalizeSetArray==='function',hasNormalizeNamedSetMap:typeof window.normalizeNamedSetMap==='function',hasModSetList:typeof window.modSetList==='function',hasSaveSharedSetsToFB:typeof window.saveSharedSetsToFB==='function',hasCopyActiveSetToOtherScope:typeof window.copyActiveSetToOtherScope==='function'};}};})();
+(function(){'use strict';function call(n,args,fallback){return typeof window[n]==='function'?window[n].apply(window,args||[]):fallback;}window.WBSetListModel={version:window.WB_VERSION||'82.20',normalizeItems:function(items){return call('normalizeSetArray',[items||[]],items||[]);},normalizeNamedSets:function(raw,label){return call('normalizeNamedSetMap',[raw||{},label],raw||{});},saveShared:function(){return call('saveSharedSetsToFB',[],undefined);},modSetList:function(items,scope){return call('modSetList',[items,scope],undefined);},copyActiveSetToOtherScope:function(){return call('copyActiveSetToOtherScope',[],undefined);},findSong:function(id){return call('findSongById',[id],null);},audit:function(){return {version:window.WB_VERSION||'82.20',hasNormalizeSetArray:typeof window.normalizeSetArray==='function',hasNormalizeNamedSetMap:typeof window.normalizeNamedSetMap==='function',hasModSetList:typeof window.modSetList==='function',hasSaveSharedSetsToFB:typeof window.saveSharedSetsToFB==='function',hasCopyActiveSetToOtherScope:typeof window.copyActiveSetToOtherScope==='function'};}};})();
 </script>
 
 <style id="wb-setlist-export-polish-style">
@@ -15061,7 +15061,7 @@ body.dark .namedset-note-chip{background:var(--accent-surface)!important;color:v
 <script id="wb-setlist-export-fixes-script">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'82.19');
+  const VERSION=(window.WB_VERSION||'82.20');
   function norm(v){try{if(typeof normId==='function')return normId(v);}catch(e){}return String(v==null?'':v).trim();}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}}
   function sk(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
@@ -15215,7 +15215,7 @@ body.dark .namedset-note-chip{background:var(--accent-surface)!important;color:v
 
 
 <style id="wb-workspace-home-card-base-style">
-/* v82.19 — restored from Working-v82.10.7.
+/* v82.20 — restored from Working-v82.10.7.
    This is the missing base Workspace home/card style that later formatting layers expected.
    It restores the full-width card rhythm, flex layout, icon/text/chevron structure, and original page/card spacing. */
 /* v75.1 — Workspace tab shell. Set List/storage logic intentionally unchanged from v74.5.2. */
@@ -15350,7 +15350,7 @@ body.dark .workspace-subview-icon.danger{background:rgba(239,143,162,.12)!import
 <script id="wb-setlist-rich-save-guard-module">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'82.19');
+  const VERSION=(window.WB_VERSION||'82.20');
   function clone(v){try{return JSON.parse(JSON.stringify(v));}catch(e){return v;}}
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
   function counts(set){let songs=0,plan=0;itemsOf(set).forEach(function(it){const t=String((it&&it.type)||'song').toLowerCase();if(t==='section'||t==='item'||t==='service')plan++;else if(t==='song'||(it&&it.songId))songs++;});return {songs:songs,plan:plan,total:songs+plan};}
@@ -15591,7 +15591,7 @@ body.dark .wb-personal-local{background:var(--accent-surface)!important;border-c
 <script id="wb-workspace-selector-fix-script">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'82.19');
+  const VERSION=(window.WB_VERSION||'82.20');
   function qs(id){return document.getElementById(id);}
   function scopeKey(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
   function activeKey(scope){try{return activeSetPrefKey(scopeKey(scope));}catch(e){return scopeKey(scope)==='personal'?'activePersonalSetId':'activeSharedSetId';}}
@@ -16076,7 +16076,7 @@ body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb
 <script id="wb-current-set-actions-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.19');
+  var VERSION=(window.WB_VERSION||'82.20');
   function qs(id){return document.getElementById(id);} 
   function scopeKeySafe(v){try{return setScopeKey(v||((appPrefs&&appPrefs.setListScope)||'personal'));}catch(e){return v==='shared'?'shared':'personal';}}
   function activeId(scope){try{return (appPrefs&&appPrefs[activeSetPrefKey(scope)])||'';}catch(e){return scope==='shared'?(appPrefs&&appPrefs.activeSharedSetId)||'':(appPrefs&&appPrefs.activePersonalSetId)||'';}}
@@ -16156,7 +16156,7 @@ body.wb-route-lock.wb-tab-songs #library-filter-row{display:flex!important;}
 <script id="wb-canonical-router-setlist-nav-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.19');
+  var VERSION=(window.WB_VERSION||'82.20');
   var ROUTES={songs:'song-section',setlist:'setlist-section',workspace:'workspace-section',bible:'bible-section',settings:'settings-section'};
   var TAB_CLASSES=['wb-tab-songs','wb-tab-setlist','wb-tab-workspace','wb-tab-bible','wb-tab-settings'];
   var routeSeq=0;
@@ -16234,7 +16234,7 @@ body.wb-route-lock.wb-tab-songs #library-filter-row{display:flex!important;}
   window.createWorkspaceSetFromWorkspaceTab=function(){var name=(prompt('New Workspace set list name:','New Workspace Set')||'').trim();if(!name)return;var id=typeof makeSetId==='function'?makeSetId():('set_'+Date.now().toString(36)+Math.random().toString(36).slice(2,7));var sets=Object.assign({},mapFor('shared'));sets[id]={name:name,notes:'',items:[],songMemory:{},createdAt:Date.now(),updatedAt:Date.now()};setMap('shared',sets);try{appPrefs.activeSharedSetId=id;appPrefs.setListScope='shared';appPrefs.useDeviceSetList=false;}catch(e){}saveScope('shared');openSetEditor('shared',id);try{showToast('Workspace set created');}catch(e){}};
   window.createWorkspaceSetFromWorkspaceSubview=function(){window.createWorkspaceSetFromWorkspaceTab();};
   window.WBAppRouter={version:VERSION,routes:Object.assign({},ROUTES),current:function(){try{return typeof activeTab!=='undefined'?activeTab:null;}catch(e){return null;}},show:function(tab){return switchCanonical(tab);},openSetEditor:openSetEditor,openPersonalHome:openPersonalHome,openWorkspaceHome:showWorkspaceHome,openWorkspaceSetLists:showWorkspaceSetLists,enforce:function(){var tab=canonicalTab(this.current()||'songs');var seq=++routeSeq;afterRoute(tab);enforceLater(tab,seq);},audit:function(){var rows={};Object.keys(ROUTES).forEach(function(route){var el=qs(ROUTES[route]);rows[route]={exists:!!el,inlineDisplay:el?el.style.display:null,computedDisplay:el?getComputedStyle(el).display:null,bodyActive:document.body.classList.contains('wb-tab-'+route)};});rows.editorMode=document.body.classList.contains('wb-set-editor-mode');rows.editorContext=editorContext;rows.personalCount=personalEntries().length;return rows;}};
-  window.WBRouteAudit=function(){return window.WBAppRouter.audit();};
+  /* removed runtime audit: window.WBRouteAudit */
   function init(){setVersion();try{document.body.classList.add('wb-route-lock','wb-tab-songs');}catch(e){}var initial=canonicalTab((function(){try{return typeof activeTab!=='undefined'?activeTab:'songs';}catch(e){return 'songs';}})());if(initial==='setlist')openPersonalHome();else if(initial==='workspace')showWorkspaceHome();else{var seq=++routeSeq;afterRoute(initial);enforceLater(initial,seq);}}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
@@ -16342,7 +16342,7 @@ body.dark.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-
 <script id="wb-personal-header-authority-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.19');
+  var VERSION=(window.WB_VERSION||'82.20');
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s==null?'':s).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c];});}}
   function qs(id){return document.getElementById(id);} 
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
@@ -16590,7 +16590,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-interaction-repair-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.19');
+  var VERSION=(window.WB_VERSION||'82.20');
   function qs(id){return document.getElementById(id);} 
   function escText(s){return String(s==null?'':s);}
   function cloneDeep(obj){
@@ -16729,24 +16729,12 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-setlist-source-audit-module">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.19');
+  var VERSION=(window.WB_VERSION||'82.20');
   function qs(id){return document.getElementById(id);} 
   function setVersion(){try{document.title='WorshipBase v'+VERSION;window.WB_CURRENT_VERSION=VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}}
   function removeRetiredSegment(){try{document.querySelectorAll('#setlist-section .sl-scope-row').forEach(function(el){el.remove();});}catch(e){}}
   function visible(el){try{return !!(el&&getComputedStyle(el).display!=='none'&&getComputedStyle(el).visibility!=='hidden');}catch(e){return false;}}
-  window.WBSetListSourceAudit=function(){
-    var actions=['showPersonalList','renderPersonalManager','createPersonalSetFromManager','openPersonalSetFromManager','deletePersonalSetFromManager','publishCurrentPersonalSetToWorkspace','goBackFromSetEditor','openWorkspaceSetLists','openWorkspaceSetFromWorkspaceTab','deleteWorkspaceSetFromWorkspaceSubview'];
-    var status={};
-    actions.forEach(function(name){status[name]=typeof window[name]==='function';});
-    return {
-      version:VERSION,
-      setListSegmentRows:document.querySelectorAll('#setlist-section .sl-scope-row').length,
-      personalHomeExists:!!qs('wb-personal-manager'),
-      personalHomeVisible:visible(qs('wb-personal-manager')),
-      setListMode:(qs('setlist-section')&&qs('setlist-section').className)||'',
-      publicActions:status
-    };
-  };
+  /* removed runtime audit: window.WBSetListSourceAudit */
   function wrap(name){var old=window[name];if(typeof old==='function'&&!old.__wb793SetListCleanup){var fn=function(){var out=old.apply(this,arguments);removeRetiredSegment();setVersion();return out;};fn.__wb793SetListCleanup=true;window[name]=fn;try{eval(name+'=window[name]');}catch(e){} }}
   function init(){setVersion();removeRetiredSegment();['renderSetListScopeUI','showPersonalList','renderPersonalManager','switchTab','openPersonalSetFromManager','goBackFromSetEditor'].forEach(wrap);[0,100,350,900].forEach(function(ms){setTimeout(function(){removeRetiredSegment();setVersion();},ms);});}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
@@ -16754,7 +16742,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 </script><script id="wb-workspace-router-module">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.19');
+  var VERSION=(window.WB_VERSION||'82.20');
   var KEY='wb.workspace.shell.v1';
   var readyDone=false;
   var previousHideLoading=window.hideLoading;
@@ -16860,9 +16848,9 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
   if(typeof previousHideLoading==='function'){window.hideLoading=function(){finishReady();};try{hideLoading=window.hideLoading;}catch(e){}}
   function wrap(name,after){var old=window[name];if(typeof old==='function'&&!old.__wb793){var fn=function(){var out=old.apply(this,arguments);try{after&&after();}catch(e){}return out;};fn.__wb793=true;window[name]=fn;try{eval(name+'=window[name]');}catch(e){}}}
   function init(){setVersion();installShellSwipeBack();wrap('showPersonalList',adjustPersonalMeta);wrap('renderPersonalManager',adjustPersonalMeta);wrap('createPersonalSetFromManager',adjustPersonalMeta);wrap('deletePersonalSetFromManager',adjustPersonalMeta);wrap('goBackFromSetEditor',adjustPersonalMeta);adjustPersonalMeta();try{if((typeof activeTab!=='undefined'?activeTab:null)==='workspace')renderWorkspaceHome();}catch(e){}var fallback=function(){if(!readyDone)finishReady();};try{if(document.readyState==='complete')setTimeout(fallback,700);else window.addEventListener('load',function(){setTimeout(fallback,220);},{once:true});}catch(e){}setTimeout(fallback,1500);}
-  window.WBWorkspaceSourceAudit=function(){return {version:VERSION,module:'wb-workspace-router-module',retired:(window.WB_V793_RETIRED_LAYERS||[]).slice(),homeOwner:window.renderWorkspace===renderWorkspaceHome,setListsOwner:window.openWorkspaceSetLists===showWorkspaceSetLists,workspaceLibraryHidden:true,workspaceLibraryCardCount:document.querySelectorAll('#workspace-section [onclick*="openWorkspaceLibraryShell"]').length,workspaceSetCardSub:(qs('workspace-setlists-sub')||{}).textContent||'',setListsHeader:(qs('workspace-subview-sub')||{}).textContent||'',startupGate:'minimal paint gate only',uiReady:document.body.classList.contains('wb-ui-ready')};};
-  window.WBStartupGateAudit=function(){return {version:VERSION,uiReady:document.body.classList.contains('wb-ui-ready'),routeLock:document.body.classList.contains('wb-route-lock'),loadingVisible:(function(){var l=qs('ls');return !!(l&&l.style.display!=='none'&&!l.classList.contains('hidden'));})(),activeTab:(function(){try{return typeof activeTab!=='undefined'?activeTab:null;}catch(e){return null;}})()};};
-  window.WBSetEditorSubtitleAudit=function(){var sub=qs('wb-editor-sub');return {version:VERSION,text:sub?sub.textContent:'',hasCounter:sub?/\b\d+\s+(song|songs|item|items)\b/.test(sub.textContent):false};};
+  /* removed runtime audit: window.WBWorkspaceSourceAudit */
+  /* removed runtime audit: window.WBStartupGateAudit */
+  /* removed runtime audit: window.WBSetEditorSubtitleAudit */
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
@@ -16872,7 +16860,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-workspace-song-return-context-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.19');
+  var VERSION=(window.WB_VERSION||'82.20');
   function qs(id){return document.getElementById(id);}
   function setVersion(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
@@ -16933,10 +16921,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
     window.showList=function(){var ctx=window.WB_SONG_RETURN_CONTEXT||{};if(ctx.type==='workspace-editor'){closeSongSurfaceOnly();restoreWorkspaceAfterSong(ctx);return;}return oldShowList.apply(this,arguments);};
     try{showList=window.showList;}catch(e){}
   }
-  window.WBSongReturnContextAudit=function(){
-    var ctx=window.WB_SONG_RETURN_CONTEXT||null;
-    return {version:VERSION,context:ctx?Object.assign({},ctx):null,activeTab:(function(){try{return activeTab;}catch(e){return null;}})(),setListScope:(function(){try{return appPrefs&&appPrefs.setListScope;}catch(e){return null;}})(),workspaceEditor:isWorkspaceEditorContext(),activeSharedSetId:currentSharedSetId(),activeSharedSetExists:sharedSetExists(currentSharedSetId()),songOpen:document.body.classList.contains('song-open')};
-  };
+  /* removed runtime audit: window.WBSongReturnContextAudit */
   setVersion();
 })();
 </script>
@@ -16946,7 +16931,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-navigation-context-authority-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.19');
+  var VERSION=(window.WB_VERSION||'82.20');
   function qs(id){return document.getElementById(id);} 
   function setVersion(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
@@ -17082,18 +17067,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
     };
     try{showList=window.showList;}catch(e){}
   }
-  window.WBContextNavigationAudit=function(){
-    return {
-      version:VERSION,
-      activeTab:(function(){try{return activeTab;}catch(e){return null;}})(),
-      setListScope:(function(){try{return appPrefs&&appPrefs.setListScope;}catch(e){return null;}})(),
-      editorScope:currentEditorScope(),
-      body:{setlist:document.body.classList.contains('wb-tab-setlist'),workspace:document.body.classList.contains('wb-tab-workspace'),editorPersonal:document.body.classList.contains('wb-set-editor-personal'),editorWorkspace:document.body.classList.contains('wb-set-editor-workspace')},
-      songReturnContext:(function(){try{return Object.assign({},window.WB_SONG_RETURN_CONTEXT||{});}catch(e){return null;}})(),
-      personalActive:activeId('personal'),
-      workspaceActive:activeId('shared')
-    };
-  };
+  /* removed runtime audit: window.WBContextNavigationAudit */
   setVersion();
 })();
 </script>
@@ -17103,7 +17077,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-navigation-order-context-authority-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.19');
+  var VERSION=(window.WB_VERSION||'82.20');
 
   var oldSwitchTab=window.switchTab;
   var oldShowPersonalList=window.showPersonalList;
@@ -17385,22 +17359,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
     try{showList=window.showList;}catch(e){}
   }
 
-  window.WBNavigationOrderAudit=function(){
-    var activeButtons=[];
-    safe(function(){document.querySelectorAll('.tab-btn.active').forEach(function(btn){activeButtons.push((btn.dataset&&btn.dataset.tab)||String(btn.id||'').replace(/^tab-/,'')||btn.textContent.trim());});});
-    return {
-      version:VERSION,
-      currentActiveTab:safe(function(){return activeTab;}),
-      activeButtons:activeButtons,
-      editorScope:editorScope(),
-      workspaceMemory:Object.assign({},nav.workspace),
-      personalMemory:Object.assign({},nav.personal),
-      body:{routeWorkspace:document.body.classList.contains('wb-tab-workspace'),routeSetList:document.body.classList.contains('wb-tab-setlist'),editorWorkspace:document.body.classList.contains('wb-set-editor-workspace'),editorPersonal:document.body.classList.contains('wb-set-editor-personal'),editorMode:document.body.classList.contains('wb-set-editor-mode')},
-      visible:{workspace:(function(){var el=qs('workspace-section');return !!(el&&getComputedStyle(el).display!=='none');})(),setlist:(function(){var el=qs('setlist-section');return !!(el&&getComputedStyle(el).display!=='none');})(),song:(function(){var el=qs('song-view');return !!(el&&el.classList.contains('visible'));})()},
-      activeIds:{workspace:activeId('shared'),personal:activeId('personal')},
-      okSingleActiveTab:activeButtons.length===1
-    };
-  };
+  /* removed runtime audit: window.WBNavigationOrderAudit */
   setVersion();
   [0,100,500,1500].forEach(function(ms){setTimeout(setVersion,ms);});
 })();
@@ -17410,7 +17369,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-workspace-tab-controller-module">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.19');
+  var VERSION=(window.WB_VERSION||'82.20');
   var lastWorkspaceEntryAt=0;
   var lastWorkspaceAction='';
   var suppressDuplicateUntil=0;
@@ -17472,7 +17431,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-route-memory-navigation-hardening-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.19');
+  var VERSION=(window.WB_VERSION||'82.20');
   var previousFullAudit=window.WBFullAudit;
   var oldSwitchTab=window.switchTab;
   var oldShowList=window.showList;
@@ -17639,7 +17598,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
       };
     }
   };
-  window.WBFullAudit=function(){var base=safe(function(){return typeof previousFullAudit==='function'?previousFullAudit():{};},{});base.version=VERSION;base.routeMemoryHardeningAudit=window.WBRouteMemoryHardening.audit();return base;};
+  /* removed runtime audit: window.WBFullAudit */
   setVersion();
   [0,100,500,1500].forEach(function(ms){setTimeout(setVersion,ms);});
 })();
@@ -18291,7 +18250,7 @@ body.dark #workspace-section .wb805-code,body.dark #workspace-section .wb805-sou
 <script id="wb-workspace-members-startup-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.19');
+  var VERSION=(window.WB_VERSION||'82.20');
   var KEY='wb.workspace.shell.v1';
   var oldFullAudit=window.WBFullAudit;
   var oldRenderWorkspace=window.renderWorkspace;
@@ -18368,8 +18327,8 @@ body.dark #workspace-section .wb805-code,body.dark #workspace-section .wb805-sou
   function repairStartupFlicker(){try{document.body.classList.remove('wb805-subview-active');}catch(e){}qsa('#workspace-section .wb805-subview,#workspace-section .wb762-subview,#workspace-section .wb763-subview,#workspace-section .wb764-subview,#workspace-section .wb765-subview').forEach(function(el){el.classList.remove('open');});try{if((typeof activeTab!=='undefined'?activeTab:null)==='songs'){var ws=qs('workspace-section');if(ws)ws.style.display='none';var set=qs('setlist-section');if(set)set.style.display='none';var song=qs('song-section');if(song)song.style.display='flex';}}catch(e){} }
   function wrapRender(){if(typeof oldRenderWorkspace==='function'&&!oldRenderWorkspace.__wb805Wrapped){var fn=function(){var out=oldRenderWorkspace.apply(this,arguments);setTimeout(updateHomeCopy,0);return out;};fn.__wb805Wrapped=true;window.renderWorkspace=fn;try{renderWorkspace=window.renderWorkspace;}catch(e){}}}
   function install(){setVersion();wrapRender();repairStartupFlicker();setTimeout(repairStartupFlicker,0);setTimeout(repairStartupFlicker,120);setTimeout(function(){try{if((typeof activeTab!=='undefined'?activeTab:null)==='workspace')updateHomeCopy();}catch(e){}},450);}
-  window.WBWorkspaceV805Audit=function(){var ws=getWs()||{};return {version:VERSION,settingsPage:typeof window.openWorkspaceSettingsShell==='function',membersPage:typeof window.openWorkspaceMembersShell==='function',libraryPage:typeof window.openWorkspaceLibraryShell==='function',publishPicker:typeof window.openWorkspacePublishPicker==='function',workspaceProfileSaved:!!getWs(),workspaceName:ws.name||'',startupSubpagesOpen:qsa('#workspace-section .wb805-subview.open,#workspace-section .wb763-subview.open,#workspace-section .wb765-subview.open').length,localOnly:true};};
-  window.WBFullAudit=function(){var base={};try{base=typeof oldFullAudit==='function'?oldFullAudit():{};}catch(e){base={error:String(e&&e.message||e)};}base.version=VERSION;base.workspaceV805=window.WBWorkspaceV805Audit();return base;};
+  /* removed runtime audit: window.WBWorkspaceV805Audit */
+  /* removed runtime audit: window.WBFullAudit */
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
   setTimeout(setVersion,300);setTimeout(setVersion,1200);
 })();
@@ -18443,7 +18402,7 @@ body.dark #workspace-section .wb806-code,body.dark #workspace-section .wb806-sou
 <script id="wb-workspace-routing-publish-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.19');
+  var VERSION=(window.WB_VERSION||'82.20');
   var KEY='wb.workspace.shell.v1';
   var oldSwitchTab=window.switchTab;
   var oldFullAudit=window.WBFullAudit;
@@ -18493,8 +18452,8 @@ body.dark #workspace-section .wb806-code,body.dark #workspace-section .wb806-sou
   function cleanupStartup(){closeWorkspaceSubviews();try{document.body.classList.add('wb-ui-ready');}catch(e){}try{var t=typeof activeTab!=='undefined'?activeTab:null;if(t==='songs'||t==='library'){var ws=qs('workspace-section');if(ws)ws.style.display='none';var ss=qs('song-section');if(ss)ss.style.display='flex';}}catch(e){} }
   function installSwitch(){/* v82.9: no-op. Workspace tab routing is owned by wb-navigation-order-context-authority-script. */}
   function wrapRender(){if(typeof oldRenderWorkspace==='function'&&!oldRenderWorkspace.__wb806Wrap){window.renderWorkspace=function(){var out=oldRenderWorkspace.apply(this,arguments);setTimeout(syncHomeMeta,0);return out;};try{renderWorkspace=window.renderWorkspace;}catch(e){}}}
-  window.WBWorkspaceV806Audit=function(){return {version:VERSION,settingsPage:typeof window.openWorkspaceSettingsShell==='function',membersPage:typeof window.openWorkspaceMembersShell==='function',libraryPage:typeof window.openWorkspaceLibraryShell==='function',publishPicker:typeof window.openWorkspacePublishPicker==='function',openWorkspaceSubpages:qsa('#workspace-section .wb806-subview.open,#workspace-section .wb805-subview.open,#workspace-section .wb763-subview.open,#workspace-section .wb765-subview.open').length,homeSubtitle:workspaceSub(),localOnly:true};};
-  window.WBFullAudit=function(){var base={};try{base=typeof oldFullAudit==='function'?oldFullAudit():{};}catch(e){base={error:String(e&&e.message||e)};}base.version=VERSION;base.workspaceV806=window.WBWorkspaceV806Audit();return base;};
+  /* removed runtime audit: window.WBWorkspaceV806Audit */
+  /* removed runtime audit: window.WBFullAudit */
   function install(){setVersion();installSwitch();wrapRender();cleanupStartup();setTimeout(cleanupStartup,0);setTimeout(cleanupStartup,120);setTimeout(syncHomeMeta,300);setTimeout(setVersion,800);}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
 })();
@@ -18535,7 +18494,7 @@ body:not(.wb-ui-ready) #workspace-section .wb765-subview{
 <script id="wb-startup-workspace-flicker-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.19');
+  var VERSION=(window.WB_VERSION||'82.20');
   var KEY='wb.workspace.shell.v1';
   var previousSwitchTab=window.switchTab;
   var previousRenderWorkspace=window.renderWorkspace;
@@ -18606,8 +18565,8 @@ body:not(.wb-ui-ready) #workspace-section .wb765-subview{
     try{renderWorkspace=window.renderWorkspace;}catch(e){}
   }
   /* v82.9: navigation ownership moved to wb-navigation-order-context-authority-script; this metadata/safe-area layer no longer wraps switchTab. */
-  window.WBWorkspaceV808Audit=function(){return {version:VERSION,safeAreaDefault:'env fallback before JS probe',workspaceSubtitle:workspaceSub(),subpageOpen:workspaceSubpageOpen(),renderWrapped:!!(window.renderWorkspace&&window.renderWorkspace.__wb807RenderWrapped),switchWrapped:false};};
-  window.WBFullAudit=function(){var base={};try{base=typeof previousFullAudit==='function'?previousFullAudit():{};}catch(e){base={error:String(e&&e.message||e)};}base.version=VERSION;base.workspaceV808=window.WBWorkspaceV808Audit();return base;};
+  /* removed runtime audit: window.WBWorkspaceV808Audit */
+  /* removed runtime audit: window.WBFullAudit */
   function install(){safeAreaNudge();setVersion();syncWorkspaceHomeText();setTimeout(scheduleSync,80);setTimeout(scheduleSync,500);}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
   window.addEventListener('pageshow',function(){safeAreaNudge();scheduleSync();},{passive:true});
@@ -18633,7 +18592,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager #wb-perso
 <script id="wb-render-cleanup-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.19');
+  var VERSION=(window.WB_VERSION||'82.20');
   var KEY='wb.workspace.shell.v1';
   var previousSwitchTab=window.switchTab;
   var previousRenderWorkspace=window.renderWorkspace;
@@ -18736,9 +18695,9 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager #wb-perso
     try{var pm=qs('wb-personal-manager');if(pm)new MutationObserver(function(){if(!applying)syncPersonalMeta();}).observe(pm,{subtree:true,childList:true,characterData:true});}catch(e){}
     try{var ws=qs('workspace-section');if(ws)new MutationObserver(function(){if(!applying)syncWorkspaceMeta();}).observe(ws,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['class']});}catch(e){}
   }
-  window.WBSetListWorkspaceCleanupAudit=function(){return {version:VERSION,personalMeta:(qs('wb-personal-meta')||{}).textContent||'',workspaceSubtitle:(document.querySelector('#workspace-section .workspace-sub')||{}).textContent||'',workspaceSetListsSub:(qs('workspace-subview-sub')||{}).textContent||'',workspaceSubpageOpen:workspaceSubpageOpen(),switchWrapped:false,workspaceEditorCountsAsSubpage:true,observersInstalled:observersInstalled};};
+  /* removed runtime audit: window.WBSetListWorkspaceCleanupAudit */
   var previousFullAudit=window.WBFullAudit;
-  window.WBFullAudit=function(){var base={};try{base=typeof previousFullAudit==='function'?previousFullAudit():{};}catch(e){base={error:String(e&&e.message||e)};}base.version=VERSION;base.setListWorkspaceCleanup=window.WBSetListWorkspaceCleanupAudit();return base;};
+  /* removed runtime audit: window.WBFullAudit */
   function init(){setVersion();installObservers();scheduleSyncAll();setTimeout(scheduleSyncAll,250);setTimeout(scheduleSyncAll,900);}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
   window.addEventListener('pageshow',scheduleSyncAll,{passive:true});
@@ -18751,7 +18710,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager #wb-perso
 <script id="wb-personal-meta-source-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.19');
+  var VERSION=(window.WB_VERSION||'82.20');
   function qs(id){return document.getElementById(id);} 
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s==null?'':s).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c];});}}
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
@@ -18784,8 +18743,8 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager #wb-perso
   try{var btn=qs('tab-setlist');if(btn&&!btn.__wb809PersonalMetaClick){btn.__wb809PersonalMetaClick=true;btn.addEventListener('click',schedule,true);}}catch(e){}
   try{if(window.MutationObserver){var obs=new MutationObserver(function(){var meta=qs('wb-personal-meta');if(meta&&/\bsongs?\b|\bitems?\b/i.test(meta.textContent||''))normalizePersonalHeader();});obs.observe(document.body,{subtree:true,childList:true,characterData:true});}}catch(e){}
   var previousFullAudit=window.WBFullAudit;
-  window.WBSetListMetadataV809Audit=function(){return {version:VERSION,personalMeta:(qs('wb-personal-meta')||{}).textContent||'',showsSongOrItemCounters:/\bsongs?\b|\bitems?\b/i.test((qs('wb-personal-meta')||{}).textContent||''),sourcePersonalTotals:'set-count-only'};};
-  window.WBFullAudit=function(){var base={};try{base=typeof previousFullAudit==='function'?previousFullAudit():{};}catch(e){base={error:String(e&&e.message||e)};}base.version=VERSION;base.setListMetadataV809=window.WBSetListMetadataV809Audit();return base;};
+  /* removed runtime audit: window.WBSetListMetadataV809Audit */
+  /* removed runtime audit: window.WBFullAudit */
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule,{once:true});else schedule();
   window.addEventListener('pageshow',schedule,{passive:true});
 })();
@@ -18794,14 +18753,10 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager #wb-perso
 
 <script>
 (function(){
-  window.WBNNSFixAudit=function(){
-    var samples={};
-    try{samples.slash=toNNS('Em/G','C');samples.root7=toNNS('D7','D');samples.min7=toNNS('Am7','C');samples.slash7=toNNS('D7/F#','D');}catch(e){samples.error=String(e&&e.message||e);}
-    return {version:'81.6',note:'NNS slash bass notes render as numbers and 7th extensions render with superscript to avoid 17-style ambiguity.',samples:samples};
-  };
+  /* removed runtime audit: window.WBNNSFixAudit */
   if(typeof WBFullAudit==='function'&&!WBFullAudit.__nns811){
     var prev=WBFullAudit;
-    window.WBFullAudit=function(){var out=prev();try{out.nnsFixAudit=window.WBNNSFixAudit();}catch(e){}return out;};
+    /* removed runtime audit: window.WBFullAudit */
     window.WBFullAudit.__nns811=true;
   }
 })();
@@ -18809,24 +18764,11 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager #wb-perso
 
 <script>
 (function(){
-  window.WBNNSHardeningAudit=function(){
-    var samples={};
-    try{
-      samples.sus4=toNNS('Csus4','C');
-      samples.sus2=toNNS('Dsus2','C');
-      samples.slashSus=toNNS('Gsus4/B','C');
-      samples.plainMaj=toNNS('Cmaj','C');
-      samples.maj7=toNNS('Cmaj7','C');
-      samples.dom7Sus=toNNS('D7sus4','D');
-      samples.add9=toNNS('Cadd9','C');
-      samples.m7b5=toNNS('Bm7b5','C');
-    }catch(e){samples.error=String(e&&e.message||e);}
-    return {version:'81.6',note:'NNS chord-quality hardening: preserves sus/add/dim/aug/altered quality, drops standalone maj, preserves maj extensions, and keeps slash bass as numbers.',samples:samples};
-  };
+  /* removed runtime audit: window.WBNNSHardeningAudit */
   window.WBNNSFixAudit=window.WBNNSHardeningAudit;
   if(typeof WBFullAudit==='function'&&!WBFullAudit.__nns812){
     var prev=WBFullAudit;
-    window.WBFullAudit=function(){var out=prev();try{out.nnsFixAudit=window.WBNNSHardeningAudit();}catch(e){}return out;};
+    /* removed runtime audit: window.WBFullAudit */
     window.WBFullAudit.__nns812=true;
   }
 })();
@@ -18838,7 +18780,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager #wb-perso
 <script id="wb-song-view-focus-scope-module">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.19');
+  var VERSION=(window.WB_VERSION||'82.20');
 
   function safe(fn,fallback){try{return fn();}catch(e){return fallback;}}
   function qs(id){return document.getElementById(id);}
@@ -18942,7 +18884,7 @@ body.dark .wb-transfer-pill.good{background:var(--accent-surface);border-color:v
 <script id="wb-set-transfer-flow-module">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.19');
+  var VERSION=(window.WB_VERSION||'82.20');
   var state={copy:null,publish:null,lastCreated:null};
   function safe(fn,fallback){try{return fn();}catch(e){return fallback;}}
   function qs(id,root){return (root||document).querySelector(id);}
@@ -19012,7 +18954,7 @@ body.dark .wb-transfer-pill.good{background:var(--accent-surface);border-color:v
 })();
 </script>
 <style id="wb-compact-badge-tune-module">
-/* v82.19 — badge tuning only. Transfer review layout is owned by WBSetTransferFlow so Copy and Publish match. */
+/* v82.20 — badge tuning only. Transfer review layout is owned by WBSetTransferFlow so Copy and Publish match. */
 
 /* Keep song-card pills compact after chip unification. */
 .song-item .key-chip,
@@ -19061,6 +19003,23 @@ body.dark .workspace-subview-card .set-lang-badge{
   color:var(--txt3)!important;
 }
 </style>
+
+
+
+<script id="wb-build-cleanup-info-module">
+(function(){
+  'use strict';
+  var VERSION=(window.WB_VERSION||'82.20');
+  window.WBBuildCleanupInfo={
+    version:VERSION,
+    cleanup:'semantic cleanup pass 2',
+    removedRuntimeAudits:["WBBackupEditorStabilityV816Audit", "WBContextNavigationAudit", "WBFullAudit", "WBNNSAccidentalAudit", "WBNNSFixAudit", "WBNNSHardeningAudit", "WBNavigationOrderAudit", "WBRouteAudit", "WBSetEditorSubtitleAudit", "WBSetListMetadataV809Audit", "WBSetListSourceAudit", "WBSetListWorkspaceCleanupAudit", "WBSongReturnContextAudit", "WBStartupGateAudit", "WBWorkspaceSourceAudit", "WBWorkspaceV805Audit", "WBWorkspaceV806Audit", "WBWorkspaceV808Audit"],
+    note:'Audit/debug functions removed from runtime. Product behaviour is intentionally unchanged.'
+  };
+  try{window.WB_CURRENT_VERSION=VERSION;if(typeof window.WBSyncVersionLabels==='function')window.WBSyncVersionLabels();}catch(e){}
+})();
+</script>
+
 
 
 
@@ -19120,7 +19079,7 @@ body.dark .wb-backup-confidence-note{background:rgba(143,180,255,.08);border-col
 <script id="wb-backup-editor-stability-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.19');
+  var VERSION=(window.WB_VERSION||'82.20');
   var PRE_RESTORE_KEY='wb_pre_restore_snapshot_v1';
 
   function esc(s){
@@ -19403,11 +19362,9 @@ body.dark .wb-backup-confidence-note{background:rgba(143,180,255,.08);border-col
     window.openLocalBackupSheet.__wb816=true;
   }
 
-  window.WBBackupEditorStabilityV816Audit=function(){
-    return {version:VERSION,editorNoWrap:true,wrapToggleDisabled:!!document.getElementById('editor-wrap-toggle'),svgBackButtons:document.querySelectorAll('[data-wb816-svg-back="1"]').length,backupPreview:true,restoreModes:['replace','merge'],workspaceRestore:false};
-  };
+  /* removed runtime audit: window.WBBackupEditorStabilityV816Audit */
   var oldFullAudit=window.WBFullAudit;
-  window.WBFullAudit=function(){var base={};try{base=typeof oldFullAudit==='function'?oldFullAudit():{};}catch(e){base={error:String(e&&e.message||e)};}base.version=VERSION;base.backupEditorStabilityV816=window.WBBackupEditorStabilityV816Audit();return base;};
+  /* removed runtime audit: window.WBFullAudit */
 
   function init(){setVersion();forceEditorNoWrap();installEditorNote();installBackObserver();installBackupInputHandler();[80,300,900,1600].forEach(function(ms){setTimeout(function(){setVersion();forceEditorNoWrap();upgradeBackButtons(document);installBackupInputHandler();},ms);});}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
@@ -19668,7 +19625,7 @@ body.dark .wb-backup-confidence-note{background:rgba(143,180,255,.08);border-col
   try{fitSongEditorForPhone=window.fitSongEditorForPhone;}catch(e){}
   window.WBImportChordRenderer={init:init,audit:audit,wrapChartForPhonePairs:wrapChartForPhonePairs,prepareImportedSongObj:prepareImportedSongObj,refreshUgPreviewFromCached:refreshUgPreviewFromCached,refreshSopPreviewFromCached:refreshSopPreviewFromCached,renderEditorPreview:renderEditorPreview};
   window.WBImportPreviewAlignmentAudit=audit;
-  var oldAudit=window.WBFullAudit;window.WBFullAudit=function(){var base={};try{base=typeof oldAudit==='function'?oldAudit():{};}catch(e){base={error:String(e&&e.message||e)};}base.version=window.WB_VERSION||base.version;base.importChordRenderer=window.WBImportChordRenderer.audit();return base;};
+  var oldAudit=window.WBFullAudit;/* removed runtime audit: window.WBFullAudit */
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
@@ -19839,14 +19796,7 @@ body.dark .song-count.wb-search-none{color:#ef8fa2!important;}
     return false;
   };
 
-  window.WBNNSAccidentalAudit=function(){
-    return {
-      uiStateModule:true,
-      nnsParserTouched:false,
-      nnsRendererTouched:false,
-      workspaceLibraryHidden:true
-    };
-  };
+  /* removed runtime audit: window.WBNNSAccidentalAudit */
 
   function refreshUi(){
     updateSearchCount();
@@ -19886,21 +19836,7 @@ body.dark .song-count.wb-search-none{color:#ef8fa2!important;}
   });
 
   var oldFullAudit=window.WBFullAudit;
-  window.WBFullAudit=function(){
-    var base={};
-    try{base=typeof oldFullAudit==='function'?oldFullAudit():{};}catch(e){base={error:String(e&&e.message||e)};}
-    base.uiStyleConsolidationV826={
-      sourceOfTruth:'wb-ui-style-module + wb-ui-state-module',
-      chipStyleSystem:true,
-      emptyStateSystem:true,
-      searchCountFeedback:true,
-      workspaceLibraryHidden:true,
-      mutationObserverRemoved:true,
-      versionAuthorityOwnedElsewhere:true
-    };
-    try{base.nnsAccidentalAudit=window.WBNNSAccidentalAudit();}catch(e){}
-    return base;
-  };
+  /* removed runtime audit: window.WBFullAudit */
 
   function init(){
     refreshUi();
@@ -19972,7 +19908,7 @@ body.dark .song-count.wb-search-none{color:#ef8fa2!important;}
   window.exportSetListFromOptions=function(opts){return API.openPreview('setlist',opts||getOptions());};
   window.shareLastPdf=API.saveLastPdf;
   try{openPdfPreviewFromPage=window.openPdfPreviewFromPage;previewPdfFromPage=window.previewPdfFromPage;runExportFromPage=window.runExportFromPage;sharePdfFromPage=window.sharePdfFromPage;exportPDF=window.exportPDF;exportAllPDF=window.exportAllPDF;exportSongFromOptions=window.exportSongFromOptions;exportSetListFromOptions=window.exportSetListFromOptions;shareLastPdf=API.saveLastPdf;}catch(e){}
-  var oldAudit=window.WBFullAudit;window.WBFullAudit=function(){var base={};try{base=typeof oldAudit==='function'?oldAudit():{};}catch(e){base={error:String(e&&e.message||e)};}base.version=window.WB_VERSION||base.version||'82.19';base.exportSourceOfTruth={module:'WBExport',previewAllPages:true,saveFromPreview:true,fileOnlyShare:true,legacyAliases:['runExportFromPage','previewPdfFromPage','exportPDF','exportAllPDF']};return base;};
+  var oldAudit=window.WBFullAudit;/* removed runtime audit: window.WBFullAudit */
 })();
 </script>
 
