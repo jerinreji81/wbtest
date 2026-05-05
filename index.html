@@ -24,11 +24,11 @@ body:not(.wb-ui-ready) #workspace-section .wb765-subview{display:none!important;
 <link href="assets/wb-icon-180.png" rel="apple-touch-icon" sizes="180x180">
 <link href="assets/wb-icon-192.png" rel="icon" sizes="192x192" type="image/png">
 <meta content="yes" name="mobile-web-app-capable">
-<title>WorshipBase v82.3</title>
+<title>WorshipBase v82.4</title>
 <script id="wb-v82-3-version-authority-early">
 (function(){
   'use strict';
-  var VERSION='82.3';
+  var VERSION='82.4';
   window.WB_VERSION=VERSION;
   window.WB_VERSION_LABEL='Version '+VERSION;
   window.WB_VERSION_TITLE='WorshipBase v'+VERSION;
@@ -3484,7 +3484,7 @@ body.wb-workspace-subview-open #workspace-section .wb806-subview.open{display:fl
 <img alt="WorshipBase logo" src="assets/wb-icon-192.png">
 </div>
 <div class="about-name">WorshipBase</div>
-<div class="about-version-pill" data-wb-version-label="">Version 82.3</div>
+<div class="about-version-pill" data-wb-version-label="">Version 82.4</div>
 <div class="about-by">Created by <strong>Jerin Reji</strong></div>
 </div>
 </div>
@@ -3648,7 +3648,7 @@ body.wb-workspace-subview-open #workspace-section .wb806-subview.open{display:fl
 <div class="ev-footer">
 <button class="ev-ghost" onclick="closeExportView()" type="button">Cancel</button>
 <button class="ev-ghost" onclick="previewPdfFromPage()" type="button">Preview PDF</button>
-<button class="ev-primary" onclick="previewPdfFromPage()" type="button">Save PDF</button>
+<button class="ev-primary" onclick="runExportFromPage()" type="button">Save PDF</button>
 </div>
 </div>
 </div>
@@ -11949,62 +11949,11 @@ window.__wbPdfEngine='paged-preview-v67.6-deterministic';
     function content(pg){const cmd=cmd0(); for(let c=0;c<plan.cols;c++){const x=p.margin+c*(p.colW+p.gap); let y=p.margin; (pg.cols[c]||[]).forEach(line=>{drawLine(cmd,line,x,y); y+=lineH(line,p);});} pages.push(cmd);}
     (plan.pages||[]).forEach(pg=>pg.type==='cover'?cover(pg):content(pg)); return makePdf(pages);
   }
-  function makeExportFile(context,opts){
-    const plan=buildPlan(context,opts||{});
-    const blob=drawPlan(plan);
-    const filename=safeName(plan.title||'WorshipBase')+' - WorshipBase.pdf';
-    let file=null;
-    try{ file=new File([blob], filename, {type:'application/pdf', lastModified:Date.now()}); }catch(e){}
-    window.__wbLastPdf={blob,file,filename,title:plan.title||'WorshipBase',createdAt:Date.now()};
-    return window.__wbLastPdf;
-  }
   try{
-    window.__wbBuildPdfPlan8174=buildPlan;
-    window.__wbDrawPdfPlan8174=drawPlan;
-    window.__wbMakeExportFile8174=makeExportFile;
+    window.__wbExportBuildPlan=buildPlan;
+    window.__wbExportDrawPlan=drawPlan;
+    window.__wbPdfEngine='wb-export-module-pdf-engine';
   }catch(e){}
-
-  function downloadPdfFile(pkg){
-    const url=URL.createObjectURL(pkg.blob);
-    const a=document.createElement('a'); a.href=url; a.download=pkg.filename; a.target='_blank'; document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(()=>URL.revokeObjectURL(url),60000);
-  }
-  async function sharePdfPackage(pkg){
-    if(!pkg) return;
-    const file=pkg.file;
-    try{
-      if(file && navigator.share && (!navigator.canShare || navigator.canShare({files:[file]}))){
-        await navigator.share({files:[file], title:pkg.title||'WorshipBase PDF'});
-        if(typeof showToast==='function')showToast('PDF shared');
-        return;
-      }
-    }catch(e){ if(e && e.name==='AbortError')return; console.warn(e); }
-    downloadPdfFile(pkg);
-    if(typeof showToast==='function')showToast('PDF downloaded');
-  }
-  function openPdf(context,opts){
-    const pkg=makeExportFile(context,opts); const url=URL.createObjectURL(pkg.blob);
-    const win=window.open(url,'_blank');
-    if(!win){ downloadPdfFile(pkg); }
-    setTimeout(()=>URL.revokeObjectURL(url),10*60*1000); if(typeof showToast==='function')showToast('PDF preview opened');
-  }
-  function getOpenSongForPdf(){ try{ if(typeof currentSong!=='undefined' && currentSong) return currentSong; }catch(e){} return window.currentSong||null; }
-  function getOpenSongKeyForPdf(song){ try{ if(typeof currentKey!=='undefined' && currentKey) return currentKey; }catch(e){} return window.currentKey || song?.key || 'C'; }
-  function currentExportContext(){return (window.exportPageContext==='song'||(typeof exportPageContext!=='undefined'&&exportPageContext==='song'))?'song':'setlist';}
-  window.sharePdfFromPage=async function(){
-    const opts=(typeof getExportPageOptions==='function')?getExportPageOptions():{}; const ctx=currentExportContext();
-    if(ctx==='song'&&!getOpenSongForPdf()){if(typeof showToast==='function')showToast('No song open');return;}
-    if(ctx==='setlist'){const sl=(typeof getSetList==='function')?getSetList():[]; if(!sl.length){alert('No songs in set list.');return;}}
-    const pkg=makeExportFile(ctx,opts); await sharePdfPackage(pkg);
-  };
-  window.shareLastPdf=async function(){await sharePdfPackage(window.__wbLastPdf);};
-  window.exportSongFromOptions=function(opts){if(!getOpenSongForPdf()){if(typeof showToast==='function')showToast('No song open');return;} openPdf('song',opts||((typeof getExportPageOptions==='function')?getExportPageOptions():{}));};
-  window.exportSetListFromOptions=function(opts){const sl=(typeof getSetList==='function')?getSetList():[]; if(!sl.length){alert('No songs in set list.');return;} openPdf('setlist',opts||((typeof getExportPageOptions==='function')?getExportPageOptions():{}));};
-  window.exportPDF=function(){window.exportSongFromOptions((typeof getExportPageOptions==='function')?getExportPageOptions():{});};
-  window.exportAllPDF=function(){window.exportSetListFromOptions((typeof getExportPageOptions==='function')?getExportPageOptions():{});};
-  window.runExportFromPage=function(){const opts=(typeof getExportPageOptions==='function')?getExportPageOptions():{}; if(typeof closeExportView==='function')closeExportView(); if(currentExportContext()==='song')window.exportSongFromOptions(opts); else window.exportSetListFromOptions(opts);};
-  try{exportSongFromOptions=window.exportSongFromOptions; exportSetListFromOptions=window.exportSetListFromOptions; exportPDF=window.exportPDF; exportAllPDF=window.exportAllPDF; runExportFromPage=window.runExportFromPage;}catch(e){}
-  window.__wbPdfEngine='v69.8-pdf-song-export-fix';
 })();
 
 </script>
@@ -13862,7 +13811,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 <script id="wb-v72-5-2-backup-settings-polish-js">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'82.3');
+  const VERSION=(window.WB_VERSION||'82.4');
   const DRIVE_STATE_KEY='wb_google_drive_backup_v1';
   const PRE_RESTORE_KEY='wb_pre_restore_snapshot_v1';
   function ready(fn){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fn,{once:true});else fn();}
@@ -13974,7 +13923,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
   'use strict';
   const EDIT_ICON='<svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M12 3l2 2L5.5 13H3.5v-2L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
   function usefulMemory(m){return !!(m&&typeof m==='object'&&(String(m.notes||'').trim()||String(m.cues||'').trim()||String(m.usualKey||'').trim()||String(m.capo||'').trim()||String(m.practiceStatus||'').trim()));}
-  function setVisibleVersion(){try{document.title='WorshipBase v'+(window.WB_VERSION||'82.3');document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 82.3';});}catch(e){}}
+  function setVisibleVersion(){try{document.title='WorshipBase v'+(window.WB_VERSION||'82.4');document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 82.4';});}catch(e){}}
   function fixSongEditButton(){
     try{
       const btn=document.getElementById('mi-edit-song');
@@ -14303,7 +14252,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 </script>
 <script id="wb-v72-5-7-rich-set-copy-fix">
 (function(){
-  const VERSION=(window.WB_VERSION||'82.3');
+  const VERSION=(window.WB_VERSION||'82.4');
 
   const originalFindSongById = window.findSongById || function(){return null;};
   const originalGetSongMemory = window.getSongMemory || function(){return {};};
@@ -14696,7 +14645,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 <script id="wb-v72-5-8-rich-shared-persist-fix">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'82.3');
+  const VERSION=(window.WB_VERSION||'82.4');
   const BAD_KEY=/[.#$\/[\]]/g;
   function n(v){try{if(typeof normId==='function')return normId(v);}catch(_){}return String(v==null?'':v).trim();}
   function safeKey(v){const k=n(v);return k?k.replace(BAD_KEY,'_'):'';}
@@ -14874,7 +14823,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 </script>
 <script id="wb-v74-5-legacy-setlist-disabled-marker">
 (function(){
-  try{document.title='WorshipBase v'+(window.WB_VERSION||'82.3');document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version 82.3';});}catch(e){}
+  try{document.title='WorshipBase v'+(window.WB_VERSION||'82.4');document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version 82.4';});}catch(e){}
   // v74.5.2: legacy flat shared-set Firebase access is represented by a no-op setlistRef stub above.
   // Active shared set lists continue to use the rich shared-set Firebase path through the existing v72.5.8 logic.
 })();
@@ -14909,7 +14858,7 @@ body.dark .namedset-note-chip{background:var(--accent-surface)!important;color:v
 <script id="wb-v74-5-2-setlist-and-export-fixes">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'82.3');
+  const VERSION=(window.WB_VERSION||'82.4');
   function norm(v){try{if(typeof normId==='function')return normId(v);}catch(e){}return String(v==null?'':v).trim();}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}}
   function sk(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
@@ -15114,7 +15063,7 @@ body.dark .workspace-publish-note{background:var(--accent-surface)!important;col
 <script id="wb-v75-2-workspace-publish-picker-script">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'82.3');
+  const VERSION=(window.WB_VERSION||'82.4');
   function qs(id){return document.getElementById(id);}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s??'').replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}}
   function sk(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
@@ -15304,7 +15253,7 @@ body.dark .workspace-subview-icon.danger{background:rgba(239,143,162,.12)!import
 <script id="wb-v75-6-rich-save-guard-script">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'82.3');
+  const VERSION=(window.WB_VERSION||'82.4');
   function clone(v){try{return JSON.parse(JSON.stringify(v));}catch(e){return v;}}
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
   function counts(set){let songs=0,plan=0;itemsOf(set).forEach(function(it){const t=String((it&&it.type)||'song').toLowerCase();if(t==='section'||t==='item'||t==='service')plan++;else if(t==='song'||(it&&it.songId))songs++;});return {songs:songs,plan:plan,total:songs+plan};}
@@ -15572,7 +15521,7 @@ body.dark .wb-personal-local{background:var(--accent-surface)!important;border-c
 <script id="wb-v75-13-1-workspace-selector-fix">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'82.3');
+  const VERSION=(window.WB_VERSION||'82.4');
   function qs(id){return document.getElementById(id);}
   function scopeKey(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
   function activeKey(scope){try{return activeSetPrefKey(scopeKey(scope));}catch(e){return scopeKey(scope)==='personal'?'activePersonalSetId':'activeSharedSetId';}}
@@ -16141,7 +16090,7 @@ body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb
 <script id="wb-v76-16-current-set-actions-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
+  var VERSION=(window.WB_VERSION||'82.4');
   function qs(id){return document.getElementById(id);} 
   function scopeKeySafe(v){try{return setScopeKey(v||((appPrefs&&appPrefs.setListScope)||'personal'));}catch(e){return v==='shared'?'shared':'personal';}}
   function activeId(scope){try{return (appPrefs&&appPrefs[activeSetPrefKey(scope)])||'';}catch(e){return scope==='shared'?(appPrefs&&appPrefs.activeSharedSetId)||'':(appPrefs&&appPrefs.activePersonalSetId)||'';}}
@@ -16229,7 +16178,7 @@ body.wb-route-lock.wb-tab-songs #library-filter-row{display:flex!important;}
 <script id="wb-v79-2-canonical-router-and-setlist-nav">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
+  var VERSION=(window.WB_VERSION||'82.4');
   var ROUTES={songs:'song-section',setlist:'setlist-section',workspace:'workspace-section',bible:'bible-section',settings:'settings-section'};
   var TAB_CLASSES=['wb-tab-songs','wb-tab-setlist','wb-tab-workspace','wb-tab-bible','wb-tab-settings'];
   var routeSeq=0;
@@ -16415,7 +16364,7 @@ body.dark.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-
 <script id="wb-v79-2-personal-header-authority-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
+  var VERSION=(window.WB_VERSION||'82.4');
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s==null?'':s).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c];});}}
   function qs(id){return document.getElementById(id);} 
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
@@ -16679,7 +16628,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-2-interaction-repair-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
+  var VERSION=(window.WB_VERSION||'82.4');
   function qs(id){return document.getElementById(id);} 
   function escText(s){return String(s==null?'':s);}
   function cloneDeep(obj){
@@ -16818,7 +16767,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-2-setlist-source-cleanup-audit">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
+  var VERSION=(window.WB_VERSION||'82.4');
   function qs(id){return document.getElementById(id);} 
   function setVersion(){try{document.title='WorshipBase v'+VERSION;window.WB_CURRENT_VERSION=VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}}
   function removeRetiredSegment(){try{document.querySelectorAll('#setlist-section .sl-scope-row').forEach(function(el){el.remove();});}catch(e){}}
@@ -16843,7 +16792,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 </script><script id="wb-v79-2-workspace-source-owner">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
+  var VERSION=(window.WB_VERSION||'82.4');
   var KEY='wb.workspace.shell.v1';
   var readyDone=false;
   var previousHideLoading=window.hideLoading;
@@ -16959,7 +16908,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-4-action-audit-and-polish-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
+  var VERSION=(window.WB_VERSION||'82.4');
   var EXPECTED_ACTIONS=['switchTab','openSong','openSongModal','openBS','closeBS','closeBSBg','openSetListOptions','openSetNotesSheet','openExportView','closeExportView','showPersonalList','renderPersonalManager','createPersonalSetFromManager','openPersonalSetFromManager','deletePersonalSetFromManager','publishPersonalSetToWorkspace','publishPersonalSetIdToWorkspace','goBackFromSetEditor','openWorkspaceSetLists','showWorkspaceDashboard','renderWorkspace','createWorkspaceSetFromWorkspaceTab','createWorkspaceSetFromWorkspaceSubview','openWorkspaceSetFromWorkspaceTab','deleteWorkspaceSetFromWorkspaceSubview','openWorkspaceLibraryShell','openWorkspaceMembersShell','openWorkspaceSettingsShell','openWorkspaceStoragePrepShell','backToWorkspaceHomeShell','copyWorkspaceInviteCodeShell','regenerateWorkspaceInviteShell','renameWorkspaceShell','leaveWorkspaceShell','openLocalBackupSheet','exportAppBackupJSON','importJSON','openDriveBackupSheet','connectGoogleDriveBackup','backupToGoogleDrive','disconnectGoogleDriveBackup','openAdminExport','openAdminImport','importMySongsJSONFile','importNotesCuesJSONFile','exportMySongsJSON','exportNotesCuesJSON','openBiblePicker','openBibleVersionPicker','changeBibleChapter','renderSettings'];
   var IGNORE_REFS={'event.stopPropagation':true,'window.close':true,'window.print':true,'history.back':true,'document.getElementById':true,'setTimeout':true,'clearTimeout':true,'confirm':true,'prompt':true,'alert':true,'parseInt':true,'parseFloat':true,'Number':true,'String':true,'Boolean':true,'Date':true,'Math':true};
   function exists(name){try{var root=window,parts=String(name||'').split('.');if(parts[0]==='window')parts.shift();for(var i=0;i<parts.length;i++){if(root==null)return false;root=root[parts[i]];}return typeof root==='function';}catch(e){return false;}}
@@ -16977,7 +16926,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-5-source-organisation-prep-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
+  var VERSION=(window.WB_VERSION||'82.4');
   var SOURCE_OWNERSHIP={
     version:'v79.5',
     base:'v81.6 route memory hardening',
@@ -17064,7 +17013,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-7-workspace-route-memory-active-tab-fix-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
+  var VERSION=(window.WB_VERSION||'82.4');
   var restoring=false;
   var lastWorkspaceRoute={route:'home',setId:null,updatedAt:Date.now()};
   var oldSwitchTab=window.switchTab;
@@ -17248,7 +17197,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-8-workspace-song-return-context-fix-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
+  var VERSION=(window.WB_VERSION||'82.4');
   function qs(id){return document.getElementById(id);}
   function setVersion(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
@@ -17322,7 +17271,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-9-navigation-context-authority-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
+  var VERSION=(window.WB_VERSION||'82.4');
   function qs(id){return document.getElementById(id);} 
   function setVersion(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
@@ -17479,7 +17428,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-12-navigation-order-context-authority-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
+  var VERSION=(window.WB_VERSION||'82.4');
 
   var oldSwitchTab=window.switchTab;
   var oldShowPersonalList=window.showPersonalList;
@@ -17758,7 +17707,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-12-whole-app-action-audit-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
+  var VERSION=(window.WB_VERSION||'82.4');
   function safe(fn,fallback){try{return fn();}catch(e){return fallback;}}
   function setVersion(){
     safe(function(){document.title='WorshipBase v'+VERSION;});
@@ -17842,7 +17791,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-12-legacy-patch-audit-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
+  var VERSION=(window.WB_VERSION||'82.4');
   function safe(fn,fallback){try{return fn();}catch(e){return fallback;}}
   function setVersion(){
     safe(function(){document.title='WorshipBase v'+VERSION;});
@@ -17937,7 +17886,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-13-setlist-route-memory-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
+  var VERSION=(window.WB_VERSION||'82.4');
   var restoring=false;
   var lastSetListRoute={route:'home',setId:null,updatedAt:Date.now()};
   var oldSwitchTab=window.switchTab;
@@ -18102,7 +18051,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-14-route-memory-navigation-hardening-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
+  var VERSION=(window.WB_VERSION||'82.4');
   var previousFullAudit=window.WBFullAudit;
   var oldSwitchTab=window.switchTab;
   var oldShowList=window.showList;
@@ -18931,7 +18880,7 @@ body.dark #workspace-section .wb805-code,body.dark #workspace-section .wb805-sou
 <script id="wb-v80-5-workspace-members-startup-fix-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
+  var VERSION=(window.WB_VERSION||'82.4');
   var KEY='wb.workspace.shell.v1';
   var oldFullAudit=window.WBFullAudit;
   var oldRenderWorkspace=window.renderWorkspace;
@@ -19083,7 +19032,7 @@ body.dark #workspace-section .wb806-code,body.dark #workspace-section .wb806-sou
 <script id="wb-v80-6-workspace-routing-publish-fix-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
+  var VERSION=(window.WB_VERSION||'82.4');
   var KEY='wb.workspace.shell.v1';
   var oldSwitchTab=window.switchTab;
   var oldFullAudit=window.WBFullAudit;
@@ -19175,7 +19124,7 @@ body:not(.wb-ui-ready) #workspace-section .wb765-subview{
 <script id="wb-v80-7-startup-safearea-workspace-flicker-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
+  var VERSION=(window.WB_VERSION||'82.4');
   var KEY='wb.workspace.shell.v1';
   var previousSwitchTab=window.switchTab;
   var previousRenderWorkspace=window.renderWorkspace;
@@ -19291,7 +19240,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager #wb-perso
 <script id="wb-v80-8-render-cleanup-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
+  var VERSION=(window.WB_VERSION||'82.4');
   var KEY='wb.workspace.shell.v1';
   var previousSwitchTab=window.switchTab;
   var previousRenderWorkspace=window.renderWorkspace;
@@ -19422,7 +19371,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager #wb-perso
 <script id="wb-v81-1-personal-meta-source-fix">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
+  var VERSION=(window.WB_VERSION||'82.4');
   function qs(id){return document.getElementById(id);} 
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s==null?'':s).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c];});}}
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
@@ -19510,7 +19459,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager #wb-perso
 <script id="wb-v81-5-workspace-library-songs-only-fix">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'82.3');
+  const VERSION=(window.WB_VERSION||'82.4');
   function qs(id){return document.getElementById(id);}
   function qsa(sel,root){return Array.prototype.slice.call((root||document).querySelectorAll(sel));}
   function htmlEscape(v){
@@ -19652,9 +19601,9 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager #wb-perso
 </script>
 
 
-<!-- WorshipBase v82.3 - import/screen chord alignment parity fix retained -->
+<!-- WorshipBase v82.4 - import/screen chord alignment parity fix retained -->
 <style id="wb-v82-1-import-preview-alignment-style">
-/* v82.3: chord-bearing rows use a single fixed-pitch grid so imported UG/SoP previews
+/* v82.4: chord-bearing rows use a single fixed-pitch grid so imported UG/SoP previews
    keep chords anchored over the intended lyric syllables/words. Lyric-only rows remain
    the normal WorshipBase reading font. */
 .sheet .wb821-chord-pair .chord-row,
@@ -19709,7 +19658,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager #wb-perso
 <script id="wb-v82-1-import-preview-alignment-script">
 (function(){
   'use strict';
-  var VERSION='82.3';
+  var VERSION='82.4';
   window.WB_VERSION=VERSION;
   window.WB_VERSION_LABEL='Version '+VERSION;
   window.WB_VERSION_TITLE='WorshipBase v'+VERSION;
@@ -19838,7 +19787,7 @@ body.dark #workspace-section .wb813-source-dot,body.dark #workspace-section .wb8
 <script id="wb-v81-3-workspace-library-local-sources-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
+  var VERSION=(window.WB_VERSION||'82.4');
   var oldOpenWorkspaceLibraryShell=window.openWorkspaceLibraryShell;
   var oldFullAudit=window.WBFullAudit;
   function qs(id){return document.getElementById(id);} 
@@ -19928,7 +19877,7 @@ body.dark .wb-backup-confidence-note{background:rgba(143,180,255,.08);border-col
 <script id="wb-v81-6-backup-editor-stability-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
+  var VERSION=(window.WB_VERSION||'82.4');
   var PRE_RESTORE_KEY='wb_pre_restore_snapshot_v1';
 
   function esc(s){
@@ -20224,7 +20173,7 @@ body.dark .wb-backup-confidence-note{background:rgba(143,180,255,.08);border-col
 
 <!-- WorshipBase v81.6.1 - pair-aware editor import wrapping + preview wrapping fix -->
 <style id="wb-v81-6-1-pair-aware-editor-style">
-/* v82.3: keep raw editor stable. Imported songs keep original source; Preview performs structured chord/lyric wrapping. */
+/* v82.4: keep raw editor stable. Imported songs keep original source; Preview performs structured chord/lyric wrapping. */
 #bs-modal #m-chart{
   font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace!important;
   white-space:pre!important;
@@ -20245,7 +20194,7 @@ body.dark .wb-backup-confidence-note{background:rgba(143,180,255,.08);border-col
 <script id="wb-v81-6-1-pair-aware-editor-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
+  var VERSION=(window.WB_VERSION||'82.4');
   function toast(msg){try{showToast(msg);}catch(e){try{console.log(msg);}catch(_){}}}
   function setVersion(){
     try{
@@ -20463,7 +20412,7 @@ body.dark .wb-backup-confidence-note{background:rgba(143,180,255,.08);border-col
   try{updateSongEditorPreview=window.updateSongEditorPreview;}catch(e){}
 
   function prepareImportedSongObj(obj){
-    // v82.3 proper import direction: do not destructively phone-fit imported charts.
+    // v82.4 proper import direction: do not destructively phone-fit imported charts.
     // Keep the original cleaned source in storage/editor, and let the structured
     // preview/song-view renderer wrap chord+lyric pairs at display time.
     try{
@@ -20518,7 +20467,7 @@ body.dark .wb-backup-confidence-note{background:rgba(143,180,255,.08);border-col
 
   window.WBEditorPairWrapV8161Audit=function(){
     var ta=document.getElementById('m-chart');
-    return {version:VERSION,pairWrapHelper:typeof window.WBPairWrapImportedChartForEditor==='function',previewUsesScreenRenderer:typeof renderSheetScreenHTML==='function',orphanGuard:true,structuredImport:true,fixLocation:'v82.3 keeps imported chart raw and relies on structured display-time chord/lyric wrapping; Fit lines remains manual only',fitButton:!!document.getElementById('wb8161-fit-editor-btn'),textareaWrap:ta?ta.getAttribute('wrap'):null};
+    return {version:VERSION,pairWrapHelper:typeof window.WBPairWrapImportedChartForEditor==='function',previewUsesScreenRenderer:typeof renderSheetScreenHTML==='function',orphanGuard:true,structuredImport:true,fixLocation:'v82.4 keeps imported chart raw and relies on structured display-time chord/lyric wrapping; Fit lines remains manual only',fitButton:!!document.getElementById('wb8161-fit-editor-btn'),textareaWrap:ta?ta.getAttribute('wrap'):null};
   };
   var oldFullAudit=window.WBFullAudit;
   window.WBFullAudit=function(){var base={};try{base=typeof oldFullAudit==='function'?oldFullAudit():{};}catch(e){base={error:String(e&&e.message||e)};}base.version=VERSION;base.editorPairWrapV8161=window.WBEditorPairWrapV8161Audit();return base;};
@@ -20528,9 +20477,9 @@ body.dark .wb-backup-confidence-note{background:rgba(143,180,255,.08);border-col
 })();
 </script>
 
-<!-- WorshipBase v82.3 - Housekeeping + Small Polish -->
+<!-- WorshipBase v82.4 - Housekeeping + Small Polish -->
 <style id="wb-v81-7-housekeeping-small-polish-style">
-/* v82.3: retained restrained polish layer from v81.7; no visual redesign. */
+/* v82.4: retained restrained polish layer from v81.7; no visual redesign. */
 
 #workspace-section [onclick*="openWorkspaceLibraryShell"],
 #workspace-section .workspace-card[onclick*="openWorkspaceLibraryShell"],
@@ -20617,7 +20566,7 @@ body.dark .song-count.wb-search-none{color:#ef8fa2!important;}
 <script id="wb-v81-7-housekeeping-small-polish-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
+  var VERSION=(window.WB_VERSION||'82.4');
   window.WB_VERSION=VERSION;
   window.WB_VERSION_LABEL='Version '+VERSION;
   window.WB_VERSION_TITLE='WorshipBase v'+VERSION;
@@ -20803,77 +20752,79 @@ body.dark .song-count.wb-search-none{color:#ef8fa2!important;}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-<!-- WorshipBase v82.3 - preview typography parity guard for long titles -->
-<style id="wb-v82-0-active-pdf-preview-style">
-  .wb8176-pdf-preview-view{position:fixed;inset:0;background:var(--bg1);z-index:790;display:none;flex-direction:column;color:var(--txt1);overflow:hidden;}
-  .wb8176-pdf-preview-view.open{display:flex;}
-  .wb8176-pdf-preview-hdr{flex:0 0 auto;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px;padding:calc(var(--sat,0px) + 10px) 12px 10px;border-bottom:.5px solid var(--bdr);background:color-mix(in srgb,var(--bg1) 96%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);}
-  .wb8176-pdf-preview-title{min-width:0;text-align:center;font-size:15px;font-weight:800;color:var(--txt1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.02em;}
-  .wb8176-pdf-preview-btn{border:1px solid var(--surface-border);background:var(--surface-tint);color:var(--txt2);border-radius:999px;min-height:36px;padding:0 13px;font-size:13px;font-weight:800;font-family:inherit;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;white-space:nowrap;}
-  .wb8176-pdf-preview-btn:active{transform:scale(.96);}
-  .wb8176-pdf-preview-btn.primary{background:var(--tc);border-color:var(--tc);color:#fff;box-shadow:0 8px 20px rgba(16,55,74,.16);}
-  .wb8176-pdf-preview-btn.back{min-width:62px;}
-  .wb8176-pdf-preview-scroll{position:relative;flex:1;min-height:0;background:var(--bg2);overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:12px 10px calc(var(--sab,0px) + 22px);}
-  .wb8176-pdf-page-stack{width:100%;display:flex;flex-direction:column;align-items:center;gap:14px;margin:0 auto;}
-  .wb8176-pdf-page-shell{width:100%;display:flex;flex-direction:column;align-items:center;gap:5px;}
-  .wb8176-pdf-page{width:min(100%,720px);max-width:calc(100vw - 20px);aspect-ratio:595.28/841.89;background:#fff;border-radius:3px;box-shadow:0 10px 26px rgba(16,55,74,.18);overflow:hidden;position:relative;}
-  .wb8176-pdf-page svg{display:block;width:100%;height:100%;max-width:100%;background:#fff;}
-  .wb8176-pdf-preview-count{font-size:11px;font-weight:800;color:var(--txt3);text-align:center;line-height:1.3;}
-  .wb8176-pdf-preview-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:28px;color:var(--txt2);font-size:14px;font-weight:700;line-height:1.45;pointer-events:none;z-index:2;}
-  .wb8176-pdf-preview-fallback{margin:0 0 12px;padding:10px 14px;border-radius:14px;border:1px solid var(--surface-border);background:color-mix(in srgb,var(--bg1) 92%,transparent);box-shadow:var(--shadow-sm);font-size:12px;color:var(--txt2);line-height:1.45;text-align:center;display:none;}
-  .wb8176-pdf-preview-view.needs-fallback .wb8176-pdf-preview-fallback{display:block;}
-  body.dark .wb8176-pdf-preview-btn.primary{background:var(--accent-surface);border-color:var(--accent-border);color:var(--accent);box-shadow:none;}
-  body.dark .wb8176-pdf-preview-scroll{background:#090d12;}
+<!-- WorshipBase export source-of-truth module: PDF preview, save/share, and legacy export aliases -->
+<style id="wb-export-module-style">
+  .wb-export-pdf-preview-view{position:fixed;inset:0;background:var(--bg1);z-index:790;display:none;flex-direction:column;color:var(--txt1);overflow:hidden;}
+  .wb-export-pdf-preview-view.open{display:flex;}
+  .wb-export-pdf-preview-hdr{flex:0 0 auto;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px;padding:calc(var(--sat,0px) + 10px) 12px 10px;border-bottom:.5px solid var(--bdr);background:color-mix(in srgb,var(--bg1) 96%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);}
+  .wb-export-pdf-preview-title{min-width:0;text-align:center;font-size:15px;font-weight:800;color:var(--txt1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.02em;}
+  .wb-export-pdf-preview-btn{border:1px solid var(--surface-border);background:var(--surface-tint);color:var(--txt2);border-radius:999px;min-height:36px;padding:0 13px;font-size:13px;font-weight:800;font-family:inherit;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;white-space:nowrap;}
+  .wb-export-pdf-preview-btn:active{transform:scale(.96);}
+  .wb-export-pdf-preview-btn.primary{background:var(--tc);border-color:var(--tc);color:#fff;box-shadow:0 8px 20px rgba(16,55,74,.16);}
+  .wb-export-pdf-preview-btn.back{min-width:62px;}
+  .wb-export-pdf-preview-scroll{position:relative;flex:1;min-height:0;background:var(--bg2);overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:12px 10px calc(var(--sab,0px) + 22px);}
+  .wb-export-pdf-page-stack{width:100%;display:flex;flex-direction:column;align-items:center;gap:14px;margin:0 auto;}
+  .wb-export-pdf-page-shell{width:100%;display:flex;flex-direction:column;align-items:center;gap:5px;}
+  .wb-export-pdf-page{width:min(100%,720px);max-width:calc(100vw - 20px);aspect-ratio:595.28/841.89;background:#fff;border-radius:3px;box-shadow:0 10px 26px rgba(16,55,74,.18);overflow:hidden;position:relative;}
+  .wb-export-pdf-page svg{display:block;width:100%;height:100%;max-width:100%;background:#fff;}
+  .wb-export-pdf-preview-count{font-size:11px;font-weight:800;color:var(--txt3);text-align:center;line-height:1.3;}
+  .wb-export-pdf-preview-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:28px;color:var(--txt2);font-size:14px;font-weight:700;line-height:1.45;pointer-events:none;z-index:2;}
+  .wb-export-pdf-preview-fallback{margin:0 0 12px;padding:10px 14px;border-radius:14px;border:1px solid var(--surface-border);background:color-mix(in srgb,var(--bg1) 92%,transparent);box-shadow:var(--shadow-sm);font-size:12px;color:var(--txt2);line-height:1.45;text-align:center;display:none;}
+  .wb-export-pdf-preview-view.needs-fallback .wb-export-pdf-preview-fallback{display:block;}
+  body.dark .wb-export-pdf-preview-btn.primary{background:var(--accent-surface);border-color:var(--accent-border);color:var(--accent);box-shadow:none;}
+  body.dark .wb-export-pdf-preview-scroll{background:#090d12;}
 </style>
-<script id="wb-v82-0-active-pdf-preview-script">
+<script id="wb-export-module">
 (function(){
   'use strict';
-  var VERSION='82.3';
   var PAGE_W=595.28, PAGE_H=841.89;
   var currentPlan=null,currentPkg=null;
-  try{window.WB_VERSION=VERSION;window.WB_VERSION_LABEL='Version '+VERSION;window.WB_VERSION_TITLE='WorshipBase v'+VERSION;}catch(e){}
-  function setText(el,txt){try{if(el&&el.textContent!==txt)el.textContent=txt;}catch(e){}}
-  function syncVersion(){try{document.title='WorshipBase v'+VERSION;}catch(e){}try{document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label],[data-wb-version-label]').forEach(function(el){setText(el,'Version '+VERSION);});document.querySelectorAll('[data-wb-version-value]').forEach(function(el){setText(el,VERSION);});document.querySelectorAll('[data-wb-version-title]').forEach(function(el){setText(el,'WorshipBase v'+VERSION);});}catch(e){}}
-  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]||c;});}
+  function esc(s){return String(s==null?'':s).replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]||c;});}
   function safeFileName(s){return String(s||'WorshipBase').replace(/[\\/:*?"<>|]+/g,' ').replace(/\s+/g,' ').trim().slice(0,80)||'WorshipBase';}
   function themeHex(){try{return (window.appPrefs&&appPrefs.theme)||'#10374A';}catch(e){return '#10374A';}}
-  function currentContext(){try{if(typeof exportPageContext!=='undefined'&&exportPageContext==='song')return 'song';}catch(e){}try{if(window.exportPageContext==='song')return 'song';}catch(e){}return 'setlist';}
-  function currentOptions(){try{if(typeof getExportPageOptions==='function')return getExportPageOptions();}catch(e){}try{if(typeof getExportOptions==='function')return getExportOptions();}catch(e){}return {};}
+  function getContext(){try{if(typeof exportPageContext!=='undefined'&&exportPageContext==='song')return 'song';}catch(e){}try{if(window.exportPageContext==='song')return 'song';}catch(e){}return 'setlist';}
+  function getOptions(){try{if(typeof getExportPageOptions==='function')return getExportPageOptions();}catch(e){}try{if(typeof getExportOptions==='function')return getExportOptions();}catch(e){}return {};}
   function validateContext(ctx){if(ctx==='song'){try{if(typeof currentSong!=='undefined'&&currentSong)return true;}catch(e){}if(window.currentSong)return true;if(typeof showToast==='function')showToast('No song open');return false;}try{var sl=typeof getSetList==='function'?getSetList():[];if(sl&&sl.length)return true;}catch(e){}alert('No songs in set list.');return false;}
   function lineH(line,p){if(line.type==='songTitle')return p.titleLH;if(line.type==='meta')return p.metaLH;if(line.type==='section')return p.sectionLH;if(line.type==='spacer')return line.h||p.sp;if(line.type==='songGap')return p.gapAfterSong;return p.lineLH;}
   function svgText(cls,text,x,y,size,family,weight,fill,extra){return '<text class="'+cls+'" x="'+x+'" y="'+y+'" font-size="'+size+'" font-family="'+family+'" font-weight="'+weight+'" fill="'+fill+'" xml:space="preserve"'+(extra||'')+'>'+esc(text)+'</text>';}
   function approxPdfTextWidth(text,size,bold,mono){var s=String(text||''); if(mono)return s.length*size*.60; var avg=bold?.535:.50; var wide=(s.match(/[MW@#%&]/g)||[]).length; var narrow=(s.match(/[ilI\. ,']/g)||[]).length; return (s.length*avg+wide*.18-narrow*.16)*size;}
   function fitTitleSize(text,p){var size=p.title||13, min=Math.max(8.4,size*.66), colW=p.colW||500, w=approxPdfTextWidth(text,size,true,false); if(w<=colW)return size; return Math.max(min,Math.min(size,size*colW/Math.max(1,w)));}
   function renderCoverSvg(pg,accent,plan){var out=[];out.push('<svg viewBox="0 0 '+PAGE_W+' '+PAGE_H+'" xmlns="http://www.w3.org/2000/svg">');out.push('<rect x="0" y="0" width="'+PAGE_W+'" height="'+PAGE_H+'" fill="#fff"/>');out.push(svgText('cover-title',pg.title||'Worship Set List',42,86,28,'Helvetica,Arial,sans-serif','700',accent));var count=(pg.items||[]).length;var sub=count+' song'+(count!==1?'s':'')+' · '+((plan&&plan.opts&&plan.opts.exportFlow)==='page'?'One song / page':'Continuous')+' · '+((plan&&plan.cols)===2?'Two-column':'Single column');out.push(svgText('cover-sub',sub,42,118,11,'Helvetica,Arial,sans-serif','700','#626f77'));out.push('<line x1="42" y1="140" x2="'+(PAGE_W-42)+'" y2="140" stroke="#dbe2e6" stroke-width="0.75"/>');var y=174;(pg.items||[]).slice(0,34).forEach(function(it){out.push(svgText('cover-num',String(it.n).padStart(2,'0'),42,y,11,'Helvetica,Arial,sans-serif','700','#90989e'));out.push(svgText('cover-song',it.title,76,y,13,'Helvetica,Arial,sans-serif','400','#111820'));out.push(svgText('cover-key',it.key,PAGE_W-70,y,11,'Helvetica,Arial,sans-serif','700',accent));y+=23;});out.push('</svg>');return out.join('');}
-  function renderContentSvg(pg,plan,accent,pageIdx){var p=plan.profile||{};var out=[];out.push('<svg viewBox="0 0 '+PAGE_W+' '+PAGE_H+'" xmlns="http://www.w3.org/2000/svg">');out.push('<defs>');for(var cc=0;cc<(plan.cols||1);cc++){var cx=(p.margin||42)+cc*((p.colW||500)+(p.gap||20));out.push('<clipPath id="wb8176clip'+pageIdx+'_'+cc+'"><rect x="'+cx+'" y="0" width="'+(p.colW||500)+'" height="'+PAGE_H+'"/></clipPath>');}out.push('</defs><rect x="0" y="0" width="'+PAGE_W+'" height="'+PAGE_H+'" fill="#fff"/>');for(var c=0;c<(plan.cols||1);c++){var x=(p.margin||42)+c*((p.colW||500)+(p.gap||20));var y=p.margin||42;var col=(pg.cols&&pg.cols[c])||[];out.push('<g clip-path="url(#wb8176clip'+pageIdx+'_'+c+')">');col.forEach(function(line){var h=lineH(line,p);var base=y+Math.min(h-2,(line.type==='section'?(p.section||9):(p.chart||10))+1.7);if(line.type==='songTitle'){var ts=fitTitleSize(line.text,p);out.push(svgText('song-title',line.text,x,base,ts,'Helvetica,Arial,sans-serif','700','#0e1318'));}else if(line.type==='meta')out.push(svgText('meta',line.text,x,base,p.meta||8.5,'Helvetica,Arial,sans-serif','400','#626f77'));else if(line.type==='section'){var w=Math.min(p.colW||500,Math.max(32,String(line.text||'').length*(p.section||9)*.66+14));out.push('<rect x="'+x+'" y="'+(y+1.4)+'" width="'+w+'" height="'+Math.max(7.5,(p.section||9)+4.1)+'" rx="3" fill="#eef2f4"/>');out.push(svgText('section',line.text,x+7,base,p.section||9,'Helvetica,Arial,sans-serif','700','#68737a'));}else if(line.type==='chord')out.push(svgText('chord',line.text,x,base,p.chord||9,'Courier,monospace','700',accent));else if(line.type==='lyric')out.push(svgText('lyric',line.text,x,base,p.chart||10,'Courier,monospace','400','#0e1318'));y+=h;});out.push('</g>');}out.push('</svg>');return out.join('');}
-  function renderPlanPages(plan){var accent=themeHex();var pages=plan.pages||[];return '<div class="wb8176-pdf-page-stack">'+pages.map(function(pg,idx){var svg=pg.type==='cover'?renderCoverSvg(pg,accent,plan):renderContentSvg(pg,plan,accent,idx);return '<div class="wb8176-pdf-page-shell"><div class="wb8176-pdf-page">'+svg+'</div><div class="wb8176-pdf-preview-count">Page '+(idx+1)+' of '+pages.length+'</div></div>';}).join('')+'</div>';}
-  function buildPackageFromPlan(plan){var blob=null;if(window.__wbDrawPdfPlan8174)blob=window.__wbDrawPdfPlan8174(plan);else if(window.__wbMakeExportFile8174)return window.__wbMakeExportFile8174(plan.context,plan.opts||{});else throw new Error('PDF engine unavailable');var filename=safeFileName(plan.title||'WorshipBase')+' - WorshipBase.pdf';var file=null;try{file=new File([blob],filename,{type:'application/pdf',lastModified:Date.now()});}catch(e){}return {blob:blob,file:file,filename:filename,title:plan.title||'WorshipBase',createdAt:Date.now()};}
-  function buildPlanAndPackage(ctx,opts){if(!window.__wbBuildPdfPlan8174)throw new Error('PDF planner unavailable');var plan=window.__wbBuildPdfPlan8174(ctx,opts||{});var pkg=buildPackageFromPlan(plan);window.__wbLastPdf=pkg;currentPlan=plan;currentPkg=pkg;return {plan:plan,pkg:pkg};}
-  function closePreviewViews(){try{document.querySelectorAll('#wb-pdf-preview-view,.wb-pdf-preview-view,#wb8175-pdf-preview-view,#wb8176-pdf-preview-view').forEach(function(v){v.classList.remove('open','needs-fallback');});}catch(e){}}
-  function ensurePreviewView(){var view=document.getElementById('wb8176-pdf-preview-view');if(!view){view=document.createElement('div');view.id='wb8176-pdf-preview-view';view.className='wb8176-pdf-preview-view';view.innerHTML='<div class="wb8176-pdf-preview-hdr"><button class="wb8176-pdf-preview-btn back" type="button" data-wb8176-pdf-back>Back</button><div class="wb8176-pdf-preview-title" data-wb8176-pdf-title>PDF Preview</div><button class="wb8176-pdf-preview-btn primary" type="button" data-wb8176-pdf-save>Save PDF</button></div><div class="wb8176-pdf-preview-scroll" data-wb8176-pdf-scroll><div class="wb8176-pdf-preview-loading" data-wb8176-pdf-loading>Preparing preview…</div><div class="wb8176-pdf-preview-fallback">Preview could not be shown. Save PDF still uses the named WorshipBase PDF file.</div><div data-wb8176-pdf-pages></div></div>';document.body.appendChild(view);var back=view.querySelector('[data-wb8176-pdf-back]');var save=view.querySelector('[data-wb8176-pdf-save]');if(back)back.addEventListener('click',function(){view.classList.remove('open','needs-fallback');});if(save)save.addEventListener('click',function(){saveCurrentPreviewPdf();});}return view;}
-  async function shareCleanPdfPackage(pkg){if(!pkg||!pkg.blob)return;var file=pkg.file;try{if(!file&&typeof File!=='undefined')file=new File([pkg.blob],pkg.filename||'WorshipBase.pdf',{type:'application/pdf',lastModified:Date.now()});}catch(e){}try{if(file&&navigator.share&&(!navigator.canShare||navigator.canShare({files:[file]}))){await navigator.share({files:[file]});if(typeof showToast==='function')showToast('PDF shared');return;}}catch(e){if(e&&e.name==='AbortError')return;try{console.warn(e);}catch(_e){}}var url=URL.createObjectURL(pkg.blob);var a=document.createElement('a');a.href=url;a.download=pkg.filename||'WorshipBase.pdf';a.target='_blank';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){try{URL.revokeObjectURL(url);}catch(e){}},60000);if(typeof showToast==='function')showToast('PDF downloaded');}
-  function saveCurrentPreviewPdf(){if(currentPkg)return shareCleanPdfPackage(currentPkg);if(window.__wbLastPdf)return shareCleanPdfPackage(window.__wbLastPdf);var ctx=currentContext(),opts=currentOptions();if(!validateContext(ctx))return;try{return shareCleanPdfPackage(buildPlanAndPackage(ctx,opts).pkg);}catch(e){if(typeof showToast==='function')showToast('Could not create PDF');}}
-  window.openPdfPreviewFromPage=function(){var ctx=currentContext();if(!validateContext(ctx))return;var opts=currentOptions();closePreviewViews();var view=ensurePreviewView();var title=view.querySelector('[data-wb8176-pdf-title]');var loading=view.querySelector('[data-wb8176-pdf-loading]');var pages=view.querySelector('[data-wb8176-pdf-pages]');var scroll=view.querySelector('[data-wb8176-pdf-scroll]');view.classList.remove('needs-fallback');view.classList.add('open');if(title)title.textContent=ctx==='song'?'Song PDF Preview':'Set List PDF Preview';if(pages)pages.innerHTML='';if(loading){loading.textContent='Preparing preview…';loading.style.display='flex';}if(scroll)scroll.scrollTop=0;setTimeout(function(){try{var built=buildPlanAndPackage(ctx,opts);if(pages)pages.innerHTML=renderPlanPages(built.plan);if(loading)loading.style.display='none';}catch(err){try{console.warn('PDF preview failed',err);}catch(e){}if(loading){loading.textContent='Preview could not be shown. Save PDF still uses the named file.';loading.style.display='flex';}view.classList.add('needs-fallback');}},20);};
-  window.previewPdfFromPage=window.openPdfPreviewFromPage;window.runExportFromPage=window.openPdfPreviewFromPage;window.sharePdfFromPage=function(){return window.openPdfPreviewFromPage();};window.shareLastPdf=function(){return shareCleanPdfPackage(window.__wbLastPdf||currentPkg);};try{previewPdfFromPage=window.previewPdfFromPage;runExportFromPage=window.runExportFromPage;sharePdfFromPage=window.sharePdfFromPage;shareLastPdf=window.shareLastPdf;}catch(e){}
-  function isExportFooterButton(btn){if(!btn||btn.closest('.wb8176-pdf-preview-view'))return false;var txt=(btn.textContent||'').trim();if(!(txt==='Save PDF'||txt==='Preview PDF'||txt==='Preview & Save'))return false;if(btn.closest('#export-view'))return true;var oc=String(btn.getAttribute('onclick')||'');return /runExportFromPage|previewPdfFromPage|sharePdfFromPage/.test(oc);}
-  function installActions(){try{document.querySelectorAll('#export-view .ev-footer button,button').forEach(function(btn){if(isExportFooterButton(btn))btn.setAttribute('onclick','previewPdfFromPage()');});}catch(e){}}
-  document.addEventListener('click',function(ev){var btn=ev.target&&ev.target.closest?ev.target.closest('button'):null;if(isExportFooterButton(btn)){ev.preventDefault();ev.stopPropagation();if(ev.stopImmediatePropagation)ev.stopImmediatePropagation();window.openPdfPreviewFromPage();return false;}},true);
-  var oldAudit=window.WBFullAudit;window.WBFullAudit=function(){var base={};try{base=typeof oldAudit==='function'?oldAudit():{};}catch(e){base={error:String(e&&e.message||e)};}base.version=VERSION;base.pdfPreviewV8176={allPages:true,fittedWidth:true,exportMenuSavePreviewsFirst:true,cleanShareFilesOnly:true,titleFitGuard:true,pdfLikeFonts:true};base.v82Cleanup={removedSupersededExportPreviewBlocks:true,centralVersionFallbacksUpdated:true};return base;};
-  function init(){syncVersion();installActions();[50,150,400,900,1800,3200].forEach(function(ms){setTimeout(function(){syncVersion();installActions();},ms);});}
-  document.addEventListener('click',function(){setTimeout(function(){syncVersion();installActions();},40);},true);
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+  function renderContentSvg(pg,plan,accent,pageIdx){var p=plan.profile||{};var out=[];out.push('<svg viewBox="0 0 '+PAGE_W+' '+PAGE_H+'" xmlns="http://www.w3.org/2000/svg">');out.push('<defs>');for(var cc=0;cc<(plan.cols||1);cc++){var cx=(p.margin||42)+cc*((p.colW||500)+(p.gap||20));out.push('<clipPath id="wbExportClip'+pageIdx+'_'+cc+'"><rect x="'+cx+'" y="0" width="'+(p.colW||500)+'" height="'+PAGE_H+'"/></clipPath>');}out.push('</defs><rect x="0" y="0" width="'+PAGE_W+'" height="'+PAGE_H+'" fill="#fff"/>');for(var c=0;c<(plan.cols||1);c++){var x=(p.margin||42)+c*((p.colW||500)+(p.gap||20));var y=p.margin||42;var col=(pg.cols&&pg.cols[c])||[];out.push('<g clip-path="url(#wbExportClip'+pageIdx+'_'+c+')">');col.forEach(function(line){var h=lineH(line,p);var base=y+Math.min(h-2,(line.type==='section'?(p.section||9):(p.chart||10))+1.7);if(line.type==='songTitle'){var ts=fitTitleSize(line.text,p);out.push(svgText('song-title',line.text,x,base,ts,'Helvetica,Arial,sans-serif','700','#0e1318'));}else if(line.type==='meta')out.push(svgText('meta',line.text,x,base,p.meta||8.5,'Helvetica,Arial,sans-serif','400','#626f77'));else if(line.type==='section'){var w=Math.min(p.colW||500,Math.max(32,String(line.text||'').length*(p.section||9)*.66+14));out.push('<rect x="'+x+'" y="'+(y+1.4)+'" width="'+w+'" height="'+Math.max(7.5,(p.section||9)+4.1)+'" rx="3" fill="#eef2f4"/>');out.push(svgText('section',line.text,x+7,base,p.section||9,'Helvetica,Arial,sans-serif','700','#68737a'));}else if(line.type==='chord')out.push(svgText('chord',line.text,x,base,p.chord||9,'Courier,monospace','700',accent));else if(line.type==='lyric')out.push(svgText('lyric',line.text,x,base,p.chart||10,'Courier,monospace','400','#0e1318'));y+=h;});out.push('</g>');}out.push('</svg>');return out.join('');}
+  function renderPlanPages(plan){var accent=themeHex();var pages=plan.pages||[];return '<div class="wb-export-pdf-page-stack">'+pages.map(function(pg,idx){var svg=pg.type==='cover'?renderCoverSvg(pg,accent,plan):renderContentSvg(pg,plan,accent,idx);return '<div class="wb-export-pdf-page-shell"><div class="wb-export-pdf-page">'+svg+'</div><div class="wb-export-pdf-preview-count">Page '+(idx+1)+' of '+pages.length+'</div></div>';}).join('')+'</div>';}
+  function buildPackageFromPlan(plan){if(!window.__wbExportDrawPlan)throw new Error('PDF engine unavailable');var blob=window.__wbExportDrawPlan(plan);var filename=safeFileName(plan.title||'WorshipBase')+' - WorshipBase.pdf';var file=null;try{file=new File([blob],filename,{type:'application/pdf',lastModified:Date.now()});}catch(e){}return {blob:blob,file:file,filename:filename,title:plan.title||'WorshipBase',createdAt:Date.now()};}
+  function buildPlanAndPackage(ctx,opts){if(!window.__wbExportBuildPlan)throw new Error('PDF planner unavailable');var plan=window.__wbExportBuildPlan(ctx,opts||{});var pkg=buildPackageFromPlan(plan);window.__wbLastPdf=pkg;currentPlan=plan;currentPkg=pkg;return {plan:plan,pkg:pkg};}
+  function ensurePreviewView(){var view=document.getElementById('wb-export-pdf-preview-view');if(!view){view=document.createElement('div');view.id='wb-export-pdf-preview-view';view.className='wb-export-pdf-preview-view';view.innerHTML='<div class="wb-export-pdf-preview-hdr"><button class="wb-export-pdf-preview-btn back" type="button" data-wb-export-pdf-back>Back</button><div class="wb-export-pdf-preview-title" data-wb-export-pdf-title>PDF Preview</div><button class="wb-export-pdf-preview-btn primary" type="button" data-wb-export-pdf-save>Save PDF</button></div><div class="wb-export-pdf-preview-scroll" data-wb-export-pdf-scroll><div class="wb-export-pdf-preview-loading" data-wb-export-pdf-loading>Preparing preview…</div><div class="wb-export-pdf-preview-fallback">Preview could not be shown. Save PDF still uses the named WorshipBase PDF file.</div><div data-wb-export-pdf-pages></div></div>';document.body.appendChild(view);var back=view.querySelector('[data-wb-export-pdf-back]');var save=view.querySelector('[data-wb-export-pdf-save]');if(back)back.addEventListener('click',function(){view.classList.remove('open','needs-fallback');});if(save)save.addEventListener('click',function(){saveCurrentPreviewPdf();});}return view;}
+  async function sharePdfPackage(pkg){if(!pkg||!pkg.blob)return;var file=pkg.file;try{if(!file&&typeof File!=='undefined')file=new File([pkg.blob],pkg.filename||'WorshipBase.pdf',{type:'application/pdf',lastModified:Date.now()});}catch(e){}try{if(file&&navigator.share&&(!navigator.canShare||navigator.canShare({files:[file]}))){await navigator.share({files:[file]});if(typeof showToast==='function')showToast('PDF shared');return;}}catch(e){if(e&&e.name==='AbortError')return;try{console.warn(e);}catch(_e){}}var url=URL.createObjectURL(pkg.blob);var a=document.createElement('a');a.href=url;a.download=pkg.filename||'WorshipBase.pdf';a.target='_blank';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){try{URL.revokeObjectURL(url);}catch(e){}},60000);if(typeof showToast==='function')showToast('PDF downloaded');}
+  function saveCurrentPreviewPdf(){if(currentPkg)return sharePdfPackage(currentPkg);if(window.__wbLastPdf)return sharePdfPackage(window.__wbLastPdf);var ctx=getContext(),opts=getOptions();if(!validateContext(ctx))return;try{return sharePdfPackage(buildPlanAndPackage(ctx,opts).pkg);}catch(e){if(typeof showToast==='function')showToast('Could not create PDF');}}
+  function openPreview(ctxOverride,optsOverride){var ctx=ctxOverride||getContext();if(!validateContext(ctx))return;var opts=optsOverride||getOptions();var view=ensurePreviewView();var title=view.querySelector('[data-wb-export-pdf-title]');var loading=view.querySelector('[data-wb-export-pdf-loading]');var pages=view.querySelector('[data-wb-export-pdf-pages]');var scroll=view.querySelector('[data-wb-export-pdf-scroll]');view.classList.remove('needs-fallback');view.classList.add('open');if(title)title.textContent=ctx==='song'?'Song PDF Preview':'Set List PDF Preview';if(pages)pages.innerHTML='';if(loading){loading.textContent='Preparing preview…';loading.style.display='flex';}if(scroll)scroll.scrollTop=0;setTimeout(function(){try{var built=buildPlanAndPackage(ctx,opts);if(pages)pages.innerHTML=renderPlanPages(built.plan);if(loading)loading.style.display='none';}catch(err){try{console.warn('PDF preview failed',err);}catch(e){}if(loading){loading.textContent='Preview could not be shown. Save PDF still uses the named file.';loading.style.display='flex';}view.classList.add('needs-fallback');}},20);}
+  function closePreview(){var view=document.getElementById('wb-export-pdf-preview-view');if(view)view.classList.remove('open','needs-fallback');}
+  function saveLastPdf(){return sharePdfPackage(window.__wbLastPdf||currentPkg);}
+  var API={getContext:getContext,getOptions:getOptions,buildPlanAndPackage:buildPlanAndPackage,openPreview:openPreview,closePreview:closePreview,saveCurrentPreviewPdf:saveCurrentPreviewPdf,saveLastPdf:saveLastPdf,renderPlanPages:renderPlanPages};
+  window.WBExport=API;
+  window.openPdfPreviewFromPage=function(){return API.openPreview();};
+  window.previewPdfFromPage=window.openPdfPreviewFromPage;
+  window.runExportFromPage=window.openPdfPreviewFromPage;
+  window.sharePdfFromPage=window.openPdfPreviewFromPage;
+  window.exportPDF=function(){return API.openPreview('song');};
+  window.exportAllPDF=function(){return API.openPreview('setlist');};
+  window.exportSongFromOptions=function(opts){return API.openPreview('song',opts||getOptions());};
+  window.exportSetListFromOptions=function(opts){return API.openPreview('setlist',opts||getOptions());};
+  window.shareLastPdf=API.saveLastPdf;
+  try{openPdfPreviewFromPage=window.openPdfPreviewFromPage;previewPdfFromPage=window.previewPdfFromPage;runExportFromPage=window.runExportFromPage;sharePdfFromPage=window.sharePdfFromPage;exportPDF=window.exportPDF;exportAllPDF=window.exportAllPDF;exportSongFromOptions=window.exportSongFromOptions;exportSetListFromOptions=window.exportSetListFromOptions;shareLastPdf=API.saveLastPdf;}catch(e){}
+  var oldAudit=window.WBFullAudit;window.WBFullAudit=function(){var base={};try{base=typeof oldAudit==='function'?oldAudit():{};}catch(e){base={error:String(e&&e.message||e)};}base.version=window.WB_VERSION||base.version||'82.4';base.exportSourceOfTruth={module:'WBExport',previewAllPages:true,saveFromPreview:true,fileOnlyShare:true,legacyAliases:['runExportFromPage','previewPdfFromPage','exportPDF','exportAllPDF']};return base;};
 })();
 </script>
 
-<!-- WorshipBase v82.3 - structured import renderer audit marker -->
+<!-- WorshipBase v82.4 - structured import renderer audit marker -->
 <script id="wb-v82-3-version-settings-cleanup-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.3');
-  window.WB_VERSION='82.3';
-  window.WB_VERSION_LABEL='Version 82.3';
-  window.WB_VERSION_TITLE='WorshipBase v82.3';
-  window.WB_CURRENT_VERSION='82.3';
+  var VERSION=(window.WB_VERSION||'82.4');
+  window.WB_VERSION='82.4';
+  window.WB_VERSION_LABEL='Version 82.4';
+  window.WB_VERSION_TITLE='WorshipBase v82.4';
+  window.WB_CURRENT_VERSION='82.4';
   function sync(){
     try{if(typeof window.WBSyncVersionLabels==='function')window.WBSyncVersionLabels();else{document.title='WorshipBase v'+VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label],[data-wb-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});}}catch(e){}
   }
