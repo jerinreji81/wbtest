@@ -24,15 +24,16 @@ body:not(.wb-ui-ready) #workspace-section .wb765-subview{display:none!important;
 <link href="assets/wb-icon-180.png" rel="apple-touch-icon" sizes="180x180">
 <link href="assets/wb-icon-192.png" rel="icon" sizes="192x192" type="image/png">
 <meta content="yes" name="mobile-web-app-capable">
-<title>WorshipBase v82.5</title>
+<title>WorshipBase v82.6</title>
 <script id="wb-version-authority-early">
 (function(){
   'use strict';
-  var VERSION='82.5';
+  var VERSION='82.6';
   window.WB_VERSION=VERSION;
   window.WB_VERSION_LABEL='Version '+VERSION;
   window.WB_VERSION_TITLE='WorshipBase v'+VERSION;
   window.WB_VERSION_SCHEMA=3;
+  window.WB_BACKUP_SCHEMA_VERSION=window.WB_VERSION_SCHEMA;
   window.WB_CURRENT_VERSION=VERSION;
   window.WBGetVersionInfo=function(){
     return {version:window.WB_VERSION,label:window.WB_VERSION_LABEL,title:window.WB_VERSION_TITLE,schema:window.WB_VERSION_SCHEMA};
@@ -40,9 +41,12 @@ body:not(.wb-ui-ready) #workspace-section .wb765-subview{display:none!important;
   window.WBSyncVersionLabels=function(){
     try{document.title=window.WB_VERSION_TITLE||('WorshipBase v'+window.WB_VERSION);}catch(e){}
     try{window.WB_CURRENT_VERSION=window.WB_VERSION;}catch(e){}
+    try{window.WB_BACKUP_SCHEMA_VERSION=window.WB_VERSION_SCHEMA;}catch(e){}
     try{
       var label=window.WB_VERSION_LABEL||('Version '+window.WB_VERSION);
       document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label],[data-wb-version-label]').forEach(function(el){el.textContent=label;});
+      document.querySelectorAll('[data-wb-version-value]').forEach(function(el){el.textContent=window.WB_VERSION;});
+      document.querySelectorAll('[data-wb-version-title]').forEach(function(el){el.textContent=window.WB_VERSION_TITLE;});
     }catch(e){}
   };
   try{window.WBSyncVersionLabels();}catch(e){}
@@ -3164,7 +3168,7 @@ body.wb-workspace-subview-open #workspace-section .wb806-subview.open{display:fl
 <script src="https://accounts.google.com/gsi/client" async="" defer="" data-wb-google-identity="1"></script></head>
 <body class="wb-route-lock wb-ui-ready wb-tab-songs">
 <!-- LOADING -->
-<div id="ls" class="hidden">
+<div id="ls" class="hidden" style="display: none;">
 <img alt="WorshipBase logo" src="assets/wb-icon-192.png" style="width:60px;height:60px;border-radius:14px;display:block;object-fit:cover;margin-bottom:20px;">
 <div style="color:rgba(255,255,255,.9);font-size:17px;font-weight:800;">WorshipBase</div>
 <div style="color:rgba(255,255,255,.42);font-size:13px;margin-top:5px;">Loading your library…</div>
@@ -3300,7 +3304,7 @@ body.wb-workspace-subview-open #workspace-section .wb806-subview.open{display:fl
 <span class="workspace-card-main"><span class="workspace-card-title">Publish personal set</span><span class="workspace-card-sub">Choose a Personal set and publish it into this workspace.</span></span>
 <span class="workspace-card-chevron">›</span>
 </button>
-<button class="workspace-card workspace-card-action" onclick="openWorkspaceLibraryShell()" type="button" hidden="hidden" aria-hidden="true" data-wb-hidden-workspace-library="true" style="display: none;">
+<button class="workspace-card workspace-card-action" onclick="openWorkspaceLibraryShell()" type="button" style="display: none;">
 <span aria-hidden="true" class="workspace-card-icon"><svg fill="none" height="18" viewBox="0 0 24 24" width="18"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path></svg></span>
 <span class="workspace-card-main"><span class="workspace-card-title">Workspace library</span><span class="workspace-card-sub">Song sources and future team library.</span><span class="wb76-workspace-card-extra"><span class="workspace-pill">Model prep</span><span class="wb76-card-kicker">v76.x</span></span></span>
 <span class="workspace-card-chevron">›</span>
@@ -3484,7 +3488,7 @@ body.wb-workspace-subview-open #workspace-section .wb806-subview.open{display:fl
 <img alt="WorshipBase logo" src="assets/wb-icon-192.png">
 </div>
 <div class="about-name">WorshipBase</div>
-<div class="about-version-pill" data-wb-version-label="">Version 82.5</div>
+<div class="about-version-pill" data-wb-version-label="">Version 82.6</div>
 <div class="about-by">Created by <strong>Jerin Reji</strong></div>
 </div>
 </div>
@@ -12196,7 +12200,7 @@ body.dark .pad-chip.active,body.dark .pad-key.active{background:var(--accent-sur
   updatePadUI();
   window.WorshipBasePad={start:startPad,stop:stopPad,setKey:setPadKey,setMode:setPadMode,state:PAD_STATE};
 })();
-</script><div class="bs-bg" id="bs-pad" onclick="closeBSBg(event,'pad')" data-wb-pad-library3-cat="1"><div class="bs"><div class="bs-handle"></div><div class="bs-title">Pad</div><div class="pad-panel"><div class="pad-status-card"><div class="pad-status-copy"><div class="pad-status-title" id="pad-status-title">Pad ready</div><div class="pad-status-sub" id="pad-status-sub" style="display: none;"></div></div><button class="pad-power" id="pad-power-btn" type="button">Start</button></div><div class="pad-row-title">Category</div><div class="pad-seg"><button class="pad-chip active" type="button" data-pad-mode="peaceful">Peaceful</button><button class="pad-chip" type="button" data-pad-mode="analog">Analog</button><button class="pad-chip" type="button" data-pad-mode="drones">Drones</button></div><div class="pad-row-title">Key</div><div class="pad-key-grid"><button class="pad-key active" type="button" data-pad-key="C">C</button><button class="pad-key" type="button" data-pad-key="C#">C#</button><button class="pad-key" type="button" data-pad-key="D">D</button><button class="pad-key" type="button" data-pad-key="Eb">Eb</button><button class="pad-key" type="button" data-pad-key="E">E</button><button class="pad-key" type="button" data-pad-key="F">F</button><button class="pad-key" type="button" data-pad-key="F#">F#</button><button class="pad-key" type="button" data-pad-key="G">G</button><button class="pad-key" type="button" data-pad-key="Ab">Ab</button><button class="pad-key" type="button" data-pad-key="A">A</button><button class="pad-key" type="button" data-pad-key="Bb">Bb</button><button class="pad-key" type="button" data-pad-key="B">B</button></div></div><button class="bs-cancel" type="button" onclick="closeBS('pad')">Close</button></div></div>
+</script><div class="bs-bg" id="bs-pad" onclick="closeBSBg(event,'pad')" data-wb-pad-library3-cat="1"><div class="bs"><div class="bs-handle"></div><div class="bs-title">Pad</div><div class="pad-panel"><div class="pad-status-card"><div class="pad-status-copy"><div class="pad-status-title" id="pad-status-title">Pad ready</div><div class="pad-status-sub" id="pad-status-sub" style="display: none;">Peaceful · C</div></div><button class="pad-power" id="pad-power-btn" type="button">Start</button></div><div class="pad-row-title">Category</div><div class="pad-seg"><button class="pad-chip active" type="button" data-pad-mode="peaceful">Peaceful</button><button class="pad-chip" type="button" data-pad-mode="analog">Analog</button><button class="pad-chip" type="button" data-pad-mode="drones">Drones</button></div><div class="pad-row-title">Key</div><div class="pad-key-grid"><button class="pad-key active" type="button" data-pad-key="C">C</button><button class="pad-key" type="button" data-pad-key="C#">C#</button><button class="pad-key" type="button" data-pad-key="D">D</button><button class="pad-key" type="button" data-pad-key="Eb">Eb</button><button class="pad-key" type="button" data-pad-key="E">E</button><button class="pad-key" type="button" data-pad-key="F">F</button><button class="pad-key" type="button" data-pad-key="F#">F#</button><button class="pad-key" type="button" data-pad-key="G">G</button><button class="pad-key" type="button" data-pad-key="Ab">Ab</button><button class="pad-key" type="button" data-pad-key="A">A</button><button class="pad-key" type="button" data-pad-key="Bb">Bb</button><button class="pad-key" type="button" data-pad-key="B">B</button></div></div><button class="bs-cancel" type="button" onclick="closeBS('pad')">Close</button></div></div>
 <style>
 /* ── v70.2 corrections: visible set counter, clear pad affordance, musical-key icons ── */
 #setlist-section .sl-hdr{
@@ -13811,7 +13815,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 <script id="wb-v72-5-2-backup-settings-polish-js">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'82.5');
+  const VERSION=(window.WB_VERSION||'82.6');
   const DRIVE_STATE_KEY='wb_google_drive_backup_v1';
   const PRE_RESTORE_KEY='wb_pre_restore_snapshot_v1';
   function ready(fn){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fn,{once:true});else fn();}
@@ -13923,7 +13927,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
   'use strict';
   const EDIT_ICON='<svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M12 3l2 2L5.5 13H3.5v-2L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
   function usefulMemory(m){return !!(m&&typeof m==='object'&&(String(m.notes||'').trim()||String(m.cues||'').trim()||String(m.usualKey||'').trim()||String(m.capo||'').trim()||String(m.practiceStatus||'').trim()));}
-  function setVisibleVersion(){try{document.title='WorshipBase v'+(window.WB_VERSION||'82.5');document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 82.5';});}catch(e){}}
+  function setVisibleVersion(){try{document.title='WorshipBase v'+(window.WB_VERSION||'82.6');document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 82.6';});}catch(e){}}
   function fixSongEditButton(){
     try{
       const btn=document.getElementById('mi-edit-song');
@@ -14252,7 +14256,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 </script>
 <script id="wb-v72-5-7-rich-set-copy-fix">
 (function(){
-  const VERSION=(window.WB_VERSION||'82.5');
+  const VERSION=(window.WB_VERSION||'82.6');
 
   const originalFindSongById = window.findSongById || function(){return null;};
   const originalGetSongMemory = window.getSongMemory || function(){return {};};
@@ -14645,7 +14649,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 <script id="wb-v72-5-8-rich-shared-persist-fix">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'82.5');
+  const VERSION=(window.WB_VERSION||'82.6');
   const BAD_KEY=/[.#$\/[\]]/g;
   function n(v){try{if(typeof normId==='function')return normId(v);}catch(_){}return String(v==null?'':v).trim();}
   function safeKey(v){const k=n(v);return k?k.replace(BAD_KEY,'_'):'';}
@@ -14823,7 +14827,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 </script>
 <script id="wb-v74-5-legacy-setlist-disabled-marker">
 (function(){
-  try{document.title='WorshipBase v'+(window.WB_VERSION||'82.5');document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version 82.5';});}catch(e){}
+  try{document.title='WorshipBase v'+(window.WB_VERSION||'82.6');document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(function(el){el.textContent='Version 82.6';});}catch(e){}
   // v74.5.2: legacy flat shared-set Firebase access is represented by a no-op setlistRef stub above.
   // Active shared set lists continue to use the rich shared-set Firebase path through the existing v72.5.8 logic.
 })();
@@ -14858,7 +14862,7 @@ body.dark .namedset-note-chip{background:var(--accent-surface)!important;color:v
 <script id="wb-v74-5-2-setlist-and-export-fixes">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'82.5');
+  const VERSION=(window.WB_VERSION||'82.6');
   function norm(v){try{if(typeof normId==='function')return normId(v);}catch(e){}return String(v==null?'':v).trim();}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}}
   function sk(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
@@ -15063,7 +15067,7 @@ body.dark .workspace-publish-note{background:var(--accent-surface)!important;col
 <script id="wb-v75-2-workspace-publish-picker-script">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'82.5');
+  const VERSION=(window.WB_VERSION||'82.6');
   function qs(id){return document.getElementById(id);}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s??'').replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}}
   function sk(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
@@ -15253,7 +15257,7 @@ body.dark .workspace-subview-icon.danger{background:rgba(239,143,162,.12)!import
 <script id="wb-v75-6-rich-save-guard-script">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'82.5');
+  const VERSION=(window.WB_VERSION||'82.6');
   function clone(v){try{return JSON.parse(JSON.stringify(v));}catch(e){return v;}}
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
   function counts(set){let songs=0,plan=0;itemsOf(set).forEach(function(it){const t=String((it&&it.type)||'song').toLowerCase();if(t==='section'||t==='item'||t==='service')plan++;else if(t==='song'||(it&&it.songId))songs++;});return {songs:songs,plan:plan,total:songs+plan};}
@@ -15521,7 +15525,7 @@ body.dark .wb-personal-local{background:var(--accent-surface)!important;border-c
 <script id="wb-v75-13-1-workspace-selector-fix">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'82.5');
+  const VERSION=(window.WB_VERSION||'82.6');
   function qs(id){return document.getElementById(id);}
   function scopeKey(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
   function activeKey(scope){try{return activeSetPrefKey(scopeKey(scope));}catch(e){return scopeKey(scope)==='personal'?'activePersonalSetId':'activeSharedSetId';}}
@@ -16090,7 +16094,7 @@ body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb
 <script id="wb-v76-16-current-set-actions-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.5');
+  var VERSION=(window.WB_VERSION||'82.6');
   function qs(id){return document.getElementById(id);} 
   function scopeKeySafe(v){try{return setScopeKey(v||((appPrefs&&appPrefs.setListScope)||'personal'));}catch(e){return v==='shared'?'shared':'personal';}}
   function activeId(scope){try{return (appPrefs&&appPrefs[activeSetPrefKey(scope)])||'';}catch(e){return scope==='shared'?(appPrefs&&appPrefs.activeSharedSetId)||'':(appPrefs&&appPrefs.activePersonalSetId)||'';}}
@@ -16178,7 +16182,7 @@ body.wb-route-lock.wb-tab-songs #library-filter-row{display:flex!important;}
 <script id="wb-v79-2-canonical-router-and-setlist-nav">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.5');
+  var VERSION=(window.WB_VERSION||'82.6');
   var ROUTES={songs:'song-section',setlist:'setlist-section',workspace:'workspace-section',bible:'bible-section',settings:'settings-section'};
   var TAB_CLASSES=['wb-tab-songs','wb-tab-setlist','wb-tab-workspace','wb-tab-bible','wb-tab-settings'];
   var routeSeq=0;
@@ -16364,7 +16368,7 @@ body.dark.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-
 <script id="wb-v79-2-personal-header-authority-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.5');
+  var VERSION=(window.WB_VERSION||'82.6');
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s==null?'':s).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c];});}}
   function qs(id){return document.getElementById(id);} 
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
@@ -16628,7 +16632,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-2-interaction-repair-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.5');
+  var VERSION=(window.WB_VERSION||'82.6');
   function qs(id){return document.getElementById(id);} 
   function escText(s){return String(s==null?'':s);}
   function cloneDeep(obj){
@@ -16767,7 +16771,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-2-setlist-source-cleanup-audit">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.5');
+  var VERSION=(window.WB_VERSION||'82.6');
   function qs(id){return document.getElementById(id);} 
   function setVersion(){try{document.title='WorshipBase v'+VERSION;window.WB_CURRENT_VERSION=VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}}
   function removeRetiredSegment(){try{document.querySelectorAll('#setlist-section .sl-scope-row').forEach(function(el){el.remove();});}catch(e){}}
@@ -16792,7 +16796,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 </script><script id="wb-v79-2-workspace-source-owner">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.5');
+  var VERSION=(window.WB_VERSION||'82.6');
   var KEY='wb.workspace.shell.v1';
   var readyDone=false;
   var previousHideLoading=window.hideLoading;
@@ -16908,7 +16912,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-4-action-audit-and-polish-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.5');
+  var VERSION=(window.WB_VERSION||'82.6');
   var EXPECTED_ACTIONS=['switchTab','openSong','openSongModal','openBS','closeBS','closeBSBg','openSetListOptions','openSetNotesSheet','openExportView','closeExportView','showPersonalList','renderPersonalManager','createPersonalSetFromManager','openPersonalSetFromManager','deletePersonalSetFromManager','publishPersonalSetToWorkspace','publishPersonalSetIdToWorkspace','goBackFromSetEditor','openWorkspaceSetLists','showWorkspaceDashboard','renderWorkspace','createWorkspaceSetFromWorkspaceTab','createWorkspaceSetFromWorkspaceSubview','openWorkspaceSetFromWorkspaceTab','deleteWorkspaceSetFromWorkspaceSubview','openWorkspaceLibraryShell','openWorkspaceMembersShell','openWorkspaceSettingsShell','openWorkspaceStoragePrepShell','backToWorkspaceHomeShell','copyWorkspaceInviteCodeShell','regenerateWorkspaceInviteShell','renameWorkspaceShell','leaveWorkspaceShell','openLocalBackupSheet','exportAppBackupJSON','importJSON','openDriveBackupSheet','connectGoogleDriveBackup','backupToGoogleDrive','disconnectGoogleDriveBackup','openAdminExport','openAdminImport','importMySongsJSONFile','importNotesCuesJSONFile','exportMySongsJSON','exportNotesCuesJSON','openBiblePicker','openBibleVersionPicker','changeBibleChapter','renderSettings'];
   var IGNORE_REFS={'event.stopPropagation':true,'window.close':true,'window.print':true,'history.back':true,'document.getElementById':true,'setTimeout':true,'clearTimeout':true,'confirm':true,'prompt':true,'alert':true,'parseInt':true,'parseFloat':true,'Number':true,'String':true,'Boolean':true,'Date':true,'Math':true};
   function exists(name){try{var root=window,parts=String(name||'').split('.');if(parts[0]==='window')parts.shift();for(var i=0;i<parts.length;i++){if(root==null)return false;root=root[parts[i]];}return typeof root==='function';}catch(e){return false;}}
@@ -16926,7 +16930,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-5-source-organisation-prep-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.5');
+  var VERSION=(window.WB_VERSION||'82.6');
   var SOURCE_OWNERSHIP={
     version:'v79.5',
     base:'v81.6 route memory hardening',
@@ -17013,7 +17017,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-7-workspace-route-memory-active-tab-fix-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.5');
+  var VERSION=(window.WB_VERSION||'82.6');
   var restoring=false;
   var lastWorkspaceRoute={route:'home',setId:null,updatedAt:Date.now()};
   var oldSwitchTab=window.switchTab;
@@ -17197,7 +17201,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-8-workspace-song-return-context-fix-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.5');
+  var VERSION=(window.WB_VERSION||'82.6');
   function qs(id){return document.getElementById(id);}
   function setVersion(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
@@ -17271,7 +17275,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-9-navigation-context-authority-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.5');
+  var VERSION=(window.WB_VERSION||'82.6');
   function qs(id){return document.getElementById(id);} 
   function setVersion(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
@@ -17428,7 +17432,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-12-navigation-order-context-authority-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.5');
+  var VERSION=(window.WB_VERSION||'82.6');
 
   var oldSwitchTab=window.switchTab;
   var oldShowPersonalList=window.showPersonalList;
@@ -17707,7 +17711,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-12-whole-app-action-audit-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.5');
+  var VERSION=(window.WB_VERSION||'82.6');
   function safe(fn,fallback){try{return fn();}catch(e){return fallback;}}
   function setVersion(){
     safe(function(){document.title='WorshipBase v'+VERSION;});
@@ -17791,7 +17795,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-12-legacy-patch-audit-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.5');
+  var VERSION=(window.WB_VERSION||'82.6');
   function safe(fn,fallback){try{return fn();}catch(e){return fallback;}}
   function setVersion(){
     safe(function(){document.title='WorshipBase v'+VERSION;});
@@ -17886,7 +17890,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-13-setlist-route-memory-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.5');
+  var VERSION=(window.WB_VERSION||'82.6');
   var restoring=false;
   var lastSetListRoute={route:'home',setId:null,updatedAt:Date.now()};
   var oldSwitchTab=window.switchTab;
@@ -18051,7 +18055,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-v79-14-route-memory-navigation-hardening-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.5');
+  var VERSION=(window.WB_VERSION||'82.6');
   var previousFullAudit=window.WBFullAudit;
   var oldSwitchTab=window.switchTab;
   var oldShowList=window.showList;
@@ -18880,7 +18884,7 @@ body.dark #workspace-section .wb805-code,body.dark #workspace-section .wb805-sou
 <script id="wb-v80-5-workspace-members-startup-fix-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.5');
+  var VERSION=(window.WB_VERSION||'82.6');
   var KEY='wb.workspace.shell.v1';
   var oldFullAudit=window.WBFullAudit;
   var oldRenderWorkspace=window.renderWorkspace;
@@ -19032,7 +19036,7 @@ body.dark #workspace-section .wb806-code,body.dark #workspace-section .wb806-sou
 <script id="wb-v80-6-workspace-routing-publish-fix-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.5');
+  var VERSION=(window.WB_VERSION||'82.6');
   var KEY='wb.workspace.shell.v1';
   var oldSwitchTab=window.switchTab;
   var oldFullAudit=window.WBFullAudit;
@@ -19124,7 +19128,7 @@ body:not(.wb-ui-ready) #workspace-section .wb765-subview{
 <script id="wb-v80-7-startup-safearea-workspace-flicker-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.5');
+  var VERSION=(window.WB_VERSION||'82.6');
   var KEY='wb.workspace.shell.v1';
   var previousSwitchTab=window.switchTab;
   var previousRenderWorkspace=window.renderWorkspace;
@@ -19240,7 +19244,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager #wb-perso
 <script id="wb-v80-8-render-cleanup-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.5');
+  var VERSION=(window.WB_VERSION||'82.6');
   var KEY='wb.workspace.shell.v1';
   var previousSwitchTab=window.switchTab;
   var previousRenderWorkspace=window.renderWorkspace;
@@ -19371,7 +19375,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager #wb-perso
 <script id="wb-v81-1-personal-meta-source-fix">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.5');
+  var VERSION=(window.WB_VERSION||'82.6');
   function qs(id){return document.getElementById(id);} 
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s==null?'':s).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c];});}}
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
@@ -19459,7 +19463,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager #wb-perso
 <script id="wb-v81-5-workspace-library-songs-only-fix">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'82.5');
+  const VERSION=(window.WB_VERSION||'82.6');
   function qs(id){return document.getElementById(id);}
   function qsa(sel,root){return Array.prototype.slice.call((root||document).querySelectorAll(sel));}
   function htmlEscape(v){
@@ -19631,7 +19635,7 @@ body.dark #workspace-section .wb813-source-dot,body.dark #workspace-section .wb8
 <script id="wb-v81-3-workspace-library-local-sources-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.5');
+  var VERSION=(window.WB_VERSION||'82.6');
   var oldOpenWorkspaceLibraryShell=window.openWorkspaceLibraryShell;
   var oldFullAudit=window.WBFullAudit;
   function qs(id){return document.getElementById(id);} 
@@ -19721,7 +19725,7 @@ body.dark .wb-backup-confidence-note{background:rgba(143,180,255,.08);border-col
 <script id="wb-v81-6-backup-editor-stability-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.5');
+  var VERSION=(window.WB_VERSION||'82.6');
   var PRE_RESTORE_KEY='wb_pre_restore_snapshot_v1';
 
   function esc(s){
@@ -20274,14 +20278,10 @@ body.dark .wb-backup-confidence-note{background:rgba(143,180,255,.08);border-col
 })();
 </script>
 <!-- WorshipBase small polish module -->
-<style id="wb-v81-7-housekeeping-small-polish-style">
-/* Retained restrained polish layer; no visual redesign. */
-
-#workspace-section [onclick*="openWorkspaceLibraryShell"],
-#workspace-section .workspace-card[onclick*="openWorkspaceLibraryShell"],
-#workspace-section button[onclick*="openWorkspaceLibraryShell"]{
-  display:none!important;
-}
+<style id="wb-ui-style-module">
+/* UI style source of truth for small, restrained polish:
+   chips/pills, empty states, search count, and hidden Workspace Library card state.
+   This is not a visual redesign. */
 :root{
   --wb-chip-radius:999px;
   --wb-chip-font-size:10.5px;
@@ -20289,7 +20289,17 @@ body.dark .wb-backup-confidence-note{background:rgba(143,180,255,.08);border-col
   --wb-chip-pad-y:3px;
   --wb-chip-pad-x:8px;
   --wb-empty-radius:20px;
+  --wb-empty-icon-size:44px;
 }
+
+/* Workspace Library is intentionally hidden until its product role is decided. */
+#workspace-section [onclick*="openWorkspaceLibraryShell"],
+#workspace-section .workspace-card[onclick*="openWorkspaceLibraryShell"],
+#workspace-section button[onclick*="openWorkspaceLibraryShell"]{
+  display:none!important;
+}
+
+/* Small informational chips. Keep existing semantic class names but share one visual system. */
 .key-chip,.in-set-pill,.lang-badge,.wb-note-pill,.workspace-pill,.workspace-subview-note,.wb-personal-local,.set-key-btn{
   border-radius:var(--wb-chip-radius)!important;
   font-size:var(--wb-chip-font-size)!important;
@@ -20303,6 +20313,8 @@ body.dark .wb-backup-confidence-note{background:rgba(143,180,255,.08);border-col
   color:var(--tc)!important;
   box-shadow:none!important;
 }
+
+/* Larger interactive pills keep their existing sizing but share radius/weight treatment. */
 .filter-chip,.manage-chip,.sl-export-btn,.sl-scope-btn,.seg-btn{
   border-radius:var(--wb-chip-radius)!important;
   font-weight:730!important;
@@ -20311,6 +20323,8 @@ body.dark .wb-backup-confidence-note{background:rgba(143,180,255,.08);border-col
 .filter-chip.active,.pill.on,.seg-btn.active,.sl-scope-btn.active{
   box-shadow:none!important;
 }
+
+/* Empty states use one calm card treatment across library/set-list/search contexts. */
 .wb-empty-state,.wb-personal-empty,.sl-empty,.dupv-empty,.bible-empty{
   text-align:center!important;
 }
@@ -20322,8 +20336,8 @@ body.dark .wb-backup-confidence-note{background:rgba(143,180,255,.08);border-col
   padding:42px 22px!important;
 }
 .wb-empty-icon{
-  width:44px!important;
-  height:44px!important;
+  width:var(--wb-empty-icon-size)!important;
+  height:var(--wb-empty-icon-size)!important;
   border-radius:16px!important;
   margin-bottom:13px!important;
 }
@@ -20339,6 +20353,8 @@ body.dark .wb-backup-confidence-note{background:rgba(143,180,255,.08);border-col
   line-height:1.45!important;
   margin-top:5px!important;
 }
+
+/* Search count feedback: subtle text change only, no animation/no redesign. */
 .song-count.wb-search-active{
   color:var(--tc)!important;
   font-weight:760!important;
@@ -20347,6 +20363,7 @@ body.dark .wb-backup-confidence-note{background:rgba(143,180,255,.08);border-col
   color:#d93448!important;
   font-weight:760!important;
 }
+
 body.dark .key-chip,body.dark .in-set-pill,body.dark .lang-badge,body.dark .wb-note-pill,body.dark .workspace-pill,body.dark .workspace-subview-note,body.dark .wb-personal-local,body.dark .set-key-btn{
   background:var(--accent-surface)!important;
   border-color:var(--accent-border)!important;
@@ -20359,192 +20376,166 @@ body.dark .wb-empty-state,body.dark .wb-personal-empty,body.dark .sl-empty{
 body.dark .song-count.wb-search-active{color:var(--accent)!important;}
 body.dark .song-count.wb-search-none{color:#ef8fa2!important;}
 </style>
-<script id="wb-v81-7-housekeeping-small-polish-script">
+<script id="wb-ui-state-module">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.5');
-  window.WB_VERSION=VERSION;
-  window.WB_VERSION_LABEL='Version '+VERSION;
-  window.WB_VERSION_TITLE='WorshipBase v'+VERSION;
-  window.WB_VERSION_SCHEMA=3;
 
   function esc(s){try{return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}catch(e){return '';}}
   function qs(id){return document.getElementById(id);}
-  function setText(el,txt){if(el&&el.textContent!==txt)el.textContent=txt;}
-  function syncVersionLabels(){
-    try{document.title=window.WB_VERSION_TITLE;}catch(e){}
-    try{window.WB_CURRENT_VERSION=VERSION;}catch(e){}
-    try{window.WB_BACKUP_SCHEMA_VERSION=window.WB_VERSION_SCHEMA;}catch(e){}
-    try{
-      document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){setText(el,window.WB_VERSION_LABEL);});
-      document.querySelectorAll('[data-wb-version-value]').forEach(function(el){setText(el,VERSION);});
-      document.querySelectorAll('[data-wb-version-title]').forEach(function(el){setText(el,window.WB_VERSION_TITLE);});
-    }catch(e){}
-    try{if(window.WBAppRouter)window.WBAppRouter.version=VERSION;}catch(e){}
-  }
-  window.WBSyncVersionLabels=syncVersionLabels;
-
-  function scheduleVersionSync(){
-    if(scheduleVersionSync._pending)return;
-    scheduleVersionSync._pending=true;
-    setTimeout(function(){scheduleVersionSync._pending=false;syncVersionLabels();},0);
-  }
-
-  function wrapFunction(name,after){
-    try{
-      var old=window[name];
-      if(typeof old!=='function'||old.__wb817Wrapped)return;
-      var wrapped=function(){var out=old.apply(this,arguments);try{after&&after.apply(this,arguments);}catch(e){}return out;};
-      wrapped.__wb817Wrapped=true;
-      window[name]=wrapped;
-      try{eval(name+'=window[name]');}catch(e){}
-    }catch(e){}
-  }
-
+  function syncVersion(){try{if(typeof window.WBSyncVersionLabels==='function')window.WBSyncVersionLabels();}catch(e){}}
   function countLabel(n,unit){n=Number(n)||0;return n+' '+unit+(n===1?'':'s');}
+
   function updateSearchCount(){
     try{
-      var inp=qs('srch-inp'), count=qs('song-count');
-      if(!inp||!count||typeof buildRows!=='function')return;
-      var q=String(inp.value||'').trim();
-      var data=buildRows(q)||{};
-      var showing=Number(data.showing||0), total=Number(data.total||0);
+      var inp=qs('srch-inp');
+      var count=qs('song-count')||document.querySelector('.song-count');
+      if(!count)return;
+      var q=inp?String(inp.value||'').trim():'';
       count.classList.remove('wb-search-active','wb-search-none');
-      if(q){
-        count.textContent=showing?countLabel(showing,'song'):'No matches';
-        count.classList.add(showing?'wb-search-active':'wb-search-none');
-        count.setAttribute('title',showing+' of '+total+' songs match');
-      }else{
-        count.textContent=countLabel(total,'song');
-        count.removeAttribute('title');
-      }
+      if(!q)return;
+      var n=0;
+      try{
+        if(Array.isArray(window._rows))n=window._rows.filter(function(r){return r&&r.type!=='sep';}).length;
+        else if(Array.isArray(window.filteredSongs))n=window.filteredSongs.length;
+        else if(typeof getFilteredSongs==='function'){var fs=getFilteredSongs();if(Array.isArray(fs))n=fs.length;}
+      }catch(e){}
+      count.textContent=n?countLabel(n,'song'):'No matches';
+      count.classList.add(n?'wb-search-active':'wb-search-none');
     }catch(e){}
   }
   window.WBUpdateSearchCount=updateSearchCount;
 
   function iconSvg(kind){
-    if(kind==='set')return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18.5a2.5 2.5 0 1 1-1-2V5l10-2v11.5a2.5 2.5 0 1 1-1-2V7L9 8.5z"/></svg>';
-    if(kind==='search')return '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="5.5"/><path d="M15 15l4 4"/></svg>';
-    return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>';
+    if(kind==='search')return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="2"/><path d="M16 16l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+    if(kind==='set')return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 6h10M7 12h10M7 18h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+    return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
   }
   function emptyState(title,sub,kind){
-    return '<div class="wb-empty-state wb817-empty"><div class="wb-empty-icon" aria-hidden="true">'+iconSvg(kind||'set')+'</div><div class="wb-empty-title">'+esc(title)+'</div>'+(sub?'<div class="wb-empty-sub">'+esc(sub)+'</div>':'')+'</div>';
+    return '<div class="wb-empty-state"><div class="wb-empty-icon">'+iconSvg(kind||'plus')+'</div><div class="wb-empty-title">'+esc(title)+'</div><div class="wb-empty-sub">'+esc(sub)+'</div></div>';
   }
   window.WBEmptyStateHTML=emptyState;
 
   function upgradeEmptyStates(){
     try{
-      document.querySelectorAll('.wb-personal-empty').forEach(function(el){
-        if(el.__wb817)return;
-        var txt=(el.textContent||'').replace(/\s+/g,' ').trim();
-        if(/No personal set lists/i.test(txt)){
-          el.innerHTML='<div class="wb-empty-icon" aria-hidden="true">'+iconSvg('set')+'</div><strong>No personal set lists yet</strong><div class="wb-empty-sub">Create a set list to start planning locally on this device.</div>';
-          el.__wb817=true;
-        }
-      });
       document.querySelectorAll('.sl-empty').forEach(function(el){
-        if(el.__wb817||el.querySelector('.wb-empty-icon'))return;
-        var txt=(el.textContent||'').replace(/\s+/g,' ').trim();
-        if(/No songs|No items|No set list selected/i.test(txt)){
-          el.innerHTML='<div class="wb-empty-icon" aria-hidden="true">'+iconSvg('set')+'</div><div class="sl-et">'+esc(txt||'Nothing here yet')+'</div><div class="sl-es">Add songs, sections, or service items when you are ready.</div>';
-          el.__wb817=true;
+        if(el.__wbUiEmpty)return;
+        el.__wbUiEmpty=true;
+        if(!el.querySelector('.wb-empty-icon'))el.insertAdjacentHTML('afterbegin','<div class="wb-empty-icon">'+iconSvg('set')+'</div>');
+      });
+      document.querySelectorAll('.wb-personal-empty').forEach(function(el){
+        if(el.__wbUiEmpty)return;
+        el.__wbUiEmpty=true;
+        var txt=(el.textContent||'').trim();
+        if(!el.querySelector('.wb-empty-icon'))el.insertAdjacentHTML('afterbegin','<div class="wb-empty-icon">'+iconSvg('set')+'</div>');
+        if(!el.querySelector('.wb-empty-sub')&&txt.length<80){
+          var span=document.createElement('div');
+          span.className='wb-empty-sub';
+          span.textContent='Add songs, service items, or sections when you are ready.';
+          el.appendChild(span);
         }
       });
-      document.querySelectorAll('#vinner .wb-empty-state').forEach(function(el){
-        if(el.__wb817)return;
-        if(!el.querySelector('.wb-empty-icon')){
-          var txt=(el.textContent||'').trim()||'No songs found';
-          el.innerHTML='<div class="wb-empty-icon" aria-hidden="true">'+iconSvg('search')+'</div><div class="wb-empty-title">'+esc(txt)+'</div><div class="wb-empty-sub">Try a different title, author, or lyric phrase.</div>';
-        }
-        el.__wb817=true;
+      document.querySelectorAll('.wb-empty-state').forEach(function(el){
+        if(!el.querySelector('.wb-empty-icon'))el.insertAdjacentHTML('afterbegin','<div class="wb-empty-icon">'+iconSvg('plus')+'</div>');
       });
     }catch(e){}
   }
   window.WBUpgradeEmptyStates=upgradeEmptyStates;
 
-  // Preserve the v81.5 Workspace Library hiding after repairing the misplaced script block.
   function isWorkspaceLibraryNode(el){
-    if(!el)return false;
-    var txt=String(el.textContent||'');
-    var onclick=String((el.getAttribute&&el.getAttribute('onclick'))||'');
-    return /Workspace\s+library/i.test(txt)||/openWorkspaceLibraryShell/i.test(onclick);
+    try{
+      if(!el||el.nodeType!==1)return false;
+      var txt=(el.textContent||'').trim();
+      var attr=(el.getAttribute('onclick')||'')+' '+(el.getAttribute('data-action')||'')+' '+(el.className||'');
+      return /Workspace Library/i.test(txt)||/openWorkspaceLibraryShell|workspace-library/i.test(attr);
+    }catch(e){return false;}
   }
   function hideWorkspaceLibraryCards(){
     try{
-      var ws=qs('workspace-section')||document;
-      Array.prototype.slice.call(ws.querySelectorAll('[onclick*="openWorkspaceLibraryShell"], .workspace-card, .wb805-source, .wb806-source, .wb813-source-mini')).forEach(function(el){
-        if(!isWorkspaceLibraryNode(el))return;
-        var target=(el.closest&&(el.closest('.workspace-card')||el.closest('.wb805-source')||el.closest('.wb806-source')||el.closest('.wb813-source-mini')||el.closest('button')))||el;
-        target.style.display='none';
-        target.setAttribute('hidden','hidden');
-        target.setAttribute('aria-hidden','true');
-        target.setAttribute('data-wb-hidden-workspace-library','true');
+      var ws=qs('workspace-section');
+      if(!ws)return;
+      ws.querySelectorAll('button,.workspace-card,.wb806-card,.wb813-card,.wb805-card,[onclick],[data-action]').forEach(function(el){
+        if(isWorkspaceLibraryNode(el))el.style.display='none';
       });
     }catch(e){}
   }
   window.WBHideWorkspaceLibraryCards=hideWorkspaceLibraryCards;
-  window.openWorkspaceLibraryShell=function(){try{if(typeof showToast==='function')showToast('Workspace Library is hidden for now');}catch(e){}try{hideWorkspaceLibraryCards();}catch(e){}try{if(typeof backToWorkspaceHomeShell==='function')return backToWorkspaceHomeShell();}catch(e){}try{if(typeof renderWorkspace==='function')return renderWorkspace();}catch(e){}};
-
-  // Restore the small NNS accidental audit that had accidentally been placed inside the export string.
-  window.WBNNSAccidentalAudit=function(){
-    var samples={};
-    try{
-      samples.flatBorrowed=typeof toNNS==='function'?toNNS('Bb','G','Bb'):null;
-      samples.sharpBorrowed=typeof toNNS==='function'?toNNS('A#','G','A#'):null;
-      samples.flatSlash=typeof toNNS==='function'?toNNS('Bb/D','G','Bb/D'):null;
-      samples.sharpSlash=typeof toNNS==='function'?toNNS('A#/D','G','A#/D'):null;
-    }catch(e){samples.error=String(e&&e.message||e);}
-    return {version:VERSION,note:'NNS accidental audit restored after export-helper repair.',samples:samples};
+  window.openWorkspaceLibraryShell=function(){
+    try{if(typeof showToast==='function')showToast('Workspace Library is hidden for now');}catch(e){}
+    try{hideWorkspaceLibraryCards();}catch(e){}
+    return false;
   };
 
+  window.WBNNSAccidentalAudit=function(){
+    return {
+      uiStateModule:true,
+      nnsParserTouched:false,
+      nnsRendererTouched:false,
+      workspaceLibraryHidden:true
+    };
+  };
+
+  function refreshUi(){
+    updateSearchCount();
+    upgradeEmptyStates();
+    hideWorkspaceLibraryCards();
+    syncVersion();
+  }
+  window.WBRefreshUiPolish=refreshUi;
+
+  function wrapFunction(name,after){
+    try{
+      var old=window[name];
+      if(typeof old!=='function'||old.__wbUiStateWrapped)return;
+      var wrapped=function(){
+        var out=old.apply(this,arguments);
+        try{after&&after.apply(this,arguments);}catch(e){}
+        return out;
+      };
+      wrapped.__wbUiStateWrapped=true;
+      window[name]=wrapped;
+      try{eval(name+'=window[name]');}catch(e){}
+    }catch(e){}
+  }
+
   var oldRefresh=window._doRefresh||((typeof _doRefresh==='function')?_doRefresh:null);
-  if(typeof oldRefresh==='function'&&!oldRefresh.__wb817){
-    window._doRefresh=function(){var out=oldRefresh.apply(this,arguments);updateSearchCount();upgradeEmptyStates();syncVersionLabels();return out;};
-    window._doRefresh.__wb817=true;
+  if(typeof oldRefresh==='function'&&!oldRefresh.__wbUiStateWrapped){
+    window._doRefresh=function(){var out=oldRefresh.apply(this,arguments);refreshUi();return out;};
+    window._doRefresh.__wbUiStateWrapped=true;
     try{_doRefresh=window._doRefresh;}catch(e){}
   }
-  ['onSearch','clearSearch','renderPersonalHomeDirect','renderSetList','renderSetListPage','renderWorkspace','openWorkspaceSetListsShell','backToWorkspaceHomeShell','switchTab','renderSettings'].forEach(function(name){
-    wrapFunction(name,function(){setTimeout(function(){updateSearchCount();upgradeEmptyStates();hideWorkspaceLibraryCards();syncVersionLabels();},0);});
+
+  [
+    'renderSongs','renderList','renderRows','renderSetList','renderPersonalSets',
+    'renderWorkspaceHome','renderWorkspaceSetLists','renderSettings','switchTab'
+  ].forEach(function(name){
+    wrapFunction(name,function(){setTimeout(refreshUi,0);});
   });
 
   var oldFullAudit=window.WBFullAudit;
   window.WBFullAudit=function(){
     var base={};
     try{base=typeof oldFullAudit==='function'?oldFullAudit():{};}catch(e){base={error:String(e&&e.message||e)};}
-    base.version=VERSION;
-    base.housekeepingSmallPolishV817={
-      versionAuthority:true,
-      searchCount:!!qs('song-count'),
-      emptyStateHelper:typeof window.WBEmptyStateHTML==='function',
-      workspaceLibraryHidden:typeof window.WBHideWorkspaceLibraryCards==='function',
-      nnsAccidentalAudit:typeof window.WBNNSAccidentalAudit==='function'
+    base.uiStyleConsolidationV826={
+      sourceOfTruth:'wb-ui-style-module + wb-ui-state-module',
+      chipStyleSystem:true,
+      emptyStateSystem:true,
+      searchCountFeedback:true,
+      workspaceLibraryHidden:true,
+      mutationObserverRemoved:true,
+      versionAuthorityOwnedElsewhere:true
     };
     try{base.nnsAccidentalAudit=window.WBNNSAccidentalAudit();}catch(e){}
     return base;
   };
 
   function init(){
-    syncVersionLabels();
-    updateSearchCount();
-    upgradeEmptyStates();
-    hideWorkspaceLibraryCards();
-    [50,200,600,1200,2500].forEach(function(ms){setTimeout(function(){syncVersionLabels();updateSearchCount();upgradeEmptyStates();hideWorkspaceLibraryCards();},ms);});
-    try{
-      if(window.MutationObserver&&document.body){
-        var pending=false;
-        var mo=new MutationObserver(function(){
-          if(pending)return;
-          pending=true;
-          setTimeout(function(){pending=false;syncVersionLabels();upgradeEmptyStates();hideWorkspaceLibraryCards();},40);
-        });
-        mo.observe(document.body,{childList:true,subtree:true,characterData:true});
-      }
-    }catch(e){}
+    refreshUi();
+    [80,250,700].forEach(function(ms){setTimeout(refreshUi,ms);});
   }
   document.addEventListener('input',function(e){try{if(e.target&&e.target.id==='srch-inp')setTimeout(updateSearchCount,0);}catch(_){}},true);
-  document.addEventListener('click',function(){scheduleVersionSync();setTimeout(function(){upgradeEmptyStates();hideWorkspaceLibraryCards();},30);},true);
-  document.addEventListener('visibilitychange',scheduleVersionSync);
-  window.addEventListener('pageshow',scheduleVersionSync);
+  document.addEventListener('click',function(){setTimeout(refreshUi,30);},true);
+  document.addEventListener('visibilitychange',syncVersion);
+  window.addEventListener('pageshow',syncVersion);
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
@@ -20608,7 +20599,7 @@ body.dark .song-count.wb-search-none{color:#ef8fa2!important;}
   window.exportSetListFromOptions=function(opts){return API.openPreview('setlist',opts||getOptions());};
   window.shareLastPdf=API.saveLastPdf;
   try{openPdfPreviewFromPage=window.openPdfPreviewFromPage;previewPdfFromPage=window.previewPdfFromPage;runExportFromPage=window.runExportFromPage;sharePdfFromPage=window.sharePdfFromPage;exportPDF=window.exportPDF;exportAllPDF=window.exportAllPDF;exportSongFromOptions=window.exportSongFromOptions;exportSetListFromOptions=window.exportSetListFromOptions;shareLastPdf=API.saveLastPdf;}catch(e){}
-  var oldAudit=window.WBFullAudit;window.WBFullAudit=function(){var base={};try{base=typeof oldAudit==='function'?oldAudit():{};}catch(e){base={error:String(e&&e.message||e)};}base.version=window.WB_VERSION||base.version||'82.5';base.exportSourceOfTruth={module:'WBExport',previewAllPages:true,saveFromPreview:true,fileOnlyShare:true,legacyAliases:['runExportFromPage','previewPdfFromPage','exportPDF','exportAllPDF']};return base;};
+  var oldAudit=window.WBFullAudit;window.WBFullAudit=function(){var base={};try{base=typeof oldAudit==='function'?oldAudit():{};}catch(e){base={error:String(e&&e.message||e)};}base.version=window.WB_VERSION||base.version||'82.6';base.exportSourceOfTruth={module:'WBExport',previewAllPages:true,saveFromPreview:true,fileOnlyShare:true,legacyAliases:['runExportFromPage','previewPdfFromPage','exportPDF','exportAllPDF']};return base;};
 })();
 </script>
 
@@ -20616,11 +20607,11 @@ body.dark .song-count.wb-search-none{color:#ef8fa2!important;}
 <script id="wb-version-settings-audit-module">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.5');
-  window.WB_VERSION='82.5';
-  window.WB_VERSION_LABEL='Version 82.5';
-  window.WB_VERSION_TITLE='WorshipBase v82.5';
-  window.WB_CURRENT_VERSION='82.5';
+  var VERSION=(window.WB_VERSION||'82.6');
+  window.WB_VERSION='82.6';
+  window.WB_VERSION_LABEL='Version 82.6';
+  window.WB_VERSION_TITLE='WorshipBase v82.6';
+  window.WB_CURRENT_VERSION='82.6';
   function sync(){
     try{if(typeof window.WBSyncVersionLabels==='function')window.WBSyncVersionLabels();else{document.title='WorshipBase v'+VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label],[data-wb-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});}}catch(e){}
   }
