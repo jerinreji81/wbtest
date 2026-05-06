@@ -24,11 +24,11 @@ body:not(.wb-ui-ready) #workspace-section .wb765-subview{display:none!important;
 <link href="assets/wb-icon-180.png" rel="apple-touch-icon" sizes="180x180">
 <link href="assets/wb-icon-192.png" rel="icon" sizes="192x192" type="image/png">
 <meta content="yes" name="mobile-web-app-capable">
-<title>WorshipBase v82.21</title>
+<title>WorshipBase v83.0.1</title>
 <script id="wb-version-authority-early">
 (function(){
   'use strict';
-  var VERSION='82.21';
+  var VERSION='83.0.1';
   window.WB_VERSION=VERSION;
   window.WB_VERSION_LABEL='Version '+VERSION;
   window.WB_VERSION_TITLE='WorshipBase v'+VERSION;
@@ -3167,7 +3167,7 @@ body.wb-workspace-subview-open #workspace-section .wb806-subview.open{display:fl
 
 
 <style id="wb-sheet-component-targeted-style">
-/* v82.21 targeted fixes: increase only the Song options handle hit target.
+/* v83.0.1 targeted fixes: increase only the Song options handle hit target.
    The visual handle remains the same size; the touch target is larger. */
 #bs-songmenu .bs-handle{
   position:relative!important;
@@ -3505,7 +3505,7 @@ body.wb-workspace-subview-open #workspace-section .wb806-subview.open{display:fl
 <img alt="WorshipBase logo" src="assets/wb-icon-192.png">
 </div>
 <div class="about-name">WorshipBase</div>
-<div class="about-version-pill" data-wb-version-label="">Version 82.21</div>
+<div class="about-version-pill" data-wb-version-label="">Version 83.0.1</div>
 <div class="about-by">Created by <strong>Jerin Reji</strong></div>
 </div>
 </div>
@@ -3567,10 +3567,10 @@ body.wb-workspace-subview-open #workspace-section .wb806-subview.open{display:fl
 <div class="ev-hdr">
 <div class="ev-top">
 <button class="ev-nav-btn" onclick="closeExportView()" type="button">Back</button>
-<div class="ev-title">Export PDF</div>
-<button class="ev-act-btn" onclick="runExportFromPage()" type="button">Export</button>
+<div class="ev-title">Preview PDF</div>
+<button class="ev-act-btn" onclick="runExportFromPage()" type="button">Preview</button>
 </div>
-<div class="ev-sub">Create a clean, selectable text PDF for rehearsal, stage, or compact distribution. Choose flow, columns, and text size, then export.</div>
+<div class="ev-sub">Create a clean, selectable text PDF preview for rehearsal, stage, or compact distribution. Choose flow, columns, and text size, then save from the preview.</div>
 </div>
 <div class="ev-scroll">
 <div class="ev-sec">
@@ -3668,8 +3668,7 @@ body.wb-workspace-subview-open #workspace-section .wb806-subview.open{display:fl
 </div>
 <div class="ev-footer">
 <button class="ev-ghost" onclick="closeExportView()" type="button">Cancel</button>
-<button class="ev-ghost" onclick="previewPdfFromPage()" type="button">Preview PDF</button>
-<button class="ev-primary" onclick="runExportFromPage()" type="button">Save PDF</button>
+<button class="ev-primary" onclick="previewPdfFromPage()" type="button">Preview PDF</button>
 </div>
 </div>
 </div>
@@ -4260,7 +4259,7 @@ line 18 | Hold / pause"></textarea>
     if(now-setAddCommitStamp<650)return false;
     setAddCommitStamp=now;
     try{
-      /* v82.21: commit immediately while the focused notes textarea is still live.
+      /* v83.0.1: commit immediately while the focused notes textarea is still live.
          Blurring before save is what allowed iOS/HTML viewer to dismiss the keyboard/sheet
          before saveSetAddItem() could read and commit the note. */
       if(typeof window.saveSetAddItem==='function')window.saveSetAddItem();
@@ -4323,7 +4322,7 @@ line 18 | Hold / pause"></textarea>
     if(ctx.scope!=='shared'||!ctx.set){toast('Open a Workspace set first');return;}
     try{if(typeof closeBS==='function')closeBS('setoptions');}catch(e){}
 
-    /* v82.21 source cleanup:
+    /* v83.0.1 source cleanup:
        Set Options no longer owns a separate prompt-based Workspace → Personal copy flow.
        It delegates to the shared transfer review bottom sheet used by Publish. */
     setTimeout(function(){
@@ -5385,7 +5384,7 @@ function closeAllBS(){
 function closeBSBg(e,name){
   const bg=document.getElementById('bs-'+name);
   if(e.target!==bg)return;
-  /* v82.21: if the service-item note textarea is focused, a first outside tap
+  /* v83.0.1: if the service-item note textarea is focused, a first outside tap
      may be the iOS keyboard-dismiss tap. Do not close and lose the entered note. */
   if(name==='setadd'){
     const ae=document.activeElement;
@@ -11886,7 +11885,62 @@ window.__wbPdfEngine='paged-preview-v67.6-deterministic';
     const css=`html,body{margin:0;padding:0;background:#f3f6f8;color:#101820;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',Arial,sans-serif;overflow-x:hidden}.bar{position:sticky;top:0;z-index:10;box-sizing:border-box;width:100%;display:flex;align-items:center;gap:12px;padding:calc(env(safe-area-inset-top,0px) + 10px) 14px 10px;background:rgba(255,255,255,.96);border-bottom:1px solid #dfe6ea;backdrop-filter:blur(12px)}.bar .info{flex:1;min-width:0}.bar strong{display:block;font-size:16px}.bar span{font-size:12px;color:#64727a;line-height:1.35}.bar button{border:0;border-radius:999px;padding:10px 14px;font-size:13px;font-weight:800}.back{background:#eef3f6;color:#385362}.save{background:${accent};color:#fff}.pages{display:flex;flex-direction:column;align-items:center;gap:16px;padding:16px 10px 28px}.page{width:min(100%,760px);aspect-ratio:210/297;background:#fff;box-shadow:0 10px 32px rgba(16,55,74,.15);box-sizing:border-box;padding:${p.margin/595.28*100}%;overflow:hidden}.content{display:grid;grid-template-columns:${plan.cols===2?'1fr 1fr':'1fr'};gap:${plan.cols===2?'4%':'0'};height:100%}.line{white-space:pre;overflow:hidden;text-overflow:clip}.songTitle{font-size:${p.title*1.28}px;line-height:1.1;font-weight:850;letter-spacing:-.02em}.meta{font-size:${p.meta*1.28}px;color:#64727a}.section span{display:inline-block;background:#eef2f4;border-radius:5px;padding:2px 7px;font-size:${p.section*1.22}px;color:#66727a;font-weight:850;letter-spacing:.1em}.chord{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-weight:850;color:${accent};font-size:${p.chord*1.24}px}.lyric{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:${p.chart*1.24}px}.cover h1{font-size:30px;margin:0 0 8px;color:${accent}}.cover p{font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:#6b7780;font-weight:750}.cover ol{list-style:none;padding:0;margin:20px 0}.cover li{display:flex;gap:10px;border-bottom:1px solid #e6ecef;padding:8px 0}.cover b{flex:1}.cover em{font-style:normal;font-weight:850;color:${accent}}`;
     function renderLine(line){const h=lineHeight(line,p); if(line.type==='spacer'||line.type==='songGap')return `<div style="height:${h*1.28}px"></div>`; if(line.type==='section')return `<div class="line section" style="height:${h*1.28}px"><span>${esc(line.text)}</span></div>`; return `<div class="line ${line.type}" style="height:${h*1.28}px">${esc(line.text)}</div>`;}
     const pages=plan.pages.map(pg=>{ if(pg.type==='cover'){return `<section class="page cover"><h1>${esc(pg.title)}</h1><p>${pg.items.length} songs · ${(plan.opts.exportFlow==='page'?'One song / page':'Continuous')} · ${(plan.cols===2?'Two-column':'Single column')}</p><ol>${pg.items.map(it=>`<li><span>${String(it.n).padStart(2,'0')}</span><b>${esc(it.title)}</b><em>${esc(it.key)}</em></li>`).join('')}</ol></section>`} return `<section class="page"><div class="content">${pg.cols.map(col=>`<div>${col.map(renderLine).join('')}</div>`).join('')}</div></section>`;}).join('');
-    return `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>WorshipBase PDF preview</title><style>${css}</style></head><body><div class="bar"><button class="back" onclick="window.close();try{history.back()}catch(e){}">Back</button><div class="info"><strong>PDF preview</strong><span>${esc(plan.opts.exportFlow==='page'?'One song / page':'Continuous')} · ${plan.cols===2?'Two-column':'Single column'} · ${esc(plan.opts.exportFont||'standard')}<br>Download uses WorshipBase PDF engine - no browser URL/date stamps.</span></div><button class="save" onclick="try{window.opener.__wbSavePdfPlan('${planId}')}catch(e){alert('Return to the app and export again.')} ">Download PDF</button></div><main class="pages">${pages}</main></body></html>`;
+    return `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>WorshipBase PDF preview</title><style>${css}</style>
+
+
+<style id="wb-dark-mode-polish-v83-style">
+/* v83.0.1 Dark Mode Polish: visual-only dark-mode consistency pass. */
+body.dark{
+  --bg1:#0f141a;--bg2:#171d24;--bg3:#202733;
+  --txt1:#f2f5f7;--txt2:#bac4cf;--txt3:#85919f;
+  --bdr:rgba(255,255,255,.075);--bdr2:rgba(255,255,255,.105);
+  --surface-tint:rgba(255,255,255,.045);--surface-tint-strong:rgba(255,255,255,.070);--surface-border:rgba(255,255,255,.095);
+  --shadow-sm:0 1px 4px rgba(0,0,0,.24);--shadow-md:0 8px 24px rgba(0,0,0,.32);--shadow-lg:0 16px 44px rgba(0,0,0,.42);
+  --hdr-bg:#111820;--accent:#a9c4ff;--accent-strong:#85a9fb;
+  --accent-surface:rgba(169,196,255,.130);--accent-surface-strong:rgba(169,196,255,.180);--accent-border:rgba(169,196,255,.260);
+  --chord-color:#bdd0ff;--chord-highlight-bg:rgba(169,196,255,.145);--chord-highlight-glow:transparent;--chord-highlight-border:transparent;
+}
+body.dark,body.dark #list-view,body.dark #song-view,body.dark #bible-section{background:var(--bg1);color:var(--txt1);}
+body.dark .hdr{background:linear-gradient(180deg,#121b24,#101720);}
+body.dark .tab-bar{background:rgba(15,20,26,.96);border-top-color:rgba(255,255,255,.075);box-shadow:0 -10px 26px rgba(0,0,0,.18);}
+body.dark .tab-btn{color:var(--txt3);} body.dark .tab-btn.active,body.dark .tab-btn.active .tab-lbl{color:var(--accent);}
+body.dark .srch-wrap{background:linear-gradient(to bottom,rgba(255,255,255,.025),var(--bg1));}
+body.dark .srch-row,body.dark .bible-combo,body.dark .key-pill,body.dark .seg-bar,body.dark .size-pill{background:rgba(255,255,255,.035);border-color:rgba(255,255,255,.085);box-shadow:none;}
+body.dark .srch-inp,body.dark .bible-sel,body.dark .sv-sel,body.dark .m-body input,body.dark .m-body textarea,body.dark .m-body select{background:rgba(255,255,255,.045);border-color:rgba(255,255,255,.090);color:var(--txt1);}
+body.dark .srch-inp:focus,body.dark .m-body input:focus,body.dark .m-body textarea:focus,body.dark .m-body select:focus{border-color:var(--accent-border);box-shadow:0 0 0 1.5px rgba(169,196,255,.16);}
+body.dark .song-count{background:rgba(255,255,255,.045);border-color:rgba(255,255,255,.085);color:var(--txt2);}
+body.dark .song-item,body.dark .set-item,body.dark .workspace-card,body.dark .workspace-subview-card,body.dark .wb-personal-card,body.dark .ss-card,body.dark .dup-card,body.dark .bible-version-item{background:rgba(255,255,255,.030);border-color:rgba(255,255,255,.075);box-shadow:none;}
+body.dark .song-item:active:not(.swiped-r):not(.swiped-l),body.dark .set-item:active:not(.is-dragging),body.dark .workspace-card:active,body.dark .workspace-subview-card:active,body.dark .wb-personal-card:active{background:rgba(255,255,255,.060)!important;}
+body.dark .song-avatar,body.dark .workspace-card-icon{background:rgba(255,255,255,.050)!important;border-color:rgba(255,255,255,.075)!important;color:var(--txt3)!important;}
+body.dark .song-title,body.dark .set-title,body.dark .workspace-card-title,body.dark .workspace-subview-name,body.dark .wb-personal-name,body.dark .sv-title,body.dark .bible-heading{color:var(--txt1);}
+body.dark .song-meta,body.dark .set-meta,body.dark .set-key-note,body.dark .workspace-card-sub,body.dark .workspace-subview-meta,body.dark .wb-personal-card-meta,body.dark .sv-author,body.dark .sv-orig-key{color:var(--txt3);}
+body.dark .workspace-hero,body.dark .workspace-subview-head,body.dark .wb-personal-head,body.dark .settings-card,body.dark .backup-card{background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.025));border-color:rgba(255,255,255,.085);box-shadow:none;}
+body.dark .pill,body.dark .filter-chip,body.dark .manage-chip,body.dark .sl-export-btn,body.dark .set-key-btn,body.dark .key-chip,body.dark .in-set-pill,body.dark .lang-badge,body.dark .set-lang-badge,body.dark .workspace-pill,body.dark .wb-transfer-pill{background:rgba(169,196,255,.105);border-color:rgba(169,196,255,.185);color:#d4e0ff;box-shadow:none;}
+body.dark .pill.on,body.dark .filter-chip.active,body.dark .seg-btn.active,body.dark .editor-mode-btn.active,body.dark .sl-scope-btn.active{background:rgba(169,196,255,.165);border-color:rgba(169,196,255,.260);color:var(--accent);box-shadow:none;}
+body.dark .set-item .lang-badge,body.dark .wb-personal-card .lang-badge,body.dark .workspace-subview-card .lang-badge,body.dark .set-item .set-lang-badge,body.dark .wb-personal-card .set-lang-badge,body.dark .workspace-subview-card .set-lang-badge{background:rgba(255,255,255,.065)!important;color:var(--txt3)!important;border:none!important;}
+body.dark .bs-bg{background:rgba(0,0,0,.58);}
+body.dark .bs{background:#141a22;border-top-color:rgba(255,255,255,.085);box-shadow:0 -18px 54px rgba(0,0,0,.48);}
+body.dark .bs-handle{background:rgba(255,255,255,.45);opacity:.30;}
+body.dark .mi{border-top-color:rgba(255,255,255,.065);color:var(--txt1);} body.dark .mi:active{background:rgba(255,255,255,.055);}
+body.dark .bs-cancel,body.dark .m-close,body.dark .back-btn,body.dark .menu-btn,body.dark .mini-step,body.dark .bible-nav-btn{background:rgba(255,255,255,.050);border-color:rgba(255,255,255,.090);color:var(--txt2);}
+body.dark .bs-cancel:active,body.dark .m-close:active,body.dark .back-btn:active,body.dark .menu-btn:active{background:rgba(255,255,255,.075);}
+body.dark .sv-hdr,body.dark .sv-ctrls{background:rgba(15,20,26,.96);border-color:rgba(255,255,255,.075);}
+body.dark .sheet{background:var(--bg1);} body.dark .sec-lbl{background:rgba(255,255,255,.060);color:var(--txt3);}
+body.dark .sheet.chords-highlight .chord-token,body.dark .preview-body.chords-highlight .chord-token{background:var(--chord-highlight-bg);}
+body.dark .performance-mode .sv-hdr{background:rgba(15,20,26,.88);border-bottom-color:rgba(255,255,255,.070);}
+body.dark .pres-section-chip{background:rgba(20,26,34,.86);border-color:rgba(255,255,255,.090);color:var(--txt2);}
+body.dark .pres-section-chip.active{background:rgba(169,196,255,.18);border-color:rgba(169,196,255,.28);color:var(--accent);}
+body.dark .sl-empty,body.dark .empty-chart,body.dark .bible-empty{color:var(--txt3);}
+body.dark .empty-chart-btn,body.dark .add-fab,body.dark .filter-chip.active,body.dark .manage-chip.primary{background:var(--accent-surface-strong);border-color:var(--accent-border);color:var(--accent);}
+body.dark .wb-transfer-card,body.dark .wb-copy-summary-cell{background:rgba(255,255,255,.035);border-color:rgba(255,255,255,.085);}
+body.dark .wb-transfer-action{background:rgba(255,255,255,.055);border-color:rgba(255,255,255,.090);color:var(--txt1);}
+body.dark .wb-transfer-action.primary{background:rgba(169,196,255,.165);border-color:rgba(169,196,255,.260);color:var(--accent);}
+body.dark .export-grid,body.dark .export-row,body.dark .preview-wrap{border-color:rgba(255,255,255,.085);}
+body.dark .preview-body{background:rgba(255,255,255,.020);}
+body.dark button:focus-visible,body.dark input:focus-visible,body.dark textarea:focus-visible,body.dark select:focus-visible{outline:2px solid rgba(169,196,255,.34);outline-offset:2px;}
+</style>
+
+</head><body><div class="bar"><button class="back" onclick="window.close();try{history.back()}catch(e){}">Back</button><div class="info"><strong>PDF preview</strong><span>${esc(plan.opts.exportFlow==='page'?'One song / page':'Continuous')} · ${plan.cols===2?'Two-column':'Single column'} · ${esc(plan.opts.exportFont||'standard')}<br>Download uses WorshipBase PDF engine - no browser URL/date stamps.</span></div><button class="save" onclick="try{window.opener.__wbSavePdfPlan('${planId}')}catch(e){alert('Return to the app and export again.')} ">Download PDF</button></div><main class="pages">${pages}</main></body></html>`;
   }
   window.__wbPdfPlans=window.__wbPdfPlans||{};
   window.__wbSavePdfPlan=function(id){
@@ -12401,7 +12455,7 @@ body.dark .pad-chip.active,body.dark .pad-key.active{background:var(--accent-sur
   updatePadUI();
   window.WorshipBasePad={start:startPad,stop:stopPad,setKey:setPadKey,setMode:setPadMode,state:PAD_STATE};
 })();
-</script><div class="bs-bg" id="bs-pad" onclick="closeBSBg(event,'pad')" data-wb-pad-library3-cat="1"><div class="bs"><div class="bs-handle"></div><div class="bs-title">Pad</div><div class="pad-panel"><div class="pad-status-card"><div class="pad-status-copy"><div class="pad-status-title" id="pad-status-title">Pad ready</div><div class="pad-status-sub" id="pad-status-sub" style="display: none;">Peaceful · C</div></div><button class="pad-power" id="pad-power-btn" type="button">Start</button></div><div class="pad-row-title">Category</div><div class="pad-seg"><button class="pad-chip active" type="button" data-pad-mode="peaceful">Peaceful</button><button class="pad-chip" type="button" data-pad-mode="analog">Analog</button><button class="pad-chip" type="button" data-pad-mode="drones">Drones</button></div><div class="pad-row-title">Key</div><div class="pad-key-grid"><button class="pad-key active" type="button" data-pad-key="C">C</button><button class="pad-key" type="button" data-pad-key="C#">C#</button><button class="pad-key" type="button" data-pad-key="D">D</button><button class="pad-key" type="button" data-pad-key="Eb">Eb</button><button class="pad-key" type="button" data-pad-key="E">E</button><button class="pad-key" type="button" data-pad-key="F">F</button><button class="pad-key" type="button" data-pad-key="F#">F#</button><button class="pad-key" type="button" data-pad-key="G">G</button><button class="pad-key" type="button" data-pad-key="Ab">Ab</button><button class="pad-key" type="button" data-pad-key="A">A</button><button class="pad-key" type="button" data-pad-key="Bb">Bb</button><button class="pad-key" type="button" data-pad-key="B">B</button></div></div><button class="bs-cancel" type="button" onclick="closeBS('pad')">Close</button></div></div>
+</script><div class="bs-bg" id="bs-pad" onclick="closeBSBg(event,'pad')" data-wb-pad-library3-cat="1"><div class="bs"><div class="bs-handle"></div><div class="bs-title">Pad</div><div class="pad-panel"><div class="pad-status-card"><div class="pad-status-copy"><div class="pad-status-title" id="pad-status-title">Pad ready</div><div class="pad-status-sub" id="pad-status-sub" style="display: none;"></div></div><button class="pad-power" id="pad-power-btn" type="button">Start</button></div><div class="pad-row-title">Category</div><div class="pad-seg"><button class="pad-chip active" type="button" data-pad-mode="peaceful">Peaceful</button><button class="pad-chip" type="button" data-pad-mode="analog">Analog</button><button class="pad-chip" type="button" data-pad-mode="drones">Drones</button></div><div class="pad-row-title">Key</div><div class="pad-key-grid"><button class="pad-key active" type="button" data-pad-key="C">C</button><button class="pad-key" type="button" data-pad-key="C#">C#</button><button class="pad-key" type="button" data-pad-key="D">D</button><button class="pad-key" type="button" data-pad-key="Eb">Eb</button><button class="pad-key" type="button" data-pad-key="E">E</button><button class="pad-key" type="button" data-pad-key="F">F</button><button class="pad-key" type="button" data-pad-key="F#">F#</button><button class="pad-key" type="button" data-pad-key="G">G</button><button class="pad-key" type="button" data-pad-key="Ab">Ab</button><button class="pad-key" type="button" data-pad-key="A">A</button><button class="pad-key" type="button" data-pad-key="Bb">Bb</button><button class="pad-key" type="button" data-pad-key="B">B</button></div></div><button class="bs-cancel" type="button" onclick="closeBS('pad')">Close</button></div></div>
 <style>
 /* ── v70.2 corrections: visible set counter, clear pad affordance, musical-key icons ── */
 #setlist-section .sl-hdr{
@@ -13376,7 +13430,7 @@ body.dark #live-tool-cues.has-cues::after{background:var(--accent);box-shadow:0 
     function maybeClearBeforeControl(e){
       var target=e.target&&e.target.closest&&e.target.closest(selector);
       if(!target)return;
-      /* v82.21: do not blur the service-item notes textarea before the Add button
+      /* v83.0.1: do not blur the service-item notes textarea before the Add button
          has a chance to commit. The set planning owner commits this button directly. */
       try{
         var active=document.activeElement;
@@ -14020,7 +14074,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 <script id="wb-backup-settings-card-script">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'82.21');
+  const VERSION=(window.WB_VERSION||'83.0.1');
   const DRIVE_STATE_KEY='wb_google_drive_backup_v1';
   const PRE_RESTORE_KEY='wb_pre_restore_snapshot_v1';
   function ready(fn){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fn,{once:true});else fn();}
@@ -14132,7 +14186,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
   'use strict';
   const EDIT_ICON='<svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M12 3l2 2L5.5 13H3.5v-2L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
   function usefulMemory(m){return !!(m&&typeof m==='object'&&(String(m.notes||'').trim()||String(m.cues||'').trim()||String(m.usualKey||'').trim()||String(m.capo||'').trim()||String(m.practiceStatus||'').trim()));}
-  function setVisibleVersion(){try{document.title='WorshipBase v'+(window.WB_VERSION||'82.21');document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 82.21';});}catch(e){}}
+  function setVisibleVersion(){try{document.title='WorshipBase v'+(window.WB_VERSION||'83.0.1');document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 83.0.1';});}catch(e){}}
   function fixSongEditButton(){
     try{
       const btn=document.getElementById('mi-edit-song');
@@ -14462,7 +14516,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 <script id="wb-setlist-model-module">
 /* Source of truth for rich set-list model; consolidated from previous v72.5.7/v72.5.8 layers. */
 (function(){
-  const VERSION=(window.WB_VERSION||'82.21');
+  const VERSION=(window.WB_VERSION||'83.0.1');
 
   const originalFindSongById = window.findSongById || function(){return null;};
   const originalGetSongMemory = window.getSongMemory || function(){return {};};
@@ -14853,7 +14907,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 })();
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'82.21');
+  const VERSION=(window.WB_VERSION||'83.0.1');
   const BAD_KEY=/[.#$\/[\]]/g;
   function n(v){try{if(typeof normId==='function')return normId(v);}catch(_){}return String(v==null?'':v).trim();}
   function safeKey(v){const k=n(v);return k?k.replace(BAD_KEY,'_'):'';}
@@ -15028,7 +15082,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
   }catch(e){console.warn('v72.5.8 shared listener hardening failed',e);}
   try{document.title='WorshipBase v'+VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(el=>{el.textContent='Version '+VERSION;});}catch(_){}
 })();
-(function(){'use strict';function call(n,args,fallback){return typeof window[n]==='function'?window[n].apply(window,args||[]):fallback;}window.WBSetListModel={version:window.WB_VERSION||'82.21',normalizeItems:function(items){return call('normalizeSetArray',[items||[]],items||[]);},normalizeNamedSets:function(raw,label){return call('normalizeNamedSetMap',[raw||{},label],raw||{});},saveShared:function(){return call('saveSharedSetsToFB',[],undefined);},modSetList:function(items,scope){return call('modSetList',[items,scope],undefined);},copyActiveSetToOtherScope:function(){return call('copyActiveSetToOtherScope',[],undefined);},findSong:function(id){return call('findSongById',[id],null);},audit:function(){return {version:window.WB_VERSION||'82.21',hasNormalizeSetArray:typeof window.normalizeSetArray==='function',hasNormalizeNamedSetMap:typeof window.normalizeNamedSetMap==='function',hasModSetList:typeof window.modSetList==='function',hasSaveSharedSetsToFB:typeof window.saveSharedSetsToFB==='function',hasCopyActiveSetToOtherScope:typeof window.copyActiveSetToOtherScope==='function'};}};})();
+(function(){'use strict';function call(n,args,fallback){return typeof window[n]==='function'?window[n].apply(window,args||[]):fallback;}window.WBSetListModel={version:window.WB_VERSION||'83.0.1',normalizeItems:function(items){return call('normalizeSetArray',[items||[]],items||[]);},normalizeNamedSets:function(raw,label){return call('normalizeNamedSetMap',[raw||{},label],raw||{});},saveShared:function(){return call('saveSharedSetsToFB',[],undefined);},modSetList:function(items,scope){return call('modSetList',[items,scope],undefined);},copyActiveSetToOtherScope:function(){return call('copyActiveSetToOtherScope',[],undefined);},findSong:function(id){return call('findSongById',[id],null);},audit:function(){return {version:window.WB_VERSION||'83.0.1',hasNormalizeSetArray:typeof window.normalizeSetArray==='function',hasNormalizeNamedSetMap:typeof window.normalizeNamedSetMap==='function',hasModSetList:typeof window.modSetList==='function',hasSaveSharedSetsToFB:typeof window.saveSharedSetsToFB==='function',hasCopyActiveSetToOtherScope:typeof window.copyActiveSetToOtherScope==='function'};}};})();
 </script>
 
 <style id="wb-setlist-export-polish-style">
@@ -15061,7 +15115,7 @@ body.dark .namedset-note-chip{background:var(--accent-surface)!important;color:v
 <script id="wb-setlist-export-fixes-script">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'82.21');
+  const VERSION=(window.WB_VERSION||'83.0.1');
   function norm(v){try{if(typeof normId==='function')return normId(v);}catch(e){}return String(v==null?'':v).trim();}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}}
   function sk(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
@@ -15215,7 +15269,7 @@ body.dark .namedset-note-chip{background:var(--accent-surface)!important;color:v
 
 
 <style id="wb-workspace-home-card-base-style">
-/* v82.21 — restored from Working-v82.10.7.
+/* v83.0.1 — restored from Working-v82.10.7.
    This is the missing base Workspace home/card style that later formatting layers expected.
    It restores the full-width card rhythm, flex layout, icon/text/chevron structure, and original page/card spacing. */
 /* v75.1 — Workspace tab shell. Set List/storage logic intentionally unchanged from v74.5.2. */
@@ -15350,7 +15404,7 @@ body.dark .workspace-subview-icon.danger{background:rgba(239,143,162,.12)!import
 <script id="wb-setlist-rich-save-guard-module">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'82.21');
+  const VERSION=(window.WB_VERSION||'83.0.1');
   function clone(v){try{return JSON.parse(JSON.stringify(v));}catch(e){return v;}}
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
   function counts(set){let songs=0,plan=0;itemsOf(set).forEach(function(it){const t=String((it&&it.type)||'song').toLowerCase();if(t==='section'||t==='item'||t==='service')plan++;else if(t==='song'||(it&&it.songId))songs++;});return {songs:songs,plan:plan,total:songs+plan};}
@@ -15591,7 +15645,7 @@ body.dark .wb-personal-local{background:var(--accent-surface)!important;border-c
 <script id="wb-workspace-selector-fix-script">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'82.21');
+  const VERSION=(window.WB_VERSION||'83.0.1');
   function qs(id){return document.getElementById(id);}
   function scopeKey(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
   function activeKey(scope){try{return activeSetPrefKey(scopeKey(scope));}catch(e){return scopeKey(scope)==='personal'?'activePersonalSetId':'activeSharedSetId';}}
@@ -16076,7 +16130,7 @@ body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb
 <script id="wb-current-set-actions-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.21');
+  var VERSION=(window.WB_VERSION||'83.0.1');
   function qs(id){return document.getElementById(id);} 
   function scopeKeySafe(v){try{return setScopeKey(v||((appPrefs&&appPrefs.setListScope)||'personal'));}catch(e){return v==='shared'?'shared':'personal';}}
   function activeId(scope){try{return (appPrefs&&appPrefs[activeSetPrefKey(scope)])||'';}catch(e){return scope==='shared'?(appPrefs&&appPrefs.activeSharedSetId)||'':(appPrefs&&appPrefs.activePersonalSetId)||'';}}
@@ -16156,7 +16210,7 @@ body.wb-route-lock.wb-tab-songs #library-filter-row{display:flex!important;}
 <script id="wb-canonical-router-setlist-nav-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.21');
+  var VERSION=(window.WB_VERSION||'83.0.1');
   var ROUTES={songs:'song-section',setlist:'setlist-section',workspace:'workspace-section',bible:'bible-section',settings:'settings-section'};
   var TAB_CLASSES=['wb-tab-songs','wb-tab-setlist','wb-tab-workspace','wb-tab-bible','wb-tab-settings'];
   var routeSeq=0;
@@ -16342,7 +16396,7 @@ body.dark.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-
 <script id="wb-personal-header-authority-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.21');
+  var VERSION=(window.WB_VERSION||'83.0.1');
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s==null?'':s).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c];});}}
   function qs(id){return document.getElementById(id);} 
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
@@ -16590,7 +16644,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-interaction-repair-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.21');
+  var VERSION=(window.WB_VERSION||'83.0.1');
   function qs(id){return document.getElementById(id);} 
   function escText(s){return String(s==null?'':s);}
   function cloneDeep(obj){
@@ -16729,7 +16783,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-setlist-source-audit-module">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.21');
+  var VERSION=(window.WB_VERSION||'83.0.1');
   function qs(id){return document.getElementById(id);} 
   function setVersion(){try{document.title='WorshipBase v'+VERSION;window.WB_CURRENT_VERSION=VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}}
   function removeRetiredSegment(){try{document.querySelectorAll('#setlist-section .sl-scope-row').forEach(function(el){el.remove();});}catch(e){}}
@@ -16742,7 +16796,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 </script><script id="wb-workspace-router-module">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.21');
+  var VERSION=(window.WB_VERSION||'83.0.1');
   var KEY='wb.workspace.shell.v1';
   var readyDone=false;
   var previousHideLoading=window.hideLoading;
@@ -16860,7 +16914,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-workspace-song-return-context-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.21');
+  var VERSION=(window.WB_VERSION||'83.0.1');
   function qs(id){return document.getElementById(id);}
   function setVersion(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
@@ -16931,7 +16985,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-navigation-context-authority-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.21');
+  var VERSION=(window.WB_VERSION||'83.0.1');
   function qs(id){return document.getElementById(id);} 
   function setVersion(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
@@ -17077,7 +17131,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-navigation-order-context-authority-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.21');
+  var VERSION=(window.WB_VERSION||'83.0.1');
 
   var oldSwitchTab=window.switchTab;
   var oldShowPersonalList=window.showPersonalList;
@@ -17369,7 +17423,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-workspace-tab-controller-module">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.21');
+  var VERSION=(window.WB_VERSION||'83.0.1');
   var lastWorkspaceEntryAt=0;
   var lastWorkspaceAction='';
   var suppressDuplicateUntil=0;
@@ -17431,7 +17485,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-route-memory-navigation-hardening-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.21');
+  var VERSION=(window.WB_VERSION||'83.0.1');
   var previousFullAudit=window.WBFullAudit;
   var oldSwitchTab=window.switchTab;
   var oldShowList=window.showList;
@@ -18250,7 +18304,7 @@ body.dark #workspace-section .wb805-code,body.dark #workspace-section .wb805-sou
 <script id="wb-workspace-members-startup-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.21');
+  var VERSION=(window.WB_VERSION||'83.0.1');
   var KEY='wb.workspace.shell.v1';
   var oldFullAudit=window.WBFullAudit;
   var oldRenderWorkspace=window.renderWorkspace;
@@ -18402,7 +18456,7 @@ body.dark #workspace-section .wb806-code,body.dark #workspace-section .wb806-sou
 <script id="wb-workspace-routing-publish-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.21');
+  var VERSION=(window.WB_VERSION||'83.0.1');
   var KEY='wb.workspace.shell.v1';
   var oldSwitchTab=window.switchTab;
   var oldFullAudit=window.WBFullAudit;
@@ -18494,7 +18548,7 @@ body:not(.wb-ui-ready) #workspace-section .wb765-subview{
 <script id="wb-startup-workspace-flicker-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.21');
+  var VERSION=(window.WB_VERSION||'83.0.1');
   var KEY='wb.workspace.shell.v1';
   var previousSwitchTab=window.switchTab;
   var previousRenderWorkspace=window.renderWorkspace;
@@ -18592,7 +18646,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager #wb-perso
 <script id="wb-render-cleanup-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.21');
+  var VERSION=(window.WB_VERSION||'83.0.1');
   var KEY='wb.workspace.shell.v1';
   var previousSwitchTab=window.switchTab;
   var previousRenderWorkspace=window.renderWorkspace;
@@ -18710,7 +18764,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager #wb-perso
 <script id="wb-personal-meta-source-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.21');
+  var VERSION=(window.WB_VERSION||'83.0.1');
   function qs(id){return document.getElementById(id);} 
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s==null?'':s).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c];});}}
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
@@ -18780,7 +18834,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager #wb-perso
 <script id="wb-song-view-focus-scope-module">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.21');
+  var VERSION=(window.WB_VERSION||'83.0.1');
 
   function safe(fn,fallback){try{return fn();}catch(e){return fallback;}}
   function qs(id){return document.getElementById(id);}
@@ -18884,7 +18938,7 @@ body.dark .wb-transfer-pill.good{background:var(--accent-surface);border-color:v
 <script id="wb-set-transfer-flow-module">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.21');
+  var VERSION=(window.WB_VERSION||'83.0.1');
   var state={copy:null,publish:null,lastCreated:null};
   function safe(fn,fallback){try{return fn();}catch(e){return fallback;}}
   function qs(id,root){return (root||document).querySelector(id);}
@@ -18954,7 +19008,7 @@ body.dark .wb-transfer-pill.good{background:var(--accent-surface);border-color:v
 })();
 </script>
 <style id="wb-compact-badge-tune-module">
-/* v82.21 — badge tuning only. Transfer review layout is owned by WBSetTransferFlow so Copy and Publish match. */
+/* v83.0.1 — badge tuning only. Transfer review layout is owned by WBSetTransferFlow so Copy and Publish match. */
 
 /* Keep song-card pills compact after chip unification. */
 .song-item .key-chip,
@@ -19009,7 +19063,7 @@ body.dark .workspace-subview-card .set-lang-badge{
 <script id="wb-build-cleanup-info-module">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.21');
+  var VERSION=(window.WB_VERSION||'83.0.1');
   window.WBBuildCleanupInfo={
     version:VERSION,
     cleanup:'semantic cleanup pass 2',
@@ -19026,7 +19080,7 @@ body.dark .workspace-subview-card .set-lang-badge{
 <script id="wb-stability-baseline-marker">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.21');
+  var VERSION=(window.WB_VERSION||'83.0.1');
   window.WBStabilityBaseline={
     version:VERSION,
     purpose:'Stability baseline checkpoint before v83 feature work',
@@ -19034,6 +19088,267 @@ body.dark .workspace-subview-card .set-lang-badge{
     note:'No feature, data, routing, import/export, Workspace, set-list, or visual behaviour changes were intentionally made in this build.'
   };
   try{window.WB_CURRENT_VERSION=VERSION;if(typeof window.WBSyncVersionLabels==='function')window.WBSyncVersionLabels();}catch(e){}
+})();
+</script>
+
+
+
+
+<script id="wb-dark-mode-polish-v83-marker">
+(function(){
+  'use strict';
+  var VERSION=(window.WB_VERSION||'83.0.1');
+  window.WBDarkModePolish={version:VERSION,scope:'visual dark-mode-only polish',behaviourChanges:false,note:'Dark mode variables/surfaces/chips/bottom sheets/cards refined. No data/routing/import/export/backup changes intended.'};
+  try{window.WB_CURRENT_VERSION=VERSION;if(typeof window.WBSyncVersionLabels==='function')window.WBSyncVersionLabels();}catch(e){}
+})();
+</script>
+
+
+
+
+<style id="wb-v83-0-1-export-ptr-polish-style">
+/* v83.0.1 export menu cleanup + pull-to-refresh polish */
+
+/* Pull to refresh: arrow fades into spinner instead of hard rotating/spinning. */
+#ptr-indicator{
+  overflow:hidden;
+  transition:opacity .18s ease, transform .22s cubic-bezier(.22,.9,.32,1), box-shadow .22s ease;
+}
+#ptr-indicator .ptr-arrow{
+  transform-origin:50% 50%;
+  transition:transform .24s cubic-bezier(.22,.9,.32,1), opacity .18s ease;
+}
+#ptr-indicator.ready .ptr-arrow{
+  transform:translateY(-1px) rotate(180deg) scale(.92);
+}
+#ptr-indicator.spinning .ptr-arrow{
+  opacity:0;
+  transform:rotate(180deg) scale(.58);
+  animation:none!important;
+}
+#ptr-indicator::after{
+  content:'';
+  position:absolute;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  border:2px solid color-mix(in srgb,currentColor 22%, transparent);
+  border-top-color:currentColor;
+  opacity:0;
+  transform:scale(.62) rotate(0deg);
+  transition:opacity .18s ease, transform .22s cubic-bezier(.22,.9,.32,1);
+}
+#ptr-indicator.spinning::after{
+  opacity:1;
+  transform:scale(1) rotate(0deg);
+  animation:wbPtrSpin .72s linear infinite;
+}
+@keyframes wbPtrSpin{to{transform:scale(1) rotate(360deg);}}
+body.dark #ptr-indicator{
+  background:#141a22;
+  color:var(--accent);
+  box-shadow:0 10px 26px rgba(0,0,0,.34);
+}
+</style>
+
+<script id="wb-v83-0-1-song-pdf-preview-fix">
+(function(){
+  'use strict';
+  var VERSION=(window.WB_VERSION||'83.0.1');
+
+  function safe(fn,fallback){try{return fn();}catch(e){return fallback;}}
+  function toast(msg){safe(function(){if(typeof showToast==='function')showToast(msg);});}
+  function getOpenSong(){
+    return safe(function(){return currentSong;}, null) ||
+           window.currentSong ||
+           window.__wbExportLastSong ||
+           null;
+  }
+  function getOpenSongKey(song){
+    return safe(function(){return currentKey;}, null) ||
+           (song && song.key) ||
+           'C';
+  }
+  function cloneSong(song){
+    if(!song)return null;
+    return safe(function(){return JSON.parse(JSON.stringify(song));}, song);
+  }
+  function getPageOptions(){
+    return safe(function(){return typeof getExportPageOptions==='function'?getExportPageOptions():{};}, {});
+  }
+  function currentExportContext(){
+    return safe(function(){return exportPageContext;}, window.__wbExportPageContext || 'setlist') || window.__wbExportPageContext || 'setlist';
+  }
+  function setExportContext(ctx){
+    window.__wbExportPageContext = ctx || 'setlist';
+    safe(function(){exportPageContext = window.__wbExportPageContext;});
+    if(ctx === 'song'){
+      var song=getOpenSong();
+      if(song)window.__wbExportLastSong=cloneSong(song);
+    }
+  }
+  function getProfile(opts,cols){
+    opts=Object.assign({exportFont:'standard'},opts||{});
+    var size=opts.exportFont||'standard';
+    var compact=size==='compact', large=size==='large', p;
+    if(compact)p={margin:36,gap:24,title:15,meta:8.2,chart:8.35,chord:8.35,section:7.6,line:9.25,secLine:12.2,sp:4.2,gapAfterSong:10};
+    else if(large)p={margin:42,gap:28,title:20,meta:10.5,chart:11.2,chord:11.2,section:9.2,line:13.0,secLine:16.0,sp:6.0,gapAfterSong:18};
+    else p={margin:40,gap:26,title:17.5,meta:9.5,chart:9.8,chord:9.8,section:8.4,line:11.2,secLine:14.2,sp:5.2,gapAfterSong:18};
+    if(cols===2){
+      if(compact)p={margin:30,gap:22,title:12.6,meta:7.1,chart:7.05,chord:7.05,section:6.45,line:7.75,secLine:10.1,sp:3.0,gapAfterSong:7};
+      else if(large)p={margin:34,gap:24,title:15.2,meta:8.2,chart:8.45,chord:8.45,section:7.35,line:9.45,secLine:12.0,sp:3.8,gapAfterSong:9};
+      else p={margin:32,gap:23,title:13.8,meta:7.6,chart:7.65,chord:7.65,section:6.9,line:8.45,secLine:10.9,sp:3.5,gapAfterSong:8};
+    }
+    p.cols=cols;p.colW=cols===2?(595.28-p.margin*2-p.gap)/2:595.28-p.margin*2;p.usableH=841.89-p.margin*2;p.maxChars=Math.max(28,Math.floor(p.colW/(p.chart*0.60)));
+    return p;
+  }
+  function lineH(line,p){
+    if(line.type==='songTitle')return Math.ceil(p.title*1.15)+2;
+    if(line.type==='meta')return Math.ceil(p.meta*1.35)+4;
+    if(line.type==='section')return p.secLine;
+    if(line.type==='spacer')return line.h||p.sp;
+    if(line.type==='songGap')return p.gapAfterSong;
+    return p.line;
+  }
+  function clean(s){return String(s==null?'':s).replace(/\t/g,'    ').replace(/\s+$/,'');}
+  function isSection(raw){
+    var t=String(raw||'').trim();
+    if(!t)return false;
+    return /^\[[^\]]+\]$/.test(t) || /^(verse|chorus|bridge|intro|outro|tag|pre[- ]?chorus|instrumental|ending)\b/i.test(t);
+  }
+  function sectionText(raw){return String(raw||'').trim().replace(/^\[/,'').replace(/\]$/,'').toUpperCase();}
+  function wrapText(text,max){
+    text=clean(text);
+    if(!text)return [''];
+    var out=[],s=text;
+    while(s.length>max){
+      var cut=s.lastIndexOf(' ',max);
+      if(cut<Math.floor(max*.55))cut=max;
+      out.push(s.slice(0,cut).replace(/\s+$/,''));
+      s=s.slice(cut).replace(/^\s+/,'');
+    }
+    if(s.length||!out.length)out.push(s);
+    return out;
+  }
+  function chordProPair(raw){
+    var lyric='',chord=[],last=0,re=/\[([^\]]+)\]/g,m;
+    function place(pos,ch){ch=String(ch||'').trim();for(var i=0;i<ch.length;i++){chord[pos+i]=ch[i];}}
+    while((m=re.exec(raw))){
+      var before=raw.slice(last,m.index);lyric+=before;place(lyric.length,m[1]);last=re.lastIndex;
+    }
+    lyric+=raw.slice(last);
+    return {ch:chord.map(function(c){return c||' ';}).join('').replace(/\s+$/,''),ly:lyric.replace(/\s+$/,'')};
+  }
+  function fallbackSongLines(song,key,opts,p){
+    var lines=[],meta=[],chart=String(song.chart||song.lyrics||'');
+    lines.push({type:'songTitle',text:song.title||'Untitled song'});
+    if(opts.showAuthor&&song.author)meta.push(song.author);
+    if(opts.showKey)meta.push('Key of '+key+(song.key&&song.key!==key?' - Originally '+song.key:''));
+    if(opts.showId){var id=song.songCode||song.id||''; if(id)meta.push(id);}
+    if(meta.length)lines.push({type:'meta',text:meta.join(' - ')});
+    if(!chart.trim()){lines.push({type:'lyric',text:opts.exportContent==='lyrics'?'No lyrics yet.':'No chord chart yet.'});return lines;}
+    var arr=chart.split('\n');
+    arr.forEach(function(raw){
+      var t=String(raw||'').trim();
+      if(!t){lines.push({type:'spacer',h:p.sp});return;}
+      if(isSection(raw)){lines.push({type:'section',text:sectionText(raw)});return;}
+      if(/\[[^\]]+\]/.test(raw)){
+        var pair=chordProPair(raw);
+        if(opts.exportContent!=='lyrics'&&pair.ch.trim())wrapText(pair.ch,p.maxChars).forEach(function(x){lines.push({type:'chord',text:x});});
+        if(pair.ly.trim())wrapText(pair.ly,p.maxChars).forEach(function(x){lines.push({type:'lyric',text:x});});
+        return;
+      }
+      if(opts.exportContent!=='lyrics' && /^[\sA-G][A-G0-9#b\/\susmajdimaugadd()\-\.]+$/.test(raw) && /[A-G]/.test(raw)){
+        wrapText(raw,p.maxChars).forEach(function(x){lines.push({type:'chord',text:x});});
+      }else{
+        wrapText(raw,p.maxChars).forEach(function(x){lines.push({type:'lyric',text:x});});
+      }
+    });
+    return lines;
+  }
+  function fallbackSongPlan(opts){
+    opts=Object.assign({exportFlow:'continuous',exportColumns:'single',exportFont:'standard',exportContent:'chords',showAuthor:true,showKey:true,showId:false},opts||{});
+    var song=getOpenSong();
+    if(!song)throw new Error('No song open');
+    var cols=opts.exportColumns==='two'?2:1,p=getProfile(opts,cols),key=getOpenSongKey(song);
+    var plan={version:'wb-v83.0.1-song-fallback',context:'song',title:song.title||'Song',opts:opts,profile:p,cols:cols,pages:[]};
+    var page=null,col=0,used=0;
+    function newPage(){page={type:'content',cols:Array.from({length:cols},function(){return[];})};plan.pages.push(page);col=0;used=0;}
+    function nextCol(){if(!page)newPage();if(col<cols-1){col++;used=0;}else newPage();}
+    function addLine(line){if(!page)newPage();var h=lineH(line,p);if(used>0&&used+h>p.usableH)nextCol();page.cols[col].push(line);used+=h;}
+    fallbackSongLines(song,key,opts,p).forEach(addLine);
+    return plan;
+  }
+  function songPlanHasContent(plan){
+    if(!plan||!Array.isArray(plan.pages)||!plan.pages.length)return false;
+    return plan.pages.some(function(pg){return pg&&pg.cols&&pg.cols.some(function(col){return col&&col.length;});});
+  }
+
+  var originalBuildPlan=window.__wbExportBuildPlan;
+  if(typeof originalBuildPlan==='function'&&!originalBuildPlan.__wbSongPdfFix){
+    var fixed=function(ctx,opts){
+      if(ctx==='song'){
+        var song=getOpenSong();
+        if(song)window.__wbExportLastSong=cloneSong(song);
+        try{
+          var plan=originalBuildPlan(ctx,opts||{});
+          if(songPlanHasContent(plan))return plan;
+        }catch(e){try{console.warn('Song PDF planner fallback used',e);}catch(_e){}}
+        return fallbackSongPlan(opts||{});
+      }
+      return originalBuildPlan(ctx,opts||{});
+    };
+    fixed.__wbSongPdfFix=true;
+    window.__wbExportBuildPlan=fixed;
+  }
+
+  var oldOpenExportView=window.openExportView || (safe(function(){return openExportView;},null));
+  if(typeof oldOpenExportView==='function'&&!oldOpenExportView.__wbExportMenuCleanup){
+    var wrappedOpen=function(context){
+      setExportContext(context||'setlist');
+      var result=oldOpenExportView.apply(this,arguments);
+      setTimeout(syncExportLabels,0);
+      return result;
+    };
+    wrappedOpen.__wbExportMenuCleanup=true;
+    window.openExportView=wrappedOpen;
+    safe(function(){openExportView=wrappedOpen;});
+  }
+
+  function openPreviewFromExportPage(){
+    var ctx=currentExportContext()==='song'?'song':'setlist';
+    if(ctx==='song'){
+      var song=getOpenSong();
+      if(song)window.__wbExportLastSong=cloneSong(song);
+    }
+    var opts=getPageOptions();
+    if(window.WBExport&&typeof window.WBExport.openPreview==='function'){
+      return window.WBExport.openPreview(ctx,opts);
+    }
+    toast('PDF preview unavailable');
+  }
+
+  window.previewPdfFromPage=openPreviewFromExportPage;
+  window.runExportFromPage=openPreviewFromExportPage;
+  window.sharePdfFromPage=openPreviewFromExportPage;
+  safe(function(){previewPdfFromPage=openPreviewFromExportPage;runExportFromPage=openPreviewFromExportPage;sharePdfFromPage=openPreviewFromExportPage;});
+
+  function syncExportLabels(){
+    document.querySelectorAll('.ev-act-btn').forEach(function(btn){if(btn.textContent.trim()==='Export'||btn.textContent.trim()==='Save')btn.textContent='Preview';});
+    var title=document.querySelector('#export-view .ev-title');if(title)title.textContent='Preview PDF';
+    document.querySelectorAll('#export-view .ev-footer .ev-primary,#export-view .ev-footer .ev-ghost').forEach(function(btn){
+      if(/save pdf/i.test(btn.textContent||''))btn.remove();
+      else if(/preview/i.test(btn.textContent||'')){btn.textContent='Preview PDF';btn.classList.remove('ev-ghost');btn.classList.add('ev-primary');}
+    });
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',syncExportLabels,{once:true});else syncExportLabels();
+
+  window.WBExportSongPreviewFix={
+    version:VERSION,
+    openPreviewFromExportPage:openPreviewFromExportPage,
+    fallbackSongPlan:fallbackSongPlan,
+    audit:function(){return {version:VERSION,context:currentExportContext(),hasSong:!!getOpenSong(),hasPlanner:typeof window.__wbExportBuildPlan==='function'};}
+  };
 })();
 </script>
 
@@ -19096,7 +19411,7 @@ body.dark .wb-backup-confidence-note{background:rgba(143,180,255,.08);border-col
 <script id="wb-backup-editor-stability-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'82.21');
+  var VERSION=(window.WB_VERSION||'83.0.1');
   var PRE_RESTORE_KEY='wb_pre_restore_snapshot_v1';
 
   function esc(s){
