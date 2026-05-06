@@ -1,4 +1,4 @@
-<html lang="en" style="--sat: 0px; --sab: 0px; --tc: #d8945f; --hdr-bg: #000000; --chord-highlight-bg: rgba(255,255,255,.13); --chord-highlight-glow: transparent; --chord-highlight-border: transparent; --wb-export-song-chord-colour: #10374A; --tc2: #e7bd99; --tc3: #d8945f; --tc-light: rgba(255,255,255,.08); --tc-mid: rgba(255,255,255,.18); --tc-faint: rgba(216,148,95,0.18); --accent: #e7bd99; --accent-strong: #d8945f; --accent-surface: rgba(216,148,95,0.18); --accent-surface-strong: rgba(216,148,95,0.28); --accent-border: rgba(216,148,95,0.46); --accent-bg: rgba(216,148,95,0.18); --chord-color: #f0d2b3; --accent-fg: #160d07;"><head>
+<html lang="en" style="--sat: 0px; --sab: 0px; --tc: #ffffff; --hdr-bg: #000000; --chord-highlight-bg: rgba(255,255,255,.13); --chord-highlight-glow: transparent; --chord-highlight-border: transparent; --wb-export-song-chord-colour: #10374A; --tc2: #f2f2f2; --tc3: #ffffff; --tc-light: rgba(255,255,255,.08); --tc-mid: rgba(255,255,255,.18); --tc-faint: rgba(255,255,255,0.18); --accent: #f2f2f2; --accent-strong: #ffffff; --accent-surface: rgba(255,255,255,0.18); --accent-surface-strong: rgba(255,255,255,0.28); --accent-border: rgba(255,255,255,0.46); --accent-bg: rgba(255,255,255,0.18); --chord-color: #ffffff; --accent-fg: #000000;"><head>
 <style id="wb-startup-safearea-first-paint-style">
 /* v81.6 first-paint guard: reserve safe-area before late renderer scripts run. */
 :root{--sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);}
@@ -24,11 +24,11 @@ body:not(.wb-ui-ready) #workspace-section .wb765-subview{display:none!important;
 <link href="assets/wb-icon-180.png" rel="apple-touch-icon" sizes="180x180">
 <link href="assets/wb-icon-192.png" rel="icon" sizes="192x192" type="image/png">
 <meta content="yes" name="mobile-web-app-capable">
-<title>WorshipBase v84.35</title>
+<title>WorshipBase v84.37</title>
 <script id="wb-version-authority-early">
 (function(){
   'use strict';
-  var VERSION='84.35';
+  var VERSION='84.37';
   window.WB_VERSION=VERSION;
   window.WB_VERSION_LABEL='Version '+VERSION;
   window.WB_VERSION_TITLE='WorshipBase v'+VERSION;
@@ -3188,7 +3188,7 @@ body.wb-workspace-subview-open #workspace-section .wb806-subview.open{display:fl
 }
 </style>
 <script src="https://accounts.google.com/gsi/client" async="" defer="" data-wb-google-identity="1"></script></head>
-<body class="wb-route-lock wb-ui-ready dark wb-tab-settings" style="--tc: #d8945f; --tc2: #e7bd99; --tc3: #d8945f; --tc-light: rgba(255,255,255,.08); --tc-mid: rgba(255,255,255,.18); --tc-faint: rgba(216,148,95,0.18); --hdr-bg: #000000; --accent: #e7bd99; --accent-strong: #d8945f; --accent-surface: rgba(216,148,95,0.18); --accent-surface-strong: rgba(216,148,95,0.28); --accent-border: rgba(216,148,95,0.46); --accent-bg: rgba(216,148,95,0.18); --chord-color: #f0d2b3; --accent-fg: #160d07;">
+<body class="wb-route-lock wb-ui-ready dark wb-tab-songs" style="--tc: #ffffff; --tc2: #f2f2f2; --tc3: #ffffff; --tc-light: rgba(255,255,255,.08); --tc-mid: rgba(255,255,255,.18); --tc-faint: rgba(255,255,255,0.18); --hdr-bg: #000000; --accent: #f2f2f2; --accent-strong: #ffffff; --accent-surface: rgba(255,255,255,0.18); --accent-surface-strong: rgba(255,255,255,0.28); --accent-border: rgba(255,255,255,0.46); --accent-bg: rgba(255,255,255,0.18); --chord-color: #ffffff; --accent-fg: #000000;">
 <!-- LOADING -->
 <div id="ls" class="hidden" style="display: none;">
 <img alt="WorshipBase logo" src="assets/wb-icon-192.png" style="width:60px;height:60px;border-radius:14px;display:block;object-fit:cover;margin-bottom:20px;">
@@ -3205,7 +3205,7 @@ body.wb-workspace-subview-open #workspace-section .wb806-subview.open{display:fl
 <div class="wm">
 <div><div class="wm-name">WorshipBase</div><div class="wm-sub">Chord Library</div></div>
 </div>
-<button aria-label="Add song" class="hdr-btn" id="hdr-add-btn" onclick="openAddSongMenu(event)" style="display: none;" title="Add song">
+<button aria-label="Add song" class="hdr-btn" id="hdr-add-btn" onclick="openAddSongMenu(event)" style="display: flex;" title="Add song">
 <svg fill="none" height="20" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewBox="0 0 24 24" width="20">
 <path d="M12 5v14M5 12h14"></path>
 </svg>
@@ -3234,7 +3234,7 @@ body.wb-workspace-subview-open #workspace-section .wb806-subview.open{display:fl
 </div>
 </div>
 <!-- Search + library filters -->
-<div class="srch-wrap" id="srch-wrap" style="display: none;">
+<div class="srch-wrap" id="srch-wrap" style="display: block;">
 <div class="srch-row">
 <div class="srch-inner">
 <span class="srch-ico"><svg fill="none" height="14" viewBox="0 0 15 15" width="14"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 10L13 13" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></span>
@@ -3251,7 +3251,7 @@ body.wb-workspace-subview-open #workspace-section .wb806-subview.open{display:fl
 </select>
 </label>
 </div>
-<div class="filter-row" id="library-filter-row" style="display: none;">
+<div class="filter-row" id="library-filter-row" style="display: flex;">
 <button class="filter-chip active" data-filter="all" onclick="setLibraryFilter('all',this)">All</button>
 <button class="filter-chip" data-filter="mine" onclick="setLibraryFilter('mine',this)">My Songs</button>
 <button class="filter-chip" data-filter="english" onclick="setLibraryFilter('english',this)">English</button>
@@ -3270,9 +3270,9 @@ body.wb-workspace-subview-open #workspace-section .wb806-subview.open{display:fl
 </div>
 </div>
 <!-- SONG LIST -->
-<div id="song-section" style="flex: 1 1 0%; display: none; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;">
+<div id="song-section" style="flex: 1 1 0%; display: flex; flex-direction: column; overflow: hidden; position: relative; min-height: 0px;">
 <div class="vs-host ptr-wrap">
-<div id="ptr-indicator" class="" style="--wb-ptr-circ: 75.4; --wb-ptr-alpha: 0.0000; --wb-ptr-y: 0px; --wb-ptr-scale: 0.8200; --wb-ptr-progress: 0.0000; --wb-ptr-dash: 0.000;"><div class="wb-ptr-ui"><svg class="wb-ptr-ring" viewBox="0 0 30 30" aria-hidden="true"><circle class="wb-ptr-track" cx="15" cy="15" r="12"></circle><circle class="wb-ptr-progress" cx="15" cy="15" r="12"></circle></svg><div class="wb-ptr-spinner" aria-hidden="true"></div></div></div>
+<div id="ptr-indicator" style="--wb-ptr-circ: 75.4; --wb-ptr-alpha: 0.0000; --wb-ptr-y: 0px; --wb-ptr-scale: 0.8200; --wb-ptr-progress: 0.0000; --wb-ptr-dash: 0.000;"><div class="wb-ptr-ui"><svg class="wb-ptr-ring" viewBox="0 0 30 30" aria-hidden="true"><circle class="wb-ptr-track" cx="15" cy="15" r="12"></circle><circle class="wb-ptr-progress" cx="15" cy="15" r="12"></circle></svg><div class="wb-ptr-spinner" aria-hidden="true"></div></div></div>
 <div class="vs-wrap" id="vscroll" style="-webkit-overflow-scrolling: touch;"><div class="library-count-row" id="library-count-row"><span class="song-count" id="song-count">76 songs</span></div><div class="home-quick-wrap" id="home-quick-wrap" style="display: flex;">
 <div class="quick-section" id="recent-songs-section" style="display: none;">
 <div class="quick-head">
@@ -3293,7 +3293,7 @@ body.wb-workspace-subview-open #workspace-section .wb806-subview.open{display:fl
 <!-- v79.4: old Personal/Shared segmented control removed. Set List home is personal-only; Workspace owns team/shared sets. -->
 <div class="sl-hdr">
 <div class="sl-hdr-meta" style="display: flex;">
-<span class="sl-lbl" id="sl-count">11 songs · 7 items</span><span id="sl-set-key-info" class="sl-set-key-info">Set key: G</span>
+<span class="sl-lbl" id="sl-count">11 songs · 7 items</span><span id="sl-set-key-info" class="sl-set-key-info"></span>
 </div>
 <div class="sl-btns">
 <button aria-label="Set options" class="sl-option-btn icon-only" onclick="openSetListOptions()" title="Set options"><svg aria-hidden="true" fill="none" height="4" viewBox="0 0 18 4" width="18"><circle cx="2" cy="2" fill="currentColor" r="2"></circle><circle cx="9" cy="2" fill="currentColor" r="2"></circle><circle cx="16" cy="2" fill="currentColor" r="2"></circle></svg></button>
@@ -3358,7 +3358,7 @@ body.wb-workspace-subview-open #workspace-section .wb806-subview.open{display:fl
 <button aria-label="Next chapter" class="bible-fab bible-fab-next" onclick="changeBibleChapter(1)" type="button">›</button>
 </div>
 <!-- SETTINGS -->
-<div id="settings-section" style="display: flex; flex: 1 1 0%; flex-direction: column; overflow: hidden; min-height: 0px;">
+<div id="settings-section" style="display: none; flex: 1 1 0%; flex-direction: column; overflow: hidden; min-height: 0px;">
 <div class="settings-scroll" style="-webkit-overflow-scrolling: touch;">
 <div class="ss-section">
 <div class="ss-title">Appearance</div>
@@ -3383,7 +3383,7 @@ body.wb-workspace-subview-open #workspace-section .wb806-subview.open{display:fl
 <div class="ss-ico"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.5"></circle><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.5"></circle></svg></div>
 <div class="ss-body"><div class="ss-lbl">Colour theme</div></div>
 </div>
-<div class="theme-row" id="theme-swatches"><div class="theme-sw" style="background:#ffffff" title="Neutral · dark accent" onclick="applyTheme('#111111')"></div><div class="theme-sw" style="background:#54c878" title="Forest · dark accent" onclick="applyTheme('#1A4731')"></div><div class="theme-sw" style="background:#bfd35b" title="Sage / Olive · dark accent" onclick="applyTheme('#6F7D3C')"></div><div class="theme-sw" style="background:#b9aa96" title="Stone / Taupe · dark accent" onclick="applyTheme('#8A7A68')"></div><div class="theme-sw active" style="background:#d8945f" title="Cedar · dark accent" onclick="applyTheme('#7A5A4D')"></div><div class="theme-sw" style="background:#e9799a" title="Mulberry · dark accent" onclick="applyTheme('#5A2034')"></div><div class="theme-sw" style="background:#b983ff" title="Deep Purple · dark accent" onclick="applyTheme('#3A0A55')"></div><div class="theme-sw" style="background:#3fcaca" title="Dark Teal · dark accent" onclick="applyTheme('#10374A')"></div><div class="theme-sw" style="background:#7aa7ff" title="Slate Blue · dark accent" onclick="applyTheme('#4F6480')"></div><div class="theme-sw" style="background:#86b4ff" title="Midnight Navy · dark accent" onclick="applyTheme('#2F4565')"></div></div>
+<div class="theme-row" id="theme-swatches"><div class="theme-sw active" style="background:#ffffff" title="Neutral · dark accent" onclick="applyTheme('#111111')"></div><div class="theme-sw" style="background:#54c878" title="Forest · dark accent" onclick="applyTheme('#1A4731')"></div><div class="theme-sw" style="background:#bfd35b" title="Sage / Olive · dark accent" onclick="applyTheme('#6F7D3C')"></div><div class="theme-sw" style="background:#b9aa96" title="Stone / Taupe · dark accent" onclick="applyTheme('#8A7A68')"></div><div class="theme-sw" style="background:#d8945f" title="Cedar · dark accent" onclick="applyTheme('#7A5A4D')"></div><div class="theme-sw" style="background:#e9799a" title="Mulberry · dark accent" onclick="applyTheme('#5A2034')"></div><div class="theme-sw" style="background:#b983ff" title="Deep Purple · dark accent" onclick="applyTheme('#3A0A55')"></div><div class="theme-sw" style="background:#3fcaca" title="Dark Teal · dark accent" onclick="applyTheme('#10374A')"></div><div class="theme-sw" style="background:#7aa7ff" title="Slate Blue · dark accent" onclick="applyTheme('#4F6480')"></div><div class="theme-sw" style="background:#86b4ff" title="Midnight Navy · dark accent" onclick="applyTheme('#2F4565')"></div></div>
 </div>
 </div>
 <div class="ss-section">
@@ -3489,7 +3489,7 @@ body.wb-workspace-subview-open #workspace-section .wb806-subview.open{display:fl
 <img alt="WorshipBase logo" src="assets/wb-icon-192.png">
 </div>
 <div class="about-name">WorshipBase</div>
-<div class="about-version-pill" data-wb-version-label="">Version 84.35</div>
+<div class="about-version-pill" data-wb-version-label="">Version 84.37</div>
 <div class="about-by">Created by <strong>Jerin Reji</strong></div>
 </div>
 </div>
@@ -3499,7 +3499,7 @@ body.wb-workspace-subview-open #workspace-section .wb806-subview.open{display:fl
 <!-- BOTTOM TAB BAR — last flex child of #list-view -->
 <div class="tab-bar" id="tab-bar">
 <!-- Library tab -->
-<button class="tab-btn" id="tab-songs" onclick="switchTab('songs')">
+<button class="tab-btn active" id="tab-songs" onclick="switchTab('songs')">
 <span class="tab-ico">
 <svg class="ico-outline" fill="none" height="24" viewBox="0 0 24 24" width="24"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path></svg>
 <svg class="ico-filled" fill="none" height="24" viewBox="0 0 24 24" width="24"><path d="M4 6h16" stroke="currentColor" stroke-linecap="round" stroke-width="2.6"></path><path d="M4 12h10" stroke="currentColor" stroke-linecap="round" stroke-width="2.6"></path><path d="M4 18h16" stroke="currentColor" stroke-linecap="round" stroke-width="2.6"></path></svg>
@@ -3535,7 +3535,7 @@ body.wb-workspace-subview-open #workspace-section .wb806-subview.open{display:fl
 <span class="tab-lbl">Bible</span>
 </button>
 <!-- Settings tab -->
-<button class="tab-btn active" id="tab-settings" onclick="switchTab('settings')">
+<button class="tab-btn" id="tab-settings" onclick="switchTab('settings')">
 <span class="tab-ico">
 <!-- outline: thin gear -->
 <svg class="ico-outline" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewBox="0 0 24 24" width="24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
@@ -3864,7 +3864,7 @@ body.wb-workspace-subview-open #workspace-section .wb806-subview.open{display:fl
 <span class="mi-icon-wrap"><svg fill="none" height="17" id="dark-ico" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewBox="0 0 24 24" width="17"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path></svg></span>
 <span id="dark-lbl" class="mi-grow">Dark mode</span>
 <span class="wbsm-toggle on" aria-hidden="true"><span class="wbsm-toggle-thumb"></span></span>
-<span class="wb-songmenu-dark-toggle on" aria-hidden="true"><span class="wb-songmenu-dark-toggle-thumb"></span></span></button>
+</button>
 <button class="mi manage-song-edit-tool" id="mi-edit-song" onclick="requireAdmin(()=&gt;{closeBS('songmenu');openSongModal(currentSong);})" style="display:none">
 <span class="mi-icon-wrap"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M12 3l2 2L5.5 13H3.5v-2L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path></svg></span>
 <span class="mi-label" id="mi-edit-song-label">Edit</span></button>
@@ -4464,23 +4464,23 @@ line 18 | Hold / pause"></textarea>
 </div>
 <!-- DEFAULT KEY picker -->
 <div class="bs-bg" id="bs-defaultkey" onclick="closeBSBg(event,'defaultkey')">
-<div class="bs" data-swipe-attached="1">
+<div class="bs">
 <div class="bs-handle"></div>
 <div class="m-tr"><h2 class="m-h2">Default display key</h2><button class="m-close" onclick="closeBS('defaultkey')">×</button></div>
 <div class="m-body">
 <p style="font-size:13px;color:var(--txt2);margin-bottom:14px;line-height:1.6;">When you open a song, it will default to this key instead of its original key. You can always transpose individually.</p>
-<div id="defkey-options" style="display:flex;flex-wrap:wrap;gap:8px;padding-bottom:16px;"><button onclick="setDefaultKey('original')" style="padding:7px 14px;border-radius:var(--rad-pill);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:.5px solid var(--bdr2);background:var(--tc);color:#fff">Original key</button><button onclick="setDefaultKey('C')" style="padding:7px 14px;border-radius:var(--rad-pill);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:.5px solid var(--bdr2);background:var(--bg2);color:var(--txt1)">C</button><button onclick="setDefaultKey('C#')" style="padding:7px 14px;border-radius:var(--rad-pill);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:.5px solid var(--bdr2);background:var(--bg2);color:var(--txt1)">C#</button><button onclick="setDefaultKey('D')" style="padding:7px 14px;border-radius:var(--rad-pill);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:.5px solid var(--bdr2);background:var(--bg2);color:var(--txt1)">D</button><button onclick="setDefaultKey('D#')" style="padding:7px 14px;border-radius:var(--rad-pill);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:.5px solid var(--bdr2);background:var(--bg2);color:var(--txt1)">D#</button><button onclick="setDefaultKey('E')" style="padding:7px 14px;border-radius:var(--rad-pill);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:.5px solid var(--bdr2);background:var(--bg2);color:var(--txt1)">E</button><button onclick="setDefaultKey('F')" style="padding:7px 14px;border-radius:var(--rad-pill);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:.5px solid var(--bdr2);background:var(--bg2);color:var(--txt1)">F</button><button onclick="setDefaultKey('F#')" style="padding:7px 14px;border-radius:var(--rad-pill);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:.5px solid var(--bdr2);background:var(--bg2);color:var(--txt1)">F#</button><button onclick="setDefaultKey('G')" style="padding:7px 14px;border-radius:var(--rad-pill);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:.5px solid var(--bdr2);background:var(--bg2);color:var(--txt1)">G</button><button onclick="setDefaultKey('G#')" style="padding:7px 14px;border-radius:var(--rad-pill);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:.5px solid var(--bdr2);background:var(--bg2);color:var(--txt1)">G#</button><button onclick="setDefaultKey('A')" style="padding:7px 14px;border-radius:var(--rad-pill);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:.5px solid var(--bdr2);background:var(--bg2);color:var(--txt1)">A</button><button onclick="setDefaultKey('A#')" style="padding:7px 14px;border-radius:var(--rad-pill);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:.5px solid var(--bdr2);background:var(--bg2);color:var(--txt1)">A#</button><button onclick="setDefaultKey('B')" style="padding:7px 14px;border-radius:var(--rad-pill);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:.5px solid var(--bdr2);background:var(--bg2);color:var(--txt1)">B</button></div>
+<div id="defkey-options" style="display:flex;flex-wrap:wrap;gap:8px;padding-bottom:16px;"></div>
 </div>
 </div>
 </div>
 <!-- DEFAULT SONG VIEW picker -->
 <div class="bs-bg" id="bs-defaultsongview" onclick="closeBSBg(event,'defaultsongview')">
-<div class="bs" data-swipe-attached="1">
+<div class="bs">
 <div class="bs-handle"></div>
 <div class="m-tr"><h2 class="m-h2">Default song view</h2><button class="m-close" onclick="closeBS('defaultsongview')">×</button></div>
 <div class="m-body">
 <p style="font-size:13px;color:var(--txt2);margin-bottom:14px;line-height:1.6;">Choose how songs open by default. You can still switch between Lyrics, Chords, and NNS on any song page.</p>
-<div id="defsongview-options" style="display:flex;flex-wrap:wrap;gap:8px;padding-bottom:16px;"><button onclick="setDefaultSongView('lyrics')" style="padding:7px 14px;border-radius:var(--rad-pill);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:.5px solid var(--bdr2);background:var(--bg2);color:var(--txt1)">Lyrics</button><button onclick="setDefaultSongView('chords')" style="padding:7px 14px;border-radius:var(--rad-pill);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:.5px solid var(--bdr2);background:var(--tc);color:#fff">Chords</button><button onclick="setDefaultSongView('nns')" style="padding:7px 14px;border-radius:var(--rad-pill);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:.5px solid var(--bdr2);background:var(--bg2);color:var(--txt1)">NNS</button></div>
+<div id="defsongview-options" style="display:flex;flex-wrap:wrap;gap:8px;padding-bottom:16px;"></div>
 </div>
 <button class="bs-cancel" onclick="closeBS('defaultsongview')">Done</button>
 </div>
@@ -4508,12 +4508,12 @@ line 18 | Hold / pause"></textarea>
 </div>
 </div>
 <div class="bs-bg" id="bs-defaultbibleversion" onclick="closeBSBg(event,'defaultbibleversion')">
-<div class="bs" data-swipe-attached="1">
+<div class="bs">
 <div class="bs-handle"></div>
 <div class="m-tr"><h2 class="m-h2">Default Bible version</h2><button class="m-close" onclick="closeBS('defaultbibleversion')">×</button></div>
 <div class="m-body">
 <p style="font-size:13px;color:var(--txt2);margin-bottom:14px;line-height:1.6;">Choose the default Bible version. Any versions you add later will automatically appear here.</p>
-<div id="defbible-options" style="display:flex;flex-wrap:wrap;gap:8px;padding-bottom:16px;"><button onclick="setDefaultBibleVersion('esv')" style="padding:7px 14px;border-radius:var(--rad-pill);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:.5px solid var(--bdr2);background:var(--tc);color:#fff">ESV</button></div>
+<div id="defbible-options" style="display:flex;flex-wrap:wrap;gap:8px;padding-bottom:16px;"></div>
 </div>
 <button class="bs-cancel" onclick="closeBS('defaultbibleversion')">Done</button>
 </div>
@@ -14052,7 +14052,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 <script id="wb-backup-settings-card-script">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'84.35');
+  const VERSION=(window.WB_VERSION||'84.37');
   const DRIVE_STATE_KEY='wb_google_drive_backup_v1';
   const PRE_RESTORE_KEY='wb_pre_restore_snapshot_v1';
   function ready(fn){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fn,{once:true});else fn();}
@@ -14164,7 +14164,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
   'use strict';
   const EDIT_ICON='<svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M12 3l2 2L5.5 13H3.5v-2L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
   function usefulMemory(m){return !!(m&&typeof m==='object'&&(String(m.notes||'').trim()||String(m.cues||'').trim()||String(m.usualKey||'').trim()||String(m.capo||'').trim()||String(m.practiceStatus||'').trim()));}
-  function setVisibleVersion(){try{document.title='WorshipBase v'+(window.WB_VERSION||'84.35');document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 84.35';});}catch(e){}}
+  function setVisibleVersion(){try{document.title='WorshipBase v'+(window.WB_VERSION||'84.37');document.querySelectorAll('.about-version-pill').forEach(el=>{el.textContent='Version 84.37';});}catch(e){}}
   function fixSongEditButton(){
     try{
       const btn=document.getElementById('mi-edit-song');
@@ -14494,7 +14494,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 <script id="wb-setlist-model-module">
 /* Source of truth for rich set-list model; consolidated from previous v72.5.7/v72.5.8 layers. */
 (function(){
-  const VERSION=(window.WB_VERSION||'84.35');
+  const VERSION=(window.WB_VERSION||'84.37');
 
   const originalFindSongById = window.findSongById || function(){return null;};
   const originalGetSongMemory = window.getSongMemory || function(){return {};};
@@ -14885,7 +14885,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
 })();
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'84.35');
+  const VERSION=(window.WB_VERSION||'84.37');
   const BAD_KEY=/[.#$\/[\]]/g;
   function n(v){try{if(typeof normId==='function')return normId(v);}catch(_){}return String(v==null?'':v).trim();}
   function safeKey(v){const k=n(v);return k?k.replace(BAD_KEY,'_'):'';}
@@ -15060,7 +15060,7 @@ body.dark .wb-backup-choice-icon,body.dark .wb-backup-choice-tag{background:var(
   }catch(e){console.warn('v72.5.8 shared listener hardening failed',e);}
   try{document.title='WorshipBase v'+VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill').forEach(el=>{el.textContent='Version '+VERSION;});}catch(_){}
 })();
-(function(){'use strict';function call(n,args,fallback){return typeof window[n]==='function'?window[n].apply(window,args||[]):fallback;}window.WBSetListModel={version:window.WB_VERSION||'84.35',normalizeItems:function(items){return call('normalizeSetArray',[items||[]],items||[]);},normalizeNamedSets:function(raw,label){return call('normalizeNamedSetMap',[raw||{},label],raw||{});},saveShared:function(){return call('saveSharedSetsToFB',[],undefined);},modSetList:function(items,scope){return call('modSetList',[items,scope],undefined);},copyActiveSetToOtherScope:function(){return call('copyActiveSetToOtherScope',[],undefined);},findSong:function(id){return call('findSongById',[id],null);},audit:function(){return {version:window.WB_VERSION||'84.35',hasNormalizeSetArray:typeof window.normalizeSetArray==='function',hasNormalizeNamedSetMap:typeof window.normalizeNamedSetMap==='function',hasModSetList:typeof window.modSetList==='function',hasSaveSharedSetsToFB:typeof window.saveSharedSetsToFB==='function',hasCopyActiveSetToOtherScope:typeof window.copyActiveSetToOtherScope==='function'};}};})();
+(function(){'use strict';function call(n,args,fallback){return typeof window[n]==='function'?window[n].apply(window,args||[]):fallback;}window.WBSetListModel={version:window.WB_VERSION||'84.37',normalizeItems:function(items){return call('normalizeSetArray',[items||[]],items||[]);},normalizeNamedSets:function(raw,label){return call('normalizeNamedSetMap',[raw||{},label],raw||{});},saveShared:function(){return call('saveSharedSetsToFB',[],undefined);},modSetList:function(items,scope){return call('modSetList',[items,scope],undefined);},copyActiveSetToOtherScope:function(){return call('copyActiveSetToOtherScope',[],undefined);},findSong:function(id){return call('findSongById',[id],null);},audit:function(){return {version:window.WB_VERSION||'84.37',hasNormalizeSetArray:typeof window.normalizeSetArray==='function',hasNormalizeNamedSetMap:typeof window.normalizeNamedSetMap==='function',hasModSetList:typeof window.modSetList==='function',hasSaveSharedSetsToFB:typeof window.saveSharedSetsToFB==='function',hasCopyActiveSetToOtherScope:typeof window.copyActiveSetToOtherScope==='function'};}};})();
 </script>
 
 <style id="wb-setlist-export-polish-style">
@@ -15093,7 +15093,7 @@ body.dark .namedset-note-chip{background:var(--accent-surface)!important;color:v
 <script id="wb-setlist-export-fixes-script">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'84.35');
+  const VERSION=(window.WB_VERSION||'84.37');
   function norm(v){try{if(typeof normId==='function')return normId(v);}catch(e){}return String(v==null?'':v).trim();}
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}}
   function sk(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
@@ -15382,7 +15382,7 @@ body.dark .workspace-subview-icon.danger{background:rgba(239,143,162,.12)!import
 <script id="wb-setlist-rich-save-guard-module">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'84.35');
+  const VERSION=(window.WB_VERSION||'84.37');
   function clone(v){try{return JSON.parse(JSON.stringify(v));}catch(e){return v;}}
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
   function counts(set){let songs=0,plan=0;itemsOf(set).forEach(function(it){const t=String((it&&it.type)||'song').toLowerCase();if(t==='section'||t==='item'||t==='service')plan++;else if(t==='song'||(it&&it.songId))songs++;});return {songs:songs,plan:plan,total:songs+plan};}
@@ -15623,7 +15623,7 @@ body.dark .wb-personal-local{background:var(--accent-surface)!important;border-c
 <script id="wb-workspace-selector-fix-script">
 (function(){
   'use strict';
-  const VERSION=(window.WB_VERSION||'84.35');
+  const VERSION=(window.WB_VERSION||'84.37');
   function qs(id){return document.getElementById(id);}
   function scopeKey(scope){try{return setScopeKey(scope);}catch(e){return scope==='personal'?'personal':'shared';}}
   function activeKey(scope){try{return activeSetPrefKey(scopeKey(scope));}catch(e){return scopeKey(scope)==='personal'?'activePersonalSetId':'activeSharedSetId';}}
@@ -15987,7 +15987,7 @@ body.dark #workspace-section .wb765-mini-action.secondary{background:rgba(255,25
 @media (max-width:390px){.pres-section-chip{min-width:46px!important;height:36px!important;padding:0 12px!important;font-size:12.5px!important;}}
 .performance-mode .sheet{padding-right:124px!important;}
 </style>
-<!-- WorshipBase v84.35 Workspace title + metadata cleanup -->
+<!-- WorshipBase v84.37 Workspace title + metadata cleanup -->
 <style id="wb-title-cleanup-style">
 /* v76.17 - reduce title/metadata flicker by making Workspace titles source-level and hiding the old Personal metadata line. */
 /* v79.4: old Personal metadata hide removed. */
@@ -16019,7 +16019,7 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
   box-shadow:0 10px 24px rgba(0,0,0,.22)!important;
 }
 </style>
-<!-- WorshipBase v84.35 final Workspace shell stability polish -->
+<!-- WorshipBase v84.37 final Workspace shell stability polish -->
 <style id="wb-stability-surface-style">
 /* v76.17 - final stability candidate. Visual-only guard against header/card morph flicker. */
 #setlist-section .wb-personal-head,
@@ -16034,7 +16034,7 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
 }
 /* v79.4: old Personal metadata hide removed. */
 </style>
-<!-- WorshipBase v84.35 source-level Workspace render cleanup -->
+<!-- WorshipBase v84.37 source-level Workspace render cleanup -->
 <style id="wb-workspace-source-style">
 /* v76.17 - render Workspace home from one final source to prevent old card flash. */
 #workspace-section .workspace-scroll{contain:layout paint;}
@@ -16083,7 +16083,7 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
 #workspace-section .workspace-card.workspace-card-action,
 #workspace-section .workspace-card.wb762-clickable{cursor:pointer;}
 </style>
-<!-- WorshipBase v84.35 - Restore stable set editor and source-level Workspace title fix -->
+<!-- WorshipBase v84.37 - Restore stable set editor and source-level Workspace title fix -->
 <style id="wb-set-editor-source-clean-style">
 /* v76.17: opened-set editors no longer expose the old in-set selector UI.
    Set switching happens from My Set Lists / Workspace Set Lists. */
@@ -16094,7 +16094,7 @@ body.dark #workspace-section .workspace-hero.wb7610-home-hero{
 .wb-editor-sub{font-size:12px!important;font-weight:700!important;color:var(--txt2)!important;}
 body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 12%,var(--bg1)),var(--bg1))!important;box-shadow:none!important;}
 </style>
-<!-- WorshipBase v84.35 - current set actions and cleaner set cards -->
+<!-- WorshipBase v84.37 - current set actions and cleaner set cards -->
 <style id="wb-set-card-actions-style">
 /* Set cards are whole-row buttons, so remove redundant right chevrons while keeping delete controls. */
 .wb-personal-actions .wb-card-btn:not(.danger),
@@ -16108,7 +16108,7 @@ body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb
 <script id="wb-current-set-actions-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'84.35');
+  var VERSION=(window.WB_VERSION||'84.37');
   function qs(id){return document.getElementById(id);} 
   function scopeKeySafe(v){try{return setScopeKey(v||((appPrefs&&appPrefs.setListScope)||'personal'));}catch(e){return v==='shared'?'shared':'personal';}}
   function activeId(scope){try{return (appPrefs&&appPrefs[activeSetPrefKey(scope)])||'';}catch(e){return scope==='shared'?(appPrefs&&appPrefs.activeSharedSetId)||'':(appPrefs&&appPrefs.activePersonalSetId)||'';}}
@@ -16123,7 +16123,7 @@ body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-<!-- WorshipBase v84.35 - Workspace home source cleanup / no staged metadata changes -->
+<!-- WorshipBase v84.37 - Workspace home source cleanup / no staged metadata changes -->
 <style id="wb-workspace-cleanup-style">
 #workspace-section .workspace-note-card,
 #workspace-section #wb763-current-card,
@@ -16132,7 +16132,7 @@ body.dark #wb-set-editor-bar{background:linear-gradient(135deg,color-mix(in srgb
 #workspace-section #workspace-setlist-manager{display:none!important;}
 #workspace-section .workspace-grid[data-wb7617-static="1"] .workspace-card-sub{min-height:1.25em;}
 </style>
-<!-- WorshipBase v84.35 - Personal Set Lists header polish
+<!-- WorshipBase v84.37 - Personal Set Lists header polish
      Stage A.6 UI repair: keep v78.4-v78.5 routing/personal renderer fixes,
      restore the fuller My Set Lists header metadata by neutralising old v76.x
      Personal metadata hide rules. No routing/storage/backend/PDF changes. -->
@@ -16188,7 +16188,7 @@ body.wb-route-lock.wb-tab-songs #library-filter-row{display:flex!important;}
 <script id="wb-canonical-router-setlist-nav-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'84.35');
+  var VERSION=(window.WB_VERSION||'84.37');
   var ROUTES={songs:'song-section',setlist:'setlist-section',workspace:'workspace-section',bible:'bible-section',settings:'settings-section'};
   var TAB_CLASSES=['wb-tab-songs','wb-tab-setlist','wb-tab-workspace','wb-tab-bible','wb-tab-settings'];
   var routeSeq=0;
@@ -16271,7 +16271,7 @@ body.wb-route-lock.wb-tab-songs #library-filter-row{display:flex!important;}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-<!-- WorshipBase v84.35 Personal Set Lists header authority -->
+<!-- WorshipBase v84.37 Personal Set Lists header authority -->
 <style id="wb-personal-header-authority-style">
 /* v79.4 - Final Personal Set Lists header owner for the cleanup line.
    This deliberately overrides old v75/v76 Personal metadata hiding/compacting rules. */
@@ -16374,7 +16374,7 @@ body.dark.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-
 <script id="wb-personal-header-authority-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'84.35');
+  var VERSION=(window.WB_VERSION||'84.37');
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s==null?'':s).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c];});}}
   function qs(id){return document.getElementById(id);} 
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
@@ -16398,7 +16398,7 @@ body.dark.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script><div id="wb-pad-float" class="wb-pad-float"><button class="wb-pad-float-label" id="wb-pad-float-label" type="button">Pad</button><button class="wb-pad-float-stop" id="wb-pad-float-stop" type="button" aria-label="Stop pad"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"></rect></svg></button></div>
-<!-- WorshipBase v84.35 - startup gate + Workspace metadata polish -->
+<!-- WorshipBase v84.37 - startup gate + Workspace metadata polish -->
 <style id="wb-startup-workspace-polish-style">
 /* Softer Personal header metadata: visible but less heavy than the title. */
 body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-personal-meta,
@@ -16514,7 +16514,7 @@ body.dark.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-
   border:1px solid var(--accent-border)!important;
 }
 </style>
-<!-- WorshipBase v84.35 - Workspace title and metadata polish
+<!-- WorshipBase v84.37 - Workspace title and metadata polish
      Scope: visual/text polish only. Align Workspace Set Lists title to the active
      workspace name, soften Personal/Workspace header metadata, reduce oversized
      title-card typography, and lighten set-editor metadata. No storage, Firebase,
@@ -16615,14 +16615,14 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
   letter-spacing:-.004em!important;
 }
 </style>
-<!-- WorshipBase v84.35 - interaction repair after router source cleanup
+<!-- WorshipBase v84.37 - interaction repair after router source cleanup
      Scope: restore action functions that were useful but accidentally retired with
      old v75/v76 routing layers. No Firebase path migration, backup, PDF export,
      bottom-sheet, song editor, or data-model rewrite. -->
 <script id="wb-interaction-repair-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'84.35');
+  var VERSION=(window.WB_VERSION||'84.37');
   function qs(id){return document.getElementById(id);} 
   function escText(s){return String(s==null?'':s);}
   function cloneDeep(obj){
@@ -16761,7 +16761,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-setlist-source-audit-module">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'84.35');
+  var VERSION=(window.WB_VERSION||'84.37');
   function qs(id){return document.getElementById(id);} 
   function setVersion(){try{document.title='WorshipBase v'+VERSION;window.WB_CURRENT_VERSION=VERSION;document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label]').forEach(function(el){el.textContent='Version '+VERSION;});}catch(e){}}
   function removeRetiredSegment(){try{document.querySelectorAll('#setlist-section .sl-scope-row').forEach(function(el){el.remove();});}catch(e){}}
@@ -16774,7 +16774,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 </script><script id="wb-workspace-router-module">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'84.35');
+  var VERSION=(window.WB_VERSION||'84.37');
   var KEY='wb.workspace.shell.v1';
   var readyDone=false;
   var previousHideLoading=window.hideLoading;
@@ -16886,13 +16886,13 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-<!-- WorshipBase v84.35 - source organisation prep
+<!-- WorshipBase v84.37 - source organisation prep
      No visual/runtime feature changes intended. This block documents current source ownership
      and exposes audit helpers before future modularisation while preserving single-file HTML testing. -->
 <script id="wb-workspace-song-return-context-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'84.35');
+  var VERSION=(window.WB_VERSION||'84.37');
   function qs(id){return document.getElementById(id);}
   function setVersion(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
@@ -16963,7 +16963,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-navigation-context-authority-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'84.35');
+  var VERSION=(window.WB_VERSION||'84.37');
   function qs(id){return document.getElementById(id);} 
   function setVersion(){
     try{document.title='WorshipBase v'+VERSION;}catch(e){}
@@ -17109,7 +17109,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-navigation-order-context-authority-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'84.35');
+  var VERSION=(window.WB_VERSION||'84.37');
 
   var oldSwitchTab=window.switchTab;
   var oldShowPersonalList=window.showPersonalList;
@@ -17401,7 +17401,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-workspace-tab-controller-module">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'84.35');
+  var VERSION=(window.WB_VERSION||'84.37');
   var lastWorkspaceEntryAt=0;
   var lastWorkspaceAction='';
   var suppressDuplicateUntil=0;
@@ -17463,7 +17463,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 <script id="wb-route-memory-navigation-hardening-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'84.35');
+  var VERSION=(window.WB_VERSION||'84.37');
   var previousFullAudit=window.WBFullAudit;
   var oldSwitchTab=window.switchTab;
   var oldShowList=window.showList;
@@ -17637,7 +17637,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager .wb-perso
 </script>
 
 
-<!-- WorshipBase v84.35 - UI/UX polish pass
+<!-- WorshipBase v84.37 - UI/UX polish pass
      Scope: safe visual polish only. No routing, Firebase, backup, PDF, bottom
      sheet behaviour, song editor behaviour, or data-model changes. -->
 <style id="wb-ui-ux-polish-style">
@@ -17806,7 +17806,7 @@ body.dark #workspace-section.workspace-setlists-mode #workspace-setlists-subview
   border-color:rgba(255,255,255,.10)!important;
 }
 </style>
-<!-- WorshipBase v84.35 - safe set editor strip refinement
+<!-- WorshipBase v84.37 - safe set editor strip refinement
      Scope: extremely small, scoped visual refinement only. This deliberately does
      not change app/page height, safe-area variables, section display, overflow,
      margins, routing, storage, Library rendering, or data model. -->
@@ -17838,7 +17838,7 @@ body.dark #wb-set-editor-bar{
   box-shadow:none!important;
 }
 </style>
-<!-- WorshipBase v84.35 - safe set title section redesign
+<!-- WorshipBase v84.37 - safe set title section redesign
      Scope: CSS-only final override for the set editor title strip. Removes the
      detached gradient feel without changing app height, safe-area variables,
      section display, overflow, routing, storage, Library rendering, or data model. -->
@@ -17883,7 +17883,7 @@ body.dark #wb-set-editor-bar .wb-editor-back{
   border-color:rgba(255,255,255,.10)!important;
 }
 </style>
-<!-- WorshipBase v84.35 - Set List / Workspace formatting consistency
+<!-- WorshipBase v84.37 - Set List / Workspace formatting consistency
      Source: rebuilt directly from the working stable baseline uploaded in this chat.
      Scope: visual CSS only for Set List and Workspace title containers/cards/buttons.
      No Library, safe-area, section display, app-height, overflow, routing, storage,
@@ -17996,7 +17996,7 @@ body.dark #workspace-section.workspace-setlists-mode #workspace-setlists-subview
   box-shadow:none!important;
 }
 </style>
-<!-- WorshipBase v84.35 - premium light fill for title cards
+<!-- WorshipBase v84.37 - premium light fill for title cards
      Source: built from the user-approved previous formatting tune.
      Scope: CSS-only light surface fill for My Set Lists, Workspace home, and Workspace Set Lists title containers.
      No Library, safe-area, section display, app-height, overflow, routing, storage,
@@ -18049,7 +18049,7 @@ body.dark #workspace-section.workspace-setlists-mode #workspace-setlists-subview
   border-color:rgba(143,180,255,.20)!important;
 }
 </style>
-<!-- WorshipBase v84.35 - restrained typography and theme-aware title/card colour tune
+<!-- WorshipBase v84.37 - restrained typography and theme-aware title/card colour tune
      Source: built directly from the user-approved prior baseline file.
      Scope: CSS-only. Only set-list/workspace typography weight, metadata softness,
      title-card theme-aware fill, and workspace icon/pill theme colour are adjusted.
@@ -18282,7 +18282,7 @@ body.dark #workspace-section .wb805-code,body.dark #workspace-section .wb805-sou
 <script id="wb-workspace-members-startup-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'84.35');
+  var VERSION=(window.WB_VERSION||'84.37');
   var KEY='wb.workspace.shell.v1';
   var oldFullAudit=window.WBFullAudit;
   var oldRenderWorkspace=window.renderWorkspace;
@@ -18434,7 +18434,7 @@ body.dark #workspace-section .wb806-code,body.dark #workspace-section .wb806-sou
 <script id="wb-workspace-routing-publish-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'84.35');
+  var VERSION=(window.WB_VERSION||'84.37');
   var KEY='wb.workspace.shell.v1';
   var oldSwitchTab=window.switchTab;
   var oldFullAudit=window.WBFullAudit;
@@ -18493,7 +18493,7 @@ body.dark #workspace-section .wb806-code,body.dark #workspace-section .wb806-sou
 
 
 
-<!-- WorshipBase v84.35 - startup safe-area and Workspace metadata flicker lock -->
+<!-- WorshipBase v84.37 - startup safe-area and Workspace metadata flicker lock -->
 <style id="wb-startup-workspace-flicker-style">
 /* First-paint safe-area fallback: prevents the header briefly sitting under the iOS status bar before the JS probe writes --sat. */
 :root{
@@ -18526,7 +18526,7 @@ body:not(.wb-ui-ready) #workspace-section .wb765-subview{
 <script id="wb-startup-workspace-flicker-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'84.35');
+  var VERSION=(window.WB_VERSION||'84.37');
   var KEY='wb.workspace.shell.v1';
   var previousSwitchTab=window.switchTab;
   var previousRenderWorkspace=window.renderWorkspace;
@@ -18607,7 +18607,7 @@ body:not(.wb-ui-ready) #workspace-section .wb765-subview{
 </script>
 
 
-<!-- WorshipBase v84.35 - Set List / Workspace renderer cleanup and metadata authority -->
+<!-- WorshipBase v84.37 - Set List / Workspace renderer cleanup and metadata authority -->
 <style id="wb-render-cleanup-style">
 /* Keep title metadata stable while old renderer layers settle. */
 #wb-personal-meta,
@@ -18624,7 +18624,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager #wb-perso
 <script id="wb-render-cleanup-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'84.35');
+  var VERSION=(window.WB_VERSION||'84.37');
   var KEY='wb.workspace.shell.v1';
   var previousSwitchTab=window.switchTab;
   var previousRenderWorkspace=window.renderWorkspace;
@@ -18738,11 +18738,11 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager #wb-perso
 
 
 
-<!-- WorshipBase v84.35 - Personal Set Lists metadata source fix -->
+<!-- WorshipBase v84.37 - Personal Set Lists metadata source fix -->
 <script id="wb-personal-meta-source-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'84.35');
+  var VERSION=(window.WB_VERSION||'84.37');
   function qs(id){return document.getElementById(id);} 
   function esc(s){try{return escapeHtml(s);}catch(e){return String(s==null?'':s).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c];});}}
   function itemsOf(set){try{return typeof normalizeSetArray==='function'?normalizeSetArray((set&&set.items)||[]):((set&&set.items)||[]);}catch(e){return (set&&set.items)||[];}}
@@ -18812,7 +18812,7 @@ body.wb-tab-setlist #setlist-section.wb-list-mode #wb-personal-manager #wb-perso
 <script id="wb-song-view-focus-scope-module">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'84.35');
+  var VERSION=(window.WB_VERSION||'84.37');
 
   function safe(fn,fallback){try{return fn();}catch(e){return fallback;}}
   function qs(id){return document.getElementById(id);}
@@ -18916,7 +18916,7 @@ body.dark .wb-transfer-pill.good{background:var(--accent-surface);border-color:v
 <script id="wb-set-transfer-flow-module">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'84.35');
+  var VERSION=(window.WB_VERSION||'84.37');
   var state={copy:null,publish:null,lastCreated:null};
   function safe(fn,fallback){try{return fn();}catch(e){return fallback;}}
   function qs(id,root){return (root||document).querySelector(id);}
@@ -19041,7 +19041,7 @@ body.dark .workspace-subview-card .set-lang-badge{
 <script id="wb-build-cleanup-info-module">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'84.35');
+  var VERSION=(window.WB_VERSION||'84.37');
   window.WBBuildCleanupInfo={
     version:VERSION,
     cleanup:'semantic cleanup pass 2',
@@ -19058,7 +19058,7 @@ body.dark .workspace-subview-card .set-lang-badge{
 <script id="wb-stability-baseline-marker">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'84.35');
+  var VERSION=(window.WB_VERSION||'84.37');
   window.WBStabilityBaseline={
     version:VERSION,
     purpose:'Stability baseline checkpoint before v83 feature work',
@@ -19075,322 +19075,78 @@ body.dark .workspace-subview-card .set-lang-badge{
 <script id="wb-dark-mode-polish-marker">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'84.35');
+  var VERSION=(window.WB_VERSION||'84.37');
   window.WBDarkModePolish={version:VERSION,scope:'visual dark-mode-only polish',behaviourChanges:false,note:'Dark mode variables/surfaces/chips/bottom sheets/cards refined. No data/routing/import/export/backup changes intended.'};
   try{window.WB_CURRENT_VERSION=VERSION;if(typeof window.WBSyncVersionLabels==='function')window.WBSyncVersionLabels();}catch(e){}
 })();
 </script>
 
 
-<script id="wb8414-display-version-only-script">
-(function(){
-  'use strict';
-  var DISPLAY_VERSION='84.35';
-  function syncDisplayVersion(){
-    try{
-      document.title='WorshipBase v'+DISPLAY_VERSION;
-      document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label],[data-wb-version-label]').forEach(function(el){el.textContent='Version '+DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-value]').forEach(function(el){el.textContent=DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-title]').forEach(function(el){el.textContent='WorshipBase v'+DISPLAY_VERSION;});
-    }catch(e){}
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){syncDisplayVersion();setTimeout(syncDisplayVersion,300);setTimeout(syncDisplayVersion,1200);},{once:true});
-  else{syncDisplayVersion();setTimeout(syncDisplayVersion,300);setTimeout(syncDisplayVersion,1200);}
-})();
-</script>
-
-
-
-
-
-<script id="wb8416-display-version-only-script">
-(function(){
-  'use strict';
-  var DISPLAY_VERSION='84.35';
-  function syncDisplayVersion(){
-    try{
-      document.title='WorshipBase v'+DISPLAY_VERSION;
-      document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label],[data-wb-version-label]').forEach(function(el){el.textContent='Version '+DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-value]').forEach(function(el){el.textContent=DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-title]').forEach(function(el){el.textContent='WorshipBase v'+DISPLAY_VERSION;});
-    }catch(e){}
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){syncDisplayVersion();setTimeout(syncDisplayVersion,300);setTimeout(syncDisplayVersion,1200);},{once:true});
-  else{syncDisplayVersion();setTimeout(syncDisplayVersion,300);setTimeout(syncDisplayVersion,1200);}
-})();
-</script>
-
-
-
-
-
-<script id="wb8417-display-version-only-script">
-(function(){
-  'use strict';
-  var DISPLAY_VERSION='84.35';
-  function syncDisplayVersion(){
-    try{
-      document.title='WorshipBase v'+DISPLAY_VERSION;
-      document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label],[data-wb-version-label]').forEach(function(el){el.textContent='Version '+DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-value]').forEach(function(el){el.textContent=DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-title]').forEach(function(el){el.textContent='WorshipBase v'+DISPLAY_VERSION;});
-    }catch(e){}
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){syncDisplayVersion();setTimeout(syncDisplayVersion,300);setTimeout(syncDisplayVersion,1200);},{once:true});
-  else{syncDisplayVersion();setTimeout(syncDisplayVersion,300);setTimeout(syncDisplayVersion,1200);}
-})();
-</script>
-
-
-
-
-
-<script id="wb8418-display-version-only-script">
-(function(){
-  'use strict';
-  var DISPLAY_VERSION='84.35';
-  function syncDisplayVersion(){
-    try{
-      document.title='WorshipBase v'+DISPLAY_VERSION;
-      document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label],[data-wb-version-label]').forEach(function(el){el.textContent='Version '+DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-value]').forEach(function(el){el.textContent=DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-title]').forEach(function(el){el.textContent='WorshipBase v'+DISPLAY_VERSION;});
-    }catch(e){}
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){syncDisplayVersion();setTimeout(syncDisplayVersion,300);setTimeout(syncDisplayVersion,1200);},{once:true});
-  else{syncDisplayVersion();setTimeout(syncDisplayVersion,300);setTimeout(syncDisplayVersion,1200);}
-})();
-</script>
-
-
-
-
-
-<script id="wb8419-display-version-only-script">
-(function(){
-  'use strict';
-  var DISPLAY_VERSION='84.35';
-  function syncDisplayVersion(){
-    try{
-      document.title='WorshipBase v'+DISPLAY_VERSION;
-      document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label],[data-wb-version-label]').forEach(function(el){el.textContent='Version '+DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-value]').forEach(function(el){el.textContent=DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-title]').forEach(function(el){el.textContent='WorshipBase v'+DISPLAY_VERSION;});
-    }catch(e){}
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){syncDisplayVersion();setTimeout(syncDisplayVersion,300);setTimeout(syncDisplayVersion,1200);},{once:true});
-  else{syncDisplayVersion();setTimeout(syncDisplayVersion,300);setTimeout(syncDisplayVersion,1200);}
-})();
-</script>
-
 
 
 
 
-<script id="wb8420-display-version-only-script">
-(function(){
-  'use strict';
-  var DISPLAY_VERSION='84.35';
-  function syncDisplayVersion(){
-    try{
-      document.title='WorshipBase v'+DISPLAY_VERSION;
-      document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label],[data-wb-version-label]').forEach(function(el){el.textContent='Version '+DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-value]').forEach(function(el){el.textContent=DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-title]').forEach(function(el){el.textContent='WorshipBase v'+DISPLAY_VERSION;});
-    }catch(e){}
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){syncDisplayVersion();setTimeout(syncDisplayVersion,300);setTimeout(syncDisplayVersion,1200);},{once:true});
-  else{syncDisplayVersion();setTimeout(syncDisplayVersion,300);setTimeout(syncDisplayVersion,1200);}
-})();
-</script>
-
-
-
-
-
-<script id="wb8421-display-version-only-script">
-(function(){
-  'use strict';
-  var DISPLAY_VERSION='84.35';
-  function syncDisplayVersion(){
-    try{
-      document.title='WorshipBase v'+DISPLAY_VERSION;
-      document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label],[data-wb-version-label]').forEach(function(el){el.textContent='Version '+DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-value]').forEach(function(el){el.textContent=DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-title]').forEach(function(el){el.textContent='WorshipBase v'+DISPLAY_VERSION;});
-    }catch(e){}
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){syncDisplayVersion();setTimeout(syncDisplayVersion,300);setTimeout(syncDisplayVersion,1200);},{once:true});
-  else{syncDisplayVersion();setTimeout(syncDisplayVersion,300);setTimeout(syncDisplayVersion,1200);}
-})();
-</script>
-
-
-
-
-
-<script id="wb8422-display-version-only-script">
-(function(){
-  'use strict';
-  var DISPLAY_VERSION='84.35';
-  function syncDisplayVersion(){
-    try{
-      document.title='WorshipBase v'+DISPLAY_VERSION;
-      document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label],[data-wb-version-label]').forEach(function(el){el.textContent='Version '+DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-value]').forEach(function(el){el.textContent=DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-title]').forEach(function(el){el.textContent='WorshipBase v'+DISPLAY_VERSION;});
-    }catch(e){}
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){syncDisplayVersion();setTimeout(syncDisplayVersion,300);setTimeout(syncDisplayVersion,1200);},{once:true});
-  else{syncDisplayVersion();setTimeout(syncDisplayVersion,300);setTimeout(syncDisplayVersion,1200);}
-})();
-</script>
-
-
-
-
-
-<script id="wb8423-display-version-only-script">
-(function(){
-  'use strict';
-  var DISPLAY_VERSION='84.35';
-  function syncDisplayVersion(){
-    try{
-      document.title='WorshipBase v'+DISPLAY_VERSION;
-      document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label],[data-wb-version-label]').forEach(function(el){el.textContent='Version '+DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-value]').forEach(function(el){el.textContent=DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-title]').forEach(function(el){el.textContent='WorshipBase v'+DISPLAY_VERSION;});
-    }catch(e){}
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){syncDisplayVersion();setTimeout(syncDisplayVersion,300);setTimeout(syncDisplayVersion,1200);},{once:true});
-  else{syncDisplayVersion();setTimeout(syncDisplayVersion,300);setTimeout(syncDisplayVersion,1200);}
-})();
-</script>
-
-
-
-
-
-<script id="wb8424-display-version-only-script">
-(function(){
-  'use strict';
-  var DISPLAY_VERSION='84.35';
-  function syncDisplayVersion(){
-    try{
-      window.WB_VERSION=DISPLAY_VERSION;
-      window.WB_CURRENT_VERSION=DISPLAY_VERSION;
-      window.WB_VERSION_LABEL='Version '+DISPLAY_VERSION;
-      window.WB_VERSION_TITLE='WorshipBase v'+DISPLAY_VERSION;
-      document.title='WorshipBase v'+DISPLAY_VERSION;
-      document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label],[data-wb-version-label]').forEach(function(el){el.textContent='Version '+DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-value]').forEach(function(el){el.textContent=DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-title]').forEach(function(el){el.textContent='WorshipBase v'+DISPLAY_VERSION;});
-    }catch(e){}
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){syncDisplayVersion();setTimeout(syncDisplayVersion,100);setTimeout(syncDisplayVersion,500);setTimeout(syncDisplayVersion,1200);},{once:true});
-  else{syncDisplayVersion();setTimeout(syncDisplayVersion,100);setTimeout(syncDisplayVersion,500);setTimeout(syncDisplayVersion,1200);}
-})();
-</script>
-
-
-
-
-
-<script id="wb8425-display-version-only-script">
-(function(){
-  'use strict';
-  var DISPLAY_VERSION='84.35';
-  function syncDisplayVersion(){
-    try{
-      window.WB_VERSION=DISPLAY_VERSION;
-      window.WB_CURRENT_VERSION=DISPLAY_VERSION;
-      window.WB_VERSION_LABEL='Version '+DISPLAY_VERSION;
-      window.WB_VERSION_TITLE='WorshipBase v'+DISPLAY_VERSION;
-      document.title='WorshipBase v'+DISPLAY_VERSION;
-      document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label],[data-wb-version-label]').forEach(function(el){el.textContent='Version '+DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-value]').forEach(function(el){el.textContent=DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-title]').forEach(function(el){el.textContent='WorshipBase v'+DISPLAY_VERSION;});
-    }catch(e){}
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){syncDisplayVersion();setTimeout(syncDisplayVersion,100);setTimeout(syncDisplayVersion,500);setTimeout(syncDisplayVersion,1200);},{once:true});
-  else{syncDisplayVersion();setTimeout(syncDisplayVersion,100);setTimeout(syncDisplayVersion,500);setTimeout(syncDisplayVersion,1200);}
-})();
-</script>
-
-
-
-
-
-<script id="wb8426-display-version-only-script">
-(function(){
-  'use strict';
-  var DISPLAY_VERSION='84.35';
-  function syncDisplayVersion(){
-    try{
-      window.WB_VERSION=DISPLAY_VERSION;
-      window.WB_CURRENT_VERSION=DISPLAY_VERSION;
-      window.WB_VERSION_LABEL='Version '+DISPLAY_VERSION;
-      window.WB_VERSION_TITLE='WorshipBase v'+DISPLAY_VERSION;
-      document.title='WorshipBase v'+DISPLAY_VERSION;
-      document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label],[data-wb-version-label]').forEach(function(el){el.textContent='Version '+DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-value]').forEach(function(el){el.textContent=DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-title]').forEach(function(el){el.textContent='WorshipBase v'+DISPLAY_VERSION;});
-    }catch(e){}
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){syncDisplayVersion();setTimeout(syncDisplayVersion,100);setTimeout(syncDisplayVersion,500);setTimeout(syncDisplayVersion,1200);},{once:true});
-  else{syncDisplayVersion();setTimeout(syncDisplayVersion,100);setTimeout(syncDisplayVersion,500);setTimeout(syncDisplayVersion,1200);}
-})();
-</script>
-
-
-
-
-
-<script id="wb8427-display-version-only-script">
-(function(){
-  'use strict';
-  var DISPLAY_VERSION='84.35';
-  function syncDisplayVersion(){
-    try{
-      window.WB_VERSION=DISPLAY_VERSION;
-      window.WB_CURRENT_VERSION=DISPLAY_VERSION;
-      window.WB_VERSION_LABEL='Version '+DISPLAY_VERSION;
-      window.WB_VERSION_TITLE='WorshipBase v'+DISPLAY_VERSION;
-      document.title='WorshipBase v'+DISPLAY_VERSION;
-      document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label],[data-wb-version-label]').forEach(function(el){el.textContent='Version '+DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-value]').forEach(function(el){el.textContent=DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-title]').forEach(function(el){el.textContent='WorshipBase v'+DISPLAY_VERSION;});
-    }catch(e){}
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){syncDisplayVersion();setTimeout(syncDisplayVersion,100);setTimeout(syncDisplayVersion,500);setTimeout(syncDisplayVersion,1200);},{once:true});
-  else{syncDisplayVersion();setTimeout(syncDisplayVersion,100);setTimeout(syncDisplayVersion,500);setTimeout(syncDisplayVersion,1200);}
-})();
-</script>
-
-
-
-
-
-<script id="wb8428-display-version-only-script">
-(function(){
-  'use strict';
-  var DISPLAY_VERSION='84.35';
-  function syncDisplayVersion(){
-    try{
-      window.WB_VERSION=DISPLAY_VERSION;
-      window.WB_CURRENT_VERSION=DISPLAY_VERSION;
-      window.WB_VERSION_LABEL='Version '+DISPLAY_VERSION;
-      window.WB_VERSION_TITLE='WorshipBase v'+DISPLAY_VERSION;
-      document.title='WorshipBase v'+DISPLAY_VERSION;
-      document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label],[data-wb-version-label]').forEach(function(el){el.textContent='Version '+DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-value]').forEach(function(el){el.textContent=DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-title]').forEach(function(el){el.textContent='WorshipBase v'+DISPLAY_VERSION;});
-    }catch(e){}
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){syncDisplayVersion();setTimeout(syncDisplayVersion,100);setTimeout(syncDisplayVersion,500);setTimeout(syncDisplayVersion,1200);},{once:true});
-  else{syncDisplayVersion();setTimeout(syncDisplayVersion,100);setTimeout(syncDisplayVersion,500);setTimeout(syncDisplayVersion,1200);}
-})();
-</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -19451,7 +19207,7 @@ body.dark .wb-backup-confidence-note{background:rgba(143,180,255,.08);border-col
 <script id="wb-backup-editor-stability-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'84.35');
+  var VERSION=(window.WB_VERSION||'84.37');
   var PRE_RESTORE_KEY='wb_pre_restore_snapshot_v1';
 
   function esc(s){
@@ -20357,7 +20113,7 @@ body.dark #ptr-indicator{
 <script id="wb-song-pdf-preview-fix-script">
 (function(){
   'use strict';
-  var VERSION=(window.WB_VERSION||'84.35');
+  var VERSION=(window.WB_VERSION||'84.37');
   var PAGE_W=595.28, PAGE_H=841.89;
 
   function safe(fn,fallback){try{return fn();}catch(e){return fallback;}}
@@ -20681,7 +20437,7 @@ body.dark #ptr-indicator{
 <script id="wb-version-and-backup-confidence-fix">
 (function(){
   'use strict';
-  var VERSION='84.35';
+  var VERSION='84.37';
   var META_KEY='wb_backup_confidence_meta_v1';
   var PRE_RESTORE_KEY='wb_pre_restore_snapshot_v1';
   var THRESHOLD=92;
@@ -20943,7 +20699,7 @@ body.dark #mi-dark .wb-songmenu-dark-toggle.on{
 <script id="wb-startup-safe-song-menu-pdf">
 (function(){
   'use strict';
-  var VERSION='84.35';
+  var VERSION='84.37';
   var SONG_PDF_CHORD_COLOUR='#10374A';
 
   function safe(fn,fallback){try{return fn();}catch(e){return fallback;}}
@@ -21111,7 +20867,7 @@ body.dark .wb-backup-confidence-note{
 <script id="wb-final-backup-menu-export-fixes">
 (function(){
   'use strict';
-  var VERSION='84.35';
+  var VERSION='84.37';
   var TEAL='#10374A';
 
   function safe(fn,fallback){try{return fn();}catch(e){return fallback;}}
@@ -21363,7 +21119,7 @@ body.dark #bs-songmenu .wbsm-toggle.on{
 <script id="wb-song-menu-restore-scoped-script">
 (function(){
   'use strict';
-  var VERSION='84.35';
+  var VERSION='84.37';
 
   function safe(fn,fallback){try{return fn();}catch(e){return fallback;}}
   function isDark(){return !!(document.body&&document.body.classList.contains('dark'));}
@@ -21695,7 +21451,7 @@ body.dark .wb-bc-note{
 <script id="wb-backup-centre-module">
 (function(){
   'use strict';
-  var VERSION='84.35';
+  var VERSION='84.37';
   var META_KEY='wb_backup_confidence_meta_v1';
   var DRIVE_STATE_KEY='wb_google_drive_backup_v1';
   var PRE_RESTORE_KEY='wb_pre_restore_snapshot_v1';
@@ -21962,7 +21718,7 @@ body.dark #wb-backup-restore-section .wb-bc-entry-mini{
 <script id="wb-backup-centre-entry-fix-script">
 (function(){
   'use strict';
-  var VERSION='84.35';
+  var VERSION='84.37';
   var META_KEY='wb_backup_confidence_meta_v1';
   var DRIVE_STATE_KEY='wb_google_drive_backup_v1';
   var SONG_MEMORY_KEY='wb_song_memory_v1';
@@ -22174,7 +21930,7 @@ body.dark #wb-backup-restore-section .wb-bc-entry-pill{
 <script id="wb-backup-centre-open-layout-fix-script">
 (function(){
   'use strict';
-  var VERSION='84.35';
+  var VERSION='84.37';
   var META_KEY='wb_backup_confidence_meta_v1';
   var DRIVE_STATE_KEY='wb_google_drive_backup_v1';
 
@@ -22492,7 +22248,7 @@ body.dark #wb-backup-restore-section .wb-bc-entry-pill{
 <script id="wb-backup-centre-self-contained-script">
 (function(){
   'use strict';
-  var VERSION='84.35';
+  var VERSION='84.37';
   var META_KEY='wb_backup_confidence_meta_v1';
   var DRIVE_STATE_KEY='wb_google_drive_backup_v1';
   var PRE_RESTORE_KEY='wb_pre_restore_snapshot_v1';
@@ -22863,7 +22619,7 @@ body.dark #wb-backup-restore-section .wb-bc-entry-pill{
 <script id="wb-compact-backup-summary-script">
 (function(){
   'use strict';
-  var VERSION='84.35';
+  var VERSION='84.37';
   var META_KEY='wb_backup_confidence_meta_v1';
   var DRIVE_STATE_KEY='wb_google_drive_backup_v1';
   var SONG_MEMORY_KEY='wb_song_memory_v1';
@@ -23224,7 +22980,7 @@ body.dark .set-card .meta-pill{
 <script id="wb-ui-consistency-polish-script">
 (function(){
   'use strict';
-  var VERSION='84.35';
+  var VERSION='84.37';
 
   function safe(fn,fallback){try{return fn();}catch(e){return fallback;}}
   function isDark(){return !!(document.body&&document.body.classList.contains('dark'));}
@@ -23313,7 +23069,7 @@ body.dark .set-card .meta-pill{
 <script id="wb842-performance-marker">
 (function(){
   'use strict';
-  var VERSION='84.35';
+  var VERSION='84.37';
   window.WB842Performance={
     version:VERSION,
     scope:'performance tuning after v84.1 visual polish',
@@ -23326,118 +23082,18 @@ body.dark .set-card .meta-pill{
 
 
 
-<script id="wb8429-display-version-only-script">
-(function(){
-  'use strict';
-  var DISPLAY_VERSION='84.35';
-  function syncDisplayVersion(){
-    try{
-      window.WB_VERSION=DISPLAY_VERSION;
-      window.WB_CURRENT_VERSION=DISPLAY_VERSION;
-      window.WB_VERSION_LABEL='Version '+DISPLAY_VERSION;
-      window.WB_VERSION_TITLE='WorshipBase v'+DISPLAY_VERSION;
-      document.title='WorshipBase v'+DISPLAY_VERSION;
-      document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label],[data-wb-version-label]').forEach(function(el){el.textContent='Version '+DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-value]').forEach(function(el){el.textContent=DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-title]').forEach(function(el){el.textContent='WorshipBase v'+DISPLAY_VERSION;});
-    }catch(e){}
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){syncDisplayVersion();setTimeout(syncDisplayVersion,100);setTimeout(syncDisplayVersion,500);setTimeout(syncDisplayVersion,1200);},{once:true});
-  else{syncDisplayVersion();setTimeout(syncDisplayVersion,100);setTimeout(syncDisplayVersion,500);setTimeout(syncDisplayVersion,1200);}
-})();
-</script>
 
 
 
-<script id="wb8430-display-version-only-script">
-(function(){
-  'use strict';
-  var DISPLAY_VERSION='84.35';
-  function syncDisplayVersion(){
-    try{
-      window.WB_VERSION=DISPLAY_VERSION;
-      window.WB_CURRENT_VERSION=DISPLAY_VERSION;
-      window.WB_VERSION_LABEL='Version '+DISPLAY_VERSION;
-      window.WB_VERSION_TITLE='WorshipBase v'+DISPLAY_VERSION;
-      document.title='WorshipBase v'+DISPLAY_VERSION;
-      document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label],[data-wb-version-label]').forEach(function(el){el.textContent='Version '+DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-value]').forEach(function(el){el.textContent=DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-title]').forEach(function(el){el.textContent='WorshipBase v'+DISPLAY_VERSION;});
-    }catch(e){}
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){syncDisplayVersion();setTimeout(syncDisplayVersion,100);setTimeout(syncDisplayVersion,500);setTimeout(syncDisplayVersion,1200);},{once:true});
-  else{syncDisplayVersion();setTimeout(syncDisplayVersion,100);setTimeout(syncDisplayVersion,500);setTimeout(syncDisplayVersion,1200);}
-})();
-</script>
 
 
 
-<script id="wb8431-display-version-only-script">
-(function(){
-  'use strict';
-  var DISPLAY_VERSION='84.35';
-  function syncDisplayVersion(){
-    try{
-      window.WB_VERSION=DISPLAY_VERSION;
-      window.WB_CURRENT_VERSION=DISPLAY_VERSION;
-      window.WB_VERSION_LABEL='Version '+DISPLAY_VERSION;
-      window.WB_VERSION_TITLE='WorshipBase v'+DISPLAY_VERSION;
-      document.title='WorshipBase v'+DISPLAY_VERSION;
-      document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label],[data-wb-version-label]').forEach(function(el){el.textContent='Version '+DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-value]').forEach(function(el){el.textContent=DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-title]').forEach(function(el){el.textContent='WorshipBase v'+DISPLAY_VERSION;});
-    }catch(e){}
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){syncDisplayVersion();setTimeout(syncDisplayVersion,100);setTimeout(syncDisplayVersion,500);setTimeout(syncDisplayVersion,1200);},{once:true});
-  else{syncDisplayVersion();setTimeout(syncDisplayVersion,100);setTimeout(syncDisplayVersion,500);setTimeout(syncDisplayVersion,1200);}
-})();
-</script>
 
 
 
-<script id="wb8432-display-version-only-script">
-(function(){
-  'use strict';
-  var DISPLAY_VERSION='84.35';
-  function syncDisplayVersion(){
-    try{
-      window.WB_VERSION=DISPLAY_VERSION;
-      window.WB_CURRENT_VERSION=DISPLAY_VERSION;
-      window.WB_VERSION_LABEL='Version '+DISPLAY_VERSION;
-      window.WB_VERSION_TITLE='WorshipBase v'+DISPLAY_VERSION;
-      document.title='WorshipBase v'+DISPLAY_VERSION;
-      document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label],[data-wb-version-label]').forEach(function(el){el.textContent='Version '+DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-value]').forEach(function(el){el.textContent=DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-title]').forEach(function(el){el.textContent='WorshipBase v'+DISPLAY_VERSION;});
-    }catch(e){}
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){syncDisplayVersion();setTimeout(syncDisplayVersion,100);setTimeout(syncDisplayVersion,500);setTimeout(syncDisplayVersion,1200);},{once:true});
-  else{syncDisplayVersion();setTimeout(syncDisplayVersion,100);setTimeout(syncDisplayVersion,500);setTimeout(syncDisplayVersion,1200);}
-})();
-</script>
 
 
 
-<script id="wb8433-display-version-only-script">
-(function(){
-  'use strict';
-  var DISPLAY_VERSION='84.35';
-  function syncDisplayVersion(){
-    try{
-      window.WB_VERSION=DISPLAY_VERSION;
-      window.WB_CURRENT_VERSION=DISPLAY_VERSION;
-      window.WB_VERSION_LABEL='Version '+DISPLAY_VERSION;
-      window.WB_VERSION_TITLE='WorshipBase v'+DISPLAY_VERSION;
-      document.title='WorshipBase v'+DISPLAY_VERSION;
-      document.querySelectorAll('.about-version-pill,.ver-pill,.version-pill,[data-version-label],[data-wb-version-label]').forEach(function(el){el.textContent='Version '+DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-value]').forEach(function(el){el.textContent=DISPLAY_VERSION;});
-      document.querySelectorAll('[data-wb-version-title]').forEach(function(el){el.textContent='WorshipBase v'+DISPLAY_VERSION;});
-    }catch(e){}
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){syncDisplayVersion();setTimeout(syncDisplayVersion,100);setTimeout(syncDisplayVersion,500);setTimeout(syncDisplayVersion,1200);},{once:true});
-  else{syncDisplayVersion();setTimeout(syncDisplayVersion,100);setTimeout(syncDisplayVersion,500);setTimeout(syncDisplayVersion,1200);}
-})();
-</script>
 
 <style id="wb8434-consolidated-dark-ui-style">
 /* v84.34 — Consolidated dark-mode/UI CSS cleanup.
@@ -24283,11 +23939,10 @@ body.dark #bs-addtosetbehavior .m-body p{
 }
 </style>
 
-
-<script id="wb8435-display-version-only-script">
+<script id="wb8436-display-version-authority-script">
 (function(){
   'use strict';
-  var DISPLAY_VERSION='84.35';
+  var DISPLAY_VERSION='84.37';
   function syncDisplayVersion(){
     try{
       window.WB_VERSION=DISPLAY_VERSION;
@@ -24300,9 +23955,395 @@ body.dark #bs-addtosetbehavior .m-body p{
       document.querySelectorAll('[data-wb-version-title]').forEach(function(el){el.textContent='WorshipBase v'+DISPLAY_VERSION;});
     }catch(e){}
   }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){syncDisplayVersion();setTimeout(syncDisplayVersion,100);setTimeout(syncDisplayVersion,500);setTimeout(syncDisplayVersion,1200);},{once:true});
-  else{syncDisplayVersion();setTimeout(syncDisplayVersion,100);setTimeout(syncDisplayVersion,500);setTimeout(syncDisplayVersion,1200);}
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',function(){
+      syncDisplayVersion();
+      setTimeout(syncDisplayVersion,100);
+      setTimeout(syncDisplayVersion,500);
+      setTimeout(syncDisplayVersion,1200);
+    },{once:true});
+  }else{
+    syncDisplayVersion();
+    setTimeout(syncDisplayVersion,100);
+    setTimeout(syncDisplayVersion,500);
+    setTimeout(syncDisplayVersion,1200);
+  }
 })();
 </script>
+
+<style id="wb8437-secondary-screen-dark-fix-style">
+/* v84.37 — Secondary screen dark-mode surface fix.
+   Built from v84.36. CSS-only.
+   Targets the screens missed by the first cleanup pass:
+   Add song editor, UG/SOP/File import pages, Workspace members/settings shells,
+   Bible reader/loading area, and Backup Centre surfaces.
+   No import/backup/Bible/workspace logic is changed. */
+
+/* Shared dark surface values for secondary flows. */
+body.dark{
+  --wb-sec-bg:var(--bg1,#141417);
+  --wb-sec-surface:var(--wb-menu-surface,#1c1c21);
+  --wb-sec-surface-2:var(--wb-menu-surface-2,#242429);
+  --wb-sec-surface-3:var(--wb-menu-surface-3,#2c2c32);
+  --wb-sec-border:var(--wb-menu-border,rgba(255,255,255,.115));
+  --wb-sec-border-strong:var(--wb-menu-border-strong,rgba(255,255,255,.16));
+}
+
+/* ------------------------------------------------------------------
+   Add song editor
+------------------------------------------------------------------ */
+body.dark #bs-modal .bs{
+  background:var(--wb-sec-bg)!important;
+  border-color:var(--wb-sec-border)!important;
+}
+
+body.dark #bs-modal .m-tr{
+  background:linear-gradient(180deg,color-mix(in srgb,var(--tc) 12%, #11141a),var(--wb-sec-bg))!important;
+  border-bottom:1px solid rgba(255,255,255,.075)!important;
+}
+
+body.dark #bs-modal .m-body{
+  background:var(--wb-sec-bg)!important;
+}
+
+body.dark #bs-modal input,
+body.dark #bs-modal textarea,
+body.dark #bs-modal select,
+body.dark #bs-modal #m-chart{
+  background:var(--wb-sec-surface-2)!important;
+  border:1px solid var(--wb-sec-border-strong)!important;
+  color:var(--txt1,#e8e8ed)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025)!important;
+}
+
+body.dark #bs-modal input:focus,
+body.dark #bs-modal textarea:focus,
+body.dark #bs-modal select:focus,
+body.dark #bs-modal #m-chart:focus{
+  border-color:color-mix(in srgb,var(--tc) 46%, rgba(255,255,255,.18))!important;
+  box-shadow:0 0 0 2px color-mix(in srgb,var(--tc) 18%, transparent), inset 0 1px 0 rgba(255,255,255,.03)!important;
+}
+
+body.dark #bs-modal .cat-toggle,
+body.dark #bs-modal .editor-mode-toggle{
+  background:var(--wb-sec-surface)!important;
+  border:1px solid var(--wb-sec-border)!important;
+}
+
+body.dark #bs-modal .cat-opt,
+body.dark #bs-modal .editor-mode-btn{
+  background:transparent!important;
+  color:var(--txt2,#b0b8c4)!important;
+}
+
+body.dark #bs-modal .cat-opt.active,
+body.dark #bs-modal .editor-mode-btn.active{
+  background:var(--wb-pill-active-bg,color-mix(in srgb,var(--tc) 24%, #242429))!important;
+  border-color:var(--wb-pill-active-border,color-mix(in srgb,var(--tc) 48%, rgba(255,255,255,.15)))!important;
+  color:var(--wb-pill-active-text,color-mix(in srgb,var(--tc) 54%, #ffffff))!important;
+}
+
+body.dark #bs-modal .editor-helper-btn{
+  background:var(--wb-sec-surface-2)!important;
+  border-color:var(--wb-sec-border)!important;
+  color:var(--txt2,#b0b8c4)!important;
+}
+
+body.dark #bs-modal .editor-helper-btn.primary{
+  background:var(--wb-pill-active-bg,color-mix(in srgb,var(--tc) 24%, #242429))!important;
+  border-color:var(--wb-pill-active-border,color-mix(in srgb,var(--tc) 48%, rgba(255,255,255,.15)))!important;
+  color:var(--wb-pill-active-text,color-mix(in srgb,var(--tc) 54%, #ffffff))!important;
+}
+
+/* ------------------------------------------------------------------
+   UG / Malayalam / File import full-page screens
+------------------------------------------------------------------ */
+body.dark #bs-ug-import.ug-page.open,
+body.dark #bs-sop-import.ug-page.open,
+body.dark #bs-file-import.ug-page.open,
+body.dark #bs-ug-import.ug-page .ug-page-panel,
+body.dark #bs-sop-import.ug-page .ug-page-panel,
+body.dark #bs-file-import.ug-page .ug-page-panel{
+  background:var(--wb-sec-bg)!important;
+  color:var(--txt1,#e8e8ed)!important;
+}
+
+body.dark .ug-page-head{
+  background:linear-gradient(180deg,color-mix(in srgb,var(--tc) 10%, #101216),var(--wb-sec-bg))!important;
+  border-bottom:1px solid rgba(255,255,255,.08)!important;
+  box-shadow:none!important;
+}
+
+body.dark .ug-page-body{
+  background:var(--wb-sec-bg)!important;
+}
+
+body.dark .ug-head-btn{
+  background:var(--wb-sec-surface-2)!important;
+  border-color:var(--wb-sec-border)!important;
+  color:var(--txt2,#b0b8c4)!important;
+}
+
+body.dark .ug-head-btn.primary,
+body.dark .ug-action-btn{
+  background:color-mix(in srgb,var(--tc) 72%, #ffffff)!important;
+  border-color:color-mix(in srgb,var(--tc) 72%, #ffffff)!important;
+  color:#111!important;
+}
+
+body.dark .ug-head-btn.secondary{
+  background:var(--wb-sec-surface)!important;
+  border-color:var(--wb-sec-border-strong)!important;
+  color:color-mix(in srgb,var(--tc) 50%, #ffffff)!important;
+}
+
+body.dark .ug-page-body input,
+body.dark .ug-page-body textarea,
+body.dark .ug-page-body select,
+body.dark .file-pick-status{
+  background:var(--wb-sec-surface-2)!important;
+  border:1px solid var(--wb-sec-border-strong)!important;
+  color:var(--txt1,#e8e8ed)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025)!important;
+}
+
+body.dark .ug-page-body input:focus,
+body.dark .ug-page-body textarea:focus{
+  border-color:color-mix(in srgb,var(--tc) 46%, rgba(255,255,255,.18))!important;
+  box-shadow:0 0 0 2px color-mix(in srgb,var(--tc) 18%, transparent), inset 0 1px 0 rgba(255,255,255,.03)!important;
+}
+
+body.dark #ug-results,
+body.dark #sop-results,
+body.dark .ug-direct-url,
+body.dark .preview-wrap,
+body.dark .file-import-review{
+  background:var(--wb-sec-surface)!important;
+  border:1px solid var(--wb-sec-border)!important;
+  color:var(--txt1,#e8e8ed)!important;
+  box-shadow:none!important;
+}
+
+body.dark #ug-results .ug-result-item,
+body.dark #sop-results .ug-result-item,
+body.dark .file-import-song-row{
+  background:transparent!important;
+  border-color:rgba(255,255,255,.075)!important;
+  color:var(--txt1,#e8e8ed)!important;
+}
+
+body.dark #ug-results .ug-result-item:active,
+body.dark #sop-results .ug-result-item:active,
+body.dark .file-import-song-row:active,
+body.dark .file-import-song-row.active{
+  background:var(--wb-sec-surface-2)!important;
+}
+
+body.dark .preview-wrap-head,
+body.dark .file-import-review-head,
+body.dark .file-import-review-actions{
+  background:transparent!important;
+  border-color:rgba(255,255,255,.075)!important;
+}
+
+body.dark .preview-body,
+body.dark #ug-preview-body,
+body.dark #sop-preview-body,
+body.dark #file-import-preview-body{
+  background:var(--wb-sec-surface)!important;
+  color:var(--txt2,#b0b8c4)!important;
+}
+
+body.dark .file-type-btn{
+  background:var(--wb-sec-surface-2)!important;
+  border-color:var(--wb-sec-border)!important;
+  color:var(--txt1,#e8e8ed)!important;
+}
+
+body.dark .file-type-btn.active{
+  background:var(--wb-pill-active-bg,color-mix(in srgb,var(--tc) 24%, #242429))!important;
+  border-color:var(--wb-pill-active-border,color-mix(in srgb,var(--tc) 48%, rgba(255,255,255,.15)))!important;
+  color:var(--wb-pill-active-text,color-mix(in srgb,var(--tc) 54%, #ffffff))!important;
+}
+
+/* ------------------------------------------------------------------
+   Workspace members/settings shell pages
+------------------------------------------------------------------ */
+body.dark #workspace-section .wb805-subview,
+body.dark #workspace-section .wb806-subview,
+body.dark #workspace-section .wb805-scroll,
+body.dark #workspace-section .wb806-scroll{
+  background:var(--wb-sec-bg)!important;
+}
+
+body.dark #workspace-section .wb805-head,
+body.dark #workspace-section .wb806-head,
+body.dark #workspace-section .wb762-head,
+body.dark #workspace-section .wb763-current-card{
+  background:linear-gradient(135deg,var(--wb-sec-surface-2),var(--wb-sec-surface))!important;
+  border-color:var(--wb-sec-border)!important;
+  box-shadow:none!important;
+}
+
+body.dark #workspace-section .wb805-card,
+body.dark #workspace-section .wb806-card,
+body.dark #workspace-section .wb762-card,
+body.dark #workspace-section .wb763-card,
+body.dark #workspace-section .wb764-card,
+body.dark #workspace-section .wb765-card{
+  background:var(--wb-sec-surface)!important;
+  border-color:var(--wb-sec-border)!important;
+  box-shadow:none!important;
+}
+
+body.dark #workspace-section .wb805-role,
+body.dark #workspace-section .wb805-member,
+body.dark #workspace-section .wb806-row,
+body.dark #workspace-section .wb806-code,
+body.dark #workspace-section .wb805-code,
+body.dark #workspace-section .wb805-input,
+body.dark #workspace-section .wb805-textarea,
+body.dark #workspace-section .wb805-search,
+body.dark #workspace-section .wb806-input,
+body.dark #workspace-section .wb806-textarea,
+body.dark #workspace-section .wb806-search,
+body.dark .wb806-field-input,
+body.dark #wb806-publish-search{
+  background:var(--wb-sec-surface-2)!important;
+  border-color:var(--wb-sec-border-strong)!important;
+  color:var(--txt1,#e8e8ed)!important;
+  box-shadow:none!important;
+}
+
+body.dark #workspace-section .wb805-back,
+body.dark #workspace-section .wb806-back,
+body.dark #workspace-section .wb762-back{
+  background:rgba(0,0,0,.26)!important;
+  border-color:var(--wb-sec-border)!important;
+  color:color-mix(in srgb,var(--tc) 50%, #ffffff)!important;
+}
+
+body.dark #workspace-section .wb805-action,
+body.dark #workspace-section .wb806-action,
+body.dark #workspace-section .wb762-action,
+body.dark #workspace-section .wb763-action,
+body.dark #workspace-section .wb764-action,
+body.dark #workspace-section .wb765-action{
+  background:var(--wb-sec-surface-2)!important;
+  border-color:var(--wb-sec-border-strong)!important;
+  color:color-mix(in srgb,var(--tc) 45%, #ffffff)!important;
+  box-shadow:none!important;
+}
+
+body.dark #workspace-section .wb805-action.primary,
+body.dark #workspace-section .wb806-action.primary{
+  background:color-mix(in srgb,var(--tc) 72%, #ffffff)!important;
+  border-color:color-mix(in srgb,var(--tc) 72%, #ffffff)!important;
+  color:#111!important;
+}
+
+/* ------------------------------------------------------------------
+   Bible tab
+------------------------------------------------------------------ */
+body.dark #bible-section{
+  background:var(--wb-sec-bg)!important;
+}
+
+body.dark .bible-scroll,
+body.dark .bible-card{
+  background:var(--wb-sec-bg)!important;
+  color:var(--txt1,#e8e8ed)!important;
+}
+
+body.dark .bible-empty{
+  background:transparent!important;
+  color:var(--txt3,#7a8594)!important;
+}
+
+body.dark .bible-combo{
+  background:var(--wb-sec-bg)!important;
+}
+
+body.dark .bible-combo-btn,
+body.dark .bible-sel,
+body.dark .bible-nav-btn{
+  background:var(--wb-sec-surface-2)!important;
+  border-color:var(--wb-sec-border)!important;
+  color:var(--txt1,#e8e8ed)!important;
+  box-shadow:none!important;
+}
+
+body.dark .bible-combo-divider{
+  background:rgba(255,255,255,.08)!important;
+}
+
+body.dark .bible-fab{
+  background:rgba(0,0,0,.28)!important;
+  border-color:var(--wb-sec-border)!important;
+  color:color-mix(in srgb,var(--tc) 55%, #ffffff)!important;
+  box-shadow:none!important;
+}
+
+/* ------------------------------------------------------------------
+   Backup Centre visual surfaces only
+------------------------------------------------------------------ */
+body.dark .wb-backup-centre{
+  background:var(--wb-sec-bg)!important;
+  color:var(--txt1,#e8e8ed)!important;
+}
+
+body.dark .wb-bc-head{
+  background:linear-gradient(180deg,color-mix(in srgb,var(--tc) 10%, #101216),var(--wb-sec-bg))!important;
+  border-bottom-color:rgba(255,255,255,.08)!important;
+  box-shadow:none!important;
+}
+
+body.dark .wb-bc-close{
+  background:var(--wb-sec-surface-2)!important;
+  border-color:var(--wb-sec-border)!important;
+  color:var(--txt1,#e8e8ed)!important;
+}
+
+body.dark .wb-bc-card,
+body.dark .wb-backup-confidence-panel,
+body.dark .wb-bc-summary,
+body.dark .wb-bc-local,
+body.dark .wb-bc-drive{
+  background:var(--wb-sec-surface)!important;
+  border-color:var(--wb-sec-border)!important;
+  box-shadow:none!important;
+}
+
+body.dark .wb-bc-cell,
+body.dark .wb-bc-row,
+body.dark .wb-backup-confidence-cell{
+  background:var(--wb-sec-surface-2)!important;
+  border-color:rgba(255,255,255,.085)!important;
+  color:var(--txt1,#e8e8ed)!important;
+}
+
+body.dark .wb-bc-row{
+  background:transparent!important;
+}
+
+body.dark .wb-bc-row:active{
+  background:var(--wb-sec-surface-2)!important;
+}
+
+body.dark .wb-bc-row-icon,
+body.dark .wb-backup-confidence-icon{
+  background:color-mix(in srgb,var(--tc) 12%, var(--wb-sec-surface-2))!important;
+  border-color:color-mix(in srgb,var(--tc) 20%, rgba(255,255,255,.10))!important;
+  color:color-mix(in srgb,var(--tc) 48%, #ffffff)!important;
+}
+
+body.dark .wb-bc-badge,
+body.dark .wb-bc-pill,
+body.dark .wb-backup-confidence-badge{
+  background:var(--wb-pill-active-bg,color-mix(in srgb,var(--tc) 24%, #242429))!important;
+  border-color:var(--wb-pill-active-border,color-mix(in srgb,var(--tc) 48%, rgba(255,255,255,.15)))!important;
+  color:var(--wb-pill-active-text,color-mix(in srgb,var(--tc) 54%, #ffffff))!important;
+}
+</style>
 
 <div class="bs-bg" id="bs-setadd" onclick="closeBSBg(event,'setadd')"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><h2 class="m-h2" id="setadd-title">Add service item</h2><button class="m-close" onclick="closeBS('setadd')">×</button></div><div class="m-body"><label>Title</label><input type="text" id="setadd-name" placeholder="e.g. Prayer" onkeydown="if(event.key==='Enter')saveSetAddItem()"><div id="setadd-note-wrap"><label>Optional note</label><textarea id="setadd-note" class="note-textarea" style="min-height:92px" placeholder="Optional detail shown on the set list card…"></textarea></div><div class="m-acts"><button class="btn-s" type="button" onclick="closeBS('setadd')">Cancel</button><button class="btn-p" type="button" onclick="return window.WBSetPlanningMenu&amp;&amp;window.WBSetPlanningMenu.commitSetAdd&amp;&amp;window.WBSetPlanningMenu.commitSetAdd(event)" data-wb-keyboard-safe-add="1">Add</button></div></div></div></div><input type="file" id="full-app-backup-json-file" accept=".json,application/json" style="display: none;"><div class="bs-bg" id="bs-backuplocal" onclick="closeBSBg(event,'backuplocal')"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><h2 class="m-h2">Local backup</h2><button class="m-close" onclick="closeBS('backuplocal')">×</button></div><div class="m-body"><div class="wb-backup-confidence-panel" data-wb-backup-confidence="local"><div class="wb-backup-confidence-title">Backup confidence</div><div class="wb-backup-confidence-grid"><div class="wb-backup-confidence-cell"><span class="wb-backup-confidence-k">Last local backup</span><span class="wb-backup-confidence-v">Never</span></div><div class="wb-backup-confidence-cell"><span class="wb-backup-confidence-k">Safety snapshot</span><span class="wb-backup-confidence-v">Not yet</span></div><div class="wb-backup-confidence-cell"><span class="wb-backup-confidence-k">My songs</span><span class="wb-backup-confidence-v">0</span></div><div class="wb-backup-confidence-cell"><span class="wb-backup-confidence-k">Personal set lists</span><span class="wb-backup-confidence-v">0</span></div></div></div><p class="wb-backup-sheet-note">Save JSON files to your device, or restore from a file you previously exported.</p><div class="wb-backup-group-title">Export to file</div><button class="wb-backup-choice" type="button" onclick="exportMySongsJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">My Songs</span><span class="wb-backup-choice-sub">Songs added on this device only</span></span><span class="wb-backup-choice-tag">JSON</span></button><button class="wb-backup-choice" type="button" onclick="exportNotesCuesJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Notes &amp; Cues</span><span class="wb-backup-choice-sub">Personal notes, cues, usual keys and practice status</span></span><span class="wb-backup-choice-tag">JSON</span></button><button class="wb-backup-choice" type="button" onclick="exportAppBackupJSON();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 7.3l2.8 2.8 2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Everything</span><span class="wb-backup-choice-sub">My Songs, set lists, sections, service items, notes/cues and preferences</span></span><span class="wb-backup-choice-tag">Full</span></button><div class="wb-backup-group-title">Restore from file</div><button class="wb-backup-choice" type="button" onclick="document.getElementById('my-songs-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore My Songs</span><span class="wb-backup-choice-sub">Import a WorshipBase song JSON file</span></span><span class="wb-backup-choice-tag">Import</span></button><button class="wb-backup-choice" type="button" onclick="document.getElementById('notes-cues-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore Notes &amp; Cues</span><span class="wb-backup-choice-sub">Apply notes/cues onto matching songs</span></span><span class="wb-backup-choice-tag">Import</span></button><button class="wb-backup-choice" type="button" onclick="document.getElementById('full-app-backup-json-file')?.click();closeBS('backuplocal')"><span class="wb-backup-choice-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 14.5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M5.7 9.8L8.5 7l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 4h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></span><span class="wb-backup-choice-copy"><span class="wb-backup-choice-title">Restore Everything</span><span class="wb-backup-choice-sub">Replace personal data on this device from a full app backup</span></span><span class="wb-backup-choice-tag">Replace</span></button></div></div></div><div class="bs-bg" id="bs-backupdrive" onclick="closeBSBg(event,'backupdrive')"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><h2 class="m-h2">Google Drive backup</h2><button class="m-close" onclick="closeBS('backupdrive')">×</button></div><div class="m-body"><div class="wb-backup-confidence-panel" data-wb-backup-confidence="drive"><div class="wb-backup-confidence-title">Backup confidence</div><div class="wb-backup-confidence-grid"><div class="wb-backup-confidence-cell"><span class="wb-backup-confidence-k">Last local backup</span><span class="wb-backup-confidence-v">Never</span></div><div class="wb-backup-confidence-cell"><span class="wb-backup-confidence-k">Safety snapshot</span><span class="wb-backup-confidence-v">Not yet</span></div><div class="wb-backup-confidence-cell"><span class="wb-backup-confidence-k">My songs</span><span class="wb-backup-confidence-v">0</span></div><div class="wb-backup-confidence-cell"><span class="wb-backup-confidence-k">Personal set lists</span><span class="wb-backup-confidence-v">0</span></div></div></div><div id="wb-drive-sheet-body"></div></div></div></div><div id="wb-backup-centre" class="wb-backup-centre"><div class="wb-bc-head"><div class="wb-bc-title-wrap"><div class="wb-bc-title">Backup Centre</div><div class="wb-bc-sub">Local files and Google Drive backup in one place.</div></div><button class="wb-bc-close" type="button" onclick="closeBackupCentre()">×</button></div><div class="wb-bc-scroll" id="wb-backup-centre-scroll"></div></div></body><div style="position: fixed; top: 0px; left: 0px; width: 1px; height: env(safe-area-inset-top,0px); pointer-events: none; opacity: 0; z-index: -1;"></div><div style="position: fixed; bottom: 0px; left: 0px; width: 1px; height: env(safe-area-inset-bottom,0px); pointer-events: none; opacity: 0; z-index: -1;"></div></html>
