@@ -1,4 +1,4 @@
-<html lang="en" style="--tc: #d8945f; --tc2: #e7bd99; --tc3: #d8945f; --tc-light: rgba(255,255,255,.08); --tc-mid: rgba(255,255,255,.18); --tc-faint: rgba(216,148,95,0.18); --surface-tint: rgba(16,55,74,.05); --surface-tint-strong: rgba(16,55,74,.09); --surface-border: rgba(16,55,74,.12); --accent: #e7bd99; --accent-bg: rgba(216,148,95,0.18); --accent-fg: #160d07; --chord-highlight-bg: rgba(216,148,95,0.22); --wb-text-scale: 1; --accent-strong: #d8945f; --accent-surface: rgba(216,148,95,0.18); --accent-surface-strong: rgba(216,148,95,0.28); --accent-border: rgba(216,148,95,0.46); --chord-color: #f0d2b3;"><head>
+<html lang="en" style="--tc: #8A7A68; --tc2: #a08f7a; --tc3: #51473c; --tc-light: #f2eee8; --tc-mid: #c9bdac; --tc-faint: rgba(138,122,104,0.07); --surface-tint: rgba(16,55,74,.05); --surface-tint-strong: rgba(16,55,74,.09); --surface-border: rgba(16,55,74,.12); --accent: #8A7A68; --accent-bg: #f2eee8; --accent-fg: #ffffff; --chord-highlight-bg: hsl(32,22%,91.44%); --wb-text-scale: 1;"><head>
 <meta charset="utf-8">
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport">
 <meta content="#10374A" name="theme-color">
@@ -8,7 +8,7 @@
 <meta content="WorshipBase" name="apple-mobile-web-app-title">
 <link href="./worshipbase_layered_fold_w_proper/app-icons/app-icon-192.png" rel="icon" type="image/png">
 <link href="./worshipbase_layered_fold_w_proper/app-icons/apple-touch-icon.png" rel="apple-touch-icon">
-<title>WorshipBase v7.79</title>
+<title>WorshipBase v7.84</title>
 <style id="wb-rebuild-consolidated-style">
 
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -2514,10 +2514,346 @@ body.dark .tab-btn:not(.active) .wb-tab-icon-sliders{
   opacity:.98!important;
 }
 
+
+/* 7.80 iOS-style tab selected state.
+   Keep the 7.79 icon concepts, but make selection clearer in an iOS-like way:
+   inactive = clean outline grey; active = filled symbol + accent + subtle selected tint. */
+:root{
+  --ios-tab-active:var(--tc);
+  --ios-tab-active-soft:color-mix(in srgb,var(--tc) 15%,transparent);
+  --ios-tab-inactive:color-mix(in srgb,var(--txt3) 68%,var(--txt2) 32%);
+  --tab-active-glyph:#fff;
+}
+body.dark{
+  --ios-tab-active:var(--accent);
+  --ios-tab-active-soft:color-mix(in srgb,var(--accent) 18%,transparent);
+  --ios-tab-inactive:color-mix(in srgb,var(--txt2) 88%,#fff 12%);
+  --tab-active-glyph:#141417;
+}
+.tab-btn{
+  position:relative!important;
+}
+.tab-ico{
+  position:relative!important;
+  border-radius:16px!important;
+  overflow:visible!important;
+}
+.tab-btn .tab-ico::before{
+  content:"";
+  position:absolute;
+  inset:-4px -7px -3px -7px;
+  border-radius:16px;
+  background:transparent;
+  opacity:0;
+  transform:scale(.92);
+  transition:opacity .16s ease,transform .16s ease,background .16s ease;
+}
+.tab-btn.active .tab-ico::before{
+  background:var(--ios-tab-active-soft);
+  opacity:1;
+  transform:scale(1);
+}
+.tab-btn:not(.active){
+  color:var(--ios-tab-inactive)!important;
+}
+.tab-btn:not(.active) .ico-outline{
+  color:var(--ios-tab-inactive)!important;
+  opacity:1!important;
+  filter:none!important;
+}
+.tab-btn:not(.active) .tab-lbl{
+  color:var(--ios-tab-inactive)!important;
+  opacity:.98!important;
+  font-weight:590!important;
+}
+.tab-btn.active{
+  color:var(--ios-tab-active)!important;
+}
+.tab-btn.active .ico-filled{
+  color:var(--ios-tab-active)!important;
+  opacity:1!important;
+  filter:none!important;
+  transform:translateY(-.8px) scale(1.075)!important;
+}
+.tab-btn.active .tab-lbl{
+  color:var(--ios-tab-active)!important;
+  font-weight:780!important;
+}
+.tab-btn.active .ico-filled [fill^="var(--tab-active-glyph"],
+.tab-btn.active .ico-filled [stroke^="var(--tab-active-glyph"]{
+  opacity:.82;
+}
+.tab-btn.active .ico-filled path[fill="currentColor"],
+.tab-btn.active .ico-filled rect[fill="currentColor"],
+.tab-btn.active .ico-filled circle[fill="currentColor"]{
+  opacity:1!important;
+}
+body.dark .tab-btn.active .tab-ico::before{
+  background:color-mix(in srgb,var(--accent) 20%,transparent);
+}
+body.dark .tab-btn.active .ico-filled{
+  color:var(--accent)!important;
+}
+body:not(.dark) .tab-btn.active .tab-ico::before{
+  background:color-mix(in srgb,var(--tc) 13%,transparent);
+}
+
+
+/* 7.81 selected tab tint correction.
+   In 7.80 the rounded active tint only sat behind the icon. That looked unfinished
+   because the label sat outside the selected shape. The active tint now belongs to
+   the whole tab button and covers both icon and label. */
+.tab-btn{
+  position:relative!important;
+  isolation:isolate;
+}
+.tab-btn::before{
+  content:"";
+  position:absolute;
+  left:8px;
+  right:8px;
+  top:6px;
+  bottom:5px;
+  border-radius:18px;
+  background:transparent;
+  opacity:0;
+  transform:scale(.94);
+  transition:opacity .16s ease,transform .16s ease,background .16s ease;
+  z-index:-1;
+  pointer-events:none;
+}
+.tab-btn.active::before{
+  background:var(--ios-tab-active-soft);
+  opacity:1;
+  transform:scale(1);
+}
+.tab-btn .tab-ico::before,
+.tab-btn.active .tab-ico::before{
+  content:none!important;
+  display:none!important;
+  opacity:0!important;
+  background:transparent!important;
+}
+.tab-ico,
+.tab-lbl{
+  position:relative;
+  z-index:1;
+}
+body.dark .tab-btn.active::before{
+  background:color-mix(in srgb,var(--accent) 18%,transparent);
+}
+body:not(.dark) .tab-btn.active::before{
+  background:color-mix(in srgb,var(--tc) 11%,transparent);
+}
+
+
+/* 7.82 selected tab tint vertical coverage correction.
+   7.81 moved the tint to the whole tab button but the shape was still too shallow
+   vertically on-device. This keeps tab-bar height unchanged and expands the selected
+   shape vertically so it includes both icon and label. */
+.tab-btn{
+  isolation:isolate!important;
+  overflow:visible!important;
+}
+.tab-btn::before{
+  left:8px!important;
+  right:8px!important;
+  top:2px!important;
+  bottom:1px!important;
+  min-height:calc(var(--tab-h) - 3px)!important;
+  border-radius:20px!important;
+  z-index:0!important;
+}
+.tab-btn.active::before{
+  opacity:1!important;
+  transform:scale(1)!important;
+}
+.tab-ico,
+.tab-lbl{
+  position:relative!important;
+  z-index:1!important;
+}
+.tab-btn .tab-ico::before,
+.tab-btn.active .tab-ico::before{
+  content:none!important;
+  display:none!important;
+}
+
+/* Keep the larger vertical tint from touching the physical bottom safe-area. */
+.tab-bar{
+  overflow:visible!important;
+}
+
+
+/* 7.83 content-owned active tab tint.
+   The 7.81/7.82 tint was attached to the full .tab-btn box, while earlier icon
+   and label spacing used independent transforms. That made the selected shape
+   look uneven on device. The tint now belongs to a .tab-pill that wraps the
+   visible icon + label group, so spacing is optically even around the content. */
+.tab-bar{
+  overflow:visible!important;
+  align-items:flex-start!important;
+}
+.tab-btn{
+  position:relative!important;
+  isolation:auto!important;
+  overflow:visible!important;
+  height:var(--tab-h)!important;
+  min-height:var(--tab-h)!important;
+  padding:0!important;
+  gap:0!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+.tab-btn::before,
+.tab-btn.active::before{
+  content:none!important;
+  display:none!important;
+  opacity:0!important;
+  background:transparent!important;
+}
+.tab-pill{
+  position:relative;
+  z-index:1;
+  min-width:64px;
+  height:46px;
+  padding:4px 10px 3px;
+  border-radius:18px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:1px;
+  background:transparent;
+  transition:background .16s ease,transform .16s ease;
+  pointer-events:none;
+}
+#tab-workspace .tab-pill{min-width:76px;}
+.tab-btn.active .tab-pill{
+  background:color-mix(in srgb,var(--tc) 11%,transparent);
+}
+body.dark .tab-btn.active .tab-pill{
+  background:color-mix(in srgb,var(--accent) 18%,transparent);
+}
+.tab-btn .tab-ico{
+  transform:none!important;
+  margin-bottom:0!important;
+  width:34px!important;
+  height:29px!important;
+}
+.tab-btn .tab-lbl{
+  transform:none!important;
+  margin-top:0!important;
+  line-height:1!important;
+}
+.tab-btn.active .ico-filled{
+  transform:scale(1.055)!important;
+}
+.tab-btn:not(.active) .ico-outline{
+  transform:scale(1.02)!important;
+}
+.tab-btn .tab-ico::before,
+.tab-btn.active .tab-ico::before{
+  content:none!important;
+  display:none!important;
+  opacity:0!important;
+  background:transparent!important;
+}
+@media(max-width:380px){
+  .tab-pill{min-width:60px;height:45px;padding:4px 8px 3px;border-radius:17px;}
+  #tab-workspace .tab-pill{min-width:72px;}
+  .tab-btn .tab-ico{height:28px!important;}
+}
+
+
+/* 7.84 vertically integrated active tab tint trial.
+   7.83 correctly moved the selected background to .tab-pill, but on-device the
+   active shape read as a small floating badge with too much blank bar beneath it.
+   This keeps the tint content-owned, makes every selected capsule the same visual
+   width inside its tab cell, lets it extend slightly into the safe-area portion
+   without reaching the home indicator, and centres the icon + label group inside
+   the taller capsule. */
+.tab-bar{
+  overflow:visible!important;
+  align-items:flex-start!important;
+}
+.tab-btn{
+  position:relative!important;
+  align-self:flex-start!important;
+  height:clamp(56px,calc(var(--tab-h) + min(var(--sab),12px)),64px)!important;
+  min-height:clamp(56px,calc(var(--tab-h) + min(var(--sab),12px)),64px)!important;
+  padding:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:0!important;
+}
+.tab-pill{
+  width:calc(100% - 10px)!important;
+  max-width:118px!important;
+  min-width:0!important;
+  height:clamp(54px,calc(var(--tab-h) + min(var(--sab),8px)),60px)!important;
+  padding:6px 6px 5px!important;
+  border-radius:22px!important;
+  box-sizing:border-box!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:2px!important;
+}
+#tab-workspace .tab-pill{
+  min-width:0!important;
+}
+.tab-btn.active .tab-pill{
+  background:color-mix(in srgb,var(--tc) 12%,transparent)!important;
+}
+body.dark .tab-btn.active .tab-pill{
+  background:color-mix(in srgb,var(--accent) 20%,transparent)!important;
+}
+.tab-btn .tab-ico{
+  width:34px!important;
+  height:28px!important;
+  margin:0!important;
+  transform:none!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex:0 0 auto!important;
+}
+.tab-btn .tab-lbl{
+  margin:0!important;
+  transform:none!important;
+  line-height:1.05!important;
+  max-width:100%!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+.tab-btn.active .ico-filled{
+  transform:scale(1.055)!important;
+}
+.tab-btn:not(.active) .ico-outline{
+  transform:scale(1.02)!important;
+}
+@media(max-width:380px){
+  .tab-btn{
+    height:clamp(55px,calc(var(--tab-h) + min(var(--sab),10px)),62px)!important;
+    min-height:clamp(55px,calc(var(--tab-h) + min(var(--sab),10px)),62px)!important;
+  }
+  .tab-pill{
+    width:calc(100% - 6px)!important;
+    height:clamp(53px,calc(var(--tab-h) + min(var(--sab),7px)),58px)!important;
+    padding:6px 4px 5px!important;
+    border-radius:21px!important;
+  }
+  .tab-btn .tab-lbl{font-size:10px!important;}
+}
+
 </style>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" data-loaded="1"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" data-loaded="1"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js" data-loaded="1"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js" data-loaded="1"></script><script src="https://apis.google.com/js/api.js?onload=__iframefcb472824" type="text/javascript" charset="UTF-8" gapi_processed="true"></script></head>
-<body data-nav-behaviour77="1" class="dark wb-ui-ready wb-route-songs wb-tab-songs" style="pointer-events: auto;">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" data-loaded="1"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" data-loaded="1"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js" data-loaded="1"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js" data-loaded="1"></script><script src="https://apis.google.com/js/api.js?onload=__iframefcb384676" type="text/javascript" charset="UTF-8" gapi_processed="true"></script></head>
+<body data-nav-behaviour77="1" class="wb-ui-ready wb-route-songs wb-tab-songs" style="pointer-events: auto;">
 <div id="app" style="opacity: 1; pointer-events: auto;">
 <div class="hdr">
 <div class="hdr-row">
@@ -2614,38 +2950,48 @@ body.dark .tab-btn:not(.active) .wb-tab-icon-sliders{
 <div class="bible-scroll"><div class="bible-card" id="bible-card"><div class="bible-heading">John 3</div><div class="bible-verse"><span class="bible-vnum">16</span><span class="bible-vtext">For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life.</span></div><div class="bible-verse"><span class="bible-vnum">17</span><span class="bible-vtext">For God did not send his Son into the world to condemn the world, but in order that the world might be saved through him.</span></div><div class="bible-copy">Bible data loader and full picker wiring belong to the Tools/Bible data pass. This shell keeps the Tools-owned route and visual structure.</div></div></div>
 </section>
 <section class="route" id="settings-section">
-<div class="settings-scroll"><div class="settings-list" id="settings-list"><div class="ss-section"><div class="ss-title">Appearance</div><div class="ss-card"><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg></span><div class="ss-body"><div class="ss-lbl">Dark mode</div></div><button class="sw on" id="dark-sw" data-toggle-setting="darkMode" type="button" aria-label="Toggle Dark mode"><span class="sw-thumb"></span></button></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M4 20h4l11-11a2.8 2.8 0 0 0-4-4L4 16v4Z"></path><path d="M13.5 6.5l4 4"></path></svg></span><div class="ss-body"><div class="ss-lbl">Text size</div><div class="sz-wrap"><span class="sz-a">A</span><input class="sz-slider" id="settings-text-size" data-text-size-slider="" type="range" min="0.85" max="1.25" step="0.05" value="1" style="--pct:38%"><span class="sz-a big">A</span></div></div></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="3"></circle></svg></span><div class="ss-body"><div class="ss-lbl">Colour theme</div></div></div><div class="theme-row"><button class="theme-sw light-check" data-theme-value="neutral" type="button" aria-label="Neutral theme" style="--theme-dot:#ffffff"></button><button class="theme-sw " data-theme-value="forest" type="button" aria-label="Forest theme" style="--theme-dot:#54c878"></button><button class="theme-sw " data-theme-value="olive" type="button" aria-label="Sage / Olive theme" style="--theme-dot:#bfd35b"></button><button class="theme-sw " data-theme-value="stone" type="button" aria-label="Stone / Taupe theme" style="--theme-dot:#b9aa96"></button><button class="theme-sw active " data-theme-value="cedar" type="button" aria-label="Cedar theme" style="--theme-dot:#d8945f"></button><button class="theme-sw " data-theme-value="mulberry" type="button" aria-label="Mulberry theme" style="--theme-dot:#e9799a"></button><button class="theme-sw " data-theme-value="purple" type="button" aria-label="Deep Purple theme" style="--theme-dot:#b983ff"></button><button class="theme-sw " data-theme-value="darkteal" type="button" aria-label="Dark Teal theme" style="--theme-dot:#3fcaca"></button><button class="theme-sw " data-theme-value="slate" type="button" aria-label="Slate Blue theme" style="--theme-dot:#7aa7ff"></button><button class="theme-sw " data-theme-value="navy" type="button" aria-label="Midnight Navy theme" style="--theme-dot:#86b4ff"></button></div></div></div><div class="ss-section"><div class="ss-title">Library</div><div class="ss-card"><button class="ss-row" data-choice-key="defaultDisplayKey" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M9 18.5a2.5 2.5 0 1 1-1-2V6l10-2v10.5a2.5 2.5 0 1 1-1-2V8L9 9.5z"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default display key</div><div class="ss-sub" id="def-key-sub">Show songs in their original key</div></div><div class="ss-right"><span class="ss-val" id="def-key-val">Original</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button><button class="ss-row" data-choice-key="defaultSongView" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h14"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default song view</div><div class="ss-sub" id="def-songview-sub">Songs open in Chords view</div></div><div class="ss-right"><span class="ss-val" id="def-songview-val">Chords</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section"><div class="ss-title">Song defaults</div><div class="ss-card"><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><rect x="5" y="7" width="14" height="10" rx="2"></rect><path d="M8 12h8"></path></svg></span><div class="ss-body"><div class="ss-lbl">Highlight chords by default</div><div class="ss-sub">Songs open with chord highlight on</div></div><button class="sw on" id="default-highlight-sw" data-toggle-setting="highlightChordsDefault" type="button" aria-label="Toggle Highlight chords by default"><span class="sw-thumb"></span></button></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M10 4v15"></path><path d="M10 12.5c4-3 7-1.7 7 1.3 0 3.5-4.2 4.8-7 5.2"></path></svg></span><div class="ss-body"><div class="ss-lbl">Use flats by default</div><div class="ss-sub">Prefer flats when songs open</div></div><button class="sw " id="default-flats-sw" data-toggle-setting="useFlatsDefault" type="button" aria-label="Toggle Use flats by default"><span class="sw-thumb"></span></button></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><rect x="8" y="3" width="8" height="18" rx="2"></rect><path d="M11 18h2"></path></svg></span><div class="ss-body"><div class="ss-lbl">Keep screen awake on song pages</div><div class="ss-sub">Prevent screen sleep while viewing songs</div></div><button class="sw " id="keep-awake-sw" data-toggle-setting="keepScreenAwakeOnSongs" type="button" aria-label="Toggle Keep screen awake on song pages"><span class="sw-thumb"></span></button></div><button class="ss-row" data-choice-key="addToSetBehavior" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M5 7h9M5 12h7M5 17h9"></path><path d="M17 10v6M14 13h6"></path></svg></span><div class="ss-body"><div class="ss-lbl">Add to set list</div><div class="ss-sub" id="addset-beh-sub">Ask every time which set to use</div></div><div class="ss-right"><span class="ss-val" id="addset-beh-val">Ask</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section"><div class="ss-title">Preview</div><div class="ss-card"><button class="ss-row" data-choice-key="defaultPdfPreset" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"></path><path d="M14 3v5h4"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default PDF preset</div><div class="ss-sub" id="def-pdf-sub">Open export on Rehearsal preset</div></div><div class="ss-right"><span class="ss-val" id="def-pdf-val">Rehearsal</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section"><div class="ss-title">Bible</div><div class="ss-card"><button class="ss-row" data-choice-key="defaultBibleVersion" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M7 4h10v16H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"></path><path d="M9 8h6M9 12h6M9 16h4"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default Bible version</div><div class="ss-sub" id="def-bible-sub">Bible opens in ESV</div></div><div class="ss-right"><span class="ss-val" id="def-bible-val">ESV</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section" id="wb-backup-restore-section"><div class="ss-title">Backup &amp; Restore</div><div class="wb-settings-backup-card"><button class="wb-settings-backup-row wb-bc-entry-row" id="wb-backup-centre-entry-row" data-settings-action="backup" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.5 2.9 7.8 7 10 4.1-2.2 7-5.5 7-10V6l-7-3Z"></path><path d="m9 12 2 2 4-5"></path></svg></span><div class="ss-body"><div class="ss-lbl">Backup Centre</div><div class="ss-sub">Local files and Google Drive backup in one place.</div></div><div class="ss-right"><span class="wb-bc-entry-pill">OPEN</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button><div class="wb-settings-backup-summary"><div class="wb-settings-backup-grid"><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">My songs</div><div class="wb-settings-backup-mini-value">0</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Personal set lists</div><div class="wb-settings-backup-mini-value">0</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Notes &amp; cues</div><div class="wb-settings-backup-mini-value">0</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Google Drive</div><div class="wb-settings-backup-mini-value">Not configured</div></div></div><div class="wb-settings-backup-footer">Drive backup is now wired for runtime OAuth and hidden appDataFolder storage.</div></div></div></div><div class="ss-section"><div class="ss-title">About</div><div class="ss-card"><div class="about-panel"><div class="wb-brand-mark" id="about-brand-mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 18l8 28 10-20 10 20 8-28" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="about-copy"><div class="about-name" id="about-brand-name">WorshipBase</div><div class="about-version-pill">Rebuild_7.79</div><div class="about-by">Created by <strong>Jerin Reji</strong></div><div class="admin-state-line ">Tap logo for admin mode</div></div></div></div></div></div></div>
+<div class="settings-scroll"><div class="settings-list" id="settings-list"><div class="ss-section"><div class="ss-title">Appearance</div><div class="ss-card"><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg></span><div class="ss-body"><div class="ss-lbl">Dark mode</div></div><button class="sw " id="dark-sw" data-toggle-setting="darkMode" type="button" aria-label="Toggle Dark mode"><span class="sw-thumb"></span></button></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M4 20h4l11-11a2.8 2.8 0 0 0-4-4L4 16v4Z"></path><path d="M13.5 6.5l4 4"></path></svg></span><div class="ss-body"><div class="ss-lbl">Text size</div><div class="sz-wrap"><span class="sz-a">A</span><input class="sz-slider" id="settings-text-size" data-text-size-slider="" type="range" min="0.85" max="1.25" step="0.05" value="1" style="--pct:38%"><span class="sz-a big">A</span></div></div></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="3"></circle></svg></span><div class="ss-body"><div class="ss-lbl">Colour theme</div></div></div><div class="theme-row"><button class="theme-sw " data-theme-value="neutral" type="button" aria-label="Neutral theme" style="--theme-dot:#111111"></button><button class="theme-sw " data-theme-value="forest" type="button" aria-label="Forest theme" style="--theme-dot:#1A4731"></button><button class="theme-sw " data-theme-value="olive" type="button" aria-label="Sage / Olive theme" style="--theme-dot:#6F7D3C"></button><button class="theme-sw active " data-theme-value="stone" type="button" aria-label="Stone / Taupe theme" style="--theme-dot:#8A7A68"></button><button class="theme-sw " data-theme-value="cedar" type="button" aria-label="Cedar theme" style="--theme-dot:#7A5A4D"></button><button class="theme-sw " data-theme-value="mulberry" type="button" aria-label="Mulberry theme" style="--theme-dot:#5A2034"></button><button class="theme-sw " data-theme-value="purple" type="button" aria-label="Deep Purple theme" style="--theme-dot:#3A0A55"></button><button class="theme-sw " data-theme-value="darkteal" type="button" aria-label="Dark Teal theme" style="--theme-dot:#10374A"></button><button class="theme-sw " data-theme-value="slate" type="button" aria-label="Slate Blue theme" style="--theme-dot:#4F6480"></button><button class="theme-sw " data-theme-value="navy" type="button" aria-label="Midnight Navy theme" style="--theme-dot:#2F4565"></button></div></div></div><div class="ss-section"><div class="ss-title">Library</div><div class="ss-card"><button class="ss-row" data-choice-key="defaultDisplayKey" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M9 18.5a2.5 2.5 0 1 1-1-2V6l10-2v10.5a2.5 2.5 0 1 1-1-2V8L9 9.5z"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default display key</div><div class="ss-sub" id="def-key-sub">Show songs in their original key</div></div><div class="ss-right"><span class="ss-val" id="def-key-val">Original</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button><button class="ss-row" data-choice-key="defaultSongView" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h14"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default song view</div><div class="ss-sub" id="def-songview-sub">Songs open in Chords view</div></div><div class="ss-right"><span class="ss-val" id="def-songview-val">Chords</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section"><div class="ss-title">Song defaults</div><div class="ss-card"><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><rect x="5" y="7" width="14" height="10" rx="2"></rect><path d="M8 12h8"></path></svg></span><div class="ss-body"><div class="ss-lbl">Highlight chords by default</div><div class="ss-sub">Songs open with chord highlight on</div></div><button class="sw on" id="default-highlight-sw" data-toggle-setting="highlightChordsDefault" type="button" aria-label="Toggle Highlight chords by default"><span class="sw-thumb"></span></button></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M10 4v15"></path><path d="M10 12.5c4-3 7-1.7 7 1.3 0 3.5-4.2 4.8-7 5.2"></path></svg></span><div class="ss-body"><div class="ss-lbl">Use flats by default</div><div class="ss-sub">Prefer flats when songs open</div></div><button class="sw " id="default-flats-sw" data-toggle-setting="useFlatsDefault" type="button" aria-label="Toggle Use flats by default"><span class="sw-thumb"></span></button></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><rect x="8" y="3" width="8" height="18" rx="2"></rect><path d="M11 18h2"></path></svg></span><div class="ss-body"><div class="ss-lbl">Keep screen awake on song pages</div><div class="ss-sub">Prevent screen sleep while viewing songs</div></div><button class="sw " id="keep-awake-sw" data-toggle-setting="keepScreenAwakeOnSongs" type="button" aria-label="Toggle Keep screen awake on song pages"><span class="sw-thumb"></span></button></div><button class="ss-row" data-choice-key="addToSetBehavior" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M5 7h9M5 12h7M5 17h9"></path><path d="M17 10v6M14 13h6"></path></svg></span><div class="ss-body"><div class="ss-lbl">Add to set list</div><div class="ss-sub" id="addset-beh-sub">Ask every time which set to use</div></div><div class="ss-right"><span class="ss-val" id="addset-beh-val">Ask</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section"><div class="ss-title">Preview</div><div class="ss-card"><button class="ss-row" data-choice-key="defaultPdfPreset" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"></path><path d="M14 3v5h4"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default PDF preset</div><div class="ss-sub" id="def-pdf-sub">Open export on Rehearsal preset</div></div><div class="ss-right"><span class="ss-val" id="def-pdf-val">Rehearsal</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section"><div class="ss-title">Bible</div><div class="ss-card"><button class="ss-row" data-choice-key="defaultBibleVersion" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M7 4h10v16H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"></path><path d="M9 8h6M9 12h6M9 16h4"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default Bible version</div><div class="ss-sub" id="def-bible-sub">Bible opens in ESV</div></div><div class="ss-right"><span class="ss-val" id="def-bible-val">ESV</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section" id="wb-backup-restore-section"><div class="ss-title">Backup &amp; Restore</div><div class="wb-settings-backup-card"><button class="wb-settings-backup-row wb-bc-entry-row" id="wb-backup-centre-entry-row" data-settings-action="backup" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.5 2.9 7.8 7 10 4.1-2.2 7-5.5 7-10V6l-7-3Z"></path><path d="m9 12 2 2 4-5"></path></svg></span><div class="ss-body"><div class="ss-lbl">Backup Centre</div><div class="ss-sub">Local files and Google Drive backup in one place.</div></div><div class="ss-right"><span class="wb-bc-entry-pill">OPEN</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button><div class="wb-settings-backup-summary"><div class="wb-settings-backup-grid"><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">My songs</div><div class="wb-settings-backup-mini-value">0</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Personal set lists</div><div class="wb-settings-backup-mini-value">0</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Notes &amp; cues</div><div class="wb-settings-backup-mini-value">0</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Google Drive</div><div class="wb-settings-backup-mini-value">Not configured</div></div></div><div class="wb-settings-backup-footer">Drive backup is now wired for runtime OAuth and hidden appDataFolder storage.</div></div></div></div><div class="ss-section"><div class="ss-title">About</div><div class="ss-card"><div class="about-panel"><div class="wb-brand-mark" id="about-brand-mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 18l8 28 10-20 10 20 8-28" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="about-copy"><div class="about-name" id="about-brand-name">WorshipBase</div><div class="about-version-pill">Rebuild_7.84</div><div class="about-by">Created by <strong>Jerin Reji</strong></div><div class="admin-state-line ">Tap logo for admin mode</div></div></div></div></div></div></div>
 </section>
 <nav class="tab-bar" id="tab-bar">
 <button class="tab-btn active" data-tab="songs" id="tab-songs" type="button" aria-label="Library">
+<span class="tab-pill">
 <span class="tab-ico">
 <svg class="ico-outline wb-tab-icon-library wb-tab-icon-songbook" fill="none" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><path d="M5.3 5.9A2.1 2.1 0 0 1 7.4 3.8h9.35c1 0 1.8.8 1.8 1.8v13.25c0 .75-.6 1.35-1.35 1.35H7.35a2.05 2.05 0 0 1-2.05-2.05V5.9Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.75"></path><path d="M8.4 4.05v15.9" stroke="currentColor" stroke-linecap="round" stroke-width="1.65"></path><path d="M11 9.2c1.55-.7 2.75-.7 4.3 0v4.75c-1.55-.7-2.75-.7-4.3 0V9.2Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.5"></path><path d="M7.5 17.2h8.9" stroke="currentColor" stroke-linecap="round" stroke-width="1.55"></path></svg>
 <svg class="ico-filled wb-tab-icon-library wb-tab-icon-songbook" fill="none" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><path d="M5.05 5.85A2.35 2.35 0 0 1 7.4 3.5h9.4a2 2 0 0 1 2 2v13.45c0 .8-.65 1.45-1.45 1.45H7.35a2.3 2.3 0 0 1-2.3-2.3V5.85Z" fill="currentColor"></path><path d="M8.45 4.1v15.75" stroke="var(--tab-active-glyph,#fff)" stroke-linecap="round" stroke-width="1.9"></path><path d="M11.05 9.05c1.55-.7 2.75-.7 4.3 0v4.95c-1.55-.7-2.75-.7-4.3 0V9.05Z" fill="var(--tab-active-glyph,#fff)" opacity=".96"></path><path d="M7.55 17.05h8.85" stroke="var(--tab-active-glyph,#fff)" stroke-linecap="round" stroke-width="1.75"></path></svg>
-</span><span class="tab-lbl">Library</span></button>
+</span><span class="tab-lbl">Library</span>
+</span></button>
 
 <button class="tab-btn" data-tab="setlist" id="tab-setlist" type="button" aria-label="Set List">
+<span class="tab-pill">
 <span class="tab-ico">
 <svg class="ico-outline wb-tab-icon-setlist wb-tab-icon-service-cards" fill="none" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><path d="M6 7.15h11.15a2.05 2.05 0 0 1 2.05 2.05v7.65a2.05 2.05 0 0 1-2.05 2.05H6.85a2.05 2.05 0 0 1-2.05-2.05v-7.65A2.05 2.05 0 0 1 6.85 7.15Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.75"></path><path d="M7 5.05h9.3M8.2 3.1h6.9" stroke="currentColor" stroke-linecap="round" stroke-width="1.7" opacity=".85"></path><path d="M8 11h7.4M8 14h5.35" stroke="currentColor" stroke-linecap="round" stroke-width="1.7"></path><path d="m14.4 15.85 1.15 1.15 2.25-2.55" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.85"></path></svg>
 <svg class="ico-filled wb-tab-icon-setlist wb-tab-icon-service-cards" fill="none" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><path d="M7 5.05h9.3M8.2 3.1h6.9" stroke="currentColor" stroke-linecap="round" stroke-width="2" opacity=".58"></path><path d="M6.7 7h10.6a2.25 2.25 0 0 1 2.25 2.25v7.7a2.25 2.25 0 0 1-2.25 2.25H6.7a2.25 2.25 0 0 1-2.25-2.25v-7.7A2.25 2.25 0 0 1 6.7 7Z" fill="currentColor"></path><path d="M8 10.95h7.25M8 13.95h5.2" stroke="var(--tab-active-glyph,#fff)" stroke-linecap="round" stroke-width="1.85"></path><path d="m14.35 15.75 1.15 1.15 2.25-2.55" stroke="var(--tab-active-glyph,#fff)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-</span><span class="tab-lbl">Set List</span></button>
+</span><span class="tab-lbl">Set List</span>
+</span></button>
 
 <button class="tab-btn" data-tab="workspace" data-wb-tab-owner="workspace" id="tab-workspace" type="button" aria-label="Workspace">
+<span class="tab-pill">
 <span class="tab-ico">
 <svg class="ico-outline wb-tab-icon-workspace wb-tab-icon-shared-folder" fill="none" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><path d="M4.4 7.25A2.25 2.25 0 0 1 6.65 5h3.55l1.7 1.95h5.45A2.25 2.25 0 0 1 19.6 9.2v7.45a2.35 2.35 0 0 1-2.35 2.35H6.75a2.35 2.35 0 0 1-2.35-2.35v-9.4Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.75"></path><circle cx="9.25" cy="12" r="1.15" stroke="currentColor" stroke-width="1.55"></circle><circle cx="14.75" cy="12" r="1.15" stroke="currentColor" stroke-width="1.55"></circle><path d="M8 15.6c.65-.95 1.45-1.4 2.35-1.4M13.65 14.2c.9 0 1.7.45 2.35 1.4" stroke="currentColor" stroke-linecap="round" stroke-width="1.55"></path></svg>
 <svg class="ico-filled wb-tab-icon-workspace wb-tab-icon-shared-folder" fill="none" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><path d="M4.15 7.15A2.4 2.4 0 0 1 6.55 4.75h3.65l1.7 1.95h5.55a2.4 2.4 0 0 1 2.4 2.4v7.55a2.55 2.55 0 0 1-2.55 2.55H6.7a2.55 2.55 0 0 1-2.55-2.55v-9.5Z" fill="currentColor"></path><circle cx="9.25" cy="12" r="1.25" fill="var(--tab-active-glyph,#fff)"></circle><circle cx="14.75" cy="12" r="1.25" fill="var(--tab-active-glyph,#fff)"></circle><path d="M7.8 15.65c.72-.95 1.55-1.42 2.5-1.42M13.7 14.23c.95 0 1.78.47 2.5 1.42" stroke="var(--tab-active-glyph,#fff)" stroke-linecap="round" stroke-width="1.75"></path></svg>
-</span><span class="tab-lbl">Workspace</span></button>
+</span><span class="tab-lbl">Workspace</span>
+</span></button>
 
 <button class="tab-btn" data-tab="tools" id="tab-tools" type="button" aria-label="Tools">
+<span class="tab-pill">
 <span class="tab-ico">
 <svg class="ico-outline wb-tab-icon-tools wb-tab-icon-utility-grid" fill="none" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><rect x="5" y="5" width="5.25" height="5.25" rx="1.55" stroke="currentColor" stroke-width="1.75"></rect><rect x="13.75" y="5" width="5.25" height="5.25" rx="1.55" stroke="currentColor" stroke-width="1.75"></rect><rect x="5" y="13.75" width="5.25" height="5.25" rx="1.55" stroke="currentColor" stroke-width="1.75"></rect><path d="M16.4 13.6v5.8M13.5 16.5h5.8" stroke="currentColor" stroke-linecap="round" stroke-width="1.95"></path></svg>
 <svg class="ico-filled wb-tab-icon-tools wb-tab-icon-utility-grid" fill="none" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><rect x="4.75" y="4.75" width="5.75" height="5.75" rx="1.7" fill="currentColor"></rect><rect x="13.5" y="4.75" width="5.75" height="5.75" rx="1.7" fill="currentColor"></rect><rect x="4.75" y="13.5" width="5.75" height="5.75" rx="1.7" fill="currentColor"></rect><path d="M16.4 13.55v5.9M13.45 16.5h5.9" stroke="currentColor" stroke-linecap="round" stroke-width="2.25"></path></svg>
-</span><span class="tab-lbl">Tools</span></button>
+</span><span class="tab-lbl">Tools</span>
+</span></button>
 
 <button class="tab-btn" data-tab="settings" id="tab-settings" type="button" aria-label="Settings">
+<span class="tab-pill">
 <span class="tab-ico">
 <svg class="ico-outline wb-tab-icon-settings wb-tab-icon-sliders" fill="none" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><path d="M5 7.25h4.9M14.1 7.25H19M5 12h8.25M16.75 12H19M5 16.75h2.65M11.15 16.75H19" stroke="currentColor" stroke-linecap="round" stroke-width="1.9"></path><circle cx="12" cy="7.25" r="2.05" stroke="currentColor" stroke-width="1.75"></circle><circle cx="14.95" cy="12" r="1.75" stroke="currentColor" stroke-width="1.75"></circle><circle cx="9.35" cy="16.75" r="1.75" stroke="currentColor" stroke-width="1.75"></circle></svg>
 <svg class="ico-filled wb-tab-icon-settings wb-tab-icon-sliders" fill="none" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><path d="M5 7.25h4.55M14.45 7.25H19M5 12h8.05M16.95 12H19M5 16.75h2.45M11.35 16.75H19" stroke="currentColor" stroke-linecap="round" stroke-width="2.15"></path><circle cx="12" cy="7.25" r="2.35" fill="currentColor"></circle><circle cx="14.95" cy="12" r="2.05" fill="currentColor"></circle><circle cx="9.35" cy="16.75" r="2.05" fill="currentColor"></circle><circle cx="12" cy="7.25" r=".72" fill="var(--tab-active-glyph,#fff)"></circle><circle cx="14.95" cy="12" r=".62" fill="var(--tab-active-glyph,#fff)"></circle><circle cx="9.35" cy="16.75" r=".62" fill="var(--tab-active-glyph,#fff)"></circle></svg>
-</span><span class="tab-lbl">Settings</span></button>
+</span><span class="tab-lbl">Settings</span>
+</span></button>
 </nav>
 </div>
 <div aria-hidden="true" class="modal-root song-editor-root" id="add-song-modal" data-editor-ready="1">
@@ -2798,16 +3144,16 @@ body.dark .tab-btn:not(.active) .wb-tab-icon-sliders{
 <span class="key-pill-sep"></span>
 <div class="sv-key-mid key-pill-mid">
 <span class="sv-key-value" id="sv-key-value">G</span>
-<select aria-label="Transpose key" class="sv-key-select sv-sel" id="sv-key-select"><option value="C">C</option><option value="C#">C#</option><option value="D">D</option><option value="D#">D#</option><option value="E">E</option><option value="F">F</option><option value="F#">F#</option><option value="G" selected="">G</option><option value="G#">G#</option><option value="A">A</option><option value="A#">A#</option><option value="B">B</option></select>
+<select aria-label="Transpose key" class="sv-key-select sv-sel" id="sv-key-select"></select>
 </div>
 <span class="key-pill-sep"></span>
 <button aria-label="Transpose up" class="key-pill-btn" id="sv-key-up" type="button">+</button>
 </div>
 </div>
-<div class="sv-chords-used" id="sv-chords-used">Chords used: <strong>C</strong> <strong>G</strong> <strong>D</strong> <strong>Em</strong> <strong>C2</strong></div>
+<div class="sv-chords-used" id="sv-chords-used">Chords used: —</div>
 </div>
 <div class="song-note-preview" id="song-note-preview"></div>
-<div class="sheet" id="sv-sheet"><span class="sec-lbl" data-section-label="Chorus" data-section-key="chorus" data-section-short="C">Chorus</span><div class="lyric-block wb-chord-pair"><div class="chord-row">          <span class="chord-token">C</span>          <span class="chord-token">G</span></div><div class="lyric-row">Bless the Lord, O my soul</div></div><div class="lyric-block wb-chord-pair"><div class="chord-row"><span class="chord-token">D</span>    <span class="chord-token">Em</span>     <span class="chord-token">C</span>          <span class="chord-token">G</span>     <span class="chord-token">D</span></div><div class="lyric-row">O my soul, worship His holy name</div></div><div class="lyric-block wb-chord-pair"><div class="chord-row">           <span class="chord-token">C</span>    <span class="chord-token">Em</span>      <span class="chord-token">C</span>   <span class="chord-token">D</span>    <span class="chord-token">Em</span></div><div class="lyric-row">Sing like never before, Ohh  my soul</div></div><div class="lyric-block wb-chord-pair"><div class="chord-row">      <span class="chord-token">C</span>            <span class="chord-token">D</span>   <span class="chord-token">G</span></div><div class="lyric-row">I'll worship Your holy name</div></div><span class="spacer-line"></span><span class="sec-lbl" data-section-label="Verse 1" data-section-key="verse-1" data-section-short="V1">Verse 1</span><div class="lyric-block wb-chord-pair"><div class="chord-row">    <span class="chord-token">C</span>         <span class="chord-token">G</span>           <span class="chord-token">D</span>       <span class="chord-token">Em</span></div><div class="lyric-row">The sun comes up, it's a new day dawning</div></div><div class="lyric-block wb-chord-pair"><div class="chord-row"><span class="chord-token">C</span>            <span class="chord-token">G</span>          <span class="chord-token">D</span>     <span class="chord-token">Em</span></div><div class="lyric-row">It's time to sing Your song again</div></div><div class="lyric-block wb-chord-pair"><div class="chord-row">  <span class="chord-token">C</span>           <span class="chord-token">G</span>            <span class="chord-token">D</span></div><div class="lyric-row">Whatever may pass, and whatever lies</div></div><div class="lyric-block wb-chord-pair"><div class="chord-row">  <span class="chord-token">Em</span></div><div class="lyric-row">before me</div></div><div class="lyric-block wb-chord-pair"><div class="chord-row"><span class="chord-token">C</span>          <span class="chord-token">G</span>                <span class="chord-token">D</span>        <span class="chord-token">G</span></div><div class="lyric-row">Let me be singing when the evening comes</div></div><span class="spacer-line"></span><span class="sec-lbl" data-section-label="Verse 2" data-section-key="verse-2" data-section-short="V2">Verse 2</span><div class="lyric-block wb-chord-pair"><div class="chord-row">        <span class="chord-token">C</span>       <span class="chord-token">G</span>                <span class="chord-token">D</span></div><div class="lyric-row">You're rich in love, and You're slow to</div></div><div class="lyric-block wb-chord-pair"><div class="chord-row">  <span class="chord-token">Em</span></div><div class="lyric-row">anger</div></div><div class="lyric-block wb-chord-pair"><div class="chord-row">       <span class="chord-token">C</span>       <span class="chord-token">G</span>               <span class="chord-token">D</span></div><div class="lyric-row">Your name is great, and Your heart is</div></div><div class="lyric-block wb-chord-pair"><div class="chord-row">   <span class="chord-token">Em</span></div><div class="lyric-row">kind</div></div><div class="lyric-block wb-chord-pair"><div class="chord-row">     <span class="chord-token">C</span>        <span class="chord-token">G</span>                <span class="chord-token">D</span></div><div class="lyric-row">For all Your goodness, I will keep on</div></div><div class="lyric-block wb-chord-pair"><div class="chord-row"> <span class="chord-token">Em</span></div><div class="lyric-row">singing</div></div><div class="lyric-block wb-chord-pair"><div class="chord-row"><span class="chord-token">C</span>            <span class="chord-token">G</span>                <span class="chord-token">D</span></div><div class="lyric-row">Ten thousand reasons for my heart to</div></div><div class="lyric-block wb-chord-pair"><div class="chord-row"> <span class="chord-token">G</span></div><div class="lyric-row">find</div></div><span class="spacer-line"></span><span class="sec-lbl" data-section-label="Verse 3" data-section-key="verse-3" data-section-short="V3">Verse 3</span><div class="lyric-block wb-chord-pair"><div class="chord-row">    <span class="chord-token">C</span>       <span class="chord-token">G</span>           <span class="chord-token">D</span></div><div class="lyric-row">And on that day when my strength is</div></div><div class="lyric-block wb-chord-pair"><div class="chord-row"> <span class="chord-token">Em</span></div><div class="lyric-row">failing</div></div><div class="lyric-block wb-chord-pair"><div class="chord-row">    <span class="chord-token">C</span>         <span class="chord-token">G</span>            <span class="chord-token">D</span>         <span class="chord-token">Em</span></div><div class="lyric-row">The end draws near, and my time has come</div></div><div class="lyric-block wb-chord-pair"><div class="chord-row"><span class="chord-token">C</span>        <span class="chord-token">G</span>                   <span class="chord-token">D</span></div><div class="lyric-row">Still my soul will sing Your praise</div></div><div class="lyric-block wb-chord-pair"><div class="chord-row">  <span class="chord-token">Em</span></div><div class="lyric-row">unending</div></div><div class="lyric-block wb-chord-pair"><div class="chord-row"><span class="chord-token">C2</span>           <span class="chord-token">G</span>                 <span class="chord-token">D</span></div><div class="lyric-row">Ten thousand years and then forevermore</div></div><div class="lyric-block wb-chord-pair"><div class="chord-row"><span class="chord-token">G</span></div></div><span class="spacer-line"></span><span class="sec-lbl" data-section-label="Tag" data-section-key="tag" data-section-short="T">Tag</span><div class="lyric-block wb-chord-pair"><div class="chord-row"><span class="chord-token">Em</span>     <span class="chord-token">C</span>          <span class="chord-token">D</span>      <span class="chord-token">Em</span></div><div class="lyric-row">  I'll worship Your holy name</div></div><div class="lyric-block wb-chord-pair"><div class="chord-row">            <span class="chord-token">C</span>          <span class="chord-token">D</span>     <span class="chord-token">G</span></div><div class="lyric-row">Yes, I'll worship Your holy name</div></div></div>
+<div class="sheet" id="sv-sheet"></div>
 </div>
 <div aria-hidden="true" class="song-transition-layer" id="song-transition-layer"></div>
 <button aria-label="Enter focus mode" class="sv-floating-focus live-focus-fab" id="sv-focus-btn" type="button"><svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M21 16v3a2 2 0 0 1-2 2h-3"></path></svg></button>
@@ -2844,10 +3190,10 @@ body.dark .tab-btn:not(.active) .wb-tab-icon-sliders{
 <div class="bs-title" id="song-menu-title">Song options</div>
 <div class="menu-slider-wrap">
 <div class="menu-slider-lbl"><span>Display size</span><span id="text-size-menu-val">100%</span></div>
-<input class="menu-slider" id="text-size-menu-slider" max="125" min="85" step="5" type="range" value="100" style="--pct: 37.5%;">
+<input class="menu-slider" id="text-size-menu-slider" max="125" min="85" step="5" type="range" value="100">
 </div>
 <div class="song-menu-list" id="song-menu-list">
-<button class="mi is-hidden" data-song-action="edit" id="mi-edit-song" type="button" hidden=""><span class="mi-icon-wrap"><svg viewBox="0 0 17 17"><path d="M4 13l1.2-4.2L12.6 1.4a1.8 1.8 0 0 1 2.5 2.5L7.8 11.3 4 13z"></path><path d="M10.8 3.2l3 3"></path></svg></span><span class="wbsm-label">Edit song</span></button>
+<button class="mi" data-song-action="edit" id="mi-edit-song" type="button"><span class="mi-icon-wrap"><svg viewBox="0 0 17 17"><path d="M4 13l1.2-4.2L12.6 1.4a1.8 1.8 0 0 1 2.5 2.5L7.8 11.3 4 13z"></path><path d="M10.8 3.2l3 3"></path></svg></span><span class="wbsm-label">Edit song</span></button>
 <button class="mi" data-song-action="notes" id="mi-song-notes" type="button"><span class="mi-icon-wrap"><svg viewBox="0 0 17 17"><path d="M4 2.5h9v12H4z"></path><path d="M6.5 6h4M6.5 8.5h4M6.5 11h2.8"></path></svg></span><span class="wbsm-label">Notes &amp; cues</span></button>
 <button class="mi" data-song-action="focus" id="mi-presentation" type="button"><span class="mi-icon-wrap"><svg viewBox="0 0 17 17"><rect height="11" rx="2" width="13" x="2" y="3"></rect><path d="M6 6.5h5M5 9h7"></path></svg></span><span class="wbsm-label">Focus mode</span><span class="mi-check">✓</span></button>
 <button class="mi" data-song-action="copy" id="mi-copy-lyrics" type="button"><span class="mi-icon-wrap"><svg viewBox="0 0 17 17"><rect height="12" rx="2" width="10" x="6" y="1"></rect><rect height="12" rx="2" width="10" x="1" y="4"></rect></svg></span><span class="wbsm-label">Copy lyrics</span></button>
@@ -2856,7 +3202,7 @@ body.dark .tab-btn:not(.active) .wb-tab-icon-sliders{
 <button class="mi" data-song-action="export-pdf" id="mi-export-pdf" type="button"><span class="mi-icon-wrap"><svg viewBox="0 0 17 17"><path d="M4 2h7.5l3.5 3.5V15H4V2z"></path><path d="M11 2v4h4M6 9h5M6 12h4"></path></svg></span><span class="wbsm-label">Export PDF</span></button>
 <button class="mi" data-song-action="export-json" id="mi-export-json" type="button"><span class="mi-icon-wrap"><svg viewBox="0 0 17 17"><path d="M4 2h7.5l3.5 3.5V15H4V2z"></path><path d="M11 2v4h4M6 8.5h5M6 11h4"></path><path d="M8.5 13.4v-3"></path></svg></span><span class="wbsm-label">Export song JSON</span></button>
 <button class="mi wbsm-toggle-row" data-song-action="flats" id="mi-flats" type="button"><span class="mi-icon-wrap"><span class="mi-ico">♭</span></span><span class="mi-grow">Use flats</span><span aria-hidden="true" class="wbsm-toggle"><span class="wbsm-toggle-thumb"></span></span></button>
-<button class="mi wbsm-toggle-row on" data-song-action="dark" id="mi-dark" type="button"><span class="mi-icon-wrap"><svg viewBox="0 0 17 17"><path d="M14 11.5A6.2 6.2 0 0 1 5.5 3a6 6 0 1 0 8.5 8.5z"></path></svg></span><span class="mi-grow" id="dark-lbl">Dark mode</span><span aria-hidden="true" class="wbsm-toggle on"><span class="wbsm-toggle-thumb"></span></span></button>
+<button class="mi wbsm-toggle-row" data-song-action="dark" id="mi-dark" type="button"><span class="mi-icon-wrap"><svg viewBox="0 0 17 17"><path d="M14 11.5A6.2 6.2 0 0 1 5.5 3a6 6 0 1 0 8.5 8.5z"></path></svg></span><span class="mi-grow" id="dark-lbl">Dark mode</span><span aria-hidden="true" class="wbsm-toggle"><span class="wbsm-toggle-thumb"></span></span></button>
 </div>
 <button class="bs-cancel" id="song-menu-done" type="button">Cancel</button>
 </div>
@@ -3000,8 +3346,8 @@ body.dark .tab-btn:not(.active) .wb-tab-icon-sliders{
 <script id="wb-rebuild-consolidated-script">
 (function(){
 'use strict';
-var VERSION='Rebuild_7.79';
-var REBUILD_PHASE='Phase 7.79: recommended modern/elegant tab icon set — songbook, service cards, shared folder, utility grid, sliders';
+var VERSION='Rebuild_7.84';
+var REBUILD_PHASE='Phase 7.84: vertically integrated active tab tint trial with a taller consistent capsule centred around icon and label';
 var REBUILD_REFERENCE='Working-v85.0-fixed.html';
 
 var ASSET_CONFIG=(window.WB_ASSETS&&typeof window.WB_ASSETS==='object')?Object.assign({
@@ -5266,6 +5612,87 @@ try{if(document.readyState==='loading')document.addEventListener('DOMContentLoad
 
 
 
+
+
+
+
+
+window.WBTestTab84=function(){
+  try{
+    var css=document.body.innerHTML;
+    return {
+      version:VERSION,
+      hasIntegratedTint:css.indexOf('7.84 vertically integrated active tab tint trial')>=0,
+      pillCount:document.querySelectorAll('.tab-btn .tab-pill').length,
+      consistentWidthRule:css.indexOf('width:calc(100% - 10px)!important')>=0,
+      tallerCapsuleRule:css.indexOf('height:clamp(54px,calc(var(--tab-h) + min(var(--sab),8px)),60px)!important')>=0,
+      workspaceNoSpecialWidth:css.indexOf('#tab-workspace .tab-pill{\n  min-width:0!important;')>=0,
+      buttonSafeAreaExtension:css.indexOf('height:clamp(56px,calc(var(--tab-h) + min(var(--sab),12px)),64px)!important')>=0,
+      activePillTint:css.indexOf('.tab-btn.active .tab-pill')>=0,
+      outlineCount:document.querySelectorAll('.tab-btn .ico-outline').length,
+      filledCount:document.querySelectorAll('.tab-btn .ico-filled').length,
+      singleStyle:document.querySelectorAll('style').length===1
+    };
+  }catch(e){return {error:String(e)}}
+};
+
+window.WBTestTab83=function(){
+  try{
+    return {
+      version:VERSION,
+      hasContentOwnedTint:document.body.innerHTML.indexOf('7.83 content-owned active tab tint')>=0,
+      pillCount:document.querySelectorAll('.tab-btn .tab-pill').length,
+      usesButtonBefore:document.body.innerHTML.indexOf('.tab-btn::before')>=0,
+      buttonBeforeDisabled:document.body.innerHTML.indexOf('.tab-btn::before,')>=0 && document.body.innerHTML.indexOf('content:none!important')>=0,
+      activePillTint:document.body.innerHTML.indexOf('.tab-btn.active .tab-pill')>=0,
+      outlineCount:document.querySelectorAll('.tab-btn .ico-outline').length,
+      filledCount:document.querySelectorAll('.tab-btn .ico-filled').length,
+      singleStyle:document.querySelectorAll('style').length===1
+    };
+  }catch(e){return {error:String(e)}}
+};
+
+window.WBTestTab82=function(){
+  try{
+    return {
+      version:VERSION,
+      hasVerticalTintFix:document.body.innerHTML.indexOf('7.82 selected tab tint vertical coverage correction')>=0,
+      topExpanded:document.body.innerHTML.indexOf('top:2px!important')>=0,
+      bottomExpanded:document.body.innerHTML.indexOf('bottom:1px!important')>=0,
+      zIndexPositive:document.body.innerHTML.indexOf('z-index:0!important')>=0,
+      keepsWholeTabTint:document.body.innerHTML.indexOf('7.81 selected tab tint correction')>=0,
+      keepsIosTabCss:document.body.innerHTML.indexOf('7.80 iOS-style tab selected state')>=0,
+      keepsRecommendedIcons:document.body.innerHTML.indexOf('wb-tab-icon-songbook')>=0 && document.body.innerHTML.indexOf('wb-tab-icon-sliders')>=0,
+      singleStyle:document.querySelectorAll('style').length===1
+    };
+  }catch(e){return {error:String(e)}}
+};
+window.WBTestTab81=function(){
+  try{
+    return {
+      version:VERSION,
+      hasWholeTabTint:document.body.innerHTML.indexOf('7.81 selected tab tint correction')>=0,
+      usesButtonBefore:document.body.innerHTML.indexOf('.tab-btn.active::before')>=0,
+      disablesIconOnlyTint:document.body.innerHTML.indexOf('.tab-btn.active .tab-ico::before')>=0 && document.body.innerHTML.indexOf('content:none!important')>=0,
+      keepsIosTabCss:document.body.innerHTML.indexOf('7.80 iOS-style tab selected state')>=0,
+      keepsRecommendedIcons:document.body.innerHTML.indexOf('wb-tab-icon-songbook')>=0 && document.body.innerHTML.indexOf('wb-tab-icon-sliders')>=0,
+      singleStyle:document.querySelectorAll('style').length===1
+    };
+  }catch(e){return {error:String(e)}}
+};
+window.WBTestTab80=function(){
+  try{
+    return {
+      version:VERSION,
+      hasIosTabCss:document.body.innerHTML.indexOf('7.80 iOS-style tab selected state')>=0,
+      keepsRecommendedIcons:document.body.innerHTML.indexOf('wb-tab-icon-songbook')>=0 && document.body.innerHTML.indexOf('wb-tab-icon-sliders')>=0,
+      hasActiveTint:document.body.innerHTML.indexOf('--ios-tab-active-soft')>=0,
+      hasFilledPairs:document.querySelectorAll('.tab-btn .ico-filled').length>=5,
+      hasOutlinePairs:document.querySelectorAll('.tab-btn .ico-outline').length>=5,
+      singleStyle:document.querySelectorAll('style').length===1
+    };
+  }catch(e){return {error:String(e)}}
+};
 window.WBTestTab79=function(){
   try{
     var classes=['wb-tab-icon-songbook','wb-tab-icon-service-cards','wb-tab-icon-shared-folder','wb-tab-icon-utility-grid','wb-tab-icon-sliders'];
@@ -5514,4 +5941,4 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 <input id="notes-cues-import-file" type="file" accept=".json,application/json" style="display:none">
 
-<iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" tabindex="-1" vspace="0" width="100%" aria-hidden="true" id="I0_1778410433848" name="I0_1778410433848" src="https://worshipbase-17d1b.firebaseapp.com/__/auth/iframe?apiKey=AIzaSyAWHTEOh1lXkzq3kB24g3An6Aad54OMlN8&amp;appName=%5BDEFAULT%5D&amp;v=10.12.2&amp;eid=p&amp;usegapi=1&amp;jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.en.gSqfLc8WnvU.O%2Fd%3D1%2Frs%3DAHpOoo_cXXGArE2dtw6vkGR2NQ_1f5L3AQ%2Fm%3D__features__#id=I0_1778410433848&amp;_gfid=I0_1778410433848&amp;parent=about%3A%2F%2F&amp;pfname=&amp;rpctoken=14925096" style="position: absolute; top: -100px; width: 1px; height: 1px;"></iframe></body></html>
+<iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" tabindex="-1" vspace="0" width="100%" aria-hidden="true" id="I0_1778427680430" name="I0_1778427680430" src="https://worshipbase-17d1b.firebaseapp.com/__/auth/iframe?apiKey=AIzaSyAWHTEOh1lXkzq3kB24g3An6Aad54OMlN8&amp;appName=%5BDEFAULT%5D&amp;v=10.12.2&amp;eid=p&amp;usegapi=1&amp;jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.en.gSqfLc8WnvU.O%2Fd%3D1%2Frs%3DAHpOoo_cXXGArE2dtw6vkGR2NQ_1f5L3AQ%2Fm%3D__features__#id=I0_1778427680430&amp;_gfid=I0_1778427680430&amp;parent=about%3A%2F%2F&amp;pfname=&amp;rpctoken=35452888" style="position: absolute; top: -100px; width: 1px; height: 1px;"></iframe></body></html>
