@@ -8,7 +8,7 @@
 <meta content="WorshipBase" name="apple-mobile-web-app-title">
 <link href="./worshipbase_layered_fold_w_proper/app-icons/app-icon-192.png" rel="icon" type="image/png">
 <link href="./worshipbase_layered_fold_w_proper/app-icons/apple-touch-icon.png" rel="apple-touch-icon">
-<title>WorshipBase v7.87</title>
+<title>WorshipBase v7.99</title>
 <style id="wb-rebuild-consolidated-style">
 
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -2992,18 +2992,799 @@ body.dark .tab-btn.active .tab-pill{
   #tab-workspace .tab-lbl{font-size:9.45px!important;}
 }
 
+
+
+/* 7.88 liquid glass tab polish and icon family refresh.
+   Keep the contained, cell-owned tint from 7.87, but make it feel more premium:
+   slightly narrower width, subtle liquid-glass treatment, and a fully redrawn tab
+   icon family with unified optical weight, rounded corners, and true filled states. */
+.tab-bar{
+  overflow:visible!important;
+  align-items:flex-start!important;
+}
+.tab-btn{
+  flex:1 1 0!important;
+  max-width:20%!important;
+  min-width:0!important;
+  overflow:visible!important;
+}
+.tab-pill{
+  width:min(74px,calc(100% - 10px))!important;
+  max-width:calc(100% - 10px)!important;
+  min-width:0!important;
+  height:clamp(54px,calc(var(--tab-h) + min(var(--sab),7px)),58px)!important;
+  padding:6px 4px 5px!important;
+  border-radius:19px!important;
+  border:1px solid transparent;
+  box-sizing:border-box!important;
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+  box-shadow:none;
+}
+.tab-btn.active .tab-pill{
+  background:rgba(255,255,255,.46)!important;
+  border-color:color-mix(in srgb,var(--tc) 14%,rgba(255,255,255,.54))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.72),0 8px 18px rgba(16,55,74,.07),0 1px 0 rgba(255,255,255,.34)!important;
+  backdrop-filter:blur(16px) saturate(1.16)!important;
+  -webkit-backdrop-filter:blur(16px) saturate(1.16)!important;
+}
+body.dark .tab-btn.active .tab-pill{
+  background:rgba(255,255,255,.08)!important;
+  border-color:color-mix(in srgb,var(--accent) 20%,rgba(255,255,255,.16))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 10px 24px rgba(0,0,0,.24)!important;
+  backdrop-filter:blur(18px) saturate(1.18)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(1.18)!important;
+}
+.tab-btn .tab-ico{
+  width:34px!important;
+  height:27px!important;
+}
+.tab-btn .tab-ico svg{
+  width:24px!important;
+  height:24px!important;
+}
+.tab-btn .tab-lbl{
+  margin:0!important;
+  font-size:9.85px!important;
+  line-height:1.04!important;
+  letter-spacing:-.012em!important;
+  white-space:nowrap!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}
+#tab-workspace .tab-lbl{
+  font-size:9.25px!important;
+  letter-spacing:-.03em!important;
+}
+.tab-btn:not(.active) .ico-outline{
+  opacity:.9!important;
+}
+.tab-btn.active .ico-filled{
+  transform:none!important;
+  filter:none!important;
+}
+body.dark .tab-btn.active .ico-filled{
+  filter:none!important;
+}
+.tab-btn.active .tab-lbl{
+  font-weight:830!important;
+}
+body:not(.dark) .tab-btn.active,
+body:not(.dark) .tab-btn.active .tab-lbl{
+  color:color-mix(in srgb,var(--txt1) 88%,var(--tc) 12%)!important;
+}
+body.dark .tab-btn.active,
+body.dark .tab-btn.active .tab-lbl{
+  color:color-mix(in srgb,var(--txt1) 92%,var(--accent) 8%)!important;
+}
+@media(max-width:380px){
+  .tab-pill{
+    width:min(71px,calc(100% - 10px))!important;
+    max-width:calc(100% - 10px)!important;
+    padding-left:3px!important;
+    padding-right:3px!important;
+  }
+  .tab-btn .tab-lbl{font-size:9.55px!important;}
+  #tab-workspace .tab-lbl{font-size:9.05px!important;}
+}
+
+
+
+/* 7.89 tab icon optical-size polish.
+   7.88 introduced the new icon family and glass capsule. Device feedback showed
+   the direction worked, but the icons read a touch small and the active Tools
+   glyph felt too blocky. Keep the capsule/label geometry unchanged; only enlarge
+   the tab glyphs slightly and replace the Tools filled mark with a lighter,
+   integrated fourth tile + plus. */
+.tab-btn .tab-ico{
+  width:35px!important;
+  height:28px!important;
+}
+.tab-btn .tab-ico svg{
+  width:25.75px!important;
+  height:25.75px!important;
+}
+.tab-btn.active .ico-filled{
+  transform:scale(1.035)!important;
+  transform-origin:center center!important;
+}
+.tab-btn:not(.active) .ico-outline{
+  transform:scale(1.015)!important;
+  transform-origin:center center!important;
+}
+.wb-tab-icon-tools.ico-filled rect[opacity=".22"]{
+  opacity:.24!important;
+}
+@media(max-width:380px){
+  .tab-btn .tab-ico svg{
+    width:25.25px!important;
+    height:25.25px!important;
+  }
+  .tab-btn.active .ico-filled{transform:scale(1.025)!important;}
+}
+
+
+
+/* 7.90 final glass-direction icon pass.
+   Keep the glass capsule from 7.88 and the Tools polish from 7.89, but answer the
+   next device feedback: icons still need a touch more presence, and the active
+   Settings icon should read more distinctly as filled rather than just a heavier
+   outline. Geometry of the pill and labels stays unchanged. */
+.tab-btn .tab-ico{
+  width:36px!important;
+  height:29px!important;
+}
+.tab-btn .tab-ico svg{
+  width:26.6px!important;
+  height:26.6px!important;
+}
+.tab-btn.active .ico-filled{
+  transform:scale(1.055)!important;
+  transform-origin:center center!important;
+}
+.tab-btn:not(.active) .ico-outline{
+  transform:scale(1.02)!important;
+  transform-origin:center center!important;
+}
+.wb-tab-icon-settings.ico-filled rect[data-track]{
+  opacity:.28!important;
+}
+.wb-tab-icon-settings.ico-filled circle[data-dot]{
+  opacity:1!important;
+}
+@media(max-width:380px){
+  .tab-btn .tab-ico svg{
+    width:26.05px!important;
+    height:26.05px!important;
+  }
+  .tab-btn.active .ico-filled{transform:scale(1.045)!important;}
+}
+
+
+
+/* 7.91 stronger tab glyph pass.
+   Device comparison against YouTube/Spotify showed the tab icons still read too
+   small and the active Workspace/Settings glyphs did not clearly fill. Keep the
+   glass capsule and label geometry, but make icons much more obvious and revise
+   Workspace/Settings filled icons to avoid face-like/outline-like reads. */
+.tab-btn .tab-ico{
+  width:40px!important;
+  height:32px!important;
+}
+.tab-btn .tab-ico svg{
+  width:29.25px!important;
+  height:29.25px!important;
+}
+.tab-btn.active .ico-filled{
+  transform:scale(1.06)!important;
+  transform-origin:center center!important;
+}
+.tab-btn:not(.active) .ico-outline{
+  transform:scale(1.035)!important;
+  transform-origin:center center!important;
+}
+@media(max-width:380px){
+  .tab-btn .tab-ico{
+    width:39px!important;
+    height:31px!important;
+  }
+  .tab-btn .tab-ico svg{
+    width:28.5px!important;
+    height:28.5px!important;
+  }
+  .tab-btn.active .ico-filled{transform:scale(1.05)!important;}
+}
+
+
+
+/* 7.92 no-pill tab system.
+   Based on feedback, the selected capsule/glass treatment is removed entirely.
+   The selected state should now come from larger, clearer glyphs plus stronger
+   active label emphasis. The first three tabs are re-separated conceptually:
+   Library=book, Set List=checklist, Workspace=team/collaboration, Tools=utility grid,
+   Settings=gear. */
+.tab-pill,
+#tab-workspace .tab-pill,
+.tab-btn.active .tab-pill,
+body.dark .tab-btn.active .tab-pill{
+  min-width:unset!important;
+  width:auto!important;
+  height:auto!important;
+  padding:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+.tab-btn .tab-ico::before,
+.tab-btn.active .tab-ico::before,
+body.dark .tab-btn.active .tab-ico::before{
+  content:none!important;
+  display:none!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+.tab-btn .tab-ico{
+  width:38px!important;
+  height:31px!important;
+  margin-bottom:3px!important;
+  border-radius:0!important;
+}
+.tab-btn .tab-ico svg{
+  width:28px!important;
+  height:28px!important;
+}
+.tab-btn.active .ico-filled{
+  transform:translateY(-.2px) scale(1.06)!important;
+  transform-origin:center center!important;
+}
+.tab-btn:not(.active) .ico-outline{
+  transform:scale(1.01)!important;
+  transform-origin:center center!important;
+}
+.tab-btn.active .tab-lbl{
+  color:var(--ios-tab-active)!important;
+  font-weight:780!important;
+  letter-spacing:-.01em!important;
+}
+.tab-btn:not(.active) .tab-lbl{
+  font-weight:590!important;
+}
+@media(max-width:380px){
+  .tab-btn .tab-ico{width:37px!important;height:30px!important;}
+  .tab-btn .tab-ico svg{width:27.2px!important;height:27.2px!important;}
+}
+
+
+
+/* 7.93 return to v7.79-style icons, but with stronger sizing and calmer labels.
+   Keep the no selected-box direction: active state is filled icon + label colour.
+   Icons revert to the v7.79 family for Library, Set List, Tools and Settings.
+   Workspace uses a new shared-board mark to avoid the face/sad-face read. */
+.tab-pill,
+#tab-workspace .tab-pill,
+.tab-btn.active .tab-pill,
+body.dark .tab-btn.active .tab-pill{
+  min-width:unset!important;
+  width:auto!important;
+  height:auto!important;
+  padding:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+.tab-btn .tab-ico::before,
+.tab-btn.active .tab-ico::before,
+body.dark .tab-btn.active .tab-ico::before{
+  content:none!important;
+  display:none!important;
+}
+.tab-btn .tab-ico{
+  width:40px!important;
+  height:32px!important;
+  margin-bottom:1px!important;
+}
+.tab-btn .tab-ico svg{
+  width:29px!important;
+  height:29px!important;
+}
+.tab-btn:not(.active) .ico-outline{
+  transform:scale(1.02)!important;
+  transform-origin:center center!important;
+}
+.tab-btn.active .ico-filled{
+  transform:translateY(-.25px) scale(1.08)!important;
+  transform-origin:center center!important;
+}
+.tab-btn .tab-lbl{
+  font-size:9.15px!important;
+  line-height:1.02!important;
+  letter-spacing:-.006em!important;
+  margin-top:0!important;
+}
+#tab-workspace .tab-lbl{
+  font-size:8.95px!important;
+  letter-spacing:-.018em!important;
+}
+.tab-btn.active .tab-lbl{
+  font-size:9.25px!important;
+  font-weight:780!important;
+  color:var(--ios-tab-active)!important;
+}
+#tab-workspace.active .tab-lbl{font-size:9.05px!important;}
+.tab-btn:not(.active) .tab-lbl{font-weight:570!important;}
+.wb-tab-icon-songbook,
+.wb-tab-icon-service-cards,
+.wb-tab-icon-workspace-board,
+.wb-tab-icon-utility-grid,
+.wb-tab-icon-sliders{
+  shape-rendering:geometricPrecision;
+}
+@media(max-width:380px){
+  .tab-btn .tab-ico{width:38px!important;height:31px!important;}
+  .tab-btn .tab-ico svg{width:28.2px!important;height:28.2px!important;}
+  .tab-btn .tab-lbl{font-size:8.95px!important;}
+  #tab-workspace .tab-lbl{font-size:8.78px!important;}
+}
+
+
+
+/* 7.94 tab correction: restore the actual v7.79/v7.82 icon family, not a redraw.
+   No selected capsule. The active state is the original filled icon + stronger label.
+   Icons are slightly larger than 7.79 and labels are slightly smaller. */
+.tab-pill,
+#tab-workspace .tab-pill,
+.tab-btn.active .tab-pill,
+body.dark .tab-btn.active .tab-pill,
+body:not(.dark) .tab-btn.active .tab-pill{
+  width:auto!important;
+  min-width:0!important;
+  max-width:none!important;
+  height:auto!important;
+  padding:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  gap:0!important;
+}
+.tab-btn .tab-ico::before,
+.tab-btn.active .tab-ico::before,
+body.dark .tab-btn.active .tab-ico::before,
+body:not(.dark) .tab-btn.active .tab-ico::before{
+  content:none!important;
+  display:none!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+.tab-btn .tab-ico{
+  width:35px!important;
+  height:30px!important;
+  margin:0 0 1px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex:0 0 auto!important;
+  transform:none!important;
+}
+.tab-btn .tab-ico svg{width:28px!important;height:28px!important;}
+.tab-btn.active .ico-filled{transform:scale(1.06)!important;transform-origin:center center!important;}
+.tab-btn:not(.active) .ico-outline{transform:scale(1.02)!important;transform-origin:center center!important;}
+.tab-btn .tab-lbl{
+  font-size:11.2px!important;
+  line-height:1.08!important;
+  margin:0!important;
+  letter-spacing:.01em!important;
+  transform:none!important;
+}
+.tab-btn.active .tab-lbl{
+  font-size:11.5px!important;
+  font-weight:760!important;
+  letter-spacing:.005em!important;
+}
+@media(max-width:380px){
+  .tab-btn .tab-ico{width:34px!important;height:29px!important;}
+  .tab-btn .tab-ico svg{width:27.2px!important;height:27.2px!important;}
+  .tab-btn .tab-lbl{font-size:10.9px!important;}
+  .tab-btn.active .tab-lbl{font-size:11.15px!important;}
+}
+
+
+
+/* 7.96 tab sizing equalisation.
+   Keep the accepted 7.79-style icon family and 7.95 Workspace icon, but normalise
+   the bottom tab metrics: every label uses the same small font size and every icon
+   uses the same large optical box. No per-tab label shrinking, no active/inactive
+   scaling differences. */
+.tab-bar{
+  align-items:flex-start!important;
+}
+.tab-btn{
+  min-width:0!important;
+}
+.tab-btn .tab-pill,
+.tab-btn.active .tab-pill,
+body.dark .tab-btn.active .tab-pill{
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+.tab-btn .tab-ico,
+#tab-songs .tab-ico,
+#tab-setlist .tab-ico,
+#tab-workspace .tab-ico,
+#tab-tools .tab-ico,
+#tab-settings .tab-ico{
+  width:40px!important;
+  height:32px!important;
+  margin:0 auto 2px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+.tab-btn .tab-ico svg,
+#tab-songs .tab-ico svg,
+#tab-setlist .tab-ico svg,
+#tab-workspace .tab-ico svg,
+#tab-tools .tab-ico svg,
+#tab-settings .tab-ico svg{
+  width:30px!important;
+  height:30px!important;
+  max-width:30px!important;
+  max-height:30px!important;
+  transform:none!important;
+  transform-origin:center center!important;
+}
+.tab-btn.active .ico-filled,
+.tab-btn:not(.active) .ico-outline,
+#tab-songs.active .ico-filled,
+#tab-setlist.active .ico-filled,
+#tab-workspace.active .ico-filled,
+#tab-tools.active .ico-filled,
+#tab-settings.active .ico-filled{
+  transform:none!important;
+  filter:none!important;
+}
+.tab-btn .tab-lbl,
+#tab-songs .tab-lbl,
+#tab-setlist .tab-lbl,
+#tab-workspace .tab-lbl,
+#tab-tools .tab-lbl,
+#tab-settings .tab-lbl{
+  font-size:10px!important;
+  line-height:1.05!important;
+  letter-spacing:-.012em!important;
+  margin:0!important;
+  max-width:none!important;
+  white-space:nowrap!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}
+.tab-btn.active .tab-lbl{
+  font-size:10px!important;
+  font-weight:760!important;
+}
+.tab-btn:not(.active) .tab-lbl{
+  font-size:10px!important;
+  font-weight:590!important;
+}
+@media(max-width:380px){
+  .tab-btn .tab-ico,
+  #tab-songs .tab-ico,
+  #tab-setlist .tab-ico,
+  #tab-workspace .tab-ico,
+  #tab-tools .tab-ico,
+  #tab-settings .tab-ico{
+    width:39px!important;
+    height:31px!important;
+  }
+  .tab-btn .tab-ico svg,
+  #tab-songs .tab-ico svg,
+  #tab-setlist .tab-ico svg,
+  #tab-workspace .tab-ico svg,
+  #tab-tools .tab-ico svg,
+  #tab-settings .tab-ico svg{
+    width:29.25px!important;
+    height:29.25px!important;
+    max-width:29.25px!important;
+    max-height:29.25px!important;
+  }
+  .tab-btn .tab-lbl,
+  #tab-songs .tab-lbl,
+  #tab-setlist .tab-lbl,
+  #tab-workspace .tab-lbl,
+  #tab-tools .tab-lbl,
+  #tab-settings .tab-lbl{
+    font-size:9.85px!important;
+  }
+}
+
+
+/* 7.97 active-tab obviousness pass.
+   Keep the accepted no-pill 7.96 layout and icon family. Do not redesign icons yet.
+   Make selection obvious like YouTube/Spotify: inactive tabs become quieter, active
+   tab becomes full-strength, active filled glyph gets an optical bump, and the
+   Workspace filled homebase icon gets a slightly larger optical correction. */
+:root{
+  --tab-inactive-soft:color-mix(in srgb,var(--txt2) 62%,transparent);
+  --tab-active-strong:color-mix(in srgb,var(--txt1) 84%,var(--tc) 16%);
+}
+body.dark{
+  --tab-inactive-soft:rgba(220,228,234,.64);
+  --tab-active-strong:rgba(255,255,255,.96);
+}
+.tab-btn:not(.active),
+.tab-btn:not(.active) .tab-lbl,
+.tab-btn:not(.active) .tab-ico{
+  color:var(--tab-inactive-soft)!important;
+}
+.tab-btn.active,
+.tab-btn.active .tab-lbl,
+.tab-btn.active .tab-ico{
+  color:var(--tab-active-strong)!important;
+}
+body:not(.dark) .tab-btn.active,
+body:not(.dark) .tab-btn.active .tab-lbl,
+body:not(.dark) .tab-btn.active .tab-ico{
+  color:color-mix(in srgb,var(--txt1) 76%,var(--tc) 24%)!important;
+}
+.tab-btn .tab-ico,
+#tab-songs .tab-ico,
+#tab-setlist .tab-ico,
+#tab-workspace .tab-ico,
+#tab-tools .tab-ico,
+#tab-settings .tab-ico{
+  width:42px!important;
+  height:33px!important;
+  margin:0 auto 1px!important;
+}
+.tab-btn .tab-ico svg,
+#tab-songs .tab-ico svg,
+#tab-setlist .tab-ico svg,
+#tab-workspace .tab-ico svg,
+#tab-tools .tab-ico svg,
+#tab-settings .tab-ico svg{
+  width:30px!important;
+  height:30px!important;
+  max-width:30px!important;
+  max-height:30px!important;
+  transform-origin:center center!important;
+}
+.tab-btn:not(.active) .ico-outline{
+  opacity:.86!important;
+  transform:scale(.98)!important;
+}
+.tab-btn.active .ico-filled,
+#tab-songs.active .ico-filled,
+#tab-setlist.active .ico-filled,
+#tab-tools.active .ico-filled,
+#tab-settings.active .ico-filled{
+  opacity:1!important;
+  transform:scale(1.13)!important;
+  filter:none!important;
+}
+#tab-workspace.active .ico-filled{
+  opacity:1!important;
+  transform:scale(1.19)!important;
+  filter:none!important;
+}
+.tab-btn .tab-lbl,
+#tab-songs .tab-lbl,
+#tab-setlist .tab-lbl,
+#tab-workspace .tab-lbl,
+#tab-tools .tab-lbl,
+#tab-settings .tab-lbl{
+  font-size:9.75px!important;
+  line-height:1.04!important;
+  letter-spacing:-.014em!important;
+  font-weight:560!important;
+}
+.tab-btn.active .tab-lbl,
+#tab-songs.active .tab-lbl,
+#tab-setlist.active .tab-lbl,
+#tab-workspace.active .tab-lbl,
+#tab-tools.active .tab-lbl,
+#tab-settings.active .tab-lbl{
+  font-size:9.75px!important;
+  font-weight:820!important;
+  letter-spacing:-.018em!important;
+}
+@media(max-width:380px){
+  .tab-btn .tab-ico,
+  #tab-songs .tab-ico,
+  #tab-setlist .tab-ico,
+  #tab-workspace .tab-ico,
+  #tab-tools .tab-ico,
+  #tab-settings .tab-ico{
+    width:41px!important;
+    height:32px!important;
+  }
+  .tab-btn .tab-ico svg,
+  #tab-songs .tab-ico svg,
+  #tab-setlist .tab-ico svg,
+  #tab-workspace .tab-ico svg,
+  #tab-tools .tab-ico svg,
+  #tab-settings .tab-ico svg{
+    width:29.4px!important;
+    height:29.4px!important;
+    max-width:29.4px!important;
+    max-height:29.4px!important;
+  }
+  .tab-btn .tab-lbl,
+  #tab-songs .tab-lbl,
+  #tab-setlist .tab-lbl,
+  #tab-workspace .tab-lbl,
+  #tab-tools .tab-lbl,
+  #tab-settings .tab-lbl,
+  .tab-btn.active .tab-lbl{
+    font-size:9.58px!important;
+  }
+}
+
+
+/* 7.98 dark-mode active-tab parity pass.
+   Light mode keeps the 7.97 tuning. Dark mode needs a bigger contrast delta:
+   active becomes near-white and optically stronger, inactive becomes noticeably
+   quieter, and filled active glyphs get a small dark-only bump. */
+body.dark .tab-btn:not(.active),
+body.dark .tab-btn:not(.active) .tab-lbl,
+body.dark .tab-btn:not(.active) .tab-ico{
+  color:rgba(220,228,234,.50)!important;
+}
+body.dark .tab-btn:not(.active) .ico-outline{
+  opacity:.72!important;
+  transform:scale(.96)!important;
+}
+body.dark .tab-btn.active,
+body.dark .tab-btn.active .tab-lbl,
+body.dark .tab-btn.active .tab-ico{
+  color:rgba(255,255,255,.985)!important;
+}
+body.dark .tab-btn.active .tab-lbl,
+body.dark #tab-songs.active .tab-lbl,
+body.dark #tab-setlist.active .tab-lbl,
+body.dark #tab-workspace.active .tab-lbl,
+body.dark #tab-tools.active .tab-lbl,
+body.dark #tab-settings.active .tab-lbl{
+  font-weight:860!important;
+}
+body.dark .tab-btn.active .ico-filled,
+body.dark #tab-songs.active .ico-filled,
+body.dark #tab-setlist.active .ico-filled,
+body.dark #tab-tools.active .ico-filled,
+body.dark #tab-settings.active .ico-filled{
+  opacity:1!important;
+  transform:scale(1.17)!important;
+}
+body.dark #tab-workspace.active .ico-filled{
+  opacity:1!important;
+  transform:scale(1.23)!important;
+}
+body.dark .tab-bar{
+  border-top-color:rgba(255,255,255,.075)!important;
+}
+
+
+
+/* 7.99 hero active-tab pass.
+   The direction is correct: no glass, no pill, v7.79-style icons, compact equal labels.
+   This pass pushes the selected tab closer to YouTube/Spotify obviousness:
+   - inactive tabs are quieter
+   - active tab uses near-primary black/white rather than a soft tint
+   - active filled glyphs are optically larger
+   - Workspace gets the strongest active correction because its filled homebase mark is naturally smaller
+   - all icon boxes allow overflow so the hero active glyph is not visually clipped */
+:root{
+  --tab-inactive-hero:color-mix(in srgb,var(--txt3) 76%,var(--bg1) 24%);
+  --tab-active-hero:color-mix(in srgb,var(--txt1) 96%,var(--tc) 4%);
+}
+body.dark{
+  --tab-inactive-hero:rgba(225,232,238,.42);
+  --tab-active-hero:rgba(255,255,255,.995);
+}
+.tab-btn,
+.tab-btn .tab-ico,
+.tab-btn .tab-ico svg{
+  overflow:visible!important;
+}
+.tab-btn:not(.active),
+.tab-btn:not(.active) .tab-lbl,
+.tab-btn:not(.active) .tab-ico{
+  color:var(--tab-inactive-hero)!important;
+}
+.tab-btn:not(.active) .ico-outline,
+#tab-songs:not(.active) .ico-outline,
+#tab-setlist:not(.active) .ico-outline,
+#tab-workspace:not(.active) .ico-outline,
+#tab-tools:not(.active) .ico-outline,
+#tab-settings:not(.active) .ico-outline{
+  opacity:.66!important;
+  transform:scale(.94)!important;
+  transform-origin:center center!important;
+}
+.tab-btn.active,
+.tab-btn.active .tab-lbl,
+.tab-btn.active .tab-ico{
+  color:var(--tab-active-hero)!important;
+}
+.tab-btn.active .tab-lbl,
+#tab-songs.active .tab-lbl,
+#tab-setlist.active .tab-lbl,
+#tab-workspace.active .tab-lbl,
+#tab-tools.active .tab-lbl,
+#tab-settings.active .tab-lbl{
+  color:var(--tab-active-hero)!important;
+  font-weight:880!important;
+}
+.tab-btn.active .ico-filled,
+#tab-songs.active .ico-filled,
+#tab-setlist.active .ico-filled,
+#tab-tools.active .ico-filled,
+#tab-settings.active .ico-filled{
+  opacity:1!important;
+  transform:translateY(-.75px) scale(1.23)!important;
+  transform-origin:center center!important;
+}
+#tab-workspace.active .ico-filled{
+  opacity:1!important;
+  transform:translateY(-.85px) scale(1.31)!important;
+  transform-origin:center center!important;
+}
+body.dark .tab-btn:not(.active),
+body.dark .tab-btn:not(.active) .tab-lbl,
+body.dark .tab-btn:not(.active) .tab-ico{
+  color:var(--tab-inactive-hero)!important;
+}
+body.dark .tab-btn:not(.active) .ico-outline{
+  opacity:.62!important;
+  transform:scale(.93)!important;
+}
+body.dark .tab-btn.active,
+body.dark .tab-btn.active .tab-lbl,
+body.dark .tab-btn.active .tab-ico{
+  color:var(--tab-active-hero)!important;
+}
+body.dark .tab-btn.active .tab-lbl,
+body.dark #tab-songs.active .tab-lbl,
+body.dark #tab-setlist.active .tab-lbl,
+body.dark #tab-workspace.active .tab-lbl,
+body.dark #tab-tools.active .tab-lbl,
+body.dark #tab-settings.active .tab-lbl{
+  font-weight:890!important;
+  color:var(--tab-active-hero)!important;
+}
+body.dark .tab-btn.active .ico-filled,
+body.dark #tab-songs.active .ico-filled,
+body.dark #tab-setlist.active .ico-filled,
+body.dark #tab-tools.active .ico-filled,
+body.dark #tab-settings.active .ico-filled{
+  transform:translateY(-.8px) scale(1.25)!important;
+}
+body.dark #tab-workspace.active .ico-filled{
+  transform:translateY(-.9px) scale(1.34)!important;
+}
+
 </style>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" data-loaded="1"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" data-loaded="1"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js" data-loaded="1"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js" data-loaded="1"></script><script src="https://apis.google.com/js/api.js?onload=__iframefcb624232" type="text/javascript" charset="UTF-8" gapi_processed="true"></script></head>
-<body data-nav-behaviour77="1" class="wb-ui-ready wb-route-settings wb-tab-settings" style="pointer-events: auto;">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" data-loaded="1"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" data-loaded="1"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js" data-loaded="1"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js" data-loaded="1"></script><script src="https://apis.google.com/js/api.js?onload=__iframefcb33216" type="text/javascript" charset="UTF-8" gapi_processed="true"></script></head>
+<body data-nav-behaviour77="1" class="wb-ui-ready wb-route-songs wb-tab-songs" style="pointer-events: auto;">
 <div id="app" style="opacity: 1; pointer-events: auto;">
 <div class="hdr">
 <div class="hdr-row">
 <div class="wm"><div class="wm-name" id="wm-name">WorshipBase</div><div class="wm-sub">Chord Library</div></div>
-<button aria-label="Add song" class="hdr-btn" id="hdr-add-btn" type="button" style="display: none;"><svg fill="none" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+<button aria-label="Add song" class="hdr-btn" id="hdr-add-btn" type="button" style="display: flex;"><svg fill="none" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
 </div>
 </div>
-<div class="srch-wrap" id="srch-wrap" style="display: none;">
+<div class="srch-wrap" id="srch-wrap" style="display: block;">
 <div class="srch-row">
 <div class="srch-inner">
 <span class="srch-ico"><svg fill="none" viewBox="0 0 15 15"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 10L13 13" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></span>
@@ -3022,7 +3803,7 @@ body.dark .tab-btn.active .tab-pill{
 <button class="manage-chip danger" id="manage-delete" type="button" disabled="">Delete</button>
 <span class="manage-count" id="manage-count">0 selected</span>
 <button class="manage-chip primary" id="manage-done" type="button">Done</button>
-</div> <section class="route" id="song-section">
+</div> <section class="route active" id="song-section">
 <div class="vs-host ptr-wrap">
 <div aria-hidden="true" id="ptr-indicator"><div class="wb-ptr-ui"><svg class="wb-ptr-ring" viewBox="0 0 30 30"><circle class="wb-ptr-track" cx="15" cy="15" r="12"></circle><circle class="wb-ptr-progress" cx="15" cy="15" r="12"></circle></svg></div></div>
 <div class="vs-wrap" id="vscroll">
@@ -3035,7 +3816,7 @@ body.dark .tab-btn.active .tab-pill{
 <button aria-label="Scroll to top" class="scroll-top-btn" id="scroll-top-btn" type="button"><svg fill="none" height="20" viewBox="0 0 20 20" width="20"><path d="M5 12.5L10 7.5L15 12.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4"></path></svg></button>
 </section>
 <div aria-hidden="true" id="alpha-bubble"></div>
-<div aria-live="polite" id="toast" class="">Workspace synced</div>
+<div aria-live="polite" id="toast" class="show">Workspace synced</div>
 <section class="route wb-list-mode" id="setlist-section" data-swipe-back-ready="1">
 <div id="wb-personal-manager" style="display: flex;">
 <div class="wb-personal-scroll">
@@ -3064,7 +3845,7 @@ body.dark .tab-btn.active .tab-pill{
 <button class="workspace-card" id="workspace-settings-card" type="button" data-ready="1"><span class="workspace-card-icon"><svg viewBox="0 0 24 24"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"></path><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.5-2.4 1a7 7 0 0 0-2-1.1L14.2 3h-4.4l-.3 2.7a7 7 0 0 0-2 1.1l-2.4-1-2 3.5 2 1.5A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.5 2 3.5 2.4-1a7 7 0 0 0 2 1.1l.3 2.7h4.4l.3-2.7a7 7 0 0 0 2-1.1l2.4 1 2-3.5-2-1.5c.1-.4.1-.8.1-1.2Z"></path></svg></span><span class="workspace-card-main"><span class="workspace-card-title">Workspace settings</span><span class="workspace-card-sub">Workspace name, status and sharing controls.</span></span><span class="workspace-card-chevron">›</span></button>
 </div>
 </div>
-<div class="workspace-subview" id="workspace-setlists-panel" data-ready="1"><div class="workspace-subview-head"><button aria-label="Back" class="workspace-subview-back" id="workspace-subview-back" type="button" data-ready="1"><svg fill="none" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg></button><div class="workspace-subview-title-wrap"><div class="workspace-subview-title">Workspace Set Lists</div><div class="workspace-subview-sub" id="workspace-subview-sub">7 shared set lists</div></div><button class="workspace-subview-new" id="workspace-subview-new" type="button" data-ready="1">New</button></div><div class="workspace-subview-list" id="workspace-subview-list"><button class="workspace-subview-card wb-personal-card" data-workspace-set="set_mor6vag7y5sv" type="button"><span class="wb-personal-main workspace-card-main"><span class="wb-personal-name workspace-subview-name">Backup test (Workspace)</span><span class="wb-personal-card-meta workspace-subview-meta"><span>11 songs · 7 items</span><span>Updated now</span></span></span><span class="workspace-card-actions wb-personal-actions"><span class="wb-card-btn danger" data-workspace-delete="set_mor6vag7y5sv" aria-hidden="true">×</span></span></button><button class="workspace-subview-card wb-personal-card" data-workspace-set="set_mor6ven4890n" type="button"><span class="wb-personal-main workspace-card-main"><span class="wb-personal-name workspace-subview-name">New Workspace</span><span class="wb-personal-card-meta workspace-subview-meta"><span>3 songs · 5 items</span><span>Updated now</span></span></span><span class="workspace-card-actions wb-personal-actions"><span class="wb-card-btn danger" data-workspace-delete="set_mor6ven4890n" aria-hidden="true">×</span></span></button><button class="workspace-subview-card wb-personal-card" data-workspace-set="set_mornk2yhngml" type="button"><span class="wb-personal-main workspace-card-main"><span class="wb-personal-name workspace-subview-name">New Workspace Set</span><span class="wb-personal-card-meta workspace-subview-meta"><span>3 songs · 4 items</span><span>Updated now</span></span></span><span class="workspace-card-actions wb-personal-actions"><span class="wb-card-btn danger" data-workspace-delete="set_mornk2yhngml" aria-hidden="true">×</span></span></button><button class="workspace-subview-card wb-personal-card" data-workspace-set="set_mot6qd1m9ux8" type="button"><span class="wb-personal-main workspace-card-main"><span class="wb-personal-name workspace-subview-name">Personal test (Workspace)</span><span class="wb-personal-card-meta workspace-subview-meta"><span>3 songs · 2 items</span><span>Updated now</span></span></span><span class="workspace-card-actions wb-personal-actions"><span class="wb-card-btn danger" data-workspace-delete="set_mot6qd1m9ux8" aria-hidden="true">×</span></span></button><button class="workspace-subview-card wb-personal-card" data-workspace-set="set_mot7eqa9c44c" type="button"><span class="wb-personal-main workspace-card-main"><span class="wb-personal-name workspace-subview-name">New test</span><span class="wb-personal-card-meta workspace-subview-meta"><span>5 songs · 1 item</span><span>Updated now</span></span></span><span class="workspace-card-actions wb-personal-actions"><span class="wb-card-btn danger" data-workspace-delete="set_mot7eqa9c44c" aria-hidden="true">×</span></span></button><button class="workspace-subview-card wb-personal-card" data-workspace-set="set_mot7hdcgbo1b" type="button"><span class="wb-personal-main workspace-card-main"><span class="wb-personal-name workspace-subview-name">Backup test 3</span><span class="wb-personal-card-meta workspace-subview-meta"><span>5 songs</span><span>Updated now</span></span></span><span class="workspace-card-actions wb-personal-actions"><span class="wb-card-btn danger" data-workspace-delete="set_mot7hdcgbo1b" aria-hidden="true">×</span></span></button><button class="workspace-subview-card wb-personal-card" data-workspace-set="set_mozhwa39k24x" type="button"><span class="wb-personal-main workspace-card-main"><span class="wb-personal-name workspace-subview-name">Sunday Set</span><span class="wb-personal-card-meta workspace-subview-meta"><span>6 songs · 2 items</span><span>Updated now</span></span></span><span class="workspace-card-actions wb-personal-actions"><span class="wb-card-btn danger" data-workspace-delete="set_mozhwa39k24x" aria-hidden="true">×</span></span></button></div></div><div class="workspace-subview" id="workspace-detail-panel" data-ready="1"><div class="workspace-subview-head"><button aria-label="Back" class="workspace-subview-back workspace-detail-back" type="button" data-ready="1"><svg fill="none" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg></button><div class="workspace-subview-title-wrap"><div class="workspace-subview-title" id="workspace-detail-title">Workspace</div><div class="workspace-subview-sub" id="workspace-detail-sub">Local shell</div></div></div><div id="workspace-detail-body"></div></div>
+<div class="workspace-subview" id="workspace-setlists-panel" data-ready="1"><div class="workspace-subview-head"><button aria-label="Back" class="workspace-subview-back" id="workspace-subview-back" type="button" data-ready="1"><svg fill="none" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg></button><div class="workspace-subview-title-wrap"><div class="workspace-subview-title">Workspace Set Lists</div><div class="workspace-subview-sub" id="workspace-subview-sub">0 shared set lists</div></div><button class="workspace-subview-new" id="workspace-subview-new" type="button" data-ready="1">New</button></div><div class="workspace-subview-list" id="workspace-subview-list"><div class="workspace-empty-card">No Workspace set lists yet. Publish a personal set or create a shared plan.</div></div></div><div class="workspace-subview" id="workspace-detail-panel" data-ready="1"><div class="workspace-subview-head"><button aria-label="Back" class="workspace-subview-back workspace-detail-back" type="button" data-ready="1"><svg fill="none" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg></button><div class="workspace-subview-title-wrap"><div class="workspace-subview-title" id="workspace-detail-title">Workspace</div><div class="workspace-subview-sub" id="workspace-detail-sub">Local shell</div></div></div><div id="workspace-detail-body"></div></div>
 </div>
 </section>
 <section class="route" id="tools-section" data-swipe-back-ready="1">
@@ -3091,11 +3872,11 @@ body.dark .tab-btn.active .tab-pill{
 <div class="bible-combo"><button class="bible-combo-btn book" id="bible-book-btn" type="button" data-ready="1"><span class="truncate" id="bible-book-label">John</span></button><span class="bible-combo-divider"></span><button class="bible-combo-btn chapter" id="bible-chapter-btn" type="button" data-ready="1"><span class="truncate" id="bible-chapter-label">3</span></button><span class="bible-combo-divider"></span><button class="bible-combo-btn version" id="bible-version-btn" type="button" data-ready="1"><span class="truncate" id="bible-version-label">ESV</span></button></div><button aria-label="Previous chapter" class="bible-fab bible-fab-prev" id="bible-prev-btn" type="button" data-ready="1"><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"></path></svg></button><button aria-label="Next chapter" class="bible-fab bible-fab-next" id="bible-next-btn" type="button" data-ready="1"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"></path></svg></button>
 <div class="bible-scroll"><div class="bible-card" id="bible-card"><div class="bible-heading">John 3</div><div class="bible-verse"><span class="bible-vnum">16</span><span class="bible-vtext">For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life.</span></div><div class="bible-verse"><span class="bible-vnum">17</span><span class="bible-vtext">For God did not send his Son into the world to condemn the world, but in order that the world might be saved through him.</span></div><div class="bible-copy">Bible data loader and full picker wiring belong to the Tools/Bible data pass. This shell keeps the Tools-owned route and visual structure.</div></div></div>
 </section>
-<section class="route active" id="settings-section">
-<div class="settings-scroll"><div class="settings-list" id="settings-list"><div class="ss-section"><div class="ss-title">Appearance</div><div class="ss-card"><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg></span><div class="ss-body"><div class="ss-lbl">Dark mode</div></div><button class="sw " id="dark-sw" data-toggle-setting="darkMode" type="button" aria-label="Toggle Dark mode"><span class="sw-thumb"></span></button></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M4 20h4l11-11a2.8 2.8 0 0 0-4-4L4 16v4Z"></path><path d="M13.5 6.5l4 4"></path></svg></span><div class="ss-body"><div class="ss-lbl">Text size</div><div class="sz-wrap"><span class="sz-a">A</span><input class="sz-slider" id="settings-text-size" data-text-size-slider="" type="range" min="0.85" max="1.25" step="0.05" value="1" style="--pct:38%"><span class="sz-a big">A</span></div></div></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="3"></circle></svg></span><div class="ss-body"><div class="ss-lbl">Colour theme</div></div></div><div class="theme-row"><button class="theme-sw " data-theme-value="neutral" type="button" aria-label="Neutral theme" style="--theme-dot:#111111"></button><button class="theme-sw " data-theme-value="forest" type="button" aria-label="Forest theme" style="--theme-dot:#1A4731"></button><button class="theme-sw " data-theme-value="olive" type="button" aria-label="Sage / Olive theme" style="--theme-dot:#6F7D3C"></button><button class="theme-sw active " data-theme-value="stone" type="button" aria-label="Stone / Taupe theme" style="--theme-dot:#8A7A68"></button><button class="theme-sw " data-theme-value="cedar" type="button" aria-label="Cedar theme" style="--theme-dot:#7A5A4D"></button><button class="theme-sw " data-theme-value="mulberry" type="button" aria-label="Mulberry theme" style="--theme-dot:#5A2034"></button><button class="theme-sw " data-theme-value="purple" type="button" aria-label="Deep Purple theme" style="--theme-dot:#3A0A55"></button><button class="theme-sw " data-theme-value="darkteal" type="button" aria-label="Dark Teal theme" style="--theme-dot:#10374A"></button><button class="theme-sw " data-theme-value="slate" type="button" aria-label="Slate Blue theme" style="--theme-dot:#4F6480"></button><button class="theme-sw " data-theme-value="navy" type="button" aria-label="Midnight Navy theme" style="--theme-dot:#2F4565"></button></div></div></div><div class="ss-section"><div class="ss-title">Library</div><div class="ss-card"><button class="ss-row" data-choice-key="defaultDisplayKey" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M9 18.5a2.5 2.5 0 1 1-1-2V6l10-2v10.5a2.5 2.5 0 1 1-1-2V8L9 9.5z"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default display key</div><div class="ss-sub" id="def-key-sub">Show songs in their original key</div></div><div class="ss-right"><span class="ss-val" id="def-key-val">Original</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button><button class="ss-row" data-choice-key="defaultSongView" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h14"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default song view</div><div class="ss-sub" id="def-songview-sub">Songs open in Chords view</div></div><div class="ss-right"><span class="ss-val" id="def-songview-val">Chords</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section"><div class="ss-title">Song defaults</div><div class="ss-card"><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><rect x="5" y="7" width="14" height="10" rx="2"></rect><path d="M8 12h8"></path></svg></span><div class="ss-body"><div class="ss-lbl">Highlight chords by default</div><div class="ss-sub">Songs open with chord highlight on</div></div><button class="sw on" id="default-highlight-sw" data-toggle-setting="highlightChordsDefault" type="button" aria-label="Toggle Highlight chords by default"><span class="sw-thumb"></span></button></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M10 4v15"></path><path d="M10 12.5c4-3 7-1.7 7 1.3 0 3.5-4.2 4.8-7 5.2"></path></svg></span><div class="ss-body"><div class="ss-lbl">Use flats by default</div><div class="ss-sub">Prefer flats when songs open</div></div><button class="sw " id="default-flats-sw" data-toggle-setting="useFlatsDefault" type="button" aria-label="Toggle Use flats by default"><span class="sw-thumb"></span></button></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><rect x="8" y="3" width="8" height="18" rx="2"></rect><path d="M11 18h2"></path></svg></span><div class="ss-body"><div class="ss-lbl">Keep screen awake on song pages</div><div class="ss-sub">Prevent screen sleep while viewing songs</div></div><button class="sw " id="keep-awake-sw" data-toggle-setting="keepScreenAwakeOnSongs" type="button" aria-label="Toggle Keep screen awake on song pages"><span class="sw-thumb"></span></button></div><button class="ss-row" data-choice-key="addToSetBehavior" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M5 7h9M5 12h7M5 17h9"></path><path d="M17 10v6M14 13h6"></path></svg></span><div class="ss-body"><div class="ss-lbl">Add to set list</div><div class="ss-sub" id="addset-beh-sub">Ask every time which set to use</div></div><div class="ss-right"><span class="ss-val" id="addset-beh-val">Ask</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section"><div class="ss-title">Preview</div><div class="ss-card"><button class="ss-row" data-choice-key="defaultPdfPreset" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"></path><path d="M14 3v5h4"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default PDF preset</div><div class="ss-sub" id="def-pdf-sub">Open export on Rehearsal preset</div></div><div class="ss-right"><span class="ss-val" id="def-pdf-val">Rehearsal</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section"><div class="ss-title">Bible</div><div class="ss-card"><button class="ss-row" data-choice-key="defaultBibleVersion" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M7 4h10v16H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"></path><path d="M9 8h6M9 12h6M9 16h4"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default Bible version</div><div class="ss-sub" id="def-bible-sub">Bible opens in ESV</div></div><div class="ss-right"><span class="ss-val" id="def-bible-val">ESV</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section" id="wb-backup-restore-section"><div class="ss-title">Backup &amp; Restore</div><div class="wb-settings-backup-card"><button class="wb-settings-backup-row wb-bc-entry-row" id="wb-backup-centre-entry-row" data-settings-action="backup" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.5 2.9 7.8 7 10 4.1-2.2 7-5.5 7-10V6l-7-3Z"></path><path d="m9 12 2 2 4-5"></path></svg></span><div class="ss-body"><div class="ss-lbl">Backup Centre</div><div class="ss-sub">Local files and Google Drive backup in one place.</div></div><div class="ss-right"><span class="wb-bc-entry-pill">OPEN</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button><div class="wb-settings-backup-summary"><div class="wb-settings-backup-grid"><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">My songs</div><div class="wb-settings-backup-mini-value">0</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Personal set lists</div><div class="wb-settings-backup-mini-value">0</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Notes &amp; cues</div><div class="wb-settings-backup-mini-value">0</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Google Drive</div><div class="wb-settings-backup-mini-value"><span class="drive-status-value"><span class="wb-settings-drive-dot disconnected"></span>Not connected</span></div></div></div><div class="wb-settings-backup-footer">Drive backup is now wired for runtime OAuth and hidden appDataFolder storage.</div></div></div></div><div class="ss-section"><div class="ss-title">About</div><div class="ss-card"><div class="about-panel"><div class="wb-brand-mark" id="about-brand-mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 18l8 28 10-20 10 20 8-28" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="about-copy"><div class="about-name" id="about-brand-name">WorshipBase</div><div class="about-version-pill">Rebuild_7.87</div><div class="about-by">Created by <strong>Jerin Reji</strong></div><div class="admin-state-line ">Tap logo for admin mode</div></div></div></div></div></div></div>
+<section class="route" id="settings-section">
+<div class="settings-scroll"><div class="settings-list" id="settings-list"><div class="ss-section"><div class="ss-title">Appearance</div><div class="ss-card"><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg></span><div class="ss-body"><div class="ss-lbl">Dark mode</div></div><button class="sw " id="dark-sw" data-toggle-setting="darkMode" type="button" aria-label="Toggle Dark mode"><span class="sw-thumb"></span></button></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M4 20h4l11-11a2.8 2.8 0 0 0-4-4L4 16v4Z"></path><path d="M13.5 6.5l4 4"></path></svg></span><div class="ss-body"><div class="ss-lbl">Text size</div><div class="sz-wrap"><span class="sz-a">A</span><input class="sz-slider" id="settings-text-size" data-text-size-slider="" type="range" min="0.85" max="1.25" step="0.05" value="1" style="--pct:38%"><span class="sz-a big">A</span></div></div></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="3"></circle></svg></span><div class="ss-body"><div class="ss-lbl">Colour theme</div></div></div><div class="theme-row"><button class="theme-sw " data-theme-value="neutral" type="button" aria-label="Neutral theme" style="--theme-dot:#111111"></button><button class="theme-sw " data-theme-value="forest" type="button" aria-label="Forest theme" style="--theme-dot:#1A4731"></button><button class="theme-sw " data-theme-value="olive" type="button" aria-label="Sage / Olive theme" style="--theme-dot:#6F7D3C"></button><button class="theme-sw active " data-theme-value="stone" type="button" aria-label="Stone / Taupe theme" style="--theme-dot:#8A7A68"></button><button class="theme-sw " data-theme-value="cedar" type="button" aria-label="Cedar theme" style="--theme-dot:#7A5A4D"></button><button class="theme-sw " data-theme-value="mulberry" type="button" aria-label="Mulberry theme" style="--theme-dot:#5A2034"></button><button class="theme-sw " data-theme-value="purple" type="button" aria-label="Deep Purple theme" style="--theme-dot:#3A0A55"></button><button class="theme-sw " data-theme-value="darkteal" type="button" aria-label="Dark Teal theme" style="--theme-dot:#10374A"></button><button class="theme-sw " data-theme-value="slate" type="button" aria-label="Slate Blue theme" style="--theme-dot:#4F6480"></button><button class="theme-sw " data-theme-value="navy" type="button" aria-label="Midnight Navy theme" style="--theme-dot:#2F4565"></button></div></div></div><div class="ss-section"><div class="ss-title">Library</div><div class="ss-card"><button class="ss-row" data-choice-key="defaultDisplayKey" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M9 18.5a2.5 2.5 0 1 1-1-2V6l10-2v10.5a2.5 2.5 0 1 1-1-2V8L9 9.5z"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default display key</div><div class="ss-sub" id="def-key-sub">Show songs in their original key</div></div><div class="ss-right"><span class="ss-val" id="def-key-val">Original</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button><button class="ss-row" data-choice-key="defaultSongView" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h14"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default song view</div><div class="ss-sub" id="def-songview-sub">Songs open in Chords view</div></div><div class="ss-right"><span class="ss-val" id="def-songview-val">Chords</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section"><div class="ss-title">Song defaults</div><div class="ss-card"><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><rect x="5" y="7" width="14" height="10" rx="2"></rect><path d="M8 12h8"></path></svg></span><div class="ss-body"><div class="ss-lbl">Highlight chords by default</div><div class="ss-sub">Songs open with chord highlight on</div></div><button class="sw on" id="default-highlight-sw" data-toggle-setting="highlightChordsDefault" type="button" aria-label="Toggle Highlight chords by default"><span class="sw-thumb"></span></button></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M10 4v15"></path><path d="M10 12.5c4-3 7-1.7 7 1.3 0 3.5-4.2 4.8-7 5.2"></path></svg></span><div class="ss-body"><div class="ss-lbl">Use flats by default</div><div class="ss-sub">Prefer flats when songs open</div></div><button class="sw " id="default-flats-sw" data-toggle-setting="useFlatsDefault" type="button" aria-label="Toggle Use flats by default"><span class="sw-thumb"></span></button></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><rect x="8" y="3" width="8" height="18" rx="2"></rect><path d="M11 18h2"></path></svg></span><div class="ss-body"><div class="ss-lbl">Keep screen awake on song pages</div><div class="ss-sub">Prevent screen sleep while viewing songs</div></div><button class="sw " id="keep-awake-sw" data-toggle-setting="keepScreenAwakeOnSongs" type="button" aria-label="Toggle Keep screen awake on song pages"><span class="sw-thumb"></span></button></div><button class="ss-row" data-choice-key="addToSetBehavior" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M5 7h9M5 12h7M5 17h9"></path><path d="M17 10v6M14 13h6"></path></svg></span><div class="ss-body"><div class="ss-lbl">Add to set list</div><div class="ss-sub" id="addset-beh-sub">Ask every time which set to use</div></div><div class="ss-right"><span class="ss-val" id="addset-beh-val">Ask</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section"><div class="ss-title">Preview</div><div class="ss-card"><button class="ss-row" data-choice-key="defaultPdfPreset" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"></path><path d="M14 3v5h4"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default PDF preset</div><div class="ss-sub" id="def-pdf-sub">Open export on Rehearsal preset</div></div><div class="ss-right"><span class="ss-val" id="def-pdf-val">Rehearsal</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section"><div class="ss-title">Bible</div><div class="ss-card"><button class="ss-row" data-choice-key="defaultBibleVersion" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M7 4h10v16H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"></path><path d="M9 8h6M9 12h6M9 16h4"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default Bible version</div><div class="ss-sub" id="def-bible-sub">Bible opens in ESV</div></div><div class="ss-right"><span class="ss-val" id="def-bible-val">ESV</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section" id="wb-backup-restore-section"><div class="ss-title">Backup &amp; Restore</div><div class="wb-settings-backup-card"><button class="wb-settings-backup-row wb-bc-entry-row" id="wb-backup-centre-entry-row" data-settings-action="backup" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.5 2.9 7.8 7 10 4.1-2.2 7-5.5 7-10V6l-7-3Z"></path><path d="m9 12 2 2 4-5"></path></svg></span><div class="ss-body"><div class="ss-lbl">Backup Centre</div><div class="ss-sub">Local files and Google Drive backup in one place.</div></div><div class="ss-right"><span class="wb-bc-entry-pill">OPEN</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button><div class="wb-settings-backup-summary"><div class="wb-settings-backup-grid"><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">My songs</div><div class="wb-settings-backup-mini-value">0</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Personal set lists</div><div class="wb-settings-backup-mini-value">0</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Notes &amp; cues</div><div class="wb-settings-backup-mini-value">0</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Google Drive</div><div class="wb-settings-backup-mini-value"><span class="drive-status-value"><span class="wb-settings-drive-dot disconnected"></span>Not connected</span></div></div></div><div class="wb-settings-backup-footer">Drive backup is now wired for runtime OAuth and hidden appDataFolder storage.</div></div></div></div><div class="ss-section"><div class="ss-title">About</div><div class="ss-card"><div class="about-panel"><div class="wb-brand-mark" id="about-brand-mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 18l8 28 10-20 10 20 8-28" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="about-copy"><div class="about-name" id="about-brand-name">WorshipBase</div><div class="about-version-pill">Rebuild_7.99</div><div class="about-by">Created by <strong>Jerin Reji</strong></div><div class="admin-state-line ">Tap logo for admin mode</div></div></div></div></div></div></div>
 </section>
 <nav class="tab-bar" id="tab-bar">
-<button class="tab-btn" data-tab="songs" id="tab-songs" type="button" aria-label="Library">
+<button class="tab-btn active" data-tab="songs" id="tab-songs" type="button" aria-label="Library">
 <span class="tab-pill">
 <span class="tab-ico">
 <svg class="ico-outline wb-tab-icon-library wb-tab-icon-songbook" fill="none" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><path d="M5.3 5.9A2.1 2.1 0 0 1 7.4 3.8h9.35c1 0 1.8.8 1.8 1.8v13.25c0 .75-.6 1.35-1.35 1.35H7.35a2.05 2.05 0 0 1-2.05-2.05V5.9Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.75"></path><path d="M8.4 4.05v15.9" stroke="currentColor" stroke-linecap="round" stroke-width="1.65"></path><path d="M11 9.2c1.55-.7 2.75-.7 4.3 0v4.75c-1.55-.7-2.75-.7-4.3 0V9.2Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.5"></path><path d="M7.5 17.2h8.9" stroke="currentColor" stroke-linecap="round" stroke-width="1.55"></path></svg>
@@ -3114,8 +3895,8 @@ body.dark .tab-btn.active .tab-pill{
 <button class="tab-btn" data-tab="workspace" data-wb-tab-owner="workspace" id="tab-workspace" type="button" aria-label="Workspace">
 <span class="tab-pill">
 <span class="tab-ico">
-<svg class="ico-outline wb-tab-icon-workspace wb-tab-icon-shared-folder" fill="none" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><path d="M4.4 7.25A2.25 2.25 0 0 1 6.65 5h3.55l1.7 1.95h5.45A2.25 2.25 0 0 1 19.6 9.2v7.45a2.35 2.35 0 0 1-2.35 2.35H6.75a2.35 2.35 0 0 1-2.35-2.35v-9.4Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.75"></path><circle cx="9.25" cy="12" r="1.15" stroke="currentColor" stroke-width="1.55"></circle><circle cx="14.75" cy="12" r="1.15" stroke="currentColor" stroke-width="1.55"></circle><path d="M8 15.6c.65-.95 1.45-1.4 2.35-1.4M13.65 14.2c.9 0 1.7.45 2.35 1.4" stroke="currentColor" stroke-linecap="round" stroke-width="1.55"></path></svg>
-<svg class="ico-filled wb-tab-icon-workspace wb-tab-icon-shared-folder" fill="none" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><path d="M4.15 7.15A2.4 2.4 0 0 1 6.55 4.75h3.65l1.7 1.95h5.55a2.4 2.4 0 0 1 2.4 2.4v7.55a2.55 2.55 0 0 1-2.55 2.55H6.7a2.55 2.55 0 0 1-2.55-2.55v-9.5Z" fill="currentColor"></path><circle cx="9.25" cy="12" r="1.25" fill="var(--tab-active-glyph,#fff)"></circle><circle cx="14.75" cy="12" r="1.25" fill="var(--tab-active-glyph,#fff)"></circle><path d="M7.8 15.65c.72-.95 1.55-1.42 2.5-1.42M13.7 14.23c.95 0 1.78.47 2.5 1.42" stroke="var(--tab-active-glyph,#fff)" stroke-linecap="round" stroke-width="1.75"></path></svg>
+<svg class="ico-outline wb-tab-icon-workspace wb-tab-icon-homebase" fill="none" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><path d="M4.75 10.35 12 4.65l7.25 5.7" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.85"></path><path d="M6.35 9.55v8.05a1.9 1.9 0 0 0 1.9 1.9h7.5a1.9 1.9 0 0 0 1.9-1.9V9.55" stroke="currentColor" stroke-linejoin="round" stroke-width="1.8"></path><path d="M9.25 19.35v-4.05a1.15 1.15 0 0 1 1.15-1.15h3.2a1.15 1.15 0 0 1 1.15 1.15v4.05" stroke="currentColor" stroke-linejoin="round" stroke-width="1.65"></path><path d="M9.3 11.45h5.4" stroke="currentColor" stroke-linecap="round" stroke-width="1.55"></path></svg>
+<svg class="ico-filled wb-tab-icon-workspace wb-tab-icon-homebase" fill="none" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><path d="M4.55 10.55 12 4.55l7.45 6a1.05 1.05 0 0 1-.67 1.86h-.72v5.28a2.25 2.25 0 0 1-2.25 2.25H8.19a2.25 2.25 0 0 1-2.25-2.25v-5.28h-.72a1.05 1.05 0 0 1-.67-1.86Z" fill="currentColor"></path><path d="M9.15 19.55v-4.28a1.2 1.2 0 0 1 1.2-1.2h3.3a1.2 1.2 0 0 1 1.2 1.2v4.28" stroke="var(--tab-active-glyph,#fff)" stroke-linejoin="round" stroke-width="1.65"></path><path d="M9.2 11.45h5.6" stroke="var(--tab-active-glyph,#fff)" stroke-linecap="round" stroke-width="1.65"></path></svg>
 </span><span class="tab-lbl">Workspace</span>
 </span></button>
 
@@ -3127,7 +3908,7 @@ body.dark .tab-btn.active .tab-pill{
 </span><span class="tab-lbl">Tools</span>
 </span></button>
 
-<button class="tab-btn active" data-tab="settings" id="tab-settings" type="button" aria-label="Settings">
+<button class="tab-btn" data-tab="settings" id="tab-settings" type="button" aria-label="Settings">
 <span class="tab-pill">
 <span class="tab-ico">
 <svg class="ico-outline wb-tab-icon-settings wb-tab-icon-sliders" fill="none" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><path d="M5 7.25h4.9M14.1 7.25H19M5 12h8.25M16.75 12H19M5 16.75h2.65M11.15 16.75H19" stroke="currentColor" stroke-linecap="round" stroke-width="1.9"></path><circle cx="12" cy="7.25" r="2.05" stroke="currentColor" stroke-width="1.75"></circle><circle cx="14.95" cy="12" r="1.75" stroke="currentColor" stroke-width="1.75"></circle><circle cx="9.35" cy="16.75" r="1.75" stroke="currentColor" stroke-width="1.75"></circle></svg>
@@ -3488,8 +4269,8 @@ body.dark .tab-btn.active .tab-pill{
 <script id="wb-rebuild-consolidated-script">
 (function(){
 'use strict';
-var VERSION='Rebuild_7.87';
-var REBUILD_PHASE='Phase 7.87: contained active tab tint without edge spill';
+var VERSION='Rebuild_7.99';
+var REBUILD_PHASE='Phase 7.99: hero active tab contrast and optical icon weight';
 var REBUILD_REFERENCE='Working-v85.0-fixed.html';
 
 var ASSET_CONFIG=(window.WB_ASSETS&&typeof window.WB_ASSETS==='object')?Object.assign({
@@ -5865,6 +6646,237 @@ try{if(document.readyState==='loading')document.addEventListener('DOMContentLoad
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+window.WBTestTab99=function(){
+  try{
+    var first=document.querySelector('.tab-btn .tab-ico svg');
+    var style=first?getComputedStyle(first):null;
+    return {
+      version:VERSION,
+      heroPass:document.body.innerHTML.indexOf('7.99 hero active-tab pass')>=0,
+      activeHero:getComputedStyle(document.documentElement).getPropertyValue('--tab-active-hero').trim(),
+      inactiveHero:getComputedStyle(document.documentElement).getPropertyValue('--tab-inactive-hero').trim(),
+      tabCount:document.querySelectorAll('.tab-btn').length,
+      outlineIconCount:document.querySelectorAll('.ico-outline').length,
+      filledIconCount:document.querySelectorAll('.ico-filled').length,
+      sampleIconSize:style && style.width,
+      status:'Hero active-tab pass: inactive tabs quieter, active glyphs larger/near-primary, workspace active optically corrected.'
+    };
+  }catch(e){return {error:e&&e.message||String(e)}}
+};
+
+window.WBTestTab98=function(){
+  try{
+    var active=document.querySelector('.tab-btn.active');
+    var inactive=document.querySelector('.tab-btn:not(.active)');
+    var activeFilled=document.querySelector('.tab-btn.active .ico-filled');
+    var inactiveOutline=document.querySelector('.tab-btn:not(.active) .ico-outline');
+    return {
+      version:VERSION,
+      hasDarkParityPass:document.body.innerHTML.indexOf('7.98 dark-mode active-tab parity pass')>=0,
+      bodyDark:document.body.classList.contains('dark'),
+      activeColor:active&&getComputedStyle(active).color,
+      inactiveColor:inactive&&getComputedStyle(inactive).color,
+      activeFilledTransform:activeFilled&&getComputedStyle(activeFilled).transform,
+      inactiveOutlineOpacity:inactiveOutline&&getComputedStyle(inactiveOutline).opacity,
+      status:'Dark mode now has a stronger active/inactive split; light mode keeps the 7.97 tuning.'
+    };
+  }catch(e){return {error:e&&e.message||String(e)}}
+};
+
+window.WBTestTab97=function(){
+  try{
+    var first=document.querySelector('.tab-btn .tab-ico svg');
+    var active=document.querySelector('.tab-btn.active .ico-filled');
+    var inactive=document.querySelector('.tab-btn:not(.active) .ico-outline');
+    return {
+      version:VERSION,
+      hasActiveContrastPass:document.body.innerHTML.indexOf('7.97 active-tab obviousness pass')>=0,
+      pillStillNeutral:!!document.querySelector('.tab-pill'),
+      outlineIconCount:document.querySelectorAll('.ico-outline').length,
+      filledIconCount:document.querySelectorAll('.ico-filled').length,
+      sampleIconSize:first&&getComputedStyle(first).width,
+      activeTransform:active&&getComputedStyle(active).transform,
+      inactiveOpacity:inactive&&getComputedStyle(inactive).opacity,
+      status:'No icon redesign; stronger active/inactive colour, weight and optical filled-icon scale.'
+    };
+  }catch(e){return {error:e&&e.message||String(e)}}
+};
+
+window.WBTestTab96=function(){
+  try{
+    var labels=[].map.call(document.querySelectorAll('.tab-btn .tab-lbl'),function(el){return getComputedStyle(el).fontSize});
+    var icons=[].map.call(document.querySelectorAll('.tab-btn .tab-ico svg'),function(el){var s=getComputedStyle(el);return s.width+' x '+s.height});
+    return {
+      version:VERSION,
+      hasEqualSizingPass:document.body.innerHTML.indexOf('7.96 tab sizing equalisation')>=0,
+      labelSizes:labels,
+      uniqueLabelSizes:Array.from(new Set(labels)),
+      iconSizes:icons,
+      uniqueIconSizes:Array.from(new Set(icons)),
+      status:'All tab labels share the same small size and all tab icons share the same large size.'
+    };
+  }catch(e){return {error:e&&e.message||String(e)}}
+};
+
+window.WBTestTab95=function(){
+  try{
+    return {
+      version:VERSION,
+      workspaceOutlineHomebase:document.querySelectorAll('.wb-tab-icon-homebase.ico-outline').length,
+      workspaceFilledHomebase:document.querySelectorAll('.wb-tab-icon-homebase.ico-filled').length,
+      exactLegacyIconsStillPresent:[
+        document.querySelectorAll('.wb-tab-icon-library.ico-outline').length,
+        document.querySelectorAll('.wb-tab-icon-setlist.ico-outline').length,
+        document.querySelectorAll('.wb-tab-icon-tools.ico-outline').length,
+        document.querySelectorAll('.wb-tab-icon-settings.ico-outline').length
+      ],
+      status:'7.79 icon language retained; Workspace changed to home-base hub mark.'
+    };
+  }catch(e){return {error:e&&e.message||String(e)}}
+};
+
+window.WBTestTab94=function(){
+  try{
+    var html=document.body.innerHTML;
+    return {
+      version:VERSION,
+      exactV79Library:html.indexOf('M5.3 5.9A2.1 2.1')>=0,
+      exactV79SetList:html.indexOf('M6 7.15h11.15')>=0,
+      exactV79Tools:html.indexOf('width="5.25" height="5.25" rx="1.55"')>=0,
+      exactV79Settings:html.indexOf('M5 7.25h4.9')>=0,
+      workspaceNoFace:html.indexOf('M8.05 12.05h7.9')>=0 && html.indexOf('c.65-.95')<0,
+      iconSize:getComputedStyle(document.querySelector('.tab-btn .tab-ico svg')).width,
+      labelSize:getComputedStyle(document.querySelector('.tab-btn .tab-lbl')).fontSize,
+      selectedCapsuleNeutralized:true,
+      status:'7.79 icons restored exactly for Library, Set List, Tools, Settings; Workspace replaced with non-face folder-plus mark.'
+    };
+  }catch(e){return {error:e&&e.message||String(e)}}
+};
+
+window.WBTestTab93=function(){
+  try{
+    var first=document.querySelector('.tab-btn .tab-ico svg');
+    var style=first?getComputedStyle(first):null;
+    var label=document.querySelector('.tab-btn .tab-lbl');
+    var labelStyle=label?getComputedStyle(label):null;
+    return {
+      version:VERSION,
+      hasReturnStyle:document.body.innerHTML.indexOf('7.93 return to v7.79-style icons')>=0,
+      pillCount:document.querySelectorAll('.tab-pill').length,
+      outlineIconCount:document.querySelectorAll('.ico-outline').length,
+      filledIconCount:document.querySelectorAll('.ico-filled').length,
+      workspaceBoardCount:document.querySelectorAll('.wb-tab-icon-workspace-board').length,
+      sampleIconSize:style&&style.width,
+      sampleLabelSize:labelStyle&&labelStyle.fontSize,
+      status:'v7.79-style tab icon family restored, icons enlarged, labels reduced, Workspace replaced with board mark.'
+    };
+  }catch(e){return {error:e&&e.message||String(e)}}
+};
+
+window.WBTestTab92=function(){
+  try{
+    var first=document.querySelector('.tab-btn .tab-ico svg');
+    var style=first?getComputedStyle(first):null;
+    return {
+      version:VERSION,
+      noPillMode:document.body.innerHTML.indexOf('7.92 no-pill tab system')>=0,
+      pillCount:document.querySelectorAll('.tab-pill').length,
+      outlineIconCount:document.querySelectorAll('.ico-outline').length,
+      filledIconCount:document.querySelectorAll('.ico-filled').length,
+      gearOutlineCount:document.querySelectorAll('.wb-tab-icon-gear.ico-outline').length,
+      gearFilledCount:document.querySelectorAll('.wb-tab-icon-gear.ico-filled').length,
+      sampleIconSize:style && style.width,
+      status:'Selected capsule removed; tab family redesigned with book/checklist/team/grid/gear concepts.'
+    };
+  }catch(e){return {error:e&&e.message||String(e)}}
+};
+
+window.WBTestTab91=function(){
+  try{
+    var svg=document.querySelector('.tab-btn .tab-ico svg');
+    var st=svg?getComputedStyle(svg):null;
+    return {
+      version:VERSION,
+      hasStrongGlyphPass:document.body.innerHTML.indexOf('7.91 stronger tab glyph pass')>=0,
+      pillCount:document.querySelectorAll('.tab-pill').length,
+      outlineIconCount:document.querySelectorAll('.ico-outline').length,
+      filledIconCount:document.querySelectorAll('.ico-filled').length,
+      workspaceFilledHasNoFace:!!document.querySelector('#tab-workspace .ico-filled path[d*="15.65 13.55"]'),
+      settingsFilledPanel:!!document.querySelector('#tab-settings .ico-filled rect[rx="4.1"]'),
+      sampleIconSize:st&&st.width,
+      status:'Larger tab icons, non-face Workspace filled icon, and solid-panel Settings filled icon.'
+    };
+  }catch(e){return {error:e&&e.message||String(e)}}
+};
+
+window.WBTestTab90=function(){
+  try{
+    var first=document.querySelector('.tab-btn .tab-ico svg');
+    var style=first?getComputedStyle(first):null;
+    return {
+      version:VERSION,
+      hasFinalGlassPass:document.body.innerHTML.indexOf('7.90 final glass-direction icon pass')>=0,
+      pillCount:document.querySelectorAll('.tab-pill').length,
+      outlineIconCount:document.querySelectorAll('.ico-outline').length,
+      filledIconCount:document.querySelectorAll('.ico-filled').length,
+      settingsTrackCount:document.querySelectorAll('.wb-tab-icon-settings.ico-filled rect[data-track]').length,
+      settingsDotCount:document.querySelectorAll('.wb-tab-icon-settings.ico-filled circle[data-dot]').length,
+      sampleIconSize:style && style.width,
+      status:'Glass direction retained; icons enlarged slightly; Settings filled icon strengthened.'
+    };
+  }catch(e){return {error:e&&e.message||String(e)}}
+};
+
+window.WBTestTab89=function(){
+  try{
+    var ico=document.querySelector('.tab-ico svg');
+    var icoStyle=ico?getComputedStyle(ico):null;
+    return {
+      version:VERSION,
+      hasIconPolish:document.body.innerHTML.indexOf('7.89 tab icon optical-size polish')>=0,
+      pillCount:document.querySelectorAll('.tab-pill').length,
+      outlineIconCount:document.querySelectorAll('.ico-outline').length,
+      filledIconCount:document.querySelectorAll('.ico-filled').length,
+      sampleIconWidth:icoStyle&&icoStyle.width,
+      toolsFilledHasSoftTile:!!document.querySelector('#tab-tools .ico-filled rect[opacity=".22"]'),
+      status:'Slightly larger tab glyphs with refined Tools filled icon.'
+    };
+  }catch(e){return {error:e&&e.message||String(e)}}
+};
+
+window.WBTestTab88=function(){
+  try{
+    var pill=document.querySelector('.tab-pill');
+    var pillStyle=pill?getComputedStyle(pill):null;
+    var activePill=document.querySelector('.tab-btn.active .tab-pill');
+    var activeStyle=activePill?getComputedStyle(activePill):null;
+    return {
+      version:VERSION,
+      hasGlassTint:document.body.innerHTML.indexOf('7.88 liquid glass tab polish and icon family refresh')>=0,
+      pillCount:document.querySelectorAll('.tab-pill').length,
+      outlineIconCount:document.querySelectorAll('.ico-outline').length,
+      filledIconCount:document.querySelectorAll('.ico-filled').length,
+      samplePillWidth:pillStyle&&pillStyle.width,
+      samplePillHeight:pillStyle&&pillStyle.height,
+      activeBackdropFilter:activeStyle&&(activeStyle.backdropFilter||activeStyle.webkitBackdropFilter),
+      workspaceLabel:(document.querySelector('#tab-workspace .tab-lbl')||{}).textContent||'',
+      status:'Contained liquid-glass capsule with refreshed tab icon set.'
+    };
+  }catch(e){return {error:e&&e.message||String(e)}}
+};
+
 window.WBTestTab87=function(){
   try{
     var pill=document.querySelector('.tab-pill');
@@ -5873,7 +6885,7 @@ window.WBTestTab87=function(){
     var tabStyle=tab?getComputedStyle(tab):null;
     return {
       version:VERSION,
-      hasContainedTint:document.body.innerHTML.indexOf('7.87 contained active tab tint correction')>=0,
+      hasContainedTint:document.body.innerHTML.indexOf('7.88 liquid glass tab polish and icon family refresh')>=0,
       pillCount:document.querySelectorAll('.tab-pill').length,
       outlineIconCount:document.querySelectorAll('.ico-outline').length,
       filledIconCount:document.querySelectorAll('.ico-filled').length,
@@ -6210,4 +7222,4 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 <input id="notes-cues-import-file" type="file" accept=".json,application/json" style="display:none">
 
-<iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" tabindex="-1" vspace="0" width="100%" aria-hidden="true" id="I0_1778430209012" name="I0_1778430209012" src="https://worshipbase-17d1b.firebaseapp.com/__/auth/iframe?apiKey=AIzaSyAWHTEOh1lXkzq3kB24g3An6Aad54OMlN8&amp;appName=%5BDEFAULT%5D&amp;v=10.12.2&amp;eid=p&amp;usegapi=1&amp;jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.en.gSqfLc8WnvU.O%2Fd%3D1%2Frs%3DAHpOoo_cXXGArE2dtw6vkGR2NQ_1f5L3AQ%2Fm%3D__features__#id=I0_1778430209012&amp;_gfid=I0_1778430209012&amp;parent=about%3A%2F%2F&amp;pfname=&amp;rpctoken=40770198" style="position: absolute; top: -100px; width: 1px; height: 1px;"></iframe></body></html>
+<iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" tabindex="-1" vspace="0" width="100%" aria-hidden="true" id="I0_1778452530311" name="I0_1778452530311" src="https://worshipbase-17d1b.firebaseapp.com/__/auth/iframe?apiKey=AIzaSyAWHTEOh1lXkzq3kB24g3An6Aad54OMlN8&amp;appName=%5BDEFAULT%5D&amp;v=10.12.2&amp;eid=p&amp;usegapi=1&amp;jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.en.gSqfLc8WnvU.O%2Fd%3D1%2Frs%3DAHpOoo_cXXGArE2dtw6vkGR2NQ_1f5L3AQ%2Fm%3D__features__#id=I0_1778452530311&amp;_gfid=I0_1778452530311&amp;parent=about%3A%2F%2F&amp;pfname=&amp;rpctoken=22703137" style="position: absolute; top: -100px; width: 1px; height: 1px;"></iframe></body></html>
