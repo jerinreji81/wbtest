@@ -8,7 +8,7 @@
 <meta content="WorshipBase" name="apple-mobile-web-app-title">
 <link href="./worshipbase_layered_fold_w_proper/app-icons/app-icon-192.png" rel="icon" type="image/png">
 <link href="./worshipbase_layered_fold_w_proper/app-icons/apple-touch-icon.png" rel="apple-touch-icon">
-<title>WorshipBase v7.75</title>
+<title>WorshipBase v7.78</title>
 <style id="wb-rebuild-consolidated-style">
 
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -2377,10 +2377,125 @@ body.dark .filter-chip.active{
   .tab-lbl{transform:translateY(1px)!important;}
 }
 
+
+/* 7.77 navigation/button behaviour pass.
+   Keep visual layout unchanged; add reliable pressed/focus affordance for close/cancel/done buttons. */
+button:focus-visible,
+[role="button"]:focus-visible{
+  outline:2px solid color-mix(in srgb,var(--accent) 72%,#fff 28%);
+  outline-offset:2px;
+}
+.bs-bg.open .bs-cancel:active,
+.bs-bg.open .m-close:active,
+.editor-page-head button:active,
+.dup-review-head button:active,
+.ev-hdr button:active{
+  transform:scale(.985);
+}
+
+
+/* 7.78 v85-style safe-area correction.
+   The earlier rebuild used fixed pseudo-elements (#app::before / song-view::before)
+   to paint the status-bar area. That created a visible seam/divider because the
+   fixed layer and the header were two separate paints. v85 does not use this
+   extra layer: the header owns its own safe-area padding and background. */
+
+/* Remove the separate fixed safe-area paint layers that caused the divider. */
+#app::before,
+#song-view.visible::before,
+.song-editor-root.open::before,
+#export-view.visible::before,
+#dup-review-view.visible::before{
+  content:none!important;
+  display:none!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+
+/* The actual header owns the safe-area background, like v85. */
+.hdr,
+#song-view:not(.song-focus):not(.performance-mode) .sv-hdr,
+.editor-page-head,
+.ug-page-head,
+.file-import-head,
+.import-page-head,
+.ev-hdr,
+.dup-review-head,
+.backup-centre-head,
+.backup-review-head,
+.backup-page-head{
+  background:var(--hdr-bg)!important;
+  border-top:0!important;
+  border-bottom:0!important;
+  box-shadow:none!important;
+}
+
+/* Let the app body/page return to the normal surface below headers; do not
+   use a full-screen gradient body that can create mismatched boundaries. */
+html,
+body,
+#app,
+.route,
+.route.active,
+.vs-host,
+.vs-wrap{
+  background:var(--bg1)!important;
+}
+
+/* But while a normal song page is open, the visible song header still controls
+   its own top/safe-area paint. Focus mode remains plain. */
+#song-view:not(.song-focus):not(.performance-mode){
+  background:var(--bg1)!important;
+}
+#song-view.song-focus,
+#song-view.performance-mode,
+#song-view.song-focus .sv-hdr,
+#song-view.performance-mode .sv-hdr{
+  background:var(--bg1)!important;
+}
+
+/* Dark mode: remove the fixed-colour strip by making all top paints come from
+   the same charcoal/header tokens, with no divider/border at the status/header edge. */
+body.dark .hdr,
+body.dark #song-view:not(.song-focus):not(.performance-mode) .sv-hdr,
+body.dark .editor-page-head,
+body.dark .ug-page-head,
+body.dark .file-import-head,
+body.dark .import-page-head,
+body.dark .ev-hdr,
+body.dark .dup-review-head,
+body.dark .backup-centre-head,
+body.dark .backup-review-head,
+body.dark .backup-page-head{
+  background:var(--hdr-bg)!important;
+  border-top:0!important;
+  border-bottom:0!important;
+  box-shadow:none!important;
+}
+body.dark,
+body.dark #app,
+body.dark .route,
+body.dark .route.active,
+body.dark .vs-host,
+body.dark .vs-wrap{
+  background:var(--bg1)!important;
+}
+
+/* Also remove any accidental separator immediately after the header in dark mode. */
+body.dark .hdr + *,
+body.dark .srch-wrap,
+body.dark #settings-section,
+body.dark .settings-scroll,
+body.dark .sv-ctrls{
+  border-top:0!important;
+  box-shadow:none!important;
+}
+
 </style>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" data-loaded="1"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" data-loaded="1"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js" data-loaded="1"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js" data-loaded="1"></script><script src="https://apis.google.com/js/api.js?onload=__iframefcb867093" type="text/javascript" charset="UTF-8" gapi_processed="true"></script></head>
-<body class="dark wb-ui-ready wb-route-tools wb-tab-tools" style="pointer-events: auto;">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" data-loaded="1"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" data-loaded="1"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js" data-loaded="1"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js" data-loaded="1"></script><script src="https://apis.google.com/js/api.js?onload=__iframefcb887201" type="text/javascript" charset="UTF-8" gapi_processed="true"></script></head>
+<body data-nav-behaviour77="1" class="dark wb-ui-ready wb-route-setlist wb-tab-setlist" style="pointer-events: auto;">
 <div id="app" style="opacity: 1; pointer-events: auto;">
 <div class="hdr">
 <div class="hdr-row">
@@ -2421,7 +2536,7 @@ body.dark .filter-chip.active{
 </section>
 <div aria-hidden="true" id="alpha-bubble"></div>
 <div aria-live="polite" id="toast" class="">Workspace synced</div>
-<section class="route wb-list-mode" id="setlist-section" data-swipe-back-ready="1">
+<section class="route wb-list-mode active" id="setlist-section" data-swipe-back-ready="1">
 <div id="wb-personal-manager" style="display: flex;">
 <div class="wb-personal-scroll">
 <div class="wb-personal-head">
@@ -2452,7 +2567,7 @@ body.dark .filter-chip.active{
 <div class="workspace-subview" id="workspace-setlists-panel" data-ready="1"><div class="workspace-subview-head"><button aria-label="Back" class="workspace-subview-back" id="workspace-subview-back" type="button" data-ready="1"><svg fill="none" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg></button><div class="workspace-subview-title-wrap"><div class="workspace-subview-title">Workspace Set Lists</div><div class="workspace-subview-sub" id="workspace-subview-sub">6 shared set lists</div></div><button class="workspace-subview-new" id="workspace-subview-new" type="button" data-ready="1">New</button></div><div class="workspace-subview-list" id="workspace-subview-list"><button class="workspace-subview-card wb-personal-card" data-workspace-set="set_mor6vag7y5sv" type="button"><span class="wb-personal-main workspace-card-main"><span class="wb-personal-name workspace-subview-name">Backup test (Workspace)</span><span class="wb-personal-card-meta workspace-subview-meta"><span>11 songs · 7 items</span><span>Updated now</span></span></span><span class="workspace-card-actions wb-personal-actions"><span class="wb-card-btn danger" data-workspace-delete="set_mor6vag7y5sv" aria-hidden="true">×</span></span></button><button class="workspace-subview-card wb-personal-card" data-workspace-set="set_mor6ven4890n" type="button"><span class="wb-personal-main workspace-card-main"><span class="wb-personal-name workspace-subview-name">New Workspace</span><span class="wb-personal-card-meta workspace-subview-meta"><span>3 songs · 5 items</span><span>Updated now</span></span></span><span class="workspace-card-actions wb-personal-actions"><span class="wb-card-btn danger" data-workspace-delete="set_mor6ven4890n" aria-hidden="true">×</span></span></button><button class="workspace-subview-card wb-personal-card" data-workspace-set="set_mornk2yhngml" type="button"><span class="wb-personal-main workspace-card-main"><span class="wb-personal-name workspace-subview-name">New Workspace Set</span><span class="wb-personal-card-meta workspace-subview-meta"><span>3 songs · 4 items</span><span>Updated now</span></span></span><span class="workspace-card-actions wb-personal-actions"><span class="wb-card-btn danger" data-workspace-delete="set_mornk2yhngml" aria-hidden="true">×</span></span></button><button class="workspace-subview-card wb-personal-card" data-workspace-set="set_mot6qd1m9ux8" type="button"><span class="wb-personal-main workspace-card-main"><span class="wb-personal-name workspace-subview-name">Personal test (Workspace)</span><span class="wb-personal-card-meta workspace-subview-meta"><span>3 songs · 2 items</span><span>Updated now</span></span></span><span class="workspace-card-actions wb-personal-actions"><span class="wb-card-btn danger" data-workspace-delete="set_mot6qd1m9ux8" aria-hidden="true">×</span></span></button><button class="workspace-subview-card wb-personal-card" data-workspace-set="set_mot7eqa9c44c" type="button"><span class="wb-personal-main workspace-card-main"><span class="wb-personal-name workspace-subview-name">New test</span><span class="wb-personal-card-meta workspace-subview-meta"><span>5 songs · 1 item</span><span>Updated now</span></span></span><span class="workspace-card-actions wb-personal-actions"><span class="wb-card-btn danger" data-workspace-delete="set_mot7eqa9c44c" aria-hidden="true">×</span></span></button><button class="workspace-subview-card wb-personal-card" data-workspace-set="set_mot7hdcgbo1b" type="button"><span class="wb-personal-main workspace-card-main"><span class="wb-personal-name workspace-subview-name">Backup test 3</span><span class="wb-personal-card-meta workspace-subview-meta"><span>5 songs</span><span>Updated now</span></span></span><span class="workspace-card-actions wb-personal-actions"><span class="wb-card-btn danger" data-workspace-delete="set_mot7hdcgbo1b" aria-hidden="true">×</span></span></button></div></div><div class="workspace-subview" id="workspace-detail-panel" data-ready="1"><div class="workspace-subview-head"><button aria-label="Back" class="workspace-subview-back workspace-detail-back" type="button" data-ready="1"><svg fill="none" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg></button><div class="workspace-subview-title-wrap"><div class="workspace-subview-title" id="workspace-detail-title">Workspace</div><div class="workspace-subview-sub" id="workspace-detail-sub">Local shell</div></div></div><div id="workspace-detail-body"></div></div>
 </div>
 </section>
-<section class="route active" id="tools-section" data-swipe-back-ready="1">
+<section class="route" id="tools-section" data-swipe-back-ready="1">
 <div class="tools-scroll">
 <div class="tools-panel active" id="tools-home-panel">
 <div class="tools-hero"><div class="tools-title">Tools</div><div class="tools-sub">Quick worship utilities for rehearsal, planning and live prep.</div></div>
@@ -2477,7 +2592,7 @@ body.dark .filter-chip.active{
 <div class="bible-scroll"><div class="bible-card" id="bible-card"><div class="bible-heading">John 3</div><div class="bible-verse"><span class="bible-vnum">16</span><span class="bible-vtext">For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life.</span></div><div class="bible-verse"><span class="bible-vnum">17</span><span class="bible-vtext">For God did not send his Son into the world to condemn the world, but in order that the world might be saved through him.</span></div><div class="bible-copy">Bible data loader and full picker wiring belong to the Tools/Bible data pass. This shell keeps the Tools-owned route and visual structure.</div></div></div>
 </section>
 <section class="route" id="settings-section">
-<div class="settings-scroll"><div class="settings-list" id="settings-list"><div class="ss-section"><div class="ss-title">Appearance</div><div class="ss-card"><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg></span><div class="ss-body"><div class="ss-lbl">Dark mode</div></div><button class="sw on" id="dark-sw" data-toggle-setting="darkMode" type="button" aria-label="Toggle Dark mode"><span class="sw-thumb"></span></button></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M4 20h4l11-11a2.8 2.8 0 0 0-4-4L4 16v4Z"></path><path d="M13.5 6.5l4 4"></path></svg></span><div class="ss-body"><div class="ss-lbl">Text size</div><div class="sz-wrap"><span class="sz-a">A</span><input class="sz-slider" id="settings-text-size" data-text-size-slider="" type="range" min="0.85" max="1.25" step="0.05" value="1" style="--pct:38%"><span class="sz-a big">A</span></div></div></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="3"></circle></svg></span><div class="ss-body"><div class="ss-lbl">Colour theme</div></div></div><div class="theme-row"><button class="theme-sw light-check" data-theme-value="neutral" type="button" aria-label="Neutral theme" style="--theme-dot:#ffffff"></button><button class="theme-sw " data-theme-value="forest" type="button" aria-label="Forest theme" style="--theme-dot:#54c878"></button><button class="theme-sw " data-theme-value="olive" type="button" aria-label="Sage / Olive theme" style="--theme-dot:#bfd35b"></button><button class="theme-sw active " data-theme-value="stone" type="button" aria-label="Stone / Taupe theme" style="--theme-dot:#b9aa96"></button><button class="theme-sw " data-theme-value="cedar" type="button" aria-label="Cedar theme" style="--theme-dot:#d8945f"></button><button class="theme-sw " data-theme-value="mulberry" type="button" aria-label="Mulberry theme" style="--theme-dot:#e9799a"></button><button class="theme-sw " data-theme-value="purple" type="button" aria-label="Deep Purple theme" style="--theme-dot:#b983ff"></button><button class="theme-sw " data-theme-value="darkteal" type="button" aria-label="Dark Teal theme" style="--theme-dot:#3fcaca"></button><button class="theme-sw " data-theme-value="slate" type="button" aria-label="Slate Blue theme" style="--theme-dot:#7aa7ff"></button><button class="theme-sw " data-theme-value="navy" type="button" aria-label="Midnight Navy theme" style="--theme-dot:#86b4ff"></button></div></div></div><div class="ss-section"><div class="ss-title">Library</div><div class="ss-card"><button class="ss-row" data-choice-key="defaultDisplayKey" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M9 18.5a2.5 2.5 0 1 1-1-2V6l10-2v10.5a2.5 2.5 0 1 1-1-2V8L9 9.5z"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default display key</div><div class="ss-sub" id="def-key-sub">Show songs in their original key</div></div><div class="ss-right"><span class="ss-val" id="def-key-val">Original</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button><button class="ss-row" data-choice-key="defaultSongView" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h14"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default song view</div><div class="ss-sub" id="def-songview-sub">Songs open in Chords view</div></div><div class="ss-right"><span class="ss-val" id="def-songview-val">Chords</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section"><div class="ss-title">Song defaults</div><div class="ss-card"><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><rect x="5" y="7" width="14" height="10" rx="2"></rect><path d="M8 12h8"></path></svg></span><div class="ss-body"><div class="ss-lbl">Highlight chords by default</div><div class="ss-sub">Songs open with chord highlight on</div></div><button class="sw on" id="default-highlight-sw" data-toggle-setting="highlightChordsDefault" type="button" aria-label="Toggle Highlight chords by default"><span class="sw-thumb"></span></button></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M10 4v15"></path><path d="M10 12.5c4-3 7-1.7 7 1.3 0 3.5-4.2 4.8-7 5.2"></path></svg></span><div class="ss-body"><div class="ss-lbl">Use flats by default</div><div class="ss-sub">Prefer flats when songs open</div></div><button class="sw " id="default-flats-sw" data-toggle-setting="useFlatsDefault" type="button" aria-label="Toggle Use flats by default"><span class="sw-thumb"></span></button></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><rect x="8" y="3" width="8" height="18" rx="2"></rect><path d="M11 18h2"></path></svg></span><div class="ss-body"><div class="ss-lbl">Keep screen awake on song pages</div><div class="ss-sub">Prevent screen sleep while viewing songs</div></div><button class="sw " id="keep-awake-sw" data-toggle-setting="keepScreenAwakeOnSongs" type="button" aria-label="Toggle Keep screen awake on song pages"><span class="sw-thumb"></span></button></div><button class="ss-row" data-choice-key="addToSetBehavior" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M5 7h9M5 12h7M5 17h9"></path><path d="M17 10v6M14 13h6"></path></svg></span><div class="ss-body"><div class="ss-lbl">Add to set list</div><div class="ss-sub" id="addset-beh-sub">Ask every time which set to use</div></div><div class="ss-right"><span class="ss-val" id="addset-beh-val">Ask</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section"><div class="ss-title">Preview</div><div class="ss-card"><button class="ss-row" data-choice-key="defaultPdfPreset" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"></path><path d="M14 3v5h4"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default PDF preset</div><div class="ss-sub" id="def-pdf-sub">Open export on Rehearsal preset</div></div><div class="ss-right"><span class="ss-val" id="def-pdf-val">Rehearsal</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section"><div class="ss-title">Bible</div><div class="ss-card"><button class="ss-row" data-choice-key="defaultBibleVersion" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M7 4h10v16H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"></path><path d="M9 8h6M9 12h6M9 16h4"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default Bible version</div><div class="ss-sub" id="def-bible-sub">Bible opens in ESV</div></div><div class="ss-right"><span class="ss-val" id="def-bible-val">ESV</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section" id="wb-backup-restore-section"><div class="ss-title">Backup &amp; Restore</div><div class="wb-settings-backup-card"><button class="wb-settings-backup-row wb-bc-entry-row" id="wb-backup-centre-entry-row" data-settings-action="backup" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.5 2.9 7.8 7 10 4.1-2.2 7-5.5 7-10V6l-7-3Z"></path><path d="m9 12 2 2 4-5"></path></svg></span><div class="ss-body"><div class="ss-lbl">Backup Centre</div><div class="ss-sub">Local files and Google Drive backup in one place.</div></div><div class="ss-right"><span class="wb-bc-entry-pill">OPEN</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button><div class="wb-settings-backup-summary"><div class="wb-settings-backup-grid"><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">My songs</div><div class="wb-settings-backup-mini-value">0</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Personal set lists</div><div class="wb-settings-backup-mini-value">0</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Notes &amp; cues</div><div class="wb-settings-backup-mini-value">0</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Google Drive</div><div class="wb-settings-backup-mini-value">Not configured</div></div></div><div class="wb-settings-backup-footer">Drive backup is now wired for runtime OAuth and hidden appDataFolder storage.</div></div></div></div><div class="ss-section"><div class="ss-title">About</div><div class="ss-card"><div class="about-panel"><div class="wb-brand-mark" id="about-brand-mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 18l8 28 10-20 10 20 8-28" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="about-copy"><div class="about-name" id="about-brand-name">WorshipBase</div><div class="about-version-pill">Rebuild_7.75</div><div class="about-by">Created by <strong>Jerin Reji</strong></div><div class="admin-state-line ">Tap logo for admin mode</div></div></div></div></div></div></div>
+<div class="settings-scroll"><div class="settings-list" id="settings-list"><div class="ss-section"><div class="ss-title">Appearance</div><div class="ss-card"><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg></span><div class="ss-body"><div class="ss-lbl">Dark mode</div></div><button class="sw on" id="dark-sw" data-toggle-setting="darkMode" type="button" aria-label="Toggle Dark mode"><span class="sw-thumb"></span></button></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M4 20h4l11-11a2.8 2.8 0 0 0-4-4L4 16v4Z"></path><path d="M13.5 6.5l4 4"></path></svg></span><div class="ss-body"><div class="ss-lbl">Text size</div><div class="sz-wrap"><span class="sz-a">A</span><input class="sz-slider" id="settings-text-size" data-text-size-slider="" type="range" min="0.85" max="1.25" step="0.05" value="1" style="--pct:38%"><span class="sz-a big">A</span></div></div></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="3"></circle></svg></span><div class="ss-body"><div class="ss-lbl">Colour theme</div></div></div><div class="theme-row"><button class="theme-sw light-check" data-theme-value="neutral" type="button" aria-label="Neutral theme" style="--theme-dot:#ffffff"></button><button class="theme-sw " data-theme-value="forest" type="button" aria-label="Forest theme" style="--theme-dot:#54c878"></button><button class="theme-sw " data-theme-value="olive" type="button" aria-label="Sage / Olive theme" style="--theme-dot:#bfd35b"></button><button class="theme-sw active " data-theme-value="stone" type="button" aria-label="Stone / Taupe theme" style="--theme-dot:#b9aa96"></button><button class="theme-sw " data-theme-value="cedar" type="button" aria-label="Cedar theme" style="--theme-dot:#d8945f"></button><button class="theme-sw " data-theme-value="mulberry" type="button" aria-label="Mulberry theme" style="--theme-dot:#e9799a"></button><button class="theme-sw " data-theme-value="purple" type="button" aria-label="Deep Purple theme" style="--theme-dot:#b983ff"></button><button class="theme-sw " data-theme-value="darkteal" type="button" aria-label="Dark Teal theme" style="--theme-dot:#3fcaca"></button><button class="theme-sw " data-theme-value="slate" type="button" aria-label="Slate Blue theme" style="--theme-dot:#7aa7ff"></button><button class="theme-sw " data-theme-value="navy" type="button" aria-label="Midnight Navy theme" style="--theme-dot:#86b4ff"></button></div></div></div><div class="ss-section"><div class="ss-title">Library</div><div class="ss-card"><button class="ss-row" data-choice-key="defaultDisplayKey" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M9 18.5a2.5 2.5 0 1 1-1-2V6l10-2v10.5a2.5 2.5 0 1 1-1-2V8L9 9.5z"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default display key</div><div class="ss-sub" id="def-key-sub">Show songs in their original key</div></div><div class="ss-right"><span class="ss-val" id="def-key-val">Original</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button><button class="ss-row" data-choice-key="defaultSongView" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h14"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default song view</div><div class="ss-sub" id="def-songview-sub">Songs open in Chords view</div></div><div class="ss-right"><span class="ss-val" id="def-songview-val">Chords</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section"><div class="ss-title">Song defaults</div><div class="ss-card"><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><rect x="5" y="7" width="14" height="10" rx="2"></rect><path d="M8 12h8"></path></svg></span><div class="ss-body"><div class="ss-lbl">Highlight chords by default</div><div class="ss-sub">Songs open with chord highlight on</div></div><button class="sw on" id="default-highlight-sw" data-toggle-setting="highlightChordsDefault" type="button" aria-label="Toggle Highlight chords by default"><span class="sw-thumb"></span></button></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M10 4v15"></path><path d="M10 12.5c4-3 7-1.7 7 1.3 0 3.5-4.2 4.8-7 5.2"></path></svg></span><div class="ss-body"><div class="ss-lbl">Use flats by default</div><div class="ss-sub">Prefer flats when songs open</div></div><button class="sw " id="default-flats-sw" data-toggle-setting="useFlatsDefault" type="button" aria-label="Toggle Use flats by default"><span class="sw-thumb"></span></button></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><rect x="8" y="3" width="8" height="18" rx="2"></rect><path d="M11 18h2"></path></svg></span><div class="ss-body"><div class="ss-lbl">Keep screen awake on song pages</div><div class="ss-sub">Prevent screen sleep while viewing songs</div></div><button class="sw " id="keep-awake-sw" data-toggle-setting="keepScreenAwakeOnSongs" type="button" aria-label="Toggle Keep screen awake on song pages"><span class="sw-thumb"></span></button></div><button class="ss-row" data-choice-key="addToSetBehavior" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M5 7h9M5 12h7M5 17h9"></path><path d="M17 10v6M14 13h6"></path></svg></span><div class="ss-body"><div class="ss-lbl">Add to set list</div><div class="ss-sub" id="addset-beh-sub">Ask every time which set to use</div></div><div class="ss-right"><span class="ss-val" id="addset-beh-val">Ask</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section"><div class="ss-title">Preview</div><div class="ss-card"><button class="ss-row" data-choice-key="defaultPdfPreset" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"></path><path d="M14 3v5h4"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default PDF preset</div><div class="ss-sub" id="def-pdf-sub">Open export on Rehearsal preset</div></div><div class="ss-right"><span class="ss-val" id="def-pdf-val">Rehearsal</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section"><div class="ss-title">Bible</div><div class="ss-card"><button class="ss-row" data-choice-key="defaultBibleVersion" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M7 4h10v16H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"></path><path d="M9 8h6M9 12h6M9 16h4"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default Bible version</div><div class="ss-sub" id="def-bible-sub">Bible opens in ESV</div></div><div class="ss-right"><span class="ss-val" id="def-bible-val">ESV</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section" id="wb-backup-restore-section"><div class="ss-title">Backup &amp; Restore</div><div class="wb-settings-backup-card"><button class="wb-settings-backup-row wb-bc-entry-row" id="wb-backup-centre-entry-row" data-settings-action="backup" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.5 2.9 7.8 7 10 4.1-2.2 7-5.5 7-10V6l-7-3Z"></path><path d="m9 12 2 2 4-5"></path></svg></span><div class="ss-body"><div class="ss-lbl">Backup Centre</div><div class="ss-sub">Local files and Google Drive backup in one place.</div></div><div class="ss-right"><span class="wb-bc-entry-pill">OPEN</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button><div class="wb-settings-backup-summary"><div class="wb-settings-backup-grid"><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">My songs</div><div class="wb-settings-backup-mini-value">0</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Personal set lists</div><div class="wb-settings-backup-mini-value">0</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Notes &amp; cues</div><div class="wb-settings-backup-mini-value">0</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Google Drive</div><div class="wb-settings-backup-mini-value">Not configured</div></div></div><div class="wb-settings-backup-footer">Drive backup is now wired for runtime OAuth and hidden appDataFolder storage.</div></div></div></div><div class="ss-section"><div class="ss-title">About</div><div class="ss-card"><div class="about-panel"><div class="wb-brand-mark" id="about-brand-mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 18l8 28 10-20 10 20 8-28" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="about-copy"><div class="about-name" id="about-brand-name">WorshipBase</div><div class="about-version-pill">Rebuild_7.78</div><div class="about-by">Created by <strong>Jerin Reji</strong></div><div class="admin-state-line ">Tap logo for admin mode</div></div></div></div></div></div></div>
 </section>
 <nav class="tab-bar" id="tab-bar">
 <button class="tab-btn" data-tab="songs" id="tab-songs" type="button" aria-label="Library">
@@ -2486,7 +2601,7 @@ body.dark .filter-chip.active{
 <svg class="ico-filled wb-tab-icon-library" fill="none" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><path d="M5 5.75A2 2 0 0 1 7 3.75h10.45a1.55 1.55 0 0 1 1.55 1.55v13.9c0 .55-.45 1-1 1H7a2 2 0 0 1-2-2V5.75Z" fill="currentColor"></path><path d="M8.15 4.2v15.6" stroke="var(--tab-active-glyph,#fff)" stroke-linecap="round" stroke-width="1.9"></path><path d="M11 9.15c1.55-.7 2.75-.7 4.3 0v4.85c-1.55-.7-2.75-.7-4.3 0V9.15Z" fill="var(--tab-active-glyph,#fff)" opacity=".92"></path><path d="M7.35 17.1h9.95" stroke="var(--tab-active-glyph,#fff)" stroke-linecap="round" stroke-width="1.75"></path></svg>
 </span><span class="tab-lbl">Library</span></button>
 
-<button class="tab-btn" data-tab="setlist" id="tab-setlist" type="button" aria-label="Set List">
+<button class="tab-btn active" data-tab="setlist" id="tab-setlist" type="button" aria-label="Set List">
 <span class="tab-ico">
 <svg class="ico-outline wb-tab-icon-setlist" fill="none" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><rect x="6.2" y="4.2" width="12.1" height="14.2" rx="2.6" stroke="currentColor" stroke-width="1.85"></rect><path d="M4.9 7.2v9.6c0 1.2 1 2.2 2.2 2.2h9.3" stroke="currentColor" stroke-linecap="round" stroke-width="1.65" opacity=".8"></path><path d="M9.2 8.7h5.9M9.2 12h6.9M9.2 15.3h4.6" stroke="currentColor" stroke-linecap="round" stroke-width="1.75"></path><path d="m14.4 15.2 1.05 1.05 2.15-2.35" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.85"></path></svg>
 <svg class="ico-filled wb-tab-icon-setlist" fill="none" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><path d="M5 7.25v9.45A2.3 2.3 0 0 0 7.3 19h9.25" stroke="currentColor" stroke-linecap="round" stroke-width="2" opacity=".55"></path><rect x="6.1" y="4" width="12.3" height="14.6" rx="2.7" fill="currentColor"></rect><path d="M9.2 8.55h5.9M9.2 11.85h6.9M9.2 15.15h4.5" stroke="var(--tab-active-glyph,#fff)" stroke-linecap="round" stroke-width="1.85"></path><path d="m14.35 15.15 1.05 1.05 2.1-2.35" stroke="var(--tab-active-glyph,#fff)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
@@ -2498,7 +2613,7 @@ body.dark .filter-chip.active{
 <svg class="ico-filled wb-tab-icon-workspace" fill="none" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><path d="M4.25 20.25V7.35L12 3.75l7.75 3.6v12.9H4.25Z" fill="currentColor"></path><path d="M8.05 10h2.05M13.9 10h2.05M8.05 13.55h2.05M13.9 13.55h2.05" stroke="var(--tab-active-glyph,#fff)" stroke-linecap="round" stroke-width="1.9"></path><path d="M9.35 20.25v-3.75h5.3v3.75" fill="var(--tab-active-glyph,#fff)"></path></svg>
 </span><span class="tab-lbl">Workspace</span></button>
 
-<button class="tab-btn active" data-tab="tools" id="tab-tools" type="button" aria-label="Tools">
+<button class="tab-btn" data-tab="tools" id="tab-tools" type="button" aria-label="Tools">
 <span class="tab-ico">
 <svg class="ico-outline wb-tab-icon-tools" fill="none" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><path d="M5 9h14v9.2a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V9Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.9"></path><path d="M9 9V7.2A2.2 2.2 0 0 1 11.2 5h1.6A2.2 2.2 0 0 1 15 7.2V9M5 13h14M11 13v2h2v-2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9"></path></svg>
 <svg class="ico-filled wb-tab-icon-tools" fill="none" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><path d="M4.75 8.75h14.5v9.4a2.35 2.35 0 0 1-2.35 2.35H7.1a2.35 2.35 0 0 1-2.35-2.35v-9.4Z" fill="currentColor"></path><path d="M8.9 8.75V7.2A2.3 2.3 0 0 1 11.2 4.9h1.6a2.3 2.3 0 0 1 2.3 2.3v1.55" stroke="currentColor" stroke-linecap="round" stroke-width="2.15"></path><path d="M5 13h14" stroke="var(--tab-active-glyph,#fff)" stroke-linecap="round" stroke-width="2"></path><rect x="10.85" y="12.35" width="2.3" height="3" rx=".65" fill="var(--tab-active-glyph,#fff)"></rect></svg>
@@ -2863,8 +2978,8 @@ body.dark .filter-chip.active{
 <script id="wb-rebuild-consolidated-script">
 (function(){
 'use strict';
-var VERSION='Rebuild_7.75';
-var REBUILD_PHASE='Phase 7.75: tab spacing polish, premium Library/Set List icons, naming decision recorded';
+var VERSION='Rebuild_7.78';
+var REBUILD_PHASE='Phase 7.78: v85-style safe-area ownership, remove fixed top overlay seam';
 var REBUILD_REFERENCE='Working-v85.0-fixed.html';
 
 var ASSET_CONFIG=(window.WB_ASSETS&&typeof window.WB_ASSETS==='object')?Object.assign({
@@ -3725,6 +3840,7 @@ function setBodyRouteClasses(tab,extra){
 
 function switchTab(tab){
   tab=routes[tab]?tab:'songs';
+  try{closeTransientsBeforeRouteChange&&closeTransientsBeforeRouteChange(tab)}catch(e){}
   var previous=state.tab;
   var editorOpen=!!(qs('wb-set-editor')&&!qs('wb-set-editor').hidden);
   if(tab==='setlist'&&previous==='setlist'&&editorOpen){
@@ -4131,6 +4247,8 @@ function lockAdminMode(){
   manageSelectedIds=[];
   document.body.classList.remove('manage-mode');
   closeAdminDuplicateReview&&closeAdminDuplicateReview();
+  closeAdminFirebaseTools&&closeAdminFirebaseTools();
+  closeDuplicateReviewPage&&closeDuplicateReviewPage();
   closeSheetElement&&closeSheetElement(qs('bs-admin-pin'));
   syncManageToolbar&&syncManageToolbar();
   renderLibrary&&renderLibrary();
@@ -4617,7 +4735,7 @@ function openAdminDuplicateReview(){
 function closeDuplicateReviewPage(){var page=qs('dup-review-view');if(page){page.classList.remove('visible');page.setAttribute('aria-hidden','true');document.body.classList.remove('editor-open')}}
 function selectDuplicateGroupExtras(groupIndex){var groups=duplicateGroupsForManage(),g=groups[parseInt(groupIndex,10)]||[];g.slice(1).forEach(function(s){if(s&&s.id&&!manageSelectedIds.includes(s.id))manageSelectedIds.push(s.id)});toggleManageMode(true);syncManageToolbar();renderLibrary();showToast(Math.max(0,g.length-1)+' duplicate extra'+(g.length-1===1?'':'s')+' selected')}
 function deleteDuplicateGroupExtras(groupIndex){var groups=duplicateGroupsForManage(),g=groups[parseInt(groupIndex,10)]||[],ids=g.slice(1).map(function(s){return s.id}).filter(Boolean);if(!ids.length){showToast('No duplicate extras');return}if(!confirm('Delete '+ids.length+' duplicate extra'+(ids.length===1?'':'s')+'?'))return;manageSelectedIds=ids;deleteManageSelected();closeDuplicateReviewPage()}
-function selectDuplicateExtras(){var groups=duplicateGroupsForManage();manageSelectedIds=[];groups.forEach(function(g){g.slice(1).forEach(function(s){if(s&&s.id)manageSelectedIds.push(s.id)})});closeAdminDuplicateReview();switchTab('songs');toggleManageMode(true);renderLibrary();syncManageToolbar();showToast(manageSelectedIds.length?manageSelectedIds.length+' duplicate extras selected':'No duplicate extras')} function closeAdminDuplicateReview(){var m=qs('bs-admin-duplicates');if(m){m.classList.remove('open');m.setAttribute('aria-hidden','true')}document.body.classList.remove('sheet-lock','modal-lock')}
+function selectDuplicateExtras(){var groups=duplicateGroupsForManage();manageSelectedIds=[];groups.forEach(function(g){g.slice(1).forEach(function(s){if(s&&s.id)manageSelectedIds.push(s.id)})});closeAdminDuplicateReview();switchTab('songs');toggleManageMode(true);renderLibrary();syncManageToolbar();showToast(manageSelectedIds.length?manageSelectedIds.length+' duplicate extras selected':'No duplicate extras')} function closeAdminDuplicateReview(){var m=qs('bs-admin-duplicates');if(m){m.classList.remove('open');m.setAttribute('aria-hidden','true')}try{closeDuplicateReviewPage&&closeDuplicateReviewPage()}catch(e){}document.body.classList.remove('sheet-lock','modal-lock')}
 
 function notesCuesExportPayload(){
   return {format:'worshipbase-notes-cues',version:VERSION,exportedAt:new Date().toISOString(),personalSets:(personalSets||[]).map(function(s){return {id:s.id,name:s.name,setNotes:s.setNotes||'',songNotes:s.songNotes||{},songCues:s.songCues||{}}}),workspaceSets:(workspaceState&&workspaceState.sets||[]).map(function(s){return {id:s.id,name:s.name,setNotes:s.setNotes||'',songNotes:s.songNotes||{},songCues:s.songCues||{}}})};
@@ -5047,6 +5165,110 @@ try{document.addEventListener('DOMContentLoaded',installAdminDuplicateReviewHand
 var aft=qs('bs-admin-firebase-tools');if(aft&&!aft.dataset.ready){aft.dataset.ready='1';aft.addEventListener('click',function(e){var btn=e.target.closest&&e.target.closest('[data-admin-firebase-action]');if(btn){handleAdminFirebaseAction(btn.dataset.adminFirebaseAction);return}if(e.target===aft||e.target.id==='admin-firebase-close'||e.target.id==='admin-firebase-done')closeAdminFirebaseTools()})};
 try{installAdminDuplicateReviewHandlers();setTimeout(installAdminDuplicateReviewHandlers,0)}catch(e){}
 try{var dv=qs('dup-review-view');if(dv&&!dv.dataset.ready){dv.dataset.ready='1';dv.addEventListener('click',function(e){if(e.target.id==='dup-review-back'){closeDuplicateReviewPage();return}var open=e.target.closest&&e.target.closest('[data-dup-open]');if(open){var s=songs.find(function(x){return x.id===open.dataset.dupOpen});if(s){closeDuplicateReviewPage();showSong(s,'library')}return}var sel=e.target.closest&&e.target.closest('[data-dup-select-group]');if(sel){selectDuplicateGroupExtras(sel.dataset.dupSelectGroup);return}var del=e.target.closest&&e.target.closest('[data-dup-delete-group]');if(del){deleteDuplicateGroupExtras(del.dataset.dupDeleteGroup);return}})}}catch(e){}
+
+/* 7.77 navigation/button behaviour audit helpers */
+function closeOpenBottomSheets(reason){
+  qsa('.bs-bg.open').forEach(function(bg){
+    var id=bg.id||'';
+    if(id==='bs-admin-pin')closeAdminPinSheet&&closeAdminPinSheet();
+    else if(id==='bs-admin-firebase-tools')closeAdminFirebaseTools&&closeAdminFirebaseTools();
+    else if(id==='bs-admin-duplicates')closeAdminDuplicateReview&&closeAdminDuplicateReview();
+    else if(id==='bs-add-song-menu')closeAddSongMenu&&closeAddSongMenu();
+    else if(id==='bs-song-menu')closeSongMenu&&closeSongMenu();
+    else if(id==='bs-playback')closePlaybackOptions&&closePlaybackOptions();
+    else if(id==='bs-pad')closePadSheet&&closePadSheet();
+    else if(id==='bs-chord-diagrams')closeChordDiagramsSheet&&closeChordDiagramsSheet();
+    else if(id==='bs-set-options')closeSetOptions&&closeSetOptions();
+    else if(id==='bs-set-song-picker')closeSetSongPicker&&closeSetSongPicker();
+    else if(id==='bs-set-key')closeSetKeySheet&&closeSetKeySheet();
+    else if(id==='bs-workspace-new')closeWorkspaceNewSheet&&closeWorkspaceNewSheet();
+    else if(id==='bs-workspace-publish')closeWorkspacePublishSheet&&closeWorkspacePublishSheet();
+    else if(id==='bs-settings-picker')closeSettingsPicker&&closeSettingsPicker();
+    else if(id==='bs-bible-picker')closeBiblePicker&&closeBiblePicker();
+    else if(id==='bs-bible-version')closeBibleVersionPicker&&closeBibleVersionPicker();
+    else if(id==='bs-import-duplicates')closeImportDuplicateReview&&closeImportDuplicateReview();
+    else closeSheetElement(bg);
+  });
+}
+function closeOpenFullPagesForRoute(reason){
+  try{closeDuplicateReviewPage&&closeDuplicateReviewPage()}catch(e){}
+  try{closeExportPreview&&closeExportPreview()}catch(e){}
+  try{closeExportView&&closeExportView()}catch(e){}
+  try{closeBackupCentre&&closeBackupCentre()}catch(e){}
+  try{closeImportPages&&closeImportPages()}catch(e){}
+  try{closeFileImportShell&&closeFileImportShell()}catch(e){}
+  try{closeUgImportShell&&closeUgImportShell()}catch(e){}
+  try{closeWorkspaceNewSheet&&closeWorkspaceNewSheet()}catch(e){}
+}
+function closeTopTransientSurface(reason){
+  var page=qs('dup-review-view');if(page&&page.classList.contains('visible')){closeDuplicateReviewPage();return true}
+  var exp=qs('export-view');if(exp&&exp.classList.contains('visible')){closeExportView();return true}
+  var pv=qs('export-preview');if(pv&&pv.classList.contains('visible')){closeExportPreview();return true}
+  var bc=qs('backup-centre');if(bc&&bc.classList.contains('visible')){closeBackupCentre();return true}
+  var editor=qs('add-song-modal');if(editor&&editor.classList.contains('open')){closeAddSongModal();return true}
+  var sheet=Array.prototype.slice.call(document.querySelectorAll('.bs-bg.open')).pop();
+  if(sheet){closeOpenBottomSheets(reason);return true}
+  var sv=qs('song-view');if(sv&&sv.classList.contains('visible')){closeSongViewSmooth&&closeSongViewSmooth();return true}
+  return false;
+}
+function closeTransientsBeforeRouteChange(tab){
+  closeOpenBottomSheets('route');
+  closeOpenFullPagesForRoute('route');
+  // Do not close add-song editor here; avoid losing typed content if the user accidentally taps a tab.
+}
+function installGlobalNavigationBehaviour(){
+  if(document.body.dataset.navBehaviour77==='1')return;
+  document.body.dataset.navBehaviour77='1';
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){
+      if(closeTopTransientSurface('escape')&&e.cancelable)e.preventDefault();
+    }
+  });
+  document.addEventListener('click',function(e){
+    var bg=e.target&&e.target.classList&&e.target.classList.contains('bs-bg')?e.target:null;
+    if(bg&&bg.classList.contains('open')){
+      closeOpenBottomSheets('backdrop');
+      return;
+    }
+    var closeBtn=e.target&&e.target.closest&&e.target.closest('.bs-bg.open .m-close,.bs-bg.open .bs-cancel,[data-wb-close]');
+    if(closeBtn){
+      var owner=closeBtn.closest&&closeBtn.closest('.bs-bg.open');
+      if(owner){
+        if(e.cancelable)e.preventDefault();
+        closeOpenBottomSheets('button');
+      }
+    }
+  },true);
+}
+try{if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',installGlobalNavigationBehaviour);else installGlobalNavigationBehaviour()}catch(e){}
+
+
+window.WBTestSafeArea78=function(){
+  try{
+    return {
+      version:VERSION,
+      statusBar:(document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]')||{}).content||'',
+      removedFixedSafeLayer:document.body.innerHTML.indexOf('7.78 v85-style safe-area correction')>=0,
+      disablesAppBefore:document.body.innerHTML.indexOf('#app::before')>=0 && document.body.innerHTML.indexOf('content:none!important')>=0,
+      headerOwnsPaint:document.body.innerHTML.indexOf('The actual header owns the safe-area background')>=0,
+      singleStyle:document.querySelectorAll('style').length===1
+    };
+  }catch(e){return {error:String(e)}}
+};
+window.WBTestNavigation77=function(){
+  try{
+    return {
+      version:VERSION,
+      hasGlobalInstall:typeof installGlobalNavigationBehaviour==='function',
+      hasTopClose:typeof closeTopTransientSurface==='function',
+      hasRouteCleanup:typeof closeTransientsBeforeRouteChange==='function',
+      switchTabPatched:String(switchTab).indexOf('closeTransientsBeforeRouteChange')>=0,
+      duplicateClosePage:String(closeAdminDuplicateReview).indexOf('closeDuplicateReviewPage')>=0,
+      adminLockCleans:String(lockAdminMode).indexOf('closeAdminFirebaseTools')>=0,
+      singleStyle:document.querySelectorAll('style').length===1
+    };
+  }catch(e){return {error:String(e)}}
+};
 window.WBVisualAudit=function(){
   return {
     version:VERSION,
@@ -5256,4 +5478,4 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 <input id="notes-cues-import-file" type="file" accept=".json,application/json" style="display:none">
 
-<iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" tabindex="-1" vspace="0" width="100%" aria-hidden="true" id="I0_1778395618001" name="I0_1778395618001" src="https://worshipbase-17d1b.firebaseapp.com/__/auth/iframe?apiKey=AIzaSyAWHTEOh1lXkzq3kB24g3An6Aad54OMlN8&amp;appName=%5BDEFAULT%5D&amp;v=10.12.2&amp;eid=p&amp;usegapi=1&amp;jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.en.gSqfLc8WnvU.O%2Fd%3D1%2Frs%3DAHpOoo_cXXGArE2dtw6vkGR2NQ_1f5L3AQ%2Fm%3D__features__#id=I0_1778395618001&amp;_gfid=I0_1778395618001&amp;parent=about%3A%2F%2F&amp;pfname=&amp;rpctoken=13350732" style="position: absolute; top: -100px; width: 1px; height: 1px;"></iframe></body></html>
+<iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" tabindex="-1" vspace="0" width="100%" aria-hidden="true" id="I0_1778396898965" name="I0_1778396898965" src="https://worshipbase-17d1b.firebaseapp.com/__/auth/iframe?apiKey=AIzaSyAWHTEOh1lXkzq3kB24g3An6Aad54OMlN8&amp;appName=%5BDEFAULT%5D&amp;v=10.12.2&amp;eid=p&amp;usegapi=1&amp;jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.en.gSqfLc8WnvU.O%2Fd%3D1%2Frs%3DAHpOoo_cXXGArE2dtw6vkGR2NQ_1f5L3AQ%2Fm%3D__features__#id=I0_1778396898965&amp;_gfid=I0_1778396898965&amp;parent=about%3A%2F%2F&amp;pfname=&amp;rpctoken=17267578" style="position: absolute; top: -100px; width: 1px; height: 1px;"></iframe></body></html>
