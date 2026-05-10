@@ -8,7 +8,7 @@
 <meta content="WorshipBase" name="apple-mobile-web-app-title">
 <link href="./worshipbase_layered_fold_w_proper/app-icons/app-icon-192.png" rel="icon" type="image/png">
 <link href="./worshipbase_layered_fold_w_proper/app-icons/apple-touch-icon.png" rel="apple-touch-icon">
-<title>WorshipBase v7.84</title>
+<title>WorshipBase v7.85</title>
 <style id="wb-rebuild-consolidated-style">
 
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -2850,18 +2850,98 @@ body.dark .tab-btn.active .tab-pill{
   .tab-btn .tab-lbl{font-size:10px!important;}
 }
 
+
+/* 7.85 cell-relative active tab tint refinement.
+   7.84 fixed the vertical integration, but on-device the selected shape became
+   too wide at the edge tabs. This keeps the 7.84 height/centering, but tightens
+   the width to the tab cell with equal side breathing room so Library/Settings
+   do not feel clipped or oversized. */
+.tab-bar{
+  overflow:visible!important;
+  align-items:flex-start!important;
+}
+.tab-btn{
+  position:relative!important;
+  align-self:flex-start!important;
+  height:clamp(56px,calc(var(--tab-h) + min(var(--sab),10px)),62px)!important;
+  min-height:clamp(56px,calc(var(--tab-h) + min(var(--sab),10px)),62px)!important;
+  padding:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:0!important;
+}
+.tab-pill{
+  width:calc(100% - 18px)!important;
+  max-width:76px!important;
+  min-width:0!important;
+  height:clamp(54px,calc(var(--tab-h) + min(var(--sab),7px)),58px)!important;
+  padding:6px 5px 5px!important;
+  border-radius:21px!important;
+  box-sizing:border-box!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:2px!important;
+}
+#tab-workspace .tab-pill{
+  min-width:0!important;
+}
+.tab-btn.active .tab-pill{
+  background:color-mix(in srgb,var(--tc) 10.5%,transparent)!important;
+}
+body.dark .tab-btn.active .tab-pill{
+  background:color-mix(in srgb,var(--accent) 18%,transparent)!important;
+}
+.tab-btn .tab-ico{
+  width:34px!important;
+  height:28px!important;
+  margin:0!important;
+  transform:none!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex:0 0 auto!important;
+}
+.tab-btn .tab-lbl{
+  margin:0!important;
+  transform:none!important;
+  line-height:1.05!important;
+  max-width:100%!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+.tab-btn.active .ico-filled{
+  transform:scale(1.055)!important;
+}
+.tab-btn:not(.active) .ico-outline{
+  transform:scale(1.02)!important;
+}
+@media(max-width:380px){
+  .tab-pill{
+    width:calc(100% - 16px)!important;
+    max-width:72px!important;
+    height:clamp(53px,calc(var(--tab-h) + min(var(--sab),6px)),57px)!important;
+    padding:6px 4px 5px!important;
+    border-radius:20px!important;
+  }
+  .tab-btn .tab-lbl{font-size:10px!important;}
+}
+
 </style>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" data-loaded="1"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" data-loaded="1"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js" data-loaded="1"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js" data-loaded="1"></script><script src="https://apis.google.com/js/api.js?onload=__iframefcb384676" type="text/javascript" charset="UTF-8" gapi_processed="true"></script></head>
-<body data-nav-behaviour77="1" class="wb-ui-ready wb-route-songs wb-tab-songs" style="pointer-events: auto;">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" data-loaded="1"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" data-loaded="1"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js" data-loaded="1"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js" async="" data-ext-src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js" data-loaded="1"></script><script src="https://apis.google.com/js/api.js?onload=__iframefcb366984" type="text/javascript" charset="UTF-8" gapi_processed="true"></script></head>
+<body data-nav-behaviour77="1" class="wb-ui-ready wb-route-settings wb-tab-settings" style="pointer-events: auto;">
 <div id="app" style="opacity: 1; pointer-events: auto;">
 <div class="hdr">
 <div class="hdr-row">
 <div class="wm"><div class="wm-name" id="wm-name">WorshipBase</div><div class="wm-sub">Chord Library</div></div>
-<button aria-label="Add song" class="hdr-btn" id="hdr-add-btn" type="button" style="display: flex;"><svg fill="none" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+<button aria-label="Add song" class="hdr-btn" id="hdr-add-btn" type="button" style="display: none;"><svg fill="none" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
 </div>
 </div>
-<div class="srch-wrap" id="srch-wrap" style="display: block;">
+<div class="srch-wrap" id="srch-wrap" style="display: none;">
 <div class="srch-row">
 <div class="srch-inner">
 <span class="srch-ico"><svg fill="none" viewBox="0 0 15 15"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.4"></circle><path d="M10 10L13 13" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"></path></svg></span>
@@ -2880,7 +2960,7 @@ body.dark .tab-btn.active .tab-pill{
 <button class="manage-chip danger" id="manage-delete" type="button" disabled="">Delete</button>
 <span class="manage-count" id="manage-count">0 selected</span>
 <button class="manage-chip primary" id="manage-done" type="button">Done</button>
-</div> <section class="route active" id="song-section">
+</div> <section class="route" id="song-section">
 <div class="vs-host ptr-wrap">
 <div aria-hidden="true" id="ptr-indicator"><div class="wb-ptr-ui"><svg class="wb-ptr-ring" viewBox="0 0 30 30"><circle class="wb-ptr-track" cx="15" cy="15" r="12"></circle><circle class="wb-ptr-progress" cx="15" cy="15" r="12"></circle></svg></div></div>
 <div class="vs-wrap" id="vscroll">
@@ -2949,11 +3029,11 @@ body.dark .tab-btn.active .tab-pill{
 <div class="bible-combo"><button class="bible-combo-btn book" id="bible-book-btn" type="button" data-ready="1"><span class="truncate" id="bible-book-label">John</span></button><span class="bible-combo-divider"></span><button class="bible-combo-btn chapter" id="bible-chapter-btn" type="button" data-ready="1"><span class="truncate" id="bible-chapter-label">3</span></button><span class="bible-combo-divider"></span><button class="bible-combo-btn version" id="bible-version-btn" type="button" data-ready="1"><span class="truncate" id="bible-version-label">ESV</span></button></div><button aria-label="Previous chapter" class="bible-fab bible-fab-prev" id="bible-prev-btn" type="button" data-ready="1"><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"></path></svg></button><button aria-label="Next chapter" class="bible-fab bible-fab-next" id="bible-next-btn" type="button" data-ready="1"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"></path></svg></button>
 <div class="bible-scroll"><div class="bible-card" id="bible-card"><div class="bible-heading">John 3</div><div class="bible-verse"><span class="bible-vnum">16</span><span class="bible-vtext">For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life.</span></div><div class="bible-verse"><span class="bible-vnum">17</span><span class="bible-vtext">For God did not send his Son into the world to condemn the world, but in order that the world might be saved through him.</span></div><div class="bible-copy">Bible data loader and full picker wiring belong to the Tools/Bible data pass. This shell keeps the Tools-owned route and visual structure.</div></div></div>
 </section>
-<section class="route" id="settings-section">
-<div class="settings-scroll"><div class="settings-list" id="settings-list"><div class="ss-section"><div class="ss-title">Appearance</div><div class="ss-card"><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg></span><div class="ss-body"><div class="ss-lbl">Dark mode</div></div><button class="sw " id="dark-sw" data-toggle-setting="darkMode" type="button" aria-label="Toggle Dark mode"><span class="sw-thumb"></span></button></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M4 20h4l11-11a2.8 2.8 0 0 0-4-4L4 16v4Z"></path><path d="M13.5 6.5l4 4"></path></svg></span><div class="ss-body"><div class="ss-lbl">Text size</div><div class="sz-wrap"><span class="sz-a">A</span><input class="sz-slider" id="settings-text-size" data-text-size-slider="" type="range" min="0.85" max="1.25" step="0.05" value="1" style="--pct:38%"><span class="sz-a big">A</span></div></div></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="3"></circle></svg></span><div class="ss-body"><div class="ss-lbl">Colour theme</div></div></div><div class="theme-row"><button class="theme-sw " data-theme-value="neutral" type="button" aria-label="Neutral theme" style="--theme-dot:#111111"></button><button class="theme-sw " data-theme-value="forest" type="button" aria-label="Forest theme" style="--theme-dot:#1A4731"></button><button class="theme-sw " data-theme-value="olive" type="button" aria-label="Sage / Olive theme" style="--theme-dot:#6F7D3C"></button><button class="theme-sw active " data-theme-value="stone" type="button" aria-label="Stone / Taupe theme" style="--theme-dot:#8A7A68"></button><button class="theme-sw " data-theme-value="cedar" type="button" aria-label="Cedar theme" style="--theme-dot:#7A5A4D"></button><button class="theme-sw " data-theme-value="mulberry" type="button" aria-label="Mulberry theme" style="--theme-dot:#5A2034"></button><button class="theme-sw " data-theme-value="purple" type="button" aria-label="Deep Purple theme" style="--theme-dot:#3A0A55"></button><button class="theme-sw " data-theme-value="darkteal" type="button" aria-label="Dark Teal theme" style="--theme-dot:#10374A"></button><button class="theme-sw " data-theme-value="slate" type="button" aria-label="Slate Blue theme" style="--theme-dot:#4F6480"></button><button class="theme-sw " data-theme-value="navy" type="button" aria-label="Midnight Navy theme" style="--theme-dot:#2F4565"></button></div></div></div><div class="ss-section"><div class="ss-title">Library</div><div class="ss-card"><button class="ss-row" data-choice-key="defaultDisplayKey" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M9 18.5a2.5 2.5 0 1 1-1-2V6l10-2v10.5a2.5 2.5 0 1 1-1-2V8L9 9.5z"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default display key</div><div class="ss-sub" id="def-key-sub">Show songs in their original key</div></div><div class="ss-right"><span class="ss-val" id="def-key-val">Original</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button><button class="ss-row" data-choice-key="defaultSongView" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h14"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default song view</div><div class="ss-sub" id="def-songview-sub">Songs open in Chords view</div></div><div class="ss-right"><span class="ss-val" id="def-songview-val">Chords</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section"><div class="ss-title">Song defaults</div><div class="ss-card"><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><rect x="5" y="7" width="14" height="10" rx="2"></rect><path d="M8 12h8"></path></svg></span><div class="ss-body"><div class="ss-lbl">Highlight chords by default</div><div class="ss-sub">Songs open with chord highlight on</div></div><button class="sw on" id="default-highlight-sw" data-toggle-setting="highlightChordsDefault" type="button" aria-label="Toggle Highlight chords by default"><span class="sw-thumb"></span></button></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M10 4v15"></path><path d="M10 12.5c4-3 7-1.7 7 1.3 0 3.5-4.2 4.8-7 5.2"></path></svg></span><div class="ss-body"><div class="ss-lbl">Use flats by default</div><div class="ss-sub">Prefer flats when songs open</div></div><button class="sw " id="default-flats-sw" data-toggle-setting="useFlatsDefault" type="button" aria-label="Toggle Use flats by default"><span class="sw-thumb"></span></button></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><rect x="8" y="3" width="8" height="18" rx="2"></rect><path d="M11 18h2"></path></svg></span><div class="ss-body"><div class="ss-lbl">Keep screen awake on song pages</div><div class="ss-sub">Prevent screen sleep while viewing songs</div></div><button class="sw " id="keep-awake-sw" data-toggle-setting="keepScreenAwakeOnSongs" type="button" aria-label="Toggle Keep screen awake on song pages"><span class="sw-thumb"></span></button></div><button class="ss-row" data-choice-key="addToSetBehavior" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M5 7h9M5 12h7M5 17h9"></path><path d="M17 10v6M14 13h6"></path></svg></span><div class="ss-body"><div class="ss-lbl">Add to set list</div><div class="ss-sub" id="addset-beh-sub">Ask every time which set to use</div></div><div class="ss-right"><span class="ss-val" id="addset-beh-val">Ask</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section"><div class="ss-title">Preview</div><div class="ss-card"><button class="ss-row" data-choice-key="defaultPdfPreset" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"></path><path d="M14 3v5h4"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default PDF preset</div><div class="ss-sub" id="def-pdf-sub">Open export on Rehearsal preset</div></div><div class="ss-right"><span class="ss-val" id="def-pdf-val">Rehearsal</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section"><div class="ss-title">Bible</div><div class="ss-card"><button class="ss-row" data-choice-key="defaultBibleVersion" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M7 4h10v16H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"></path><path d="M9 8h6M9 12h6M9 16h4"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default Bible version</div><div class="ss-sub" id="def-bible-sub">Bible opens in ESV</div></div><div class="ss-right"><span class="ss-val" id="def-bible-val">ESV</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section" id="wb-backup-restore-section"><div class="ss-title">Backup &amp; Restore</div><div class="wb-settings-backup-card"><button class="wb-settings-backup-row wb-bc-entry-row" id="wb-backup-centre-entry-row" data-settings-action="backup" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.5 2.9 7.8 7 10 4.1-2.2 7-5.5 7-10V6l-7-3Z"></path><path d="m9 12 2 2 4-5"></path></svg></span><div class="ss-body"><div class="ss-lbl">Backup Centre</div><div class="ss-sub">Local files and Google Drive backup in one place.</div></div><div class="ss-right"><span class="wb-bc-entry-pill">OPEN</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button><div class="wb-settings-backup-summary"><div class="wb-settings-backup-grid"><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">My songs</div><div class="wb-settings-backup-mini-value">0</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Personal set lists</div><div class="wb-settings-backup-mini-value">0</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Notes &amp; cues</div><div class="wb-settings-backup-mini-value">0</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Google Drive</div><div class="wb-settings-backup-mini-value">Not configured</div></div></div><div class="wb-settings-backup-footer">Drive backup is now wired for runtime OAuth and hidden appDataFolder storage.</div></div></div></div><div class="ss-section"><div class="ss-title">About</div><div class="ss-card"><div class="about-panel"><div class="wb-brand-mark" id="about-brand-mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 18l8 28 10-20 10 20 8-28" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="about-copy"><div class="about-name" id="about-brand-name">WorshipBase</div><div class="about-version-pill">Rebuild_7.84</div><div class="about-by">Created by <strong>Jerin Reji</strong></div><div class="admin-state-line ">Tap logo for admin mode</div></div></div></div></div></div></div>
+<section class="route active" id="settings-section">
+<div class="settings-scroll"><div class="settings-list" id="settings-list"><div class="ss-section"><div class="ss-title">Appearance</div><div class="ss-card"><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg></span><div class="ss-body"><div class="ss-lbl">Dark mode</div></div><button class="sw " id="dark-sw" data-toggle-setting="darkMode" type="button" aria-label="Toggle Dark mode"><span class="sw-thumb"></span></button></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M4 20h4l11-11a2.8 2.8 0 0 0-4-4L4 16v4Z"></path><path d="M13.5 6.5l4 4"></path></svg></span><div class="ss-body"><div class="ss-lbl">Text size</div><div class="sz-wrap"><span class="sz-a">A</span><input class="sz-slider" id="settings-text-size" data-text-size-slider="" type="range" min="0.85" max="1.25" step="0.05" value="1" style="--pct:38%"><span class="sz-a big">A</span></div></div></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="3"></circle></svg></span><div class="ss-body"><div class="ss-lbl">Colour theme</div></div></div><div class="theme-row"><button class="theme-sw " data-theme-value="neutral" type="button" aria-label="Neutral theme" style="--theme-dot:#111111"></button><button class="theme-sw " data-theme-value="forest" type="button" aria-label="Forest theme" style="--theme-dot:#1A4731"></button><button class="theme-sw " data-theme-value="olive" type="button" aria-label="Sage / Olive theme" style="--theme-dot:#6F7D3C"></button><button class="theme-sw active " data-theme-value="stone" type="button" aria-label="Stone / Taupe theme" style="--theme-dot:#8A7A68"></button><button class="theme-sw " data-theme-value="cedar" type="button" aria-label="Cedar theme" style="--theme-dot:#7A5A4D"></button><button class="theme-sw " data-theme-value="mulberry" type="button" aria-label="Mulberry theme" style="--theme-dot:#5A2034"></button><button class="theme-sw " data-theme-value="purple" type="button" aria-label="Deep Purple theme" style="--theme-dot:#3A0A55"></button><button class="theme-sw " data-theme-value="darkteal" type="button" aria-label="Dark Teal theme" style="--theme-dot:#10374A"></button><button class="theme-sw " data-theme-value="slate" type="button" aria-label="Slate Blue theme" style="--theme-dot:#4F6480"></button><button class="theme-sw " data-theme-value="navy" type="button" aria-label="Midnight Navy theme" style="--theme-dot:#2F4565"></button></div></div></div><div class="ss-section"><div class="ss-title">Library</div><div class="ss-card"><button class="ss-row" data-choice-key="defaultDisplayKey" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M9 18.5a2.5 2.5 0 1 1-1-2V6l10-2v10.5a2.5 2.5 0 1 1-1-2V8L9 9.5z"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default display key</div><div class="ss-sub" id="def-key-sub">Show songs in their original key</div></div><div class="ss-right"><span class="ss-val" id="def-key-val">Original</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button><button class="ss-row" data-choice-key="defaultSongView" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h14"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default song view</div><div class="ss-sub" id="def-songview-sub">Songs open in Chords view</div></div><div class="ss-right"><span class="ss-val" id="def-songview-val">Chords</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section"><div class="ss-title">Song defaults</div><div class="ss-card"><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><rect x="5" y="7" width="14" height="10" rx="2"></rect><path d="M8 12h8"></path></svg></span><div class="ss-body"><div class="ss-lbl">Highlight chords by default</div><div class="ss-sub">Songs open with chord highlight on</div></div><button class="sw on" id="default-highlight-sw" data-toggle-setting="highlightChordsDefault" type="button" aria-label="Toggle Highlight chords by default"><span class="sw-thumb"></span></button></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M10 4v15"></path><path d="M10 12.5c4-3 7-1.7 7 1.3 0 3.5-4.2 4.8-7 5.2"></path></svg></span><div class="ss-body"><div class="ss-lbl">Use flats by default</div><div class="ss-sub">Prefer flats when songs open</div></div><button class="sw " id="default-flats-sw" data-toggle-setting="useFlatsDefault" type="button" aria-label="Toggle Use flats by default"><span class="sw-thumb"></span></button></div><div class="ss-row no-tap"><span class="ss-ico"><svg viewBox="0 0 24 24"><rect x="8" y="3" width="8" height="18" rx="2"></rect><path d="M11 18h2"></path></svg></span><div class="ss-body"><div class="ss-lbl">Keep screen awake on song pages</div><div class="ss-sub">Prevent screen sleep while viewing songs</div></div><button class="sw " id="keep-awake-sw" data-toggle-setting="keepScreenAwakeOnSongs" type="button" aria-label="Toggle Keep screen awake on song pages"><span class="sw-thumb"></span></button></div><button class="ss-row" data-choice-key="addToSetBehavior" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M5 7h9M5 12h7M5 17h9"></path><path d="M17 10v6M14 13h6"></path></svg></span><div class="ss-body"><div class="ss-lbl">Add to set list</div><div class="ss-sub" id="addset-beh-sub">Ask every time which set to use</div></div><div class="ss-right"><span class="ss-val" id="addset-beh-val">Ask</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section"><div class="ss-title">Preview</div><div class="ss-card"><button class="ss-row" data-choice-key="defaultPdfPreset" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"></path><path d="M14 3v5h4"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default PDF preset</div><div class="ss-sub" id="def-pdf-sub">Open export on Rehearsal preset</div></div><div class="ss-right"><span class="ss-val" id="def-pdf-val">Rehearsal</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section"><div class="ss-title">Bible</div><div class="ss-card"><button class="ss-row" data-choice-key="defaultBibleVersion" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M7 4h10v16H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"></path><path d="M9 8h6M9 12h6M9 16h4"></path></svg></span><div class="ss-body"><div class="ss-lbl">Default Bible version</div><div class="ss-sub" id="def-bible-sub">Bible opens in ESV</div></div><div class="ss-right"><span class="ss-val" id="def-bible-val">ESV</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button></div></div><div class="ss-section" id="wb-backup-restore-section"><div class="ss-title">Backup &amp; Restore</div><div class="wb-settings-backup-card"><button class="wb-settings-backup-row wb-bc-entry-row" id="wb-backup-centre-entry-row" data-settings-action="backup" type="button"><span class="ss-ico"><svg viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.5 2.9 7.8 7 10 4.1-2.2 7-5.5 7-10V6l-7-3Z"></path><path d="m9 12 2 2 4-5"></path></svg></span><div class="ss-body"><div class="ss-lbl">Backup Centre</div><div class="ss-sub">Local files and Google Drive backup in one place.</div></div><div class="ss-right"><span class="wb-bc-entry-pill">OPEN</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg></div></button><div class="wb-settings-backup-summary"><div class="wb-settings-backup-grid"><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">My songs</div><div class="wb-settings-backup-mini-value">0</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Personal set lists</div><div class="wb-settings-backup-mini-value">0</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Notes &amp; cues</div><div class="wb-settings-backup-mini-value">0</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Google Drive</div><div class="wb-settings-backup-mini-value">Needs sign-in</div></div></div><div class="wb-settings-backup-footer">Drive backup is now wired for runtime OAuth and hidden appDataFolder storage.</div></div></div></div><div class="ss-section"><div class="ss-title">About</div><div class="ss-card"><div class="about-panel"><div class="wb-brand-mark" id="about-brand-mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 18l8 28 10-20 10 20 8-28" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div class="about-copy"><div class="about-name" id="about-brand-name">WorshipBase</div><div class="about-version-pill">Rebuild_7.85</div><div class="about-by">Created by <strong>Jerin Reji</strong></div><div class="admin-state-line ">Tap logo for admin mode</div></div></div></div></div></div></div>
 </section>
 <nav class="tab-bar" id="tab-bar">
-<button class="tab-btn active" data-tab="songs" id="tab-songs" type="button" aria-label="Library">
+<button class="tab-btn" data-tab="songs" id="tab-songs" type="button" aria-label="Library">
 <span class="tab-pill">
 <span class="tab-ico">
 <svg class="ico-outline wb-tab-icon-library wb-tab-icon-songbook" fill="none" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><path d="M5.3 5.9A2.1 2.1 0 0 1 7.4 3.8h9.35c1 0 1.8.8 1.8 1.8v13.25c0 .75-.6 1.35-1.35 1.35H7.35a2.05 2.05 0 0 1-2.05-2.05V5.9Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.75"></path><path d="M8.4 4.05v15.9" stroke="currentColor" stroke-linecap="round" stroke-width="1.65"></path><path d="M11 9.2c1.55-.7 2.75-.7 4.3 0v4.75c-1.55-.7-2.75-.7-4.3 0V9.2Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.5"></path><path d="M7.5 17.2h8.9" stroke="currentColor" stroke-linecap="round" stroke-width="1.55"></path></svg>
@@ -2985,7 +3065,7 @@ body.dark .tab-btn.active .tab-pill{
 </span><span class="tab-lbl">Tools</span>
 </span></button>
 
-<button class="tab-btn" data-tab="settings" id="tab-settings" type="button" aria-label="Settings">
+<button class="tab-btn active" data-tab="settings" id="tab-settings" type="button" aria-label="Settings">
 <span class="tab-pill">
 <span class="tab-ico">
 <svg class="ico-outline wb-tab-icon-settings wb-tab-icon-sliders" fill="none" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><path d="M5 7.25h4.9M14.1 7.25H19M5 12h8.25M16.75 12H19M5 16.75h2.65M11.15 16.75H19" stroke="currentColor" stroke-linecap="round" stroke-width="1.9"></path><circle cx="12" cy="7.25" r="2.05" stroke="currentColor" stroke-width="1.75"></circle><circle cx="14.95" cy="12" r="1.75" stroke="currentColor" stroke-width="1.75"></circle><circle cx="9.35" cy="16.75" r="1.75" stroke="currentColor" stroke-width="1.75"></circle></svg>
@@ -3346,8 +3426,8 @@ body.dark .tab-btn.active .tab-pill{
 <script id="wb-rebuild-consolidated-script">
 (function(){
 'use strict';
-var VERSION='Rebuild_7.84';
-var REBUILD_PHASE='Phase 7.84: vertically integrated active tab tint trial with a taller consistent capsule centred around icon and label';
+var VERSION='Rebuild_7.85';
+var REBUILD_PHASE='Phase 7.85: cell-relative active tab tint refinement + v85 Google Drive OAuth/client wiring';
 var REBUILD_REFERENCE='Working-v85.0-fixed.html';
 
 var ASSET_CONFIG=(window.WB_ASSETS&&typeof window.WB_ASSETS==='object')?Object.assign({
@@ -3442,10 +3522,15 @@ var firebaseInitPromise=null,googleScriptPromise=null,firebaseConnectPromise=nul
 var firebaseSongsDetach=null,firebaseSharedSetsDetach=null;
 var firebaseRuntime={songsListening:false,workspaceListening:false,songsLoaded:false,workspaceLoaded:false,songsSettled:false,songsFailed:false,lastSongsSyncAt:'',lastWorkspaceSyncAt:''};
 function persistCloudState(){safeSet(STORAGE_KEYS.cloud,JSON.stringify(cloudState))}
-function loadCloudState(){var raw=safeGet(STORAGE_KEYS.cloud);if(raw){try{var parsed=JSON.parse(raw);cloudState.googleDrive=Object.assign({},cloudState.googleDrive,parsed.googleDrive||{});cloudState.firebase=Object.assign({},cloudState.firebase,parsed.firebase||{});}catch(e){}}}
+function loadCloudState(){var raw=safeGet(STORAGE_KEYS.cloud);if(raw){try{var parsed=JSON.parse(raw);cloudState.googleDrive=Object.assign({},cloudState.googleDrive,parsed.googleDrive||{});cloudState.firebase=Object.assign({},cloudState.firebase,parsed.firebase||{});}catch(e){}}try{var legacy=JSON.parse(safeGet(GOOGLE_DRIVE_LEGACY_STATE_KEY)||'{}')||{};if(legacy&&(legacy.connected||legacy.fileId||legacy.lastBackupAt)&&!cloudState.googleDrive.connected){cloudState.googleDrive=Object.assign({},cloudState.googleDrive,{connected:!!legacy.connected,fileId:legacy.fileId||cloudState.googleDrive.fileId||'',lastBackupAt:legacy.lastBackupAt||cloudState.googleDrive.lastBackupAt||'',lastModifiedTime:legacy.lastModifiedTime||cloudState.googleDrive.lastModifiedTime||'',lastRestoreAt:legacy.lastRestoreAt||cloudState.googleDrive.lastRestoreAt||'',snapshotFileId:legacy.snapshotFileId||cloudState.googleDrive.snapshotFileId||''});persistCloudState();}}catch(e){}}
 function wbMonogramSvg(){return '<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 18l8 28 10-20 10 20 8-28" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>'}
-function cloudGoogleClientId(){return (window.WB_CLOUD_CONFIG&&window.WB_CLOUD_CONFIG.googleClientId)||safeGet('wb_google_client_id')||''}
-function ensureGoogleClientId(){var current=cloudGoogleClientId();if(current)return current;var entered=prompt('Paste your Google OAuth Web Client ID for Drive backup.', '');if(entered&&entered.trim()){safeSet('wb_google_client_id',entered.trim());return entered.trim()}return ''}
+var GOOGLE_DRIVE_CLIENT_ID='137901259240-jkkun2kjr4a3bnfrqmbu1jk9ieqvn5jh.apps.googleusercontent.com';
+var GOOGLE_DRIVE_SCOPE='https://www.googleapis.com/auth/drive.appdata';
+var GOOGLE_DRIVE_BACKUP_NAME='worshipbase-personal-backup.json';
+var GOOGLE_DRIVE_SNAPSHOT_NAME='worshipbase-pre-restore-snapshot.json';
+var GOOGLE_DRIVE_LEGACY_STATE_KEY='wb_google_drive_backup_v1';
+function cloudGoogleClientId(){return (window.WB_CLOUD_CONFIG&&window.WB_CLOUD_CONFIG.googleClientId)||safeGet('wb_google_client_id')||GOOGLE_DRIVE_CLIENT_ID}
+function ensureGoogleClientId(){return cloudGoogleClientId()||GOOGLE_DRIVE_CLIENT_ID}
 function cloudFirebaseConfig(){
   if(window.WB_CLOUD_CONFIG&&window.WB_CLOUD_CONFIG.firebase)return window.WB_CLOUD_CONFIG.firebase;
   var raw=safeGet('wb_firebase_config');
@@ -3587,18 +3672,30 @@ function ensureGoogleIdentity(){if(window.google&&window.google.accounts&&window
 function googleDriveTokenValid(){return !!(cloudState.googleDrive.accessToken&&cloudState.googleDrive.expiresAt&&cloudState.googleDrive.expiresAt>Date.now()+20000)}
 function requestGoogleDriveToken(interactive){
   if(googleDriveTokenValid())return Promise.resolve(cloudState.googleDrive.accessToken);
-  var clientId=ensureGoogleClientId();if(!clientId)return Promise.reject(new Error('Google OAuth client ID is required.'));
+  var clientId=ensureGoogleClientId();
+  if(!clientId)return Promise.reject(new Error('Google Drive client ID is not configured.'));
   return ensureGoogleIdentity().then(function(){return new Promise(function(resolve,reject){
     try{
       var tokenClient=google.accounts.oauth2.initTokenClient({
         client_id:clientId,
-        scope:'https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/userinfo.email openid',
+        scope:GOOGLE_DRIVE_SCOPE,
         callback:function(resp){
-          if(resp&&resp.access_token){cloudState.googleDrive.connected=true;cloudState.googleDrive.accessToken=resp.access_token;cloudState.googleDrive.expiresAt=Date.now()+((resp.expires_in||3600)*1000);persistCloudState();fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:'Bearer '+resp.access_token}}).then(function(r){return r.ok?r.json():null}).then(function(profile){if(profile&&profile.email){cloudState.googleDrive.email=profile.email;persistCloudState();renderSettings();if(qs('backup-centre-modal')&&qs('backup-centre-modal').classList.contains('open'))openBackupCentre()} resolve(resp.access_token)}).catch(function(){resolve(resp.access_token)});return}
-          reject(new Error((resp&&resp.error)||'Google sign-in failed'))
-        }
+          if(resp&&resp.access_token){
+            cloudState.googleDrive.connected=true;
+            cloudState.googleDrive.accessToken=resp.access_token;
+            cloudState.googleDrive.expiresAt=Date.now()+((resp.expires_in||3600)*1000);
+            cloudState.googleDrive.lastConnectedAt=new Date().toISOString();
+            persistCloudState();
+            renderSettings();
+            if(qs('backup-centre-modal')&&qs('backup-centre-modal').classList.contains('open'))openBackupCentre();
+            resolve(resp.access_token);
+            return;
+          }
+          reject(new Error((resp&&resp.error_description)||(resp&&resp.error)||'Google Drive authorisation failed'));
+        },
+        error_callback:function(err){reject(new Error((err&&err.message)||(err&&err.type)||'Google Drive authorisation failed'))}
       });
-      tokenClient.requestAccessToken({prompt:interactive?'consent':'',hint:cloudState.googleDrive.email||''});
+      tokenClient.requestAccessToken({prompt:interactive?'consent':''});
     }catch(err){reject(err)}
   })})
 }
@@ -3606,8 +3703,12 @@ function driveAuthHeaders(token){return {Authorization:'Bearer '+token}}
 function driveFetchJson(url,opts){return fetch(url,opts).then(function(r){if(!r.ok)return r.text().then(function(t){throw new Error(t||('Drive request failed ('+r.status+')'))});return r.json()})}
 function driveFindFileByName(name){
   return requestGoogleDriveToken(!cloudState.googleDrive.connected).then(function(token){
-    var q=encodeURIComponent("name='"+name.replace(/'/g,"\'")+"' and trashed=false and 'appDataFolder' in parents");
-    return driveFetchJson('https://www.googleapis.com/drive/v3/files?q='+q+'&spaces=appDataFolder&fields=files(id,name,modifiedTime)',{headers:driveAuthHeaders(token)}).then(function(data){return {token:token,file:(data.files&&data.files[0])||null}})
+    var safeName=String(name||GOOGLE_DRIVE_BACKUP_NAME).replace(/'/g,"\\'");
+    var q=encodeURIComponent("name='"+safeName+"' and trashed=false and 'appDataFolder' in parents");
+    return driveFetchJson('https://www.googleapis.com/drive/v3/files?q='+q+'&spaces=appDataFolder&fields=files(id,name,modifiedTime,size)',{headers:driveAuthHeaders(token)}).then(function(data){
+      var files=(data.files||[]).sort(function(a,b){return String(b.modifiedTime||'').localeCompare(String(a.modifiedTime||''))});
+      return {token:token,file:files[0]||null};
+    })
   })
 }
 function driveUploadJsonFile(name,payload,fileId){
@@ -3625,8 +3726,90 @@ function driveDownloadJsonFile(fileId){
     return fetch('https://www.googleapis.com/drive/v3/files/'+encodeURIComponent(fileId)+'?alt=media',{headers:driveAuthHeaders(token)}).then(function(r){if(!r.ok)return r.text().then(function(t){throw new Error(t||'Could not download Drive backup')});return r.json()})
   })
 }
-function connectGoogleDriveInteractive(){return requestGoogleDriveToken(true).then(function(){cloudState.googleDrive.connected=true;persistCloudState();renderSettings();if(qs('backup-centre-modal')&&qs('backup-centre-modal').classList.contains('open'))openBackupCentre();showToast('Google Drive connected')}).catch(function(err){if(err&&err.message)alert(err.message)})}
-function disconnectGoogleDriveLocal(){cloudState.googleDrive={connected:false,email:'',accessToken:'',expiresAt:0,lastBackupAt:'',fileId:'',snapshotFileId:'',snapshotSaved:false};persistCloudState();renderSettings();if(qs('backup-centre-modal')&&qs('backup-centre-modal').classList.contains('open'))openBackupCentre();showToast('Drive disconnected on this device')}
+
+function refreshDriveBackupUi(){renderSettings();if(qs('backup-centre-modal')&&qs('backup-centre-modal').classList.contains('open'))openBackupCentre()}
+function uploadLatestBackupToDrive(){
+  showToast('Preparing Drive backup…');
+  var payload=buildLocalBackupPayload();
+  payload.format='worshipbase-google-drive-backup';
+  payload.backupKind='personal-appdatafolder';
+  payload.fileName=GOOGLE_DRIVE_BACKUP_NAME;
+  payload.driveSchema='rebuild-v7';
+  return driveFindFileByName(GOOGLE_DRIVE_BACKUP_NAME).then(function(out){
+    return driveUploadJsonFile(GOOGLE_DRIVE_BACKUP_NAME,payload,out.file&&out.file.id)
+  }).then(function(file){
+    var now=new Date().toISOString();
+    cloudState.googleDrive.connected=true;
+    cloudState.googleDrive.fileId=file.id||cloudState.googleDrive.fileId||'';
+    cloudState.googleDrive.lastBackupAt=now;
+    cloudState.googleDrive.lastModifiedTime=file.modifiedTime||now;
+    persistCloudState();
+    refreshDriveBackupUi();
+    showToast('Google Drive backup complete');
+    return file;
+  }).catch(function(err){console.error(err);alert(err&&err.message?err.message:'Google Drive backup failed')})
+}
+function beginRestoreFromDrive(){
+  showToast('Checking Google Drive backup…');
+  var filePromise=cloudState.googleDrive.fileId?Promise.resolve({file:{id:cloudState.googleDrive.fileId,name:GOOGLE_DRIVE_BACKUP_NAME}}):driveFindFileByName(GOOGLE_DRIVE_BACKUP_NAME);
+  return filePromise.then(function(out){
+    var file=out&&out.file;
+    if(!file||!file.id)throw new Error('No WorshipBase backup found in Google Drive yet.');
+    cloudState.googleDrive.connected=true;
+    cloudState.googleDrive.fileId=file.id;
+    cloudState.googleDrive.lastModifiedTime=file.modifiedTime||cloudState.googleDrive.lastModifiedTime||'';
+    persistCloudState();
+    return driveDownloadJsonFile(file.id).then(function(data){return {file:file,data:data}});
+  }).then(function(out){
+    cloudState.googleDrive.lastRestoreAt=new Date().toISOString();
+    persistCloudState();
+    openBackupRestoreReview(out.data,{mode:'full',fileName:out.file.name||GOOGLE_DRIVE_BACKUP_NAME});
+    if(backupReviewState)backupReviewState.source='drive';
+    showToast('Drive backup ready to review');
+  }).catch(function(err){console.error(err);alert(err&&err.message?err.message:'Could not restore from Google Drive')})
+}
+function uploadLocalSnapshotToDrive(){
+  var raw=safeGet('wb_rebuild_52_pre_restore_snapshot');
+  if(!raw)return Promise.resolve(false);
+  var data;
+  try{data=JSON.parse(raw)}catch(e){data={format:'worshipbase-pre-restore-snapshot',snapshotAt:new Date().toISOString(),raw:raw}}
+  data.fileName=GOOGLE_DRIVE_SNAPSHOT_NAME;
+  return driveFindFileByName(GOOGLE_DRIVE_SNAPSHOT_NAME).then(function(out){
+    return driveUploadJsonFile(GOOGLE_DRIVE_SNAPSHOT_NAME,data,out.file&&out.file.id)
+  }).then(function(file){
+    cloudState.googleDrive.snapshotFileId=file.id||cloudState.googleDrive.snapshotFileId||'';
+    cloudState.googleDrive.snapshotSaved=true;
+    cloudState.googleDrive.snapshotSavedAt=new Date().toISOString();
+    persistCloudState();
+    refreshDriveBackupUi();
+    return true;
+  }).catch(function(err){console.warn('Could not upload Drive snapshot',err);return false})
+}
+function downloadDriveSnapshot(){
+  var id=cloudState.googleDrive.snapshotFileId;
+  var lookup=id?Promise.resolve({file:{id:id,name:GOOGLE_DRIVE_SNAPSHOT_NAME}}):driveFindFileByName(GOOGLE_DRIVE_SNAPSHOT_NAME);
+  return lookup.then(function(out){
+    if(!out||!out.file||!out.file.id){downloadPreRestoreSnapshot();return null}
+    return driveDownloadJsonFile(out.file.id).then(function(data){downloadTextFile('worshipbase-drive-pre-restore-snapshot-'+backupStamp()+'.json',JSON.stringify(data,null,2));return data})
+  }).catch(function(err){console.error(err);alert(err&&err.message?err.message:'Could not download Drive snapshot')})
+}
+
+function connectGoogleDriveInteractive(){return requestGoogleDriveToken(true).then(function(){cloudState.googleDrive.connected=true;persistCloudState();refreshDriveBackupUi();showToast('Google Drive connected')}).catch(function(err){if(err&&err.message)alert(err.message)})}
+function disconnectGoogleDriveLocal(){
+  var token=cloudState.googleDrive.accessToken||'';
+  cloudState.googleDrive={connected:false,email:'',accessToken:'',expiresAt:0,lastBackupAt:'',lastModifiedTime:'',lastRestoreAt:'',fileId:'',snapshotFileId:'',snapshotSaved:false};
+  persistCloudState();
+  try{safeRemove(GOOGLE_DRIVE_LEGACY_STATE_KEY)}catch(e){}
+  try{if(token&&window.google&&google.accounts&&google.accounts.oauth2)google.accounts.oauth2.revoke(token,function(){})}catch(e){}
+  refreshDriveBackupUi();
+  showToast('Drive disconnected on this device')
+}
+window.connectGoogleDriveBackup=connectGoogleDriveInteractive;
+window.backupToGoogleDrive=uploadLatestBackupToDrive;
+window.restoreFromGoogleDrive=beginRestoreFromDrive;
+window.disconnectGoogleDriveBackup=disconnectGoogleDriveLocal;
+window.WBGoogleDriveStatus=function(){return {connected:!!cloudState.googleDrive.connected,hasClientId:!!cloudGoogleClientId(),fileId:cloudState.googleDrive.fileId||'',lastBackupAt:cloudState.googleDrive.lastBackupAt||'',lastRestoreAt:cloudState.googleDrive.lastRestoreAt||'',snapshotSaved:!!cloudState.googleDrive.snapshotSaved}};
+
 function firebasePrefersRedirect(){var ua=navigator.userAgent||'';var standalone=!!((window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||navigator.standalone);return standalone||/iP(?:hone|ad|od)/i.test(ua)}
 function ensureFirebaseSdk(){
   var cfg=ensureFirebaseConfigPrompt();
@@ -5617,23 +5800,23 @@ try{if(document.readyState==='loading')document.addEventListener('DOMContentLoad
 
 
 
-window.WBTestTab84=function(){
+window.WBTestTab85=function(){
   try{
-    var css=document.body.innerHTML;
+    var html=document.body.innerHTML;
+    var pill=document.querySelector('.tab-pill');
+    var pillStyle=pill?getComputedStyle(pill):null;
     return {
       version:VERSION,
-      hasIntegratedTint:css.indexOf('7.84 vertically integrated active tab tint trial')>=0,
-      pillCount:document.querySelectorAll('.tab-btn .tab-pill').length,
-      consistentWidthRule:css.indexOf('width:calc(100% - 10px)!important')>=0,
-      tallerCapsuleRule:css.indexOf('height:clamp(54px,calc(var(--tab-h) + min(var(--sab),8px)),60px)!important')>=0,
-      workspaceNoSpecialWidth:css.indexOf('#tab-workspace .tab-pill{\n  min-width:0!important;')>=0,
-      buttonSafeAreaExtension:css.indexOf('height:clamp(56px,calc(var(--tab-h) + min(var(--sab),12px)),64px)!important')>=0,
-      activePillTint:css.indexOf('.tab-btn.active .tab-pill')>=0,
-      outlineCount:document.querySelectorAll('.tab-btn .ico-outline').length,
-      filledCount:document.querySelectorAll('.tab-btn .ico-filled').length,
-      singleStyle:document.querySelectorAll('style').length===1
+      hasCellRelativeTint:html.indexOf('7.85 cell-relative active tab tint refinement')>=0,
+      pillCount:document.querySelectorAll('.tab-pill').length,
+      outlineIconCount:document.querySelectorAll('.ico-outline').length,
+      filledIconCount:document.querySelectorAll('.ico-filled').length,
+      samplePillWidth:pillStyle&&pillStyle.width,
+      samplePillHeight:pillStyle&&pillStyle.height,
+      googleDrive:{hasDefaultClientId:cloudGoogleClientId()===GOOGLE_DRIVE_CLIENT_ID,connect:typeof connectGoogleDriveInteractive==='function',backup:typeof uploadLatestBackupToDrive==='function',restore:typeof beginRestoreFromDrive==='function',snapshot:typeof downloadDriveSnapshot==='function',v85Aliases:typeof window.backupToGoogleDrive==='function'&&typeof window.restoreFromGoogleDrive==='function'},
+      status:'tab tint width refined; Google Drive client/actions wired'
     };
-  }catch(e){return {error:String(e)}}
+  }catch(e){return {error:e&&e.message||String(e)}}
 };
 
 window.WBTestTab83=function(){
@@ -5854,10 +6037,10 @@ window.WBRunDiagnostics=function(){
     importModule:window.WBImportModule&&window.WBImportModule.diagnostics?window.WBImportModule.diagnostics():{},
     backupModule:window.WBBackupModule&&window.WBBackupModule.diagnostics?window.WBBackupModule.diagnostics():{},
     offline:{online:navigator.onLine!==false,serviceWorker:!!navigator.serviceWorker,secureContext:!!window.isSecureContext,songCacheCount:(firebaseSongs||[]).length,bibleCachedChapters:Object.keys((bibleRuntime&&bibleRuntime.chapterCache)||{}).length,lastSongsSyncAt:firebaseRuntime.lastSongsSyncAt||'',lastWorkspaceSyncAt:firebaseRuntime.lastWorkspaceSyncAt||''},
-    deferred:{firebase:cloudState.firebase.connected?'auth connected':(cloudState.firebase.configured?'config ready':'not configured'),googleDrive:cloudState.googleDrive.connected?'oauth connected':(cloudGoogleClientId()?'client ready':'not configured'),backupRestore:'local + Drive runtime flow',pdfExport:'song + set export active',bibleText:biblePackageReady()?'package folder ready':(cloudFirebaseConfig()?'firebase fallback ready':'not configured')}
+    deferred:{firebase:cloudState.firebase.connected?'auth connected':(cloudState.firebase.configured?'config ready':'not configured'),googleDrive:cloudState.googleDrive.connected?'oauth connected':(cloudGoogleClientId()?'v85 client ready':'not configured'),backupRestore:'local + Drive runtime flow',pdfExport:'song + set export active',bibleText:biblePackageReady()?'package folder ready':(cloudFirebaseConfig()?'firebase fallback ready':'not configured')}
   }
 };
-window.WBRebuildStatus=function(){return {version:VERSION,phase:REBUILD_PHASE,stableRuntimeRollback:true,reference:REBUILD_REFERENCE,deferred:['Final on-device regression test still recommended before calling this finished','No blocking launch screen until all core interaction is stable'],active:['Google Drive OAuth hook','hidden Drive backup/restore runtime flow','Firebase RTDB song library loading with local cache','Firebase workspace set listener + local cache','Bible package loader with cache and Firebase chapter fallback','route memory for top-level/tools/workspace/set editor and workspace detail state','v85-style visual tidy pass for spacing and backup centre','smoother song swipe transition','local JSON backup export','restore review screen','selective restore for songs, set lists and settings','pre-restore safety snapshot','offline audit hardening with service worker registration + cache warming + reconnect guards','blocking loading screen removed','external Layered Fold W brand asset folder support','simplified About branding','v85-style About-logo admin PIN unlock','song page parity fixes','set summary preview/copy parity','workspace/personal set-add parity','non-blocking startup and direct cache/Firebase render'],diagnostics:'Run window.WBRunDiagnostics() after loading the app.'}};
+window.WBRebuildStatus=function(){return {version:VERSION,phase:REBUILD_PHASE,stableRuntimeRollback:true,reference:REBUILD_REFERENCE,deferred:['Final on-device regression test still recommended before calling this finished','No blocking launch screen until all core interaction is stable'],active:['Google Drive OAuth hook wired to v85 Drive client ID','hidden Drive backup/restore runtime flow','Firebase RTDB song library loading with local cache','Firebase workspace set listener + local cache','Bible package loader with cache and Firebase chapter fallback','route memory for top-level/tools/workspace/set editor and workspace detail state','v85-style visual tidy pass for spacing and backup centre','smoother song swipe transition','local JSON backup export','restore review screen','selective restore for songs, set lists and settings','pre-restore safety snapshot','offline audit hardening with service worker registration + cache warming + reconnect guards','blocking loading screen removed','external Layered Fold W brand asset folder support','simplified About branding','v85-style About-logo admin PIN unlock','song page parity fixes','set summary preview/copy parity','workspace/personal set-add parity','non-blocking startup and direct cache/Firebase render'],diagnostics:'Run window.WBRunDiagnostics() after loading the app.'}};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
 })();
 
@@ -5941,4 +6124,4 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 <input id="notes-cues-import-file" type="file" accept=".json,application/json" style="display:none">
 
-<iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" tabindex="-1" vspace="0" width="100%" aria-hidden="true" id="I0_1778427680430" name="I0_1778427680430" src="https://worshipbase-17d1b.firebaseapp.com/__/auth/iframe?apiKey=AIzaSyAWHTEOh1lXkzq3kB24g3An6Aad54OMlN8&amp;appName=%5BDEFAULT%5D&amp;v=10.12.2&amp;eid=p&amp;usegapi=1&amp;jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.en.gSqfLc8WnvU.O%2Fd%3D1%2Frs%3DAHpOoo_cXXGArE2dtw6vkGR2NQ_1f5L3AQ%2Fm%3D__features__#id=I0_1778427680430&amp;_gfid=I0_1778427680430&amp;parent=about%3A%2F%2F&amp;pfname=&amp;rpctoken=35452888" style="position: absolute; top: -100px; width: 1px; height: 1px;"></iframe></body></html>
+<iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" tabindex="-1" vspace="0" width="100%" aria-hidden="true" id="I0_1778428545388" name="I0_1778428545388" src="https://worshipbase-17d1b.firebaseapp.com/__/auth/iframe?apiKey=AIzaSyAWHTEOh1lXkzq3kB24g3An6Aad54OMlN8&amp;appName=%5BDEFAULT%5D&amp;v=10.12.2&amp;eid=p&amp;usegapi=1&amp;jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.en.gSqfLc8WnvU.O%2Fd%3D1%2Frs%3DAHpOoo_cXXGArE2dtw6vkGR2NQ_1f5L3AQ%2Fm%3D__features__#id=I0_1778428545388&amp;_gfid=I0_1778428545388&amp;parent=about%3A%2F%2F&amp;pfname=&amp;rpctoken=24111504" style="position: absolute; top: -100px; width: 1px; height: 1px;"></iframe></body></html>
