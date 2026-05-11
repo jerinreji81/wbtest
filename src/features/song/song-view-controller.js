@@ -72,8 +72,10 @@ function beginOpen(options){
   appState.displayKey=typeof options.resolveKey==='function'?options.resolveKey(song,context):(song.key||'C');
   appState.lastSongOrigin=origin;
   if(origin==='library'){
-    appState.mode=defaultMode(settings);
+    var preserveLibraryMode=!!appState.preserveLibrarySongViewModeOnce;
+    appState.mode=preserveLibraryMode?normalizeMode(mem.mode,defaultMode(settings)):defaultMode(settings);
     appState.focusMode=false;
+    appState.preserveLibrarySongViewModeOnce=false;
   }else{
     appState.mode=normalizeMode(mem.mode,defaultMode(settings));
     appState.focusMode=(typeof mem.focus==='boolean')?mem.focus:!!fromSet;
@@ -159,7 +161,8 @@ function currentEntryIndex(entries,ctx,selectedId){
 
 function hierarchyDescription(){
   return [
-    'library opens use user default mode and normal page mode',
+    'fresh library opens use user default mode and normal page mode',
+    'library adjacent song navigation preserves the current library Lyrics/Chords/NNS mode for that traversal',
     'setlist context memory is separate from library and workspace',
     'workspace-set context memory is separate from library and personal setlist',
     'context memory wins while swiping through songs in that context; otherwise settings.defaultSongView is used'

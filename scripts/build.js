@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
- * WorshipBase Phase H.3 build scaffold.
+ * WorshipBase Phase I.3 build scaffold.
  *
  * Purpose:
  * - Keep the Phase B single deployable output.
  * - Inject extracted constants, utility helpers, startup/PWA lifecycle owner, navigation/registry/gesture scaffold,
- *   storage service, Firebase service, backup/Drive service, chart renderer, song-view controller, focus/performance controller, and DOM helpers before the legacy app shell.
+ *   storage service, Firebase service, backup/Drive service, chart renderer, song-view controller, focus/performance controller, personal set-list controller, Workspace set controller, add-to-set controller, and DOM helpers before the legacy app shell.
  * - Leave visual redesign, attached song PDF workflows, Firebase rewrite, and visual redesign and attached song PDF workflows
  *   untouched; extract backup/Drive boundary ownership only.
  */
@@ -28,6 +28,9 @@ const MODULES = [
   { id: 'wb-chart-renderer', file: path.join(ROOT, 'src', 'features', 'song', 'chart-renderer.js') },
   { id: 'wb-song-view-controller', file: path.join(ROOT, 'src', 'features', 'song', 'song-view-controller.js') },
   { id: 'wb-song-focus-controller', file: path.join(ROOT, 'src', 'features', 'song', 'focus-controller.js') },
+  { id: 'wb-personal-set-controller', file: path.join(ROOT, 'src', 'features', 'setlist', 'personal-set-controller.js') },
+  { id: 'wb-workspace-set-controller', file: path.join(ROOT, 'src', 'features', 'workspace', 'workspace-set-controller.js') },
+  { id: 'wb-add-to-set-controller', file: path.join(ROOT, 'src', 'features', 'setlist', 'add-to-set-controller.js') },
   { id: 'wb-ui-dom', file: path.join(ROOT, 'src', 'ui', 'dom.js') },
 ];
 const DIST_DIR = path.join(ROOT, 'dist');
@@ -115,7 +118,7 @@ function main() {
 
   const ownershipViolations = ownershipChecks(shellHtml);
   if (ownershipViolations.length) {
-    console.error('Phase H.3 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
+    console.error('Phase I.3 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
     process.exit(1);
   }
 
@@ -132,13 +135,13 @@ function main() {
   }
 
   const manifest = {
-    phase: 'H.3',
-    purpose: 'Section rail, focus/performance mode, and live chrome controller extraction after Phase H.2 song view controller extraction',
-    baseline: 'v8.17 stability freeze, Phase H.2 song view controller extraction; v85 reference artifact included',
+    phase: 'I.3',
+    purpose: 'Add-to-set flow and song-view mode hierarchy contract extraction after Phase I.2 Workspace Set controller extraction',
+    baseline: 'v8.17 stability freeze, Phase H.3 song/chart/focus extraction; v85 reference artifact included',
     generatedAt: new Date().toISOString(),
     files: {
       'index.html': {
-        source: 'src/legacy/index.phase-d.html + injected Phase H.3 modules',
+        source: 'src/legacy/index.phase-d.html + injected Phase I.3 modules',
         sha256: sha256(indexHtml),
         bytes: Buffer.byteLength(indexHtml, 'utf8'),
       },
@@ -158,7 +161,7 @@ function main() {
       inlineScriptBlocks: syntax.count,
       inlineScriptSyntaxErrors: syntax.errors.length,
       ownershipViolations: ownershipViolations.length,
-      productBehaviourChanged: 'Focus/performance section rail and live chrome controller extraction with legacy compatibility adapters; no visual redesign',
+      productBehaviourChanged: 'Add-to-set and song-view mode hierarchy controller extraction with legacy compatibility adapters; no visual redesign',
       visualRedesign: false,
       attachedSongPdfWorkflows: 'cancelled / untouched',
     },
@@ -166,7 +169,7 @@ function main() {
 
   write(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
 
-  console.log('WorshipBase Phase H.3 build complete.');
+  console.log('WorshipBase Phase I.3 build complete.');
   console.log(`- ${path.relative(ROOT, DIST_INDEX)}`);
   console.log(`- ${path.relative(ROOT, DIST_SW)}`);
   console.log(`- ${path.relative(ROOT, MANIFEST)}`);
