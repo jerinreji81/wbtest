@@ -1,0 +1,167 @@
+#!/usr/bin/env node
+/**
+ * WorshipBase Phase D.1 build scaffold.
+ *
+ * Purpose:
+ * - Keep the Phase B single deployable output.
+ * - Inject extracted constants, utility helpers, and DOM helpers before the
+ *   legacy app shell.
+ * - Leave visual redesign, attached song PDF workflows, and broad service extraction
+ *   untouched; include only targeted stabilisation fixes from Phase C.1.
+ */
+
+const fs = require('fs');
+const path = require('path');
+const crypto = require('crypto');
+
+const ROOT = path.resolve(__dirname, '..');
+const SRC_INDEX = path.join(ROOT, 'src', 'legacy', 'index.phase-d.html');
+const SRC_SW = path.join(ROOT, 'src', 'legacy', 'wb-offline-sw.phase-d.js');
+const MODULES = [
+  { id: 'wb-core-constants', file: path.join(ROOT, 'src', 'core', 'constants.js') },
+  { id: 'wb-core-utils', file: path.join(ROOT, 'src', 'core', 'utils.js') },
+  { id: 'wb-ui-dom', file: path.join(ROOT, 'src', 'ui', 'dom.js') },
+];
+const DIST_DIR = path.join(ROOT, 'dist');
+const DIST_INDEX = path.join(DIST_DIR, 'index.html');
+const DIST_SW = path.join(DIST_DIR, 'wb-offline-sw.js');
+const MANIFEST = path.join(DIST_DIR, 'build-manifest.json');
+
+function read(file) {
+  return fs.readFileSync(file, 'utf8');
+}
+
+function write(file, content) {
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, content, 'utf8');
+}
+
+function sha256(content) {
+  return crypto.createHash('sha256').update(content, 'utf8').digest('hex');
+}
+
+function scriptTag(id, content) {
+  return `<script id="${id}">\n${content.replace(/\s+$/,'')}\n</script>\n`;
+}
+
+function injectModules(html, modules) {
+  const needle = '<script id="wb-rebuild-consolidated-script">';
+  const index = html.indexOf(needle);
+  if (index < 0) throw new Error('Cannot find app script injection point');
+  return html.slice(0, index) + modules.map(m => scriptTag(m.id, m.content)).join('') + html.slice(index);
+}
+
+function extractInlineScripts(html) {
+  const scripts = [];
+  const re = /<script\b(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi;
+  let match;
+  while ((match = re.exec(html))) {
+    scripts.push(match[1]);
+  }
+  return scripts;
+}
+
+function syntaxCheckInlineScripts(html) {
+  const scripts = extractInlineScripts(html);
+  const errors = [];
+  scripts.forEach((script, index) => {
+    try {
+      // Syntax-only check without executing app code.
+      new Function(script);
+    } catch (err) {
+      errors.push({ index: index + 1, message: err && err.message ? err.message : String(err) });
+    }
+  });
+  return { count: scripts.length, errors };
+}
+
+function ownershipChecks(shell) {
+  const forbidden = [
+    { label: 'legacy STORAGE_KEYS object', pattern: /var\s+STORAGE_KEYS\s*=\s*\{/ },
+    { label: 'legacy DEFAULT_SETTINGS object', pattern: /var\s+DEFAULT_SETTINGS\s*=\s*\{/ },
+    { label: 'legacy THEME_PALETTE object', pattern: /var\s+THEME_PALETTE\s*=\s*\{/ },
+    { label: 'legacy safeGet helper', pattern: /function\s+safeGet\s*\(/ },
+    { label: 'legacy safeSet helper', pattern: /function\s+safeSet\s*\(/ },
+    { label: 'legacy safeRemove helper', pattern: /function\s+safeRemove\s*\(/ },
+    { label: 'legacy qs helper', pattern: /function\s+qs\s*\(/ },
+    { label: 'legacy qsa helper', pattern: /function\s+qsa\s*\(/ },
+    { label: 'legacy qv helper', pattern: /function\s+qv\s*\(/ },
+    { label: 'legacy esc helper', pattern: /function\s+esc\s*\(/ },
+    { label: 'legacy firstLetter helper', pattern: /function\s+firstLetter\s*\(/ },
+    { label: 'legacy Google Drive client id literal owner', pattern: /var\s+GOOGLE_DRIVE_CLIENT_ID\s*=\s*'137901259240-/ },
+  ];
+  return forbidden.filter(check => check.pattern.test(shell)).map(check => check.label);
+}
+
+function main() {
+  const shellHtml = read(SRC_INDEX);
+  const swJs = read(SRC_SW);
+  const modules = MODULES.map(module => ({
+    id: module.id,
+    source: path.relative(ROOT, module.file),
+    content: read(module.file),
+  }));
+  const indexHtml = injectModules(shellHtml, modules);
+
+  const ownershipViolations = ownershipChecks(shellHtml);
+  if (ownershipViolations.length) {
+    console.error('Phase D ownership violations:', JSON.stringify(ownershipViolations, null, 2));
+    process.exit(1);
+  }
+
+  fs.rmSync(DIST_DIR, { recursive: true, force: true });
+  fs.mkdirSync(DIST_DIR, { recursive: true });
+
+  write(DIST_INDEX, indexHtml);
+  write(DIST_SW, swJs);
+
+  const syntax = syntaxCheckInlineScripts(indexHtml);
+  if (syntax.errors.length) {
+    console.error('Inline script syntax errors:', JSON.stringify(syntax.errors, null, 2));
+    process.exit(1);
+  }
+
+  const manifest = {
+    phase: 'D.1',
+    purpose: 'targeted stabilisation after Phase C.1 manual baseline issue log',
+    baseline: 'v8.17 stability freeze with Phase C regression framework',
+    generatedAt: new Date().toISOString(),
+    files: {
+      'index.html': {
+        source: 'src/legacy/index.phase-d.html + injected Phase D modules',
+        sha256: sha256(indexHtml),
+        bytes: Buffer.byteLength(indexHtml, 'utf8'),
+      },
+      'wb-offline-sw.js': {
+        source: 'src/legacy/wb-offline-sw.phase-d.js',
+        sha256: sha256(swJs),
+        bytes: Buffer.byteLength(swJs, 'utf8'),
+      },
+    },
+    modules: modules.map(module => ({
+      id: module.id,
+      source: module.source,
+      sha256: sha256(module.content),
+      bytes: Buffer.byteLength(module.content, 'utf8'),
+    })),
+    validation: {
+      inlineScriptBlocks: syntax.count,
+      inlineScriptSyntaxErrors: syntax.errors.length,
+      ownershipViolations: ownershipViolations.length,
+      productBehaviourChanged: 'targeted stabilisation fixes only',
+      visualRedesign: false,
+      attachedSongPdfWorkflows: 'cancelled / untouched',
+    },
+  };
+
+  write(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
+
+  console.log('WorshipBase Phase D.1 build complete.');
+  console.log(`- ${path.relative(ROOT, DIST_INDEX)}`);
+  console.log(`- ${path.relative(ROOT, DIST_SW)}`);
+  console.log(`- ${path.relative(ROOT, MANIFEST)}`);
+  console.log(`Injected modules: ${modules.length}`);
+  console.log(`Inline script blocks checked: ${syntax.count}`);
+}
+
+main();
