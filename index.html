@@ -11,7 +11,7 @@
 <meta content="WorshipBase" name="apple-mobile-web-app-title"/>
 <link href="./worshipbase_layered_fold_w_proper/app-icons/app-icon-192.png" rel="icon" type="image/png"/>
 <link href="./worshipbase_layered_fold_w_proper/app-icons/apple-touch-icon.png" rel="apple-touch-icon"/>
-<title>WorshipBase Rebuild_8.17J4</title>
+<title>WorshipBase Rebuild_8.17K4</title>
 <style id="wb-rebuild-consolidated-style">
 
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -2600,6 +2600,156 @@ body.dark .sheet-section{
 .workspace-card{cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
 .workspace-card:active{transform:scale(.992);background:var(--wb-card-fill-active)!important;}
 
+
+
+/* Phase K4 owner-injected targeted polish; single consolidated style block retained. */
+/* wb-targeted-polish-css */
+/* WorshipBase Phase K4 targeted polish owner.
+   Scope: token-driven touch-area and readability polish only.
+   Not a visual rebuild; keep selectors owned by the Phase K style registry. */
+
+/* Make reorder handles easier to acquire without changing the card layout language. */
+.drag-handle{
+  min-width:38px;
+  min-height:40px;
+  justify-content:center;
+  align-items:flex-start;
+  padding-top:8px!important;
+  padding-bottom:8px!important;
+  padding-right:12px!important;
+  touch-action:none;
+}
+.set-section-card .drag-handle,
+.workspace-section-item .drag-handle{
+  min-width:36px;
+  margin-left:-2px;
+}
+
+/* Key/Capo: larger controls and clearer suggestion cards using existing tokens. */
+#tools-keycapo-panel .tool-field-grid{
+  gap:10px;
+}
+#tools-keycapo-panel .tool-field select{
+  min-height:46px;
+  border-radius:15px;
+  border-color:var(--surface-border);
+  background:var(--wb-control-fill,var(--bg2));
+  font-size:15px;
+  font-weight:760;
+}
+#tools-keycapo-panel .tools-kc-suggestions{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:9px;
+}
+#tools-keycapo-panel .tools-kc-suggestion{
+  min-height:54px;
+  padding:12px 14px;
+  border-radius:16px;
+  border:1px solid var(--surface-border);
+  background:color-mix(in srgb,var(--bg1) 94%,var(--surface-tint) 6%);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+#tools-keycapo-panel .tools-kc-suggestion strong{
+  font-size:14px;
+  font-weight:880;
+  color:var(--txt1);
+}
+#tools-keycapo-panel .tools-kc-suggestion span{
+  font-size:12.5px;
+  font-weight:650;
+  color:var(--txt2);
+  text-align:right;
+}
+
+/* Bible version picker: keep metadata readable and prevent compressed labels. */
+.bible-version-item{
+  gap:12px;
+  align-items:center;
+}
+.bible-version-copy{
+  min-width:0;
+  flex:1;
+}
+.bible-version-title,
+.bible-version-sub{
+  display:block;
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.bible-version-item .setdest-state{
+  flex-shrink:0;
+  align-self:center;
+  max-width:34%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* Backup Centre: keep footer actions clear of the home indicator and make async status easier to see. */
+#backup-centre-modal.open .bs{
+  padding-bottom:calc(var(--sab) + 8px)!important;
+}
+#backup-centre-done.bs-cancel{
+  margin-bottom:calc(var(--sab) + 10px)!important;
+}
+.backup-centre-action[aria-busy="true"],
+.backup-centre-action.is-working{
+  opacity:.78;
+}
+
+/* Export controls and preview actions: use theme tokens consistently. */
+.ev-chip.active,
+.export-preset.active,
+.export-preset-btn.active{
+  background:color-mix(in srgb,var(--accent) 88%,var(--bg1))!important;
+  border-color:color-mix(in srgb,var(--accent) 70%,var(--surface-border))!important;
+  color:var(--accent-fg)!important;
+}
+.wb-export-pdf-preview-btn,
+.ev-act-btn{
+  border-radius:999px;
+  border:1px solid color-mix(in srgb,var(--accent) 24%,var(--surface-border));
+  background:color-mix(in srgb,var(--accent) 9%,var(--bg2));
+  color:var(--accent);
+  min-height:36px;
+  padding:0 14px;
+  font-weight:850;
+}
+.wb-export-pdf-preview-btn.save,
+.ev-act-btn.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-fg);
+}
+
+body.dark #tools-keycapo-panel .tools-kc-suggestion,
+body.dark #tools-keycapo-panel .tool-field select{
+  background:var(--wb-sec-surface-2,var(--bg2));
+  border-color:var(--wb-sec-border,rgba(255,255,255,.10));
+}
+body.dark .ev-chip.active,
+body.dark .export-preset.active,
+body.dark .export-preset-btn.active{
+  background:var(--accent-surface-strong)!important;
+  border-color:var(--accent-border)!important;
+  color:var(--accent)!important;
+}
+body.dark .wb-export-pdf-preview-btn,
+body.dark .ev-act-btn{
+  background:var(--accent-surface);
+  border-color:var(--accent-border);
+  color:var(--accent);
+}
+body.dark .wb-export-pdf-preview-btn.save,
+body.dark .ev-act-btn.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:#000;
+}
 </style>
 
 </head>
@@ -3099,8 +3249,8 @@ body.dark .sheet-section{
 (function(root){
 'use strict';
 
-var VERSION='Rebuild_8.17J4.1';
-var REBUILD_PHASE='Phase J4.1: Tools/Bible routing stabilisation';
+var VERSION='Rebuild_8.17K4';
+var REBUILD_PHASE='Phase K4: targeted token-driven visual polish';
 var REBUILD_REFERENCE='Working-v85.0-fixed.html';
 
 var ASSET_DEFAULTS={
@@ -5713,6 +5863,349 @@ root.WBBibleController={
 };
 })(window);
 </script>
+<script id="wb-export-pdf-format-controller">
+/* WorshipBase Phase K4 app-generated export/PDF format controller.
+   Purpose: create a single owner for export/PDF formatting metadata before any visual or PDF-layout changes.
+   This does not change the current PDF engine. Attached song PDF workflows remain cancelled. */
+(function(root){
+'use strict';
+
+var PHASE='K4';
+var SCOPE='app-generated-pdf-only';
+
+var PRESETS={
+  compact:{
+    id:'compact',
+    label:'Compact',
+    description:'More songs per page; smallest readable spacing.',
+    intent:'service-planning-printout',
+    review:['line-density','chord-legibility','section-label-visibility','page-break-control']
+  },
+  standard:{
+    id:'standard',
+    label:'Standard',
+    description:'Balanced readability and page count.',
+    intent:'default-readable-export',
+    review:['title-hierarchy','chord-visibility','lyric-spacing','meta-clarity']
+  },
+  large:{
+    id:'large',
+    label:'Large',
+    description:'Higher visibility for rehearsal or stage reference.',
+    intent:'visibility-first-export',
+    review:['page-count','large-text-fit','chord-wrap','section-spacing']
+  }
+};
+
+var REVIEW_AREAS=[
+  { id:'title-meta', label:'Title and metadata hierarchy', owner:'export/pdf' },
+  { id:'section-labels', label:'Section label clarity and spacing', owner:'export/pdf' },
+  { id:'chords', label:'Chord visibility and chord/lyric alignment', owner:'song chart + export/pdf' },
+  { id:'lyrics', label:'Lyric readability and line height', owner:'export/pdf' },
+  { id:'page-breaks', label:'Song and section page-break behaviour', owner:'export/pdf' },
+  { id:'preview-actions', label:'Phone preview action colours and placement', owner:'export/pdf style' },
+  { id:'theme-tokens', label:'Export menu highlights and preview buttons use theme tokens', owner:'styles/export-pdf' }
+];
+
+var CANCELLED_WORKFLOWS=[
+  'attached-song-pdf-upload',
+  'attached-song-pdf-base64-storage',
+  'attached-song-pdf-extraction'
+];
+
+function clone(value){
+  try{return JSON.parse(JSON.stringify(value));}catch(e){return value;}
+}
+
+function normalisePreset(value){
+  var key=String(value||'standard').trim().toLowerCase();
+  return PRESETS[key] ? key : 'standard';
+}
+
+function getPreset(value){
+  return clone(PRESETS[normalisePreset(value)]);
+}
+
+function listPresets(){
+  return Object.keys(PRESETS).map(function(key){return clone(PRESETS[key]);});
+}
+
+function getReviewAreas(){
+  return REVIEW_AREAS.map(clone);
+}
+
+function getCancelledWorkflows(){
+  return CANCELLED_WORKFLOWS.slice();
+}
+
+function isAttachedPdfWorkflow(name){
+  var key=String(name||'').trim().toLowerCase();
+  return CANCELLED_WORKFLOWS.indexOf(key)>=0;
+}
+
+function buildFormatContract(options){
+  options=options||{};
+  var preset=getPreset(options.preset);
+  return {
+    phase:PHASE,
+    scope:SCOPE,
+    preset:preset.id,
+    presetLabel:preset.label,
+    includeChords:options.includeChords!==false,
+    includeNotes:!!options.includeNotes,
+    includeCover:!!options.includeCover,
+    includeKeys:options.includeKeys!==false,
+    reviewRequired:preset.review.slice(),
+    attachedSongPdfWorkflows:'cancelled'
+  };
+}
+
+function shouldReviewChange(changeArea){
+  var key=String(changeArea||'').trim().toLowerCase();
+  if(!key) return false;
+  return REVIEW_AREAS.some(function(area){return area.id===key || area.owner.toLowerCase().indexOf(key)>=0;});
+}
+
+root.WBExportPdfFormatController={
+  phase:PHASE,
+  scope:SCOPE,
+  listPresets:listPresets,
+  getPreset:getPreset,
+  normalisePreset:normalisePreset,
+  getReviewAreas:getReviewAreas,
+  getCancelledWorkflows:getCancelledWorkflows,
+  isAttachedPdfWorkflow:isAttachedPdfWorkflow,
+  buildFormatContract:buildFormatContract,
+  shouldReviewChange:shouldReviewChange
+};
+})(window);
+</script>
+<script id="wb-feature-style-registry">
+/* WorshipBase Phase K4 feature style ownership registry.
+   Purpose: define style ownership boundaries without moving CSS or changing visuals.
+   Later K phases can move/co-locate CSS by owner using this registry rather than
+   adding one-off override blocks. */
+(function(root){
+'use strict';
+
+var PHASE='K4';
+
+var OWNERS=[
+  {
+    id:'app-shell',
+    owner:'legacy shell',
+    eventualPath:'src/styles/app-shell.css',
+    selectors:['#app','.hdr','.tab-bar','.route','.bs-bg','.bs'],
+    status:'legacy-consolidated-css'
+  },
+  {
+    id:'library',
+    owner:'future library feature owner',
+    eventualPath:'src/features/library/library.css',
+    selectors:['#song-section','.srch-wrap','.song-item','.alpha-letter','.filter-chip'],
+    status:'registry-only'
+  },
+  {
+    id:'song-view',
+    owner:'src/features/song',
+    eventualPath:'src/features/song/song-view.css',
+    selectors:['#song-view','.sv-hdr','.sheet','.pair-line','.live-tools','.pres-section-rail'],
+    status:'registry-only'
+  },
+  {
+    id:'setlist',
+    owner:'src/features/setlist',
+    eventualPath:'src/features/setlist/setlist.css',
+    selectors:['#setlist-section','#wb-personal-manager','#wb-set-editor','.set-item','.wb-personal-card'],
+    status:'registry-only'
+  },
+  {
+    id:'workspace',
+    owner:'src/features/workspace',
+    eventualPath:'src/features/workspace/workspace.css',
+    selectors:['#workspace-section','.workspace-card','.wb806-subview','.wb805-subview','.wb763-subview'],
+    status:'registry-only'
+  },
+  {
+    id:'tools',
+    owner:'src/features/tools',
+    eventualPath:'src/features/tools/tools.css',
+    selectors:['#tools-section','#bible-section','.bible-combo','.bible-picker-list','.pad-card'],
+    status:'registry-only'
+  },
+  {
+    id:'settings',
+    owner:'src/features/settings',
+    eventualPath:'src/features/settings/settings.css',
+    selectors:['#settings-section','.settings-card','.theme-sw','.setting-row'],
+    status:'registry-only'
+  },
+  {
+    id:'backup',
+    owner:'src/features/backup',
+    eventualPath:'src/features/backup/backup.css',
+    selectors:['#backup-section','.backup-card','.restore-review','.drive-row'],
+    status:'registry-only'
+  },
+  {
+    id:'export-pdf',
+    owner:'src/features/export',
+    eventualPath:'src/features/export/export.css',
+    selectors:['.export-row','.export-grid','.preview-wrap','.preview-body'],
+    status:'controller-boundary-established-app-generated-pdf-only'
+  }
+];
+
+var TOKEN_GROUPS={
+  color:['--tc','--accent','--accent-bg','--accent-fg','--bg1','--bg2','--bg3','--txt1','--txt2','--txt3'],
+  surface:['--surface-tint','--surface-tint-strong','--surface-border','--wb-card-fill','--wb-card-border','--wb-control-fill'],
+  geometry:['--rad','--rad-lg','--rad-pill','--item-h','--tab-h'],
+  safeArea:['--sat','--sab'],
+  typography:['--wb-text-scale']
+};
+
+function clone(value){
+  try{return JSON.parse(JSON.stringify(value));}catch(e){return value;}
+}
+
+function normaliseId(id){
+  return String(id||'').trim().toLowerCase();
+}
+
+function listOwners(){
+  return OWNERS.map(clone);
+}
+
+function getOwner(id){
+  var needle=normaliseId(id);
+  for(var i=0;i<OWNERS.length;i++){
+    if(OWNERS[i].id===needle) return clone(OWNERS[i]);
+  }
+  return null;
+}
+
+function listSelectors(id){
+  var owner=getOwner(id);
+  return owner && owner.selectors ? owner.selectors.slice() : [];
+}
+
+function listTokenGroups(){
+  return clone(TOKEN_GROUPS);
+}
+
+function findOwnerBySelector(selector){
+  var sel=String(selector||'').trim();
+  if(!sel) return null;
+  for(var i=0;i<OWNERS.length;i++){
+    if((OWNERS[i].selectors||[]).indexOf(sel)>=0) return clone(OWNERS[i]);
+  }
+  return null;
+}
+
+root.WBFeatureStyleRegistry={
+  phase:PHASE,
+  listOwners:listOwners,
+  getOwner:getOwner,
+  listSelectors:listSelectors,
+  listTokenGroups:listTokenGroups,
+  findOwnerBySelector:findOwnerBySelector
+};
+})(window);
+</script>
+<script id="wb-style-controller">
+/* WorshipBase Phase K4 style controller owner.
+   Purpose: keep a single style/CSS ownership boundary while adding feature style ownership.
+   This is not a redesign pass. It centralises style metadata, safe-area/layout tokens,
+   and future owner assignments so later polish does not become patch stacking. */
+(function(root){
+'use strict';
+
+var STYLE_PHASE='K4';
+
+var OWNER_AREAS={
+  appShell:'legacy shell until final CSS split',
+  library:'features/library later + styles/library later',
+  songView:'features/song + styles/song later',
+  setList:'features/setlist + styles/setlist later',
+  workspace:'features/workspace + styles/workspace later',
+  tools:'features/tools + styles/tools later',
+  settings:'features/settings + styles/settings later',
+  backup:'features/backup + styles/backup later',
+  exportPdf:'src/features/export + future styles/export.css; app-generated PDF only',
+  cancelledAttachedPdf:'cancelled; no style or workflow owner'
+};
+
+var TARGETED_POLISH_BACKLOG=[
+  { id:'WB-J4-003', area:'tools/key-capo', note:'Review Key/Capo selectors and suggestions for usability after owner extraction.' },
+  { id:'WB-J4-004', area:'tools/bible-version-picker', note:'Improve Bible version picker metadata arrangement.' },
+  { id:'WB-J4-005', area:'backup', note:'Show clear backup completion details after Drive backup actions.' },
+  { id:'WB-EXP-001', area:'export/pdf', note:'Review app-generated PDF readability, spacing, chord visibility, and preview controls.' },
+  { id:'WB-K3-001', area:'export/pdf', note:'Use WBExportPdfFormatController before changing PDF presets, preview actions, or page layout.' },
+  { id:'WB-C1-008', area:'backup', note:'Review Backup Centre Done button safe-area placement.' },
+  { id:'WB-C1-009', area:'export', note:'Make export menu highlights fully theme-driven.' },
+  { id:'WB-C1-010', area:'pdf-preview', note:'Review PDF preview top button colours using theme tokens.' },
+  { id:'WB-C1-012', area:'publish-sheet', note:'Review Publish to Workspace action-button vertical placement.' },
+  { id:'WB-H-005', area:'song-view/swipe', note:'Improve next/previous song swipe smoothness in normal and focus mode.' },
+  { id:'WB-I-006', area:'workspace/reorder', note:'Unify Workspace reorder feel with personal Set List reorder.' },
+  { id:'WB-I-007', area:'setlist/workspace/reorder', note:'Increase drag-handle touch area without changing visual density.' },
+  { id:'WB-I-008', area:'setlist/song-notes', note:'Expose set and song notes with small indicators and pop-up/sheet access.' }
+];
+
+function getFeatureRegistry(){
+  return root.WBFeatureStyleRegistry || null;
+}
+
+function getOwner(area){
+  return OWNER_AREAS[area] || 'unassigned style owner';
+}
+
+function listPolishBacklog(){
+  return TARGETED_POLISH_BACKLOG.slice();
+}
+
+function listFeatureStyleOwners(){
+  var registry=getFeatureRegistry();
+  return registry && typeof registry.listOwners==='function' ? registry.listOwners() : [];
+}
+
+function getFeatureStyleOwner(featureId){
+  var registry=getFeatureRegistry();
+  return registry && typeof registry.getOwner==='function' ? registry.getOwner(featureId) : null;
+}
+
+function getSafeAreaTokenNames(){
+  return ['--sat','--sab','env(safe-area-inset-top)','env(safe-area-inset-bottom)'];
+}
+
+function getThemeTokenNames(){
+  return [
+    '--tc','--accent','--accent-bg','--accent-fg',
+    '--bg1','--bg2','--bg3',
+    '--txt1','--txt2','--txt3',
+    '--surface-tint','--surface-border',
+    '--wb-card-fill','--wb-card-border','--wb-control-fill'
+  ];
+}
+
+function applyPhaseMarker(){
+  try{ document.documentElement.setAttribute('data-wb-style-phase', STYLE_PHASE); }catch(e){}
+}
+
+root.WBStyleController={
+  phase:STYLE_PHASE,
+  ownerAreas:OWNER_AREAS,
+  getOwner:getOwner,
+  listPolishBacklog:listPolishBacklog,
+  listFeatureStyleOwners:listFeatureStyleOwners,
+  getFeatureStyleOwner:getFeatureStyleOwner,
+  getSafeAreaTokenNames:getSafeAreaTokenNames,
+  getThemeTokenNames:getThemeTokenNames,
+  applyPhaseMarker:applyPhaseMarker
+};
+
+try{ applyPhaseMarker(); }catch(e){}
+})(window);
+</script>
 <script id="wb-ui-dom">
 /* WorshipBase Phase D DOM helper owner.
    Query, form, focus, escaping, and small display helpers extracted from the v8.17 legacy shell. */
@@ -5747,7 +6240,7 @@ var WBDom=window.WBDom||{};
 var PersonalSetController=window.WBPersonalSetController||{};
 var WorkspaceSetController=window.WBWorkspaceSetController||{};
 var SettingsController=window.WBSettingsController||{};
-var VERSION=WBConstants.VERSION||'Rebuild_8.17J4';
+var VERSION=WBConstants.VERSION||'Rebuild_8.17K4';
 var REBUILD_PHASE=WBConstants.REBUILD_PHASE||'Phase J2: Settings controller extraction';
 var REBUILD_REFERENCE=WBConstants.REBUILD_REFERENCE||'Working-v85.0-fixed.html';
 
@@ -7861,9 +8354,9 @@ var bibleRuntime={loading:false,error:'',index:null,books:[],chapterCache:Object
 var bibleRenderSeq=0;
 function getBibleVersionMeta(id){return BibleController.getVersionMeta?BibleController.getVersionMeta(id,settings):(BIBLE_VERSIONS.find(function(v){return v.id===String(id||bibleState.version||settings.defaultBibleVersion||'esv').toLowerCase()})||BIBLE_VERSIONS[0])}
 function normalizeBibleState(){if(BibleController.normalizeState)return BibleController.normalizeState(bibleState,bibleRuntime,settings);var books=bibleRuntime.books&&bibleRuntime.books.length?bibleRuntime.books:BIBLE_BOOKS;if(books.indexOf(bibleState.book)<0)bibleState.book=books.indexOf('John')>=0?'John':books[0];var max=bibleChapterCount(bibleState.book);bibleState.chapter=Math.max(1,Math.min(max,parseInt(bibleState.chapter,10)||1));return bibleState}
-function biblePackageReady(){return BibleController.packageReady?BibleController.packageReady(bibleRuntime):!!(bibleRuntime.index&&bibleRuntime.books&&bibleRuntime.books.length)}
+function biblePackageReady(){return (bibleRuntime&&bibleRuntime.source==='package')&&(BibleController.packageReady?BibleController.packageReady(bibleRuntime):!!(bibleRuntime.index&&bibleRuntime.books&&bibleRuntime.books.length))}
 function bibleChapterCount(book){return BibleController.chapterCount?BibleController.chapterCount(book,bibleRuntime):(BIBLE_CHAPTERS[book]||28)}
-function getBibleBookMeta(book){return BibleController.getBookMeta?BibleController.getBookMeta(book,bibleRuntime):(biblePackageReady()?((bibleRuntime.index.books||[]).find(function(b){return b.name===book})||null):null)}
+function getBibleBookMeta(book){if(!(bibleRuntime&&bibleRuntime.index&&bibleRuntime.books&&bibleRuntime.books.length))return null;return BibleController.getBookMeta?BibleController.getBookMeta(book,bibleRuntime):((bibleRuntime.index.books||[]).find(function(b){return b.name===book})||null)}
 function bibleBookSlug(book){return BibleController.bookSlug?BibleController.bookSlug(book,bibleRuntime):(String(book||'').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,''))}
 function normalizeBibleChapterData(raw,book,chapter){return BibleController.normalizeChapterData?BibleController.normalizeChapterData(raw,book,chapter):(function(){raw=raw||{};return {book:raw.book||book,chapter:parseInt(raw.chapter,10)||parseInt(chapter,10)||1,verses:[]}})()}
 function bibleCacheId(version,book,chapter){return BibleController.cacheId?BibleController.cacheId(version,book,chapter,bibleRuntime):(String(version||'esv')+'::'+bibleBookSlug(book)+'::'+String(chapter))}
@@ -7887,8 +8380,8 @@ async function loadBibleData(force){
   }).catch(function(){
     bibleRuntime.index=BibleController.fallbackIndex?BibleController.fallbackIndex(bibleRuntime,versionMeta):(bibleRuntime.index&&Object.keys(bibleRuntime.index).length?bibleRuntime.index:{books:BIBLE_BOOKS.map(function(name){return {name:name,slug:bibleBookSlug(name),chapters:BIBLE_CHAPTERS[name]||1}}),meta:{copyright:versionMeta.name}});
     bibleRuntime.books=bibleRuntime.books&&bibleRuntime.books.length?bibleRuntime.books:BIBLE_BOOKS.slice();
-    bibleRuntime.source='firebase';
-    bibleRuntime.error='Bible package not found locally. Using deployed data when available.';
+    bibleRuntime.source='missing-package';
+    bibleRuntime.error='Unable to load Bible data. Keep the esv_chapter_package folder in the same published site path as this app file.';
     normalizeBibleState();
     saveBibleCache();
     return bibleRuntime.index;
@@ -7958,11 +8451,19 @@ async function loadBibleChapter(book,chapter){
       saveBibleCache();
       return pkgData;
     }
+    throw new Error('Chapter file not found in Bible package');
   }
-  var firebaseData=await loadBibleChapterFromFirebase(book,chapter);
-  bibleRuntime.chapterCache[cacheId]=firebaseData;
-  saveBibleCache();
-  return firebaseData;
+  /* J4.2: do not silently stall Bible navigation through slow cloud fallback.
+     v85's reference path is the deployed local chapter package. A cloud fallback
+     may be explicitly enabled for future builds, but the default user path is
+     package/cache-first and should fail quickly with a clear package message. */
+  if(window.WB_ENABLE_BIBLE_CLOUD_FALLBACK===true){
+    var firebaseData=await loadBibleChapterFromFirebase(book,chapter);
+    bibleRuntime.chapterCache[cacheId]=firebaseData;
+    saveBibleCache();
+    return firebaseData;
+  }
+  throw new Error(bibleRuntime.error||'Bible package is not available');
 }
 function renderBibleShell(){
   normalizeBibleState();
@@ -7994,7 +8495,7 @@ function renderBibleShell(){
     if(seq!==bibleRenderSeq)return;
     var stillCurrent=String(bibleState.book)===String(requested.book)&&String(bibleState.chapter)===String(requested.chapter)&&String(bibleState.version)===String(requested.version);
     if(!stillCurrent)return;
-    card.innerHTML='<div class="bible-heading">'+esc(requested.book+' '+requested.chapter)+'</div><div class="bible-empty">Bible text is not available yet for this chapter.</div><div class="bible-copy">'+esc(bibleRuntime.error||'Add the package folder beside this HTML file or provide deployed Bible chapter data in Firebase.')+'</div>';
+    card.innerHTML='<div class="bible-heading">'+esc(requested.book+' '+requested.chapter)+'</div><div class="bible-empty">Unable to load Bible data.</div><div class="bible-copy">'+esc(bibleRuntime.error||'Keep the esv_chapter_package folder in the same published site path as this app file.')+'</div>';
   });
 }
 function renderBiblePicker(){normalizeBibleState();var books=qs('bible-book-picker-list'),chapters=qs('bible-chapter-picker-list');if(!books||!chapters)return;var bookModels=BibleController.bookModels?BibleController.bookModels(bibleState,bibleRuntime):(bibleRuntime.books&&bibleRuntime.books.length?bibleRuntime.books:BIBLE_BOOKS).map(function(b){return {book:b,active:b===bibleState.book}});books.innerHTML=bookModels.map(function(m){return '<button class="bible-picker-item '+(m.active?'active':'')+'" data-bible-book="'+esc(m.book)+'" type="button"><span class="truncate">'+esc(m.book)+'</span></button>'}).join('');var chapterModels=BibleController.chapterModels?BibleController.chapterModels(bibleState,bibleRuntime):Array.from({length:bibleChapterCount(bibleState.book)},function(_,i){var n=i+1;return {chapter:n,active:n===bibleState.chapter}});chapters.innerHTML=chapterModels.map(function(m){return '<button class="bible-picker-item chapter-item '+(m.active?'active':'')+'" data-bible-chapter="'+m.chapter+'" type="button">'+m.chapter+'</button>'}).join('');setTimeout(function(){var a=books.querySelector('.active');if(a)a.scrollIntoView({block:'center'});var c=chapters.querySelector('.active');if(c)c.scrollIntoView({block:'center'});},0)}

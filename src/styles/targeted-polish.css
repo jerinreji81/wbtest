@@ -1,0 +1,146 @@
+/* WorshipBase Phase K4 targeted polish owner.
+   Scope: token-driven touch-area and readability polish only.
+   Not a visual rebuild; keep selectors owned by the Phase K style registry. */
+
+/* Make reorder handles easier to acquire without changing the card layout language. */
+.drag-handle{
+  min-width:38px;
+  min-height:40px;
+  justify-content:center;
+  align-items:flex-start;
+  padding-top:8px!important;
+  padding-bottom:8px!important;
+  padding-right:12px!important;
+  touch-action:none;
+}
+.set-section-card .drag-handle,
+.workspace-section-item .drag-handle{
+  min-width:36px;
+  margin-left:-2px;
+}
+
+/* Key/Capo: larger controls and clearer suggestion cards using existing tokens. */
+#tools-keycapo-panel .tool-field-grid{
+  gap:10px;
+}
+#tools-keycapo-panel .tool-field select{
+  min-height:46px;
+  border-radius:15px;
+  border-color:var(--surface-border);
+  background:var(--wb-control-fill,var(--bg2));
+  font-size:15px;
+  font-weight:760;
+}
+#tools-keycapo-panel .tools-kc-suggestions{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:9px;
+}
+#tools-keycapo-panel .tools-kc-suggestion{
+  min-height:54px;
+  padding:12px 14px;
+  border-radius:16px;
+  border:1px solid var(--surface-border);
+  background:color-mix(in srgb,var(--bg1) 94%,var(--surface-tint) 6%);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+#tools-keycapo-panel .tools-kc-suggestion strong{
+  font-size:14px;
+  font-weight:880;
+  color:var(--txt1);
+}
+#tools-keycapo-panel .tools-kc-suggestion span{
+  font-size:12.5px;
+  font-weight:650;
+  color:var(--txt2);
+  text-align:right;
+}
+
+/* Bible version picker: keep metadata readable and prevent compressed labels. */
+.bible-version-item{
+  gap:12px;
+  align-items:center;
+}
+.bible-version-copy{
+  min-width:0;
+  flex:1;
+}
+.bible-version-title,
+.bible-version-sub{
+  display:block;
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.bible-version-item .setdest-state{
+  flex-shrink:0;
+  align-self:center;
+  max-width:34%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* Backup Centre: keep footer actions clear of the home indicator and make async status easier to see. */
+#backup-centre-modal.open .bs{
+  padding-bottom:calc(var(--sab) + 8px)!important;
+}
+#backup-centre-done.bs-cancel{
+  margin-bottom:calc(var(--sab) + 10px)!important;
+}
+.backup-centre-action[aria-busy="true"],
+.backup-centre-action.is-working{
+  opacity:.78;
+}
+
+/* Export controls and preview actions: use theme tokens consistently. */
+.ev-chip.active,
+.export-preset.active,
+.export-preset-btn.active{
+  background:color-mix(in srgb,var(--accent) 88%,var(--bg1))!important;
+  border-color:color-mix(in srgb,var(--accent) 70%,var(--surface-border))!important;
+  color:var(--accent-fg)!important;
+}
+.wb-export-pdf-preview-btn,
+.ev-act-btn{
+  border-radius:999px;
+  border:1px solid color-mix(in srgb,var(--accent) 24%,var(--surface-border));
+  background:color-mix(in srgb,var(--accent) 9%,var(--bg2));
+  color:var(--accent);
+  min-height:36px;
+  padding:0 14px;
+  font-weight:850;
+}
+.wb-export-pdf-preview-btn.save,
+.ev-act-btn.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-fg);
+}
+
+body.dark #tools-keycapo-panel .tools-kc-suggestion,
+body.dark #tools-keycapo-panel .tool-field select{
+  background:var(--wb-sec-surface-2,var(--bg2));
+  border-color:var(--wb-sec-border,rgba(255,255,255,.10));
+}
+body.dark .ev-chip.active,
+body.dark .export-preset.active,
+body.dark .export-preset-btn.active{
+  background:var(--accent-surface-strong)!important;
+  border-color:var(--accent-border)!important;
+  color:var(--accent)!important;
+}
+body.dark .wb-export-pdf-preview-btn,
+body.dark .ev-act-btn{
+  background:var(--accent-surface);
+  border-color:var(--accent-border);
+  color:var(--accent);
+}
+body.dark .wb-export-pdf-preview-btn.save,
+body.dark .ev-act-btn.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:#000;
+}

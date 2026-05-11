@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 /**
- * WorshipBase Phase J4.1 build scaffold.
+ * WorshipBase Phase K4 build scaffold.
  *
  * Purpose:
  * - Keep the Phase B single deployable output.
  * - Inject extracted constants, utility helpers, startup/PWA lifecycle owner, navigation/registry/gesture scaffold,
- *   storage service, Firebase service, backup/Drive service, chart renderer, song-view controller, focus/performance controller, personal set-list controller, Workspace set controller, add-to-set controller, Tools controller, Settings controller, Backup Centre UI controller, Bible tools controller, and DOM helpers before the legacy app shell.
+ *   storage service, Firebase service, backup/Drive service, chart renderer, song-view controller, focus/performance controller, personal set-list controller, Workspace set controller, add-to-set controller, Tools controller, Settings controller, Backup Centre UI controller, Bible tools controller, export/PDF format controller, feature style registry, style controller, and DOM helpers before the legacy app shell.
  * - Leave visual redesign, attached song PDF workflows, Firebase rewrite, and visual redesign and attached song PDF workflows
- *   untouched; extract Bible tools boundary ownership only.
+ *   untouched; add targeted token-driven visual polish pass only.
  */
 
 const fs = require('fs');
@@ -35,12 +35,18 @@ const MODULES = [
   { id: 'wb-settings-controller', file: path.join(ROOT, 'src', 'features', 'settings', 'settings-controller.js') },
   { id: 'wb-backup-ui-controller', file: path.join(ROOT, 'src', 'features', 'backup', 'backup-ui-controller.js') },
   { id: 'wb-bible-controller', file: path.join(ROOT, 'src', 'features', 'tools', 'bible-controller.js') },
+  { id: 'wb-export-pdf-format-controller', file: path.join(ROOT, 'src', 'features', 'export', 'pdf-format-controller.js') },
+  { id: 'wb-feature-style-registry', file: path.join(ROOT, 'src', 'styles', 'feature-style-registry.js') },
+  { id: 'wb-style-controller', file: path.join(ROOT, 'src', 'styles', 'style-controller.js') },
   { id: 'wb-ui-dom', file: path.join(ROOT, 'src', 'ui', 'dom.js') },
 ];
 const DIST_DIR = path.join(ROOT, 'dist');
 const DIST_INDEX = path.join(DIST_DIR, 'index.html');
 const DIST_SW = path.join(DIST_DIR, 'wb-offline-sw.js');
 const MANIFEST = path.join(DIST_DIR, 'build-manifest.json');
+const STYLE_FRAGMENTS = [
+  { id: 'wb-targeted-polish-css', file: path.join(ROOT, 'src', 'styles', 'targeted-polish.css') },
+];
 
 function read(file) {
   return fs.readFileSync(file, 'utf8');
@@ -59,6 +65,20 @@ function scriptTag(id, content) {
   return `<script id="${id}">\n${content.replace(/\s+$/,'')}\n</script>\n`;
 }
 
+
+function injectStyleFragments(html, fragments) {
+  if (!fragments.length) return html;
+  const styleId = 'wb-rebuild-consolidated-style';
+  const openNeedle = `<style id="${styleId}">`;
+  const openIndex = html.indexOf(openNeedle);
+  if (openIndex < 0) throw new Error('Cannot find consolidated style block');
+  const closeIndex = html.indexOf('</style>', openIndex);
+  if (closeIndex < 0) throw new Error('Cannot find consolidated style block close');
+  const addition = '\n\n/* Phase K4 owner-injected targeted polish; single consolidated style block retained. */\n' +
+    fragments.map(f => `/* ${f.id} */\n${f.content.replace(/\s+$/,'')}`).join('\n\n') + '\n';
+  return html.slice(0, closeIndex) + addition + html.slice(closeIndex);
+}
+
 function injectModules(html, modules) {
   const needle = '<script id="wb-rebuild-consolidated-script">';
   const index = html.indexOf(needle);
@@ -74,6 +94,11 @@ function extractInlineScripts(html) {
     scripts.push(match[1]);
   }
   return scripts;
+}
+
+function countStyleBlocks(html) {
+  const matches = html.match(/<style\b[^>]*>/gi);
+  return matches ? matches.length : 0;
 }
 
 function syntaxCheckInlineScripts(html) {
@@ -118,11 +143,17 @@ function main() {
     source: path.relative(ROOT, module.file),
     content: read(module.file),
   }));
-  const indexHtml = injectModules(shellHtml, modules);
+  const styleFragments = STYLE_FRAGMENTS.map(fragment => ({
+    id: fragment.id,
+    source: path.relative(ROOT, fragment.file),
+    content: read(fragment.file),
+  }));
+  const styledHtml = injectStyleFragments(shellHtml, styleFragments);
+  const indexHtml = injectModules(styledHtml, modules);
 
   const ownershipViolations = ownershipChecks(shellHtml);
   if (ownershipViolations.length) {
-    console.error('Phase J4.1 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
+    console.error('Phase K4 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
     process.exit(1);
   }
 
@@ -139,13 +170,13 @@ function main() {
   }
 
   const manifest = {
-    phase: 'J4.1',
-    purpose: 'Stabilise Bible rapid navigation and Tools tab return-to-home behaviour without visual redesign',
-    baseline: 'v8.17 stability freeze, Phase J4.1 Bible controller extraction; v85 reference artifact included',
+    phase: 'K4',
+    purpose: 'Create targeted token-driven visual polish pass without changing PDF output; retain J4.2 Bible package loading stabilisation',
+    baseline: 'v8.17 stability freeze, Phase K4 targeted token-driven visual polish pass; v85 reference artifact included',
     generatedAt: new Date().toISOString(),
     files: {
       'index.html': {
-        source: 'src/legacy/index.phase-d.html + injected Phase J4.1 modules',
+        source: 'src/legacy/index.phase-d.html + Phase K4 targeted style fragment + injected Phase K4 modules',
         sha256: sha256(indexHtml),
         bytes: Buffer.byteLength(indexHtml, 'utf8'),
       },
@@ -155,6 +186,12 @@ function main() {
         bytes: Buffer.byteLength(swJs, 'utf8'),
       },
     },
+    styleFragments: styleFragments.map(fragment => ({
+      id: fragment.id,
+      source: fragment.source,
+      sha256: sha256(fragment.content),
+      bytes: Buffer.byteLength(fragment.content, 'utf8'),
+    })),
     modules: modules.map(module => ({
       id: module.id,
       source: module.source,
@@ -164,8 +201,9 @@ function main() {
     validation: {
       inlineScriptBlocks: syntax.count,
       inlineScriptSyntaxErrors: syntax.errors.length,
+      styleBlocks: countStyleBlocks(indexHtml),
       ownershipViolations: ownershipViolations.length,
-      productBehaviourChanged: 'Bible tools controller extraction with legacy compatibility adapters; no visual redesign',
+      productBehaviourChanged: 'Targeted CSS polish only; no workflow/data changes; no visual redesign; J4.2 Bible package loading retained',
       visualRedesign: false,
       attachedSongPdfWorkflows: 'cancelled / untouched',
     },
@@ -173,12 +211,13 @@ function main() {
 
   write(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
 
-  console.log('WorshipBase Phase J4.1 build complete.');
+  console.log('WorshipBase Phase K4 build complete.');
   console.log(`- ${path.relative(ROOT, DIST_INDEX)}`);
   console.log(`- ${path.relative(ROOT, DIST_SW)}`);
   console.log(`- ${path.relative(ROOT, MANIFEST)}`);
   console.log(`Injected modules: ${modules.length}`);
   console.log(`Inline script blocks checked: ${syntax.count}`);
+  console.log(`Style blocks checked: ${countStyleBlocks(indexHtml)}`);
 }
 
 main();

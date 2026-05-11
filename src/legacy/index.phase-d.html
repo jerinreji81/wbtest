@@ -11,7 +11,7 @@
 <meta content="WorshipBase" name="apple-mobile-web-app-title"/>
 <link href="./worshipbase_layered_fold_w_proper/app-icons/app-icon-192.png" rel="icon" type="image/png"/>
 <link href="./worshipbase_layered_fold_w_proper/app-icons/apple-touch-icon.png" rel="apple-touch-icon"/>
-<title>WorshipBase Rebuild_8.17J4</title>
+<title>WorshipBase Rebuild_8.17K4</title>
 <style id="wb-rebuild-consolidated-style">
 
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -3102,7 +3102,7 @@ var WBDom=window.WBDom||{};
 var PersonalSetController=window.WBPersonalSetController||{};
 var WorkspaceSetController=window.WBWorkspaceSetController||{};
 var SettingsController=window.WBSettingsController||{};
-var VERSION=WBConstants.VERSION||'Rebuild_8.17J4';
+var VERSION=WBConstants.VERSION||'Rebuild_8.17K4';
 var REBUILD_PHASE=WBConstants.REBUILD_PHASE||'Phase J2: Settings controller extraction';
 var REBUILD_REFERENCE=WBConstants.REBUILD_REFERENCE||'Working-v85.0-fixed.html';
 
@@ -5216,9 +5216,9 @@ var bibleRuntime={loading:false,error:'',index:null,books:[],chapterCache:Object
 var bibleRenderSeq=0;
 function getBibleVersionMeta(id){return BibleController.getVersionMeta?BibleController.getVersionMeta(id,settings):(BIBLE_VERSIONS.find(function(v){return v.id===String(id||bibleState.version||settings.defaultBibleVersion||'esv').toLowerCase()})||BIBLE_VERSIONS[0])}
 function normalizeBibleState(){if(BibleController.normalizeState)return BibleController.normalizeState(bibleState,bibleRuntime,settings);var books=bibleRuntime.books&&bibleRuntime.books.length?bibleRuntime.books:BIBLE_BOOKS;if(books.indexOf(bibleState.book)<0)bibleState.book=books.indexOf('John')>=0?'John':books[0];var max=bibleChapterCount(bibleState.book);bibleState.chapter=Math.max(1,Math.min(max,parseInt(bibleState.chapter,10)||1));return bibleState}
-function biblePackageReady(){return BibleController.packageReady?BibleController.packageReady(bibleRuntime):!!(bibleRuntime.index&&bibleRuntime.books&&bibleRuntime.books.length)}
+function biblePackageReady(){return (bibleRuntime&&bibleRuntime.source==='package')&&(BibleController.packageReady?BibleController.packageReady(bibleRuntime):!!(bibleRuntime.index&&bibleRuntime.books&&bibleRuntime.books.length))}
 function bibleChapterCount(book){return BibleController.chapterCount?BibleController.chapterCount(book,bibleRuntime):(BIBLE_CHAPTERS[book]||28)}
-function getBibleBookMeta(book){return BibleController.getBookMeta?BibleController.getBookMeta(book,bibleRuntime):(biblePackageReady()?((bibleRuntime.index.books||[]).find(function(b){return b.name===book})||null):null)}
+function getBibleBookMeta(book){if(!(bibleRuntime&&bibleRuntime.index&&bibleRuntime.books&&bibleRuntime.books.length))return null;return BibleController.getBookMeta?BibleController.getBookMeta(book,bibleRuntime):((bibleRuntime.index.books||[]).find(function(b){return b.name===book})||null)}
 function bibleBookSlug(book){return BibleController.bookSlug?BibleController.bookSlug(book,bibleRuntime):(String(book||'').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,''))}
 function normalizeBibleChapterData(raw,book,chapter){return BibleController.normalizeChapterData?BibleController.normalizeChapterData(raw,book,chapter):(function(){raw=raw||{};return {book:raw.book||book,chapter:parseInt(raw.chapter,10)||parseInt(chapter,10)||1,verses:[]}})()}
 function bibleCacheId(version,book,chapter){return BibleController.cacheId?BibleController.cacheId(version,book,chapter,bibleRuntime):(String(version||'esv')+'::'+bibleBookSlug(book)+'::'+String(chapter))}
@@ -5242,8 +5242,8 @@ async function loadBibleData(force){
   }).catch(function(){
     bibleRuntime.index=BibleController.fallbackIndex?BibleController.fallbackIndex(bibleRuntime,versionMeta):(bibleRuntime.index&&Object.keys(bibleRuntime.index).length?bibleRuntime.index:{books:BIBLE_BOOKS.map(function(name){return {name:name,slug:bibleBookSlug(name),chapters:BIBLE_CHAPTERS[name]||1}}),meta:{copyright:versionMeta.name}});
     bibleRuntime.books=bibleRuntime.books&&bibleRuntime.books.length?bibleRuntime.books:BIBLE_BOOKS.slice();
-    bibleRuntime.source='firebase';
-    bibleRuntime.error='Bible package not found locally. Using deployed data when available.';
+    bibleRuntime.source='missing-package';
+    bibleRuntime.error='Unable to load Bible data. Keep the esv_chapter_package folder in the same published site path as this app file.';
     normalizeBibleState();
     saveBibleCache();
     return bibleRuntime.index;
@@ -5313,11 +5313,19 @@ async function loadBibleChapter(book,chapter){
       saveBibleCache();
       return pkgData;
     }
+    throw new Error('Chapter file not found in Bible package');
   }
-  var firebaseData=await loadBibleChapterFromFirebase(book,chapter);
-  bibleRuntime.chapterCache[cacheId]=firebaseData;
-  saveBibleCache();
-  return firebaseData;
+  /* J4.2: do not silently stall Bible navigation through slow cloud fallback.
+     v85's reference path is the deployed local chapter package. A cloud fallback
+     may be explicitly enabled for future builds, but the default user path is
+     package/cache-first and should fail quickly with a clear package message. */
+  if(window.WB_ENABLE_BIBLE_CLOUD_FALLBACK===true){
+    var firebaseData=await loadBibleChapterFromFirebase(book,chapter);
+    bibleRuntime.chapterCache[cacheId]=firebaseData;
+    saveBibleCache();
+    return firebaseData;
+  }
+  throw new Error(bibleRuntime.error||'Bible package is not available');
 }
 function renderBibleShell(){
   normalizeBibleState();
@@ -5349,7 +5357,7 @@ function renderBibleShell(){
     if(seq!==bibleRenderSeq)return;
     var stillCurrent=String(bibleState.book)===String(requested.book)&&String(bibleState.chapter)===String(requested.chapter)&&String(bibleState.version)===String(requested.version);
     if(!stillCurrent)return;
-    card.innerHTML='<div class="bible-heading">'+esc(requested.book+' '+requested.chapter)+'</div><div class="bible-empty">Bible text is not available yet for this chapter.</div><div class="bible-copy">'+esc(bibleRuntime.error||'Add the package folder beside this HTML file or provide deployed Bible chapter data in Firebase.')+'</div>';
+    card.innerHTML='<div class="bible-heading">'+esc(requested.book+' '+requested.chapter)+'</div><div class="bible-empty">Unable to load Bible data.</div><div class="bible-copy">'+esc(bibleRuntime.error||'Keep the esv_chapter_package folder in the same published site path as this app file.')+'</div>';
   });
 }
 function renderBiblePicker(){normalizeBibleState();var books=qs('bible-book-picker-list'),chapters=qs('bible-chapter-picker-list');if(!books||!chapters)return;var bookModels=BibleController.bookModels?BibleController.bookModels(bibleState,bibleRuntime):(bibleRuntime.books&&bibleRuntime.books.length?bibleRuntime.books:BIBLE_BOOKS).map(function(b){return {book:b,active:b===bibleState.book}});books.innerHTML=bookModels.map(function(m){return '<button class="bible-picker-item '+(m.active?'active':'')+'" data-bible-book="'+esc(m.book)+'" type="button"><span class="truncate">'+esc(m.book)+'</span></button>'}).join('');var chapterModels=BibleController.chapterModels?BibleController.chapterModels(bibleState,bibleRuntime):Array.from({length:bibleChapterCount(bibleState.book)},function(_,i){var n=i+1;return {chapter:n,active:n===bibleState.chapter}});chapters.innerHTML=chapterModels.map(function(m){return '<button class="bible-picker-item chapter-item '+(m.active?'active':'')+'" data-bible-chapter="'+m.chapter+'" type="button">'+m.chapter+'</button>'}).join('');setTimeout(function(){var a=books.querySelector('.active');if(a)a.scrollIntoView({block:'center'});var c=chapters.querySelector('.active');if(c)c.scrollIntoView({block:'center'});},0)}
