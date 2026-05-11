@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * WorshipBase Phase E.3 build scaffold.
+ * WorshipBase Phase E.3.1 build scaffold.
  *
  * Purpose:
  * - Keep the Phase B single deployable output.
@@ -109,7 +109,7 @@ function main() {
 
   const ownershipViolations = ownershipChecks(shellHtml);
   if (ownershipViolations.length) {
-    console.error('Phase E.3 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
+    console.error('Phase E.3.1 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
     process.exit(1);
   }
 
@@ -126,13 +126,13 @@ function main() {
   }
 
   const manifest = {
-    phase: 'E.3',
-    purpose: 'Backup and Google Drive service boundary extraction with appdata JSON helpers',
-    baseline: 'v8.17 stability freeze, Phase E.2 Firebase/offline service boundary baseline; v85 reference artifact included',
+    phase: 'E.3.1',
+    purpose: 'Backup and startup-state stabilisation after Phase E.3 service extraction',
+    baseline: 'v8.17 stability freeze, Phase E.2 Firebase/offline service boundary baseline; v85 reference artifact included; Phase E.3.1 backup/startup fixes',
     generatedAt: new Date().toISOString(),
     files: {
       'index.html': {
-        source: 'src/legacy/index.phase-d.html + injected Phase E.3 modules',
+        source: 'src/legacy/index.phase-d.html + injected Phase E.3.1 modules',
         sha256: sha256(indexHtml),
         bytes: Buffer.byteLength(indexHtml, 'utf8'),
       },
@@ -152,7 +152,7 @@ function main() {
       inlineScriptBlocks: syntax.count,
       inlineScriptSyntaxErrors: syntax.errors.length,
       ownershipViolations: ownershipViolations.length,
-      productBehaviourChanged: 'Backup/Drive boundary extraction only; workspace section label parity fix',
+      productBehaviourChanged: 'Drive update metadata fix, workspace cloud label copy, library filter chip sync',
       visualRedesign: false,
       attachedSongPdfWorkflows: 'cancelled / untouched',
     },
@@ -160,7 +160,7 @@ function main() {
 
   write(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
 
-  console.log('WorshipBase Phase E.3 build complete.');
+  console.log('WorshipBase Phase E.3.1 build complete.');
   console.log(`- ${path.relative(ROOT, DIST_INDEX)}`);
   console.log(`- ${path.relative(ROOT, DIST_SW)}`);
   console.log(`- ${path.relative(ROOT, MANIFEST)}`);

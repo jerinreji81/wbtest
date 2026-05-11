@@ -102,7 +102,7 @@ function uploadJsonFile(name,payload,fileId,driveState,options){
   name=name||backupName();
   return requestToken(driveState,{interactive:!(driveState&&driveState.connected)||!tokenValid(driveState),onStateChanged:options&&options.onStateChanged}).then(function(token){
     var boundary='wb-'+Date.now()+'-'+Math.random().toString(16).slice(2);
-    var metadata={name:name,mimeType:'application/json',parents:['appDataFolder']};
+    var metadata=fileId?{name:name,mimeType:'application/json'}:{name:name,mimeType:'application/json',parents:['appDataFolder']};
     var body='--'+boundary+'\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n'+JSON.stringify(metadata)+'\r\n--'+boundary+'\r\nContent-Type: application/json\r\n\r\n'+JSON.stringify(payload,null,2)+'\r\n--'+boundary+'--';
     var method=fileId?'PATCH':'POST';
     var url='https://www.googleapis.com/upload/drive/v3/files'+(fileId?'/'+encodeURIComponent(fileId):'')+'?uploadType=multipart&fields=id,name,modifiedTime';
