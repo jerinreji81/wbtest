@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * WorshipBase Phase L1 build scaffold.
+ * WorshipBase RC1 build scaffold.
  *
  * Purpose:
  * - Keep the Phase B single deployable output.
@@ -32,6 +32,7 @@ const MODULES = [
   { id: 'wb-workspace-set-controller', file: path.join(ROOT, 'src', 'features', 'workspace', 'workspace-set-controller.js') },
   { id: 'wb-add-to-set-controller', file: path.join(ROOT, 'src', 'features', 'setlist', 'add-to-set-controller.js') },
   { id: 'wb-tools-controller', file: path.join(ROOT, 'src', 'features', 'tools', 'tools-controller.js') },
+  { id: 'wb-pad-audio-controller', file: path.join(ROOT, 'src', 'features', 'tools', 'pad-audio-controller.js') },
   { id: 'wb-settings-controller', file: path.join(ROOT, 'src', 'features', 'settings', 'settings-controller.js') },
   { id: 'wb-backup-ui-controller', file: path.join(ROOT, 'src', 'features', 'backup', 'backup-ui-controller.js') },
   { id: 'wb-bible-controller', file: path.join(ROOT, 'src', 'features', 'tools', 'bible-controller.js') },
@@ -74,7 +75,7 @@ function injectStyleFragments(html, fragments) {
   if (openIndex < 0) throw new Error('Cannot find consolidated style block');
   const closeIndex = html.indexOf('</style>', openIndex);
   if (closeIndex < 0) throw new Error('Cannot find consolidated style block close');
-  const addition = '\n\n/* Phase L1 owner-injected targeted polish; single consolidated style block retained. */\n' +
+  const addition = '\n\n/* Phase L2 owner-injected targeted polish; single consolidated style block retained. */\n' +
     fragments.map(f => `/* ${f.id} */\n${f.content.replace(/\s+$/,'')}`).join('\n\n') + '\n';
   return html.slice(0, closeIndex) + addition + html.slice(closeIndex);
 }
@@ -153,7 +154,7 @@ function main() {
 
   const ownershipViolations = ownershipChecks(shellHtml);
   if (ownershipViolations.length) {
-    console.error('Phase L1 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
+    console.error('Phase L2 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
     process.exit(1);
   }
 
@@ -170,13 +171,13 @@ function main() {
   }
 
   const manifest = {
-    phase: 'L1',
-    purpose: 'Final build/cache/release hardening with release manifest and preflight checks',
-    baseline: 'v8.17 stability freeze, Phase L1 release hardening pass; v85 reference artifact included',
+    phase: 'RC1',
+    purpose: 'Backup safety and pads audio fix pack',
+    baseline: 'v8.17 stability freeze, RC1 backup safety and pads audio; v85 reference artifact included',
     generatedAt: new Date().toISOString(),
     files: {
       'index.html': {
-        source: 'src/legacy/index.phase-d.html + Phase L1 targeted style fragment + injected Phase L1 modules',
+        source: 'src/legacy/index.phase-d.html + RC1 targeted style fragment + injected RC1 modules',
         sha256: sha256(indexHtml),
         bytes: Buffer.byteLength(indexHtml, 'utf8'),
       },
@@ -203,7 +204,7 @@ function main() {
       inlineScriptSyntaxErrors: syntax.errors.length,
       styleBlocks: countStyleBlocks(indexHtml),
       ownershipViolations: ownershipViolations.length,
-      productBehaviourChanged: 'No workflow/data changes; no visual redesign; K4.2 Bible package loading retained; release hardening only',
+      productBehaviourChanged: 'Backup Centre now has review/summary safety steps; pads audio wired through assets/pads; no visual redesign',
       visualRedesign: false,
       attachedSongPdfWorkflows: 'cancelled / untouched',
     },
@@ -211,7 +212,7 @@ function main() {
 
   write(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
 
-  console.log('WorshipBase Phase L1 build complete.');
+  console.log('WorshipBase RC1 build complete.');
   console.log(`- ${path.relative(ROOT, DIST_INDEX)}`);
   console.log(`- ${path.relative(ROOT, DIST_SW)}`);
   console.log(`- ${path.relative(ROOT, MANIFEST)}`);

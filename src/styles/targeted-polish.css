@@ -155,3 +155,10 @@ body.dark .song-fav-btn.on,
 body.dark .song-fav-btn.on svg{
   color:#ef8fa2!important;
 }
+
+
+/* RC1 backup safety review/summary and pad feedback affordances. */
+.backup-action-summary-grid{margin-top:2px}
+.backup-review-actions .backup-review-primary[disabled],.backup-review-actions .backup-review-secondary[disabled],.backup-centre-action[aria-busy="true"]{opacity:.72;cursor:progress}
+.tools-pad-main[aria-busy="true"]{opacity:.72;cursor:progress}
+.tools-pad-status{min-height:44px}
