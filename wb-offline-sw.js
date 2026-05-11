@@ -1,7 +1,7 @@
-/* WorshipBase offline service worker — v8.17 Phase K4.1
+/* WorshipBase offline service worker — v8.17 Phase L1
    Network-first for the app shell so GitHub/PWA launches do not run a stale index.html.
    Cache-first only for static same-origin assets. */
-const WB_CACHE_VERSION = 'worshipbase-offline-v8-17-phase-k4-1';
+const WB_CACHE_VERSION = 'worshipbase-offline-v8-17-phase-l1';
 const WB_CACHE_PREFIX = 'worshipbase-offline-';
 const WB_APP_SHELL = './';
 const WB_STATIC_ASSETS = [
@@ -46,9 +46,29 @@ function sameOrigin(request) {
   catch (e) { return false; }
 }
 
+function isBiblePackageRequest(request) {
+  try { return new URL(request.url).pathname.indexOf('/esv_chapter_package/') >= 0; }
+  catch (e) { return false; }
+}
+
 self.addEventListener('fetch', event => {
   const request = event.request;
   if (!request || request.method !== 'GET' || !sameOrigin(request)) return;
+
+  if (isBiblePackageRequest(request)) {
+    event.respondWith(
+      fetch(request, { cache: 'no-cache' })
+        .then(response => {
+          if (response && response.ok) {
+            const copy = response.clone();
+            caches.open(WB_CACHE_VERSION).then(cache => cache.put(request, copy)).catch(() => null);
+          }
+          return response;
+        })
+        .catch(() => caches.match(request))
+    );
+    return;
+  }
 
   if (isNavigationRequest(request)) {
     event.respondWith(
@@ -67,8 +87,10 @@ self.addEventListener('fetch', event => {
     caches.match(request).then(hit => {
       if (hit) return hit;
       return fetch(request).then(response => {
-        const copy = response.clone();
-        caches.open(WB_CACHE_VERSION).then(cache => cache.put(request, copy)).catch(() => null);
+        if (response && response.ok) {
+          const copy = response.clone();
+          caches.open(WB_CACHE_VERSION).then(cache => cache.put(request, copy)).catch(() => null);
+        }
         return response;
       });
     })

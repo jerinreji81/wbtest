@@ -5222,13 +5222,59 @@ function getBibleBookMeta(book){if(!(bibleRuntime&&bibleRuntime.index&&bibleRunt
 function bibleBookSlug(book){return BibleController.bookSlug?BibleController.bookSlug(book,bibleRuntime):(String(book||'').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,''))}
 function normalizeBibleChapterData(raw,book,chapter){return BibleController.normalizeChapterData?BibleController.normalizeChapterData(raw,book,chapter):(function(){raw=raw||{};return {book:raw.book||book,chapter:parseInt(raw.chapter,10)||parseInt(chapter,10)||1,verses:[]}})()}
 function bibleCacheId(version,book,chapter){return BibleController.cacheId?BibleController.cacheId(version,book,chapter,bibleRuntime):(String(version||'esv')+'::'+bibleBookSlug(book)+'::'+String(chapter))}
+
+function biblePackageRoots(versionMeta){
+  var folder=String((versionMeta&&versionMeta.folder)||'esv_chapter_package').replace(/\/+$/,'');
+  var roots=[];
+  function add(root){root=String(root||'').replace(/\/+$/,'');if(root&&roots.indexOf(root)<0)roots.push(root)}
+  if(bibleRuntime&&bibleRuntime.basePath)add(bibleRuntime.basePath);
+  add(folder);
+  add('./'+folder);
+  try{
+    var dir=(location&&location.pathname?location.pathname:'/').replace(/\/[^\/]*$/,'/');
+    if(dir&&dir!=='/')add(dir+folder);
+  }catch(e){}
+  return roots;
+}
+async function fetchBiblePackageJson(parts){
+  var versionMeta=getBibleVersionMeta();
+  var roots=biblePackageRoots(versionMeta);
+  var urls=[];
+  function addUrl(u){if(u&&urls.indexOf(u)<0)urls.push(u)}
+  roots.forEach(function(root){addUrl(root+'/'+parts.join('/'))});
+  var lastErr=null;
+  for(var i=0;i<urls.length;i++){
+    try{
+      var res=await fetch(urls[i],{cache:'no-cache'});
+      if(res&&res.ok){
+        bibleRuntime.basePath=urls[i].slice(0,urls[i].length-('/'+parts.join('/')).length).replace(/\/+$/,'');
+        return await res.json();
+      }
+      lastErr=new Error('Bible package fetch failed: '+urls[i]+' ('+(res&&res.status)+')');
+    }catch(e){lastErr=e}
+  }
+  /* Retry once with an explicit cache-buster. This clears old iOS/PWA or service-worker
+     404 cache entries created before the package folder was uploaded. */
+  for(var j=0;j<urls.length;j++){
+    try{
+      var bust=urls[j]+(urls[j].indexOf('?')>=0?'&':'?')+'wb_pkg='+Date.now();
+      var fresh=await fetch(bust,{cache:'reload'});
+      if(fresh&&fresh.ok){
+        bibleRuntime.basePath=urls[j].slice(0,urls[j].length-('/'+parts.join('/')).length).replace(/\/+$/,'');
+        return await fresh.json();
+      }
+      lastErr=new Error('Bible package reload failed: '+urls[j]+' ('+(fresh&&fresh.status)+')');
+    }catch(e2){lastErr=e2}
+  }
+  throw lastErr||new Error('Bible package file not found');
+}
 async function loadBibleData(force){
   if(!force&&biblePackageReady())return Promise.resolve(bibleRuntime.index);
   if(bibleRuntime.loadPromise&&!force)return bibleRuntime.loadPromise;
   var versionMeta=getBibleVersionMeta();
   bibleRuntime.loading=true;
   bibleRuntime.error='';
-  bibleRuntime.loadPromise=fetch(versionMeta.folder+'/bible-index.json',{cache:'force-cache'}).then(function(res){if(!res.ok)throw new Error('Bible index file not found');return res.json()}).then(function(data){
+  bibleRuntime.loadPromise=fetchBiblePackageJson(['bible-index.json']).then(function(data){
     var normalizedIndex=BibleController.normalizeIndex?BibleController.normalizeIndex(data):{index:data||{},books:(data&&data.books||[]).map(function(b){return b.name}).filter(Boolean)};
     bibleRuntime.index=normalizedIndex.index||{};
     bibleRuntime.books=normalizedIndex.books||[];
@@ -5243,7 +5289,7 @@ async function loadBibleData(force){
     bibleRuntime.index=BibleController.fallbackIndex?BibleController.fallbackIndex(bibleRuntime,versionMeta):(bibleRuntime.index&&Object.keys(bibleRuntime.index).length?bibleRuntime.index:{books:BIBLE_BOOKS.map(function(name){return {name:name,slug:bibleBookSlug(name),chapters:BIBLE_CHAPTERS[name]||1}}),meta:{copyright:versionMeta.name}});
     bibleRuntime.books=bibleRuntime.books&&bibleRuntime.books.length?bibleRuntime.books:BIBLE_BOOKS.slice();
     bibleRuntime.source='missing-package';
-    bibleRuntime.error='Unable to load Bible data. Keep the esv_chapter_package folder in the same published site path as this app file.';
+    bibleRuntime.error='Unable to load Bible data. Keep the esv_chapter_package folder in the same published site path as this app file, with bible-index.json and bible/<book>/<chapter>.json files.';
     normalizeBibleState();
     saveBibleCache();
     return bibleRuntime.index;
@@ -5305,10 +5351,8 @@ async function loadBibleChapter(book,chapter){
   if(bibleRuntime.chapterCache[cacheId])return bibleRuntime.chapterCache[cacheId];
   var meta=getBibleBookMeta(book);
   if(meta&&biblePackageReady()){
-    var versionMeta=getBibleVersionMeta();
-    var res=await fetch(versionMeta.folder+'/bible/'+meta.slug+'/'+chapter+'.json',{cache:'force-cache'});
-    if(res.ok){
-      var pkgData=normalizeBibleChapterData(await res.json(),book,chapter);
+    var pkgData=normalizeBibleChapterData(await fetchBiblePackageJson(['bible',meta.slug,String(chapter)+'.json']),book,chapter);
+    if(pkgData.verses&&pkgData.verses.length){
       bibleRuntime.chapterCache[cacheId]=pkgData;
       saveBibleCache();
       return pkgData;

@@ -3,8 +3,8 @@
 (function(root){
 'use strict';
 
-var VERSION='Rebuild_8.17K4.1';
-var REBUILD_PHASE='Phase K4.1: K4 stabilisation and issue-log update';
+var VERSION='Rebuild_8.17L1';
+var REBUILD_PHASE='Phase L1: final build/cache/release hardening';
 var REBUILD_REFERENCE='Working-v85.0-fixed.html';
 
 var ASSET_DEFAULTS={
