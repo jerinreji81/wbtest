@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 /**
- * WorshipBase Phase D.1.1 build scaffold.
+ * WorshipBase Phase E.3 build scaffold.
  *
  * Purpose:
  * - Keep the Phase B single deployable output.
- * - Inject extracted constants, utility helpers, and DOM helpers before the
- *   legacy app shell.
- * - Leave visual redesign, attached song PDF workflows, and broad service extraction
- *   untouched; include only targeted stabilisation fixes from Phase C.1.
+ * - Inject extracted constants, utility helpers, storage service, Firebase service, backup/Drive service,
+ *   and DOM helpers before the legacy app shell.
+ * - Leave visual redesign, attached song PDF workflows, Firebase rewrite, and visual redesign and attached song PDF workflows
+ *   untouched; extract backup/Drive boundary ownership only.
  */
 
 const fs = require('fs');
@@ -20,6 +20,9 @@ const SRC_SW = path.join(ROOT, 'src', 'legacy', 'wb-offline-sw.phase-d.js');
 const MODULES = [
   { id: 'wb-core-constants', file: path.join(ROOT, 'src', 'core', 'constants.js') },
   { id: 'wb-core-utils', file: path.join(ROOT, 'src', 'core', 'utils.js') },
+  { id: 'wb-storage-service', file: path.join(ROOT, 'src', 'services', 'storage-service.js') },
+  { id: 'wb-firebase-service', file: path.join(ROOT, 'src', 'services', 'firebase-service.js') },
+  { id: 'wb-backup-service', file: path.join(ROOT, 'src', 'services', 'backup-service.js') },
   { id: 'wb-ui-dom', file: path.join(ROOT, 'src', 'ui', 'dom.js') },
 ];
 const DIST_DIR = path.join(ROOT, 'dist');
@@ -89,6 +92,7 @@ function ownershipChecks(shell) {
     { label: 'legacy esc helper', pattern: /function\s+esc\s*\(/ },
     { label: 'legacy firstLetter helper', pattern: /function\s+firstLetter\s*\(/ },
     { label: 'legacy Google Drive client id literal owner', pattern: /var\s+GOOGLE_DRIVE_CLIENT_ID\s*=\s*'137901259240-/ },
+    { label: 'legacy Firebase SDK script loader owner', pattern: /firebase-app-compat\.js/ },
   ];
   return forbidden.filter(check => check.pattern.test(shell)).map(check => check.label);
 }
@@ -105,7 +109,7 @@ function main() {
 
   const ownershipViolations = ownershipChecks(shellHtml);
   if (ownershipViolations.length) {
-    console.error('Phase D ownership violations:', JSON.stringify(ownershipViolations, null, 2));
+    console.error('Phase E.3 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
     process.exit(1);
   }
 
@@ -122,13 +126,13 @@ function main() {
   }
 
   const manifest = {
-    phase: 'D.1.1',
-    purpose: 'targeted stabilisation after Phase C.1 manual baseline issue log',
-    baseline: 'v8.17 stability freeze with Phase C regression framework',
+    phase: 'E.3',
+    purpose: 'Backup and Google Drive service boundary extraction with appdata JSON helpers',
+    baseline: 'v8.17 stability freeze, Phase E.2 Firebase/offline service boundary baseline; v85 reference artifact included',
     generatedAt: new Date().toISOString(),
     files: {
       'index.html': {
-        source: 'src/legacy/index.phase-d.html + injected Phase D modules',
+        source: 'src/legacy/index.phase-d.html + injected Phase E.3 modules',
         sha256: sha256(indexHtml),
         bytes: Buffer.byteLength(indexHtml, 'utf8'),
       },
@@ -148,7 +152,7 @@ function main() {
       inlineScriptBlocks: syntax.count,
       inlineScriptSyntaxErrors: syntax.errors.length,
       ownershipViolations: ownershipViolations.length,
-      productBehaviourChanged: 'targeted stabilisation fixes only',
+      productBehaviourChanged: 'Backup/Drive boundary extraction only; workspace section label parity fix',
       visualRedesign: false,
       attachedSongPdfWorkflows: 'cancelled / untouched',
     },
@@ -156,7 +160,7 @@ function main() {
 
   write(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
 
-  console.log('WorshipBase Phase D.1.1 build complete.');
+  console.log('WorshipBase Phase E.3 build complete.');
   console.log(`- ${path.relative(ROOT, DIST_INDEX)}`);
   console.log(`- ${path.relative(ROOT, DIST_SW)}`);
   console.log(`- ${path.relative(ROOT, MANIFEST)}`);

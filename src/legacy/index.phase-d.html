@@ -3160,51 +3160,50 @@ var SETTINGS_CHOICES=WBConstants.SETTINGS_CHOICES||{};
 var settings=Object.assign({},DEFAULT_SETTINGS);
 var THEME_PALETTE=WBConstants.THEME_PALETTE||{};
 var recentIds=['s138'];
-var safeGet=WBUtils.safeGet;
-var safeSet=WBUtils.safeSet;
-var safeRemove=WBUtils.safeRemove;
+var StorageService=window.WBStorage||{};
+var FirebaseService=window.WBFirebaseService||{};
+var BackupService=window.WBBackupService||{};
+var safeGet=StorageService.safeGet;
+var safeSet=StorageService.safeSet;
+var safeRemove=StorageService.safeRemove;
+var readStoredJson=StorageService.readJson;
+var writeStoredJson=StorageService.writeJson;
+var readStoredArray=StorageService.readArray;
+var readStoredObject=StorageService.readObject;
+var removeStoredMany=StorageService.removeMany;
+var preserveSetArray=StorageService.preserveSetArray;
 
 var cloudState={googleDrive:{connected:false,email:'',accessToken:'',expiresAt:0,lastBackupAt:'',fileId:'',snapshotFileId:'',snapshotSaved:false},firebase:{connected:false,email:'',uid:'',provider:'',lastAuthAt:'',configured:false}};
 var firebaseInitPromise=null,googleScriptPromise=null,firebaseConnectPromise=null;
 var firebaseSongsDetach=null,firebaseSharedSetsDetach=null;
 var firebaseRuntime={songsListening:false,workspaceListening:false,songsLoaded:false,workspaceLoaded:false,songsSettled:false,songsFailed:false,lastSongsSyncAt:'',lastWorkspaceSyncAt:''};
-function persistCloudState(){safeSet(STORAGE_KEYS.cloud,JSON.stringify(cloudState))}
-function loadCloudState(){var raw=safeGet(STORAGE_KEYS.cloud);if(raw){try{var parsed=JSON.parse(raw);cloudState.googleDrive=Object.assign({},cloudState.googleDrive,parsed.googleDrive||{});cloudState.firebase=Object.assign({},cloudState.firebase,parsed.firebase||{});}catch(e){}}try{var legacy=JSON.parse(safeGet(GOOGLE_DRIVE_LEGACY_STATE_KEY)||'{}')||{};if(legacy&&(legacy.connected||legacy.fileId||legacy.lastBackupAt)&&!cloudState.googleDrive.connected){cloudState.googleDrive=Object.assign({},cloudState.googleDrive,{connected:!!legacy.connected,fileId:legacy.fileId||cloudState.googleDrive.fileId||'',lastBackupAt:legacy.lastBackupAt||cloudState.googleDrive.lastBackupAt||'',lastModifiedTime:legacy.lastModifiedTime||cloudState.googleDrive.lastModifiedTime||'',lastRestoreAt:legacy.lastRestoreAt||cloudState.googleDrive.lastRestoreAt||'',snapshotFileId:legacy.snapshotFileId||cloudState.googleDrive.snapshotFileId||''});persistCloudState();}}catch(e){}}
+function persistCloudState(){writeStoredJson(STORAGE_KEYS.cloud,cloudState)}
+function loadCloudState(){var parsed=readStoredObject(STORAGE_KEYS.cloud,{});if(parsed&&typeof parsed==='object'){cloudState.googleDrive=Object.assign({},cloudState.googleDrive,parsed.googleDrive||{});cloudState.firebase=Object.assign({},cloudState.firebase,parsed.firebase||{})}var legacy=readStoredObject(GOOGLE_DRIVE_LEGACY_STATE_KEY,{});if(legacy&&(legacy.connected||legacy.fileId||legacy.lastBackupAt)&&!cloudState.googleDrive.connected){cloudState.googleDrive=Object.assign({},cloudState.googleDrive,{connected:!!legacy.connected,fileId:legacy.fileId||cloudState.googleDrive.fileId||'',lastBackupAt:legacy.lastBackupAt||cloudState.googleDrive.lastBackupAt||'',lastModifiedTime:legacy.lastModifiedTime||cloudState.googleDrive.lastModifiedTime||'',lastRestoreAt:legacy.lastRestoreAt||cloudState.googleDrive.lastRestoreAt||'',snapshotFileId:legacy.snapshotFileId||cloudState.googleDrive.snapshotFileId||''});persistCloudState()}}
 function wbMonogramSvg(){return '<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 18l8 28 10-20 10 20 8-28" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>'}
-var GOOGLE_DRIVE_CLIENT_ID=(WBConstants.GOOGLE_DRIVE&&WBConstants.GOOGLE_DRIVE.clientId)||'137901259240-jkkun2kjr4a3bnfrqmbu1jk9ieqvn5jh.apps.googleusercontent.com';
-var GOOGLE_DRIVE_SCOPE=(WBConstants.GOOGLE_DRIVE&&WBConstants.GOOGLE_DRIVE.scope)||'https://www.googleapis.com/auth/drive.appdata';
-var GOOGLE_DRIVE_BACKUP_NAME=(WBConstants.GOOGLE_DRIVE&&WBConstants.GOOGLE_DRIVE.backupName)||'worshipbase-personal-backup.json';
-var GOOGLE_DRIVE_SNAPSHOT_NAME=(WBConstants.GOOGLE_DRIVE&&WBConstants.GOOGLE_DRIVE.snapshotName)||'worshipbase-pre-restore-snapshot.json';
-var GOOGLE_DRIVE_LEGACY_STATE_KEY=(WBConstants.GOOGLE_DRIVE&&WBConstants.GOOGLE_DRIVE.legacyStateKey)||'wb_google_drive_backup_v1';
-function cloudGoogleClientId(){return (window.WB_CLOUD_CONFIG&&window.WB_CLOUD_CONFIG.googleClientId)||safeGet('wb_google_client_id')||GOOGLE_DRIVE_CLIENT_ID}
-function ensureGoogleClientId(){return cloudGoogleClientId()||GOOGLE_DRIVE_CLIENT_ID}
+var GOOGLE_DRIVE_CONFIG=BackupService.config?BackupService.config():(WBConstants.GOOGLE_DRIVE||{});
+var GOOGLE_DRIVE_CLIENT_ID=GOOGLE_DRIVE_CONFIG.clientId||'137901259240-jkkun2kjr4a3bnfrqmbu1jk9ieqvn5jh.apps.googleusercontent.com';
+var GOOGLE_DRIVE_SCOPE=GOOGLE_DRIVE_CONFIG.scope||'https://www.googleapis.com/auth/drive.appdata';
+var GOOGLE_DRIVE_BACKUP_NAME=BackupService.backupName?BackupService.backupName():(GOOGLE_DRIVE_CONFIG.backupName||'worshipbase-personal-backup.json');
+var GOOGLE_DRIVE_SNAPSHOT_NAME=BackupService.snapshotName?BackupService.snapshotName():(GOOGLE_DRIVE_CONFIG.snapshotName||'worshipbase-pre-restore-snapshot.json');
+var GOOGLE_DRIVE_LEGACY_STATE_KEY=BackupService.legacyStateKey?BackupService.legacyStateKey():(GOOGLE_DRIVE_CONFIG.legacyStateKey||'wb_google_drive_backup_v1');
+function cloudGoogleClientId(){return BackupService.cloudClientId?BackupService.cloudClientId():((window.WB_CLOUD_CONFIG&&window.WB_CLOUD_CONFIG.googleClientId)||safeGet('wb_google_client_id')||GOOGLE_DRIVE_CLIENT_ID)}
+function ensureGoogleClientId(){return BackupService.ensureClientId?BackupService.ensureClientId():(cloudGoogleClientId()||GOOGLE_DRIVE_CLIENT_ID)}
 function cloudFirebaseConfig(){
-  if(window.WB_CLOUD_CONFIG&&window.WB_CLOUD_CONFIG.firebase)return window.WB_CLOUD_CONFIG.firebase;
-  var raw=safeGet('wb_firebase_config');
-  if(raw){try{return JSON.parse(raw)}catch(e){}}
-  return {apiKey:'AIzaSyAWHTEOh1lXkzq3kB24g3An6Aad54OMlN8',authDomain:'worshipbase-17d1b.firebaseapp.com',databaseURL:'https://worshipbase-17d1b-default-rtdb.europe-west1.firebasedatabase.app',projectId:'worshipbase-17d1b',storageBucket:'worshipbase-17d1b.firebasestorage.app',messagingSenderId:'137901259240',appId:'1:137901259240:web:a1b3e3eecf6d72e049cc5d'};
+  return FirebaseService.config?FirebaseService.config():(readStoredJson('wb_firebase_config',null)||null);
 }
 function ensureFirebaseConfigPrompt(){
   var cfg=cloudFirebaseConfig();
   if(cfg){cloudState.firebase.configured=true;persistCloudState();return cfg;}
   var raw=prompt('Paste your Firebase web config JSON.', safeGet('wb_firebase_config')||'');
   if(raw&&raw.trim()){
-    try{cfg=JSON.parse(raw);safeSet('wb_firebase_config',JSON.stringify(cfg));cloudState.firebase.configured=true;persistCloudState();return cfg}catch(e){alert('Firebase config is not valid JSON.')}}
+    try{cfg=JSON.parse(raw);writeStoredJson('wb_firebase_config',cfg);cloudState.firebase.configured=true;persistCloudState();return cfg}catch(e){alert('Firebase config is not valid JSON.')}}
   return null;
 }
 function cloudFirestorePaths(){
-  var paths=(window.WB_CLOUD_CONFIG&&window.WB_CLOUD_CONFIG.paths)||{};
-  return {
-    songsPath:paths.songsPath||'songs',
-    sharedSetsPath:paths.sharedSetsPath||'setlists',
-    workspaceSetsCollection:paths.workspaceSetsCollection||'workspaceSets',
-    workspaceProfileCollection:paths.workspaceProfileCollection||'workspaceMeta',
-    workspaceProfileDocId:paths.workspaceProfileDocId||'default',
-    bibleCollection:paths.bibleCollection||'bibleChapters'
-  };
+  return FirebaseService.paths?FirebaseService.paths():{songsPath:'songs',sharedSetsPath:'setlists',workspaceSetsCollection:'workspaceSets',workspaceProfileCollection:'workspaceMeta',workspaceProfileDocId:'default',bibleCollection:'bibleChapters'};
 }
 
-function loadCachedFirebaseSongs(){var raw=safeGet(STORAGE_KEYS.firebaseSongsCache);if(!raw)return;try{var parsed=JSON.parse(raw);if(Array.isArray(parsed))firebaseSongs=parsed.map(function(s){return normalizeFirebaseSong(s,s&&s.id)})}catch(e){}}
+function loadCachedFirebaseSongs(){var parsed=readStoredArray(STORAGE_KEYS.firebaseSongsCache,[]);if(parsed.length)firebaseSongs=parsed.map(function(s){return normalizeFirebaseSong(s,s&&s.id)})}
 
 function normalizeFirebaseSongShape(raw,id){
   var src=Object.assign({},raw||{});
@@ -3305,83 +3304,32 @@ function ensureOfflineFirstRuntime(){
   if(!offlineWarmStarted){offlineWarmStarted=true;warmOfflineCaches();registerOfflineServiceWorker();}
   updateOfflineIndicator(false);
 }
-function persistFirebaseSongsCache(){try{safeSet(STORAGE_KEYS.firebaseSongsCache,JSON.stringify((firebaseSongs||[]).map(function(s){return Object.assign({},s)})))}catch(e){}}
-function saveBibleCache(){try{safeSet(STORAGE_KEYS.bibleCache,JSON.stringify({version:bibleState&&bibleState.version||'esv',index:bibleRuntime&&bibleRuntime.index||null,books:bibleRuntime&&bibleRuntime.books||[],chapterCache:bibleRuntime&&bibleRuntime.chapterCache?bibleRuntime.chapterCache:{}}))}catch(e){}}
-function loadBibleCache(){var raw=safeGet(STORAGE_KEYS.bibleCache);if(!raw)return;try{var parsed=JSON.parse(raw)||{};if(parsed&&typeof parsed==='object'){if(parsed.index)bibleRuntime.index=parsed.index;if(Array.isArray(parsed.books))bibleRuntime.books=parsed.books;if(parsed.chapterCache&&typeof parsed.chapterCache==='object')bibleRuntime.chapterCache=parsed.chapterCache;}}catch(e){}}
+function persistFirebaseSongsCache(){writeStoredJson(STORAGE_KEYS.firebaseSongsCache,(firebaseSongs||[]).map(function(s){return Object.assign({},s)}))}
+function saveBibleCache(){writeStoredJson(STORAGE_KEYS.bibleCache,{version:bibleState&&bibleState.version||'esv',index:bibleRuntime&&bibleRuntime.index||null,books:bibleRuntime&&bibleRuntime.books||[],chapterCache:bibleRuntime&&bibleRuntime.chapterCache?bibleRuntime.chapterCache:{}})}
+function loadBibleCache(){var parsed=readStoredObject(STORAGE_KEYS.bibleCache,{});if(parsed&&typeof parsed==='object'){if(parsed.index)bibleRuntime.index=parsed.index;if(Array.isArray(parsed.books))bibleRuntime.books=parsed.books;if(parsed.chapterCache&&typeof parsed.chapterCache==='object')bibleRuntime.chapterCache=parsed.chapterCache;}}
 function songMeta(id){if(!id)return {};if(!songMemory[id]||typeof songMemory[id]!=='object')songMemory[id]={};return songMemory[id]}
-function persistSongMemory(){safeSet(STORAGE_KEYS.songMemory,JSON.stringify(songMemory||{}))}
+function persistSongMemory(){writeStoredJson(STORAGE_KEYS.songMemory,songMemory||{})}
 function setSongFavorite(songId,on){if(!songId)return;var meta=songMeta(songId);meta.favorite=!!on;songMemory[songId]=meta;var found=(songs||[]).find(function(x){return x.id===songId});if(found)found.favorite=!!on;persistSongMemory();renderLibrary();var active=activeSong();if(active&&active.id===songId){var fav=qs('sv-fav-btn');if(fav){fav.classList.toggle('on',!!on);fav.innerHTML=heartIcon(!!on);}}}
 function mergeSongSources(remote,local){var out=[];(remote||[]).forEach(function(song){if(song&&song.id)out.push(song)});(local||[]).forEach(function(song){if(!song||!song.id)return;var idx=out.findIndex(function(x){return x.id===song.id});if(idx>=0)out[idx]=Object.assign({},out[idx],song,{source:'local'});else out.push(song)});out.sort(function(a,b){return String(a.title||'').localeCompare(String(b.title||''))});return out}
 function applySongMemoryToSongs(){(songs||[]).forEach(function(song){var meta=songMemory&&songMemory[song.id]||{};song.favorite=!!meta.favorite;});}
 function rebuildSongsCache(){songs=mergeSongSources(firebaseSongs,localSongs);applySongMemoryToSongs();return songs}
 function wbLoadScript(src){return new Promise(function(resolve,reject){var existing=document.querySelector('script[data-ext-src="'+src+'"]');if(existing){if(existing.dataset.loaded==='1'){resolve();return}existing.addEventListener('load',function(){resolve()},{once:true});existing.addEventListener('error',function(){reject(new Error('Could not load '+src))},{once:true});return}var s=document.createElement('script');s.src=src;s.async=true;s.dataset.extSrc=src;s.onload=function(){s.dataset.loaded='1';resolve()};s.onerror=function(){reject(new Error('Could not load '+src))};document.head.appendChild(s)})}
-function ensureGoogleIdentity(){if(window.google&&window.google.accounts&&window.google.accounts.oauth2)return Promise.resolve();if(googleScriptPromise)return googleScriptPromise;googleScriptPromise=wbLoadScript('https://accounts.google.com/gsi/client');return googleScriptPromise}
-function googleDriveTokenValid(){return !!(cloudState.googleDrive.accessToken&&cloudState.googleDrive.expiresAt&&cloudState.googleDrive.expiresAt>Date.now()+20000)}
-function requestGoogleDriveToken(interactive){
-  if(googleDriveTokenValid())return Promise.resolve(cloudState.googleDrive.accessToken);
-  var clientId=ensureGoogleClientId();
-  if(!clientId)return Promise.reject(new Error('Google Drive client ID is not configured.'));
-  return ensureGoogleIdentity().then(function(){return new Promise(function(resolve,reject){
-    try{
-      var tokenClient=google.accounts.oauth2.initTokenClient({
-        client_id:clientId,
-        scope:GOOGLE_DRIVE_SCOPE,
-        callback:function(resp){
-          if(resp&&resp.access_token){
-            cloudState.googleDrive.connected=true;
-            cloudState.googleDrive.accessToken=resp.access_token;
-            cloudState.googleDrive.expiresAt=Date.now()+((resp.expires_in||3600)*1000);
-            cloudState.googleDrive.lastConnectedAt=new Date().toISOString();
-            persistCloudState();
-            renderSettings();
-            if(qs('backup-centre-modal')&&qs('backup-centre-modal').classList.contains('open'))openBackupCentre();
-            resolve(resp.access_token);
-            return;
-          }
-          reject(new Error((resp&&resp.error_description)||(resp&&resp.error)||'Google Drive authorisation failed'));
-        },
-        error_callback:function(err){reject(new Error((err&&err.message)||(err&&err.type)||'Google Drive authorisation failed'))}
-      });
-      tokenClient.requestAccessToken({prompt:interactive?'consent':''});
-    }catch(err){reject(err)}
-  })})
-}
-function driveAuthHeaders(token){return {Authorization:'Bearer '+token}}
-function driveFetchJson(url,opts){return fetch(url,opts).then(function(r){if(!r.ok)return r.text().then(function(t){throw new Error(t||('Drive request failed ('+r.status+')'))});return r.json()})}
-function driveFindFileByName(name){
-  return requestGoogleDriveToken(!cloudState.googleDrive.connected).then(function(token){
-    var safeName=String(name||GOOGLE_DRIVE_BACKUP_NAME).replace(/'/g,"\\'");
-    var q=encodeURIComponent("name='"+safeName+"' and trashed=false and 'appDataFolder' in parents");
-    return driveFetchJson('https://www.googleapis.com/drive/v3/files?q='+q+'&spaces=appDataFolder&fields=files(id,name,modifiedTime,size)',{headers:driveAuthHeaders(token)}).then(function(data){
-      var files=(data.files||[]).sort(function(a,b){return String(b.modifiedTime||'').localeCompare(String(a.modifiedTime||''))});
-      return {token:token,file:files[0]||null};
-    })
-  })
-}
-function driveUploadJsonFile(name,payload,fileId){
-  return requestGoogleDriveToken(!cloudState.googleDrive.connected||!googleDriveTokenValid()).then(function(token){
-    var boundary='wb-'+Date.now()+'-'+Math.random().toString(16).slice(2);
-    var metadata={name:name,mimeType:'application/json',parents:['appDataFolder']};
-    var body='--'+boundary+'\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n'+JSON.stringify(metadata)+'\r\n--'+boundary+'\r\nContent-Type: application/json\r\n\r\n'+JSON.stringify(payload,null,2)+'\r\n--'+boundary+'--';
-    var method=fileId?'PATCH':'POST';
-    var url='https://www.googleapis.com/upload/drive/v3/files'+(fileId?'/'+encodeURIComponent(fileId):'')+'?uploadType=multipart&fields=id,name,modifiedTime';
-    return driveFetchJson(url,{method:method,headers:Object.assign({'Content-Type':'multipart/related; boundary='+boundary},driveAuthHeaders(token)),body:body});
-  })
-}
-function driveDownloadJsonFile(fileId){
-  return requestGoogleDriveToken(!cloudState.googleDrive.connected||!googleDriveTokenValid()).then(function(token){
-    return fetch('https://www.googleapis.com/drive/v3/files/'+encodeURIComponent(fileId)+'?alt=media',{headers:driveAuthHeaders(token)}).then(function(r){if(!r.ok)return r.text().then(function(t){throw new Error(t||'Could not download Drive backup')});return r.json()})
-  })
-}
-
+function backupStateChanged(){persistCloudState();renderSettings();if(qs('backup-centre-modal')&&qs('backup-centre-modal').classList.contains('open'))openBackupCentre()}
+function ensureGoogleIdentity(){return BackupService.ensureGoogleIdentity?BackupService.ensureGoogleIdentity():(window.google&&window.google.accounts&&window.google.accounts.oauth2?Promise.resolve():(googleScriptPromise||(googleScriptPromise=wbLoadScript('https://accounts.google.com/gsi/client'))))}
+function googleDriveTokenValid(){return BackupService.tokenValid?BackupService.tokenValid(cloudState.googleDrive):!!(cloudState.googleDrive.accessToken&&cloudState.googleDrive.expiresAt&&cloudState.googleDrive.expiresAt>Date.now()+20000)}
+function requestGoogleDriveToken(interactive){return BackupService.requestToken?BackupService.requestToken(cloudState.googleDrive,{interactive:!!interactive,onStateChanged:backupStateChanged}):Promise.reject(new Error('Backup service unavailable'))}
+function driveFindFileByName(name){return BackupService.findFileByName?BackupService.findFileByName(name||GOOGLE_DRIVE_BACKUP_NAME,cloudState.googleDrive,{onStateChanged:backupStateChanged}):Promise.reject(new Error('Backup service unavailable'))}
+function driveUploadJsonFile(name,payload,fileId){return BackupService.uploadJsonFile?BackupService.uploadJsonFile(name,payload,fileId,cloudState.googleDrive,{onStateChanged:backupStateChanged}):Promise.reject(new Error('Backup service unavailable'))}
+function driveDownloadJsonFile(fileId){return BackupService.downloadJsonFile?BackupService.downloadJsonFile(fileId,cloudState.googleDrive,{onStateChanged:backupStateChanged}):Promise.reject(new Error('Backup service unavailable'))}
 function refreshDriveBackupUi(){renderSettings();if(qs('backup-centre-modal')&&qs('backup-centre-modal').classList.contains('open'))openBackupCentre()}
 function uploadLatestBackupToDrive(){
   showToast('Preparing Drive backup…');
   var payload=buildLocalBackupPayload();
-  payload.format='worshipbase-google-drive-backup';
-  payload.backupKind='personal-appdatafolder';
-  payload.fileName=GOOGLE_DRIVE_BACKUP_NAME;
-  payload.driveSchema='rebuild-v7';
+  payload=BackupService.stampBackupPayload?BackupService.stampBackupPayload(payload,'personal-appdatafolder'):payload;
+  payload.format=payload.format||'worshipbase-google-drive-backup';
+  payload.backupKind=payload.backupKind||'personal-appdatafolder';
+  payload.fileName=payload.fileName||GOOGLE_DRIVE_BACKUP_NAME;
+  payload.driveSchema=payload.driveSchema||'rebuild-v7';
   return driveFindFileByName(GOOGLE_DRIVE_BACKUP_NAME).then(function(out){
     return driveUploadJsonFile(GOOGLE_DRIVE_BACKUP_NAME,payload,out.file&&out.file.id)
   }).then(function(file){
@@ -3440,14 +3388,10 @@ function downloadDriveSnapshot(){
     return driveDownloadJsonFile(out.file.id).then(function(data){downloadTextFile('worshipbase-drive-pre-restore-snapshot-'+backupStamp()+'.json',JSON.stringify(data,null,2));return data})
   }).catch(function(err){console.error(err);alert(err&&err.message?err.message:'Could not download Drive snapshot')})
 }
-
-function connectGoogleDriveInteractive(){return requestGoogleDriveToken(true).then(function(){cloudState.googleDrive.connected=true;persistCloudState();refreshDriveBackupUi();showToast('Google Drive connected')}).catch(function(err){if(err&&err.message)alert(err.message)})}
+function connectGoogleDriveInteractive(){var p=BackupService.connectInteractive?BackupService.connectInteractive(cloudState.googleDrive,{onStateChanged:backupStateChanged}):requestGoogleDriveToken(true);return p.then(function(){cloudState.googleDrive.connected=true;persistCloudState();refreshDriveBackupUi();showToast('Google Drive connected')}).catch(function(err){if(err&&err.message)alert(err.message)})}
 function disconnectGoogleDriveLocal(){
-  var token=cloudState.googleDrive.accessToken||'';
-  cloudState.googleDrive={connected:false,email:'',accessToken:'',expiresAt:0,lastBackupAt:'',lastModifiedTime:'',lastRestoreAt:'',fileId:'',snapshotFileId:'',snapshotSaved:false};
-  persistCloudState();
-  try{safeRemove(GOOGLE_DRIVE_LEGACY_STATE_KEY)}catch(e){}
-  try{if(token&&window.google&&google.accounts&&google.accounts.oauth2)google.accounts.oauth2.revoke(token,function(){})}catch(e){}
+  if(BackupService.disconnectLocal){BackupService.disconnectLocal(cloudState.googleDrive,{onStateChanged:backupStateChanged});}
+  else{cloudState.googleDrive={connected:false,email:'',accessToken:'',expiresAt:0,lastBackupAt:'',lastModifiedTime:'',lastRestoreAt:'',fileId:'',snapshotFileId:'',snapshotSaved:false};persistCloudState();}
   refreshDriveBackupUi();
   showToast('Drive disconnected on this device')
 }
@@ -3455,27 +3399,27 @@ window.connectGoogleDriveBackup=connectGoogleDriveInteractive;
 window.backupToGoogleDrive=uploadLatestBackupToDrive;
 window.restoreFromGoogleDrive=beginRestoreFromDrive;
 window.disconnectGoogleDriveBackup=disconnectGoogleDriveLocal;
-window.WBGoogleDriveStatus=function(){return {connected:!!cloudState.googleDrive.connected,hasClientId:!!cloudGoogleClientId(),fileId:cloudState.googleDrive.fileId||'',lastBackupAt:cloudState.googleDrive.lastBackupAt||'',lastRestoreAt:cloudState.googleDrive.lastRestoreAt||'',snapshotSaved:!!cloudState.googleDrive.snapshotSaved}};
+window.WBGoogleDriveStatus=function(){return BackupService.status?BackupService.status(cloudState.googleDrive):{connected:!!cloudState.googleDrive.connected,hasClientId:!!cloudGoogleClientId(),fileId:cloudState.googleDrive.fileId||'',lastBackupAt:cloudState.googleDrive.lastBackupAt||'',lastRestoreAt:cloudState.googleDrive.lastRestoreAt||'',snapshotSaved:!!cloudState.googleDrive.snapshotSaved}};
 
 function firebasePrefersRedirect(){var ua=navigator.userAgent||'';var standalone=!!((window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||navigator.standalone);return standalone||/iP(?:hone|ad|od)/i.test(ua)}
 function ensureFirebaseSdk(){
   var cfg=ensureFirebaseConfigPrompt();
   if(!cfg)return Promise.reject(new Error('Firebase config is required.'));
   if(firebaseInitPromise)return firebaseInitPromise;
-  firebaseInitPromise=wbLoadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js').then(function(){return wbLoadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js')}).then(function(){return wbLoadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js')}).then(function(){return wbLoadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js')}).then(function(){
-    if(!window.firebase)throw new Error('Firebase SDK unavailable');
-    if(!firebase.apps.length)firebase.initializeApp(cfg);
+  firebaseInitPromise=(FirebaseService.ensureSdk?FirebaseService.ensureSdk({
+    config:cfg,
+    onAuthStateChanged:function(user){
+      cloudState.firebase.connected=!!user;
+      cloudState.firebase.email=user&&user.email||'';
+      cloudState.firebase.uid=user&&user.uid||'';
+      cloudState.firebase.provider=user&&user.providerData&&user.providerData[0]&&user.providerData[0].providerId||'';
+      cloudState.firebase.lastAuthAt=user?new Date().toISOString():cloudState.firebase.lastAuthAt;
+      persistCloudState();
+      renderSettings();
+    }
+  }):Promise.reject(new Error('Firebase service unavailable'))).then(function(firebase){
     cloudState.firebase.configured=true;
     if(firebase.auth){
-      firebase.auth().onAuthStateChanged(function(user){
-        cloudState.firebase.connected=!!user;
-        cloudState.firebase.email=user&&user.email||'';
-        cloudState.firebase.uid=user&&user.uid||'';
-        cloudState.firebase.provider=user&&user.providerData&&user.providerData[0]&&user.providerData[0].providerId||'';
-        cloudState.firebase.lastAuthAt=user?new Date().toISOString():cloudState.firebase.lastAuthAt;
-        persistCloudState();
-        renderSettings();
-      });
       return firebase.auth().getRedirectResult().catch(function(){return null}).then(function(){persistCloudState();renderSettings();return firebase});
     }
     persistCloudState();renderSettings();return firebase;
@@ -3485,16 +3429,15 @@ function ensureFirebaseSdk(){
 function connectFirebaseAuth(){ensureFirebaseSdk().then(function(firebase){if(!firebase.auth)throw new Error('Firebase auth unavailable');var provider=new firebase.auth.GoogleAuthProvider();if(firebasePrefersRedirect()){showToast('Opening Google sign-in…');return firebase.auth().signInWithRedirect(provider)}return firebase.auth().signInWithPopup(provider).then(function(){showToast('Firebase auth connected')}).catch(function(err){var code=(err&&err.code)||'';var msg=(err&&err.message)||'';if(/popup|cancelled-popup-request|popup-closed-by-user/i.test(code+' '+msg)){showToast('Opening Google sign-in…');return firebase.auth().signInWithRedirect(provider)}throw err})}).catch(function(err){if(err&&err.message)alert(err.message)})}
 function disconnectFirebaseAuth(){ensureFirebaseSdk().then(function(firebase){if(!firebase.auth)return null;return firebase.auth().signOut()}).then(function(){cloudState.firebase.connected=false;cloudState.firebase.email='';cloudState.firebase.uid='';persistCloudState();renderSettings();showToast('Firebase auth signed out')}).catch(function(err){if(err&&err.message)alert(err.message)})}
 function handleFirebaseSettingsAction(){if(cloudState.firebase.connected)return disconnectFirebaseAuth();return connectFirebaseAuth()}
-function firebaseRealtimeDb(){return ensureFirebaseSdk().then(function(firebase){if(!firebase.database)throw new Error('Cloud database unavailable');return firebase.database()})}
-function firebaseFirestore(){return ensureFirebaseSdk().then(function(firebase){if(!firebase.firestore)throw new Error('Cloud database unavailable');return firebase.firestore()})}
+function firebaseRealtimeDb(){return FirebaseService.realtimeDb?FirebaseService.realtimeDb({config:cloudFirebaseConfig()}):ensureFirebaseSdk().then(function(firebase){if(!firebase.database)throw new Error('Cloud database unavailable');return firebase.database()})}
+function firebaseFirestore(){return FirebaseService.firestore?FirebaseService.firestore({config:cloudFirebaseConfig()}):ensureFirebaseSdk().then(function(firebase){if(!firebase.firestore)throw new Error('Cloud database unavailable');return firebase.firestore()})}
 function normalizeFirebaseSong(raw,id){var n=normalizeImportedSong(Object.assign({},raw||{},{id:id||raw&&raw.id||'',importSource:'firebase'}),'firebase');n.id=String(id||raw&&raw.id||n.id||'').trim();n.source='firebase';return n}
 function normalizeWorkspaceSet(raw,id){var set=ensureSetShape(Object.assign({id:id||String(Date.now())},raw||{}));set.source='Workspace';return set}
 function detachFirebaseRuntime(){try{if(typeof firebaseSongsDetach==='function')firebaseSongsDetach()}catch(e){}try{if(typeof firebaseSharedSetsDetach==='function')firebaseSharedSetsDetach()}catch(e){}firebaseSongsDetach=null;firebaseSharedSetsDetach=null;}
 function loadFirebaseSongsRuntime(){
   var paths=cloudFirestorePaths();
   if(firebaseRuntime.songsListening&&typeof firebaseSongsDetach==='function')return Promise.resolve(firebaseSongs);
-  return firebaseRealtimeDb().then(function(db){return new Promise(function(resolve,reject){
-    var ref=db.ref(paths.songsPath||'songs');
+  return new Promise(function(resolve,reject){
     var settled=false;
     var ok=function(snap){
       var data=snap&&typeof snap.val==='function'?snap.val():null;
@@ -3532,9 +3475,11 @@ function loadFirebaseSongsRuntime(){
       try{maybeFinishLaunch('empty')}catch(e){}
       if(!settled){settled=true;reject(err||new Error('Could not load Firebase songs'))}
     };
-    ref.on('value',ok,fail);
-    firebaseSongsDetach=function(){firebaseRuntime.songsListening=false;try{ref.off('value',ok)}catch(e){}};
-  })}).catch(function(err){
+    if(!FirebaseService.listenRealtimeValue){fail(new Error('Firebase service unavailable'));return;}
+    FirebaseService.listenRealtimeValue(paths.songsPath||'songs',ok,fail,{config:cloudFirebaseConfig()}).then(function(detach){
+      firebaseSongsDetach=function(){firebaseRuntime.songsListening=false;try{detach&&detach()}catch(e){}};
+    }).catch(fail);
+  }).catch(function(err){
     firebaseRuntime.songsFailed=true;
     firebaseRuntime.songsSettled=true;
     if(firebaseSongs&&firebaseSongs.length){
@@ -3554,11 +3499,11 @@ function loadFirebaseSongsRuntime(){
     return [];
   })
 }
+
 function loadFirebaseWorkspaceRuntime(){
   var paths=cloudFirestorePaths();
   if(firebaseRuntime.workspaceListening&&typeof firebaseSharedSetsDetach==='function')return Promise.resolve(workspaceState.sets);
-  return firebaseRealtimeDb().then(function(db){return new Promise(function(resolve,reject){
-    var ref=db.ref(paths.sharedSetsPath||'setlists');
+  return new Promise(function(resolve,reject){
     var settled=false;
     var ok=function(snap){
       var data=snap&&typeof snap.val==='function'?snap.val():null;
@@ -3585,12 +3530,16 @@ function loadFirebaseWorkspaceRuntime(){
         if(!settled){settled=true;resolve(workspaceState.sets)}
         return;
       }
-      reject(err||new Error('Could not load workspace sets'));
+      if(!settled){settled=true;reject(err||new Error('Could not load workspace sets'))}
     };
-    ref.on('value',ok,fail);
-    firebaseSharedSetsDetach=function(){firebaseRuntime.workspaceListening=false;try{ref.off('value',ok)}catch(e){}};
-  })}).catch(function(){
-    return firebaseFirestore().then(function(db){return Promise.all([db.collection(paths.workspaceSetsCollection).get(),db.collection(paths.workspaceProfileCollection).doc(paths.workspaceProfileDocId).get().catch(function(){return null})])}).then(function(res){
+    if(!FirebaseService.listenRealtimeValue){fail(new Error('Firebase service unavailable'));return;}
+    FirebaseService.listenRealtimeValue(paths.sharedSetsPath||'setlists',ok,fail,{config:cloudFirebaseConfig()}).then(function(detach){
+      firebaseSharedSetsDetach=function(){firebaseRuntime.workspaceListening=false;try{detach&&detach()}catch(e){}};
+    }).catch(fail);
+  }).catch(function(){
+    var collectionRead=FirebaseService.readFirestoreCollection?FirebaseService.readFirestoreCollection(paths.workspaceSetsCollection,{config:cloudFirebaseConfig()}):firebaseFirestore().then(function(db){return db.collection(paths.workspaceSetsCollection).get()});
+    var profileRead=FirebaseService.readFirestoreDoc?FirebaseService.readFirestoreDoc(paths.workspaceProfileCollection,paths.workspaceProfileDocId,{config:cloudFirebaseConfig()}).catch(function(){return null}):firebaseFirestore().then(function(db){return db.collection(paths.workspaceProfileCollection).doc(paths.workspaceProfileDocId).get().catch(function(){return null})});
+    return Promise.all([collectionRead,profileRead]).then(function(res){
       var setsSnap=res[0],profileDoc=res[1];
       workspaceState.sets=[];
       setsSnap.forEach(function(doc){workspaceState.sets.push(normalizeWorkspaceSet(doc.data(),doc.id))});
@@ -3610,6 +3559,7 @@ function loadFirebaseWorkspaceRuntime(){
     }).catch(function(){return workspaceState.sets})
   })
 }
+
 function connectFirebaseRuntimeIfConfigured(){
   ensureOfflineFirstRuntime();
   var cfg=cloudFirebaseConfig();
@@ -3618,7 +3568,7 @@ function connectFirebaseRuntimeIfConfigured(){
   firebaseConnectPromise=ensureFirebaseSdk().then(function(){return Promise.all([loadFirebaseSongsRuntime(),loadFirebaseWorkspaceRuntime()])}).catch(function(err){console.warn('Firebase runtime connect failed',err);return null});
   return firebaseConnectPromise;
 }
-function syncWorkspaceSetToFirebase(set){if(!cloudFirebaseConfig())return Promise.resolve();var paths=cloudFirestorePaths();return firebaseRealtimeDb().then(function(db){return db.ref((paths.sharedSetsPath||'setlists')+'/'+encodeURIComponent(set.id)).set(JSON.parse(JSON.stringify(set))) }).catch(function(){return firebaseFirestore().then(function(db){return db.collection(paths.workspaceSetsCollection).doc(set.id).set(JSON.parse(JSON.stringify(set)),{merge:true})}).catch(function(){})})}
+function syncWorkspaceSetToFirebase(set){if(!cloudFirebaseConfig())return Promise.resolve();var paths=cloudFirestorePaths();var payload=FirebaseService.cloudClone?FirebaseService.cloudClone(set):JSON.parse(JSON.stringify(set));if(FirebaseService.writeRealtimeValue){return FirebaseService.writeRealtimeValue((paths.sharedSetsPath||'setlists')+'/'+encodeURIComponent(set.id),payload,{config:cloudFirebaseConfig()}).catch(function(){return FirebaseService.writeFirestoreDoc?FirebaseService.writeFirestoreDoc(paths.workspaceSetsCollection,set.id,payload,{config:cloudFirebaseConfig(),merge:true}).catch(function(){}):firebaseFirestore().then(function(db){return db.collection(paths.workspaceSetsCollection).doc(set.id).set(payload,{merge:true})}).catch(function(){})})}return firebaseRealtimeDb().then(function(db){return db.ref((paths.sharedSetsPath||'setlists')+'/'+encodeURIComponent(set.id)).set(payload) }).catch(function(){return firebaseFirestore().then(function(db){return db.collection(paths.workspaceSetsCollection).doc(set.id).set(payload,{merge:true})}).catch(function(){})})}
 function cloneSettings(base){var s=Object.assign({},DEFAULT_SETTINGS,base||{});['theme','themeLight','themeDark'].forEach(function(k){if(!THEME_PALETTE[s[k]])s[k]=DEFAULT_SETTINGS[k]||'darkteal'});return s}
 function activeThemeKey(){return settings.darkMode?(settings.themeDark||settings.theme||'darkteal'):(settings.themeLight||settings.theme||'darkteal')}
 function currentTheme(){return THEME_PALETTE[activeThemeKey()]||THEME_PALETTE.darkteal}
@@ -3631,20 +3581,17 @@ function accentTextFor(hex){try{hex=String(hex||'').replace('#','');if(hex.lengt
 function applyTheme(){var theme=currentTheme(),root=document.documentElement;if(settings.darkMode){var d=theme.dark;root.style.setProperty('--tc',d.accentStrong);root.style.setProperty('--tc2',d.accent);root.style.setProperty('--tc3',d.accentStrong);root.style.setProperty('--tc-light','rgba(255,255,255,.08)');root.style.setProperty('--tc-mid','rgba(255,255,255,.18)');root.style.setProperty('--tc-faint',rgbaFromHex(d.accentStrong,.18));root.style.setProperty('--accent',d.accent);root.style.setProperty('--accent-strong',d.accentStrong);root.style.setProperty('--accent-surface',rgbaFromHex(d.accentStrong,.18));root.style.setProperty('--accent-surface-strong',rgbaFromHex(d.accentStrong,.28));root.style.setProperty('--accent-border',rgbaFromHex(d.accentStrong,.46));root.style.setProperty('--accent-bg',rgbaFromHex(d.accentStrong,.18));root.style.setProperty('--chord-color',d.chord);root.style.setProperty('--accent-fg',d.accentFg)}else{root.style.setProperty('--tc',theme.c);root.style.setProperty('--tc2',theme.c2);root.style.setProperty('--tc3',theme.c3);root.style.setProperty('--tc-light',theme.light);root.style.setProperty('--tc-mid',theme.mid);root.style.setProperty('--tc-faint',hexToRgba(theme.c,.07));root.style.setProperty('--surface-tint','rgba(16,55,74,.05)');root.style.setProperty('--surface-tint-strong','rgba(16,55,74,.09)');root.style.setProperty('--surface-border','rgba(16,55,74,.12)');root.style.setProperty('--accent',theme.c);root.style.setProperty('--accent-bg',theme.light);root.style.setProperty('--accent-fg',accentTextFor(theme.c));root.style.removeProperty('--accent-strong');root.style.removeProperty('--accent-surface');root.style.removeProperty('--accent-surface-strong');root.style.removeProperty('--accent-border');root.style.removeProperty('--chord-color')}}
 function hexToRgba(hex,a){var h=String(hex||'#4b005f').replace('#','');if(h.length===3)h=h.split('').map(function(x){return x+x}).join('');var n=parseInt(h,16);var r=(n>>16)&255,g=(n>>8)&255,b=n&255;return 'rgba('+r+','+g+','+b+','+a+')'}
 function applySettings(){settings=cloneSettings(settings);document.body.classList.toggle('dark',!!settings.darkMode);applyTheme();applyHighlightThemeVars();var scale=Math.max(.85,Math.min(1.25,parseFloat(settings.textSize)||1));document.documentElement.style.setProperty('--wb-text-scale',scale)}
-function persistSettings(){safeSet(STORAGE_KEYS.settings,JSON.stringify(settings))}
-function persistRouteMemory(){safeSet(STORAGE_KEYS.routeMemory,JSON.stringify({tab:state.tab||'songs',toolsPanel:state.toolsPanel||'home',workspacePanel:workspaceState.panel||'home',workspaceActiveSetId:workspaceState.activeSetId||null,workspaceDetailType:workspaceState.detailType||null,workspaceSelectedPublishId:workspaceState.selectedPublishId||null,setlistEditorId:state.setlistEditorId||null,libraryFilter:state.filter||'all',libraryScope:state.scope||'smart',bible:bibleState?{book:bibleState.book,chapter:bibleState.chapter,version:bibleState.version}:null}))}
+function persistSettings(){writeStoredJson(STORAGE_KEYS.settings,settings)}
+function persistRouteMemory(){writeStoredJson(STORAGE_KEYS.routeMemory,{tab:state.tab||'songs',toolsPanel:state.toolsPanel||'home',workspacePanel:workspaceState.panel||'home',workspaceActiveSetId:workspaceState.activeSetId||null,workspaceDetailType:workspaceState.detailType||null,workspaceSelectedPublishId:workspaceState.selectedPublishId||null,setlistEditorId:state.setlistEditorId||null,libraryFilter:state.filter||'all',libraryScope:state.scope||'smart',bible:bibleState?{book:bibleState.book,chapter:bibleState.chapter,version:bibleState.version}:null})}
 function loadRouteMemory(){
-  var raw=safeGet(STORAGE_KEYS.routeMemory);
-  try{
-    var mem=raw?JSON.parse(raw)||{}:{};
-    if(mem.libraryFilter)state.filter=mem.libraryFilter;
-    if(mem.libraryScope)state.scope=mem.libraryScope;
-    if(mem.bible){
-      bibleState.book=mem.bible.book||bibleState.book;
-      bibleState.chapter=parseInt(mem.bible.chapter,10)||bibleState.chapter;
-      bibleState.version=String(mem.bible.version||bibleState.version||settings.defaultBibleVersion||'esv').toLowerCase();
-    }
-  }catch(e){}
+  var mem=readStoredObject(STORAGE_KEYS.routeMemory,{});
+  if(mem.libraryFilter)state.filter=mem.libraryFilter;
+  if(mem.libraryScope)state.scope=mem.libraryScope;
+  if(mem.bible){
+    bibleState.book=mem.bible.book||bibleState.book;
+    bibleState.chapter=parseInt(mem.bible.chapter,10)||bibleState.chapter;
+    bibleState.version=String(mem.bible.version||bibleState.version||settings.defaultBibleVersion||'esv').toLowerCase();
+  }
   /* v8.14 launch rule: always start clean on Library. Only persistent content/settings survive boot. */
   state.tab='songs';
   state.selectedId=null;
@@ -3665,16 +3612,60 @@ function migrateV85Song(raw,source){raw=raw||{};var n=normalizeImportedSong({id:
 function mergeSongArrayById(base,incoming){var by={},out=[];(base||[]).concat(incoming||[]).forEach(function(song){if(!song||!song.title&&!song.chart)return;var id=String(song.id||song.importId||song.fbKey||'').trim()||normalizeSearchText((song.title||'')+' '+(song.artist||''));if(!id)return;if(!by[id]){by[id]=Object.assign({},song,{id:id});out.push(by[id])}else{Object.assign(by[id],song,{id:id})}});return out}
 function migrateV85SetItem(item,i){if(typeof item==='string'||typeof item==='number')return {type:'song',songId:String(item),order:i};if(!item||typeof item!=='object')return null;if(item.type==='section')return {type:'section',title:String(item.title||item.label||'Section'),id:String(item.id||('section_'+i)),order:item.order||i};if(item.type==='item'||item.type==='service')return {type:'item',title:String(item.title||item.label||'Service item'),note:String(item.note||item.description||''),id:String(item.id||('item_'+i)),order:item.order||i};return {type:'song',songId:String(item.songId||item.id||''),order:item.order||i,setKey:normalizeKeyChoice(item.setKey||'inherit'),keyOverride:!!item.keyOverride}}
 function migrateV85NamedSetMap(raw,fallback){var out=[];if(raw&&typeof raw==='object'){Object.keys(raw).forEach(function(id,idx){var val=raw[id]||{};var items=(Array.isArray(val.items)?val.items:(Array.isArray(val.songs)?val.songs:[])).map(migrateV85SetItem).filter(Boolean);var set={id:String(id||('set_'+idx)),name:String(val.name||fallback+' '+(idx+1)),items:items,setNotes:String(val.notes||val.setNotes||''),updated:'Updated now'};syncSetCounts(set);out.push(set)})}return out}
-function migrateV85LocalStorageIntoRebuild(){try{var cached=JSON.parse(safeGet('wb_cached_songs')||'[]');if(Array.isArray(cached)&&cached.length){firebaseSongs=mergeSongArrayById(firebaseSongs,cached.map(function(s){return migrateV85Song(s,'firebase')}));persistFirebaseSongsCache&&persistFirebaseSongsCache()}var mem=JSON.parse(safeGet('wb_song_memory_v1')||'{}');if(mem&&typeof mem==='object')songMemory=Object.assign({},mem,songMemory||{});var prefs=JSON.parse(safeGet('wb_prefs_v1')||'{}');if(prefs&&typeof prefs==='object'){if(!safeGet(STORAGE_KEYS.settings)){settings=cloneSettings(Object.assign({},settings,{darkMode:!!prefs.darkMode,textSize:prefs.textSize?Math.max(.85,Math.min(1.25,(parseInt(prefs.textSize,10)||100)/100)):settings.textSize,defaultSongView:prefs.defaultSongView||settings.defaultSongView,highlightChordsDefault:typeof prefs.highlightChords==='boolean'?prefs.highlightChords:settings.highlightChordsDefault,useFlatsDefault:typeof prefs.useFlatsDefault==='boolean'?prefs.useFlatsDefault:settings.useFlatsDefault,keepScreenAwakeOnSongs:typeof prefs.keepAwakeOnSongs==='boolean'?prefs.keepAwakeOnSongs:settings.keepScreenAwakeOnSongs,addToSetBehavior:prefs.addToSetBehavior||settings.addToSetBehavior,themeLight:prefs.themeLight?migrateV85ThemeToPalette(prefs.themeLight):settings.themeLight,themeDark:prefs.themeDark?migrateV85ThemeToPalette(prefs.themeDark):settings.themeDark}));persistSettings()}if(Array.isArray(prefs.recentSongs)&&!recentIds.length){recentIds=prefs.recentSongs.map(String).slice(0,8);persistRecents()}if(Array.isArray(prefs.favoriteSongs)){prefs.favoriteSongs.forEach(function(id){var meta=songMeta(String(id));meta.favorite=true;songMemory[String(id)]=meta})}}if(!personalSets.length){var personal=migrateV85NamedSetMap(JSON.parse(safeGet('wb_personal_sets_v1')||'null'),'Set');var device=JSON.parse(safeGet('wb_device_sl')||'[]');if(!personal.length&&Array.isArray(device)&&device.length){personal=[{id:'default',name:'My Set',items:device.map(migrateV85SetItem).filter(Boolean),updated:'Updated now'}];syncSetCounts(personal[0])}if(personal.length){personalSets=personal;activeSetId=personalSets[0].id;persistSets()}}var shared=migrateV85NamedSetMap(JSON.parse(safeGet('wb_cached_named_sets_v1')||'null'),'Shared Set');if(shared.length&&!(workspaceState.sets||[]).length){workspaceState.sets=shared.map(function(s){s.source='Workspace';workspaceSetCounts&&workspaceSetCounts(s);return s});persistWorkspace&&persistWorkspace()}safeSet('wb_rebuild_85_migrated_v1','1')}catch(e){console.warn('v85 localStorage migration skipped',e)}}
+function migrateV85LocalStorageIntoRebuild(){
+  try{
+    var cached=readStoredArray('wb_cached_songs',[]);
+    if(cached.length){
+      firebaseSongs=mergeSongArrayById(firebaseSongs,cached.map(function(s){return migrateV85Song(s,'firebase')}));
+      persistFirebaseSongsCache&&persistFirebaseSongsCache();
+    }
+    var mem=readStoredObject('wb_song_memory_v1',{});
+    if(mem&&typeof mem==='object')songMemory=Object.assign({},mem,songMemory||{});
+    var prefs=readStoredObject('wb_prefs_v1',{});
+    if(prefs&&typeof prefs==='object'){
+      if(!safeGet(STORAGE_KEYS.settings)){
+        settings=cloneSettings(Object.assign({},settings,{
+          darkMode:!!prefs.darkMode,
+          textSize:prefs.textSize?Math.max(.85,Math.min(1.25,(parseInt(prefs.textSize,10)||100)/100)):settings.textSize,
+          defaultSongView:prefs.defaultSongView||settings.defaultSongView,
+          highlightChordsDefault:typeof prefs.highlightChords==='boolean'?prefs.highlightChords:settings.highlightChordsDefault,
+          useFlatsDefault:typeof prefs.useFlatsDefault==='boolean'?prefs.useFlatsDefault:settings.useFlatsDefault,
+          keepScreenAwakeOnSongs:typeof prefs.keepAwakeOnSongs==='boolean'?prefs.keepAwakeOnSongs:settings.keepScreenAwakeOnSongs,
+          addToSetBehavior:prefs.addToSetBehavior||settings.addToSetBehavior,
+          themeLight:prefs.themeLight?migrateV85ThemeToPalette(prefs.themeLight):settings.themeLight,
+          themeDark:prefs.themeDark?migrateV85ThemeToPalette(prefs.themeDark):settings.themeDark
+        }));
+        persistSettings();
+      }
+      if(Array.isArray(prefs.recentSongs)&&!recentIds.length){recentIds=prefs.recentSongs.map(String).slice(0,8);persistRecents()}
+      if(Array.isArray(prefs.favoriteSongs)){prefs.favoriteSongs.forEach(function(id){var meta=songMeta(String(id));meta.favorite=true;songMemory[String(id)]=meta})}
+    }
+    if(!personalSets.length){
+      var personal=migrateV85NamedSetMap(readStoredJson('wb_personal_sets_v1',null),'Set');
+      var device=readStoredArray('wb_device_sl',[]);
+      if(!personal.length&&device.length){
+        personal=[{id:'default',name:'My Set',items:device.map(migrateV85SetItem).filter(Boolean),updated:'Updated now'}];
+        syncSetCounts(personal[0]);
+      }
+      if(personal.length){personalSets=preserveSetArray?preserveSetArray(personal):personal;activeSetId=personalSets[0].id;persistSets()}
+    }
+    var shared=migrateV85NamedSetMap(readStoredJson('wb_cached_named_sets_v1',null),'Shared Set');
+    if(shared.length&&!(workspaceState.sets||[]).length){
+      workspaceState.sets=(preserveSetArray?preserveSetArray(shared):shared).map(function(s){s.source='Workspace';workspaceSetCounts&&workspaceSetCounts(s);return s});
+      persistWorkspace&&persistWorkspace();
+    }
+    safeSet('wb_rebuild_85_migrated_v1','1');
+  }catch(e){console.warn('v85 localStorage migration skipped',e)}
+}
 function migrateV85IndexedDBSongs(){if(!window.indexedDB||safeGet('wb_rebuild_85_idb_migrated_v1'))return Promise.resolve(false);return new Promise(function(resolve){try{var req=indexedDB.open('worshipbase_local_my_songs_v1',1);req.onerror=function(){resolve(false)};req.onsuccess=function(){var db=req.result;if(!db.objectStoreNames.contains('songs')){resolve(false);return}var tx=db.transaction('songs','readonly'),store=tx.objectStore('songs'),get=store.getAll();get.onerror=function(){resolve(false)};get.onsuccess=function(){var rows=get.result||[];if(rows.length){localSongs=mergeSongArrayById(localSongs,rows.map(function(s){return migrateV85Song(s,'local')}));persistSongs();rebuildSongsCache();renderLibrary();renderPersonalHome();renderSettings();showSync('Loaded v85 local songs')}safeSet('wb_rebuild_85_idb_migrated_v1','1');resolve(!!rows.length)}}}catch(e){console.warn('v85 IndexedDB migration skipped',e);resolve(false)}})}
 function loadPersisted(){
-  var rawSongs=safeGet(STORAGE_KEYS.songs),rawSongMemory=safeGet(STORAGE_KEYS.songMemory),rawSets=safeGet(STORAGE_KEYS.sets),rawRecents=safeGet(STORAGE_KEYS.recents),rawSettings=safeGet(STORAGE_KEYS.settings),rawWorkspace=safeGet(STORAGE_KEYS.workspace);
-  if(rawSongs){try{var parsedSongs=JSON.parse(rawSongs);if(Array.isArray(parsedSongs))localSongs=parsedSongs}catch(e){}}
-  if(rawSongMemory){try{var parsedSongMemory=JSON.parse(rawSongMemory);if(parsedSongMemory&&typeof parsedSongMemory==='object')songMemory=parsedSongMemory}catch(e){}}
-  if(rawSets){try{var parsedSets=JSON.parse(rawSets);if(Array.isArray(parsedSets))personalSets=parsedSets}catch(e){}}
-  if(rawRecents){try{var parsedRecents=JSON.parse(rawRecents);if(Array.isArray(parsedRecents))recentIds=parsedRecents}catch(e){}}
-  if(rawSettings){try{settings=cloneSettings(JSON.parse(rawSettings))}catch(e){settings=cloneSettings()}}
-  if(rawWorkspace){try{var parsedWorkspace=JSON.parse(rawWorkspace);if(parsedWorkspace&&parsedWorkspace.sets&&Array.isArray(parsedWorkspace.sets))workspaceState=Object.assign({},workspaceState,parsedWorkspace)}catch(e){}}
+  localSongs=readStoredArray(STORAGE_KEYS.songs,localSongs);
+  songMemory=readStoredObject(STORAGE_KEYS.songMemory,songMemory||{});
+  personalSets=preserveSetArray?preserveSetArray(readStoredArray(STORAGE_KEYS.sets,personalSets)):readStoredArray(STORAGE_KEYS.sets,personalSets);
+  recentIds=readStoredArray(STORAGE_KEYS.recents,recentIds);
+  if(safeGet(STORAGE_KEYS.settings)){settings=cloneSettings(readStoredObject(STORAGE_KEYS.settings,settings))}
+  var parsedWorkspace=readStoredObject(STORAGE_KEYS.workspace,{});
+  if(parsedWorkspace&&parsedWorkspace.sets&&Array.isArray(parsedWorkspace.sets)){workspaceState=Object.assign({},workspaceState,parsedWorkspace,{sets:preserveSetArray?preserveSetArray(parsedWorkspace.sets):parsedWorkspace.sets})}
   migrateV85LocalStorageIntoRebuild();
   loadCloudState();
   loadCachedFirebaseSongs();
@@ -3683,10 +3674,10 @@ function loadPersisted(){
   rebuildSongsCache();
   applySettings();
 }
-function persistSongs(){safeSet(STORAGE_KEYS.songs,JSON.stringify(localSongs))}
-function persistSets(){safeSet(STORAGE_KEYS.sets,JSON.stringify(personalSets))}
-function persistRecents(){safeSet(STORAGE_KEYS.recents,JSON.stringify(recentIds.slice(0,8)))}
-function resetLocalData(){safeRemove(STORAGE_KEYS.songs);safeRemove(STORAGE_KEYS.songMemory);safeRemove(STORAGE_KEYS.sets);safeRemove(STORAGE_KEYS.recents);safeRemove(STORAGE_KEYS.settings);safeRemove(STORAGE_KEYS.workspace);safeRemove(STORAGE_KEYS.routeMemory);safeRemove(STORAGE_KEYS.firebaseSongsCache);safeRemove(STORAGE_KEYS.bibleCache);localSongs=[];firebaseSongs=[];songMemory={};personalSets=[];settings=cloneSettings();recentIds=[];activeSetId='';workspaceState.panel='home';workspaceState.activeSetId=null;workspaceState.detailType=null;workspaceState.selectedPublishId=null;workspaceState.profile={name:'Workspace',description:'Team planning and shared sets',inviteCode:'WB-TEAM-042'};workspaceState.sets=[];bibleRuntime.index=null;bibleRuntime.books=[];bibleRuntime.chapterCache=Object.create(null);rebuildSongsCache();persistWorkspace();applySettings();renderLibrary();renderPersonalHome();renderWorkspaceSetLists();renderSettings()}
+function persistSongs(){writeStoredJson(STORAGE_KEYS.songs,localSongs)}
+function persistSets(){writeStoredJson(STORAGE_KEYS.sets,preserveSetArray?preserveSetArray(personalSets):personalSets)}
+function persistRecents(){writeStoredJson(STORAGE_KEYS.recents,recentIds.slice(0,8))}
+function resetLocalData(){removeStoredMany([STORAGE_KEYS.songs,STORAGE_KEYS.songMemory,STORAGE_KEYS.sets,STORAGE_KEYS.recents,STORAGE_KEYS.settings,STORAGE_KEYS.workspace,STORAGE_KEYS.routeMemory,STORAGE_KEYS.firebaseSongsCache,STORAGE_KEYS.bibleCache]);localSongs=[];firebaseSongs=[];songMemory={};personalSets=[];settings=cloneSettings();recentIds=[];activeSetId='';workspaceState.panel='home';workspaceState.activeSetId=null;workspaceState.detailType=null;workspaceState.selectedPublishId=null;workspaceState.profile={name:'Workspace',description:'Team planning and shared sets',inviteCode:'WB-TEAM-042'};workspaceState.sets=[];bibleRuntime.index=null;bibleRuntime.books=[];bibleRuntime.chapterCache=Object.create(null);rebuildSongsCache();persistWorkspace();applySettings();renderLibrary();renderPersonalHome();renderWorkspaceSetLists();renderSettings()}
 
 var qs=WBDom.qs;
 function unlockUiInteraction(){try{document.body.classList.add('wb-ui-ready');document.body.style.pointerEvents='auto';document.documentElement.classList.remove('wb-launch-light','wb-launch-dark');document.documentElement.style.background='';document.body.style.background='';var app=qs('app');if(app){app.style.opacity='1';app.style.pointerEvents='auto';}}catch(e){}}
@@ -4506,7 +4497,7 @@ function exportLocalBackup(){var payload=buildLocalBackupPayload();safeSet('wb_r
 function exportSongsBackup(){var payload=buildSongsBackupPayload();downloadTextFile('worshipbase-rebuild-songs-'+backupStamp()+'.json',JSON.stringify(payload,null,2));showToast('Songs backup created')}
 function exportSetListsBackup(){var payload=buildSetListsBackupPayload();downloadTextFile('worshipbase-rebuild-setlists-'+backupStamp()+'.json',JSON.stringify(payload,null,2));showToast('Set list backup created')}
 function exportSettingsBackup(){var payload=buildSettingsBackupPayload();downloadTextFile('worshipbase-rebuild-settings-'+backupStamp()+'.json',JSON.stringify(payload,null,2));showToast('Settings backup created')}
-function savePreRestoreSnapshot(){var snap=buildLocalBackupPayload();snap.format='worshipbase-rebuild-pre-restore-snapshot';snap.snapshotAt=new Date().toISOString();safeSet('wb_rebuild_52_pre_restore_snapshot',JSON.stringify(snap));return snap}
+function savePreRestoreSnapshot(){var snap=buildLocalBackupPayload();snap.format='worshipbase-rebuild-pre-restore-snapshot';snap.snapshotAt=new Date().toISOString();writeStoredJson('wb_rebuild_52_pre_restore_snapshot',snap);return snap}
 function downloadPreRestoreSnapshot(){var raw=safeGet('wb_rebuild_52_pre_restore_snapshot');if(!raw){showToast('No pre-restore snapshot yet');return}downloadTextFile('worshipbase-pre-restore-snapshot-'+backupStamp()+'.json',raw)}
 function normalizeSetArrayFromBackup(v){if(Array.isArray(v))return v;if(v&&typeof v==='object')return Object.keys(v).map(function(k){var set=v[k];if(set&&typeof set==='object'&&!set.id)set.id=k;return set}).filter(Boolean);return []}
 function songsFromBackupData(data){var arr=Array.isArray(data)?data:(data&&data.song?[data.song]:(data&&Array.isArray(data.songs)?data.songs:(data&&Array.isArray(data.mySongs)?data.mySongs:[])));return (arr||[]).map(function(s){var n=normalizeImportedSong(s,s.importSource||'file');n.id=String(s.id||s.songId||s.localId||'').trim()||n.id;n.favorite=!!s.favorite;n.inSet=!!s.inSet;n.source='local';if(s._wbRawImportChart)n._wbRawImportChart=s._wbRawImportChart;return n}).filter(function(s){return s.title&&s.chart})}
@@ -5496,7 +5487,7 @@ function installToolsSwipeBack(){['tools-section','bible-section'].forEach(funct
 
 
 var workspaceState={panel:'home',detailType:null,selectedPublishId:null,activeSetId:null,profile:{name:'Workspace',description:'Team planning and shared sets',inviteCode:'WB-TEAM-042'},sets:[]};
-function persistWorkspace(){safeSet(STORAGE_KEYS.workspace,JSON.stringify(workspaceState));if(cloudState.firebase.connected||cloudFirebaseConfig()){(workspaceState.sets||[]).forEach(function(set){syncWorkspaceSetToFirebase(set)})}}
+function persistWorkspace(){writeStoredJson(STORAGE_KEYS.workspace,Object.assign({},workspaceState,{sets:preserveSetArray?preserveSetArray(workspaceState.sets||[]):(workspaceState.sets||[])}));if(cloudState.firebase.connected||cloudFirebaseConfig()){(workspaceState.sets||[]).forEach(function(set){syncWorkspaceSetToFirebase(set)})}}
 
 function workspaceName(){return (workspaceState.profile&&workspaceState.profile.name)||'Workspace'}
 function workspaceDescription(){return (workspaceState.profile&&workspaceState.profile.description)||'Team planning and shared sets'}
@@ -5522,8 +5513,8 @@ function renderWorkspaceSetLists(){var title=qs('workspace-subview-title');if(ti
 function openWorkspaceHome(){workspaceState.detailType=null;workspaceState.activeSetId=null;showWorkspacePanel('home')}
 function openWorkspaceSetLists(){workspaceState.detailType=null;renderWorkspaceSetLists();showWorkspacePanel('setlists')}
 function workspaceSetKeyLabel(set){return setKeyLabel(set)}
-function workspaceEditorItemHtml(set,item,idx){if(item.type==='section')return '<div class="set-section-card set-section-item workspace-section-item" data-workspace-index="'+idx+'"><div class="drag-handle"><span></span><span></span><span></span></div><div class="set-section-title">'+esc(item.label||'SECTION')+'</div><button class="set-rm" data-workspace-remove="'+idx+'" type="button">×</button></div>';if(item.type==='item')return '<div class="set-card text-set-card workspace-text-item" data-workspace-index="'+idx+'"><div class="drag-handle"><span></span><span></span><span></span></div><div class="set-info"><div class="set-title">'+esc(item.title||'Service item')+'</div><div class="set-meta">'+esc(item.note||item.sub||'Service item')+'</div></div><button class="set-rm" data-workspace-remove="'+idx+'" type="button">×</button></div>';var song=songs.find(function(x){return x.id===item.songId});if(!song)return '';var lang=song.cat==='malayalam'?'ML':'EN',cardKey=resolveSetItemKey(set,item,song),hasItemKey=itemHasExplicitKey(item);return '<div class="set-card song-set-card workspace-song-item" data-workspace-index="'+idx+'" data-song-id="'+esc(song.id)+'"><div class="drag-handle"><span></span><span></span><span></span></div><div class="set-info"><div class="set-title">'+esc(song.title)+'</div><div class="set-meta">'+esc(song.artist||'Unknown')+'</div><div class="set-code-row"><span class="set-song-code">'+esc(songCode(song))+'</span><span class="lang-badge">'+lang+'</span></div></div><button class="set-key-btn '+(hasItemKey?'has-item-key':'')+'" data-workspace-key="'+idx+'" type="button">Key '+esc(cardKey)+'</button><button class="set-rm" data-workspace-remove="'+idx+'" type="button">×</button></div>'}
-function renderWorkspaceSetDetail(set){var title=qs('workspace-detail-title'),sub=qs('workspace-detail-sub'),body=qs('workspace-detail-body');if(title)title.textContent=set.name;if(sub)sub.textContent='Workspace set · saved locally';if(!body)return;workspaceSetCounts(set);var rows=(set.items||[]).map(function(item,idx){return workspaceEditorItemHtml(set,item,idx)}).join('')||'<div class="workspace-empty-card">No items in this Workspace set yet.</div>';body.innerHTML='<div class="workspace-set-editor"><div class="workspace-editor-toolbar sl-hdr workspace-sl-hdr"><div class="sl-hdr-meta workspace-editor-meta"><span id="workspace-editor-count" class="workspace-editor-count">'+esc(workspaceItemCountLabel(set))+'</span><button id="workspace-editor-key" class="workspace-editor-key sl-set-key-info" data-workspace-set-key type="button">'+esc(workspaceSetKeyLabel(set))+'</button></div><div class="sl-btns workspace-editor-actions"><button class="sl-option-btn icon-only" data-workspace-options="'+esc(set.id)+'" type="button" aria-label="Workspace set options"><svg fill="none" height="4" viewBox="0 0 18 4" width="18"><circle cx="2" cy="2" fill="currentColor" r="2"></circle><circle cx="9" cy="2" fill="currentColor" r="2"></circle><circle cx="16" cy="2" fill="currentColor" r="2"></circle></svg></button><button class="sl-clear-btn" data-workspace-clear="'+esc(set.id)+'" type="button">Clear</button></div></div><div class="workspace-editor-items sl-items">'+rows+'</div><button aria-label="Add song to Workspace set" class="add-fab workspace-add-fab" data-workspace-add-song type="button"><svg fill="none" height="28" viewBox="0 0 24 24" width="28"><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-linecap="round" stroke-width="2.4"></path></svg></button></div>'}
+function workspaceEditorItemHtml(set,item,idx){if(item.type==='section')return '<div class="set-section-card set-section-item workspace-section-item" data-workspace-index="'+idx+'"><div class="drag-handle"><span></span><span></span><span></span></div><div class="set-section-title">'+esc(item.title||item.label||'SECTION')+'</div><button class="set-rm" data-workspace-remove="'+idx+'" type="button">×</button></div>';if(item.type==='item')return '<div class="set-card text-set-card workspace-text-item" data-workspace-index="'+idx+'"><div class="drag-handle"><span></span><span></span><span></span></div><div class="set-info"><div class="set-title">'+esc(item.title||'Service item')+'</div><div class="set-meta">'+esc(item.note||item.sub||'Service item')+'</div></div><button class="set-rm" data-workspace-remove="'+idx+'" type="button">×</button></div>';var song=songs.find(function(x){return x.id===item.songId});if(!song)return '';var lang=song.cat==='malayalam'?'ML':'EN',cardKey=resolveSetItemKey(set,item,song),hasItemKey=itemHasExplicitKey(item);return '<div class="set-card song-set-card workspace-song-item" data-workspace-index="'+idx+'" data-song-id="'+esc(song.id)+'"><div class="drag-handle"><span></span><span></span><span></span></div><div class="set-info"><div class="set-title">'+esc(song.title)+'</div><div class="set-meta">'+esc(song.artist||'Unknown')+'</div><div class="set-code-row"><span class="set-song-code">'+esc(songCode(song))+'</span><span class="lang-badge">'+lang+'</span></div></div><button class="set-key-btn '+(hasItemKey?'has-item-key':'')+'" data-workspace-key="'+idx+'" type="button">Key '+esc(cardKey)+'</button><button class="set-rm" data-workspace-remove="'+idx+'" type="button">×</button></div>'}
+function renderWorkspaceSetDetail(set){var title=qs('workspace-detail-title'),sub=qs('workspace-detail-sub'),body=qs('workspace-detail-body');if(title)title.textContent=set.name;if(sub)sub.textContent=cloudFirebaseConfig()?'Workspace set · Firebase-backed':'Workspace set';if(!body)return;workspaceSetCounts(set);var rows=(set.items||[]).map(function(item,idx){return workspaceEditorItemHtml(set,item,idx)}).join('')||'<div class="workspace-empty-card">No items in this Workspace set yet.</div>';body.innerHTML='<div class="workspace-set-editor"><div class="workspace-editor-toolbar sl-hdr workspace-sl-hdr"><div class="sl-hdr-meta workspace-editor-meta"><span id="workspace-editor-count" class="workspace-editor-count">'+esc(workspaceItemCountLabel(set))+'</span><button id="workspace-editor-key" class="workspace-editor-key sl-set-key-info" data-workspace-set-key type="button">'+esc(workspaceSetKeyLabel(set))+'</button></div><div class="sl-btns workspace-editor-actions"><button class="sl-option-btn icon-only" data-workspace-options="'+esc(set.id)+'" type="button" aria-label="Workspace set options"><svg fill="none" height="4" viewBox="0 0 18 4" width="18"><circle cx="2" cy="2" fill="currentColor" r="2"></circle><circle cx="9" cy="2" fill="currentColor" r="2"></circle><circle cx="16" cy="2" fill="currentColor" r="2"></circle></svg></button><button class="sl-clear-btn" data-workspace-clear="'+esc(set.id)+'" type="button">Clear</button></div></div><div class="workspace-editor-items sl-items">'+rows+'</div><button aria-label="Add song to Workspace set" class="add-fab workspace-add-fab" data-workspace-add-song type="button"><svg fill="none" height="28" viewBox="0 0 24 24" width="28"><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-linecap="round" stroke-width="2.4"></path></svg></button></div>'}
 function openWorkspaceSetEditorShell(id){var set=workspaceState.sets.find(function(x){return x.id===id});if(!set)return;workspaceState.activeSetId=id;workspaceState.detailType='set';renderWorkspaceSetDetail(set);showWorkspacePanel('detail')}
 function renderWorkspaceMembers(){workspaceState.detailType='members';workspaceState.activeSetId=null;var title=qs('workspace-detail-title'),sub=qs('workspace-detail-sub'),body=qs('workspace-detail-body');if(title)title.textContent='Members & invites';if(sub)sub.textContent='Invite code and team access preview';var code=(workspaceState.profile&&workspaceState.profile.inviteCode)||'WB-TEAM-042';if(body)body.innerHTML='<div class="workspace-detail-body-scroll"><div class="workspace-detail-card"><div class="workspace-detail-title">Invite code preview</div><div class="workspace-detail-copy">This is a local preview code. It can be copied for planning, but it does not grant real access until the Workspace backend exists.</div><div class="workspace-code-row"><div class="workspace-code" id="workspace-invite-code">'+esc(code)+'</div><button class="workspace-action-pill" data-copy-invite type="button">Copy</button></div><div class="workspace-detail-actions"><button class="workspace-action-pill" data-regenerate-invite type="button">Regenerate</button><button class="workspace-action-pill" data-workspace-settings-open type="button">Settings</button></div></div><div class="workspace-detail-card"><div class="workspace-detail-title">Current member preview</div><div class="workspace-detail-copy">Real members are not active yet. This device is treated as the Workspace owner for local planning.</div><div class="workspace-member-row"><span class="workspace-member-main"><span class="workspace-member-name">You</span><span class="workspace-member-sub">Local device</span></span><span class="workspace-role-pill">Owner</span></div></div><div class="workspace-detail-card"><div class="workspace-detail-title">Planned roles</div><div class="workspace-roles-grid"><div class="workspace-role-card"><div class="workspace-role-name">Owner</div><div class="workspace-role-copy">Manage workspace, members and settings.</div></div><div class="workspace-role-card"><div class="workspace-role-name">Admin</div><div class="workspace-role-copy">Manage sets, songs and invite flow.</div></div><div class="workspace-role-card"><div class="workspace-role-name">Member</div><div class="workspace-role-copy">Plan and edit shared set lists.</div></div></div></div></div>';showWorkspacePanel('detail')}
 function renderWorkspaceSettings(){workspaceState.detailType='settings';workspaceState.activeSetId=null;var title=qs('workspace-detail-title'),sub=qs('workspace-detail-sub'),body=qs('workspace-detail-body'),p=workspaceState.profile||{};if(title)title.textContent='Workspace settings';if(sub)sub.textContent='Local workspace profile and sharing controls';if(body)body.innerHTML='<div class="workspace-detail-body-scroll"><div class="workspace-detail-card"><div class="workspace-detail-title">Workspace profile</div><div class="workspace-detail-copy">These details are saved in this rebuild preview and customise the Workspace screens.</div><label class="workspace-form-field"><span>Workspace name</span><input id="workspace-profile-name" type="text" value="'+esc(p.name||'Workspace')+'"></label><label class="workspace-form-field"><span>Subtitle / description</span><textarea id="workspace-profile-desc">'+esc(p.description||'Team planning and shared sets')+'</textarea></label><div class="workspace-detail-actions"><button class="workspace-action-pill primary" data-save-workspace-profile type="button">Save changes</button></div></div><div class="workspace-detail-card"><div class="workspace-detail-title">Invite code preview</div><div class="workspace-detail-copy">Preview only. Real invite links and permissions come later with the Workspace backend.</div><div class="workspace-code-row"><div class="workspace-code">'+esc(p.inviteCode||'WB-TEAM-042')+'</div><button class="workspace-action-pill" data-copy-invite type="button">Copy</button></div><div class="workspace-detail-actions"><button class="workspace-action-pill" data-regenerate-invite type="button">Regenerate code</button><button class="workspace-action-pill" data-workspace-members-open type="button">Members & invites</button></div></div><div class="workspace-detail-card"><div class="workspace-detail-title">Local profile status</div><div class="workspace-detail-copy">Workspace profile is saved on this device. Shared set lists continue using the local Workspace preview model.</div><div class="workspace-detail-actions"><button class="workspace-action-pill" data-clear-workspace-profile type="button">Clear profile</button></div></div></div>';showWorkspacePanel('detail')}

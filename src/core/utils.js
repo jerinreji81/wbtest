@@ -1,5 +1,5 @@
-/* WorshipBase Phase D utility owner.
-   Pure helpers and localStorage-safe wrappers extracted from the v8.17 legacy shell. */
+/* WorshipBase Phase E.1 utility owner.
+   Pure non-storage helpers extracted from the v8.17 legacy shell. Storage-safe wrappers now belong to WBStorage. */
 (function(root){
 'use strict';
 
@@ -13,10 +13,6 @@ function normalizeKeyName(k){k=String(k||'').trim();if(!k)return 'C';var m=k.mat
 function keyOptionList(minor,flat){var c=constants();var base=flat?(c.NOTES_FLAT||fallbackFlat()):(c.NOTES_SHARP||fallbackSharp());return minor?base.map(minorKeyName):base.slice()}
 function isValidMusicKey(k){var c=constants();var sharp=c.NOTES_SHARP||fallbackSharp();var flat=c.NOTES_FLAT||fallbackFlat();k=normalizeKeyName(k);var r=keyRootName(k);return (sharp.indexOf(r)>=0||flat.indexOf(r)>=0) && (!/m$/.test(k)||isMinorKey(k))}
 function labelKey(k){return normalizeKeyName(k)}
-function safeGet(key){try{return localStorage.getItem(key)}catch(e){return null}}
-function safeSet(key,val){try{localStorage.setItem(key,val)}catch(e){}}
-function safeRemove(key){try{localStorage.removeItem(key)}catch(e){}}
-
 root.WBUtils={
   minorKeyName:minorKeyName,
   isMinorKey:isMinorKey,
@@ -24,9 +20,6 @@ root.WBUtils={
   normalizeKeyName:normalizeKeyName,
   keyOptionList:keyOptionList,
   isValidMusicKey:isValidMusicKey,
-  labelKey:labelKey,
-  safeGet:safeGet,
-  safeSet:safeSet,
-  safeRemove:safeRemove
+  labelKey:labelKey
 };
 })(window);
