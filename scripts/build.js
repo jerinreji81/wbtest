@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * WorshipBase Phase D.1 build scaffold.
+ * WorshipBase Phase D.1.1 build scaffold.
  *
  * Purpose:
  * - Keep the Phase B single deployable output.
@@ -122,7 +122,7 @@ function main() {
   }
 
   const manifest = {
-    phase: 'D.1',
+    phase: 'D.1.1',
     purpose: 'targeted stabilisation after Phase C.1 manual baseline issue log',
     baseline: 'v8.17 stability freeze with Phase C regression framework',
     generatedAt: new Date().toISOString(),
@@ -156,7 +156,7 @@ function main() {
 
   write(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
 
-  console.log('WorshipBase Phase D.1 build complete.');
+  console.log('WorshipBase Phase D.1.1 build complete.');
   console.log(`- ${path.relative(ROOT, DIST_INDEX)}`);
   console.log(`- ${path.relative(ROOT, DIST_SW)}`);
   console.log(`- ${path.relative(ROOT, MANIFEST)}`);

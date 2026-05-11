@@ -4,7 +4,7 @@
 'use strict';
 
 var VERSION='Rebuild_8.17';
-var REBUILD_PHASE='Phase D.1: stabilisation after manual baseline issue log';
+var REBUILD_PHASE='Phase D.1.1: stabilisation follow-up after manual retest';
 var REBUILD_REFERENCE='Working-v85.0-fixed.html';
 
 var ASSET_DEFAULTS={
