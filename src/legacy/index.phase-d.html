@@ -3990,6 +3990,7 @@ function switchTab(tab){
     state.setlistEditorId=null;state.tab=tab;qsa('.route').forEach(function(r){r.classList.remove('active')});qs(routes[tab]).classList.add('active');qsa('.tab-btn').forEach(function(b){b.classList.toggle('active',b.dataset.tab===tab)});qs('srch-wrap').style.display='none';qs('hdr-add-btn').style.display='none';setBodyRouteClasses(tab);renderPersonalHome(false);return tab;
   }
   if(tab==='workspace'&&previous==='workspace'&&workspaceState.panel&&workspaceState.panel!=='home'){showWorkspacePanel('home');return tab;}
+  if(tab==='tools'&&previous==='tools'&&state.toolsPanel&&state.toolsPanel!=='home'){openToolsHome();return tab;}
   state.tab=tab;
   qsa('.route').forEach(function(r){r.classList.remove('active')});
   qs(routes[tab]).classList.add('active');
@@ -5212,6 +5213,7 @@ if(SETTINGS_CHOICES&&SETTINGS_CHOICES.defaultBibleVersion)SETTINGS_CHOICES.defau
 var BIBLE_BOOKS=BibleController.BIBLE_BOOKS||['John'];
 var BIBLE_CHAPTERS=BibleController.BIBLE_CHAPTERS||{John:21};
 var bibleRuntime={loading:false,error:'',index:null,books:[],chapterCache:Object.create(null),loadPromise:null,basePath:'',source:'none'};
+var bibleRenderSeq=0;
 function getBibleVersionMeta(id){return BibleController.getVersionMeta?BibleController.getVersionMeta(id,settings):(BIBLE_VERSIONS.find(function(v){return v.id===String(id||bibleState.version||settings.defaultBibleVersion||'esv').toLowerCase()})||BIBLE_VERSIONS[0])}
 function normalizeBibleState(){if(BibleController.normalizeState)return BibleController.normalizeState(bibleState,bibleRuntime,settings);var books=bibleRuntime.books&&bibleRuntime.books.length?bibleRuntime.books:BIBLE_BOOKS;if(books.indexOf(bibleState.book)<0)bibleState.book=books.indexOf('John')>=0?'John':books[0];var max=bibleChapterCount(bibleState.book);bibleState.chapter=Math.max(1,Math.min(max,parseInt(bibleState.chapter,10)||1));return bibleState}
 function biblePackageReady(){return BibleController.packageReady?BibleController.packageReady(bibleRuntime):!!(bibleRuntime.index&&bibleRuntime.books&&bibleRuntime.books.length)}
@@ -5319,22 +5321,35 @@ async function loadBibleChapter(book,chapter){
 }
 function renderBibleShell(){
   normalizeBibleState();
+  var seq=++bibleRenderSeq;
+  var requested={book:bibleState.book,chapter:bibleState.chapter,version:bibleState.version};
   var book=qs('bible-book-label'),chap=qs('bible-chapter-label'),ver=qs('bible-version-label'),card=qs('bible-card');
-  if(book)book.textContent=bibleState.book;
-  if(chap)chap.textContent=bibleState.chapter;
-  var vmeta=getBibleVersionMeta();
+  if(book)book.textContent=requested.book;
+  if(chap)chap.textContent=requested.chapter;
+  var vmeta=getBibleVersionMeta(requested.version);
   if(ver)ver.textContent=vmeta.abbr;
   if(!card)return Promise.resolve();
+  var cacheId=bibleCacheId(requested.version,requested.book,requested.chapter);
+  var hasCached=!!(bibleRuntime.chapterCache&&bibleRuntime.chapterCache[cacheId]);
   if(bibleRuntime.loading&&!biblePackageReady()){
     card.innerHTML='<div class="bible-heading">Loading Bible…</div><div class="bible-copy">Checking local package and cloud chapter data.</div>';
     return Promise.resolve();
   }
-  return loadBibleChapter(bibleState.book,bibleState.chapter).then(function(chapterData){
+  if(!hasCached){
+    card.innerHTML='<div class="bible-heading">'+esc(requested.book+' '+requested.chapter)+'</div><div class="bible-copy">Loading chapter…</div>';
+  }
+  return loadBibleChapter(requested.book,requested.chapter).then(function(chapterData){
+    if(seq!==bibleRenderSeq)return;
+    var stillCurrent=String(bibleState.book)===String(requested.book)&&String(bibleState.chapter)===String(requested.chapter)&&String(bibleState.version)===String(requested.version);
+    if(!stillCurrent)return;
     var verses=((chapterData&&chapterData.verses)||[]).map(function(v){return '<div class="bible-verse"><span class="bible-vnum">'+esc(v.number||v.verse||'')+'</span><span class="bible-vtext">'+esc(v.text||'')+'</span></div>'}).join('')||'<div class="bible-empty">No verses found for this chapter.</div>';
     var footer=(bibleRuntime.index&&bibleRuntime.index.meta&&bibleRuntime.index.meta.copyright)||vmeta.name;
-    card.innerHTML='<div class="bible-heading">'+esc((chapterData&&chapterData.book)||bibleState.book)+' '+esc(String(chapterData&&chapterData.chapter||bibleState.chapter))+'</div>'+verses+'<div class="bible-copy">'+esc(footer)+'</div>';
+    card.innerHTML='<div class="bible-heading">'+esc((chapterData&&chapterData.book)||requested.book)+' '+esc(String(chapterData&&chapterData.chapter||requested.chapter))+'</div>'+verses+'<div class="bible-copy">'+esc(footer)+'</div>';
   }).catch(function(){
-    card.innerHTML='<div class="bible-heading">'+esc(bibleState.book+' '+bibleState.chapter)+'</div><div class="bible-empty">Bible text is not available yet for this chapter.</div><div class="bible-copy">'+esc(bibleRuntime.error||'Add the package folder beside this HTML file or provide deployed Bible chapter data in Firebase.')+'</div>';
+    if(seq!==bibleRenderSeq)return;
+    var stillCurrent=String(bibleState.book)===String(requested.book)&&String(bibleState.chapter)===String(requested.chapter)&&String(bibleState.version)===String(requested.version);
+    if(!stillCurrent)return;
+    card.innerHTML='<div class="bible-heading">'+esc(requested.book+' '+requested.chapter)+'</div><div class="bible-empty">Bible text is not available yet for this chapter.</div><div class="bible-copy">'+esc(bibleRuntime.error||'Add the package folder beside this HTML file or provide deployed Bible chapter data in Firebase.')+'</div>';
   });
 }
 function renderBiblePicker(){normalizeBibleState();var books=qs('bible-book-picker-list'),chapters=qs('bible-chapter-picker-list');if(!books||!chapters)return;var bookModels=BibleController.bookModels?BibleController.bookModels(bibleState,bibleRuntime):(bibleRuntime.books&&bibleRuntime.books.length?bibleRuntime.books:BIBLE_BOOKS).map(function(b){return {book:b,active:b===bibleState.book}});books.innerHTML=bookModels.map(function(m){return '<button class="bible-picker-item '+(m.active?'active':'')+'" data-bible-book="'+esc(m.book)+'" type="button"><span class="truncate">'+esc(m.book)+'</span></button>'}).join('');var chapterModels=BibleController.chapterModels?BibleController.chapterModels(bibleState,bibleRuntime):Array.from({length:bibleChapterCount(bibleState.book)},function(_,i){var n=i+1;return {chapter:n,active:n===bibleState.chapter}});chapters.innerHTML=chapterModels.map(function(m){return '<button class="bible-picker-item chapter-item '+(m.active?'active':'')+'" data-bible-chapter="'+m.chapter+'" type="button">'+m.chapter+'</button>'}).join('');setTimeout(function(){var a=books.querySelector('.active');if(a)a.scrollIntoView({block:'center'});var c=chapters.querySelector('.active');if(c)c.scrollIntoView({block:'center'});},0)}

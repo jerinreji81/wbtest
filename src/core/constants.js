@@ -3,8 +3,8 @@
 (function(root){
 'use strict';
 
-var VERSION='Rebuild_8.17J4';
-var REBUILD_PHASE='Phase J4: Bible tools controller extraction';
+var VERSION='Rebuild_8.17J4.1';
+var REBUILD_PHASE='Phase J4.1: Tools/Bible routing stabilisation';
 var REBUILD_REFERENCE='Working-v85.0-fixed.html';
 
 var ASSET_DEFAULTS={

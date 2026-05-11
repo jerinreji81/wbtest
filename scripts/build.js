@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * WorshipBase Phase J4 build scaffold.
+ * WorshipBase Phase J4.1 build scaffold.
  *
  * Purpose:
  * - Keep the Phase B single deployable output.
@@ -122,7 +122,7 @@ function main() {
 
   const ownershipViolations = ownershipChecks(shellHtml);
   if (ownershipViolations.length) {
-    console.error('Phase J4 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
+    console.error('Phase J4.1 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
     process.exit(1);
   }
 
@@ -139,13 +139,13 @@ function main() {
   }
 
   const manifest = {
-    phase: 'J4',
-    purpose: 'Extract Bible tools controller ownership without visual redesign',
-    baseline: 'v8.17 stability freeze, Phase J3 Backup Centre controller extraction; v85 reference artifact included',
+    phase: 'J4.1',
+    purpose: 'Stabilise Bible rapid navigation and Tools tab return-to-home behaviour without visual redesign',
+    baseline: 'v8.17 stability freeze, Phase J4.1 Bible controller extraction; v85 reference artifact included',
     generatedAt: new Date().toISOString(),
     files: {
       'index.html': {
-        source: 'src/legacy/index.phase-d.html + injected Phase J4 modules',
+        source: 'src/legacy/index.phase-d.html + injected Phase J4.1 modules',
         sha256: sha256(indexHtml),
         bytes: Buffer.byteLength(indexHtml, 'utf8'),
       },
@@ -173,7 +173,7 @@ function main() {
 
   write(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
 
-  console.log('WorshipBase Phase J4 build complete.');
+  console.log('WorshipBase Phase J4.1 build complete.');
   console.log(`- ${path.relative(ROOT, DIST_INDEX)}`);
   console.log(`- ${path.relative(ROOT, DIST_SW)}`);
   console.log(`- ${path.relative(ROOT, MANIFEST)}`);
