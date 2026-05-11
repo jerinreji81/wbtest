@@ -3100,7 +3100,7 @@ body.dark .sheet-section{
 'use strict';
 
 var VERSION='Rebuild_8.17';
-var REBUILD_PHASE='Phase E.3: backup and Drive service boundary';
+var REBUILD_PHASE='Phase G: router, tab registry, route registry, and gesture API scaffold';
 var REBUILD_REFERENCE='Working-v85.0-fixed.html';
 
 var ASSET_DEFAULTS={
@@ -3222,6 +3222,347 @@ root.WBUtils={
   isValidMusicKey:isValidMusicKey,
   labelKey:labelKey
 };
+})(window);
+</script>
+<script id="wb-core-startup">
+/* WorshipBase Phase F startup/PWA lifecycle owner.
+   Source of truth for launch reset rules and PWA update registration.
+   This module must remain behaviour-preserving: fresh launch starts at Library and closes stale overlays. */
+(function(root){
+'use strict';
+
+var DEFAULT_STATIC_ASSETS=[
+  'manifest.webmanifest',
+  'wb-offline-sw.js',
+  'worshipbase_layered_fold_w_proper/app-icons/app-icon-180.png',
+  'worshipbase_layered_fold_w_proper/app-icons/app-icon-192.png',
+  'worshipbase_layered_fold_w_proper/app-icons/apple-touch-icon.png',
+  'worshipbase_layered_fold_w_proper/png/worshipbase-mark-256.png',
+  'worshipbase_layered_fold_w_proper/launch/launch-dark.png'
+];
+
+var BODY_TRANSIENT_CLASSES=[
+  'song-open',
+  'song-focus',
+  'performance-mode',
+  'cues-hidden',
+  'sheet-lock',
+  'modal-lock',
+  'editor-open',
+  'song-closing',
+  'song-view-swiping'
+];
+
+function canUseOfflineCaches(){
+  return !!(root.isSecureContext && 'caches' in root);
+}
+
+function sameOriginAsset(url){
+  try{
+    var u=new URL(url, root.location && root.location.href ? root.location.href : undefined);
+    return u.origin===(root.location&&root.location.origin) ? u.href : '';
+  }catch(e){return ''}
+}
+
+function normalizeLaunchState(context){
+  context=context||{};
+  var state=context.state||{};
+  var workspaceState=context.workspaceState||{};
+
+  state.tab='songs';
+  state.selectedId=null;
+  state.songContext=null;
+  state.setlistEditorId=null;
+  state.toolsPanel='home';
+
+  workspaceState.panel='home';
+  workspaceState.activeSetId=null;
+  workspaceState.detailType=null;
+  workspaceState.selectedPublishId=null;
+
+  try{
+    if(root.document&&root.document.body){
+      root.document.body.classList.remove.apply(root.document.body.classList, BODY_TRANSIENT_CLASSES);
+    }
+  }catch(e){}
+
+  state.routeMemoryLoaded=true;
+  return {state:state,workspaceState:workspaceState};
+}
+
+function syncLibraryFilterChips(state){
+  state=state||{};
+  try{
+    var active=String(state.filter||'all');
+    var row=root.document&&root.document.getElementById('library-filter-row');
+    if(!row)return false;
+    Array.prototype.forEach.call(row.querySelectorAll('.filter-chip[data-filter]'),function(btn){
+      btn.classList.toggle('active', String(btn.getAttribute('data-filter')||'')===active);
+    });
+    return true;
+  }catch(e){return false}
+}
+
+function collectOfflineUrls(options){
+  options=options||{};
+  var urls=[];
+  try{urls.push(root.location.href.split('#')[0]);}catch(e){}
+  (options.staticAssets||DEFAULT_STATIC_ASSETS).forEach(function(p){
+    var u=sameOriginAsset(p); if(u)urls.push(u);
+  });
+  try{
+    [root.document.querySelector('link[rel="manifest"]'),root.document.querySelector('link[rel="apple-touch-icon"]'),root.document.querySelector('link[rel="icon"]')].forEach(function(el){
+      if(!el||!el.href)return; var u=sameOriginAsset(el.href); if(u)urls.push(u);
+    });
+  }catch(e){}
+  var seen=Object.create(null);
+  return urls.filter(function(u){if(!u||seen[u])return false;seen[u]=true;return true});
+}
+
+function warmOfflineCaches(options){
+  options=options||{};
+  if(!canUseOfflineCaches())return Promise.resolve(false);
+  var urls=collectOfflineUrls(options);
+  if(!urls.length)return Promise.resolve(false);
+  var cacheName=options.cacheName||'worshipbase-offline-runtime';
+  return root.caches.open(cacheName).then(function(cache){
+    return Promise.all(urls.map(function(u){return cache.add(u).catch(function(){})})).then(function(){return true});
+  }).catch(function(){return false});
+}
+
+function registerOfflineServiceWorker(options){
+  options=options||{};
+  var navigator=root.navigator;
+  if(!navigator||!('serviceWorker' in navigator))return Promise.resolve(false);
+  if(!/^https?:$/i.test(root.location&&root.location.protocol||''))return Promise.resolve(false);
+  var swUrl=options.url||'./wb-offline-sw.js';
+  if(options.version)swUrl += (swUrl.indexOf('?')>=0?'&':'?') + 'v=' + encodeURIComponent(options.version);
+  var notify=typeof options.notify==='function'?options.notify:function(){};
+  return navigator.serviceWorker.register(swUrl).then(function(reg){
+    try{if(reg&&reg.update)reg.update().catch(function(){})}catch(e){}
+    try{if(reg&&reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'})}catch(e){}
+    try{
+      reg.addEventListener('updatefound',function(){
+        var sw=reg.installing;if(!sw)return;
+        sw.addEventListener('statechange',function(){
+          if(sw.state==='installed'&&navigator.serviceWorker.controller){
+            notify('WorshipBase updated. Reopen if anything looks old.');
+          }
+        });
+      });
+    }catch(e){}
+    return true;
+  }).catch(function(){return false});
+}
+
+var serviceWorkerRefreshing=false;
+function installServiceWorkerControllerReload(options){
+  options=options||{};
+  var navigator=root.navigator;
+  if(!navigator||!('serviceWorker' in navigator))return false;
+  try{
+    navigator.serviceWorker.addEventListener('controllerchange',function(){
+      if(serviceWorkerRefreshing)return;
+      serviceWorkerRefreshing=true;
+      setTimeout(function(){try{root.location.reload()}catch(e){}}, options.delayMs||250);
+    });
+    return true;
+  }catch(e){return false}
+}
+
+function diagnostics(){
+  return {
+    freshLaunchRoute:'songs',
+    transientClasses:BODY_TRANSIENT_CLASSES.slice(),
+    canUseOfflineCaches:canUseOfflineCaches(),
+    serviceWorker:!!(root.navigator&&root.navigator.serviceWorker),
+    controllerReloadInstalled:serviceWorkerRefreshing?true:'listener-installed-on-boot'
+  };
+}
+
+root.WBStartupLifecycle={
+  DEFAULT_STATIC_ASSETS:DEFAULT_STATIC_ASSETS,
+  BODY_TRANSIENT_CLASSES:BODY_TRANSIENT_CLASSES,
+  normalizeLaunchState:normalizeLaunchState,
+  syncLibraryFilterChips:syncLibraryFilterChips,
+  canUseOfflineCaches:canUseOfflineCaches,
+  sameOriginAsset:sameOriginAsset,
+  collectOfflineUrls:collectOfflineUrls,
+  warmOfflineCaches:warmOfflineCaches,
+  registerOfflineServiceWorker:registerOfflineServiceWorker,
+  installServiceWorkerControllerReload:installServiceWorkerControllerReload,
+  diagnostics:diagnostics
+};
+})(window);
+</script>
+<script id="wb-core-navigation">
+/* WorshipBase Phase G navigation owner scaffold.
+   Concrete tab registry, route registry, navigation controller, and gesture controller.
+   This module owns registry data and raw edge-back gesture handling; the legacy shell still supplies behaviour adapters until feature extraction. */
+(function(root){
+'use strict';
+
+function now(){return Date.now?Date.now():new Date().getTime()}
+function asArray(list){return Array.prototype.slice.call(list||[])}
+function noop(){return false}
+function closest(el,selector){try{return el&&el.closest?el.closest(selector):null}catch(e){return null}}
+function elementFromRef(ref){
+  if(!ref)return null;
+  if(ref===root.document)return root.document;
+  if(ref===root.window)return root.window;
+  if(typeof ref==='string')return root.document.querySelector(ref);
+  return ref;
+}
+function publicSpec(spec){
+  var out={};
+  Object.keys(spec||{}).forEach(function(k){
+    if(typeof spec[k]!=='function')out[k]=spec[k];
+  });
+  return out;
+}
+
+function createRegistry(kind){
+  var map=Object.create(null);
+  var order=[];
+  function register(idOrSpec,spec){
+    var item=typeof idOrSpec==='string'?Object.assign({},spec||{},{id:idOrSpec}):Object.assign({},idOrSpec||{});
+    if(!item.id)throw new Error(kind+' registry entry requires id');
+    if(!map[item.id])order.push(item.id);
+    map[item.id]=Object.freeze(item);
+    return map[item.id];
+  }
+  function unregister(id){
+    if(!map[id])return false;
+    delete map[id];
+    order=order.filter(function(x){return x!==id});
+    return true;
+  }
+  function get(id){return map[id]||null}
+  function has(id){return !!map[id]}
+  function list(){return order.map(function(id){return map[id]}).filter(Boolean)}
+  function ids(){return order.slice()}
+  function clear(){map=Object.create(null);order=[]}
+  return {kind:kind,register:register,unregister:unregister,get:get,has:has,list:list,ids:ids,clear:clear};
+}
+
+var WBTabRegistry=createRegistry('tab');
+var WBRouteRegistry=createRegistry('route');
+
+var adapters={
+  showTab:noop,
+  back:noop,
+  closeTop:noop,
+  currentTab:function(){return null},
+  routeState:function(){return {}}
+};
+
+var WBNavigationController={
+  configure:function(next){
+    next=next||{};
+    Object.keys(next).forEach(function(k){if(typeof next[k]==='function')adapters[k]=next[k]});
+    return this;
+  },
+  registerTab:function(spec){return WBTabRegistry.register(spec)},
+  registerRoute:function(spec){return WBRouteRegistry.register(spec)},
+  registerDefaultTabs:function(){
+    var defaults=[
+      {id:'songs',label:'Library',button:'#tab-songs',route:'#song-section',freshLaunch:true},
+      {id:'setlist',label:'Set Lists',button:'#tab-setlist',route:'#setlist-section'},
+      {id:'workspace',label:'Workspace',button:'#tab-workspace',route:'#workspace-section'},
+      {id:'tools',label:'Tools',button:'#tab-tools',route:'#tools-section'},
+      {id:'settings',label:'Settings',button:'#tab-settings',route:'#settings-section'}
+    ];
+    defaults.forEach(function(tab){
+      WBTabRegistry.register(tab);
+      WBRouteRegistry.register({id:tab.id,element:tab.route,tab:tab.id,label:tab.label,topLevel:true});
+    });
+    return defaults.length;
+  },
+  showTab:function(id,reason){
+    var tab=WBTabRegistry.get(id)||WBTabRegistry.get('songs');
+    if(!tab)return false;
+    return adapters.showTab(tab.id,reason||'controller')!==false;
+  },
+  back:function(reason){return adapters.back(reason||'controller')===true},
+  closeTop:function(reason){return adapters.closeTop(reason||'controller')===true},
+  current:function(){return adapters.currentTab()},
+  routeState:function(){return adapters.routeState()},
+  diagnostics:function(){
+    return {
+      tabs:WBTabRegistry.list().map(publicSpec),
+      routes:WBRouteRegistry.list().map(publicSpec),
+      current:adapters.currentTab(),
+      routeState:adapters.routeState()
+    };
+  }
+};
+
+var gestureMap=Object.create(null);
+function registerEdgeBack(options){
+  options=options||{};
+  var id=options.id||options.route||('edge-back-'+Object.keys(gestureMap).length);
+  if(gestureMap[id]&&gestureMap[id].destroy)gestureMap[id].destroy();
+  var target=elementFromRef(options.element)||root.document;
+  var threshold=typeof options.threshold==='number'?options.threshold:72;
+  var edge=typeof options.edge==='number'?options.edge:96;
+  var shouldStart=typeof options.shouldStart==='function'?options.shouldStart:function(){return true};
+  var onCommit=typeof options.onCommit==='function'?options.onCommit:function(){return WBNavigationController.back('edge-back')};
+  var state={sx:0,sy:0,dx:0,tracking:false,locked:false,startedAt:0};
+  function point(e){return e&&e.touches&&e.touches[0]?e.touches[0]:e}
+  function onStart(e){
+    var p=point(e);if(!p)return;
+    if(p.clientX>edge)return;
+    if(options.ignoreSelector&&closest(e.target,options.ignoreSelector))return;
+    if(shouldStart(e,p)===false)return;
+    state.sx=p.clientX;state.sy=p.clientY;state.dx=0;state.tracking=true;state.locked=false;state.startedAt=now();
+    try{if(options.activeClass)root.document.body.classList.add(options.activeClass)}catch(err){}
+  }
+  function onMove(e){
+    if(!state.tracking)return;var p=point(e);if(!p)return;
+    state.dx=p.clientX-state.sx;var dy=Math.abs(p.clientY-state.sy);
+    if(!state.locked){
+      if(Math.abs(state.dx)<18&&dy<18)return;
+      if(dy>Math.abs(state.dx)*0.9){state.tracking=false;return}
+      state.locked=true;
+    }
+    if(state.dx>16&&state.dx>dy*1.2&&e.cancelable)e.preventDefault();
+    if(typeof options.onProgress==='function')options.onProgress(Math.max(0,state.dx),e);
+  }
+  function finish(committed){
+    var dx=state.dx;
+    state.tracking=false;state.locked=false;state.dx=0;
+    try{if(options.activeClass)root.document.body.classList.remove(options.activeClass)}catch(err){}
+    if(committed)onCommit({distance:dx,startedAt:state.startedAt,endedAt:now(),id:id});
+    else if(typeof options.onCancel==='function')options.onCancel({distance:dx,id:id});
+  }
+  function onEnd(){if(!state.tracking)return;finish(state.dx>threshold)}
+  function onCancel(){if(!state.tracking)return;finish(false)}
+  target.addEventListener('touchstart',onStart,{passive:true,capture:true});
+  target.addEventListener('touchmove',onMove,{passive:false,capture:true});
+  target.addEventListener('touchend',onEnd,{passive:true,capture:true});
+  target.addEventListener('touchcancel',onCancel,{passive:true,capture:true});
+  var handle={id:id,route:options.route||null,element:options.element||'document',threshold:threshold,edge:edge,destroy:function(){
+    target.removeEventListener('touchstart',onStart,true);
+    target.removeEventListener('touchmove',onMove,true);
+    target.removeEventListener('touchend',onEnd,true);
+    target.removeEventListener('touchcancel',onCancel,true);
+    delete gestureMap[id];
+  }};
+  gestureMap[id]=handle;
+  return handle;
+}
+
+var WBGestureController={
+  registerEdgeBack:registerEdgeBack,
+  unregister:function(id){if(!gestureMap[id])return false;gestureMap[id].destroy();return true},
+  list:function(){return Object.keys(gestureMap).map(function(id){var g=gestureMap[id];return {id:g.id,route:g.route,element:g.element,threshold:g.threshold,edge:g.edge}})},
+  diagnostics:function(){return {gestures:this.list(),owner:'WBGestureController'}}
+};
+
+root.WBTabRegistry=WBTabRegistry;
+root.WBRouteRegistry=WBRouteRegistry;
+root.WBNavigationController=WBNavigationController;
+root.WBGestureController=WBGestureController;
 })(window);
 </script>
 <script id="wb-storage-service">
@@ -3754,6 +4095,7 @@ var recentIds=['s138'];
 var StorageService=window.WBStorage||{};
 var FirebaseService=window.WBFirebaseService||{};
 var BackupService=window.WBBackupService||{};
+var StartupLifecycle=window.WBStartupLifecycle||{};
 var safeGet=StorageService.safeGet;
 var safeSet=StorageService.safeSet;
 var safeRemove=StorageService.safeRemove;
@@ -3831,39 +4173,21 @@ function workspaceSetRecordsFromSnapshot(data){
   }
   return out;
 }
-function canUseOfflineCaches(){return !!(window.isSecureContext&&'caches' in window)}
-function sameOriginAsset(url){
-  try{var u=new URL(url,location.href);return u.origin===location.origin?u.href:''}catch(e){return ''}
-}
+function canUseOfflineCaches(){return StartupLifecycle&&StartupLifecycle.canUseOfflineCaches?StartupLifecycle.canUseOfflineCaches():!!(window.isSecureContext&&'caches' in window)}
+function sameOriginAsset(url){return StartupLifecycle&&StartupLifecycle.sameOriginAsset?StartupLifecycle.sameOriginAsset(url):(function(){try{var u=new URL(url,location.href);return u.origin===location.origin?u.href:''}catch(e){return ''}})()}
 function warmOfflineCaches(){
-  if(!canUseOfflineCaches())return Promise.resolve(false);
-  var urls=[];
-  try{urls.push(location.href.split('#')[0]);}catch(e){}
-  ['manifest.webmanifest','wb-offline-sw.js','worshipbase_layered_fold_w_proper/app-icons/app-icon-180.png','worshipbase_layered_fold_w_proper/app-icons/app-icon-192.png','worshipbase_layered_fold_w_proper/app-icons/apple-touch-icon.png','worshipbase_layered_fold_w_proper/png/worshipbase-mark-256.png','worshipbase_layered_fold_w_proper/launch/launch-dark.png'].forEach(function(p){
-    var u=sameOriginAsset(p); if(u)urls.push(u);
-  });
-  [document.querySelector('link[rel="manifest"]'),document.querySelector('link[rel="apple-touch-icon"]'),document.querySelector('link[rel="icon"]')].forEach(function(el){
-    if(!el||!el.href)return; var u=sameOriginAsset(el.href); if(u)urls.push(u);
-  });
-  urls=Array.from(new Set(urls.filter(Boolean)));
-  if(!urls.length)return Promise.resolve(false);
-  return caches.open('worshipbase-offline-v8-14').then(function(cache){
-    return Promise.all(urls.map(function(u){return cache.add(u).catch(function(){})})).then(function(){return true})
-  }).catch(function(){return false});
+  if(StartupLifecycle&&StartupLifecycle.warmOfflineCaches){
+    return StartupLifecycle.warmOfflineCaches({cacheName:'worshipbase-offline-v8-17-phase-f'});
+  }
+  return Promise.resolve(false);
 }
 function registerOfflineServiceWorker(){
-  if(!('serviceWorker' in navigator))return Promise.resolve(false);
-  if(!/^https?:$/i.test(location.protocol))return Promise.resolve(false);
-  var swUrl='./wb-offline-sw.js?v='+encodeURIComponent(VERSION);
-  return navigator.serviceWorker.register(swUrl).then(function(reg){
-    try{if(reg&&reg.update)reg.update().catch(function(){})}catch(e){}
-    try{if(reg&&reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'})}catch(e){}
-    try{reg.addEventListener('updatefound',function(){var sw=reg.installing;if(!sw)return;sw.addEventListener('statechange',function(){if(sw.state==='installed'&&navigator.serviceWorker.controller){showToast('WorshipBase updated. Reopen if anything looks old.')}})})}catch(e){}
-    return true;
-  }).catch(function(){return false});
+  if(StartupLifecycle&&StartupLifecycle.registerOfflineServiceWorker){
+    return StartupLifecycle.registerOfflineServiceWorker({url:'./wb-offline-sw.js',version:VERSION,notify:showToast});
+  }
+  return Promise.resolve(false);
 }
-var wbServiceWorkerRefreshing=false;
-try{if('serviceWorker' in navigator){navigator.serviceWorker.addEventListener('controllerchange',function(){if(wbServiceWorkerRefreshing)return;wbServiceWorkerRefreshing=true;setTimeout(function(){try{location.reload()}catch(e){}},250)})}}catch(e){}
+try{if(StartupLifecycle&&StartupLifecycle.installServiceWorkerControllerReload)StartupLifecycle.installServiceWorkerControllerReload({delayMs:250})}catch(e){}
 var firebaseReconnectTimer=null,connectivityWatchersInstalled=false,offlineWarmStarted=false;
 function scheduleFirebaseReconnect(){
   if(navigator.onLine===false)return;
@@ -4183,18 +4507,15 @@ function loadRouteMemory(){
     bibleState.chapter=parseInt(mem.bible.chapter,10)||bibleState.chapter;
     bibleState.version=String(mem.bible.version||bibleState.version||settings.defaultBibleVersion||'esv').toLowerCase();
   }
-  /* v8.14 launch rule: always start clean on Library. Only persistent content/settings survive boot. */
-  state.tab='songs';
-  state.selectedId=null;
-  state.songContext=null;
-  state.setlistEditorId=null;
-  state.toolsPanel='home';
-  workspaceState.panel='home';
-  workspaceState.activeSetId=null;
-  workspaceState.detailType=null;
-  workspaceState.selectedPublishId=null;
-  document.body.classList.remove('song-open','song-focus','performance-mode','cues-hidden','sheet-lock','modal-lock','editor-open','song-closing','song-view-swiping');
-  state.routeMemoryLoaded=true;
+  /* Phase F launch rule owner: always start clean on Library. Only persistent content/settings survive boot. */
+  if(StartupLifecycle&&typeof StartupLifecycle.normalizeLaunchState==='function'){
+    StartupLifecycle.normalizeLaunchState({state:state,workspaceState:workspaceState});
+  }else{
+    state.tab='songs';state.selectedId=null;state.songContext=null;state.setlistEditorId=null;state.toolsPanel='home';
+    workspaceState.panel='home';workspaceState.activeSetId=null;workspaceState.detailType=null;workspaceState.selectedPublishId=null;
+    document.body.classList.remove('song-open','song-focus','performance-mode','cues-hidden','sheet-lock','modal-lock','editor-open','song-closing','song-view-swiping');
+    state.routeMemoryLoaded=true;
+  }
 }
 function updateSetting(key,val,skipRender){if(key==='theme'){if(settings.darkMode){settings.themeDark=val}else{settings.themeLight=val}settings.theme=val}else if(key==='darkMode'){settings.darkMode=!!val;settings.theme=activeThemeKey()}else{settings[key]=val}persistSettings();applySettings();if(key==='defaultSongView'||key==='highlightChordsDefault'||key==='theme'||key==='darkMode')renderSongSheet();if(!skipRender)renderSettings()}
 
@@ -6166,7 +6487,7 @@ function installWorkspaceSetDrag(){
 function installWorkspaceControls(){installWorkspaceSetDrag();var a=qs('workspace-open-sets');if(a&&!a.dataset.ready){a.dataset.ready='1';a.addEventListener('click',openWorkspaceSetLists)}qsa('.workspace-subview-back').forEach(function(b){if(!b.dataset.ready){b.dataset.ready='1';b.addEventListener('click',workspaceBack)}});var pub=qs('workspace-publish-set');if(pub&&!pub.dataset.ready){pub.dataset.ready='1';pub.addEventListener('click',openWorkspacePublishSheet)}var mem=qs('workspace-members');if(mem&&!mem.dataset.ready){mem.dataset.ready='1';mem.addEventListener('click',function(){openWorkspaceInfoShell('Members & invites')})}var st=qs('workspace-settings-card');if(st&&!st.dataset.ready){st.dataset.ready='1';st.addEventListener('click',function(){openWorkspaceInfoShell('Workspace settings')})}var nw=qs('workspace-subview-new');if(nw&&!nw.dataset.ready){nw.dataset.ready='1';nw.addEventListener('click',openWorkspaceNewSheet)}var list=qs('workspace-setlists-panel');if(list&&!list.dataset.ready){list.dataset.ready='1';list.addEventListener('click',function(e){var del=e.target.closest('[data-workspace-delete]');if(del){e.preventDefault();e.stopPropagation();deleteWorkspaceSet(del.dataset.workspaceDelete);return}var card=e.target.closest('[data-workspace-set]');if(card)openWorkspaceSetEditorShell(card.dataset.workspaceSet)})}var detail=qs('workspace-detail-panel');if(detail&&!detail.dataset.ready){detail.dataset.ready='1';detail.addEventListener('click',function(e){var dragHost=e.target.closest&&e.target.closest('.workspace-editor-items');if(dragHost&&dragHost.dataset.dragSuppress==='1'){e.preventDefault();e.stopPropagation();return}var add=e.target.closest('[data-workspace-add-song]');if(add){openWorkspaceSongPicker();return}var cp=e.target.closest('[data-workspace-copy]');if(cp){copyWorkspaceSetToPersonal(cp.dataset.workspaceCopy);return}var op=e.target.closest('[data-workspace-options]');if(op){workspaceState.activeSetId=op.dataset.workspaceOptions;openSetOptions('workspace');return}var clear=e.target.closest('[data-workspace-clear]');if(clear){var cs=workspaceState.sets.find(function(x){return x.id===clear.dataset.workspaceClear});if(cs&&confirm('Clear all items from this Workspace set?')){cs.items=[];cs.updated='Updated now';workspaceSetCounts(cs);persistWorkspace();renderWorkspaceSetDetail(cs);renderWorkspaceSetLists();showToast('Workspace set cleared')}return}var rm=e.target.closest('[data-workspace-remove]');if(rm){var set=workspaceState.sets.find(function(x){return x.id===workspaceState.activeSetId});if(set&&confirm('Remove this item from the Workspace set?')){set.items.splice(parseInt(rm.dataset.workspaceRemove,10),1);set.updated='Updated now';workspaceSetCounts(set);persistWorkspace();renderWorkspaceSetDetail(set);renderWorkspaceSetLists()}return}var setKey=e.target.closest('[data-workspace-set-key]');if(setKey){openWorkspaceSetKeySheet();return}var key=e.target.closest('[data-workspace-key]');if(key){openWorkspaceSetKeySheet(parseInt(key.dataset.workspaceKey,10));return}var songItem=e.target.closest('.workspace-song-item[data-song-id]');if(songItem){var wsSong=songs.find(function(x){return x.id===songItem.dataset.songId});if(wsSong)showSong(wsSong,'workspace-set',{scope:'workspace',setId:workspaceState.activeSetId,index:parseInt(songItem.dataset.workspaceIndex,10)});return}var editable=e.target.closest('.workspace-section-item,.workspace-text-item');if(editable)editWorkspaceItem(parseInt(editable.dataset.workspaceIndex,10));if(e.target.closest('[data-copy-invite]'))copyWorkspaceInvite();if(e.target.closest('[data-regenerate-invite]'))regenerateWorkspaceInvite();if(e.target.closest('[data-save-workspace-profile]'))saveWorkspaceProfile();if(e.target.closest('[data-clear-workspace-profile]'))clearWorkspaceProfile();if(e.target.closest('[data-workspace-settings-open]'))renderWorkspaceSettings();if(e.target.closest('[data-workspace-members-open]'))renderWorkspaceMembers()})}var ps=qs('bs-workspace-publish');if(ps&&!ps.dataset.ready){ps.dataset.ready='1';ps.addEventListener('click',function(e){if(e.target===ps||e.target.id==='workspace-publish-cancel'||(e.target.closest&&e.target.closest('.workspace-publish-close'))){closeWorkspacePublishSheet();return}if(e.target.id==='workspace-publish-back'){workspaceState.selectedPublishId=null;renderWorkspacePublishList();return}var row=e.target.closest('[data-publish-set]');if(row){workspaceState.selectedPublishId=row.dataset.publishSet;renderWorkspacePublishList();return}if(e.target.id==='workspace-publish-save')saveWorkspacePublish()})}var ns=qs('bs-workspace-new');if(ns&&!ns.dataset.ready){ns.dataset.ready='1';ns.addEventListener('click',function(e){if(e.target===ns||e.target.id==='workspace-new-cancel'||e.target.id==='workspace-new-close'){closeWorkspaceNewSheet();return}if(e.target.id==='workspace-new-save')saveWorkspaceNew()})}renderWorkspaceSetLists()}
 
 
-function install(){unlockUiInteraction();loadPersisted();rebuildSongsCache();renderLibrary();renderPersonalHome();renderSettings();applyBrandAssets();markUiReady();clearLaunchTheme();ensureOfflineFirstRuntime();scheduleLaunchFailsafe();if(songs&&songs.length){try{hideLoading('cache')}catch(e){}showSync('Loaded from cache')}migrateV85IndexedDBSongs();connectFirebaseRuntimeIfConfigured();qs('srch-inp').addEventListener('input',function(){state.query=this.value;qs('srch-clr').style.display=state.query?'block':'none';renderLibrary()});qs('srch-clr').addEventListener('click',function(){state.query='';qs('srch-inp').value='';this.style.display='none';renderLibrary()});qs('search-scope-select').addEventListener('change',function(){setSearchScope(this.value)});setSearchScope(state.scope||'smart');qs('library-filter-row').addEventListener('click',function(e){var b=e.target.closest('[data-filter]');if(!b)return;state.filter=b.dataset.filter;syncLibraryFilterChips();renderLibrary()});qs('vinner').addEventListener('click',function(e){var ms=e.target.closest('[data-manage-select]');if(ms){e.preventDefault();e.stopPropagation();toggleManageSelection(ms.dataset.manageSelect);return}if(adminUnlocked&&manageMode){var mi=e.target.closest('.song-item[data-song-id]');if(mi){e.preventDefault();e.stopPropagation();toggleManageSelection(mi.dataset.songId);return}}var action=e.target.closest('[data-song-swipe-action]');if(action){e.preventDefault();e.stopPropagation();var sid=action.dataset.songId;if(action.dataset.songSwipeAction==='copy')copySongLyricsById(sid);else openSetDestinationForSong(sid);resetLibrarySwipe(action.closest('.song-row-wrap')&&action.closest('.song-row-wrap').querySelector('.song-item'));return}var fav=e.target.closest('.song-fav-btn');if(fav){e.stopPropagation();var host=fav.closest('.song-item[data-song-id]');var fs=host&&songs.find(function(x){return x.id===host.dataset.songId});if(fs){setSongFavorite(fs.id,!fs.favorite)}return}var item=e.target.closest('.song-item[data-song-id]');if(item){if(item.classList.contains('swiped-r')||item.classList.contains('swiped-l')){resetLibrarySwipe(item);return}var ss=songs.find(function(x){return x.id===item.dataset.songId});if(ss)showSong(ss,'library')}});qs('vinner').addEventListener('keydown',function(e){if(e.key!=='Enter'&&e.key!==' ')return;var item=e.target.closest('.song-item[data-song-id]');if(!item)return;e.preventDefault();var s=songs.find(function(x){return x.id===item.dataset.songId});if(s)showSong(s)});qs('recent-songs-scroll').addEventListener('click',function(e){var item=e.target.closest('[data-song-id]');if(item){var s=songs.find(function(x){return x.id===item.dataset.songId});if(s)showSong(s,'library')}});qs('clear-recents').addEventListener('click',function(){recentIds=[];persistRecents();renderRecents()});installAlphaStrip();installLibraryRowSwipe();qs('vscroll').addEventListener('scroll',function(){qs('scroll-top-btn').classList.toggle('show',this.scrollTop>500)},{passive:true});qs('scroll-top-btn').addEventListener('click',function(){qs('vscroll').scrollTo({top:0,behavior:'smooth'})});var msa=qs('manage-select-all');if(msa)msa.addEventListener('click',selectManageAll);var md=qs('manage-duplicates');if(md)md.addEventListener('click',openAdminDuplicateReview);var mf=qs('manage-select-firebase');if(mf)mf.addEventListener('click',function(){selectManageBySource('firebase')});var ml=qs('manage-select-local');if(ml)ml.addEventListener('click',function(){selectManageBySource('local')});var mdel=qs('manage-delete');if(mdel)mdel.addEventListener('click',deleteManageSelected);var mdone=qs('manage-done');if(mdone)mdone.addEventListener('click',function(){toggleManageMode(false)});qsa('.tab-btn').forEach(function(b){b.addEventListener('click',function(){switchTab(b.dataset.tab)})});qs('wb-personal-list').addEventListener('click',function(e){var del=e.target.closest('[data-delete-set]');if(del){e.stopPropagation();if(!confirm('Delete this set list?'))return;personalSets=personalSets.filter(function(x){return x.id!==del.dataset.deleteSet});persistSets();renderPersonalHome();renderSettings();return}var card=e.target.closest('[data-set-id]');if(card)openSet(card.dataset.setId)});qs('wb-personal-new').addEventListener('click',openPersonalNewSheet);qs('wb-editor-back').addEventListener('click',renderPersonalHome);qs('sl-clear-btn').addEventListener('click',clearCurrentSet);qs('sl-add-btn').addEventListener('click',openSetSongPicker);qs('sl-options-btn').addEventListener('click',openSetOptions);qs('sl-set-key-info').addEventListener('click',openSetKeySheet);qs('wb-editor-publish').addEventListener('click',openWorkspacePublishSheet);qs('sl-items').addEventListener('click',function(e){if(qs('sl-items').dataset.dragSuppress==='1'){e.preventDefault();e.stopPropagation();return}var key=e.target.closest('.set-key-btn');if(key){e.stopPropagation();openSetKeySheet(parseInt(key.dataset.keyIndex,10));return}var rm=e.target.closest('[data-remove-index]');if(rm){e.stopPropagation();removeSetItem(parseInt(rm.dataset.removeIndex,10));return}var editable=e.target.closest('.set-section-card,.text-set-card');if(editable){e.stopPropagation();openSetItemEditor(parseInt(editable.dataset.setIndex,10));return}var item=e.target.closest('[data-song-id]');if(item){var s=songs.find(function(x){return x.id===item.dataset.songId});if(s)showSong(s,'setlist',{scope:'personal',setId:activeSetId,index:parseInt(item.dataset.setIndex,10)})}});qs('song-back-btn').addEventListener('click',closeSongViewSmooth);qsa('.seg-btn').forEach(function(b){b.addEventListener('click',function(){setSongMode(b.dataset.mode)})});qs('add-song-close').addEventListener('click',closeAddSongModal);qs('song-form-cancel').addEventListener('click',closeAddSongModal);qs('song-form-save').addEventListener('click',saveSongFromForm);qs('add-song-modal').addEventListener('click',function(e){if(e.target===this)closeAddSongModal()});qs('hdr-add-btn').addEventListener('click',openAddSongMenu);qsa('.settings-picker-close').forEach(function(b){b.addEventListener('click',closeSettingsPicker)});qsa('.settings-picker-sheet').forEach(function(m){m.addEventListener('click',function(e){if(e.target===this)closeSettingsPicker()})});qsa('.settings-picker-options').forEach(function(c){c.addEventListener('click',function(e){var opt=e.target.closest('[data-picker-key]');if(!opt)return;updateSetting(opt.dataset.pickerKey,opt.dataset.pickerValue);closeSettingsPicker()})});qs('backup-centre-close').addEventListener('click',closeBackupCentre);qs('backup-centre-done').addEventListener('click',closeBackupCentre);qs('backup-centre-modal').addEventListener('click',function(e){if(e.target===this)closeBackupCentre()});qs('backup-centre-body').addEventListener('click',function(e){var toggle=e.target.closest('[data-backup-review-toggle]');if(toggle){handleBackupReviewToggle(toggle.dataset.backupReviewToggle);return}var reviewAction=e.target.closest('[data-backup-review-action]');if(reviewAction){handleBackupReviewAction(reviewAction.dataset.backupReviewAction);return}var action=e.target.closest('[data-backup-action]');if(action)handleBackupAction(action.dataset.backupAction);});qs('sv-fav-btn').addEventListener('click',function(){var s=songs.find(function(x){return x.id===state.selectedId});if(!s)return;setSongFavorite(s.id,!s.favorite);});qs('sv-add-set-btn').addEventListener('click',openSetDestination);var sds=qs('set-destination-scope');if(sds&&!sds.dataset.ready){sds.dataset.ready='1';sds.addEventListener('click',function(e){var b=e.target.closest('[data-setdest-scope]');if(b)setSetDestinationScope(b.dataset.setdestScope)})};qs('sv-pad-btn').addEventListener('click',openPadSheet);qs('sv-play-btn').addEventListener('click',openPlaybackOptions);qs('sv-menu-btn').addEventListener('click',openSongMenu);qs('sv-key-down').addEventListener('click',function(){transposeSong(-1)});qs('sv-key-up').addEventListener('click',function(){transposeSong(1)});qs('sv-key-select').addEventListener('change',function(){transposeToKey(this.value)});qs('sv-focus-btn').addEventListener('click',function(){toggleFocusMode()});qs('pres-exit-btn').addEventListener('click',function(){toggleFocusMode(false)});qs('live-tool-main').addEventListener('click',toggleLiveToolsExpanded);qs('live-tool-view').addEventListener('click',cycleLiveViewMode);qs('live-tool-smaller').addEventListener('click',function(){stepSongText(-1)});qs('live-tool-larger').addEventListener('click',function(){stepSongText(1)});qs('live-tool-cues').addEventListener('click',toggleFocusCues);qs('live-tool-autoscroll').addEventListener('click',toggleAutoscrollPanel);qs('live-tool-metronome').addEventListener('click',toggleMetronomePanel);qs('pres-auto-toggle').addEventListener('click',function(){toggleAutoscroll();});qs('pres-auto-slower').addEventListener('click',function(){adjustAutoscrollSpeed(-.1);});qs('pres-auto-faster').addEventListener('click',function(){adjustAutoscrollSpeed(.1);});qs('metro-toggle').addEventListener('click',function(){toggleMetronome();});qs('metro-bpm-down').addEventListener('click',function(){adjustMetronomeBpm(-1);});qs('metro-bpm-up').addEventListener('click',function(){adjustMetronomeBpm(1);});qs('metro-tap').addEventListener('click',tapMetronomeTempo);var smc=qs('song-menu-close');if(smc)smc.addEventListener('click',closeSongMenu);qs('song-menu-done').addEventListener('click',closeSongMenu);var tsm=qs('text-size-menu-slider');if(tsm)tsm.addEventListener('input',function(){updateSetting('textSize',String(Math.max(.85,Math.min(1.25,(parseInt(this.value,10)||100)/100))),true);this.style.setProperty('--pct',Math.max(0,Math.min(100,((parseInt(this.value,10)||100)-85)/40*100))+'%');var v=qs('text-size-menu-val');if(v)v.textContent=this.value+'%';renderSongSheet()});var rail=qs('pres-section-rail');if(rail)rail.addEventListener('click',function(e){var b=e.target.closest('[data-section-jump]');if(b)jumpToSongSection(b.dataset.sectionJump)});qs('bs-song-menu').addEventListener('click',function(e){if(e.target===this)closeSongMenu();var a=e.target.closest('[data-song-action]');if(a)handleSongMenuAction(a.dataset.songAction)});var cd=qs('bs-chord-diagrams');if(cd&&!cd.dataset.ready){cd.dataset.ready='1';cd.addEventListener('click',function(e){var tab=e.target.closest&&e.target.closest('[data-chord-diagram-tab]');if(tab){e.preventDefault();e.stopPropagation();chordDiagramMode=tab.dataset.chordDiagramTab||'guitar';renderChordDiagramCards();return}if(e.target===cd||e.target.id==='chord-diagrams-close'||e.target.id==='chord-diagrams-done')closeChordDiagramsSheet()})};var pb=qs('bs-playback');if(pb)pb.addEventListener('click',function(e){if(e.target===this||e.target.id==='playback-close'||e.target.id==='playback-cancel'){closePlaybackOptions();return}var btn=e.target.closest('[data-playback-index]');if(btn){var links=collectPlaybackLinks(activeSong()),link=links[parseInt(btn.dataset.playbackIndex,10)];closePlaybackOptions();if(link&&link.url)setTimeout(function(){openExternalPlaybackUrl(link.url)},60)}});var padSheet=qs('bs-pad');if(padSheet)padSheet.addEventListener('click',function(e){if(e.target===this||e.target.id==='pad-close'||e.target.id==='pad-cancel'){closePadSheet();return}handlePadSheetClick(e)});qs('sv-scroll').addEventListener('scroll',function(){updateRailFromScroll();wakeLiveChrome()},{passive:true});qs('song-view').addEventListener('pointerdown',function(){wakeLiveChrome()},{passive:true});installPullToRefresh();installBottomSheetDrag();installSongSwipeBack();installSetListNotes();installBibleControls();installToolsSwipeBack();installSetListSwipeBack();installWorkspaceSwipeBack();installWorkspaceControls();installUniversalEdgeSwipeBack();installExportControls();installImportEditorControls();
+function install(){unlockUiInteraction();loadPersisted();registerPhaseGNavigationScaffold();rebuildSongsCache();renderLibrary();renderPersonalHome();renderSettings();applyBrandAssets();markUiReady();clearLaunchTheme();ensureOfflineFirstRuntime();scheduleLaunchFailsafe();if(songs&&songs.length){try{hideLoading('cache')}catch(e){}showSync('Loaded from cache')}migrateV85IndexedDBSongs();connectFirebaseRuntimeIfConfigured();qs('srch-inp').addEventListener('input',function(){state.query=this.value;qs('srch-clr').style.display=state.query?'block':'none';renderLibrary()});qs('srch-clr').addEventListener('click',function(){state.query='';qs('srch-inp').value='';this.style.display='none';renderLibrary()});qs('search-scope-select').addEventListener('change',function(){setSearchScope(this.value)});setSearchScope(state.scope||'smart');qs('library-filter-row').addEventListener('click',function(e){var b=e.target.closest('[data-filter]');if(!b)return;state.filter=b.dataset.filter;syncLibraryFilterChips();renderLibrary()});qs('vinner').addEventListener('click',function(e){var ms=e.target.closest('[data-manage-select]');if(ms){e.preventDefault();e.stopPropagation();toggleManageSelection(ms.dataset.manageSelect);return}if(adminUnlocked&&manageMode){var mi=e.target.closest('.song-item[data-song-id]');if(mi){e.preventDefault();e.stopPropagation();toggleManageSelection(mi.dataset.songId);return}}var action=e.target.closest('[data-song-swipe-action]');if(action){e.preventDefault();e.stopPropagation();var sid=action.dataset.songId;if(action.dataset.songSwipeAction==='copy')copySongLyricsById(sid);else openSetDestinationForSong(sid);resetLibrarySwipe(action.closest('.song-row-wrap')&&action.closest('.song-row-wrap').querySelector('.song-item'));return}var fav=e.target.closest('.song-fav-btn');if(fav){e.stopPropagation();var host=fav.closest('.song-item[data-song-id]');var fs=host&&songs.find(function(x){return x.id===host.dataset.songId});if(fs){setSongFavorite(fs.id,!fs.favorite)}return}var item=e.target.closest('.song-item[data-song-id]');if(item){if(item.classList.contains('swiped-r')||item.classList.contains('swiped-l')){resetLibrarySwipe(item);return}var ss=songs.find(function(x){return x.id===item.dataset.songId});if(ss)showSong(ss,'library')}});qs('vinner').addEventListener('keydown',function(e){if(e.key!=='Enter'&&e.key!==' ')return;var item=e.target.closest('.song-item[data-song-id]');if(!item)return;e.preventDefault();var s=songs.find(function(x){return x.id===item.dataset.songId});if(s)showSong(s)});qs('recent-songs-scroll').addEventListener('click',function(e){var item=e.target.closest('[data-song-id]');if(item){var s=songs.find(function(x){return x.id===item.dataset.songId});if(s)showSong(s,'library')}});qs('clear-recents').addEventListener('click',function(){recentIds=[];persistRecents();renderRecents()});installAlphaStrip();installLibraryRowSwipe();qs('vscroll').addEventListener('scroll',function(){qs('scroll-top-btn').classList.toggle('show',this.scrollTop>500)},{passive:true});qs('scroll-top-btn').addEventListener('click',function(){qs('vscroll').scrollTo({top:0,behavior:'smooth'})});var msa=qs('manage-select-all');if(msa)msa.addEventListener('click',selectManageAll);var md=qs('manage-duplicates');if(md)md.addEventListener('click',openAdminDuplicateReview);var mf=qs('manage-select-firebase');if(mf)mf.addEventListener('click',function(){selectManageBySource('firebase')});var ml=qs('manage-select-local');if(ml)ml.addEventListener('click',function(){selectManageBySource('local')});var mdel=qs('manage-delete');if(mdel)mdel.addEventListener('click',deleteManageSelected);var mdone=qs('manage-done');if(mdone)mdone.addEventListener('click',function(){toggleManageMode(false)});qsa('.tab-btn').forEach(function(b){b.addEventListener('click',function(){window.WBNavigationController?window.WBNavigationController.showTab(b.dataset.tab,'tab-click'):switchTab(b.dataset.tab)})});qs('wb-personal-list').addEventListener('click',function(e){var del=e.target.closest('[data-delete-set]');if(del){e.stopPropagation();if(!confirm('Delete this set list?'))return;personalSets=personalSets.filter(function(x){return x.id!==del.dataset.deleteSet});persistSets();renderPersonalHome();renderSettings();return}var card=e.target.closest('[data-set-id]');if(card)openSet(card.dataset.setId)});qs('wb-personal-new').addEventListener('click',openPersonalNewSheet);qs('wb-editor-back').addEventListener('click',renderPersonalHome);qs('sl-clear-btn').addEventListener('click',clearCurrentSet);qs('sl-add-btn').addEventListener('click',openSetSongPicker);qs('sl-options-btn').addEventListener('click',openSetOptions);qs('sl-set-key-info').addEventListener('click',openSetKeySheet);qs('wb-editor-publish').addEventListener('click',openWorkspacePublishSheet);qs('sl-items').addEventListener('click',function(e){if(qs('sl-items').dataset.dragSuppress==='1'){e.preventDefault();e.stopPropagation();return}var key=e.target.closest('.set-key-btn');if(key){e.stopPropagation();openSetKeySheet(parseInt(key.dataset.keyIndex,10));return}var rm=e.target.closest('[data-remove-index]');if(rm){e.stopPropagation();removeSetItem(parseInt(rm.dataset.removeIndex,10));return}var editable=e.target.closest('.set-section-card,.text-set-card');if(editable){e.stopPropagation();openSetItemEditor(parseInt(editable.dataset.setIndex,10));return}var item=e.target.closest('[data-song-id]');if(item){var s=songs.find(function(x){return x.id===item.dataset.songId});if(s)showSong(s,'setlist',{scope:'personal',setId:activeSetId,index:parseInt(item.dataset.setIndex,10)})}});qs('song-back-btn').addEventListener('click',closeSongViewSmooth);qsa('.seg-btn').forEach(function(b){b.addEventListener('click',function(){setSongMode(b.dataset.mode)})});qs('add-song-close').addEventListener('click',closeAddSongModal);qs('song-form-cancel').addEventListener('click',closeAddSongModal);qs('song-form-save').addEventListener('click',saveSongFromForm);qs('add-song-modal').addEventListener('click',function(e){if(e.target===this)closeAddSongModal()});qs('hdr-add-btn').addEventListener('click',openAddSongMenu);qsa('.settings-picker-close').forEach(function(b){b.addEventListener('click',closeSettingsPicker)});qsa('.settings-picker-sheet').forEach(function(m){m.addEventListener('click',function(e){if(e.target===this)closeSettingsPicker()})});qsa('.settings-picker-options').forEach(function(c){c.addEventListener('click',function(e){var opt=e.target.closest('[data-picker-key]');if(!opt)return;updateSetting(opt.dataset.pickerKey,opt.dataset.pickerValue);closeSettingsPicker()})});qs('backup-centre-close').addEventListener('click',closeBackupCentre);qs('backup-centre-done').addEventListener('click',closeBackupCentre);qs('backup-centre-modal').addEventListener('click',function(e){if(e.target===this)closeBackupCentre()});qs('backup-centre-body').addEventListener('click',function(e){var toggle=e.target.closest('[data-backup-review-toggle]');if(toggle){handleBackupReviewToggle(toggle.dataset.backupReviewToggle);return}var reviewAction=e.target.closest('[data-backup-review-action]');if(reviewAction){handleBackupReviewAction(reviewAction.dataset.backupReviewAction);return}var action=e.target.closest('[data-backup-action]');if(action)handleBackupAction(action.dataset.backupAction);});qs('sv-fav-btn').addEventListener('click',function(){var s=songs.find(function(x){return x.id===state.selectedId});if(!s)return;setSongFavorite(s.id,!s.favorite);});qs('sv-add-set-btn').addEventListener('click',openSetDestination);var sds=qs('set-destination-scope');if(sds&&!sds.dataset.ready){sds.dataset.ready='1';sds.addEventListener('click',function(e){var b=e.target.closest('[data-setdest-scope]');if(b)setSetDestinationScope(b.dataset.setdestScope)})};qs('sv-pad-btn').addEventListener('click',openPadSheet);qs('sv-play-btn').addEventListener('click',openPlaybackOptions);qs('sv-menu-btn').addEventListener('click',openSongMenu);qs('sv-key-down').addEventListener('click',function(){transposeSong(-1)});qs('sv-key-up').addEventListener('click',function(){transposeSong(1)});qs('sv-key-select').addEventListener('change',function(){transposeToKey(this.value)});qs('sv-focus-btn').addEventListener('click',function(){toggleFocusMode()});qs('pres-exit-btn').addEventListener('click',function(){toggleFocusMode(false)});qs('live-tool-main').addEventListener('click',toggleLiveToolsExpanded);qs('live-tool-view').addEventListener('click',cycleLiveViewMode);qs('live-tool-smaller').addEventListener('click',function(){stepSongText(-1)});qs('live-tool-larger').addEventListener('click',function(){stepSongText(1)});qs('live-tool-cues').addEventListener('click',toggleFocusCues);qs('live-tool-autoscroll').addEventListener('click',toggleAutoscrollPanel);qs('live-tool-metronome').addEventListener('click',toggleMetronomePanel);qs('pres-auto-toggle').addEventListener('click',function(){toggleAutoscroll();});qs('pres-auto-slower').addEventListener('click',function(){adjustAutoscrollSpeed(-.1);});qs('pres-auto-faster').addEventListener('click',function(){adjustAutoscrollSpeed(.1);});qs('metro-toggle').addEventListener('click',function(){toggleMetronome();});qs('metro-bpm-down').addEventListener('click',function(){adjustMetronomeBpm(-1);});qs('metro-bpm-up').addEventListener('click',function(){adjustMetronomeBpm(1);});qs('metro-tap').addEventListener('click',tapMetronomeTempo);var smc=qs('song-menu-close');if(smc)smc.addEventListener('click',closeSongMenu);qs('song-menu-done').addEventListener('click',closeSongMenu);var tsm=qs('text-size-menu-slider');if(tsm)tsm.addEventListener('input',function(){updateSetting('textSize',String(Math.max(.85,Math.min(1.25,(parseInt(this.value,10)||100)/100))),true);this.style.setProperty('--pct',Math.max(0,Math.min(100,((parseInt(this.value,10)||100)-85)/40*100))+'%');var v=qs('text-size-menu-val');if(v)v.textContent=this.value+'%';renderSongSheet()});var rail=qs('pres-section-rail');if(rail)rail.addEventListener('click',function(e){var b=e.target.closest('[data-section-jump]');if(b)jumpToSongSection(b.dataset.sectionJump)});qs('bs-song-menu').addEventListener('click',function(e){if(e.target===this)closeSongMenu();var a=e.target.closest('[data-song-action]');if(a)handleSongMenuAction(a.dataset.songAction)});var cd=qs('bs-chord-diagrams');if(cd&&!cd.dataset.ready){cd.dataset.ready='1';cd.addEventListener('click',function(e){var tab=e.target.closest&&e.target.closest('[data-chord-diagram-tab]');if(tab){e.preventDefault();e.stopPropagation();chordDiagramMode=tab.dataset.chordDiagramTab||'guitar';renderChordDiagramCards();return}if(e.target===cd||e.target.id==='chord-diagrams-close'||e.target.id==='chord-diagrams-done')closeChordDiagramsSheet()})};var pb=qs('bs-playback');if(pb)pb.addEventListener('click',function(e){if(e.target===this||e.target.id==='playback-close'||e.target.id==='playback-cancel'){closePlaybackOptions();return}var btn=e.target.closest('[data-playback-index]');if(btn){var links=collectPlaybackLinks(activeSong()),link=links[parseInt(btn.dataset.playbackIndex,10)];closePlaybackOptions();if(link&&link.url)setTimeout(function(){openExternalPlaybackUrl(link.url)},60)}});var padSheet=qs('bs-pad');if(padSheet)padSheet.addEventListener('click',function(e){if(e.target===this||e.target.id==='pad-close'||e.target.id==='pad-cancel'){closePadSheet();return}handlePadSheetClick(e)});qs('sv-scroll').addEventListener('scroll',function(){updateRailFromScroll();wakeLiveChrome()},{passive:true});qs('song-view').addEventListener('pointerdown',function(){wakeLiveChrome()},{passive:true});installPullToRefresh();installBottomSheetDrag();installSongSwipeBack();installSetListNotes();installBibleControls();installToolsSwipeBack();installSetListSwipeBack();installWorkspaceSwipeBack();installWorkspaceControls();installUniversalEdgeSwipeBack();installExportControls();installImportEditorControls();
 var tb=qs('tool-open-bible');if(tb)tb.addEventListener('click',openToolsBible);
 var tk=qs('tool-open-keycapo');if(tk)tk.addEventListener('click',openToolsKeyCapo);
 var tp=qs('tool-open-pads');if(tp)tp.addEventListener('click',openToolsPads);
@@ -6179,9 +6500,9 @@ var kr=qs('tools-pad-key-row');if(kr)kr.addEventListener('click',function(e){var
 var pp=qs('tools-pad-play-btn');if(pp)pp.addEventListener('click',function(){toolPadState.playing=true;updateToolsPadStatus();showToast('Pad player audio belongs to Tools audio pass')});
 var ps=qs('tools-pad-stop-btn');if(ps)ps.addEventListener('click',function(){toolPadState.playing=false;updateToolsPadStatus()});
 var ap=qs('bs-admin-pin');if(ap&&!ap.dataset.ready){ap.dataset.ready='1';ap.addEventListener('click',function(e){if(e.target===ap||e.target.id==='admin-pin-cancel'||e.target.id==='admin-pin-close')closeAdminPinSheet()});var api=qs('admin-pin-input');if(api)api.addEventListener('keydown',function(e){if(e.key==='Enter')submitAdminPin()});var aps=qs('admin-pin-submit');if(aps)aps.addEventListener('click',submitAdminPin)};
-switchTab(state.tab||'songs')}
+(window.WBNavigationController?window.WBNavigationController.showTab(state.tab||'songs','startup'):switchTab(state.tab||'songs'));try{StartupLifecycle&&StartupLifecycle.syncLibraryFilterChips&&StartupLifecycle.syncLibraryFilterChips(state)}catch(e){} }
 
-try{document.addEventListener('pointerdown',function(e){var b=e.target&&e.target.closest&&e.target.closest('.tab-btn[data-tab]');if(!b)return;if(e.pointerType==='mouse')return;switchTab(b.dataset.tab);}, {passive:true});}catch(e){}
+try{document.addEventListener('pointerdown',function(e){var b=e.target&&e.target.closest&&e.target.closest('.tab-btn[data-tab]');if(!b)return;if(e.pointerType==='mouse')return;(window.WBNavigationController?window.WBNavigationController.showTab(b.dataset.tab,'tab-pointer'):switchTab(b.dataset.tab));}, {passive:true});}catch(e){}
 try{document.addEventListener('click',function(e){var b=e.target&&e.target.closest&&e.target.closest('[data-setdest-create]');if(!b)return;e.preventDefault();if(typeof createSetFromDestinationScope==='function')createSetFromDestinationScope();},{passive:false});}catch(e){}
 function fastTabSelectFromEvent(e){
   var b=e.target&&e.target.closest&&e.target.closest('.tab-btn[data-tab]');
@@ -6191,7 +6512,7 @@ function fastTabSelectFromEvent(e){
   fastTabSelectFromEvent._last=now;fastTabSelectFromEvent._tab=b.dataset.tab;
   if(e.cancelable)e.preventDefault();
   if(e.stopPropagation)e.stopPropagation();
-  switchTab(b.dataset.tab);
+  (window.WBNavigationController?window.WBNavigationController.showTab(b.dataset.tab,'tab-fast'):switchTab(b.dataset.tab));
   return true;
 }
 try{document.addEventListener('touchstart',fastTabSelectFromEvent,{capture:true,passive:false});document.addEventListener('pointerdown',function(e){if(e.pointerType==='mouse')return;fastTabSelectFromEvent(e)},{capture:true,passive:false});}catch(e){}
@@ -6264,17 +6585,21 @@ function closeTransientsBeforeRouteChange(tab){
   closeOpenFullPagesForRoute('route');
   // Do not close add-song editor here; avoid losing typed content if the user accidentally taps a tab.
 }
-var WBNavigationController={
-  closeTop:function(reason){return closeTopTransientSurface(reason||'back')},
-  back:function(reason){
-    if(closeTopTransientSurface(reason||'back'))return true;
-    if(state.tab==='setlist'&&state.setlistEditorId){renderPersonalHome();return true}
-    if(state.tab==='workspace'&&workspaceState.panel&&workspaceState.panel!=='home'){openWorkspaceHome();return true}
-    if(state.tab==='tools'&&state.toolsPanel&&state.toolsPanel!=='home'){showToolsPanel('home');return true}
-    return false;
-  }
-};
-window.WBNavigationController=WBNavigationController;
+function registerPhaseGNavigationScaffold(){
+  if(!window.WBNavigationController)return;
+  try{window.WBNavigationController.registerDefaultTabs()}catch(e){}
+  window.WBNavigationController.configure({
+    showTab:function(tab){switchTab(tab);return true},
+    closeTop:function(reason){return closeTopTransientSurface(reason||'back')},
+    back:function(reason){
+      if(closeTopTransientSurface(reason||'back'))return true;
+      if(typeof WB09BackForActiveRoute==='function')return WB09BackForActiveRoute(reason);
+      return false;
+    },
+    currentTab:function(){return state.tab||'songs'},
+    routeState:function(){return {tab:state.tab||'songs',setlistEditorId:state.setlistEditorId||null,workspacePanel:workspaceState.panel||'home',workspaceActiveSetId:workspaceState.activeSetId||null,toolsPanel:state.toolsPanel||'home',songOpen:!!(qs('song-view')&&qs('song-view').classList.contains('visible'))}}
+  });
+}
 function installGlobalNavigationBehaviour(){
   if(document.body.dataset.navBehaviour77==='1')return;
   document.body.dataset.navBehaviour77='1';
@@ -6367,6 +6692,8 @@ window.WBRunDiagnostics=function(){
     exportModule:window.WBExportModule&&window.WBExportModule.audit?window.WBExportModule.audit():{},
     importModule:window.WBImportModule&&window.WBImportModule.diagnostics?window.WBImportModule.diagnostics():{},
     backupModule:window.WBBackupModule&&window.WBBackupModule.diagnostics?window.WBBackupModule.diagnostics():{},
+    navigation:window.WBNavigationController&&window.WBNavigationController.diagnostics?window.WBNavigationController.diagnostics():{},
+    gestures:window.WBGestureController&&window.WBGestureController.diagnostics?window.WBGestureController.diagnostics():{},
     offline:{online:navigator.onLine!==false,serviceWorker:!!navigator.serviceWorker,secureContext:!!window.isSecureContext,songCacheCount:(firebaseSongs||[]).length,bibleCachedChapters:Object.keys((bibleRuntime&&bibleRuntime.chapterCache)||{}).length,lastSongsSyncAt:firebaseRuntime.lastSongsSyncAt||'',lastWorkspaceSyncAt:firebaseRuntime.lastWorkspaceSyncAt||''},
     deferred:{firebase:cloudState.firebase.connected?'auth connected':(cloudState.firebase.configured?'config ready':'not configured'),googleDrive:cloudState.googleDrive.connected?'oauth connected':(cloudGoogleClientId()?'v85 client ready':'not configured'),backupRestore:'local + Drive runtime flow',pdfExport:'song + set export active',bibleText:biblePackageReady()?'package folder ready':(cloudFirebaseConfig()?'firebase fallback ready':'not configured')}
   }
@@ -6385,24 +6712,20 @@ function WB09BackForActiveRoute(){
 function installUniversalEdgeSwipeBack(){
   if(document.body.dataset.wb09SwipeBackReady==='1')return;
   document.body.dataset.wb09SwipeBackReady='1';
-  var sx=0,sy=0,dx=0,tracking=false,locked=false;
-  document.addEventListener('touchstart',function(e){
-    var t=e.touches&&e.touches[0];if(!t)return;
-    if(t.clientX>96)return;
-    if(qs('song-view')&&qs('song-view').classList.contains('visible'))return;
-    if(e.target.closest&&e.target.closest('.bs-bg.open,.settings-picker-sheet.open,#add-song-modal.open,#backup-centre-modal.open'))return;
-    sx=t.clientX;sy=t.clientY;dx=0;tracking=true;locked=false;
-  },{passive:true,capture:true});
-  document.addEventListener('touchmove',function(e){
-    if(!tracking)return;var t=e.touches&&e.touches[0];if(!t)return;
-    dx=t.clientX-sx;var dy=Math.abs(t.clientY-sy);
-    if(!locked){if(Math.abs(dx)<18&&dy<18)return;if(dy>Math.abs(dx)*.9){tracking=false;return}locked=true}
-    if(dx>16&&dx>dy*1.2&&e.cancelable)e.preventDefault();
-  },{passive:false,capture:true});
-  document.addEventListener('touchend',function(){
-    if(!tracking)return;var go=dx>82;tracking=false;locked=false;dx=0;if(go)WB09BackForActiveRoute();
-  },{passive:true,capture:true});
-  document.addEventListener('touchcancel',function(){tracking=false;locked=false;dx=0},{passive:true,capture:true});
+  if(!window.WBGestureController||!window.WBNavigationController)return;
+  window.WBGestureController.registerEdgeBack({
+    id:'universal-route-back',
+    route:'top-level-subroute',
+    element:document,
+    edge:96,
+    threshold:82,
+    shouldStart:function(e,t){
+      if(qs('song-view')&&qs('song-view').classList.contains('visible'))return false;
+      if(e.target.closest&&e.target.closest('.bs-bg.open,.settings-picker-sheet.open,#add-song-modal.open,#backup-centre-modal.open'))return false;
+      return true;
+    },
+    onCommit:function(){window.WBNavigationController.back('edge-swipe')}
+  });
 }
 
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();

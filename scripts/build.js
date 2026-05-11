@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
- * WorshipBase Phase E.3.1 build scaffold.
+ * WorshipBase Phase G build scaffold.
  *
  * Purpose:
  * - Keep the Phase B single deployable output.
- * - Inject extracted constants, utility helpers, storage service, Firebase service, backup/Drive service,
- *   and DOM helpers before the legacy app shell.
+ * - Inject extracted constants, utility helpers, startup/PWA lifecycle owner, navigation/registry/gesture scaffold,
+ *   storage service, Firebase service, backup/Drive service, and DOM helpers before the legacy app shell.
  * - Leave visual redesign, attached song PDF workflows, Firebase rewrite, and visual redesign and attached song PDF workflows
  *   untouched; extract backup/Drive boundary ownership only.
  */
@@ -20,6 +20,8 @@ const SRC_SW = path.join(ROOT, 'src', 'legacy', 'wb-offline-sw.phase-d.js');
 const MODULES = [
   { id: 'wb-core-constants', file: path.join(ROOT, 'src', 'core', 'constants.js') },
   { id: 'wb-core-utils', file: path.join(ROOT, 'src', 'core', 'utils.js') },
+  { id: 'wb-core-startup', file: path.join(ROOT, 'src', 'core', 'startup.js') },
+  { id: 'wb-core-navigation', file: path.join(ROOT, 'src', 'core', 'navigation.js') },
   { id: 'wb-storage-service', file: path.join(ROOT, 'src', 'services', 'storage-service.js') },
   { id: 'wb-firebase-service', file: path.join(ROOT, 'src', 'services', 'firebase-service.js') },
   { id: 'wb-backup-service', file: path.join(ROOT, 'src', 'services', 'backup-service.js') },
@@ -93,7 +95,8 @@ function ownershipChecks(shell) {
     { label: 'legacy firstLetter helper', pattern: /function\s+firstLetter\s*\(/ },
     { label: 'legacy Google Drive client id literal owner', pattern: /var\s+GOOGLE_DRIVE_CLIENT_ID\s*=\s*'137901259240-/ },
     { label: 'legacy Firebase SDK script loader owner', pattern: /firebase-app-compat\.js/ },
-  ];
+    { label: 'legacy WBNavigationController object owner', pattern: /var\s+WBNavigationController\s*=\s*\{/ },
+    ];
   return forbidden.filter(check => check.pattern.test(shell)).map(check => check.label);
 }
 
@@ -109,7 +112,7 @@ function main() {
 
   const ownershipViolations = ownershipChecks(shellHtml);
   if (ownershipViolations.length) {
-    console.error('Phase E.3.1 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
+    console.error('Phase G ownership violations:', JSON.stringify(ownershipViolations, null, 2));
     process.exit(1);
   }
 
@@ -126,13 +129,13 @@ function main() {
   }
 
   const manifest = {
-    phase: 'E.3.1',
-    purpose: 'Backup and startup-state stabilisation after Phase E.3 service extraction',
-    baseline: 'v8.17 stability freeze, Phase E.2 Firebase/offline service boundary baseline; v85 reference artifact included; Phase E.3.1 backup/startup fixes',
+    phase: 'G',
+    purpose: 'Router, tab registry, route registry, and gesture API scaffold after Phase F startup/PWA lifecycle owner',
+    baseline: 'v8.17 stability freeze, Phase F startup/PWA lifecycle owner; v85 reference artifact included',
     generatedAt: new Date().toISOString(),
     files: {
       'index.html': {
-        source: 'src/legacy/index.phase-d.html + injected Phase E.3.1 modules',
+        source: 'src/legacy/index.phase-d.html + injected Phase G modules',
         sha256: sha256(indexHtml),
         bytes: Buffer.byteLength(indexHtml, 'utf8'),
       },
@@ -152,7 +155,7 @@ function main() {
       inlineScriptBlocks: syntax.count,
       inlineScriptSyntaxErrors: syntax.errors.length,
       ownershipViolations: ownershipViolations.length,
-      productBehaviourChanged: 'Drive update metadata fix, workspace cloud label copy, library filter chip sync',
+      productBehaviourChanged: 'Navigation/registry/gesture scaffold only; no visual redesign',
       visualRedesign: false,
       attachedSongPdfWorkflows: 'cancelled / untouched',
     },
@@ -160,7 +163,7 @@ function main() {
 
   write(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
 
-  console.log('WorshipBase Phase E.3.1 build complete.');
+  console.log('WorshipBase Phase G build complete.');
   console.log(`- ${path.relative(ROOT, DIST_INDEX)}`);
   console.log(`- ${path.relative(ROOT, DIST_SW)}`);
   console.log(`- ${path.relative(ROOT, MANIFEST)}`);
