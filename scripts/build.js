@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * WorshipBase RC1 build scaffold.
+ * WorshipBase RC2 build scaffold.
  *
  * Purpose:
  * - Keep the Phase B single deployable output.
@@ -28,6 +28,7 @@ const MODULES = [
   { id: 'wb-chart-renderer', file: path.join(ROOT, 'src', 'features', 'song', 'chart-renderer.js') },
   { id: 'wb-song-view-controller', file: path.join(ROOT, 'src', 'features', 'song', 'song-view-controller.js') },
   { id: 'wb-song-focus-controller', file: path.join(ROOT, 'src', 'features', 'song', 'focus-controller.js') },
+  { id: 'wb-song-interaction-controller', file: path.join(ROOT, 'src', 'features', 'song', 'interaction-controller.js') },
   { id: 'wb-personal-set-controller', file: path.join(ROOT, 'src', 'features', 'setlist', 'personal-set-controller.js') },
   { id: 'wb-workspace-set-controller', file: path.join(ROOT, 'src', 'features', 'workspace', 'workspace-set-controller.js') },
   { id: 'wb-add-to-set-controller', file: path.join(ROOT, 'src', 'features', 'setlist', 'add-to-set-controller.js') },
@@ -75,7 +76,7 @@ function injectStyleFragments(html, fragments) {
   if (openIndex < 0) throw new Error('Cannot find consolidated style block');
   const closeIndex = html.indexOf('</style>', openIndex);
   if (closeIndex < 0) throw new Error('Cannot find consolidated style block close');
-  const addition = '\n\n/* Phase L2 owner-injected targeted polish; single consolidated style block retained. */\n' +
+  const addition = '\n\n/* RC2 owner-injected targeted polish; single consolidated style block retained. */\n' +
     fragments.map(f => `/* ${f.id} */\n${f.content.replace(/\s+$/,'')}`).join('\n\n') + '\n';
   return html.slice(0, closeIndex) + addition + html.slice(closeIndex);
 }
@@ -171,9 +172,9 @@ function main() {
   }
 
   const manifest = {
-    phase: 'RC1',
-    purpose: 'Backup safety and pads audio fix pack',
-    baseline: 'v8.17 stability freeze, RC1 backup safety and pads audio; v85 reference artifact included',
+    phase: 'RC2',
+    purpose: 'Interaction performance, notes visibility, and lyrics-only readability fix pack',
+    baseline: 'v8.17 stability freeze, RC2 interaction/notes UX fix pack; v85 reference artifact included',
     generatedAt: new Date().toISOString(),
     files: {
       'index.html': {
@@ -204,7 +205,7 @@ function main() {
       inlineScriptSyntaxErrors: syntax.errors.length,
       styleBlocks: countStyleBlocks(indexHtml),
       ownershipViolations: ownershipViolations.length,
-      productBehaviourChanged: 'Backup Centre now has review/summary safety steps; pads audio wired through assets/pads; no visual redesign',
+      productBehaviourChanged: 'RC2 tunes song swiping, adds notes affordances, preserves set/workspace view memory, and improves lyrics-only readability; no visual redesign',
       visualRedesign: false,
       attachedSongPdfWorkflows: 'cancelled / untouched',
     },
@@ -212,7 +213,7 @@ function main() {
 
   write(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
 
-  console.log('WorshipBase RC1 build complete.');
+  console.log('WorshipBase RC2 build complete.');
   console.log(`- ${path.relative(ROOT, DIST_INDEX)}`);
   console.log(`- ${path.relative(ROOT, DIST_SW)}`);
   console.log(`- ${path.relative(ROOT, MANIFEST)}`);

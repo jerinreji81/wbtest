@@ -3,8 +3,8 @@
 (function(root){
 'use strict';
 
-var VERSION='Rebuild_8.17RC1';
-var REBUILD_PHASE='RC1: backup safety and pads audio fix pack';
+var VERSION='Rebuild_8.17RC2';
+var REBUILD_PHASE='RC2: interaction performance and song notes UX';
 var REBUILD_REFERENCE='Working-v85.0-fixed.html';
 
 var ASSET_DEFAULTS={

@@ -162,3 +162,45 @@ body.dark .song-fav-btn.on svg{
 .backup-review-actions .backup-review-primary[disabled],.backup-review-actions .backup-review-secondary[disabled],.backup-centre-action[aria-busy="true"]{opacity:.72;cursor:progress}
 .tools-pad-main[aria-busy="true"]{opacity:.72;cursor:progress}
 .tools-pad-status{min-height:44px}
+
+
+/* RC2: song interaction, notes visibility and lyrics-only readability. */
+.drag-handle{min-width:48px!important;min-height:48px!important;align-items:center;justify-content:center;touch-action:none!important;margin-left:-6px;}
+.drag-handle span{width:20px!important;height:2.2px!important;}
+.set-card .drag-handle,.set-section-card .drag-handle{padding:8px 12px 8px 2px!important;}
+.drag-ghost{filter:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;transition:none!important;}
+.workspace-editor-items .set-card,.workspace-editor-items .set-section-card{will-change:transform;}
+
+#song-view .sheet.lyrics-readable,
+#song-view .sheet.lyrics-readable .sheet-line.lyric-only,
+#song-view .sheet.lyrics-readable .lyric-only-row{
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',Arial,sans-serif!important;
+  font-size:calc(19px * var(--wb-text-scale,1))!important;
+  line-height:1.58!important;
+  letter-spacing:-.012em!important;
+  font-weight:520!important;
+}
+#song-view .sheet.lyrics-readable .sheet-section,
+#song-view .sheet.lyrics-readable .sec-lbl{
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',Arial,sans-serif!important;
+}
+.wb-notes-quick.has-notes,
+.sl-notes-quick.has-notes,
+.live-tool.has-notes{
+  color:var(--accent)!important;
+  background:color-mix(in srgb,var(--accent) 13%,var(--bg2))!important;
+  border-color:color-mix(in srgb,var(--accent) 32%,var(--surface-border))!important;
+}
+.wb-notes-quick svg,.sl-notes-quick svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.song-note-preview-open{border:0;background:transparent;color:inherit;font:inherit;padding:0;margin:0;text-align:left;}
+.song-note-preview{cursor:pointer;}
+body.song-view-swiping #song-view .sv-hdr,
+body.song-view-swiping #song-view .sv-scroll{will-change:transform;}
+.song-transition-pane{transform:translateZ(0);}
+body.dark .wb-notes-quick.has-notes,
+body.dark .sl-notes-quick.has-notes,
+body.dark .live-tool.has-notes{
+  background:var(--accent-surface)!important;
+  border-color:var(--accent-border)!important;
+  color:var(--accent)!important;
+}
