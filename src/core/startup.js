@@ -43,6 +43,9 @@ function normalizeLaunchState(context){
   var workspaceState=context.workspaceState||{};
 
   state.tab='songs';
+  state.filter='all';
+  state.query='';
+  state.scope=state.scope||'smart';
   state.selectedId=null;
   state.songContext=null;
   state.setlistEditorId=null;

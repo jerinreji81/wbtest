@@ -6,12 +6,13 @@
 
 var TOOL_KEYS=['C','Db','D','Eb','E','F','F#','G','Ab','A','Bb','B'];
 var PAD_TYPES=['Peaceful','Analog','Drones'];
-var VALID_PANELS={home:true,bible:true,keycapo:true,pads:true};
+var VALID_PANELS={home:true,bible:true,keycapo:true,pads:true,chordnns:true};
 
 function normalizePanel(name){
   name=String(name||'home').trim().toLowerCase();
   if(name==='key-capo'||name==='key_capo'||name==='capo')name='keycapo';
   if(name==='pad'||name==='pads')name='pads';
+  if(name==='chord-nns'||name==='chord_nns'||name==='nns'||name==='chords'||name==='reference')name='chordnns';
   if(name==='scripture')name='bible';
   return VALID_PANELS[name]?name:'home';
 }

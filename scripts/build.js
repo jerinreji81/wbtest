@@ -34,6 +34,7 @@ const MODULES = [
   { id: 'wb-add-to-set-controller', file: path.join(ROOT, 'src', 'features', 'setlist', 'add-to-set-controller.js') },
   { id: 'wb-tools-controller', file: path.join(ROOT, 'src', 'features', 'tools', 'tools-controller.js') },
   { id: 'wb-pad-audio-controller', file: path.join(ROOT, 'src', 'features', 'tools', 'pad-audio-controller.js') },
+  { id: 'wb-chord-nns-controller', file: path.join(ROOT, 'src', 'features', 'tools', 'chord-nns-controller.js') },
   { id: 'wb-settings-controller', file: path.join(ROOT, 'src', 'features', 'settings', 'settings-controller.js') },
   { id: 'wb-backup-ui-controller', file: path.join(ROOT, 'src', 'features', 'backup', 'backup-ui-controller.js') },
   { id: 'wb-bible-controller', file: path.join(ROOT, 'src', 'features', 'tools', 'bible-controller.js') },
@@ -172,8 +173,8 @@ function main() {
   }
 
   const manifest = {
-    phase: 'RC3',
-    purpose: 'Interaction performance, notes visibility, and lyrics-only readability fix pack',
+    phase: 'ADD5.3',
+    purpose: 'Chord and NNS reference final polish and quick-reference helpers',
     baseline: 'v8.17 stability freeze, RC3 notes/cues and readability cleanup; v85 reference artifact included',
     generatedAt: new Date().toISOString(),
     files: {
@@ -205,7 +206,7 @@ function main() {
       inlineScriptSyntaxErrors: syntax.errors.length,
       styleBlocks: countStyleBlocks(indexHtml),
       ownershipViolations: ownershipViolations.length,
-      productBehaviourChanged: 'RC3 refines notes/cues presentation and readability polish; no visual redesign' ,
+      productBehaviourChanged: 'ADD5.3 refines Tools chord/NNS reference; no visual redesign' ,
       visualRedesign: false,
       attachedSongPdfWorkflows: 'cancelled / untouched',
     },
@@ -213,7 +214,7 @@ function main() {
 
   write(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
 
-  console.log('WorshipBase RC3 build complete.');
+  console.log('WorshipBase ADD5.3 build complete.');
   console.log(`- ${path.relative(ROOT, DIST_INDEX)}`);
   console.log(`- ${path.relative(ROOT, DIST_SW)}`);
   console.log(`- ${path.relative(ROOT, MANIFEST)}`);

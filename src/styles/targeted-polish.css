@@ -379,3 +379,64 @@ body.dark .wb-personal-local,body.dark .wb-editor-local,body.dark .in-set-pill,b
   font-size:calc(17.2px * var(--wb-text-scale,1))!important;
   line-height:1.50!important;
 }
+
+
+/* RC3.1 v85 parity cleanup: cues, Bible loading, PDF preview, and metadata. */
+.note-cue-textarea{min-height:92px!important;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif!important;font-size:13px!important;line-height:1.45!important;}
+.song-cue-marker{display:inline-flex;align-items:center;max-width:calc(100% - 8px);margin:8px 0 4px;padding:6px 10px;border-radius:999px;border:1px solid rgba(217,52,72,.30)!important;background:rgba(217,52,72,.105)!important;color:#c72f42!important;font-size:11.5px!important;font-weight:900!important;letter-spacing:.01em;line-height:1.25;box-shadow:0 2px 9px rgba(217,52,72,.08)!important;}
+.song-cue-marker::before{content:'CUE';font-size:8px;letter-spacing:.12em;text-transform:uppercase;margin-right:7px;color:#a82031!important;font-weight:900!important;opacity:1!important;}
+#song-view.cues-hidden .song-cue-marker{display:none!important;}
+body.dark .song-cue-marker{color:#ff7d8d!important;background:rgba(255,91,112,.16)!important;border-color:rgba(255,125,141,.42)!important;box-shadow:0 2px 12px rgba(255,91,112,.12)!important;}
+body.dark .song-cue-marker::before{color:#ffb3bd!important;}
+.song-note-preview{margin:8px 0 6px;padding:0!important;background:transparent!important;border:0!important;}
+.song-note-preview-open.compact{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--surface-border);background:var(--surface-tint);border-radius:999px;padding:6px 9px;color:var(--txt2);font-size:11px;font-weight:800;font-family:inherit;}
+.song-note-preview-chip.cue{color:#c72f42;background:rgba(217,52,72,.095);border-color:rgba(217,52,72,.24);}
+.bible-loading-state{min-height:42vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:44px 24px;color:var(--txt3);}
+.bible-loading-state .bible-heading{font-size:20px;margin-bottom:10px;color:var(--txt1);}
+.bible-loading-state .bible-copy{font-size:14px;max-width:30ch;line-height:1.55;}
+.wb-export-pdf-preview-view .wb-export-pdf-preview-hdr{background:var(--bg1)!important;border-bottom:1px solid var(--bdr)!important;box-shadow:none!important;}
+.wb-export-pdf-preview-btn{background:var(--bg2)!important;border-color:var(--bdr2)!important;color:var(--txt2)!important;box-shadow:none!important;min-height:38px!important;padding:0 16px!important;font-weight:760!important;}
+.wb-export-pdf-preview-btn.primary{background:var(--accent)!important;border-color:var(--accent)!important;color:var(--accent-fg)!important;}
+.wb-export-pdf-preview-scroll{background:#e9eef1!important;padding-top:12px!important;}
+body.dark .wb-export-pdf-preview-scroll{background:#071015!important;}
+.wb-export-pdf-page{box-shadow:0 8px 26px rgba(16,55,74,.16)!important;}
+.wb-export-sheet,.wb-export-lt,.wb-export-ly{color:#111820!important;}
+.wb-export-ch{color:#1d2a32!important;}
+.wb-export-section{color:#64717a!important;background:#eef2f4!important;border-color:#e2e8ec!important;}
+
+/* ADD5.2 — Chord / NNS Reference tool */
+.nns-table-wrap{margin-top:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--surface-border);border-radius:16px;background:var(--bg1)}
+.nns-table{width:100%;border-collapse:collapse;min-width:320px;font-size:13px;color:var(--txt1)}
+.nns-table th{background:color-mix(in srgb,var(--accent) 12%,var(--bg2));color:var(--txt2);font-size:10px;font-weight:850;letter-spacing:.08em;text-transform:uppercase;padding:10px 8px;text-align:left;border-bottom:1px solid var(--surface-border)}
+.nns-table td{padding:11px 8px;border-bottom:.5px solid var(--surface-border);font-weight:620;color:var(--txt2)}
+.nns-table tr:last-child td{border-bottom:none}.nns-table td:first-child{font-weight:850;color:var(--accent)}.nns-table strong{font-weight:850;color:var(--txt1)}
+.nns-input{width:100%;min-height:46px;margin-top:14px;border-radius:16px;border:1px solid var(--surface-border);background:var(--bg2);color:var(--txt1);font-size:15px;font-weight:620;padding:0 13px;outline:none;font-family:inherit}
+.nns-convert-result{margin-top:10px;border-radius:16px;background:color-mix(in srgb,var(--accent) 7%,var(--bg2));border:1px solid color-mix(in srgb,var(--accent) 16%,var(--surface-border));padding:12px 14px;color:var(--txt2);font-size:13px;line-height:1.45}
+.nns-result-label{display:block;font-size:10px;font-weight:850;letter-spacing:.08em;text-transform:uppercase;color:var(--txt3);margin-bottom:5px}.nns-result-line{font-size:17px;font-weight:850;color:var(--txt1);letter-spacing:.04em}
+.nns-diagram-card{margin-top:14px;border-radius:18px;border:1px solid var(--surface-border);background:var(--bg1);padding:14px;display:flex;flex-direction:column;align-items:center;gap:8px}.nns-diagram-title{font-size:24px;font-weight:860;color:var(--txt1);letter-spacing:-.03em}.nns-diagram-hint{font-size:12px;color:var(--txt3);font-weight:600;text-align:center}.nns-diagram-svg{width:min(100%,280px);height:auto}.nns-diagram-line{stroke:color-mix(in srgb,var(--txt2) 60%,var(--txt3));stroke-width:1.4}.nns-diagram-line.nut{stroke-width:4}.nns-diagram-dot{fill:var(--accent)}.nns-diagram-dot.barre{fill:color-mix(in srgb,var(--accent) 82%,#000)}.nns-diagram-finger{fill:var(--accent-fg);font-size:10px;font-weight:800;text-anchor:middle;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif}.nns-diagram-muted{fill:var(--txt3);font-size:15px;font-weight:800;text-anchor:middle}.nns-diagram-base,.nns-diagram-strings{fill:var(--txt3);font-size:11px;font-weight:750;letter-spacing:.04em}.nns-diagram-strings{font-family:ui-monospace,'SF Mono',monospace}
+body.dark .nns-table-wrap,body.dark .nns-diagram-card{background:var(--wb-sec-surface);border-color:var(--wb-sec-border)}body.dark .nns-table th{background:var(--accent-surface);color:var(--accent)}body.dark .nns-table td{border-bottom-color:rgba(255,255,255,.07)}body.dark .nns-input{background:var(--wb-sec-surface-2);border-color:var(--wb-sec-border)}body.dark .nns-convert-result{background:var(--accent-surface);border-color:var(--accent-border)}
+
+/* ADD5.2 — Chord / NNS reference refinements */
+.nns-action-row{display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;margin-top:10px}
+.nns-small-btn{min-height:40px;border-radius:999px;border:1px solid var(--surface-border);background:var(--surface-tint);color:var(--tc);font-size:12px;font-weight:850;letter-spacing:.02em;padding:0 14px;font-family:inherit;cursor:pointer}
+.nns-small-btn:disabled{opacity:.45;cursor:default}.nns-small-btn:active:not(:disabled){transform:scale(.98)}
+.nns-mini-field{display:flex;align-items:flex-start;gap:6px;flex-direction:column;font-size:10px;font-weight:850;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase;min-width:128px;flex:1}
+.nns-mini-field select{width:100%;min-height:40px;border-radius:999px;border:1px solid var(--surface-border);background:var(--bg2);color:var(--txt1);font-size:13px;font-weight:780;padding:0 12px;font-family:inherit}
+.nns-convert-result.secondary{background:var(--bg1);border-color:var(--surface-border)}
+.nns-example-row{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-top:10px;padding-bottom:2px}
+.nns-example-row::-webkit-scrollbar{display:none}
+.nns-example-chip{flex:0 0 auto;border:1px solid var(--surface-border);background:var(--bg1);border-radius:14px;padding:9px 11px;display:flex;flex-direction:column;gap:2px;align-items:flex-start;font-family:inherit;color:var(--txt1);cursor:pointer;min-width:108px;text-align:left}
+.nns-example-chip span{font-size:13px;font-weight:850;color:var(--tc);letter-spacing:.03em}.nns-example-chip small{font-size:11px;font-weight:650;color:var(--txt3)}
+.nns-example-chip:active{transform:scale(.98);background:var(--surface-tint)}
+body.dark .nns-small-btn{background:var(--accent-surface);border-color:var(--accent-border);color:var(--accent)}
+body.dark .nns-mini-field select,body.dark .nns-example-chip,body.dark .nns-convert-result.secondary{background:var(--wb-sec-surface);border-color:var(--wb-sec-border)}
+body.dark .nns-example-chip span{color:var(--accent)}
+
+/* ADD5.3 — Chord / NNS Reference final polish */
+.nns-scale-summary{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+.nns-summary-pill{display:flex;align-items:center;justify-content:space-between;gap:12px;border-radius:16px;border:1px solid color-mix(in srgb,var(--accent) 18%,var(--surface-border));background:color-mix(in srgb,var(--accent) 7%,var(--bg2));padding:11px 13px;color:var(--txt1)}
+.nns-summary-pill strong{font-size:14px;font-weight:860;letter-spacing:-.015em;white-space:nowrap}.nns-summary-pill span{font-size:12px;font-weight:700;color:var(--txt2);text-align:right;line-height:1.35}
+.nns-summary-mini{display:flex;flex-wrap:wrap;gap:7px}.nns-summary-mini span{display:inline-flex;min-height:24px;align-items:center;border-radius:999px;padding:3px 9px;background:var(--surface-tint);border:1px solid var(--surface-border);color:var(--txt2);font-size:10.5px;font-weight:780;line-height:1.2}
+.nns-reference-grid{margin-top:12px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.nns-ref-item{border:1px solid var(--surface-border);background:var(--bg1);border-radius:14px;padding:10px 11px;display:flex;flex-direction:column;gap:3px}.nns-ref-item strong{font-size:14px;font-weight:880;color:var(--accent)}.nns-ref-item span{font-size:11.5px;font-weight:650;color:var(--txt2);line-height:1.28}.nns-ref-note{grid-column:1/-1;border-radius:14px;background:var(--surface-tint);border:1px solid var(--surface-border);color:var(--txt2);font-size:12px;font-weight:580;line-height:1.45;padding:11px 12px}.nns-ref-note strong{color:var(--txt1);font-weight:830}
+@media(max-width:380px){.nns-summary-pill{align-items:flex-start;flex-direction:column}.nns-summary-pill span{text-align:left}.nns-reference-grid{grid-template-columns:1fr}}
+body.dark .nns-summary-pill{background:var(--accent-surface);border-color:var(--accent-border)}body.dark .nns-summary-mini span,body.dark .nns-ref-item,body.dark .nns-ref-note{background:var(--wb-sec-surface);border-color:var(--wb-sec-border)}

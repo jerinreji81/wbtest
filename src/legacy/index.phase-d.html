@@ -11,7 +11,7 @@
 <meta content="WorshipBase" name="apple-mobile-web-app-title"/>
 <link href="./worshipbase_layered_fold_w_proper/app-icons/app-icon-192.png" rel="icon" type="image/png"/>
 <link href="./worshipbase_layered_fold_w_proper/app-icons/apple-touch-icon.png" rel="apple-touch-icon"/>
-<title>WorshipBase Rebuild_8.17RC3</title>
+<title>WorshipBase Rebuild_8.17ADD5.3</title>
 <style id="wb-rebuild-consolidated-style">
 
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -2681,12 +2681,19 @@ body.dark .sheet-section{
 <div class="tools-hero"><div class="tools-title">Tools</div><div class="tools-sub">Quick worship utilities for rehearsal, planning and live prep.</div></div>
 <button class="tool-card" id="tool-open-bible" type="button"><span class="tool-card-ico"><svg fill="none" height="23" viewbox="0 0 24 24" width="23"><path d="M6 4.5h9.5A2.5 2.5 0 0 1 18 7v11.5H8a2 2 0 0 0-2 2v-16Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.9"></path><path d="M6 4.5h-.5A2.5 2.5 0 0 0 3 7v10.5h3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9"></path><path d="M9 9h6M9 12.5h4" stroke="currentColor" stroke-linecap="round" stroke-width="1.9"></path></svg></span><span class="tool-card-body"><span class="tool-card-title">Bible</span><span class="tool-card-sub">Read and copy scripture during planning or service prep.</span></span><span class="tool-card-chev">›</span></button>
 <button class="tool-card" id="tool-open-keycapo" type="button"><span class="tool-card-ico"><svg fill="none" height="23" viewbox="0 0 24 24" width="23"><path d="M5 7h14M5 12h14M5 17h14" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path><path d="M9 5v14M15 5v14" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path><circle cx="9" cy="12" fill="currentColor" r="2.2"></circle><circle cx="15" cy="7" fill="currentColor" r="2.2"></circle></svg></span><span class="tool-card-body"><span class="tool-card-title">Key / Capo</span><span class="tool-card-sub">Transpose keys and find easy capo shapes.</span></span><span class="tool-card-chev">›</span></button>
+<button class="tool-card" id="tool-open-chordnns" type="button"><span class="tool-card-ico"><svg fill="none" height="23" viewbox="0 0 24 24" width="23"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path><path d="M8 5v14M14 5v14" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"></path><path d="M18 6v12" stroke="currentColor" stroke-linecap="round" stroke-width="1.8" opacity=".5"></path></svg></span><span class="tool-card-body"><span class="tool-card-title">Chord / NNS Reference</span><span class="tool-card-sub">Chord diagrams, number-system tables and chord ↔ NNS conversion.</span></span><span class="tool-card-chev">›</span></button>
 <button class="tool-card" id="tool-open-pads" type="button"><span class="tool-card-ico"><svg fill="none" height="23" viewbox="0 0 24 24" width="23"><path d="M4 12c2.2-4.5 5.2-4.5 8 0s5.8 4.5 8 0" stroke="currentColor" stroke-linecap="round" stroke-width="1.9"></path><path d="M4 16c2.2-3.2 5.2-3.2 8 0s5.8 3.2 8 0" opacity=".65" stroke="currentColor" stroke-linecap="round" stroke-width="1.9"></path><path d="M4 8c2.2-3.2 5.2-3.2 8 0s5.8 3.2 8 0" opacity=".65" stroke="currentColor" stroke-linecap="round" stroke-width="1.9"></path></svg></span><span class="tool-card-body"><span class="tool-card-title">Pads</span><span class="tool-card-sub">Peaceful, Analog and Drones pads for rehearsal and transitions.</span></span><span class="tool-card-chev">›</span></button>
 </div>
 <div class="tools-panel" id="tools-keycapo-panel">
 <div class="tool-detail-head"><button aria-label="Back" class="tool-back-circle" id="tools-keycapo-back" type="button"><svg fill="none" viewbox="0 0 24 24"><path d="m15 6-6 6 6 6"></path></svg></button><div class="tool-detail-title">Key / Capo</div></div>
 <div class="tool-card-static"><div class="tool-card-static-title">Transpose</div><div class="tool-card-static-sub">Choose an original key and target key.</div><div class="tool-field-grid"><label class="tool-field"><span>Original key</span><select id="tools-kc-original"></select></label><label class="tool-field"><span>Target key</span><select id="tools-kc-target"></select></label></div><div class="tools-kc-result" id="tools-kc-result"></div></div>
 <div class="tool-card-static"><div class="tool-card-static-title">Capo suggestions</div><div class="tool-card-static-sub">Common playable shapes for the selected target.</div><div class="tools-kc-suggestions" id="tools-kc-suggestions"></div></div>
+</div>
+<div class="tools-panel" id="tools-chordnns-panel">
+<div class="tool-detail-head"><button aria-label="Back" class="tool-back-circle" id="tools-chordnns-back" type="button"><svg fill="none" viewbox="0 0 24 24"><path d="m15 6-6 6 6 6"></path></svg></button><div class="tool-detail-title">Chord / NNS</div></div>
+<div class="tool-card-static"><div class="tool-card-static-title">Number system</div><div class="tool-card-static-sub">Choose a key and scale to see the chord family and Nashville numbers.</div><div class="tool-field-grid"><label class="tool-field"><span>Key</span><select id="nns-key-select"></select></label><label class="tool-field"><span>Scale</span><select id="nns-mode-select"><option value="major">Major</option><option value="minor">Minor</option></select></label></div><div class="nns-scale-summary" id="nns-scale-summary"></div><div class="nns-table-wrap"><table class="nns-table" id="nns-scale-table"></table></div></div>
+<div class="tool-card-static"><div class="tool-card-static-title">Convert chord ↔ NNS</div><div class="tool-card-static-sub">Type chords or numbers separated by spaces. Slash chords are supported. Example: <strong>C G/B Am F</strong> or <strong>1 5/7 6m 4</strong>.</div><input class="nns-input" id="nns-convert-input" inputmode="text" placeholder="C G/B Am F  or  1 5/7 6m 4"/><div class="nns-action-row"><button class="nns-small-btn" id="nns-copy-result" type="button">Copy result</button><label class="nns-mini-field"><span>Transpose to</span><select id="nns-transpose-target"></select></label></div><div class="nns-convert-result" id="nns-convert-result">Choose a key, then enter chords or numbers.</div><div class="nns-convert-result secondary" id="nns-transpose-result">Transpose preview will appear here.</div><div class="nns-example-row" id="nns-common-progressions"></div></div>
+<div class="tool-card-static"><div class="tool-card-static-title">Guitar chord diagram</div><div class="tool-card-static-sub">Common open or moveable guitar shapes for quick reference.</div><div class="tool-field-grid"><label class="tool-field"><span>Root</span><select id="nns-diagram-root"></select></label><label class="tool-field"><span>Quality</span><select id="nns-diagram-quality"></select></label></div><div class="nns-diagram-card"><div class="nns-diagram-title" id="nns-diagram-title">C</div><div id="nns-diagram-svg"></div><div class="nns-diagram-hint" id="nns-diagram-hint"></div></div></div><div class="tool-card-static"><div class="tool-card-static-title">Quick reference</div><div class="tool-card-static-sub">Scale steps, chord qualities and common worship shorthand for the selected scale.</div><div class="nns-reference-grid" id="nns-reference-grid"></div></div>
 </div>
 <div class="tools-panel" id="tools-pads-panel">
 <div class="tool-detail-head"><button aria-label="Back" class="tool-back-circle" id="tools-pads-back" type="button"><svg fill="none" viewbox="0 0 24 24"><path d="m15 6-6 6 6 6"></path></svg></button><div class="tool-detail-title">Pads</div></div>
@@ -3003,7 +3010,10 @@ body.dark .sheet-section{
 <div aria-labelledby="song-notes-title" aria-modal="true" class="bs" role="dialog">
 <div class="bs-handle"></div>
 <div class="m-tr"><h2 class="m-h2" id="song-notes-title">Notes &amp; cues</h2><button aria-label="Close" class="m-close" id="song-notes-close" type="button">×</button></div>
-<div class="m-body"><div class="m-field"><label for="song-note-text">Song note</label><textarea class="note-textarea" id="song-note-text" placeholder="Notes for this song in the current set…"></textarea></div><div class="m-field"><label for="song-cue-text">Cue</label><input id="song-cue-text" placeholder="e.g. Start after piano intro" type="text"/></div><div class="m-acts"><button class="btn-s" id="song-notes-cancel" type="button">Cancel</button><button class="btn-p" id="song-notes-save" type="button">Save</button></div></div>
+<div class="m-body"><div class="m-field"><label for="song-note-text">Song note</label><textarea class="note-textarea" id="song-note-text" placeholder="Notes for this song in the current set…"></textarea></div><div class="m-field"><label for="song-cue-text">Cues</label><textarea class="note-textarea note-cue-textarea" id="song-cue-text" placeholder="One cue per line. Example:
+Ending | cue 2
+Chorus | drums in
+line 18 | vocals in"></textarea><p class="m-hint">Use <strong>line or section text | cue</strong>. Cues show near the matching lyric or section.</p></div><div class="m-acts"><button class="btn-s" id="song-notes-cancel" type="button">Cancel</button><button class="btn-p" id="song-notes-save" type="button">Save</button></div></div>
 </div>
 </div>
 <div aria-hidden="true" class="bs-bg" id="bs-set-song-picker">
@@ -3104,8 +3114,8 @@ var WBDom=window.WBDom||{};
 var PersonalSetController=window.WBPersonalSetController||{};
 var WorkspaceSetController=window.WBWorkspaceSetController||{};
 var SettingsController=window.WBSettingsController||{};
-var VERSION=WBConstants.VERSION||'Rebuild_8.17RC3';
-var REBUILD_PHASE=WBConstants.REBUILD_PHASE||'RC3: swipe smoothing and PDF/export visual polish';
+var VERSION=WBConstants.VERSION||'Rebuild_8.17ADD5.3';
+var REBUILD_PHASE=WBConstants.REBUILD_PHASE||'RC3.1: v85 parity cleanup and addendum planning';
 var REBUILD_REFERENCE=WBConstants.REBUILD_REFERENCE||'Working-v85.0-fixed.html';
 
 var ASSET_CONFIG=Object.assign({},WBConstants.ASSET_DEFAULTS||{},(window.WB_ASSETS&&typeof window.WB_ASSETS==='object')?window.WB_ASSETS:{});
@@ -3573,7 +3583,7 @@ function loadRouteMemory(){
   if(StartupLifecycle&&typeof StartupLifecycle.normalizeLaunchState==='function'){
     StartupLifecycle.normalizeLaunchState({state:state,workspaceState:workspaceState});
   }else{
-    state.tab='songs';state.selectedId=null;state.songContext=null;state.setlistEditorId=null;state.toolsPanel='home';
+    state.tab='songs';state.filter='all';state.query='';state.selectedId=null;state.songContext=null;state.setlistEditorId=null;state.toolsPanel='home';
     workspaceState.panel='home';workspaceState.activeSetId=null;workspaceState.detailType=null;workspaceState.selectedPublishId=null;
     document.body.classList.remove('song-open','song-focus','performance-mode','cues-hidden','sheet-lock','modal-lock','editor-open','song-closing','song-view-swiping');
     state.routeMemoryLoaded=true;
@@ -3930,7 +3940,7 @@ function showSong(s,origin,context){
   var artist=(s.artist||s.author||'Unknown');var key=(s.key||'C');
   qs('sv-author').innerHTML='<span class="sv-meta-artist">'+esc(artist)+'</span><span class="sv-meta-sep">·</span><span class="sv-meta-key">Originally in '+esc(key)+'</span><span class="sv-meta-sep">·</span><span class="sv-song-code">Song ID: '+esc(songCode(s))+'</span>';
   qs('sv-key-value').textContent=state.displayKey||s.key||'C';
-  var fav=qs('sv-fav-btn');if(fav){fav.classList.toggle('on',!!s.favorite);fav.innerHTML=heartIcon(!!s.favorite)}updateSongTopActionStates();syncSongNotesQuickIndicator();
+  var fav=qs('sv-fav-btn');if(fav){fav.classList.toggle('on',!!s.favorite);fav.innerHTML=heartIcon(!!s.favorite)}updateSongTopActionStates();renderSongNotePreview();syncSongNotesQuickIndicator();
   qsa('.seg-btn').forEach(function(b){b.classList.toggle('active',b.dataset.mode===state.mode)});
   renderSongSheet();
   document.body.classList.add('song-open');
@@ -3969,7 +3979,7 @@ function renderChordOnlyLine(line,mode,song){return chartOwner().renderChordOnly
 function splitTextPreserveSpaces(text){return chartOwner().splitTextPreserveSpaces(text)}
 function renderChordLyricLine(line,mode,song){return chartOwner().renderChordLyricLine(line,mode,song)}
 function formatChartHtml(text,mode,song){return chartOwner().formatChartHtml(text,mode,song)}
-function renderSongSheet(){var sheet=qs('sv-sheet');if(!sheet)return;var s=songs.find(function(x){return x.id===state.selectedId})||songs[0];if(!s)return;var chordHost=qs('sv-chords-used');var chords=extractChordNames(s.chart).map(function(c){return displayChord(c,s,'chords')});if(chordHost){if(chords.length){chordHost.classList.remove('hidden');chordHost.innerHTML='Chords used: '+chords.map(function(c){return '<strong>'+esc(c)+'</strong>'}).join(' ')}else{chordHost.classList.add('hidden');chordHost.innerHTML=''}}sheet.classList.toggle('chords-highlight',!!state.chordHighlight&&state.mode!=='lyrics');sheet.classList.toggle('lyrics-readable',state.mode==='lyrics');sheet.innerHTML=formatChartHtml(s.chart||'',state.mode,s);sheet.classList.toggle('chords-highlight',!!state.chordHighlight&&state.mode!=='lyrics');sheet.classList.toggle('lyrics-readable',state.mode==='lyrics');renderPerformanceRail();qsa('.seg-btn').forEach(function(b){b.classList.toggle('active',b.dataset.mode===state.mode)});syncKeySelect(s);updateLiveToolLabels();updateSongMenuUI()}
+function renderSongSheet(){var sheet=qs('sv-sheet');if(!sheet)return;var s=songs.find(function(x){return x.id===state.selectedId})||songs[0];if(!s)return;var chordHost=qs('sv-chords-used');var chords=extractChordNames(s.chart).map(function(c){return displayChord(c,s,'chords')});if(chordHost){if(chords.length){chordHost.classList.remove('hidden');chordHost.innerHTML='Chords used: '+chords.map(function(c){return '<strong>'+esc(c)+'</strong>'}).join(' ')}else{chordHost.classList.add('hidden');chordHost.innerHTML=''}}sheet.classList.toggle('chords-highlight',!!state.chordHighlight&&state.mode!=='lyrics');sheet.classList.toggle('lyrics-readable',state.mode==='lyrics');sheet.innerHTML=formatChartHtml(s.chart||'',state.mode,s);applySongCueMarkersToSheet(sheet,currentSongNoteSet(),s);sheet.classList.toggle('chords-highlight',!!state.chordHighlight&&state.mode!=='lyrics');sheet.classList.toggle('lyrics-readable',state.mode==='lyrics');renderPerformanceRail();qsa('.seg-btn').forEach(function(b){b.classList.toggle('active',b.dataset.mode===state.mode)});syncKeySelect(s);updateLiveToolLabels();updateSongMenuUI()}
 
 
 function setBodyRouteClasses(tab,extra){
@@ -4762,11 +4772,16 @@ function openWorkspaceSetItemEditor(index){
 function saveSetAddItem(){var isWs=pendingSetAddScope==='workspace',set=isWs?activeWorkspaceSet():currentSet();if(!set)return;var name=(qs('set-add-name').value||'').trim();var note=(qs('set-add-note').value||'').trim();if(!name){showToast('Add a title');return;}set.items=set.items||[];if(!isWs&&PersonalSetController){if(pendingSetEditIndex!==null&&set.items[pendingSetEditIndex])PersonalSetController.updateSectionOrText(set,pendingSetEditIndex,pendingSetAddKind,name,note);else PersonalSetController.addSectionOrText(set,pendingSetAddKind,name,note);showToast(pendingSetEditIndex!==null?(pendingSetAddKind==='section'?'Section updated':'Service item updated'):(pendingSetAddKind==='section'?'Section added':'Service item added'));pendingSetEditIndex=null;syncSetCounts(set);persistSets();closeSheetElement(qs('bs-set-add'));renderSetEditor();renderSettings();return}if(isWs&&WorkspaceSetController){if(pendingSetEditIndex!==null&&set.items[pendingSetEditIndex])WorkspaceSetController.updateSectionOrText(set,pendingSetEditIndex,pendingSetAddKind,name,note);else WorkspaceSetController.addSectionOrText(set,pendingSetAddKind,name,note);showToast(pendingSetEditIndex!==null?(pendingSetAddKind==='section'?'Section updated':'Service item updated'):(pendingSetAddKind==='section'?'Section added':'Service item added'));pendingSetEditIndex=null;workspaceSetCounts(set);persistWorkspace();closeSheetElement(qs('bs-set-add'));renderWorkspaceSetDetail(set);renderWorkspaceSetLists();renderSettings();pendingSetAddScope='personal';return}if(pendingSetEditIndex!==null&&set.items[pendingSetEditIndex]){var item=set.items[pendingSetEditIndex];if(pendingSetAddKind==='section'){item.type='section';item.label=name.toUpperCase();delete item.title;delete item.note;delete item.sub}else{item.type='item';item.title=name;item.note=note;item.sub=note}showToast(pendingSetAddKind==='section'?'Section updated':'Service item updated')}else{if(pendingSetAddKind==='section')set.items.push({type:'section',label:name.toUpperCase()});else set.items.push({type:'item',title:name,note:note,sub:note});showToast(pendingSetAddKind==='section'?'Section added':'Service item added')}pendingSetEditIndex=null;if(isWs){set.updated='Updated now';workspaceSetCounts(set);persistWorkspace();closeSheetElement(qs('bs-set-add'));renderWorkspaceSetDetail(set);renderWorkspaceSetLists();renderSettings();pendingSetAddScope='personal';return}syncSetCounts(set);persistSets();closeSheetElement(qs('bs-set-add'));renderSetEditor();renderSettings()}
 function saveSetNotes(){var set=currentSet();if(!set)return;set.setNotes=(qs('set-notes-editor').value||'').trim();syncSetCounts(set);persistSets();closeSheetElement(qs('bs-set-notes'));renderSetEditor();renderSettings();renderSongNotePreview();showToast('Set notes saved')}
 function openSetNotes(){var set=currentSet();var ed=qs('set-notes-editor'),m=qs('bs-set-notes');if(ed)ed.value=(set&&set.setNotes)||'';if(m){m.classList.add('open');m.setAttribute('aria-hidden','false');setTimeout(function(){if(ed)ed.focus({preventScroll:true})},80)}}
-function openSongNotesSheet(){var set=currentSet(),s=songs.find(function(x){return x.id===state.selectedId});if(!set||!s){showToast('Open a set to save notes');return;}qs('song-notes-title').textContent='Notes & cues';qs('song-note-text').value=(set.songNotes&&set.songNotes[s.id])||'';qs('song-cue-text').value=(set.songCues&&set.songCues[s.id])||'';var m=qs('bs-song-notes');if(m){m.classList.add('open');m.setAttribute('aria-hidden','false')}}
-function saveSongNotes(){var set=currentSet(),s=songs.find(function(x){return x.id===state.selectedId});if(!set||!s)return;set.songNotes=set.songNotes||{};set.songCues=set.songCues||{};var n=(qs('song-note-text').value||'').trim(),c=(qs('song-cue-text').value||'').trim();if(n)set.songNotes[s.id]=n;else delete set.songNotes[s.id];if(c)set.songCues[s.id]=c;else delete set.songCues[s.id];syncSetCounts(set);persistSets();closeSheetElement(qs('bs-song-notes'));renderSetEditor();renderSettings();renderSongNotePreview();showToast('Notes saved')}
-function renderSongNotePreview(){var box=qs('song-note-preview');if(!box)return;var set=currentSet(),s=songs.find(function(x){return x.id===state.selectedId});if(!set||!s){box.classList.remove('show');box.innerHTML='';syncSongNotesQuickIndicator();return;}var note=(set.songNotes||{})[s.id]||'',cue=(set.songCues||{})[s.id]||'';if(!note&&!cue){box.classList.remove('show');box.innerHTML='';syncSongNotesQuickIndicator();return;}var parts=[];if(note)parts.push('<span class="song-note-preview-chip note">Note</span>');if(cue)parts.push('<span class="song-note-preview-chip cue">Cue</span>');var summary=note&&cue?'Notes + cue':(note?'Song note':'Cue');box.classList.add('show');box.innerHTML='<button class="song-note-preview-open compact" type="button" onclick="openSongNotesSheet()"><span class="song-note-preview-title">'+esc(summary)+'</span><span class="song-note-preview-chips">'+parts.join('')+'</span></button>';syncSongNotesQuickIndicator()}
-function currentSongNoteSet(){return currentSet()}
+function openSongNotesSheet(){var set=currentSongNoteSet(),s=songs.find(function(x){return x.id===state.selectedId});if(!set||!s){showToast('Open a set song to save notes');return;}qs('song-notes-title').textContent='Notes & cues';qs('song-note-text').value=(set.songNotes&&set.songNotes[s.id])||'';qs('song-cue-text').value=(set.songCues&&set.songCues[s.id])||'';var m=qs('bs-song-notes');if(m){m.classList.add('open');m.setAttribute('aria-hidden','false')}}
+function saveSongNotes(){var set=currentSongNoteSet(),s=songs.find(function(x){return x.id===state.selectedId});if(!set||!s)return;set.songNotes=set.songNotes||{};set.songCues=set.songCues||{};var n=(qs('song-note-text').value||'').trim(),c=(qs('song-cue-text').value||'').trim();if(n)set.songNotes[s.id]=n;else delete set.songNotes[s.id];if(c)set.songCues[s.id]=c;else delete set.songCues[s.id];syncSetCounts(set);persistSets();closeSheetElement(qs('bs-song-notes'));renderSetEditor();renderSettings();renderSongNotePreview();showToast('Notes saved')}
+function currentSongNoteSet(){var ctx=state.songContext||{};if(ctx.scope==='personal'||normalizeSongOrigin(state.lastSongOrigin||'')==='setlist'){var id=ctx.setId||activeSetId;return ensureSetShape(personalSets.find(function(x){return x.id===id})||null)}return null}
 function selectedSongHasNotes(){var set=currentSongNoteSet(),s=songs.find(function(x){return x.id===state.selectedId});if(!set||!s)return false;return !!((set.songNotes||{})[s.id]||(set.songCues||{})[s.id])}
+function normalizeCueText(v){return String(v||'').toLowerCase().replace(/\[[^\]]+\]/g,' ').replace(/\b(cue|note)\b[:\-]?/g,'').replace(/[^a-z0-9]+/g,' ').trim()}
+function stripInlineChordsText(v){return String(v||'').replace(/\[([A-G][b#]?[^\[\]]*)\]/g,'').replace(/\[[^\]]+\]/g,' ').trim()}
+function parseSongCueMarkers(set,s){var raw=String(set&&s&&(set.songCues||{})[s.id]||'').split('\n').map(function(x){return x.trim()}).filter(Boolean),cues=[];raw.forEach(function(line,idx){var target='',cue=line,mm=line.match(/^line\s*(\d+)\s*[:|\-–—>]\s*(.+)$/i);if(mm){target='line:'+mm[1];cue=mm[2].trim()}else if(line.indexOf('|')>=0){var p=line.split('|');target=p.shift().trim();cue=p.join('|').trim()}else if(line.indexOf('=>')>=0){var q=line.split('=>');target=q.shift().trim();cue=q.join('=>').trim()}else if(line.indexOf(' - ')>=0){var r=line.split(' - ');target=r.shift().trim();cue=r.join(' - ').trim()}cue=cue.replace(/^cue\s*[:\-]\s*/i,'').trim();if(cue)cues.push({target:target,cue:cue,index:idx,used:false})});return cues}
+function cueMatchesNode(cue,nodeText,lineIndex){var target=String(cue.target||'').trim();if(!target)return lineIndex===0&&!cue.used;var lineMatch=target.match(/^line:(\d+)$/i);if(lineMatch)return Number(lineMatch[1])===lineIndex+1;var t=normalizeCueText(target),n=normalizeCueText(stripInlineChordsText(nodeText));return !!t&&!!n&&(n.indexOf(t)>=0||t.indexOf(n)>=0)}
+function applySongCueMarkersToSheet(sheet,set,s){if(!sheet||!set||!s)return;sheet.querySelectorAll('.song-cue-marker').forEach(function(el){el.remove()});var cues=parseSongCueMarkers(set,s);if(!cues.length)return;var nodes=Array.prototype.slice.call(sheet.querySelectorAll('.sec-lbl,.lyric-row,.lyric-only-row,.pair-lyric'));nodes.forEach(function(node,lineIndex){var matches=cues.filter(function(c){return !c.used&&cueMatchesNode(c,node.textContent||'',lineIndex)});matches.forEach(function(cue){var marker=document.createElement('div');marker.className='song-cue-marker';marker.textContent=cue.cue;var block=node.closest&&node.closest('.lyric-block')||node;if(block&&block.parentNode)block.parentNode.insertBefore(marker,block);cue.used=true})});cues.filter(function(c){return !c.used&&!String(c.target||'').trim()}).reverse().forEach(function(cue){var marker=document.createElement('div');marker.className='song-cue-marker';marker.textContent=cue.cue;sheet.insertBefore(marker,sheet.firstChild)})}
+function renderSongNotePreview(){var box=qs('song-note-preview');if(!box)return;var set=currentSongNoteSet(),s=songs.find(function(x){return x.id===state.selectedId});if(!set||!s){box.classList.remove('show');box.innerHTML='';syncSongNotesQuickIndicator();return;}var note=(set.songNotes||{})[s.id]||'',cue=(set.songCues||{})[s.id]||'';if(!note&&!cue){box.classList.remove('show');box.innerHTML='';syncSongNotesQuickIndicator();return;}var parts=[];if(note)parts.push('<span class="song-note-preview-chip note">Note</span>');if(cue)parts.push('<span class="song-note-preview-chip cue">Cues</span>');var summary=note&&cue?'Notes + cues':(note?'Song note':'Cues');box.classList.add('show');box.innerHTML='<button class="song-note-preview-open compact" type="button" onclick="openSongNotesSheet()"><span class="song-note-preview-title">'+esc(summary)+'</span><span class="song-note-preview-chips">'+parts.join('')+'</span></button>';syncSongNotesQuickIndicator()}
 function syncSongNotesQuickIndicator(){var has=selectedSongHasNotes(),btn=qs('sv-notes-btn'),live=qs('live-tool-notes'),lbl=qs('live-notes-label');if(window.WBSongInteractionController&&window.WBSongInteractionController.setButtonHasContent){window.WBSongInteractionController.setButtonHasContent(btn,has);window.WBSongInteractionController.setButtonHasContent(live,has)}else{if(btn)btn.classList.toggle('has-notes',has);if(live)live.classList.toggle('has-notes',has)}if(lbl)lbl.textContent=has?'ON':'—'}
 function syncSetNotesQuickIndicator(){var set=currentSet(),has=!!(set&&set.setNotes),btn=qs('sl-notes-quick-btn');if(window.WBSongInteractionController&&window.WBSongInteractionController.setButtonHasContent)window.WBSongInteractionController.setButtonHasContent(btn,has);else if(btn)btn.classList.toggle('has-notes',has)}
 function openSetSongPicker(){var m=qs('bs-set-song-picker');if(!m)return;state.setSongPickerTarget='personal';state.setOptionsContext='personal';state.exportWorkspaceSetId=null;state.setSongPickerFilter='all';var title=qs('set-song-picker-title');if(title)title.textContent='Add song';var input=qs('set-song-search');if(input)input.value='';renderSetSongPickerList('');m.classList.add('open');m.setAttribute('aria-hidden','false');setTimeout(function(){if(input)input.focus({preventScroll:true})},80)}
@@ -5169,11 +5184,65 @@ function showToolsPanel(name){
   if(owner&&owner.showPanel)owner.showPanel(document,state,name);else{state.toolsPanel=name==='home'?'home':name;qsa('#tools-section .tools-panel').forEach(function(p){p.classList.toggle('active',p.id==='tools-'+name+'-panel')})}
   if(name==='keycapo')initToolsKeyCapo();
   if(name==='pads')initToolsPads();
+  if(name==='chordnns')initToolsChordNns();
 }
 function openToolsHome(){qsa('.route').forEach(function(r){r.classList.remove('active')});qs('tools-section').classList.add('active');qsa('.tab-btn').forEach(function(b){b.classList.toggle('active',b.dataset.tab==='tools')});qs('srch-wrap').style.display='none';qs('hdr-add-btn').style.display='none';setBodyRouteClasses('tools');state.tab='tools';showToolsPanel('home');persistRouteMemory()}
 function openToolsBible(fromMemory){qsa('.route').forEach(function(r){r.classList.remove('active')});qs('bible-section').classList.add('active');qsa('.tab-btn').forEach(function(b){b.classList.toggle('active',b.dataset.tab==='tools')});qs('srch-wrap').style.display='none';qs('hdr-add-btn').style.display='none';setBodyRouteClasses('tools','wb-tools-bible');state.tab='tools';state.toolsPanel='bible';installBibleControls();loadBibleData();renderBibleShell();persistRouteMemory()}
 function openToolsKeyCapo(){showToolsPanel('keycapo')}
 function openToolsPads(){showToolsPanel('pads')}
+function openToolsChordNns(){showToolsPanel('chordnns')}
+var chordNnsState={key:'C',mode:'major',root:'C',quality:'major',transposeTarget:'G',lastCopy:''};
+function initToolsChordNns(){
+  var owner=window.WBChordNnsController;if(!owner)return;
+  var keySel=qs('nns-key-select'),rootSel=qs('nns-diagram-root'),qualitySel=qs('nns-diagram-quality'),targetSel=qs('nns-transpose-target');
+  if(keySel&&!keySel.dataset.ready){keySel.dataset.ready='1';keySel.innerHTML=owner.ROOTS.map(function(k){return '<option value="'+esc(k)+'">'+esc(k)+'</option>'}).join('')}
+  if(rootSel&&!rootSel.dataset.ready){rootSel.dataset.ready='1';rootSel.innerHTML=owner.ROOTS.map(function(k){return '<option value="'+esc(k)+'">'+esc(k)+'</option>'}).join('')}
+  if(targetSel&&!targetSel.dataset.ready){targetSel.dataset.ready='1';targetSel.innerHTML=owner.ROOTS.map(function(k){return '<option value="'+esc(k)+'">'+esc(k)+'</option>'}).join('')}
+  if(qualitySel&&!qualitySel.dataset.ready){qualitySel.dataset.ready='1';qualitySel.innerHTML=owner.QUALITIES.map(function(q){return '<option value="'+esc(q.id)+'">'+esc(q.label)+'</option>'}).join('')}
+  if(keySel)keySel.value=chordNnsState.key;if(rootSel)rootSel.value=chordNnsState.root;if(targetSel)targetSel.value=chordNnsState.transposeTarget;if(qualitySel)qualitySel.value=chordNnsState.quality;var modeSel=qs('nns-mode-select');if(modeSel)modeSel.value=chordNnsState.mode;
+  renderToolsChordNns();
+}
+function renderToolsChordNns(){
+  var owner=window.WBChordNnsController;if(!owner)return;
+  var rows=owner.scaleRows(chordNnsState.key,chordNnsState.mode),table=qs('nns-scale-table');
+  if(table){table.innerHTML='<thead><tr><th>NNS</th><th>Roman</th><th>Quality</th><th>Chord</th></tr></thead><tbody>'+rows.map(function(r){return '<tr><td>'+esc(r.nns)+'</td><td>'+esc(r.roman)+'</td><td>'+esc(r.quality)+'</td><td><strong>'+esc(r.chord)+'</strong></td></tr>'}).join('')+'</tbody>'}
+  renderNnsScaleSummary();renderNnsReference();renderNnsCommonProgressions();updateNnsConversion();renderNnsDiagram();
+}
+function renderNnsScaleSummary(){
+  var owner=window.WBChordNnsController,box=qs('nns-scale-summary');if(!owner||!box)return;
+  var formula=owner.scaleFormula?owner.scaleFormula(chordNnsState.mode):null;
+  var notes=owner.scaleNoteList?owner.scaleNoteList(chordNnsState.key,chordNnsState.mode):[];
+  var rel=owner.relativeKey?owner.relativeKey(chordNnsState.key,chordNnsState.mode):null;
+  box.innerHTML='<div class="nns-summary-pill"><strong>'+esc(chordNnsState.key+' '+(formula?formula.label:chordNnsState.mode))+'</strong><span>'+esc(notes.join(' · '))+'</span></div>'+
+    '<div class="nns-summary-mini"><span>Steps: '+esc(formula?formula.steps:'')+'</span><span>Numbers: '+esc(formula?formula.numbers:'')+'</span>'+(rel?'<span>'+esc(rel.label)+': '+esc(rel.key)+'</span>':'')+'</div>';
+}
+function renderNnsReference(){
+  var owner=window.WBChordNnsController,box=qs('nns-reference-grid');if(!owner||!box)return;
+  var legend=owner.qualityLegend?owner.qualityLegend(chordNnsState.mode):[];
+  box.innerHTML=legend.map(function(item){return '<div class="nns-ref-item"><strong>'+esc(item.nns)+'</strong><span>'+esc(item.meaning)+'</span></div>'}).join('')+
+    '<div class="nns-ref-note">Tip: slash numbers follow the bass note, e.g. <strong>5/7</strong> in C = <strong>G/B</strong>. Borrowed numbers like <strong>b7</strong> are accepted for quick reference.</div>';
+}
+function renderNnsCommonProgressions(){
+  var owner=window.WBChordNnsController,box=qs('nns-common-progressions');if(!owner||!box||!owner.commonProgressions)return;
+  box.innerHTML=owner.commonProgressions(chordNnsState.key,chordNnsState.mode).map(function(p){return '<button class="nns-example-chip" type="button" data-nns-example="'+esc(p.nns)+'"><span>'+esc(p.nns)+'</span><small>'+esc(p.chords)+'</small></button>'}).join('');
+}
+function updateNnsConversion(){
+  var owner=window.WBChordNnsController,inp=qs('nns-convert-input'),out=qs('nns-convert-result'),tr=qs('nns-transpose-result'),copy=qs('nns-copy-result');if(!owner||!out)return;
+  var value=inp?inp.value.trim():'';if(!value){out.textContent='Choose a key, then enter chords or numbers.';if(tr)tr.textContent='Transpose preview will appear here.';chordNnsState.lastCopy='';if(copy)copy.disabled=true;return}
+  var converted=owner.convertProgression?owner.convertProgression(value,chordNnsState.key,chordNnsState.mode):null;
+  var line=converted&&converted.line?converted.line:'';
+  var label=converted&&converted.direction==='numbers-to-chords'?'Numbers → chords':'Chords → numbers';
+  out.innerHTML='<span class="nns-result-label">'+label+'</span><div class="nns-result-line">'+esc(line||'?')+'</div>';
+  var trans=owner.transposeProgression?owner.transposeProgression(value,chordNnsState.key,chordNnsState.transposeTarget,chordNnsState.mode):null;
+  var transLine=trans&&trans.line?trans.line:'';
+  if(tr)tr.innerHTML='<span class="nns-result-label">Transposed to '+esc(chordNnsState.transposeTarget)+'</span><div class="nns-result-line">'+esc(transLine||'?')+'</div>';
+  chordNnsState.lastCopy=(label+': '+(line||'?')+'\nTransposed to '+chordNnsState.transposeTarget+': '+(transLine||'?'));
+  if(copy)copy.disabled=false;
+}
+function renderNnsDiagram(){
+  var owner=window.WBChordNnsController;if(!owner)return;var model=owner.diagramFor(chordNnsState.root,chordNnsState.quality),title=qs('nns-diagram-title'),svg=qs('nns-diagram-svg'),hint=qs('nns-diagram-hint');
+  if(title)title.textContent=model.name;if(svg)svg.innerHTML=owner.diagramSvg(model);if(hint)hint.textContent=model.hint+(model.diagram&&model.diagram.shape?' · '+model.diagram.shape:'');
+}
 var TOOL_KEYS=(window.WBToolsController&&window.WBToolsController.TOOL_KEYS)||['C','Db','D','Eb','E','F','F#','G','Ab','A','Bb','B'];
 var PAD_TYPES=(window.WBToolsController&&window.WBToolsController.PAD_TYPES)||['Peaceful','Analog','Drones'];
 var toolPadState=(window.WBToolsController&&window.WBToolsController.normalizePadState)?window.WBToolsController.normalizePadState({type:'Peaceful',key:'C',playing:false},TOOL_KEYS,PAD_TYPES):{type:'Peaceful',key:'C',playing:false};
@@ -5199,7 +5268,7 @@ function initToolsPads(){
   updateToolsPadStatus();
 }
 function updateToolsPadStatus(){var el=qs('tools-pad-status'),owner=window.WBToolsController;if(el)el.textContent=owner&&owner.padStatus?owner.padStatus(toolPadState):(toolPadState.playing?('Playing '+toolPadState.type+' pad in '+toolPadState.key):('Ready: '+toolPadState.type+' pad in '+toolPadState.key))}
-window.openToolsHome=openToolsHome;window.openToolsBible=openToolsBible;window.openToolsKeyCapo=openToolsKeyCapo;window.openToolsPads=openToolsPads;
+window.openToolsHome=openToolsHome;window.openToolsBible=openToolsBible;window.openToolsKeyCapo=openToolsKeyCapo;window.openToolsPads=openToolsPads;window.openToolsChordNns=openToolsChordNns;
 
 var BibleController=window.WBBibleController||{};
 var bibleState=BibleController.defaultState?BibleController.defaultState(settings):{book:'John',chapter:3,version:String(settings.defaultBibleVersion||'esv').toLowerCase()};
@@ -5500,10 +5569,20 @@ function install(){unlockUiInteraction();loadPersisted();if(window.WBAddToSetCon
 var tb=qs('tool-open-bible');if(tb)tb.addEventListener('click',openToolsBible);
 var tk=qs('tool-open-keycapo');if(tk)tk.addEventListener('click',openToolsKeyCapo);
 var tp=qs('tool-open-pads');if(tp)tp.addEventListener('click',openToolsPads);
+var tn=qs('tool-open-chordnns');if(tn)tn.addEventListener('click',openToolsChordNns);
 var th=qs('tools-keycapo-back');if(th)th.addEventListener('click',function(){showToolsPanel('home')});
 var ph=qs('tools-pads-back');if(ph)ph.addEventListener('click',function(){showToolsPanel('home')});
+var nh=qs('tools-chordnns-back');if(nh)nh.addEventListener('click',function(){showToolsPanel('home')});
 var bb=qs('tools-bible-back');if(bb)bb.addEventListener('click',openToolsHome);
 var ko=qs('tools-kc-original'),kt=qs('tools-kc-target');if(ko)ko.addEventListener('change',updateToolsKeyCapo);if(kt)kt.addEventListener('change',updateToolsKeyCapo);
+var nk=qs('nns-key-select');if(nk)nk.addEventListener('change',function(){chordNnsState.key=this.value;renderToolsChordNns()});
+var nm=qs('nns-mode-select');if(nm)nm.addEventListener('change',function(){chordNnsState.mode=this.value;renderToolsChordNns()});
+var nt=qs('nns-transpose-target');if(nt)nt.addEventListener('change',function(){chordNnsState.transposeTarget=this.value;updateNnsConversion()});
+var ni=qs('nns-convert-input');if(ni)ni.addEventListener('input',updateNnsConversion);
+var ne=qs('nns-common-progressions');if(ne)ne.addEventListener('click',function(e){var b=e.target.closest('[data-nns-example]');if(!b)return;var input=qs('nns-convert-input');if(input){input.value=b.dataset.nnsExample||'';updateNnsConversion();input.focus&&input.focus()}});
+var nc=qs('nns-copy-result');if(nc)nc.addEventListener('click',function(){if(!chordNnsState.lastCopy){showToast('Nothing to copy');return}try{navigator.clipboard.writeText(chordNnsState.lastCopy).then(function(){showToast('Conversion copied')},function(){showToast('Copy failed')})}catch(e){showToast('Copy failed')}});
+var nr=qs('nns-diagram-root');if(nr)nr.addEventListener('change',function(){chordNnsState.root=this.value;renderNnsDiagram()});
+var nq=qs('nns-diagram-quality');if(nq)nq.addEventListener('change',function(){chordNnsState.quality=this.value;renderNnsDiagram()});
 var tr=qs('tools-pad-type-row');if(tr)tr.addEventListener('click',function(e){var b=e.target.closest('[data-pad-type]');if(!b)return;toolPadState=(window.WBToolsController&&window.WBToolsController.setPadType)?window.WBToolsController.setPadType(toolPadState,b.dataset.padType,PAD_TYPES):(Object.assign(toolPadState,{type:b.dataset.padType}));try{if(window.WorshipBasePad&&window.WorshipBasePad.setMode)window.WorshipBasePad.setMode(b.dataset.padType)}catch(err){}initToolsPads()});
 var kr=qs('tools-pad-key-row');if(kr)kr.addEventListener('click',function(e){var b=e.target.closest('[data-pad-key]');if(!b)return;toolPadState=(window.WBToolsController&&window.WBToolsController.setPadKey)?window.WBToolsController.setPadKey(toolPadState,b.dataset.padKey,TOOL_KEYS):(Object.assign(toolPadState,{key:b.dataset.padKey}));try{if(window.WorshipBasePad&&window.WorshipBasePad.setKey)window.WorshipBasePad.setKey(b.dataset.padKey)}catch(err){}initToolsPads()});
 var pp=qs('tools-pad-play-btn');if(pp)pp.addEventListener('click',function(){toolPadState=(window.WBToolsController&&window.WBToolsController.setPadPlaying)?window.WBToolsController.setPadPlaying(toolPadState,true):(Object.assign(toolPadState,{playing:true}));try{if(window.WorshipBasePad&&window.WorshipBasePad.start){var r=window.WorshipBasePad.start();if(r&&typeof r.then==='function')r.then(updateToolsPadStatus).catch(function(err){toolPadState=(window.WBToolsController&&window.WBToolsController.setPadPlaying)?window.WBToolsController.setPadPlaying(toolPadState,false):(Object.assign(toolPadState,{playing:false}));updateToolsPadStatus();showToast(err&&err.message?err.message:'Could not play pad')});}}catch(err){showToast('Could not play pad')}updateToolsPadStatus()});

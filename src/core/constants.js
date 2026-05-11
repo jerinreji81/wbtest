@@ -3,8 +3,8 @@
 (function(root){
 'use strict';
 
-var VERSION='Rebuild_8.17RC3';
-var REBUILD_PHASE='RC3: swipe smoothing and PDF/export visual polish';
+var VERSION='Rebuild_8.17ADD5.3';
+var REBUILD_PHASE='ADD5.3: chord and NNS reference final polish';
 var REBUILD_REFERENCE='Working-v85.0-fixed.html';
 
 var ASSET_DEFAULTS={
