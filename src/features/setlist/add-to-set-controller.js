@@ -39,8 +39,10 @@ function ensureContextMemory(state,settings,origin){
 function shouldPreserveModeForOpen(origin,reason,state){
   origin=normalizeOrigin(origin);
   reason=String(reason||'').trim();
-  if(origin==='setlist'||origin==='workspace-set')return true;
-  return !!(state&&state.preserveLibrarySongViewModeOnce)||reason==='adjacent-song';
+  var preserveOrigin=state&&state.preserveSongViewModeOriginOnce?normalizeOrigin(state.preserveSongViewModeOriginOnce):null;
+  if(preserveOrigin===origin)return true;
+  if(origin==='library'&&state&&state.preserveLibrarySongViewModeOnce)return true;
+  return reason==='adjacent-song';
 }
 function applyOpenMode(state,settings,origin,reason){
   origin=normalizeOrigin(origin);
@@ -51,9 +53,10 @@ function applyOpenMode(state,settings,origin,reason){
     state.focusMode=false;
     state.preserveLibrarySongViewModeOnce=false;
   }else{
-    state.mode=normalizeMode(mem.mode,fallback);
-    state.focusMode=(typeof mem.focus==='boolean')?mem.focus:defaultFocus(origin);
+    state.mode=preserve?normalizeMode(mem.mode,fallback):fallback;
+    state.focusMode=preserve&&typeof mem.focus==='boolean'?mem.focus:defaultFocus(origin);
   }
+  if(preserve)state.preserveSongViewModeOriginOnce=null;
   return {origin:origin,mode:state.mode,focusMode:!!state.focusMode,memory:mem,preserve:preserve};
 }
 function rememberMode(state,settings,origin,mode,focus){
@@ -66,7 +69,10 @@ function rememberMode(state,settings,origin,mode,focus){
 }
 function markAdjacentNavigation(state,origin){
   origin=normalizeOrigin(origin||(state&&state.lastSongOrigin)||'library');
-  if(origin==='library'&&state)state.preserveLibrarySongViewModeOnce=true;
+  if(state){
+    state.preserveSongViewModeOriginOnce=origin;
+    if(origin==='library')state.preserveLibrarySongViewModeOnce=true;
+  }
   return origin;
 }
 function destinationScopeForContext(context){
@@ -83,10 +89,10 @@ function normalizeSettings(settings){
 }
 function hierarchyDescription(){
   return [
-    'Library opens from a fresh tap use Settings defaultSongView and normal page mode.',
-    'Library next/previous song navigation preserves the current Library Lyrics/Chords/NNS mode only for that Library session.',
-    'Set List and Workspace Set contexts each keep separate mode and focus memory while swiping through songs.',
-    'Context memory wins during song traversal; user Settings defaultSongView wins on fresh Library opens.',
+    'Fresh song opens in Library, Set List, and Workspace use Settings defaultSongView.',
+    'Library fresh opens use normal page mode.',
+    'Set List and Workspace fresh opens use their performance/focus default until the user changes it.',
+    'Adjacent next/previous song navigation preserves the current Lyrics/Chords/NNS mode and focus state within that context only.',
     'Add-to-set always asks for a destination; the old automatic active-set setting is deprecated.'
   ];
 }

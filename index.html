@@ -11,7 +11,7 @@
 <meta content="WorshipBase" name="apple-mobile-web-app-title"/>
 <link href="./worshipbase_layered_fold_w_proper/app-icons/app-icon-192.png" rel="icon" type="image/png"/>
 <link href="./worshipbase_layered_fold_w_proper/app-icons/apple-touch-icon.png" rel="apple-touch-icon"/>
-<title>WorshipBase Rebuild_8.17I3</title>
+<title>WorshipBase Rebuild_8.17I3.1</title>
 <style id="wb-rebuild-consolidated-style">
 
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -3099,8 +3099,8 @@ body.dark .sheet-section{
 (function(root){
 'use strict';
 
-var VERSION='Rebuild_8.17I2';
-var REBUILD_PHASE='Phase I.2: Workspace set controller extraction';
+var VERSION='Rebuild_8.17I3.1';
+var REBUILD_PHASE='Phase I.3.1: Set/List song-view hierarchy stabilization';
 var REBUILD_REFERENCE='Working-v85.0-fixed.html';
 
 var ASSET_DEFAULTS={
@@ -4303,15 +4303,18 @@ function beginOpen(options){
   appState.songContext=context;
   appState.displayKey=typeof options.resolveKey==='function'?options.resolveKey(song,context):(song.key||'C');
   appState.lastSongOrigin=origin;
+  var preserveOrigin=appState.preserveSongViewModeOriginOnce?normalizeOrigin(appState.preserveSongViewModeOriginOnce):null;
+  var preserveContextMode=preserveOrigin===origin;
   if(origin==='library'){
-    var preserveLibraryMode=!!appState.preserveLibrarySongViewModeOnce;
+    var preserveLibraryMode=preserveContextMode||!!appState.preserveLibrarySongViewModeOnce;
     appState.mode=preserveLibraryMode?normalizeMode(mem.mode,defaultMode(settings)):defaultMode(settings);
     appState.focusMode=false;
     appState.preserveLibrarySongViewModeOnce=false;
   }else{
-    appState.mode=normalizeMode(mem.mode,defaultMode(settings));
-    appState.focusMode=(typeof mem.focus==='boolean')?mem.focus:!!fromSet;
+    appState.mode=preserveContextMode?normalizeMode(mem.mode,defaultMode(settings)):defaultMode(settings);
+    appState.focusMode=preserveContextMode&&typeof mem.focus==='boolean'?mem.focus:defaultFocusForOrigin(origin);
   }
+  if(preserveContextMode)appState.preserveSongViewModeOriginOnce=null;
   return {
     origin:origin,
     context:context,
@@ -4393,11 +4396,11 @@ function currentEntryIndex(entries,ctx,selectedId){
 
 function hierarchyDescription(){
   return [
-    'fresh library opens use user default mode and normal page mode',
-    'library adjacent song navigation preserves the current library Lyrics/Chords/NNS mode for that traversal',
-    'setlist context memory is separate from library and workspace',
-    'workspace-set context memory is separate from library and personal setlist',
-    'context memory wins while swiping through songs in that context; otherwise settings.defaultSongView is used'
+    'fresh opens in Library, Set List, and Workspace use user default song-view mode',
+    'fresh Library opens use normal page mode',
+    'fresh Set List and Workspace opens use the performance/focus default for that context until the user changes it',
+    'adjacent song navigation preserves the current Lyrics/Chords/NNS mode for that context only',
+    'Set List, Workspace, and Library context memory stay separate'
   ];
 }
 
@@ -5162,8 +5165,10 @@ function ensureContextMemory(state,settings,origin){
 function shouldPreserveModeForOpen(origin,reason,state){
   origin=normalizeOrigin(origin);
   reason=String(reason||'').trim();
-  if(origin==='setlist'||origin==='workspace-set')return true;
-  return !!(state&&state.preserveLibrarySongViewModeOnce)||reason==='adjacent-song';
+  var preserveOrigin=state&&state.preserveSongViewModeOriginOnce?normalizeOrigin(state.preserveSongViewModeOriginOnce):null;
+  if(preserveOrigin===origin)return true;
+  if(origin==='library'&&state&&state.preserveLibrarySongViewModeOnce)return true;
+  return reason==='adjacent-song';
 }
 function applyOpenMode(state,settings,origin,reason){
   origin=normalizeOrigin(origin);
@@ -5174,9 +5179,10 @@ function applyOpenMode(state,settings,origin,reason){
     state.focusMode=false;
     state.preserveLibrarySongViewModeOnce=false;
   }else{
-    state.mode=normalizeMode(mem.mode,fallback);
-    state.focusMode=(typeof mem.focus==='boolean')?mem.focus:defaultFocus(origin);
+    state.mode=preserve?normalizeMode(mem.mode,fallback):fallback;
+    state.focusMode=preserve&&typeof mem.focus==='boolean'?mem.focus:defaultFocus(origin);
   }
+  if(preserve)state.preserveSongViewModeOriginOnce=null;
   return {origin:origin,mode:state.mode,focusMode:!!state.focusMode,memory:mem,preserve:preserve};
 }
 function rememberMode(state,settings,origin,mode,focus){
@@ -5189,7 +5195,10 @@ function rememberMode(state,settings,origin,mode,focus){
 }
 function markAdjacentNavigation(state,origin){
   origin=normalizeOrigin(origin||(state&&state.lastSongOrigin)||'library');
-  if(origin==='library'&&state)state.preserveLibrarySongViewModeOnce=true;
+  if(state){
+    state.preserveSongViewModeOriginOnce=origin;
+    if(origin==='library')state.preserveLibrarySongViewModeOnce=true;
+  }
   return origin;
 }
 function destinationScopeForContext(context){
@@ -5206,10 +5215,10 @@ function normalizeSettings(settings){
 }
 function hierarchyDescription(){
   return [
-    'Library opens from a fresh tap use Settings defaultSongView and normal page mode.',
-    'Library next/previous song navigation preserves the current Library Lyrics/Chords/NNS mode only for that Library session.',
-    'Set List and Workspace Set contexts each keep separate mode and focus memory while swiping through songs.',
-    'Context memory wins during song traversal; user Settings defaultSongView wins on fresh Library opens.',
+    'Fresh song opens in Library, Set List, and Workspace use Settings defaultSongView.',
+    'Library fresh opens use normal page mode.',
+    'Set List and Workspace fresh opens use their performance/focus default until the user changes it.',
+    'Adjacent next/previous song navigation preserves the current Lyrics/Chords/NNS mode and focus state within that context only.',
     'Add-to-set always asks for a destination; the old automatic active-set setting is deprecated.'
   ];
 }
@@ -5266,7 +5275,7 @@ var WBUtils=window.WBUtils||{};
 var WBDom=window.WBDom||{};
 var PersonalSetController=window.WBPersonalSetController||{};
 var WorkspaceSetController=window.WBWorkspaceSetController||{};
-var VERSION=WBConstants.VERSION||'Rebuild_8.17I3';
+var VERSION=WBConstants.VERSION||'Rebuild_8.17I3.1';
 var REBUILD_PHASE=WBConstants.REBUILD_PHASE||'Phase I.2: Workspace set controller extraction';
 var REBUILD_REFERENCE=WBConstants.REBUILD_REFERENCE||'Working-v85.0-fixed.html';
 

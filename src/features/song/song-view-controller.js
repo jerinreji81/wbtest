@@ -71,15 +71,18 @@ function beginOpen(options){
   appState.songContext=context;
   appState.displayKey=typeof options.resolveKey==='function'?options.resolveKey(song,context):(song.key||'C');
   appState.lastSongOrigin=origin;
+  var preserveOrigin=appState.preserveSongViewModeOriginOnce?normalizeOrigin(appState.preserveSongViewModeOriginOnce):null;
+  var preserveContextMode=preserveOrigin===origin;
   if(origin==='library'){
-    var preserveLibraryMode=!!appState.preserveLibrarySongViewModeOnce;
+    var preserveLibraryMode=preserveContextMode||!!appState.preserveLibrarySongViewModeOnce;
     appState.mode=preserveLibraryMode?normalizeMode(mem.mode,defaultMode(settings)):defaultMode(settings);
     appState.focusMode=false;
     appState.preserveLibrarySongViewModeOnce=false;
   }else{
-    appState.mode=normalizeMode(mem.mode,defaultMode(settings));
-    appState.focusMode=(typeof mem.focus==='boolean')?mem.focus:!!fromSet;
+    appState.mode=preserveContextMode?normalizeMode(mem.mode,defaultMode(settings)):defaultMode(settings);
+    appState.focusMode=preserveContextMode&&typeof mem.focus==='boolean'?mem.focus:defaultFocusForOrigin(origin);
   }
+  if(preserveContextMode)appState.preserveSongViewModeOriginOnce=null;
   return {
     origin:origin,
     context:context,
@@ -161,11 +164,11 @@ function currentEntryIndex(entries,ctx,selectedId){
 
 function hierarchyDescription(){
   return [
-    'fresh library opens use user default mode and normal page mode',
-    'library adjacent song navigation preserves the current library Lyrics/Chords/NNS mode for that traversal',
-    'setlist context memory is separate from library and workspace',
-    'workspace-set context memory is separate from library and personal setlist',
-    'context memory wins while swiping through songs in that context; otherwise settings.defaultSongView is used'
+    'fresh opens in Library, Set List, and Workspace use user default song-view mode',
+    'fresh Library opens use normal page mode',
+    'fresh Set List and Workspace opens use the performance/focus default for that context until the user changes it',
+    'adjacent song navigation preserves the current Lyrics/Chords/NNS mode for that context only',
+    'Set List, Workspace, and Library context memory stay separate'
   ];
 }
 

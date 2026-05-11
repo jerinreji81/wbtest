@@ -3,8 +3,8 @@
 (function(root){
 'use strict';
 
-var VERSION='Rebuild_8.17I2';
-var REBUILD_PHASE='Phase I.2: Workspace set controller extraction';
+var VERSION='Rebuild_8.17I3.1';
+var REBUILD_PHASE='Phase I.3.1: Set/List song-view hierarchy stabilization';
 var REBUILD_REFERENCE='Working-v85.0-fixed.html';
 
 var ASSET_DEFAULTS={

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * WorshipBase Phase I.3 build scaffold.
+ * WorshipBase Phase I.3.1 build scaffold.
  *
  * Purpose:
  * - Keep the Phase B single deployable output.
@@ -118,7 +118,7 @@ function main() {
 
   const ownershipViolations = ownershipChecks(shellHtml);
   if (ownershipViolations.length) {
-    console.error('Phase I.3 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
+    console.error('Phase I.3.1 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
     process.exit(1);
   }
 
@@ -135,13 +135,13 @@ function main() {
   }
 
   const manifest = {
-    phase: 'I.3',
-    purpose: 'Add-to-set flow and song-view mode hierarchy contract extraction after Phase I.2 Workspace Set controller extraction',
+    phase: 'I.3.1',
+    purpose: 'Stabilize Phase I.3 version label and set/workspace fresh-open mode hierarchy after combined Phase I testing',
     baseline: 'v8.17 stability freeze, Phase H.3 song/chart/focus extraction; v85 reference artifact included',
     generatedAt: new Date().toISOString(),
     files: {
       'index.html': {
-        source: 'src/legacy/index.phase-d.html + injected Phase I.3 modules',
+        source: 'src/legacy/index.phase-d.html + injected Phase I.3.1 modules',
         sha256: sha256(indexHtml),
         bytes: Buffer.byteLength(indexHtml, 'utf8'),
       },
@@ -169,7 +169,7 @@ function main() {
 
   write(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
 
-  console.log('WorshipBase Phase I.3 build complete.');
+  console.log('WorshipBase Phase I.3.1 build complete.');
   console.log(`- ${path.relative(ROOT, DIST_INDEX)}`);
   console.log(`- ${path.relative(ROOT, DIST_SW)}`);
   console.log(`- ${path.relative(ROOT, MANIFEST)}`);
