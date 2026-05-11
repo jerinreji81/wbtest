@@ -144,3 +144,14 @@ body.dark .ev-act-btn.primary{
   border-color:var(--accent);
   color:#000;
 }
+
+/* Phase K4.1: restore favourite affordance colour after targeted polish.
+   Active hearts should remain the established red/pink, not inherit theme teal/olive. */
+.song-fav-btn.on,
+.song-fav-btn.on svg{
+  color:#d4546a!important;
+}
+body.dark .song-fav-btn.on,
+body.dark .song-fav-btn.on svg{
+  color:#ef8fa2!important;
+}

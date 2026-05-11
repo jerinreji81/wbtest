@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * WorshipBase Phase K4 build scaffold.
+ * WorshipBase Phase K4.1 build scaffold.
  *
  * Purpose:
  * - Keep the Phase B single deployable output.
@@ -74,7 +74,7 @@ function injectStyleFragments(html, fragments) {
   if (openIndex < 0) throw new Error('Cannot find consolidated style block');
   const closeIndex = html.indexOf('</style>', openIndex);
   if (closeIndex < 0) throw new Error('Cannot find consolidated style block close');
-  const addition = '\n\n/* Phase K4 owner-injected targeted polish; single consolidated style block retained. */\n' +
+  const addition = '\n\n/* Phase K4.1 owner-injected targeted polish; single consolidated style block retained. */\n' +
     fragments.map(f => `/* ${f.id} */\n${f.content.replace(/\s+$/,'')}`).join('\n\n') + '\n';
   return html.slice(0, closeIndex) + addition + html.slice(closeIndex);
 }
@@ -153,7 +153,7 @@ function main() {
 
   const ownershipViolations = ownershipChecks(shellHtml);
   if (ownershipViolations.length) {
-    console.error('Phase K4 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
+    console.error('Phase K4.1 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
     process.exit(1);
   }
 
@@ -170,13 +170,13 @@ function main() {
   }
 
   const manifest = {
-    phase: 'K4',
+    phase: 'K4.1',
     purpose: 'Create targeted token-driven visual polish pass without changing PDF output; retain J4.2 Bible package loading stabilisation',
-    baseline: 'v8.17 stability freeze, Phase K4 targeted token-driven visual polish pass; v85 reference artifact included',
+    baseline: 'v8.17 stability freeze, Phase K4.1 targeted token-driven visual polish pass; v85 reference artifact included',
     generatedAt: new Date().toISOString(),
     files: {
       'index.html': {
-        source: 'src/legacy/index.phase-d.html + Phase K4 targeted style fragment + injected Phase K4 modules',
+        source: 'src/legacy/index.phase-d.html + Phase K4.1 targeted style fragment + injected Phase K4.1 modules',
         sha256: sha256(indexHtml),
         bytes: Buffer.byteLength(indexHtml, 'utf8'),
       },
@@ -211,7 +211,7 @@ function main() {
 
   write(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
 
-  console.log('WorshipBase Phase K4 build complete.');
+  console.log('WorshipBase Phase K4.1 build complete.');
   console.log(`- ${path.relative(ROOT, DIST_INDEX)}`);
   console.log(`- ${path.relative(ROOT, DIST_SW)}`);
   console.log(`- ${path.relative(ROOT, MANIFEST)}`);
