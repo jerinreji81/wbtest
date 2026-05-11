@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 /**
- * WorshipBase Phase I.3.1 build scaffold.
+ * WorshipBase Phase J4 build scaffold.
  *
  * Purpose:
  * - Keep the Phase B single deployable output.
  * - Inject extracted constants, utility helpers, startup/PWA lifecycle owner, navigation/registry/gesture scaffold,
- *   storage service, Firebase service, backup/Drive service, chart renderer, song-view controller, focus/performance controller, personal set-list controller, Workspace set controller, add-to-set controller, and DOM helpers before the legacy app shell.
+ *   storage service, Firebase service, backup/Drive service, chart renderer, song-view controller, focus/performance controller, personal set-list controller, Workspace set controller, add-to-set controller, Tools controller, Settings controller, Backup Centre UI controller, Bible tools controller, and DOM helpers before the legacy app shell.
  * - Leave visual redesign, attached song PDF workflows, Firebase rewrite, and visual redesign and attached song PDF workflows
- *   untouched; extract backup/Drive boundary ownership only.
+ *   untouched; extract Bible tools boundary ownership only.
  */
 
 const fs = require('fs');
@@ -31,6 +31,10 @@ const MODULES = [
   { id: 'wb-personal-set-controller', file: path.join(ROOT, 'src', 'features', 'setlist', 'personal-set-controller.js') },
   { id: 'wb-workspace-set-controller', file: path.join(ROOT, 'src', 'features', 'workspace', 'workspace-set-controller.js') },
   { id: 'wb-add-to-set-controller', file: path.join(ROOT, 'src', 'features', 'setlist', 'add-to-set-controller.js') },
+  { id: 'wb-tools-controller', file: path.join(ROOT, 'src', 'features', 'tools', 'tools-controller.js') },
+  { id: 'wb-settings-controller', file: path.join(ROOT, 'src', 'features', 'settings', 'settings-controller.js') },
+  { id: 'wb-backup-ui-controller', file: path.join(ROOT, 'src', 'features', 'backup', 'backup-ui-controller.js') },
+  { id: 'wb-bible-controller', file: path.join(ROOT, 'src', 'features', 'tools', 'bible-controller.js') },
   { id: 'wb-ui-dom', file: path.join(ROOT, 'src', 'ui', 'dom.js') },
 ];
 const DIST_DIR = path.join(ROOT, 'dist');
@@ -118,7 +122,7 @@ function main() {
 
   const ownershipViolations = ownershipChecks(shellHtml);
   if (ownershipViolations.length) {
-    console.error('Phase I.3.1 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
+    console.error('Phase J4 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
     process.exit(1);
   }
 
@@ -135,13 +139,13 @@ function main() {
   }
 
   const manifest = {
-    phase: 'I.3.1',
-    purpose: 'Stabilize Phase I.3 version label and set/workspace fresh-open mode hierarchy after combined Phase I testing',
-    baseline: 'v8.17 stability freeze, Phase H.3 song/chart/focus extraction; v85 reference artifact included',
+    phase: 'J4',
+    purpose: 'Extract Bible tools controller ownership without visual redesign',
+    baseline: 'v8.17 stability freeze, Phase J3 Backup Centre controller extraction; v85 reference artifact included',
     generatedAt: new Date().toISOString(),
     files: {
       'index.html': {
-        source: 'src/legacy/index.phase-d.html + injected Phase I.3.1 modules',
+        source: 'src/legacy/index.phase-d.html + injected Phase J4 modules',
         sha256: sha256(indexHtml),
         bytes: Buffer.byteLength(indexHtml, 'utf8'),
       },
@@ -161,7 +165,7 @@ function main() {
       inlineScriptBlocks: syntax.count,
       inlineScriptSyntaxErrors: syntax.errors.length,
       ownershipViolations: ownershipViolations.length,
-      productBehaviourChanged: 'Add-to-set and song-view mode hierarchy controller extraction with legacy compatibility adapters; no visual redesign',
+      productBehaviourChanged: 'Bible tools controller extraction with legacy compatibility adapters; no visual redesign',
       visualRedesign: false,
       attachedSongPdfWorkflows: 'cancelled / untouched',
     },
@@ -169,7 +173,7 @@ function main() {
 
   write(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
 
-  console.log('WorshipBase Phase I.3.1 build complete.');
+  console.log('WorshipBase Phase J4 build complete.');
   console.log(`- ${path.relative(ROOT, DIST_INDEX)}`);
   console.log(`- ${path.relative(ROOT, DIST_SW)}`);
   console.log(`- ${path.relative(ROOT, MANIFEST)}`);

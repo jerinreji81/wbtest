@@ -11,7 +11,7 @@
 <meta content="WorshipBase" name="apple-mobile-web-app-title"/>
 <link href="./worshipbase_layered_fold_w_proper/app-icons/app-icon-192.png" rel="icon" type="image/png"/>
 <link href="./worshipbase_layered_fold_w_proper/app-icons/apple-touch-icon.png" rel="apple-touch-icon"/>
-<title>WorshipBase Rebuild_8.17I3.1</title>
+<title>WorshipBase Rebuild_8.17J4</title>
 <style id="wb-rebuild-consolidated-style">
 
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -3099,8 +3099,8 @@ body.dark .sheet-section{
 (function(root){
 'use strict';
 
-var VERSION='Rebuild_8.17I3.1';
-var REBUILD_PHASE='Phase I.3.1: Set/List song-view hierarchy stabilization';
+var VERSION='Rebuild_8.17J4';
+var REBUILD_PHASE='Phase J4: Bible tools controller extraction';
 var REBUILD_REFERENCE='Working-v85.0-fixed.html';
 
 var ASSET_DEFAULTS={
@@ -5242,6 +5242,477 @@ root.WBAddToSetController={
 };
 })(window);
 </script>
+<script id="wb-tools-controller">
+/* WorshipBase Phase J1 Tools controller owner.
+   Owns Tools panel state, Key/Capo calculations, and pad-selector state helpers.
+   Bible rendering and audio playback remain in the legacy shell for now. */
+(function(root){
+'use strict';
+
+var TOOL_KEYS=['C','Db','D','Eb','E','F','F#','G','Ab','A','Bb','B'];
+var PAD_TYPES=['Peaceful','Analog','Drones'];
+var VALID_PANELS={home:true,bible:true,keycapo:true,pads:true};
+
+function normalizePanel(name){
+  name=String(name||'home').trim().toLowerCase();
+  if(name==='key-capo'||name==='key_capo'||name==='capo')name='keycapo';
+  if(name==='pad'||name==='pads')name='pads';
+  if(name==='scripture')name='bible';
+  return VALID_PANELS[name]?name:'home';
+}
+function showPanel(doc,state,name){
+  name=normalizePanel(name);
+  if(state)state.toolsPanel=name==='home'?'home':name;
+  if(doc&&doc.querySelectorAll){
+    Array.prototype.forEach.call(doc.querySelectorAll('#tools-section .tools-panel'),function(panel){
+      panel.classList.toggle('active',panel.id==='tools-'+name+'-panel');
+    });
+  }
+  return name;
+}
+function ensureKey(key,fallback,keys){
+  keys=keys&&keys.length?keys:TOOL_KEYS;
+  key=String(key||'').trim();
+  fallback=String(fallback||keys[0]||'C').trim();
+  return keys.indexOf(key)>=0?key:(keys.indexOf(fallback)>=0?fallback:(keys[0]||'C'));
+}
+function keyCapo(original,target,keys){
+  keys=keys&&keys.length?keys:TOOL_KEYS;
+  original=ensureKey(original,'G',keys);
+  target=ensureKey(target,'C',keys);
+  var oi=keys.indexOf(original),ti=keys.indexOf(target),steps=(ti-oi+keys.length)%keys.length;
+  var suggestions=[0,1,2,3,4].map(function(capo){
+    return {capo:capo,shape:keys[(ti-capo+keys.length)%keys.length]};
+  });
+  return {original:original,target:target,steps:steps,suggestions:suggestions};
+}
+function normalizePadState(state,keys,types){
+  keys=keys&&keys.length?keys:TOOL_KEYS;
+  types=types&&types.length?types:PAD_TYPES;
+  state=state&&typeof state==='object'?state:{};
+  return {
+    type:types.indexOf(state.type)>=0?state.type:types[0],
+    key:keys.indexOf(state.key)>=0?state.key:keys[0],
+    playing:!!state.playing
+  };
+}
+function chipModels(values,active){
+  return (values||[]).map(function(value){return {value:value,active:value===active};});
+}
+function padStatus(state){
+  state=normalizePadState(state);
+  return state.playing?('Playing '+state.type+' pad in '+state.key):('Ready: '+state.type+' pad in '+state.key);
+}
+function setPadType(state,type,types){
+  state=normalizePadState(state,null,types);
+  types=types&&types.length?types:PAD_TYPES;
+  state.type=types.indexOf(type)>=0?type:state.type;
+  return state;
+}
+function setPadKey(state,key,keys){
+  state=normalizePadState(state,keys,null);
+  keys=keys&&keys.length?keys:TOOL_KEYS;
+  state.key=keys.indexOf(key)>=0?key:state.key;
+  return state;
+}
+function setPadPlaying(state,playing){
+  state=normalizePadState(state);
+  state.playing=!!playing;
+  return state;
+}
+function toolsBackTarget(state){
+  if(!state)return 'home';
+  return normalizePanel(state.toolsPanel)==='home'?'tab-home':'home';
+}
+
+root.WBToolsController={
+  TOOL_KEYS:TOOL_KEYS,
+  PAD_TYPES:PAD_TYPES,
+  normalizePanel:normalizePanel,
+  showPanel:showPanel,
+  ensureKey:ensureKey,
+  keyCapo:keyCapo,
+  normalizePadState:normalizePadState,
+  chipModels:chipModels,
+  padStatus:padStatus,
+  setPadType:setPadType,
+  setPadKey:setPadKey,
+  setPadPlaying:setPadPlaying,
+  toolsBackTarget:toolsBackTarget
+};
+})(window);
+</script>
+<script id="wb-settings-controller">
+/* WorshipBase Phase J2 Settings controller owner.
+   Owns settings normalisation, choice labels, theme/token calculations, and settings update semantics.
+   Rendering remains in the legacy shell as a compatibility adapter until the Settings feature is fully extracted. */
+(function(root){
+'use strict';
+
+var DEFAULT_PICKER_IDS={
+  defaultDisplayKey:'defkey-options',
+  defaultSongView:'defsongview-options',
+  defaultPdfPreset:'defpdf-options',
+  addToSetBehavior:'addtoset-options',
+  defaultBibleVersion:'defbible-options'
+};
+var LABELS={
+  defaultDisplayKey:{original:'Original'},
+  defaultSongView:{chords:'Chords',lyrics:'Lyrics',nns:'NNS'},
+  defaultPdfPreset:{stage:'Stage chart',rehearsal:'Rehearsal',compact:'Compact print',lyrics:'Lyrics only'},
+  addToSetBehavior:{ask:'Ask',active:'Active set'},
+  defaultBibleVersion:{esv:'ESV'}
+};
+var TEXT_SIZE_MIN=.85;
+var TEXT_SIZE_MAX=1.25;
+
+function own(obj){return obj&&typeof obj==='object'?obj:{}};
+function cloneSettings(base,defaults,palette){
+  defaults=own(defaults);palette=own(palette);
+  var s=Object.assign({},defaults,own(base));
+  if(s.addToSetBehavior&&s.addToSetBehavior!=='ask')s.addToSetBehavior='ask';
+  ['theme','themeLight','themeDark'].forEach(function(k){
+    if(!palette[s[k]])s[k]=defaults[k]||defaults.theme||'stone';
+  });
+  if(['lyrics','chords','nns'].indexOf(String(s.defaultSongView||''))<0)s.defaultSongView=defaults.defaultSongView||'chords';
+  var size=parseFloat(s.textSize);if(!isFinite(size))size=parseFloat(defaults.textSize)||1;
+  s.textSize=Math.max(TEXT_SIZE_MIN,Math.min(TEXT_SIZE_MAX,size));
+  return s;
+}
+function activeThemeKey(settings,defaults,palette){
+  settings=cloneSettings(settings,defaults,palette);
+  return settings.darkMode?(settings.themeDark||settings.theme||'stone'):(settings.themeLight||settings.theme||'stone');
+}
+function currentTheme(settings,defaults,palette){
+  palette=own(palette);
+  return palette[activeThemeKey(settings,defaults,palette)]||palette.stone||palette.darkteal||{};
+}
+function activeThemeHex(settings,defaults,palette){
+  var theme=currentTheme(settings,defaults,palette);
+  return theme.c||'#10374A';
+}
+function hexToRgba(hex,a){
+  var h=String(hex||'#10374A').replace('#','');
+  if(h.length===3)h=h.split('').map(function(x){return x+x}).join('');
+  var n=parseInt(h,16);if(!isFinite(n))n=0x10374A;
+  var r=(n>>16)&255,g=(n>>8)&255,b=n&255;
+  return 'rgba('+r+','+g+','+b+','+a+')';
+}
+function hexToHsl(hex){
+  var h2=String(hex||'#10374A').replace('#','');
+  if(h2.length===3)h2=h2.split('').map(function(c){return c+c}).join('');
+  var r=parseInt(h2.slice(0,2),16)/255,g=parseInt(h2.slice(2,4),16)/255,b=parseInt(h2.slice(4,6),16)/255;
+  if(!isFinite(r))r=16/255;if(!isFinite(g))g=55/255;if(!isFinite(b))b=74/255;
+  var max=Math.max(r,g,b),min=Math.min(r,g,b),h,s,l=(max+min)/2;
+  if(max===min){h=s=0}else{
+    var d=max-min;s=l>0.5?d/(2-max-min):d/(max+min);
+    switch(max){case r:h=(g-b)/d+(g<b?6:0);break;case g:h=(b-r)/d+2;break;default:h=(r-g)/d+4}
+    h*=60;
+  }
+  return {h:Math.round(h||0),s:Math.round((s||0)*100),l:Math.round(l*100)};
+}
+function clamp(n,mn,mx){return Math.max(mn,Math.min(mx,n))}
+function accentTextFor(hex){
+  try{
+    hex=String(hex||'').replace('#','');
+    if(hex.length===3)hex=hex.split('').map(function(c){return c+c}).join('');
+    var r=parseInt(hex.slice(0,2),16),g=parseInt(hex.slice(2,4),16),b=parseInt(hex.slice(4,6),16);
+    var lum=(0.2126*r+0.7152*g+0.0722*b)/255;
+    return lum>.56?'#0d1e26':'#ffffff';
+  }catch(e){return '#ffffff'}
+}
+function textScale(settings,defaults,palette){
+  settings=cloneSettings(settings,defaults,palette);
+  return Math.max(TEXT_SIZE_MIN,Math.min(TEXT_SIZE_MAX,parseFloat(settings.textSize)||1));
+}
+function textSizePercent(value){
+  var size=parseFloat(value);if(!isFinite(size))size=1;
+  return Math.max(0,Math.min(100,Math.round(((size-TEXT_SIZE_MIN)/(TEXT_SIZE_MAX-TEXT_SIZE_MIN))*100)));
+}
+function settingLabel(key,val){
+  return (LABELS[key]&&LABELS[key][val])||val;
+}
+function choiceSub(key,settings){
+  settings=own(settings);
+  if(key==='defaultDisplayKey')return settings.defaultDisplayKey==='original'?'Show songs in their original key':'All songs open in key of '+settings.defaultDisplayKey;
+  if(key==='defaultSongView')return 'Songs open in '+settingLabel('defaultSongView',settings.defaultSongView)+' view';
+  if(key==='defaultPdfPreset')return 'Open export on '+settingLabel('defaultPdfPreset',settings.defaultPdfPreset)+' preset';
+  if(key==='addToSetBehavior')return 'Ask every time which set to use';
+  if(key==='defaultBibleVersion')return 'Bible opens in '+settingLabel('defaultBibleVersion',settings.defaultBibleVersion);
+  return '';
+}
+function optionModels(choices,key,current){
+  return (choices&&choices[key]||[]).map(function(o){return {key:key,value:o[0],label:o[1],active:String(current)===String(o[0])};});
+}
+function updateSetting(settings,key,value,ctx){
+  ctx=ctx||{};
+  var next=cloneSettings(settings,ctx.defaults,ctx.palette);
+  if(key==='addToSetBehavior'){
+    next.addToSetBehavior='ask';
+  }else if(key==='theme'){
+    if(next.darkMode)next.themeDark=value;else next.themeLight=value;
+    next.theme=value;
+  }else if(key==='darkMode'){
+    next.darkMode=!!value;
+    next.theme=activeThemeKey(next,ctx.defaults,ctx.palette);
+  }else if(key==='textSize'){
+    var size=parseFloat(value);next.textSize=Math.max(TEXT_SIZE_MIN,Math.min(TEXT_SIZE_MAX,isFinite(size)?size:1));
+  }else{
+    next[key]=value;
+  }
+  return cloneSettings(next,ctx.defaults,ctx.palette);
+}
+function applyThemeVars(doc,settings,defaults,palette){
+  doc=doc||root.document;if(!doc||!doc.documentElement)return;
+  settings=cloneSettings(settings,defaults,palette);palette=own(palette);
+  var theme=currentTheme(settings,defaults,palette),rootEl=doc.documentElement;
+  if(settings.darkMode){
+    var d=theme.dark||{};
+    rootEl.style.setProperty('--tc',d.accentStrong||theme.c||'#ffffff');
+    rootEl.style.setProperty('--tc2',d.accent||theme.c2||theme.c||'#ffffff');
+    rootEl.style.setProperty('--tc3',d.accentStrong||theme.c3||theme.c||'#ffffff');
+    rootEl.style.setProperty('--tc-light','rgba(255,255,255,.08)');
+    rootEl.style.setProperty('--tc-mid','rgba(255,255,255,.18)');
+    rootEl.style.setProperty('--tc-faint',hexToRgba(d.accentStrong||theme.c||'#ffffff',.18));
+    rootEl.style.setProperty('--accent',d.accent||theme.c||'#ffffff');
+    rootEl.style.setProperty('--accent-strong',d.accentStrong||theme.c||'#ffffff');
+    rootEl.style.setProperty('--accent-surface',hexToRgba(d.accentStrong||theme.c||'#ffffff',.18));
+    rootEl.style.setProperty('--accent-surface-strong',hexToRgba(d.accentStrong||theme.c||'#ffffff',.28));
+    rootEl.style.setProperty('--accent-border',hexToRgba(d.accentStrong||theme.c||'#ffffff',.46));
+    rootEl.style.setProperty('--accent-bg',hexToRgba(d.accentStrong||theme.c||'#ffffff',.18));
+    rootEl.style.setProperty('--chord-color',d.chord||d.accent||theme.c||'#ffffff');
+    rootEl.style.setProperty('--accent-fg',d.accentFg||'#ffffff');
+  }else{
+    rootEl.style.setProperty('--tc',theme.c||'#10374A');
+    rootEl.style.setProperty('--tc2',theme.c2||theme.c||'#17506c');
+    rootEl.style.setProperty('--tc3',theme.c3||theme.c||'#0a2534');
+    rootEl.style.setProperty('--tc-light',theme.light||'#e8f3f7');
+    rootEl.style.setProperty('--tc-mid',theme.mid||'#7ab8cc');
+    rootEl.style.setProperty('--tc-faint',hexToRgba(theme.c||'#10374A',.07));
+    rootEl.style.setProperty('--surface-tint','rgba(16,55,74,.05)');
+    rootEl.style.setProperty('--surface-tint-strong','rgba(16,55,74,.09)');
+    rootEl.style.setProperty('--surface-border','rgba(16,55,74,.12)');
+    rootEl.style.setProperty('--accent',theme.c||'#10374A');
+    rootEl.style.setProperty('--accent-bg',theme.light||'#e8f3f7');
+    rootEl.style.setProperty('--accent-fg',accentTextFor(theme.c||'#10374A'));
+    rootEl.style.removeProperty('--accent-strong');
+    rootEl.style.removeProperty('--accent-surface');
+    rootEl.style.removeProperty('--accent-surface-strong');
+    rootEl.style.removeProperty('--accent-border');
+    rootEl.style.removeProperty('--chord-color');
+  }
+}
+function applyHighlightThemeVars(doc,settings,defaults,palette){
+  doc=doc||root.document;if(!doc||!doc.documentElement)return;
+  settings=cloneSettings(settings,defaults,palette);
+  var rootEl=doc.documentElement,theme=currentTheme(settings,defaults,palette);
+  if(settings.darkMode){
+    var d=theme.dark||{};
+    rootEl.style.setProperty('--chord-highlight-bg',hexToRgba(d.accentStrong||theme.c||'#ffffff',.22));
+    rootEl.style.setProperty('--chord-color',d.chord||d.accent||theme.c||'#ffffff');
+  }else{
+    var hex=activeThemeHex(settings,defaults,palette),hs=hexToHsl(hex),l=clamp(92-Math.min(hs.s,50)*0.04,89,92),sat=clamp(Math.max(Math.round(hs.s*0.7),22),22,48);
+    rootEl.style.setProperty('--chord-highlight-bg','hsl('+hs.h+','+sat+'%,'+l+'%)');
+  }
+}
+function applyDocumentSettings(doc,settings,defaults,palette){
+  doc=doc||root.document;if(!doc)return cloneSettings(settings,defaults,palette);
+  var s=cloneSettings(settings,defaults,palette);
+  if(doc.body)doc.body.classList.toggle('dark',!!s.darkMode);
+  applyThemeVars(doc,s,defaults,palette);
+  applyHighlightThemeVars(doc,s,defaults,palette);
+  if(doc.documentElement)doc.documentElement.style.setProperty('--wb-text-scale',textScale(s,defaults,palette));
+  return s;
+}
+
+root.WBSettingsController={
+  DEFAULT_PICKER_IDS:DEFAULT_PICKER_IDS,
+  LABELS:LABELS,
+  TEXT_SIZE_MIN:TEXT_SIZE_MIN,
+  TEXT_SIZE_MAX:TEXT_SIZE_MAX,
+  cloneSettings:cloneSettings,
+  activeThemeKey:activeThemeKey,
+  currentTheme:currentTheme,
+  activeThemeHex:activeThemeHex,
+  hexToRgba:hexToRgba,
+  hexToHsl:hexToHsl,
+  accentTextFor:accentTextFor,
+  textScale:textScale,
+  textSizePercent:textSizePercent,
+  settingLabel:settingLabel,
+  choiceSub:choiceSub,
+  optionModels:optionModels,
+  updateSetting:updateSetting,
+  applyThemeVars:applyThemeVars,
+  applyHighlightThemeVars:applyHighlightThemeVars,
+  applyDocumentSettings:applyDocumentSettings
+};
+})(window);
+</script>
+<script id="wb-backup-ui-controller">
+/* WorshipBase Phase J3 Backup Centre UI controller.
+   Owns backup action labels, Drive action confirmation, and visible async feedback.
+   Drive API primitives remain in WBBackupService; Backup Centre rendering remains in the legacy shell for now. */
+(function(root){
+'use strict';
+
+var ACTIONS={
+  'export-full':{working:'Preparing local backup…',done:'Local backup created'},
+  'export-songs':{working:'Preparing songs backup…',done:'Songs backup created'},
+  'export-sets':{working:'Preparing set list backup…',done:'Set list backup created'},
+  'export-settings':{working:'Preparing notes and settings backup…',done:'Settings backup created'},
+  'restore-full':{working:'Choose a backup file…'},
+  'restore-songs':{working:'Choose a songs backup file…'},
+  'restore-sets':{working:'Choose a set list backup file…'},
+  'restore-settings':{working:'Choose a settings backup file…'},
+  'snapshot':{working:'Preparing snapshot…',done:'Snapshot downloaded'},
+  'drive-connect':{working:'Connecting Google Drive…',done:'Google Drive connected'},
+  'drive-backup':{working:'Backing up to Google Drive…',done:'Google Drive backup complete'},
+  'drive-restore':{working:'Checking Google Drive backup…',done:'Drive backup ready to review'},
+  'drive-snapshot':{working:'Preparing Drive snapshot…',done:'Drive snapshot downloaded'},
+  'drive-disconnect':{working:'Disconnecting Drive…',done:'Drive disconnected on this device'}
+};
+
+function actionInfo(action){return ACTIONS[action]||{working:'Working…',done:'Done'}}
+function buttonForAction(action){try{return document.querySelector('[data-backup-action="'+String(action).replace(/"/g,'\\"')+'"]')}catch(e){return null}}
+function titleNode(button){return button?button.querySelector('.backup-centre-title'):null}
+function setBusy(action,busy){
+  var btn=buttonForAction(action); if(!btn)return;
+  var title=titleNode(btn);
+  if(busy){
+    if(!btn.dataset.wbBackupOriginalTitle && title)btn.dataset.wbBackupOriginalTitle=title.textContent||'';
+    btn.disabled=true;
+    btn.setAttribute('aria-busy','true');
+    if(title)title.textContent=actionInfo(action).working||'Working…';
+  }else{
+    btn.disabled=false;
+    btn.removeAttribute('aria-busy');
+    if(title && btn.dataset.wbBackupOriginalTitle){title.textContent=btn.dataset.wbBackupOriginalTitle;delete btn.dataset.wbBackupOriginalTitle;}
+  }
+}
+function toast(hooks,msg){try{if(hooks&&typeof hooks.toast==='function')hooks.toast(msg)}catch(e){}}
+function alertError(hooks,msg){try{if(hooks&&typeof hooks.alert==='function')hooks.alert(msg)}catch(e){}}
+function confirmDisconnect(confirmFn){
+  var msg='Disconnect Google Drive on this device?\n\nThis only forgets the local connection. Existing Drive backups are not deleted.';
+  try{return typeof confirmFn==='function'?!!confirmFn(msg):true}catch(e){return false}
+}
+function shouldConfirmAction(action,confirmFn){
+  if(action==='drive-disconnect')return confirmDisconnect(confirmFn);
+  return true;
+}
+function trackAction(action,result,hooks){
+  if(!result || typeof result.then!=='function')return result;
+  setBusy(action,true);
+  toast(hooks,actionInfo(action).working||'Working…');
+  return result.then(function(value){
+    setBusy(action,false);
+    var done=actionInfo(action).done;
+    if(done && action.indexOf('drive-restore')<0)toast(hooks,done);
+    return value;
+  }).catch(function(err){
+    setBusy(action,false);
+    var msg=(err&&err.message)||'Backup action failed';
+    alertError(hooks,msg);
+    throw err;
+  });
+}
+function statusLine(state){
+  state=state||{};
+  if(state.busy)return state.label||'Working…';
+  if(state.connected)return state.lastBackupAt?'Last backup '+state.lastBackupAt:'Connected';
+  return 'Not connected';
+}
+
+root.WBBackupUiController={
+  actionInfo:actionInfo,
+  setBusy:setBusy,
+  shouldConfirmAction:shouldConfirmAction,
+  trackAction:trackAction,
+  statusLine:statusLine
+};
+})(window);
+</script>
+<script id="wb-bible-controller">
+/* WorshipBase Phase J4 Bible controller owner.
+   Owns Bible metadata, state normalisation, chapter navigation, cache ids, and
+   normalisation of local/Firebase chapter payloads. Rendering and fetch adapters
+   remain in the legacy shell for now. */
+(function(root){
+'use strict';
+
+var BIBLE_VERSIONS=[{id:'esv',abbr:'ESV',name:'English Standard Version',folder:'esv_chapter_package'}];
+var BIBLE_BOOKS=['Genesis','Exodus','Leviticus','Numbers','Deuteronomy','Joshua','Judges','Ruth','I Samuel','II Samuel','I Kings','II Kings','I Chronicles','II Chronicles','Ezra','Nehemiah','Esther','Job','Psalms','Proverbs','Ecclesiastes','Song of Solomon','Isaiah','Jeremiah','Lamentations','Ezekiel','Daniel','Hosea','Joel','Amos','Obadiah','Jonah','Micah','Nahum','Habakkuk','Zephaniah','Haggai','Zechariah','Malachi','Matthew','Mark','Luke','John','Acts','Romans','1 Corinthians','2 Corinthians','Galatians','Ephesians','Philippians','Colossians','1 Thessalonians','2 Thessalonians','1 Timothy','2 Timothy','Titus','Philemon','Hebrews','James','1 Peter','2 Peter','3 John','Jude','Revelation'];
+/* Preserve legacy canonical order with 1 John / 2 John before 3 John. */
+BIBLE_BOOKS.splice(BIBLE_BOOKS.indexOf('3 John'),0,'1 John','2 John');
+var BIBLE_CHAPTERS={Genesis:50,Exodus:40,Leviticus:27,Numbers:36,Deuteronomy:34,Joshua:24,Judges:21,Ruth:4,'I Samuel':31,'II Samuel':24,'I Kings':22,'II Kings':25,'I Chronicles':29,'II Chronicles':36,Ezra:10,Nehemiah:13,Esther:10,Job:42,Psalms:150,Proverbs:31,Ecclesiastes:12,'Song of Solomon':8,Isaiah:66,Jeremiah:52,Lamentations:5,Ezekiel:48,Daniel:12,Hosea:14,Joel:3,Amos:9,Obadiah:1,Jonah:4,Micah:7,Nahum:3,Habakkuk:3,Zephaniah:3,Haggai:2,Zechariah:14,Malachi:4,Matthew:28,Mark:16,Luke:24,John:21,Acts:28,Romans:16,'1 Corinthians':16,'2 Corinthians':13,Galatians:6,Ephesians:6,Philippians:4,Colossians:4,'1 Thessalonians':5,'2 Thessalonians':3,'1 Timothy':6,'2 Timothy':4,Titus:3,Philemon:1,Hebrews:13,James:5,'1 Peter':5,'2 Peter':3,'1 John':5,'2 John':1,'3 John':1,Jude:1,Revelation:22};
+
+function clone(obj){return JSON.parse(JSON.stringify(obj));}
+function versionId(id,settings){return String(id||(settings&&settings.defaultBibleVersion)||'esv').toLowerCase();}
+function getVersionMeta(id,settings){var vid=versionId(id,settings);for(var i=0;i<BIBLE_VERSIONS.length;i++){if(BIBLE_VERSIONS[i].id===vid)return BIBLE_VERSIONS[i];}return BIBLE_VERSIONS[0];}
+function defaultState(settings){var meta=getVersionMeta(null,settings);return {book:'John',chapter:3,version:meta.id};}
+function packageReady(runtime){return !!(runtime&&runtime.index&&runtime.books&&runtime.books.length);}
+function runtimeBooks(runtime){return runtime&&runtime.books&&runtime.books.length?runtime.books:BIBLE_BOOKS;}
+function getBookMeta(book,runtime){if(!packageReady(runtime))return null;var books=(runtime.index&&runtime.index.books)||[];for(var i=0;i<books.length;i++){if(books[i]&&books[i].name===book)return books[i];}return null;}
+function bookSlug(book,runtime){var meta=getBookMeta(book,runtime);return meta&&meta.slug||String(book||'').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'');}
+function chapterCount(book,runtime){var meta=getBookMeta(book,runtime);if(meta&&meta.chapters)return parseInt(meta.chapters,10)||1;return BIBLE_CHAPTERS[book]||28;}
+function normalizeState(state,runtime,settings){state=state&&typeof state==='object'?state:defaultState(settings);var meta=getVersionMeta(state.version,settings);state.version=meta.id;var books=runtimeBooks(runtime);if(books.indexOf(state.book)<0)state.book=books.indexOf('John')>=0?'John':books[0];var max=chapterCount(state.book,runtime);state.chapter=Math.max(1,Math.min(max,parseInt(state.chapter,10)||1));return state;}
+function fallbackIndex(runtime,versionMeta){var existing=runtime&&runtime.index&&Object.keys(runtime.index).length?runtime.index:null;if(existing)return existing;return {books:BIBLE_BOOKS.map(function(name){return {name:name,slug:bookSlug(name),chapters:BIBLE_CHAPTERS[name]||1};}),meta:{copyright:(versionMeta&&versionMeta.name)||'English Standard Version'}};}
+function normalizeIndex(data){data=data||{};var books=(data.books||[]).map(function(b){return b&&b.name;}).filter(Boolean);return {index:data,books:books};}
+function normalizeChapterData(raw,book,chapter){raw=raw||{};var verses=[];
+  if(Array.isArray(raw.verses))verses=raw.verses.map(function(v,i){return {number:v.number||v.verse||String(i+1),text:String(v.text||v.content||'')}});
+  else if(raw.verses&&typeof raw.verses==='object')verses=Object.keys(raw.verses).map(function(k){var val=raw.verses[k];return {number:k,text:String(typeof val==='string'?val:(val&&val.text)||'')}});
+  else if(Array.isArray(raw.items))verses=raw.items.map(function(v,i){return {number:v.number||v.verse||String(i+1),text:String(v.text||v.content||'')}});
+  else if(raw&&typeof raw==='object'){
+    var keys=Object.keys(raw).filter(function(k){return /^\d+$/.test(String(k));});
+    if(keys.length)verses=keys.sort(function(a,b){return (+a)-(+b);}).map(function(k){var val=raw[k];return {number:k,text:String(typeof val==='string'?val:(val&&val.text)||'')}});
+  }
+  return {book:raw.book||book,chapter:parseInt(raw.chapter,10)||parseInt(chapter,10)||1,verses:verses};
+}
+function cacheId(version,book,chapter,runtime){return String(version||'esv')+'::'+bookSlug(book,runtime)+'::'+String(chapter);}
+function changeChapter(state,runtime,delta,settings){state=normalizeState(state,runtime,settings);delta=parseInt(delta,10)||0;var books=runtimeBooks(runtime);var max=chapterCount(state.book,runtime);state.chapter+=delta;
+  if(state.chapter<1){var i=books.indexOf(state.book);if(i>0){state.book=books[i-1];state.chapter=chapterCount(state.book,runtime);}else state.chapter=1;}
+  else if(state.chapter>max){var j=books.indexOf(state.book);if(j<books.length-1){state.book=books[j+1];state.chapter=1;}else state.chapter=max;}
+  return state;
+}
+function setBook(state,runtime,book,settings){state=normalizeState(state,runtime,settings);var books=runtimeBooks(runtime);if(books.indexOf(book)>=0)state.book=book;state.chapter=Math.min(state.chapter,chapterCount(state.book,runtime));return state;}
+function setChapter(state,runtime,chapter,settings){state=normalizeState(state,runtime,settings);state.chapter=Math.max(1,Math.min(chapterCount(state.book,runtime),parseInt(chapter,10)||1));return state;}
+function setVersion(state,version,settings){state=state&&typeof state==='object'?state:defaultState(settings);state.version=getVersionMeta(version,settings).id;return state;}
+function settingsChoices(){return BIBLE_VERSIONS.map(function(v){return [v.id,v.abbr];});}
+function versionModels(state,runtime){state=normalizeState(state,runtime);return BIBLE_VERSIONS.map(function(v){var active=v.id===state.version;var sourceLabel=active?(packageReady(runtime)?'Package ready on this device':'Selected on this device'):('Local package: '+v.folder);return {id:v.id,abbr:v.abbr,name:v.name,active:active,sourceLabel:sourceLabel};});}
+function bookModels(state,runtime){state=normalizeState(state,runtime);return runtimeBooks(runtime).map(function(book){return {book:book,active:book===state.book};});}
+function chapterModels(state,runtime){state=normalizeState(state,runtime);var max=chapterCount(state.book,runtime);return Array.from({length:max},function(_,i){var n=i+1;return {chapter:n,active:n===state.chapter};});}
+function firebasePathAttempts(paths,version,book,chapter,runtime){paths=paths||{};var base=paths.biblePath||paths.bibleCollection||'bibleChapters';var slug=bookSlug(book,runtime);return [base+'/'+version+'/'+slug+'/'+chapter,base+'/'+slug+'/'+chapter,base+'/'+version+'/'+book+'/'+chapter];}
+function firestoreDocCandidates(version,book,chapter,runtime){var slug=bookSlug(book,runtime);return [version+'__'+slug+'__'+chapter,version+'_'+slug+'_'+chapter,slug+'_'+chapter+'_'+version,slug+'_'+chapter,book+'_'+chapter];}
+
+root.WBBibleController={
+  BIBLE_VERSIONS:clone(BIBLE_VERSIONS),
+  BIBLE_BOOKS:BIBLE_BOOKS.slice(),
+  BIBLE_CHAPTERS:Object.assign({},BIBLE_CHAPTERS),
+  defaultState:defaultState,
+  getVersionMeta:getVersionMeta,
+  packageReady:packageReady,
+  runtimeBooks:runtimeBooks,
+  getBookMeta:getBookMeta,
+  bookSlug:bookSlug,
+  chapterCount:chapterCount,
+  normalizeState:normalizeState,
+  normalizeIndex:normalizeIndex,
+  fallbackIndex:fallbackIndex,
+  normalizeChapterData:normalizeChapterData,
+  cacheId:cacheId,
+  changeChapter:changeChapter,
+  setBook:setBook,
+  setChapter:setChapter,
+  setVersion:setVersion,
+  settingsChoices:settingsChoices,
+  versionModels:versionModels,
+  bookModels:bookModels,
+  chapterModels:chapterModels,
+  firebasePathAttempts:firebasePathAttempts,
+  firestoreDocCandidates:firestoreDocCandidates
+};
+})(window);
+</script>
 <script id="wb-ui-dom">
 /* WorshipBase Phase D DOM helper owner.
    Query, form, focus, escaping, and small display helpers extracted from the v8.17 legacy shell. */
@@ -5275,8 +5746,9 @@ var WBUtils=window.WBUtils||{};
 var WBDom=window.WBDom||{};
 var PersonalSetController=window.WBPersonalSetController||{};
 var WorkspaceSetController=window.WBWorkspaceSetController||{};
-var VERSION=WBConstants.VERSION||'Rebuild_8.17I3.1';
-var REBUILD_PHASE=WBConstants.REBUILD_PHASE||'Phase I.2: Workspace set controller extraction';
+var SettingsController=window.WBSettingsController||{};
+var VERSION=WBConstants.VERSION||'Rebuild_8.17J4';
+var REBUILD_PHASE=WBConstants.REBUILD_PHASE||'Phase J2: Settings controller extraction';
 var REBUILD_REFERENCE=WBConstants.REBUILD_REFERENCE||'Working-v85.0-fixed.html';
 
 var ASSET_CONFIG=Object.assign({},WBConstants.ASSET_DEFAULTS||{},(window.WB_ASSETS&&typeof window.WB_ASSETS==='object')?window.WB_ASSETS:{});
@@ -5717,18 +6189,18 @@ function connectFirebaseRuntimeIfConfigured(){
   return firebaseConnectPromise;
 }
 function syncWorkspaceSetToFirebase(set){if(!cloudFirebaseConfig())return Promise.resolve();var paths=cloudFirestorePaths();var payload=FirebaseService.cloudClone?FirebaseService.cloudClone(set):JSON.parse(JSON.stringify(set));if(FirebaseService.writeRealtimeValue){return FirebaseService.writeRealtimeValue((paths.sharedSetsPath||'setlists')+'/'+encodeURIComponent(set.id),payload,{config:cloudFirebaseConfig()}).catch(function(){return FirebaseService.writeFirestoreDoc?FirebaseService.writeFirestoreDoc(paths.workspaceSetsCollection,set.id,payload,{config:cloudFirebaseConfig(),merge:true}).catch(function(){}):firebaseFirestore().then(function(db){return db.collection(paths.workspaceSetsCollection).doc(set.id).set(payload,{merge:true})}).catch(function(){})})}return firebaseRealtimeDb().then(function(db){return db.ref((paths.sharedSetsPath||'setlists')+'/'+encodeURIComponent(set.id)).set(payload) }).catch(function(){return firebaseFirestore().then(function(db){return db.collection(paths.workspaceSetsCollection).doc(set.id).set(payload,{merge:true})}).catch(function(){})})}
-function cloneSettings(base){var s=Object.assign({},DEFAULT_SETTINGS,base||{});['theme','themeLight','themeDark'].forEach(function(k){if(!THEME_PALETTE[s[k]])s[k]=DEFAULT_SETTINGS[k]||'darkteal'});return s}
-function activeThemeKey(){return settings.darkMode?(settings.themeDark||settings.theme||'darkteal'):(settings.themeLight||settings.theme||'darkteal')}
-function currentTheme(){return THEME_PALETTE[activeThemeKey()]||THEME_PALETTE.darkteal}
+function cloneSettings(base){return SettingsController.cloneSettings?SettingsController.cloneSettings(base,DEFAULT_SETTINGS,THEME_PALETTE):(function(){var s=Object.assign({},DEFAULT_SETTINGS,base||{});['theme','themeLight','themeDark'].forEach(function(k){if(!THEME_PALETTE[s[k]])s[k]=DEFAULT_SETTINGS[k]||'darkteal'});if(s.addToSetBehavior&&s.addToSetBehavior!=='ask')s.addToSetBehavior='ask';return s})()}
+function activeThemeKey(){return SettingsController.activeThemeKey?SettingsController.activeThemeKey(settings,DEFAULT_SETTINGS,THEME_PALETTE):(settings.darkMode?(settings.themeDark||settings.theme||'darkteal'):(settings.themeLight||settings.theme||'darkteal'))}
+function currentTheme(){return SettingsController.currentTheme?SettingsController.currentTheme(settings,DEFAULT_SETTINGS,THEME_PALETTE):(THEME_PALETTE[activeThemeKey()]||THEME_PALETTE.darkteal)}
 function rgbaFromHex(hex,a){return hexToRgba(hex,a)}
-function hexToHsl(hex){var h2=String(hex||'#10374A').replace('#','');var r=parseInt(h2.slice(0,2),16)/255,g=parseInt(h2.slice(2,4),16)/255,b=parseInt(h2.slice(4,6),16)/255;var max=Math.max(r,g,b),min=Math.min(r,g,b),h,s,l=(max+min)/2;if(max===min){h=s=0}else{var d=max-min;s=l>0.5?d/(2-max-min):d/(max+min);switch(max){case r:h=(g-b)/d+(g<b?6:0);break;case g:h=(b-r)/d+2;break;default:h=(r-g)/d+4}h*=60}return{h:Math.round(h||0),s:Math.round((s||0)*100),l:Math.round(l*100)}}
+function hexToHsl(hex){if(SettingsController.hexToHsl)return SettingsController.hexToHsl(hex);var h2=String(hex||'#10374A').replace('#','');var r=parseInt(h2.slice(0,2),16)/255,g=parseInt(h2.slice(2,4),16)/255,b=parseInt(h2.slice(4,6),16)/255;var max=Math.max(r,g,b),min=Math.min(r,g,b),h,s,l=(max+min)/2;if(max===min){h=s=0}else{var d=max-min;s=l>0.5?d/(2-max-min):d/(max+min);switch(max){case r:h=(g-b)/d+(g<b?6:0);break;case g:h=(b-r)/d+2;break;default:h=(r-g)/d+4}h*=60}return{h:Math.round(h||0),s:Math.round((s||0)*100),l:Math.round(l*100)}}
 function clampN(n,mn,mx){return Math.max(mn,Math.min(mx,n))}
 function applyHighlightThemeVars(){var theme=currentTheme(),root=document.documentElement;if(settings.darkMode){var d=theme.dark||{};root.style.setProperty('--chord-highlight-bg',rgbaFromHex(d.accentStrong||theme.c,.22));root.style.setProperty('--chord-color',d.chord||d.accent||theme.c)}else{var hex=activeThemeHex();var hs=hexToHsl(hex);var l=clampN(92-Math.min(hs.s,50)*0.04,89,92);var sat=clampN(Math.max(Math.round(hs.s*0.7),22),22,48);root.style.setProperty('--chord-highlight-bg','hsl('+hs.h+','+sat+'%,'+l+'%)')}}
-function activeThemeHex(){var t=THEME_PALETTE[settings.darkMode?settings.themeDark:settings.themeLight]||THEME_PALETTE[settings.theme]||THEME_PALETTE.darkteal;return t.c}
-function accentTextFor(hex){try{hex=String(hex||'').replace('#','');if(hex.length===3)hex=hex.split('').map(function(c){return c+c}).join('');var r=parseInt(hex.slice(0,2),16),g=parseInt(hex.slice(2,4),16),b=parseInt(hex.slice(4,6),16);var lum=(0.2126*r+0.7152*g+0.0722*b)/255;return lum>.56?'#0d1e26':'#ffffff'}catch(e){return '#ffffff'}}
+function activeThemeHex(){return SettingsController.activeThemeHex?SettingsController.activeThemeHex(settings,DEFAULT_SETTINGS,THEME_PALETTE):(function(){var t=THEME_PALETTE[settings.darkMode?settings.themeDark:settings.themeLight]||THEME_PALETTE[settings.theme]||THEME_PALETTE.darkteal;return t.c})()}
+function accentTextFor(hex){if(SettingsController.accentTextFor)return SettingsController.accentTextFor(hex);try{hex=String(hex||'').replace('#','');if(hex.length===3)hex=hex.split('').map(function(c){return c+c}).join('');var r=parseInt(hex.slice(0,2),16),g=parseInt(hex.slice(2,4),16),b=parseInt(hex.slice(4,6),16);var lum=(0.2126*r+0.7152*g+0.0722*b)/255;return lum>.56?'#0d1e26':'#ffffff'}catch(e){return '#ffffff'}}
 function applyTheme(){var theme=currentTheme(),root=document.documentElement;if(settings.darkMode){var d=theme.dark;root.style.setProperty('--tc',d.accentStrong);root.style.setProperty('--tc2',d.accent);root.style.setProperty('--tc3',d.accentStrong);root.style.setProperty('--tc-light','rgba(255,255,255,.08)');root.style.setProperty('--tc-mid','rgba(255,255,255,.18)');root.style.setProperty('--tc-faint',rgbaFromHex(d.accentStrong,.18));root.style.setProperty('--accent',d.accent);root.style.setProperty('--accent-strong',d.accentStrong);root.style.setProperty('--accent-surface',rgbaFromHex(d.accentStrong,.18));root.style.setProperty('--accent-surface-strong',rgbaFromHex(d.accentStrong,.28));root.style.setProperty('--accent-border',rgbaFromHex(d.accentStrong,.46));root.style.setProperty('--accent-bg',rgbaFromHex(d.accentStrong,.18));root.style.setProperty('--chord-color',d.chord);root.style.setProperty('--accent-fg',d.accentFg)}else{root.style.setProperty('--tc',theme.c);root.style.setProperty('--tc2',theme.c2);root.style.setProperty('--tc3',theme.c3);root.style.setProperty('--tc-light',theme.light);root.style.setProperty('--tc-mid',theme.mid);root.style.setProperty('--tc-faint',hexToRgba(theme.c,.07));root.style.setProperty('--surface-tint','rgba(16,55,74,.05)');root.style.setProperty('--surface-tint-strong','rgba(16,55,74,.09)');root.style.setProperty('--surface-border','rgba(16,55,74,.12)');root.style.setProperty('--accent',theme.c);root.style.setProperty('--accent-bg',theme.light);root.style.setProperty('--accent-fg',accentTextFor(theme.c));root.style.removeProperty('--accent-strong');root.style.removeProperty('--accent-surface');root.style.removeProperty('--accent-surface-strong');root.style.removeProperty('--accent-border');root.style.removeProperty('--chord-color')}}
-function hexToRgba(hex,a){var h=String(hex||'#4b005f').replace('#','');if(h.length===3)h=h.split('').map(function(x){return x+x}).join('');var n=parseInt(h,16);var r=(n>>16)&255,g=(n>>8)&255,b=n&255;return 'rgba('+r+','+g+','+b+','+a+')'}
-function applySettings(){settings=cloneSettings(settings);document.body.classList.toggle('dark',!!settings.darkMode);applyTheme();applyHighlightThemeVars();var scale=Math.max(.85,Math.min(1.25,parseFloat(settings.textSize)||1));document.documentElement.style.setProperty('--wb-text-scale',scale)}
+function hexToRgba(hex,a){if(SettingsController.hexToRgba)return SettingsController.hexToRgba(hex,a);var h=String(hex||'#4b005f').replace('#','');if(h.length===3)h=h.split('').map(function(x){return x+x}).join('');var n=parseInt(h,16);var r=(n>>16)&255,g=(n>>8)&255,b=n&255;return 'rgba('+r+','+g+','+b+','+a+')'}
+function applySettings(){if(SettingsController.applyDocumentSettings){settings=SettingsController.applyDocumentSettings(document,settings,DEFAULT_SETTINGS,THEME_PALETTE);return}settings=cloneSettings(settings);document.body.classList.toggle('dark',!!settings.darkMode);applyTheme();applyHighlightThemeVars();var scale=Math.max(.85,Math.min(1.25,parseFloat(settings.textSize)||1));document.documentElement.style.setProperty('--wb-text-scale',scale)}
 function persistSettings(){writeStoredJson(STORAGE_KEYS.settings,settings)}
 function persistRouteMemory(){writeStoredJson(STORAGE_KEYS.routeMemory,{tab:state.tab||'songs',toolsPanel:state.toolsPanel||'home',workspacePanel:workspaceState.panel||'home',workspaceActiveSetId:workspaceState.activeSetId||null,workspaceDetailType:workspaceState.detailType||null,workspaceSelectedPublishId:workspaceState.selectedPublishId||null,setlistEditorId:state.setlistEditorId||null,libraryFilter:state.filter||'all',libraryScope:state.scope||'smart',bible:bibleState?{book:bibleState.book,chapter:bibleState.chapter,version:bibleState.version}:null})}
 function loadRouteMemory(){
@@ -5750,7 +6222,7 @@ function loadRouteMemory(){
     state.routeMemoryLoaded=true;
   }
 }
-function updateSetting(key,val,skipRender){if(key==='addToSetBehavior'){val='ask'}if(key==='theme'){if(settings.darkMode){settings.themeDark=val}else{settings.themeLight=val}settings.theme=val}else if(key==='darkMode'){settings.darkMode=!!val;settings.theme=activeThemeKey()}else{settings[key]=val}persistSettings();applySettings();if(key==='defaultSongView'||key==='highlightChordsDefault'||key==='theme'||key==='darkMode')renderSongSheet();if(!skipRender)renderSettings()}
+function updateSetting(key,val,skipRender){if(SettingsController.updateSetting){settings=SettingsController.updateSetting(settings,key,val,{defaults:DEFAULT_SETTINGS,palette:THEME_PALETTE});}else{if(key==='addToSetBehavior'){val='ask'}if(key==='theme'){if(settings.darkMode){settings.themeDark=val}else{settings.themeLight=val}settings.theme=val}else if(key==='darkMode'){settings.darkMode=!!val;settings.theme=activeThemeKey()}else{settings[key]=val}}persistSettings();applySettings();if(key==='defaultSongView'||key==='highlightChordsDefault'||key==='theme'||key==='darkMode')renderSongSheet();if(!skipRender)renderSettings()}
 
 function migrateV85ThemeToPalette(hex){hex=String(hex||'').toLowerCase();var pairs={neutral:'#111111',forest:'#1a4731',olive:'#6f7d3c',stone:'#8a7a68',cedar:'#7a5a4d',mulberry:'#5a2034',purple:'#3a0a55',darkteal:'#10374a',slate:'#4f6480',navy:'#2f4565'};var best='stone',bestD=1e9;function parts(h){h=String(h||'').replace('#','');return [parseInt(h.slice(0,2),16)||0,parseInt(h.slice(2,4),16)||0,parseInt(h.slice(4,6),16)||0]}var p=parts(hex);Object.keys(pairs).forEach(function(k){var q=parts(pairs[k]),d=Math.pow(p[0]-q[0],2)+Math.pow(p[1]-q[1],2)+Math.pow(p[2]-q[2],2);if(d<bestD){bestD=d;best=k}});return best}
 function migrateV85Song(raw,source){raw=raw||{};var n=normalizeImportedSong({id:raw.id||raw.fbKey||raw.localId,title:raw.title||raw.name,artist:raw.artist||raw.author||raw.writer,code:raw.code||raw.songCode,key:raw.key||raw.originalKey||raw.scale,cat:raw.cat||raw.category,chart:raw.chart||raw.lyrics||raw.body||raw.content||raw.text,bpm:raw.bpm||raw.tempo,timeSig:raw.timeSig||raw.timeSignature||raw.time,spotifyUrl:raw.spotifyUrl||raw.spotify,youtubeUrl:raw.youtubeUrl||raw.youtube,url:raw.url||raw.sourceUrl,importId:raw.importId||raw.fbKey},source||raw.importSource||'v85');n.id=String(raw.id||raw.fbKey||raw.localId||n.id||('v85_'+Date.now()+'_'+Math.random().toString(36).slice(2,8))).trim();n.key=normalizeKeyName(n.key||'C');n.source=source==='firebase'?'firebase':'local';n.favorite=!!raw.favorite;return n}
@@ -6508,13 +6980,13 @@ function runRebuildInteractionAudit(){
   };
 }
 window.WBImportModule={openEditor:openAddSongModal,openUg:function(){openUgImportShell('ug')},openSop:function(){openUgImportShell('sop')},openFile:openFileImportShell,diagnostics:function(){return {addMenu:!!qs('bs-add-song-menu'),editor:!!qs('add-song-modal'),ug:!!qs('bs-ug-import'),sop:!!qs('bs-sop-import'),file:!!qs('bs-file-import'),undoSvg:!!document.querySelector('#editor-undo-btn svg'),redoSvg:!!document.querySelector('#editor-redo-btn svg'),lineLooksChord:typeof lineLooksChord==='function',formButtons:!!qs('add-song-close')&&!!qs('song-form-save')&&!!qs('song-form-cancel')}}};function settingsIcon(name){var paths={dark:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>',text:'<path d="M4 20h4l11-11a2.8 2.8 0 0 0-4-4L4 16v4Z"/><path d="M13.5 6.5l4 4"/>',theme:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>',music:'<path d="M9 18.5a2.5 2.5 0 1 1-1-2V6l10-2v10.5a2.5 2.5 0 1 1-1-2V8L9 9.5z"/>',view:'<path d="M5 7h14M5 12h14M5 17h14"/>',highlight:'<rect x="5" y="7" width="14" height="10" rx="2"/><path d="M8 12h8"/>',flat:'<path d="M10 4v15"/><path d="M10 12.5c4-3 7-1.7 7 1.3 0 3.5-4.2 4.8-7 5.2"/>',phone:'<rect x="8" y="3" width="8" height="18" rx="2"/><path d="M11 18h2"/>',set:'<path d="M5 7h9M5 12h7M5 17h9"/><path d="M17 10v6M14 13h6"/>',pdf:'<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v5h4"/>',bible:'<path d="M7 4h10v16H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/><path d="M9 8h6M9 12h6M9 16h4"/>',backup:'<path d="M12 3 5 6v5c0 4.5 2.9 7.8 7 10 4.1-2.2 7-5.5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-5"/>'};return '<span class="ss-ico"><svg viewBox="0 0 24 24">'+(paths[name]||paths.theme)+'</svg></span>'}
-function settingLabel(key,val){var labels={defaultDisplayKey:{original:'Original'},defaultSongView:{chords:'Chords',lyrics:'Lyrics',nns:'NNS'},defaultPdfPreset:{stage:'Stage chart',rehearsal:'Rehearsal',compact:'Compact print',lyrics:'Lyrics only'},addToSetBehavior:{ask:'Ask',active:'Active set'},defaultBibleVersion:{esv:'ESV'}};return labels[key]&&labels[key][val]||val}
-function choiceSub(key){if(key==='defaultDisplayKey')return settings.defaultDisplayKey==='original'?'Show songs in their original key':'All songs open in key of '+settings.defaultDisplayKey;if(key==='defaultSongView')return 'Songs open in '+settingLabel('defaultSongView',settings.defaultSongView)+' view';if(key==='defaultPdfPreset')return 'Open export on '+settingLabel('defaultPdfPreset',settings.defaultPdfPreset)+' preset';if(key==='addToSetBehavior')return settings.addToSetBehavior==='active'?'Add songs straight to the active set list':'Ask every time which set to use';if(key==='defaultBibleVersion')return 'Bible opens in '+settingLabel('defaultBibleVersion',settings.defaultBibleVersion);return ''}
+function settingLabel(key,val){return SettingsController.settingLabel?SettingsController.settingLabel(key,val):(function(){var labels={defaultDisplayKey:{original:'Original'},defaultSongView:{chords:'Chords',lyrics:'Lyrics',nns:'NNS'},defaultPdfPreset:{stage:'Stage chart',rehearsal:'Rehearsal',compact:'Compact print',lyrics:'Lyrics only'},addToSetBehavior:{ask:'Ask',active:'Active set'},defaultBibleVersion:{esv:'ESV'}};return labels[key]&&labels[key][val]||val})()}
+function choiceSub(key){return SettingsController.choiceSub?SettingsController.choiceSub(key,settings):(function(){if(key==='defaultDisplayKey')return settings.defaultDisplayKey==='original'?'Show songs in their original key':'All songs open in key of '+settings.defaultDisplayKey;if(key==='defaultSongView')return 'Songs open in '+settingLabel('defaultSongView',settings.defaultSongView)+' view';if(key==='defaultPdfPreset')return 'Open export on '+settingLabel('defaultPdfPreset',settings.defaultPdfPreset)+' preset';if(key==='addToSetBehavior')return 'Ask every time which set to use';if(key==='defaultBibleVersion')return 'Bible opens in '+settingLabel('defaultBibleVersion',settings.defaultBibleVersion);return ''})()}
 function settingsChoiceRow(icon,title,key,idbase){return '<button class="ss-row" data-choice-key="'+esc(key)+'" type="button">'+settingsIcon(icon)+'<div class="ss-body"><div class="ss-lbl">'+title+'</div><div class="ss-sub" id="'+esc(idbase||key)+'-sub">'+esc(choiceSub(key))+'</div></div><div class="ss-right"><span class="ss-val" id="'+esc(idbase||key)+'-val">'+esc(settingLabel(key,settings[key]))+'</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/></svg></div></button>'}
 function settingsToggleRow(icon,title,sub,key,id){return '<div class="ss-row no-tap">'+settingsIcon(icon)+'<div class="ss-body"><div class="ss-lbl">'+title+'</div>'+(sub?'<div class="ss-sub">'+esc(sub)+'</div>':'')+'</div><button class="sw '+(settings[key]?'on':'')+'" id="'+esc(id||key)+'" data-toggle-setting="'+esc(key)+'" type="button" aria-label="Toggle '+esc(title)+'"><span class="sw-thumb"></span></button></div>'}
 function pickerTitle(key){return {defaultDisplayKey:'Default display key',defaultSongView:'Default song view',defaultPdfPreset:'Default PDF preset',addToSetBehavior:'Add to set list',defaultBibleVersion:'Default Bible version'}[key]||'Choose setting'}
 function pickerHelp(key){return {defaultDisplayKey:'When you open a song, it will default to this key instead of its original key. You can always transpose individually.',defaultSongView:'Choose how songs open by default. You can still switch between Lyrics, Chords, and NNS on any song page.',defaultPdfPreset:'Choose which preset the PDF export page opens with by default.',addToSetBehavior:'Choose whether adding a song should ask you every time or use the current active set list automatically.',defaultBibleVersion:'Choose which Bible version opens by default.'}[key]||'Saved to this device'}
-function renderSettingsPickerOptions(key){var cid={defaultDisplayKey:'defkey-options',defaultSongView:'defsongview-options',defaultPdfPreset:'defpdf-options',addToSetBehavior:'addtoset-options',defaultBibleVersion:'defbible-options'}[key];var opts=cid&&qs(cid);if(!opts)return;opts.innerHTML=(SETTINGS_CHOICES[key]||[]).map(function(o){return '<button class="settings-option '+(String(settings[key])===String(o[0])?'active':'')+'" data-picker-key="'+esc(key)+'" data-picker-value="'+esc(o[0])+'" type="button">'+esc(o[1])+'</button>'}).join('')}
+function renderSettingsPickerOptions(key){var ids=SettingsController.DEFAULT_PICKER_IDS||{defaultDisplayKey:'defkey-options',defaultSongView:'defsongview-options',defaultPdfPreset:'defpdf-options',addToSetBehavior:'addtoset-options',defaultBibleVersion:'defbible-options'},cid=ids[key];var opts=cid&&qs(cid);if(!opts)return;var models=SettingsController.optionModels?SettingsController.optionModels(SETTINGS_CHOICES,key,settings[key]):(SETTINGS_CHOICES[key]||[]).map(function(o){return {key:key,value:o[0],label:o[1],active:String(settings[key])===String(o[0])}});opts.innerHTML=models.map(function(o){return '<button class="settings-option '+(o.active?'active':'')+'" data-picker-key="'+esc(key)+'" data-picker-value="'+esc(o.value)+'" type="button">'+esc(o.label)+'</button>'}).join('')}
 function renderAllSettingsPickerOptions(){Object.keys(SETTINGS_CHOICES).forEach(renderSettingsPickerOptions)}
 function openSettingsPicker(key){var sid={defaultDisplayKey:'bs-defaultkey',defaultSongView:'bs-defaultsongview',defaultPdfPreset:'bs-defaultpdfpreset',addToSetBehavior:'bs-addtosetbehavior',defaultBibleVersion:'bs-defaultbibleversion'}[key];var modal=sid&&qs(sid);if(!modal)return;closeSettingsPicker();renderSettingsPickerOptions(key);modal.classList.add('open');modal.setAttribute('aria-hidden','false')}
 function closeSettingsPicker(){qsa('.settings-picker-sheet').forEach(function(m){m.classList.remove('open');m.setAttribute('aria-hidden','true')})}
@@ -6550,12 +7022,35 @@ function handleBackupReviewAction(action){if(!backupReviewState)return;if(action
 function readBackupFile(file,mode){if(!file)return;file.text().then(function(text){var data=JSON.parse(text);if(mode==='songs'){var imported=songsFromBackupData(data);if(!imported.length){alert('No valid songs found in this JSON file.');return}saveImportedSongBatch(imported,{source:'file'});showToast(imported.length+' song'+(imported.length===1?'':'s')+' ready to import');return}openBackupRestoreReview(data,{mode:mode||'full',fileName:file.name||''})}).catch(function(err){alert(err.message||'Could not read backup JSON.')}).finally(function(){['backup-restore-file','backup-songs-file','backup-sets-file','backup-settings-file'].forEach(function(id){var inp=qs(id);if(inp)inp.value=''})})}
 function ensureBackupInputs(){[['backup-restore-file','full'],['backup-songs-file','songs'],['backup-sets-file','sets'],['backup-settings-file','settings']].forEach(function(pair){if(qs(pair[0]))return;var a=document.createElement('input');a.type='file';a.accept='application/json,.json';a.id=pair[0];a.hidden=true;a.addEventListener('change',function(){readBackupFile(this.files&&this.files[0],pair[1])});document.body.appendChild(a)})}
 function backupActionIcon(kind){if(kind==='download')return '<svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M12 4v10" stroke="currentColor" stroke-linecap="round" stroke-width="2.1"></path><path d="M8 10l4 4 4-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.1"></path><path d="M5 19h14" stroke="currentColor" stroke-linecap="round" stroke-width="2.1"></path></svg>';if(kind==='upload')return '<svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M12 20V10" stroke="currentColor" stroke-linecap="round" stroke-width="2.1"></path><path d="M8 14l4-4 4 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.1"></path><path d="M5 5h14" stroke="currentColor" stroke-linecap="round" stroke-width="2.1"></path></svg>';if(kind==='cloud')return '<svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M7 18h10a4 4 0 0 0 .5-8A5.5 5.5 0 0 0 7 8.5 4.5 4.5 0 0 0 7 18Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.1"></path></svg>';return '<svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M12 3l7 4v5c0 5-3 8-7 9-4-1-7-4-7-9V7l7-4Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.1"></path><path d="M9.5 12.5l1.8 1.8 3.6-4.1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>'}
-function handleBackupAction(action){ensureBackupInputs();if(action==='export-full')return exportLocalBackup();if(action==='export-songs')return exportSongsBackup();if(action==='export-sets')return exportSetListsBackup();if(action==='export-settings')return exportSettingsBackup();if(action==='restore-full'){var f=qs('backup-restore-file');if(f)f.click();return}if(action==='restore-songs'){var s=qs('backup-songs-file');if(s)s.click();return}if(action==='restore-sets'){var st=qs('backup-sets-file');if(st)st.click();return}if(action==='restore-settings'){var pref=qs('backup-settings-file');if(pref)pref.click();return}if(action==='snapshot')return downloadPreRestoreSnapshot();if(action==='drive-connect')return connectGoogleDriveInteractive();if(action==='drive-backup')return uploadLatestBackupToDrive();if(action==='drive-restore')return beginRestoreFromDrive();if(action==='drive-snapshot')return downloadDriveSnapshot();if(action==='drive-disconnect')return disconnectGoogleDriveLocal()}
+function handleBackupAction(action){
+  ensureBackupInputs();
+  var BackupUi=window.WBBackupUiController||{};
+  if(BackupUi.shouldConfirmAction&&!BackupUi.shouldConfirmAction(action,window.confirm.bind(window)))return;
+  function run(){
+    if(action==='export-full')return exportLocalBackup();
+    if(action==='export-songs')return exportSongsBackup();
+    if(action==='export-sets')return exportSetListsBackup();
+    if(action==='export-settings')return exportSettingsBackup();
+    if(action==='restore-full'){var f=qs('backup-restore-file');if(f)f.click();return}
+    if(action==='restore-songs'){var s=qs('backup-songs-file');if(s)s.click();return}
+    if(action==='restore-sets'){var st=qs('backup-sets-file');if(st)st.click();return}
+    if(action==='restore-settings'){var pref=qs('backup-settings-file');if(pref)pref.click();return}
+    if(action==='snapshot')return downloadPreRestoreSnapshot();
+    if(action==='drive-connect')return connectGoogleDriveInteractive();
+    if(action==='drive-backup')return uploadLatestBackupToDrive();
+    if(action==='drive-restore')return beginRestoreFromDrive();
+    if(action==='drive-snapshot')return downloadDriveSnapshot();
+    if(action==='drive-disconnect')return disconnectGoogleDriveLocal();
+  }
+  var result=run();
+  if(BackupUi.trackAction)return BackupUi.trackAction(action,result,{toast:showToast,alert:window.alert.bind(window)});
+  return result;
+}
 function openBackupCentre(){backupReviewState=null;var modal=qs('backup-centre-modal'),body=qs('backup-centre-body'),stats=settingsStats(),title=qs('backup-centre-title'),done=qs('backup-centre-done');if(modal)modal.classList.remove('restore-review');if(!modal||!body)return;ensureBackupInputs();if(title)title.textContent='Backup Centre';if(done)done.textContent='Done';var last=safeGet('wb_rebuild_52_last_backup_at'),snap=safeGet('wb_rebuild_52_pre_restore_snapshot'),driveConnected=!!cloudState.googleDrive.connected,driveEmail=cloudState.googleDrive.email||'Choose a Google account and approve hidden backup access.',driveLast=cloudState.googleDrive.lastBackupAt?new Date(cloudState.googleDrive.lastBackupAt).toLocaleString():'Never';body.innerHTML='<div class="backup-centre-section"><div class="backup-centre-section-title">Summary</div><div class="backup-centre-summary-card"><div class="backup-centre-summary-grid"><div class="backup-centre-summary-cell"><div class="backup-centre-summary-k">My songs</div><div class="backup-centre-summary-v">'+stats.localSongs+'</div></div><div class="backup-centre-summary-cell"><div class="backup-centre-summary-k">Personal set lists</div><div class="backup-centre-summary-v">'+stats.setLists+'</div></div><div class="backup-centre-summary-cell"><div class="backup-centre-summary-k">Notes &amp; cues</div><div class="backup-centre-summary-v">'+stats.notes+'</div></div><div class="backup-centre-summary-cell"><div class="backup-centre-summary-k">Last local backup</div><div class="backup-centre-summary-v">'+(last?esc(new Date(last).toLocaleString()):'Never')+'</div></div><div class="backup-centre-summary-cell"><div class="backup-centre-summary-k">Google Drive</div><div class="backup-centre-summary-v">'+driveStatusValueHtml(stats)+'</div></div><div class="backup-centre-summary-cell"><div class="backup-centre-summary-k">Safety snapshot</div><div class="backup-centre-summary-v">'+(snap?'Available':'None')+'</div></div></div><div class="backup-centre-summary-foot">Backups cover personal songs, personal set lists, notes/cues and app preferences. Workspace data is shared data and is not shown as part of personal backup counts.</div></div></div>'+'<div class="backup-centre-section"><div class="backup-centre-section-title">Local backup</div><div class="backup-centre-section-card">'+'<button class="backup-centre-action" data-backup-action="export-full" type="button"><span class="backup-centre-action-icon">'+backupActionIcon('download')+'</span><span class="backup-centre-action-copy"><span class="backup-centre-title">Export Everything</span><span class="backup-centre-sub">Personal songs, set lists, sections, service items, notes/cues and preferences.</span></span></button>'+'<button class="backup-centre-action" data-backup-action="export-songs" type="button"><span class="backup-centre-action-icon">'+backupActionIcon('download')+'</span><span class="backup-centre-action-copy"><span class="backup-centre-title">Export My Songs</span><span class="backup-centre-sub">Songs added on this device only.</span></span></button>'+'<button class="backup-centre-action" data-backup-action="export-settings" type="button"><span class="backup-centre-action-icon">'+backupActionIcon('download')+'</span><span class="backup-centre-action-copy"><span class="backup-centre-title">Export Notes &amp; Cues</span><span class="backup-centre-sub">Personal notes, cues, usual keys and practice status.</span></span></button>'+'<div class="backup-centre-warning"><strong>Restore review:</strong> restoring a full app backup can replace personal data on this device. A safety snapshot is kept before restore where the existing restore flow supports it.</div>'+'<button class="backup-centre-action" data-backup-action="restore-full" type="button"><span class="backup-centre-action-icon">'+backupActionIcon('upload')+'</span><span class="backup-centre-action-copy"><span class="backup-centre-title">Restore Everything</span><span class="backup-centre-sub">Choose a full WorshipBase backup JSON file.</span></span></button>'+'<button class="backup-centre-action" data-backup-action="restore-songs" type="button"><span class="backup-centre-action-icon">'+backupActionIcon('upload')+'</span><span class="backup-centre-action-copy"><span class="backup-centre-title">Restore My Songs</span><span class="backup-centre-sub">Import a WorshipBase song JSON file.</span></span></button>'+'<button class="backup-centre-action" data-backup-action="restore-settings" type="button"><span class="backup-centre-action-icon">'+backupActionIcon('upload')+'</span><span class="backup-centre-action-copy"><span class="backup-centre-title">Restore Notes &amp; Cues</span><span class="backup-centre-sub">Apply notes/cues onto matching songs.</span></span></button>'+'</div></div>'+'<div class="backup-centre-section"><div class="backup-centre-section-title">Google Drive backup</div><div class="backup-centre-section-card">'+'<button class="backup-centre-action" data-backup-action="drive-connect" type="button"><span class="backup-centre-action-icon">'+backupActionIcon('cloud')+'</span><span class="backup-centre-action-copy"><span class="backup-centre-title">'+(driveConnected?'Reconnect Google Drive':'Connect Google Drive')+'</span><span class="backup-centre-sub">'+esc(driveConnected?(cloudState.googleDrive.email||'Choose a Google account and approve hidden backup access.'):driveEmail)+'</span></span></button>'+'<button class="backup-centre-action" data-backup-action="drive-backup" type="button"><span class="backup-centre-action-icon">'+backupActionIcon('download')+'</span><span class="backup-centre-action-copy"><span class="backup-centre-title">Back up now</span><span class="backup-centre-sub">Upload or replace your latest hidden personal backup.</span></span></button>'+'<button class="backup-centre-action" data-backup-action="drive-restore" type="button"><span class="backup-centre-action-icon">'+backupActionIcon('upload')+'</span><span class="backup-centre-action-copy"><span class="backup-centre-title">Restore from Drive</span><span class="backup-centre-sub">Restore the latest hidden backup onto this device.</span></span></button>'+'<button class="backup-centre-action" data-backup-action="drive-snapshot" type="button"><span class="backup-centre-action-icon">'+backupActionIcon('shield')+'</span><span class="backup-centre-action-copy"><span class="backup-centre-title">Download pre-restore snapshot</span><span class="backup-centre-sub">Download the safety snapshot saved before restore.</span></span></button>'+'<button class="backup-centre-action" data-backup-action="drive-disconnect" type="button"><span class="backup-centre-action-icon">'+backupActionIcon('cloud')+'</span><span class="backup-centre-action-copy"><span class="backup-centre-title">Disconnect on this device</span><span class="backup-centre-sub">Forget the Drive connection state locally.</span></span></button>'+'</div></div>';modal.classList.add('open');modal.setAttribute('aria-hidden','false')}
 function closeBackupCentre(){var modal=qs('backup-centre-modal');if(modal){modal.classList.remove('open','restore-review');modal.setAttribute('aria-hidden','true')}}
 function settingsStats(){var localSongCount=localSongs.length;var noteCount=personalSets.reduce(function(total,set){ensureSetShape(set);return total+Object.keys(set.songNotes||{}).length+Object.keys(set.songCues||{}).length+(set.setNotes?1:0)},0)+Object.keys(songMemory||{}).filter(function(id){var m=songMemory[id]||{};return !!(m.notes||m.cues||m.usualKey||m.practiceStatus)}).length;var driveConnected=!!cloudState.googleDrive.connected,driveReady=driveConnected&&!!(cloudState.googleDrive.fileId||cloudState.googleDrive.lastBackupAt||cloudState.googleDrive.lastModifiedTime);var driveLabel=driveConnected?(driveReady?'Ready':'Connected'):'Not connected';return {localSongs:localSongCount,setLists:personalSets.length,notes:noteCount,drive:driveLabel,driveConnected:driveConnected,driveReady:driveReady,driveDotClass:driveConnected?'ready':'disconnected',driveBackupAt:cloudState.googleDrive.lastBackupAt||cloudState.googleDrive.lastModifiedTime||'',firebase:cloudState.firebase.connected?'Signed in':(cloudState.firebase.configured?'Ready':'Not configured')}}
 function driveStatusValueHtml(stats){stats=stats||settingsStats();return '<span class="drive-status-value"><span class="wb-settings-drive-dot '+esc(stats.driveDotClass||'disconnected')+'"></span>'+esc(stats.drive||'Not connected')+'</span>'}
-function renderSettings(){var list=qs('settings-list');if(!list)return;var scalePct=Math.round(((parseFloat(settings.textSize)||1)-.85)/(.40)*100);scalePct=Math.max(0,Math.min(100,scalePct));var stats=settingsStats();list.innerHTML=''
+function renderSettings(){var list=qs('settings-list');if(!list)return;var scalePct=SettingsController.textSizePercent?SettingsController.textSizePercent(settings.textSize):Math.round(((parseFloat(settings.textSize)||1)-.85)/(.40)*100);scalePct=Math.max(0,Math.min(100,scalePct));var stats=settingsStats();list.innerHTML=''
 +'<div class="ss-section"><div class="ss-title">Appearance</div><div class="ss-card">'
 +settingsToggleRow('dark','Dark mode','','darkMode','dark-sw')
 +'<div class="ss-row no-tap">'+settingsIcon('text')+'<div class="ss-body"><div class="ss-lbl">Text size</div><div class="sz-wrap"><span class="sz-a">A</span><input class="sz-slider" id="settings-text-size" data-text-size-slider type="range" min="0.85" max="1.25" step="0.05" value="'+esc(settings.textSize)+'" style="--pct:'+scalePct+'%"><span class="sz-a big">A</span></div></div></div>'
@@ -7318,8 +7813,9 @@ function installAlphaStrip(){
 
 function installPullToRefresh(){var sc=qs('vscroll'),ptr=qs('ptr-indicator');if(!sc||!ptr)return;var startY=0,tracking=false,refreshing=false,circ=75.4,threshold=92;function clamp(n,a,b){return Math.max(a,Math.min(b,n))}function setProgress(pull,spin){var progress=clamp(pull/threshold,0,1),eased=1-Math.pow(1-progress,2),y=Math.round(eased*16),alpha=progress<=0?0:Math.min(1,.18+progress*.82),scale=.82+progress*.18,dash=circ*progress;ptr.style.setProperty('--wb-ptr-y',y+'px');ptr.style.setProperty('--wb-ptr-alpha',spin?'.94':alpha.toFixed(4));ptr.style.setProperty('--wb-ptr-scale',scale.toFixed(4));ptr.style.setProperty('--wb-ptr-dash',dash.toFixed(3));ptr.classList.toggle('ready',progress>=1&&!spin);ptr.classList.toggle('spinning',!!spin)}function reset(){ptr.classList.remove('ready','spinning');ptr.style.setProperty('--wb-ptr-alpha','0');ptr.style.setProperty('--wb-ptr-y','0px');ptr.style.setProperty('--wb-ptr-scale','.82');ptr.style.setProperty('--wb-ptr-dash','0')}sc.addEventListener('touchstart',function(e){if(refreshing||sc.scrollTop>1)return;var t=e.touches&&e.touches[0];if(!t)return;startY=t.clientY;tracking=true},{passive:true});sc.addEventListener('touchmove',function(e){if(!tracking||refreshing)return;var t=e.touches&&e.touches[0];if(!t)return;var pull=Math.max(0,t.clientY-startY);if(pull>0)setProgress(pull,false)},{passive:true});sc.addEventListener('touchend',function(){if(!tracking)return;tracking=false;var dash=parseFloat(getComputedStyle(ptr).getPropertyValue('--wb-ptr-dash'))||0;if(dash>=circ*.98){refreshing=true;setProgress(threshold,true);setTimeout(function(){renderLibrary();refreshing=false;reset()},420)}else reset()},{passive:true});}
 function showToolsPanel(name){
-  name=name||'home';state.toolsPanel=name==='home'?'home':name;
-  qsa('#tools-section .tools-panel').forEach(function(p){p.classList.toggle('active',p.id==='tools-'+name+'-panel')});
+  var owner=window.WBToolsController;
+  name=owner&&owner.normalizePanel?owner.normalizePanel(name):String(name||'home');
+  if(owner&&owner.showPanel)owner.showPanel(document,state,name);else{state.toolsPanel=name==='home'?'home':name;qsa('#tools-section .tools-panel').forEach(function(p){p.classList.toggle('active',p.id==='tools-'+name+'-panel')})}
   if(name==='keycapo')initToolsKeyCapo();
   if(name==='pads')initToolsPads();
 }
@@ -7327,9 +7823,9 @@ function openToolsHome(){qsa('.route').forEach(function(r){r.classList.remove('a
 function openToolsBible(fromMemory){qsa('.route').forEach(function(r){r.classList.remove('active')});qs('bible-section').classList.add('active');qsa('.tab-btn').forEach(function(b){b.classList.toggle('active',b.dataset.tab==='tools')});qs('srch-wrap').style.display='none';qs('hdr-add-btn').style.display='none';setBodyRouteClasses('tools','wb-tools-bible');state.tab='tools';state.toolsPanel='bible';installBibleControls();loadBibleData();renderBibleShell();persistRouteMemory()}
 function openToolsKeyCapo(){showToolsPanel('keycapo')}
 function openToolsPads(){showToolsPanel('pads')}
-var TOOL_KEYS=['C','Db','D','Eb','E','F','F#','G','Ab','A','Bb','B'];
-var PAD_TYPES=['Peaceful','Analog','Drones'];
-var toolPadState={type:'Peaceful',key:'C',playing:false};
+var TOOL_KEYS=(window.WBToolsController&&window.WBToolsController.TOOL_KEYS)||['C','Db','D','Eb','E','F','F#','G','Ab','A','Bb','B'];
+var PAD_TYPES=(window.WBToolsController&&window.WBToolsController.PAD_TYPES)||['Peaceful','Analog','Drones'];
+var toolPadState=(window.WBToolsController&&window.WBToolsController.normalizePadState)?window.WBToolsController.normalizePadState({type:'Peaceful',key:'C',playing:false},TOOL_KEYS,PAD_TYPES):{type:'Peaceful',key:'C',playing:false};
 function initToolsKeyCapo(){
   var o=qs('tools-kc-original'),t=qs('tools-kc-target');if(!o||!t)return;
   if(!o.children.length){o.innerHTML=TOOL_KEYS.map(function(k){return '<option value="'+k+'">'+k+'</option>'}).join('');t.innerHTML=o.innerHTML;o.value='G';t.value='C'}
@@ -7337,36 +7833,38 @@ function initToolsKeyCapo(){
 }
 function updateToolsKeyCapo(){
   var o=qs('tools-kc-original'),t=qs('tools-kc-target'),res=qs('tools-kc-result'),sg=qs('tools-kc-suggestions');if(!o||!t||!res||!sg)return;
-  var oi=TOOL_KEYS.indexOf(o.value),ti=TOOL_KEYS.indexOf(t.value),steps=(ti-oi+12)%12;
-  res.innerHTML='<strong>'+esc(o.value)+' → '+esc(t.value)+'</strong><br>Transpose '+steps+' semitone'+(steps===1?'':'s')+' up.';
-  var suggestions=[0,1,2,3,4].map(function(capo){var shape=TOOL_KEYS[(ti-capo+12)%12];return {capo:capo,shape:shape}});
-  sg.innerHTML=suggestions.map(function(x){return '<div class="tools-kc-suggestion"><strong>Capo '+x.capo+'</strong><span>Play '+x.shape+' shapes</span></div>'}).join('')
+  var calc=(window.WBToolsController&&window.WBToolsController.keyCapo)?window.WBToolsController.keyCapo(o.value,t.value,TOOL_KEYS):(function(){var oi=TOOL_KEYS.indexOf(o.value),ti=TOOL_KEYS.indexOf(t.value),steps=(ti-oi+12)%12;return {original:o.value,target:t.value,steps:steps,suggestions:[0,1,2,3,4].map(function(capo){return {capo:capo,shape:TOOL_KEYS[(ti-capo+12)%12]}})}})();
+  o.value=calc.original;t.value=calc.target;
+  res.innerHTML='<strong>'+esc(calc.original)+' → '+esc(calc.target)+'</strong><br>Transpose '+calc.steps+' semitone'+(calc.steps===1?'':'s')+' up.';
+  sg.innerHTML=calc.suggestions.map(function(x){return '<div class="tools-kc-suggestion"><strong>Capo '+x.capo+'</strong><span>Play '+esc(x.shape)+' shapes</span></div>'}).join('')
 }
 function initToolsPads(){
-  var tr=qs('tools-pad-type-row'),kr=qs('tools-pad-key-row');if(!tr||!kr)return;
-  tr.innerHTML=PAD_TYPES.map(function(p){return '<button class="tools-pad-chip '+(toolPadState.type===p?'active':'')+'" data-pad-type="'+p+'" type="button">'+p+'</button>'}).join('');
-  kr.innerHTML=TOOL_KEYS.map(function(k){return '<button class="tools-pad-key '+(toolPadState.key===k?'active':'')+'" data-pad-key="'+k+'" type="button">'+k+'</button>'}).join('');
+  var tr=qs('tools-pad-type-row'),kr=qs('tools-pad-key-row'),owner=window.WBToolsController;if(!tr||!kr)return;
+  if(owner&&owner.normalizePadState)toolPadState=owner.normalizePadState(toolPadState,TOOL_KEYS,PAD_TYPES);
+  var typeModels=owner&&owner.chipModels?owner.chipModels(PAD_TYPES,toolPadState.type):PAD_TYPES.map(function(p){return {value:p,active:toolPadState.type===p}});
+  var keyModels=owner&&owner.chipModels?owner.chipModels(TOOL_KEYS,toolPadState.key):TOOL_KEYS.map(function(k){return {value:k,active:toolPadState.key===k}});
+  tr.innerHTML=typeModels.map(function(p){return '<button class="tools-pad-chip '+(p.active?'active':'')+'" data-pad-type="'+esc(p.value)+'" type="button">'+esc(p.value)+'</button>'}).join('');
+  kr.innerHTML=keyModels.map(function(k){return '<button class="tools-pad-key '+(k.active?'active':'')+'" data-pad-key="'+esc(k.value)+'" type="button">'+esc(k.value)+'</button>'}).join('');
   updateToolsPadStatus();
 }
-function updateToolsPadStatus(){var el=qs('tools-pad-status');if(el)el.textContent=toolPadState.playing?('Playing '+toolPadState.type+' pad in '+toolPadState.key):('Ready: '+toolPadState.type+' pad in '+toolPadState.key)}
+function updateToolsPadStatus(){var el=qs('tools-pad-status'),owner=window.WBToolsController;if(el)el.textContent=owner&&owner.padStatus?owner.padStatus(toolPadState):(toolPadState.playing?('Playing '+toolPadState.type+' pad in '+toolPadState.key):('Ready: '+toolPadState.type+' pad in '+toolPadState.key))}
 window.openToolsHome=openToolsHome;window.openToolsBible=openToolsBible;window.openToolsKeyCapo=openToolsKeyCapo;window.openToolsPads=openToolsPads;
 
-var bibleState={book:'John',chapter:3,version:String(settings.defaultBibleVersion||'esv').toLowerCase()};
-var BIBLE_VERSIONS=[{id:'esv',abbr:'ESV',name:'English Standard Version',folder:'esv_chapter_package'}];
-if(SETTINGS_CHOICES&&SETTINGS_CHOICES.defaultBibleVersion)SETTINGS_CHOICES.defaultBibleVersion=BIBLE_VERSIONS.map(function(v){return [v.id,v.abbr]});
-var BIBLE_BOOKS=['Genesis','Exodus','Leviticus','Numbers','Deuteronomy','Joshua','Judges','Ruth','I Samuel','II Samuel','I Kings','II Kings','I Chronicles','II Chronicles','Ezra','Nehemiah','Esther','Job','Psalms','Proverbs','Ecclesiastes','Song of Solomon','Isaiah','Jeremiah','Lamentations','Ezekiel','Daniel','Hosea','Joel','Amos','Obadiah','Jonah','Micah','Nahum','Habakkuk','Zephaniah','Haggai','Zechariah','Malachi','Matthew','Mark','Luke','John','Acts','Romans','1 Corinthians','2 Corinthians','Galatians','Ephesians','Philippians','Colossians','1 Thessalonians','2 Thessalonians','1 Timothy','2 Timothy','Titus','Philemon','Hebrews','James','1 Peter','2 Peter','1 John','2 John','3 John','Jude','Revelation'];
-var BIBLE_CHAPTERS={Genesis:50,Exodus:40,Leviticus:27,Numbers:36,Deuteronomy:34,Joshua:24,Judges:21,Ruth:4,'I Samuel':31,'II Samuel':24,'I Kings':22,'II Kings':25,'I Chronicles':29,'II Chronicles':36,Ezra:10,Nehemiah:13,Esther:10,Job:42,Psalms:150,Proverbs:31,Ecclesiastes:12,'Song of Solomon':8,Isaiah:66,Jeremiah:52,Lamentations:5,Ezekiel:48,Daniel:12,Hosea:14,Joel:3,Amos:9,Obadiah:1,Jonah:4,Micah:7,Nahum:3,Habakkuk:3,Zephaniah:3,Haggai:2,Zechariah:14,Malachi:4,Matthew:28,Mark:16,Luke:24,John:21,Acts:28,Romans:16,'1 Corinthians':16,'2 Corinthians':13,Galatians:6,Ephesians:6,Philippians:4,Colossians:4,'1 Thessalonians':5,'2 Thessalonians':3,'1 Timothy':6,'2 Timothy':4,Titus:3,Philemon:1,Hebrews:13,James:5,'1 Peter':5,'2 Peter':3,'1 John':5,'2 John':1,'3 John':1,Jude:1,Revelation:22};
+var BibleController=window.WBBibleController||{};
+var bibleState=BibleController.defaultState?BibleController.defaultState(settings):{book:'John',chapter:3,version:String(settings.defaultBibleVersion||'esv').toLowerCase()};
+var BIBLE_VERSIONS=BibleController.BIBLE_VERSIONS||[{id:'esv',abbr:'ESV',name:'English Standard Version',folder:'esv_chapter_package'}];
+if(SETTINGS_CHOICES&&SETTINGS_CHOICES.defaultBibleVersion)SETTINGS_CHOICES.defaultBibleVersion=(BibleController.settingsChoices?BibleController.settingsChoices():BIBLE_VERSIONS.map(function(v){return [v.id,v.abbr]}));
+var BIBLE_BOOKS=BibleController.BIBLE_BOOKS||['John'];
+var BIBLE_CHAPTERS=BibleController.BIBLE_CHAPTERS||{John:21};
 var bibleRuntime={loading:false,error:'',index:null,books:[],chapterCache:Object.create(null),loadPromise:null,basePath:'',source:'none'};
-function getBibleVersionMeta(id){id=String(id||bibleState.version||settings.defaultBibleVersion||'esv').toLowerCase();return BIBLE_VERSIONS.find(function(v){return v.id===id})||BIBLE_VERSIONS[0]}
-function normalizeBibleState(){var meta=getBibleVersionMeta(bibleState.version);bibleState.version=meta.id;var books=bibleRuntime.books&&bibleRuntime.books.length?bibleRuntime.books:BIBLE_BOOKS;if(books.indexOf(bibleState.book)<0)bibleState.book=books.indexOf('John')>=0?'John':books[0];var max=bibleChapterCount(bibleState.book);bibleState.chapter=Math.max(1,Math.min(max,parseInt(bibleState.chapter,10)||1));}
-function biblePackageReady(){return !!(bibleRuntime.index&&bibleRuntime.books&&bibleRuntime.books.length)}
-function bibleChapterCount(book){if(biblePackageReady()){var meta=getBibleBookMeta(book);if(meta&&meta.chapters)return meta.chapters}return BIBLE_CHAPTERS[book]||28}
-function getBibleBookMeta(book){if(!biblePackageReady())return null;return (bibleRuntime.index.books||[]).find(function(b){return b.name===book})||null}
-function bibleBookSlug(book){var meta=getBibleBookMeta(book);return meta&&meta.slug||String(book||'').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'')}
-function normalizeBibleChapterData(raw,book,chapter){raw=raw||{};var verses=[];if(Array.isArray(raw.verses))verses=raw.verses.map(function(v,i){return {number:v.number||v.verse||String(i+1),text:String(v.text||v.content||'')}});else if(raw.verses&&typeof raw.verses==='object')verses=Object.keys(raw.verses).map(function(k){var val=raw.verses[k];return {number:k,text:String(typeof val==='string'?val:(val&&val.text)||'')}});else if(Array.isArray(raw.items))verses=raw.items.map(function(v,i){return {number:v.number||v.verse||String(i+1),text:String(v.text||v.content||'')}});else if(raw&&typeof raw==='object'){var keys=Object.keys(raw).filter(function(k){return /^\d+$/.test(String(k))});if(keys.length)verses=keys.sort(function(a,b){return (+a)-(+b)}).map(function(k){var val=raw[k];return {number:k,text:String(typeof val==='string'?val:(val&&val.text)||'')}})}
-  return {book:raw.book||book,chapter:parseInt(raw.chapter,10)||parseInt(chapter,10)||1,verses:verses};
-}
-function bibleCacheId(version,book,chapter){return String(version||'esv')+'::'+bibleBookSlug(book)+'::'+String(chapter)}
+function getBibleVersionMeta(id){return BibleController.getVersionMeta?BibleController.getVersionMeta(id,settings):(BIBLE_VERSIONS.find(function(v){return v.id===String(id||bibleState.version||settings.defaultBibleVersion||'esv').toLowerCase()})||BIBLE_VERSIONS[0])}
+function normalizeBibleState(){if(BibleController.normalizeState)return BibleController.normalizeState(bibleState,bibleRuntime,settings);var books=bibleRuntime.books&&bibleRuntime.books.length?bibleRuntime.books:BIBLE_BOOKS;if(books.indexOf(bibleState.book)<0)bibleState.book=books.indexOf('John')>=0?'John':books[0];var max=bibleChapterCount(bibleState.book);bibleState.chapter=Math.max(1,Math.min(max,parseInt(bibleState.chapter,10)||1));return bibleState}
+function biblePackageReady(){return BibleController.packageReady?BibleController.packageReady(bibleRuntime):!!(bibleRuntime.index&&bibleRuntime.books&&bibleRuntime.books.length)}
+function bibleChapterCount(book){return BibleController.chapterCount?BibleController.chapterCount(book,bibleRuntime):(BIBLE_CHAPTERS[book]||28)}
+function getBibleBookMeta(book){return BibleController.getBookMeta?BibleController.getBookMeta(book,bibleRuntime):(biblePackageReady()?((bibleRuntime.index.books||[]).find(function(b){return b.name===book})||null):null)}
+function bibleBookSlug(book){return BibleController.bookSlug?BibleController.bookSlug(book,bibleRuntime):(String(book||'').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,''))}
+function normalizeBibleChapterData(raw,book,chapter){return BibleController.normalizeChapterData?BibleController.normalizeChapterData(raw,book,chapter):(function(){raw=raw||{};return {book:raw.book||book,chapter:parseInt(raw.chapter,10)||parseInt(chapter,10)||1,verses:[]}})()}
+function bibleCacheId(version,book,chapter){return BibleController.cacheId?BibleController.cacheId(version,book,chapter,bibleRuntime):(String(version||'esv')+'::'+bibleBookSlug(book)+'::'+String(chapter))}
 async function loadBibleData(force){
   if(!force&&biblePackageReady())return Promise.resolve(bibleRuntime.index);
   if(bibleRuntime.loadPromise&&!force)return bibleRuntime.loadPromise;
@@ -7374,8 +7872,9 @@ async function loadBibleData(force){
   bibleRuntime.loading=true;
   bibleRuntime.error='';
   bibleRuntime.loadPromise=fetch(versionMeta.folder+'/bible-index.json',{cache:'force-cache'}).then(function(res){if(!res.ok)throw new Error('Bible index file not found');return res.json()}).then(function(data){
-    bibleRuntime.index=data||{};
-    bibleRuntime.books=(data&&data.books||[]).map(function(b){return b.name}).filter(Boolean);
+    var normalizedIndex=BibleController.normalizeIndex?BibleController.normalizeIndex(data):{index:data||{},books:(data&&data.books||[]).map(function(b){return b.name}).filter(Boolean)};
+    bibleRuntime.index=normalizedIndex.index||{};
+    bibleRuntime.books=normalizedIndex.books||[];
     if(!bibleRuntime.books.length)throw new Error('Bible index is empty');
     bibleRuntime.chapterCache=Object.create(null);
     bibleRuntime.source='package';
@@ -7384,7 +7883,7 @@ async function loadBibleData(force){
     persistRouteMemory();
     return data;
   }).catch(function(){
-    bibleRuntime.index=bibleRuntime.index&&Object.keys(bibleRuntime.index).length?bibleRuntime.index:{books:BIBLE_BOOKS.map(function(name){return {name:name,slug:bibleBookSlug(name),chapters:BIBLE_CHAPTERS[name]||1}}),meta:{copyright:versionMeta.name}};
+    bibleRuntime.index=BibleController.fallbackIndex?BibleController.fallbackIndex(bibleRuntime,versionMeta):(bibleRuntime.index&&Object.keys(bibleRuntime.index).length?bibleRuntime.index:{books:BIBLE_BOOKS.map(function(name){return {name:name,slug:bibleBookSlug(name),chapters:BIBLE_CHAPTERS[name]||1}}),meta:{copyright:versionMeta.name}});
     bibleRuntime.books=bibleRuntime.books&&bibleRuntime.books.length?bibleRuntime.books:BIBLE_BOOKS.slice();
     bibleRuntime.source='firebase';
     bibleRuntime.error='Bible package not found locally. Using deployed data when available.';
@@ -7405,7 +7904,7 @@ async function loadBibleChapterFromFirebase(book,chapter){
   try{
     var db=await firebaseRealtimeDb();
     var base=paths.biblePath||paths.bibleCollection||'bibleChapters';
-    var attempts=[base+'/'+version+'/'+slug+'/'+chapter,base+'/'+slug+'/'+chapter,base+'/'+version+'/'+book+'/'+chapter];
+    var attempts=BibleController.firebasePathAttempts?BibleController.firebasePathAttempts(paths,version,book,chapter,bibleRuntime):[base+'/'+version+'/'+slug+'/'+chapter,base+'/'+slug+'/'+chapter,base+'/'+version+'/'+book+'/'+chapter];
     for(var i=0;i<attempts.length;i++){
       var snap=await db.ref(attempts[i]).once('value');
       var data=snap&&typeof snap.val==='function'?snap.val():null;
@@ -7418,7 +7917,7 @@ async function loadBibleChapterFromFirebase(book,chapter){
   try{
     var fdb=await firebaseFirestore();
     var coll=fdb.collection(paths.bibleCollection||'bibleChapters');
-    var idCandidates=[version+'__'+slug+'__'+chapter,version+'_'+slug+'_'+chapter,slug+'_'+chapter+'_'+version,slug+'_'+chapter,book+'_'+chapter];
+    var idCandidates=BibleController.firestoreDocCandidates?BibleController.firestoreDocCandidates(version,book,chapter,bibleRuntime):[version+'__'+slug+'__'+chapter,version+'_'+slug+'_'+chapter,slug+'_'+chapter+'_'+version,slug+'_'+chapter,book+'_'+chapter];
     for(var j=0;j<idCandidates.length;j++){
       var doc=await coll.doc(idCandidates[j]).get();
       if(doc&&doc.exists){
@@ -7483,15 +7982,15 @@ function renderBibleShell(){
     card.innerHTML='<div class="bible-heading">'+esc(bibleState.book+' '+bibleState.chapter)+'</div><div class="bible-empty">Bible text is not available yet for this chapter.</div><div class="bible-copy">'+esc(bibleRuntime.error||'Add the package folder beside this HTML file or provide deployed Bible chapter data in Firebase.')+'</div>';
   });
 }
-function renderBiblePicker(){normalizeBibleState();var books=qs('bible-book-picker-list'),chapters=qs('bible-chapter-picker-list');if(!books||!chapters)return;var sourceBooks=bibleRuntime.books&&bibleRuntime.books.length?bibleRuntime.books:BIBLE_BOOKS;books.innerHTML=sourceBooks.map(function(b){return '<button class="bible-picker-item '+(b===bibleState.book?'active':'')+'" data-bible-book="'+esc(b)+'" type="button"><span class="truncate">'+esc(b)+'</span></button>'}).join('');var max=bibleChapterCount(bibleState.book);chapters.innerHTML=Array.from({length:max},function(_,i){var n=i+1;return '<button class="bible-picker-item chapter-item '+(n===bibleState.chapter?'active':'')+'" data-bible-chapter="'+n+'" type="button">'+n+'</button>'}).join('');setTimeout(function(){var a=books.querySelector('.active');if(a)a.scrollIntoView({block:'center'});var c=chapters.querySelector('.active');if(c)c.scrollIntoView({block:'center'});},0)}
+function renderBiblePicker(){normalizeBibleState();var books=qs('bible-book-picker-list'),chapters=qs('bible-chapter-picker-list');if(!books||!chapters)return;var bookModels=BibleController.bookModels?BibleController.bookModels(bibleState,bibleRuntime):(bibleRuntime.books&&bibleRuntime.books.length?bibleRuntime.books:BIBLE_BOOKS).map(function(b){return {book:b,active:b===bibleState.book}});books.innerHTML=bookModels.map(function(m){return '<button class="bible-picker-item '+(m.active?'active':'')+'" data-bible-book="'+esc(m.book)+'" type="button"><span class="truncate">'+esc(m.book)+'</span></button>'}).join('');var chapterModels=BibleController.chapterModels?BibleController.chapterModels(bibleState,bibleRuntime):Array.from({length:bibleChapterCount(bibleState.book)},function(_,i){var n=i+1;return {chapter:n,active:n===bibleState.chapter}});chapters.innerHTML=chapterModels.map(function(m){return '<button class="bible-picker-item chapter-item '+(m.active?'active':'')+'" data-bible-chapter="'+m.chapter+'" type="button">'+m.chapter+'</button>'}).join('');setTimeout(function(){var a=books.querySelector('.active');if(a)a.scrollIntoView({block:'center'});var c=chapters.querySelector('.active');if(c)c.scrollIntoView({block:'center'});},0)}
 function openBiblePicker(){renderBiblePicker();var m=qs('bs-biblepicker');if(m){m.classList.add('open');m.setAttribute('aria-hidden','false')}}
 function closeBiblePicker(){var m=qs('bs-biblepicker');if(m)closeSheetElement(m)}
-function renderBibleVersionPicker(){var el=qs('bible-version-list');if(!el)return;el.innerHTML=BIBLE_VERSIONS.map(function(v){var active=v.id===bibleState.version;var sourceLabel=active?(biblePackageReady()?'Package ready on this device':'Selected on this device'):('Local package: '+v.folder);return '<button class="bible-version-item" data-bible-version="'+esc(v.id)+'" type="button"><span class="bible-version-copy"><span class="bible-version-title">'+esc(v.abbr+' - '+v.name)+'</span><span class="bible-version-sub">'+esc(sourceLabel)+'</span></span><span class="setdest-state">'+(active?'Selected':'Choose')+'</span></button>'}).join('')}
+function renderBibleVersionPicker(){var el=qs('bible-version-list');if(!el)return;el.innerHTML=(BibleController.versionModels?BibleController.versionModels(bibleState,bibleRuntime):BIBLE_VERSIONS.map(function(v){var active=v.id===bibleState.version;return {id:v.id,abbr:v.abbr,name:v.name,active:active,sourceLabel:active?(biblePackageReady()?'Package ready on this device':'Selected on this device'):('Local package: '+v.folder)}})).map(function(v){return '<button class="bible-version-item" data-bible-version="'+esc(v.id)+'" type="button"><span class="bible-version-copy"><span class="bible-version-title">'+esc(v.abbr+' - '+v.name)+'</span><span class="bible-version-sub">'+esc(v.sourceLabel)+'</span></span><span class="setdest-state">'+(v.active?'Selected':'Choose')+'</span></button>'}).join('')}
 function openBibleVersionPicker(){renderBibleVersionPicker();var m=qs('bs-bibleversion');if(m){m.classList.add('open');m.setAttribute('aria-hidden','false')}}
 function closeBibleVersionPicker(){var m=qs('bs-bibleversion');if(m)closeSheetElement(m)}
 window.openBiblePicker=openBiblePicker;window.closeBiblePicker=closeBiblePicker;window.openBibleVersionPicker=openBibleVersionPicker;window.closeBibleVersionPicker=closeBibleVersionPicker;
-window.changeBibleChapter=changeBibleChapter;function changeBibleChapter(delta){normalizeBibleState();var max=bibleChapterCount(bibleState.book);bibleState.chapter+=delta;if(bibleState.chapter<1){var i=(bibleRuntime.books&&bibleRuntime.books.length?bibleRuntime.books:BIBLE_BOOKS).indexOf(bibleState.book);if(i>0){var books=bibleRuntime.books&&bibleRuntime.books.length?bibleRuntime.books:BIBLE_BOOKS;bibleState.book=books[i-1];bibleState.chapter=bibleChapterCount(bibleState.book)}else bibleState.chapter=1}else if(bibleState.chapter>max){var books2=bibleRuntime.books&&bibleRuntime.books.length?bibleRuntime.books:BIBLE_BOOKS;var j=books2.indexOf(bibleState.book);if(j<books2.length-1){bibleState.book=books2[j+1];bibleState.chapter=1}else bibleState.chapter=max}persistRouteMemory();renderBibleShell()}
-function installBibleControls(){var book=qs('bible-book-btn'),chapter=qs('bible-chapter-btn'),version=qs('bible-version-btn');if(book&&!book.dataset.ready){book.dataset.ready='1';book.addEventListener('click',function(){openBiblePicker('book')})}if(chapter&&!chapter.dataset.ready){chapter.dataset.ready='1';chapter.addEventListener('click',function(){openBiblePicker('chapter')})}if(version&&!version.dataset.ready){version.dataset.ready='1';version.addEventListener('click',openBibleVersionPicker)}var picker=qs('bs-biblepicker');if(picker&&!picker.dataset.ready){picker.dataset.ready='1';picker.addEventListener('click',function(e){if(e.target===picker||e.target.id==='biblepicker-close'){closeBiblePicker();return}var b=e.target.closest('[data-bible-book],[data-bible-chapter]');if(!b)return;if(b.dataset.bibleBook){bibleState.book=b.dataset.bibleBook;bibleState.chapter=Math.min(bibleState.chapter,bibleChapterCount(bibleState.book));persistRouteMemory();renderBiblePicker();renderBibleShell();return}if(b.dataset.bibleChapter){bibleState.chapter=parseInt(b.dataset.bibleChapter,10)||1;persistRouteMemory();renderBibleShell();closeBiblePicker()}})}var versionSheet=qs('bs-bibleversion');if(versionSheet&&!versionSheet.dataset.ready){versionSheet.dataset.ready='1';versionSheet.addEventListener('click',function(e){if(e.target===versionSheet||e.target.id==='bibleversion-close'){closeBibleVersionPicker();return}var b=e.target.closest('[data-bible-version]');if(!b)return;bibleState.version=String(b.dataset.bibleVersion||'esv').toLowerCase();settings.defaultBibleVersion=bibleState.version;persistSettings();persistRouteMemory();loadBibleData(true);renderSettings();closeBibleVersionPicker()})}var prev=qs('bible-prev-btn'),next=qs('bible-next-btn');if(prev&&!prev.dataset.ready){prev.dataset.ready='1';prev.addEventListener('click',function(){changeBibleChapter(-1)})}if(next&&!next.dataset.ready){next.dataset.ready='1';next.addEventListener('click',function(){changeBibleChapter(1)})}}
+window.changeBibleChapter=changeBibleChapter;function changeBibleChapter(delta){if(BibleController.changeChapter)BibleController.changeChapter(bibleState,bibleRuntime,delta,settings);else{normalizeBibleState();bibleState.chapter+=parseInt(delta,10)||0}persistRouteMemory();renderBibleShell()}
+function installBibleControls(){var book=qs('bible-book-btn'),chapter=qs('bible-chapter-btn'),version=qs('bible-version-btn');if(book&&!book.dataset.ready){book.dataset.ready='1';book.addEventListener('click',function(){openBiblePicker('book')})}if(chapter&&!chapter.dataset.ready){chapter.dataset.ready='1';chapter.addEventListener('click',function(){openBiblePicker('chapter')})}if(version&&!version.dataset.ready){version.dataset.ready='1';version.addEventListener('click',openBibleVersionPicker)}var picker=qs('bs-biblepicker');if(picker&&!picker.dataset.ready){picker.dataset.ready='1';picker.addEventListener('click',function(e){if(e.target===picker||e.target.id==='biblepicker-close'){closeBiblePicker();return}var b=e.target.closest('[data-bible-book],[data-bible-chapter]');if(!b)return;if(b.dataset.bibleBook){if(BibleController.setBook)BibleController.setBook(bibleState,bibleRuntime,b.dataset.bibleBook,settings);else{bibleState.book=b.dataset.bibleBook;bibleState.chapter=Math.min(bibleState.chapter,bibleChapterCount(bibleState.book));}persistRouteMemory();renderBiblePicker();renderBibleShell();return}if(b.dataset.bibleChapter){if(BibleController.setChapter)BibleController.setChapter(bibleState,bibleRuntime,b.dataset.bibleChapter,settings);else bibleState.chapter=parseInt(b.dataset.bibleChapter,10)||1;persistRouteMemory();renderBibleShell();closeBiblePicker()}})}var versionSheet=qs('bs-bibleversion');if(versionSheet&&!versionSheet.dataset.ready){versionSheet.dataset.ready='1';versionSheet.addEventListener('click',function(e){if(e.target===versionSheet||e.target.id==='bibleversion-close'){closeBibleVersionPicker();return}var b=e.target.closest('[data-bible-version]');if(!b)return;if(BibleController.setVersion)BibleController.setVersion(bibleState,b.dataset.bibleVersion,settings);else bibleState.version=String(b.dataset.bibleVersion||'esv').toLowerCase();settings.defaultBibleVersion=bibleState.version;persistSettings();persistRouteMemory();loadBibleData(true);renderSettings();closeBibleVersionPicker()})}var prev=qs('bible-prev-btn'),next=qs('bible-next-btn');if(prev&&!prev.dataset.ready){prev.dataset.ready='1';prev.addEventListener('click',function(){changeBibleChapter(-1)})}if(next&&!next.dataset.ready){next.dataset.ready='1';next.addEventListener('click',function(){changeBibleChapter(1)})}}
 function installSetListSwipeBack(){var el=qs('setlist-section');if(!el||el.dataset.swipeBackReady==='1')return;el.dataset.swipeBackReady='1';var sx=0,sy=0,dx=0,tracking=false;el.addEventListener('touchstart',function(e){var t=e.touches&&e.touches[0];if(!t)return;var editor=!!(qs('setlist-section')&&qs('setlist-section').classList.contains('wb-editor-mode'));if(!editor)return;sx=t.clientX;sy=t.clientY;dx=0;tracking=sx<96},{passive:true});el.addEventListener('touchmove',function(e){if(!tracking)return;var t=e.touches&&e.touches[0];if(!t)return;dx=t.clientX-sx;var dy=Math.abs(t.clientY-sy);if(dx>16&&dx>dy*1.35)e.preventDefault()},{passive:false});el.addEventListener('touchend',function(){if(!tracking)return;tracking=false;if(dx>82)renderPersonalHome(false)},{passive:true})}
 function installToolsSwipeBack(){['tools-section','bible-section'].forEach(function(id){var el=qs(id);if(!el||el.dataset.swipeBackReady==='1')return;el.dataset.swipeBackReady='1';var sx=0,sy=0,dx=0,tracking=false;el.addEventListener('touchstart',function(e){var t=e.touches&&e.touches[0];if(!t)return;var inToolPanel=id==='tools-section'&&state.tab==='tools'&&state.toolsPanel&&state.toolsPanel!=='home';var inBible=id==='bible-section'&&state.toolsPanel==='bible';if(!inToolPanel&&!inBible)return;sx=t.clientX;sy=t.clientY;dx=0;tracking=sx<96},{passive:true});el.addEventListener('touchmove',function(e){if(!tracking)return;var t=e.touches&&e.touches[0];if(!t)return;dx=t.clientX-sx;var dy=Math.abs(t.clientY-sy);if(dx>16&&dx>dy*1.35){e.preventDefault()}},{passive:false});el.addEventListener('touchend',function(){if(!tracking)return;tracking=false;if(dx>82)openToolsHome()},{passive:true})})}
 
@@ -7588,10 +8087,10 @@ var th=qs('tools-keycapo-back');if(th)th.addEventListener('click',function(){sho
 var ph=qs('tools-pads-back');if(ph)ph.addEventListener('click',function(){showToolsPanel('home')});
 var bb=qs('tools-bible-back');if(bb)bb.addEventListener('click',openToolsHome);
 var ko=qs('tools-kc-original'),kt=qs('tools-kc-target');if(ko)ko.addEventListener('change',updateToolsKeyCapo);if(kt)kt.addEventListener('change',updateToolsKeyCapo);
-var tr=qs('tools-pad-type-row');if(tr)tr.addEventListener('click',function(e){var b=e.target.closest('[data-pad-type]');if(!b)return;toolPadState.type=b.dataset.padType;initToolsPads()});
-var kr=qs('tools-pad-key-row');if(kr)kr.addEventListener('click',function(e){var b=e.target.closest('[data-pad-key]');if(!b)return;toolPadState.key=b.dataset.padKey;initToolsPads()});
-var pp=qs('tools-pad-play-btn');if(pp)pp.addEventListener('click',function(){toolPadState.playing=true;updateToolsPadStatus();showToast('Pad player audio belongs to Tools audio pass')});
-var ps=qs('tools-pad-stop-btn');if(ps)ps.addEventListener('click',function(){toolPadState.playing=false;updateToolsPadStatus()});
+var tr=qs('tools-pad-type-row');if(tr)tr.addEventListener('click',function(e){var b=e.target.closest('[data-pad-type]');if(!b)return;toolPadState=(window.WBToolsController&&window.WBToolsController.setPadType)?window.WBToolsController.setPadType(toolPadState,b.dataset.padType,PAD_TYPES):(Object.assign(toolPadState,{type:b.dataset.padType}));initToolsPads()});
+var kr=qs('tools-pad-key-row');if(kr)kr.addEventListener('click',function(e){var b=e.target.closest('[data-pad-key]');if(!b)return;toolPadState=(window.WBToolsController&&window.WBToolsController.setPadKey)?window.WBToolsController.setPadKey(toolPadState,b.dataset.padKey,TOOL_KEYS):(Object.assign(toolPadState,{key:b.dataset.padKey}));initToolsPads()});
+var pp=qs('tools-pad-play-btn');if(pp)pp.addEventListener('click',function(){toolPadState=(window.WBToolsController&&window.WBToolsController.setPadPlaying)?window.WBToolsController.setPadPlaying(toolPadState,true):(Object.assign(toolPadState,{playing:true}));updateToolsPadStatus();showToast('Pad player audio belongs to Tools audio pass')});
+var ps=qs('tools-pad-stop-btn');if(ps)ps.addEventListener('click',function(){toolPadState=(window.WBToolsController&&window.WBToolsController.setPadPlaying)?window.WBToolsController.setPadPlaying(toolPadState,false):(Object.assign(toolPadState,{playing:false}));updateToolsPadStatus()});
 var ap=qs('bs-admin-pin');if(ap&&!ap.dataset.ready){ap.dataset.ready='1';ap.addEventListener('click',function(e){if(e.target===ap||e.target.id==='admin-pin-cancel'||e.target.id==='admin-pin-close')closeAdminPinSheet()});var api=qs('admin-pin-input');if(api)api.addEventListener('keydown',function(e){if(e.key==='Enter')submitAdminPin()});var aps=qs('admin-pin-submit');if(aps)aps.addEventListener('click',submitAdminPin)};
 (window.WBNavigationController?window.WBNavigationController.showTab(state.tab||'songs','startup'):switchTab(state.tab||'songs'));try{StartupLifecycle&&StartupLifecycle.syncLibraryFilterChips&&StartupLifecycle.syncLibraryFilterChips(state)}catch(e){} }
 
