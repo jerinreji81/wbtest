@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
- * WorshipBase Phase G build scaffold.
+ * WorshipBase Phase H.3 build scaffold.
  *
  * Purpose:
  * - Keep the Phase B single deployable output.
  * - Inject extracted constants, utility helpers, startup/PWA lifecycle owner, navigation/registry/gesture scaffold,
- *   storage service, Firebase service, backup/Drive service, and DOM helpers before the legacy app shell.
+ *   storage service, Firebase service, backup/Drive service, chart renderer, song-view controller, focus/performance controller, and DOM helpers before the legacy app shell.
  * - Leave visual redesign, attached song PDF workflows, Firebase rewrite, and visual redesign and attached song PDF workflows
  *   untouched; extract backup/Drive boundary ownership only.
  */
@@ -25,6 +25,9 @@ const MODULES = [
   { id: 'wb-storage-service', file: path.join(ROOT, 'src', 'services', 'storage-service.js') },
   { id: 'wb-firebase-service', file: path.join(ROOT, 'src', 'services', 'firebase-service.js') },
   { id: 'wb-backup-service', file: path.join(ROOT, 'src', 'services', 'backup-service.js') },
+  { id: 'wb-chart-renderer', file: path.join(ROOT, 'src', 'features', 'song', 'chart-renderer.js') },
+  { id: 'wb-song-view-controller', file: path.join(ROOT, 'src', 'features', 'song', 'song-view-controller.js') },
+  { id: 'wb-song-focus-controller', file: path.join(ROOT, 'src', 'features', 'song', 'focus-controller.js') },
   { id: 'wb-ui-dom', file: path.join(ROOT, 'src', 'ui', 'dom.js') },
 ];
 const DIST_DIR = path.join(ROOT, 'dist');
@@ -112,7 +115,7 @@ function main() {
 
   const ownershipViolations = ownershipChecks(shellHtml);
   if (ownershipViolations.length) {
-    console.error('Phase G ownership violations:', JSON.stringify(ownershipViolations, null, 2));
+    console.error('Phase H.3 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
     process.exit(1);
   }
 
@@ -129,13 +132,13 @@ function main() {
   }
 
   const manifest = {
-    phase: 'G',
-    purpose: 'Router, tab registry, route registry, and gesture API scaffold after Phase F startup/PWA lifecycle owner',
-    baseline: 'v8.17 stability freeze, Phase F startup/PWA lifecycle owner; v85 reference artifact included',
+    phase: 'H.3',
+    purpose: 'Section rail, focus/performance mode, and live chrome controller extraction after Phase H.2 song view controller extraction',
+    baseline: 'v8.17 stability freeze, Phase H.2 song view controller extraction; v85 reference artifact included',
     generatedAt: new Date().toISOString(),
     files: {
       'index.html': {
-        source: 'src/legacy/index.phase-d.html + injected Phase G modules',
+        source: 'src/legacy/index.phase-d.html + injected Phase H.3 modules',
         sha256: sha256(indexHtml),
         bytes: Buffer.byteLength(indexHtml, 'utf8'),
       },
@@ -155,7 +158,7 @@ function main() {
       inlineScriptBlocks: syntax.count,
       inlineScriptSyntaxErrors: syntax.errors.length,
       ownershipViolations: ownershipViolations.length,
-      productBehaviourChanged: 'Navigation/registry/gesture scaffold only; no visual redesign',
+      productBehaviourChanged: 'Focus/performance section rail and live chrome controller extraction with legacy compatibility adapters; no visual redesign',
       visualRedesign: false,
       attachedSongPdfWorkflows: 'cancelled / untouched',
     },
@@ -163,7 +166,7 @@ function main() {
 
   write(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
 
-  console.log('WorshipBase Phase G build complete.');
+  console.log('WorshipBase Phase H.3 build complete.');
   console.log(`- ${path.relative(ROOT, DIST_INDEX)}`);
   console.log(`- ${path.relative(ROOT, DIST_SW)}`);
   console.log(`- ${path.relative(ROOT, MANIFEST)}`);

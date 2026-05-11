@@ -3,8 +3,8 @@
 (function(root){
 'use strict';
 
-var VERSION='Rebuild_8.17';
-var REBUILD_PHASE='Phase G: router, tab registry, route registry, and gesture API scaffold';
+var VERSION='Rebuild_8.17H3';
+var REBUILD_PHASE='Phase H.3: section rail and focus/performance controller extraction';
 var REBUILD_REFERENCE='Working-v85.0-fixed.html';
 
 var ASSET_DEFAULTS={
