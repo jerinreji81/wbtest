@@ -11,7 +11,7 @@
 <meta content="WorshipBase" name="apple-mobile-web-app-title"/>
 <link href="./worshipbase_layered_fold_w_proper/app-icons/app-icon-192.png" rel="icon" type="image/png"/>
 <link href="./worshipbase_layered_fold_w_proper/app-icons/apple-touch-icon.png" rel="apple-touch-icon"/>
-<title>WorshipBase Rebuild_8.17RC2</title>
+<title>WorshipBase Rebuild_8.17RC3</title>
 <style id="wb-rebuild-consolidated-style">
 
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -2602,7 +2602,7 @@ body.dark .sheet-section{
 
 
 
-/* RC2 owner-injected targeted polish; single consolidated style block retained. */
+/* RC3 owner-injected targeted polish; single consolidated style block retained. */
 /* wb-targeted-polish-css */
 /* WorshipBase Phase K4 targeted polish owner.
    Scope: token-driven touch-area and readability polish only.
@@ -2809,6 +2809,181 @@ body.dark .live-tool.has-notes{
   background:var(--accent-surface)!important;
   border-color:var(--accent-border)!important;
   color:var(--accent)!important;
+}
+
+/* RC2.1: notes/cues compact presentation and small readability cleanup. */
+#song-view .sheet.lyrics-readable,
+#song-view .sheet.lyrics-readable .sheet-line.lyric-only,
+#song-view .sheet.lyrics-readable .lyric-only-row{
+  font-size:calc(18px * var(--wb-text-scale,1))!important;
+  line-height:1.54!important;
+  font-weight:500!important;
+}
+.song-note-preview.show{margin:10px 0 0!important;padding:0!important;background:transparent!important;border:0!important;box-shadow:none!important;}
+.song-note-preview-open.compact{display:inline-flex!important;align-items:center!important;gap:8px!important;min-height:30px!important;padding:5px 10px!important;border-radius:999px!important;background:color-mix(in srgb,var(--accent) 8%,var(--bg2))!important;border:1px solid color-mix(in srgb,var(--accent) 18%,var(--surface-border))!important;color:var(--txt2)!important;font-size:12px!important;font-weight:780!important;line-height:1!important;}
+.song-note-preview-title{white-space:nowrap;}
+.song-note-preview-chips{display:inline-flex;gap:5px;align-items:center;}
+.song-note-preview-chip{display:inline-flex;align-items:center;justify-content:center;min-height:18px;padding:2px 6px;border-radius:999px;background:var(--bg3);color:var(--txt2);font-size:9px;font-weight:900;line-height:1;text-transform:uppercase;letter-spacing:.04em;}
+.song-note-preview-chip.cue{background:rgba(217,52,72,.10)!important;color:#c9364a!important;border:1px solid rgba(217,52,72,.18)!important;}
+.wb-notes-quick.has-notes{position:relative;}
+.wb-notes-quick.has-notes::after{content:'';position:absolute;right:5px;top:5px;width:7px;height:7px;border-radius:999px;background:#d93448;box-shadow:0 0 0 2px var(--bg1);}
+.sl-notes-quick{display:flex!important;opacity:.96!important;}
+@media(min-width:391px){.sl-notes-quick{width:auto!important;min-width:58px!important;padding:0 10px!important;gap:6px!important}.sl-notes-quick::after{content:'Notes';font-size:10px;font-weight:850;letter-spacing:.02em;}}
+.song-meta,.set-meta,.set-key-note,.tools-sub,.workspace-card-sub,.workspace-detail-copy,.ss-sub,.wb-editor-sub,.wb-personal-sub{color:color-mix(in srgb,var(--txt2) 78%,var(--txt3))!important;}
+.tab-btn:not(.active){color:color-mix(in srgb,var(--txt2) 62%,var(--txt3))!important;}
+body.dark .wb-personal-local,body.dark .wb-editor-local{background:rgba(255,255,255,.09)!important;border:1px solid rgba(255,255,255,.14)!important;color:color-mix(in srgb,var(--txt2) 78%,#fff)!important;}
+.set-section-card{min-height:34px!important;margin:5px 0 5px!important;border-radius:12px!important;}
+.set-section-title{font-size:10.8px!important;letter-spacing:.065em!important;font-weight:850!important;}
+.set-section-card .drag-handle{min-width:38px!important;min-height:34px!important;padding:4px 8px 4px 0!important;}
+#bs-set-options .mi{font-weight:560!important;}
+#bs-set-options .wbsm-label{font-weight:560!important;}
+
+/* RC3: final swipe, export/PDF and subtle UI polish. */
+body.song-view-swiping #song-view .sv-hdr,
+body.song-view-swiping #song-view .sv-scroll,
+.song-transition-pane{
+  will-change:transform,opacity;
+  backface-visibility:hidden;
+  transform:translateZ(0);
+}
+.song-switching .song-transition-pane.incoming,
+.song-switching .song-transition-pane.outgoing{
+  box-shadow:none!important;
+}
+
+/* PDF preview: closer to v85 readability, less heavy framing, better page scale. */
+.wb-export-pdf-preview-hdr{
+  min-height:58px;
+  padding-left:16px!important;
+  padding-right:16px!important;
+  box-shadow:0 1px 0 color-mix(in srgb,var(--bdr) 72%,transparent);
+}
+.wb-export-pdf-preview-title{
+  font-size:16px!important;
+  font-weight:820!important;
+}
+.wb-export-pdf-preview-scroll{
+  background:linear-gradient(to bottom,#eaf0f3,#f6f8f9)!important;
+  padding:14px 10px calc(var(--sab) + 24px)!important;
+}
+.wb-export-pdf-page-stack{
+  gap:18px!important;
+}
+.wb-export-pdf-page-shell{
+  gap:8px!important;
+}
+.wb-export-pdf-preview-count{
+  color:color-mix(in srgb,var(--txt2) 82%,var(--txt3))!important;
+  font-size:12px!important;
+  font-weight:820!important;
+  letter-spacing:.015em;
+}
+.wb-export-pdf-page{
+  max-width:calc(100vw - 24px)!important;
+  border-radius:5px!important;
+  box-shadow:0 9px 24px rgba(16,55,74,.18)!important;
+  border:1px solid rgba(16,55,74,.08)!important;
+}
+@media (max-width:430px){
+  .wb-export-pdf-page{max-width:calc(100vw - 20px)!important;}
+  .wb-export-pdf-preview-scroll{padding-left:8px!important;padding-right:8px!important;}
+}
+.wb-export-song-title{font-size:18px!important;font-weight:840!important;letter-spacing:-.035em!important;}
+.wb-export-song-meta{font-size:10.2px!important;color:#56636c!important;}
+.wb-export-sheet{font-size:9.6px!important;line-height:1.26!important;color:#111820!important;}
+.wb-export-sheet.compact{font-size:8.15px!important;line-height:1.20!important;}
+.wb-export-sheet.large{font-size:10.9px!important;line-height:1.32!important;}
+.wb-export-ch{color:#6f812e!important;font-weight:860!important;}
+.wb-export-page-section,.wb-export-section{
+  color:#52616a!important;
+  background:#eef2f4!important;
+  border-color:#e1e7eb!important;
+  font-weight:860!important;
+}
+body.dark .wb-export-pdf-preview-scroll{
+  background:linear-gradient(to bottom,#071018,#0b121a)!important;
+}
+body.dark .wb-export-pdf-page{
+  box-shadow:0 12px 34px rgba(0,0,0,.44)!important;
+  border-color:rgba(255,255,255,.10)!important;
+}
+body.dark .wb-export-pdf-preview-btn.primary{
+  background:var(--accent-surface-strong)!important;
+  border-color:var(--accent-border)!important;
+  color:var(--accent)!important;
+}
+
+/* Bible loading state: more centered and visible, without changing data loading. */
+.bible-empty{
+  min-height:40vh!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  align-items:center!important;
+  text-align:center!important;
+  padding:36px 28px!important;
+}
+.bible-empty h3,.bible-empty .bible-empty-title{
+  font-size:18px!important;
+  font-weight:820!important;
+  color:var(--txt1)!important;
+  margin-bottom:8px!important;
+}
+.bible-empty p,.bible-empty .bible-empty-sub{
+  max-width:34ch!important;
+  color:var(--txt2)!important;
+}
+
+/* Minor v85-style readability: keep metadata visible without becoming primary. */
+.song-meta,.set-meta,.set-key-note,.tools-sub,.workspace-card-sub,.workspace-detail-copy,.ss-sub,.wb-editor-sub,.wb-personal-sub,.export-preview-meta,.ev-check-sub{
+  color:color-mix(in srgb,var(--txt2) 86%,var(--txt3))!important;
+}
+.tab-btn:not(.active){
+  color:color-mix(in srgb,var(--txt2) 72%,var(--txt3))!important;
+}
+.tools-title-sub,.tool-card-sub,.tools-kc-sub,.tools-pad-status{
+  color:color-mix(in srgb,var(--txt2) 88%,var(--txt3))!important;
+}
+body.dark .wb-personal-local,body.dark .wb-editor-local,body.dark .in-set-pill,body.dark .key-chip{
+  background:rgba(255,255,255,.10)!important;
+  border-color:rgba(255,255,255,.16)!important;
+  color:color-mix(in srgb,var(--txt2) 82%,#fff)!important;
+}
+
+/* Set-list sections and bottom sheets: less heavy, closer to v85. */
+.set-section-card{
+  min-height:32px!important;
+  padding-top:0!important;
+  padding-bottom:0!important;
+}
+.set-section-title{
+  font-size:10.2px!important;
+  letter-spacing:.06em!important;
+}
+#bs-set-options .mi,
+#bs-set-options .wbsm-label,
+#bs-song-menu .mi,
+#bs-song-menu .wbsm-label{
+  font-weight:520!important;
+}
+
+/* Notes/cues: keep compact indicator clear and avoid taking over the chart. */
+.song-note-preview-open.compact{
+  font-size:11.5px!important;
+  min-height:28px!important;
+  padding:4px 9px!important;
+}
+.song-note-preview-chip.cue{
+  background:rgba(217,52,72,.12)!important;
+  color:#b92d42!important;
+}
+
+/* Lyrics-only mode: keep the nicer font but reduce scale slightly. */
+#song-view .sheet.lyrics-readable,
+#song-view .sheet.lyrics-readable .sheet-line.lyric-only,
+#song-view .sheet.lyrics-readable .lyric-only-row{
+  font-size:calc(17.2px * var(--wb-text-scale,1))!important;
+  line-height:1.50!important;
 }
 </style>
 
@@ -3311,8 +3486,8 @@ body.dark .live-tool.has-notes{
 (function(root){
 'use strict';
 
-var VERSION='Rebuild_8.17RC2';
-var REBUILD_PHASE='RC2: interaction performance and song notes UX';
+var VERSION='Rebuild_8.17RC3';
+var REBUILD_PHASE='RC3: swipe smoothing and PDF/export visual polish';
 var REBUILD_REFERENCE='Working-v85.0-fixed.html';
 
 var ASSET_DEFAULTS={
@@ -4802,18 +4977,23 @@ root.WBSongFocusController={
 })(window);
 </script>
 <script id="wb-song-interaction-controller">
-/* WorshipBase RC2 song interaction controller.
+/* WorshipBase RC3 song interaction controller.
    Owns post-refactor interaction tuning contracts for song swipes, notes affordances and lyrics-only readability. */
 (function(root){
 'use strict';
 
 function songTransitionTiming(){return {
-  outgoing:'transform .30s cubic-bezier(.22,1,.32,1), opacity .22s ease',
-  incoming:'transform .30s cubic-bezier(.22,1,.32,1), opacity .14s linear',
-  cleanupMs:330,
-  swipeThreshold:68,
-  maxDrag:164,
-  dragFactor:.66
+  // RC3: lighter, more native-feeling adjacent-song swipe.
+  outgoing:'transform .25s cubic-bezier(.20,.82,.22,1), opacity .18s ease',
+  incoming:'transform .25s cubic-bezier(.20,.82,.22,1), opacity .12s linear',
+  cleanupMs:285,
+  swipeThreshold:54,
+  maxDrag:196,
+  dragFactor:.82,
+  releaseFactor:.70,
+  verticalCancelRatio:1.32,
+  lockDistance:9,
+  backThreshold:58
 };}
 function noteButtonHtml(id,label,extraClass){
   return '<button aria-label="'+label+'" class="sv-mini-action wb-notes-quick '+(extraClass||'')+'" id="'+id+'" type="button"><svg viewBox="0 0 24 24"><path d="M6 4h12v16H6z"></path><path d="M9 9h6M9 13h6M9 17h3"></path></svg></button>';
@@ -4824,7 +5004,7 @@ function setButtonHasContent(btn,has){
   btn.setAttribute('aria-pressed',has?'true':'false');
 }
 function readableLyricsClass(mode){return mode==='lyrics'?'lyrics-readable':'';}
-function reorderTouchTarget(){return {minWidth:46,minHeight:46};}
+function reorderTouchTarget(){return {minWidth:48,minHeight:48};}
 root.WBSongInteractionController={
   songTransitionTiming:songTransitionTiming,
   noteButtonHtml:noteButtonHtml,
@@ -6381,8 +6561,8 @@ var WBDom=window.WBDom||{};
 var PersonalSetController=window.WBPersonalSetController||{};
 var WorkspaceSetController=window.WBWorkspaceSetController||{};
 var SettingsController=window.WBSettingsController||{};
-var VERSION=WBConstants.VERSION||'Rebuild_8.17RC2';
-var REBUILD_PHASE=WBConstants.REBUILD_PHASE||'RC2: interaction performance and song notes UX';
+var VERSION=WBConstants.VERSION||'Rebuild_8.17RC3';
+var REBUILD_PHASE=WBConstants.REBUILD_PHASE||'RC3: swipe smoothing and PDF/export visual polish';
 var REBUILD_REFERENCE=WBConstants.REBUILD_REFERENCE||'Working-v85.0-fixed.html';
 
 var ASSET_CONFIG=Object.assign({},WBConstants.ASSET_DEFAULTS||{},(window.WB_ASSETS&&typeof window.WB_ASSETS==='object')?window.WB_ASSETS:{});
@@ -7696,7 +7876,7 @@ function renderSettings(){var list=qs('settings-list');if(!list)return;var scale
 +'</div></div>'
 +'<div class="ss-section" id="wb-backup-restore-section"><div class="ss-title">Backup &amp; Restore</div><div class="wb-settings-backup-card"><button class="wb-settings-backup-row wb-bc-entry-row" id="wb-backup-centre-entry-row" data-settings-action="backup" type="button">'+settingsIcon('backup')+'<div class="ss-body"><div class="ss-lbl">Backup Centre</div><div class="ss-sub">Local files and Google Drive backup in one place.</div></div><div class="ss-right"><span class="wb-bc-entry-pill">OPEN</span><svg fill="none" height="12" viewBox="0 0 7 12" width="7"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/></svg></div></button><div class="wb-settings-backup-summary"><div class="wb-settings-backup-grid"><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">My songs</div><div class="wb-settings-backup-mini-value">'+stats.localSongs+'</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Personal set lists</div><div class="wb-settings-backup-mini-value">'+stats.setLists+'</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Notes &amp; cues</div><div class="wb-settings-backup-mini-value">'+stats.notes+'</div></div><div class="wb-settings-backup-mini"><div class="wb-settings-backup-mini-label">Google Drive</div><div class="wb-settings-backup-mini-value">'+driveStatusValueHtml(stats)+'</div></div></div><div class="wb-settings-backup-footer">Drive backup is now wired for runtime OAuth and hidden appDataFolder storage.</div></div></div></div>'
 
-+adminToolsHtml()+'<div class="ss-section"><div class="ss-title">About</div><div class="ss-card"><div class="about-panel"><div class="wb-brand-mark" id="about-brand-mark" aria-hidden="true">'+wbMonogramSvg()+'</div><div class="about-copy"><div class="about-name" id="about-brand-name">WorshipBase</div><div class="about-version-pill">'+VERSION+'</div><div class="about-by">Created by <strong>Jerin Reji</strong></div><div class="admin-state-line '+(adminUnlocked?'unlocked':'')+'">'+(adminUnlocked?'Admin mode unlocked':'Tap logo for admin mode')+'</div></div></div></div></div>';
++adminToolsHtml()+'<div class="ss-section"><div class="ss-title">About</div><div class="ss-card"><div class="about-panel"><div class="wb-brand-mark" id="about-brand-mark" aria-hidden="true">'+wbMonogramSvg()+'</div><div class="about-copy"><div class="about-name" id="about-brand-name">WorshipBase</div><div class="about-version-pill">'+VERSION+'</div><div class="about-by">Created by <strong>Jerin Reji</strong></div>'+(adminUnlocked?'<div class="admin-state-line unlocked">Admin mode unlocked</div>':'')+'</div></div></div></div>';
 list.onclick=function(e){if(e.target.closest('#about-brand-mark')){adminUnlocked?lockAdminMode():openAdminPinSheet();return}var toggle=e.target.closest('[data-toggle-setting]');if(toggle){updateSetting(toggle.dataset.toggleSetting,!settings[toggle.dataset.toggleSetting]);return}var swatch=e.target.closest('[data-theme-value]');if(swatch){updateSetting('theme',swatch.dataset.themeValue);return}var choice=e.target.closest('[data-choice-key]');if(choice){openSettingsPicker(choice.dataset.choiceKey);return}var admin=e.target.closest('[data-admin-action]');if(admin){handleAdminAction(admin.dataset.adminAction);return}var action=e.target.closest('[data-settings-action]');if(action&&action.dataset.settingsAction==='backup'){openBackupCentre();return}if(action&&action.dataset.settingsAction==='reset-local'){if(confirm('Reset local rebuild songs, set lists and recents? Settings will be kept.'))resetLocalData();return}if(action&&action.dataset.settingsAction==='drive-auth'){if(cloudState.googleDrive.connected)openBackupCentre();else connectGoogleDriveInteractive();return}if(action&&action.dataset.settingsAction==='firebase-auth'){handleFirebaseSettingsAction();return}};
 list.oninput=function(e){if(e.target.matches('[data-text-size-slider]')){settings.textSize=e.target.value;e.target.style.setProperty('--pct',Math.round(((parseFloat(e.target.value)-.85)/.40)*100)+'%');persistSettings();applySettings()}};
 renderAllSettingsPickerOptions();
@@ -8041,7 +8221,7 @@ function saveSetNotes(){var set=currentSet();if(!set)return;set.setNotes=(qs('se
 function openSetNotes(){var set=currentSet();var ed=qs('set-notes-editor'),m=qs('bs-set-notes');if(ed)ed.value=(set&&set.setNotes)||'';if(m){m.classList.add('open');m.setAttribute('aria-hidden','false');setTimeout(function(){if(ed)ed.focus({preventScroll:true})},80)}}
 function openSongNotesSheet(){var set=currentSet(),s=songs.find(function(x){return x.id===state.selectedId});if(!set||!s){showToast('Open a set to save notes');return;}qs('song-notes-title').textContent='Notes & cues';qs('song-note-text').value=(set.songNotes&&set.songNotes[s.id])||'';qs('song-cue-text').value=(set.songCues&&set.songCues[s.id])||'';var m=qs('bs-song-notes');if(m){m.classList.add('open');m.setAttribute('aria-hidden','false')}}
 function saveSongNotes(){var set=currentSet(),s=songs.find(function(x){return x.id===state.selectedId});if(!set||!s)return;set.songNotes=set.songNotes||{};set.songCues=set.songCues||{};var n=(qs('song-note-text').value||'').trim(),c=(qs('song-cue-text').value||'').trim();if(n)set.songNotes[s.id]=n;else delete set.songNotes[s.id];if(c)set.songCues[s.id]=c;else delete set.songCues[s.id];syncSetCounts(set);persistSets();closeSheetElement(qs('bs-song-notes'));renderSetEditor();renderSettings();renderSongNotePreview();showToast('Notes saved')}
-function renderSongNotePreview(){var box=qs('song-note-preview');if(!box)return;var set=currentSet(),s=songs.find(function(x){return x.id===state.selectedId});if(!set||!s){box.classList.remove('show');box.innerHTML='';syncSongNotesQuickIndicator();return;}var note=(set.songNotes||{})[s.id]||'',cue=(set.songCues||{})[s.id]||'';if(!note&&!cue){box.classList.remove('show');box.innerHTML='';syncSongNotesQuickIndicator();return;}box.classList.add('show');box.innerHTML='<button class="song-note-preview-open" type="button" onclick="openSongNotesSheet()"><span class="song-note-preview-title">Notes & cues</span></button>'+(note?'<div>'+esc(note)+'</div>':'')+(cue?'<div class="song-note-preview-cue">Cue: '+esc(cue)+'</div>':'');syncSongNotesQuickIndicator()}
+function renderSongNotePreview(){var box=qs('song-note-preview');if(!box)return;var set=currentSet(),s=songs.find(function(x){return x.id===state.selectedId});if(!set||!s){box.classList.remove('show');box.innerHTML='';syncSongNotesQuickIndicator();return;}var note=(set.songNotes||{})[s.id]||'',cue=(set.songCues||{})[s.id]||'';if(!note&&!cue){box.classList.remove('show');box.innerHTML='';syncSongNotesQuickIndicator();return;}var parts=[];if(note)parts.push('<span class="song-note-preview-chip note">Note</span>');if(cue)parts.push('<span class="song-note-preview-chip cue">Cue</span>');var summary=note&&cue?'Notes + cue':(note?'Song note':'Cue');box.classList.add('show');box.innerHTML='<button class="song-note-preview-open compact" type="button" onclick="openSongNotesSheet()"><span class="song-note-preview-title">'+esc(summary)+'</span><span class="song-note-preview-chips">'+parts.join('')+'</span></button>';syncSongNotesQuickIndicator()}
 function currentSongNoteSet(){return currentSet()}
 function selectedSongHasNotes(){var set=currentSongNoteSet(),s=songs.find(function(x){return x.id===state.selectedId});if(!set||!s)return false;return !!((set.songNotes||{})[s.id]||(set.songCues||{})[s.id])}
 function syncSongNotesQuickIndicator(){var has=selectedSongHasNotes(),btn=qs('sv-notes-btn'),live=qs('live-tool-notes'),lbl=qs('live-notes-label');if(window.WBSongInteractionController&&window.WBSongInteractionController.setButtonHasContent){window.WBSongInteractionController.setButtonHasContent(btn,has);window.WBSongInteractionController.setButtonHasContent(live,has)}else{if(btn)btn.classList.toggle('has-notes',has);if(live)live.classList.toggle('has-notes',has)}if(lbl)lbl.textContent=has?'ON':'—'}
@@ -8412,11 +8592,12 @@ function showAdjacentSong(dir,opts){var origin=normalizeSongOrigin(state.lastSon
 function installSongSwipeBack(){
   var sv=qs('song-view');if(!sv||sv.dataset.swipeBackInstalled==='1')return;sv.dataset.swipeBackInstalled='1';
   var sx=0,sy=0,dx=0,tracking=false,mode='',locked=false;
+  function tune(){return window.WBSongInteractionController&&window.WBSongInteractionController.songTransitionTiming?window.WBSongInteractionController.songTransitionTiming():{swipeThreshold:54,maxDrag:196,dragFactor:.82,releaseFactor:.70,verticalCancelRatio:1.32,lockDistance:9,backThreshold:58}}
   function endSwipeClass(){document.body.classList.remove('song-view-swiping')}
   function resetAll(){tracking=false;locked=false;dx=0;mode='';sv.classList.remove('dragging-back','dragging-song');sv.style.transition='';sv.style.transform='';clearSongSwipeOffset();endSwipeClass()}
   sv.addEventListener('touchstart',function(e){var t=e.touches&&e.touches[0];if(!t||!sv.classList.contains('visible')||document.body.classList.contains('song-motion-freeze'))return;sx=t.clientX;sy=t.clientY;dx=0;locked=false;mode=sx<96?'back':'song';tracking=true;},{passive:true});
-  sv.addEventListener('touchmove',function(e){if(!tracking)return;var t=e.touches&&e.touches[0];if(!t)return;var x=t.clientX-sx,y=t.clientY-sy,ax=Math.abs(x),ay=Math.abs(y);if(!locked){if(ax<12&&ay<12)return;if(ay>ax*.85){tracking=false;endSwipeClass();clearSongSwipeOffset();return}locked=true;document.body.classList.add('song-view-swiping')}dx=x;if(mode==='back'&&x>0){sv.classList.add('dragging-back');sv.style.transition='none';var backX=Math.min(x*.56,(window.innerWidth||390)*.56);sv.style.transform='translate3d('+Math.round(backX)+'px,0,0)';sv.style.opacity=String(Math.max(.35,1-(backX/Math.max(1,(window.innerWidth||390)))*1.15));if(e.cancelable)e.preventDefault()}else if(mode==='song'&&ax>0){sv.classList.add('dragging-song');setSongSwipeOffset(Math.max(-164,Math.min(164,x*.66)),null,'none');if(e.cancelable)e.preventDefault()}},{passive:false});
-  sv.addEventListener('touchend',function(){if(!tracking){endSwipeClass();return}var was=dx,m=mode,releaseOffset=Math.max(-132,Math.min(132,was*.52));tracking=false;locked=false;dx=0;mode='';sv.classList.remove('dragging-back','dragging-song');if(m==='back'){endSwipeClass();if(was>62){prepareLibraryForSongReturn();sv.classList.add('closing-back');sv.style.transition='transform .16s cubic-bezier(.2,.75,.25,1), opacity .14s ease';sv.style.transform='translate3d(46%,0,0)';sv.style.opacity='0';setTimeout(function(){finishSongReturn(sv)},165);return}sv.style.transition='transform .18s cubic-bezier(.22,1,.32,1), opacity .16s ease';sv.style.transform='translate3d(0,0,0)';sv.style.opacity='1';setTimeout(function(){sv.style.transition='';sv.style.transform='';sv.style.opacity=''},190);return}sv.style.transition='';sv.style.transform='';if(m==='song'&&Math.abs(was)>68){endSwipeClass();showAdjacentSong(was<0?1:-1,{startOffset:releaseOffset});return}endSwipeClass();setSongSwipeOffset(0,null,'transform .16s cubic-bezier(.22,1,.32,1)');setTimeout(clearSongSwipeOffset,220)},{passive:true});
+  sv.addEventListener('touchmove',function(e){if(!tracking)return;var t=e.touches&&e.touches[0];if(!t)return;var cfg=tune(),x=t.clientX-sx,y=t.clientY-sy,ax=Math.abs(x),ay=Math.abs(y);if(!locked){if(ax<(cfg.lockDistance||9)&&ay<(cfg.lockDistance||9))return;if(ay>ax*(cfg.verticalCancelRatio||1.32)){tracking=false;endSwipeClass();clearSongSwipeOffset();return}locked=true;document.body.classList.add('song-view-swiping')}dx=x;if(mode==='back'&&x>0){sv.classList.add('dragging-back');sv.style.transition='none';var backX=Math.min(x*.60,(window.innerWidth||390)*.58);sv.style.transform='translate3d('+Math.round(backX)+'px,0,0)';sv.style.opacity=String(Math.max(.35,1-(backX/Math.max(1,(window.innerWidth||390)))*1.05));if(e.cancelable)e.preventDefault()}else if(mode==='song'&&ax>0){sv.classList.add('dragging-song');setSongSwipeOffset(Math.max(-(cfg.maxDrag||196),Math.min((cfg.maxDrag||196),x*(cfg.dragFactor||.82))),null,'none');if(e.cancelable)e.preventDefault()}},{passive:false});
+  sv.addEventListener('touchend',function(){if(!tracking){endSwipeClass();return}var cfg=tune(),was=dx,m=mode,releaseOffset=Math.max(-Math.round((cfg.maxDrag||196)*.80),Math.min(Math.round((cfg.maxDrag||196)*.80),was*(cfg.releaseFactor||.70)));tracking=false;locked=false;dx=0;mode='';sv.classList.remove('dragging-back','dragging-song');if(m==='back'){endSwipeClass();if(was>(cfg.backThreshold||58)){prepareLibraryForSongReturn();sv.classList.add('closing-back');sv.style.transition='transform .16s cubic-bezier(.2,.75,.25,1), opacity .14s ease';sv.style.transform='translate3d(46%,0,0)';sv.style.opacity='0';setTimeout(function(){finishSongReturn(sv)},165);return}sv.style.transition='transform .18s cubic-bezier(.22,1,.32,1), opacity .16s ease';sv.style.transform='translate3d(0,0,0)';sv.style.opacity='1';setTimeout(function(){sv.style.transition='';sv.style.transform='';sv.style.opacity=''},190);return}sv.style.transition='';sv.style.transform='';if(m==='song'&&Math.abs(was)>(cfg.swipeThreshold||54)){endSwipeClass();showAdjacentSong(was<0?1:-1,{startOffset:releaseOffset});return}endSwipeClass();setSongSwipeOffset(0,null,'transform .16s cubic-bezier(.22,1,.32,1)');setTimeout(clearSongSwipeOffset,220)},{passive:true});
   sv.addEventListener('touchcancel',function(){resetAll()},{passive:true});
 }
 

@@ -3,8 +3,8 @@
 (function(root){
 'use strict';
 
-var VERSION='Rebuild_8.17RC2';
-var REBUILD_PHASE='RC2: interaction performance and song notes UX';
+var VERSION='Rebuild_8.17RC3';
+var REBUILD_PHASE='RC3: swipe smoothing and PDF/export visual polish';
 var REBUILD_REFERENCE='Working-v85.0-fixed.html';
 
 var ASSET_DEFAULTS={
