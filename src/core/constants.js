@@ -3,8 +3,8 @@
 (function(root){
 'use strict';
 
-var VERSION='Rebuild_8.17AUDIT-FIX2';
-var REBUILD_PHASE='AUDIT-FIX2: Backup and Restore review cleanup';
+var VERSION='Rebuild_8.17AUDIT-FIX3';
+var REBUILD_PHASE='AUDIT-FIX3: Data safety UX';
 var REBUILD_REFERENCE='Working-v85.0-fixed.html';
 
 var ASSET_DEFAULTS={
@@ -31,7 +31,8 @@ var STORAGE_KEYS={
   cloud:'wb_rebuild_52_cloud',
   routeMemory:'wb_rebuild_52_route_memory',
   firebaseSongsCache:'wb_rebuild_52_firebase_song_cache',
-  bibleCache:'wb_rebuild_52_bible_cache'
+  bibleCache:'wb_rebuild_52_bible_cache',
+  backupHistory:'wb_rebuild_52_backup_history'
 };
 
 var DEFAULT_SETTINGS={

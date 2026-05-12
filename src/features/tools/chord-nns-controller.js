@@ -105,21 +105,49 @@ function chordIntervalsForQuality(qualityId){
   var map={major:[0,4,7],minor:[0,3,7],seven:[0,4,7,10],major7:[0,4,7,11],minor7:[0,3,7,10],sus2:[0,2,7],sus4:[0,5,7],dim:[0,3,6]};
   return map[qualityId]||map.major;
 }
-function pianoChordNotes(root,qualityId){
-  root=normalizeRoot(root);var useFlats=!!USE_FLATS[root], intervals=chordIntervalsForQuality(qualityId);
-  return intervals.map(function(i){return noteAt(root,i,useFlats);});
+function pianoChordNotes(root,qualityId,inversion){
+  root=normalizeRoot(root);qualityId=qualityId||'major';
+  var useFlats=!!USE_FLATS[root], intervals=chordIntervalsForQuality(qualityId).slice();
+  var notes=intervals.map(function(i){return {name:noteAt(root,i,useFlats),interval:i};});
+  inversion=Math.max(0,Math.min(notes.length-1,parseInt(inversion,10)||0));
+  if(inversion){
+    var rotated=notes.slice(inversion).concat(notes.slice(0,inversion).map(function(n){return {name:n.name,interval:n.interval+12};}));
+    notes=rotated;
+  }
+  return notes.map(function(n){return n.name;});
+}
+function pitchClassMap(notes){
+  var active={};(notes||[]).forEach(function(n){active[noteIndex(n)]=true});return active;
+}
+function pianoDiagramSvg(root,qualityId){
+  root=normalizeRoot(root);qualityId=qualityId||'major';
+  var q=QUALITIES.filter(function(q){return q.id===qualityId})[0]||QUALITIES[0];
+  var notes=pianoChordNotes(root,qualityId,0), active=pitchClassMap(notes);
+  var whites=['C','D','E','F','G','A','B','C','D','E','F','G','A','B'];
+  var whitePc=[0,2,4,5,7,9,11,0,2,4,5,7,9,11];
+  var blackAfter={C:1,D:3,F:6,G:8,A:10};
+  var x0=8,w=13.2,h=58,bw=8.8,bh=36,fullW=x0*2+(whites.length*w);
+  var out=['<svg class="chord-diagram-svg piano nns-piano-svg" viewBox="0 0 '+fullW+' 92" role="img" aria-label="'+root+q.suffix+' piano chord">'];
+  out.push('<g class="piano-white-keys">');
+  whites.forEach(function(k,i){out.push('<rect class="piano-white" x="'+(x0+i*w).toFixed(2)+'" y="14" width="'+w+'" height="'+h+'" rx="1.9"/>')});
+  out.push('</g><g class="piano-black-keys">');
+  whites.forEach(function(k,i){
+    if(i>=whites.length-1)return;
+    var pc=blackAfter[k];if(pc==null)return;
+    var bx=x0+i*w+w-(bw/2);
+    out.push('<rect class="piano-black" x="'+bx.toFixed(2)+'" y="14" width="'+bw+'" height="'+bh+'" rx="1.8"/>');
+    if(active[pc])out.push('<circle class="piano-dot-black" cx="'+(bx+bw/2).toFixed(2)+'" cy="37.5" r="2.55"/>');
+  });
+  out.push('</g><g class="piano-white-dots">');
+  whites.forEach(function(k,i){var pc=whitePc[i];if(active[pc])out.push('<circle class="piano-dot-white" cx="'+(x0+i*w+w/2).toFixed(2)+'" cy="63.5" r="3.15"/>')});
+  out.push('</g></svg>');
+  return out.join('');
 }
 function pianoDiagramHtml(root,qualityId){
   root=normalizeRoot(root);qualityId=qualityId||'major';
   var q=QUALITIES.filter(function(q){return q.id===qualityId})[0]||QUALITIES[0];
-  var notes=pianoChordNotes(root,qualityId), active={};notes.forEach(function(n){active[noteIndex(n)]=true});
-  var white=[{n:'C',i:0},{n:'D',i:2},{n:'E',i:4},{n:'F',i:5},{n:'G',i:7},{n:'A',i:9},{n:'B',i:11}];
-  var black=[{n:'C#',i:1,l:'Db'},{n:'D#',i:3,l:'Eb'},{n:'F#',i:6,l:'Gb'},{n:'G#',i:8,l:'Ab'},{n:'A#',i:10,l:'Bb'}];
-  var out=['<div class="nns-piano-wrap" role="img" aria-label="Piano chord diagram">','<div class="nns-piano-keys">'];
-  white.forEach(function(k){out.push('<div class="nns-piano-white '+(active[k.i]?'on':'')+'"><span>'+k.n+'</span></div>')});
-  black.forEach(function(k){out.push('<div class="nns-piano-black key-'+k.n.replace('#','s')+' '+(active[k.i]?'on':'')+'"><span>'+(active[k.i]?(notes.filter(function(n){return noteIndex(n)===k.i})[0]||k.n):k.l)+'</span></div>')});
-  out.push('</div><div class="nns-piano-notes"><strong>'+root+q.suffix+'</strong><span>'+notes.join(' · ')+'</span></div></div>');
-  return out.join('');
+  var notes=pianoChordNotes(root,qualityId,0);
+  return '<div class="nns-piano-wrap nns-piano-wrap-svg">'+pianoDiagramSvg(root,qualityId)+'<div class="nns-piano-notes"><strong>'+root+q.suffix+'</strong><span>'+notes.join(' · ')+'</span></div></div>';
 }
 function nnsTokenToInterval(token,mode){
   token=String(token||'').trim().replace(/º/g,'°').replace(/♭/g,'b').replace(/♯/g,'#');
@@ -258,56 +286,70 @@ var OPEN_DIAGRAMS={
   'Db':{frets:['x',4,6,6,6,4],barre:4,fingers:['','1','3','3','3','1'],base:4},
   'Dbm':{frets:['x',4,6,6,5,4],barre:4,fingers:['','1','3','4','2','1'],base:4},
 };
-function barreShape(root,quality){
+function barreEShape(root,quality){
   var idx=noteIndex(root), e=noteIndex('E'), fret=(idx-e+12)%12;
-  if(fret===0){
-    var open=root+(quality==='minor'?'m':quality==='seven'?'7':quality==='minor7'?'m7':'');
-    if(OPEN_DIAGRAMS[open])return OPEN_DIAGRAMS[open];
-  }
   if(fret<1)fret+=12;
   var frets, fingers;
   if(quality==='minor'){frets=[fret,fret+2,fret+2,fret,fret,fret];fingers=['1','3','4','1','1','1'];}
   else if(quality==='seven'){frets=[fret,fret+2,fret,fret+1,fret,fret];fingers=['1','3','1','2','1','1'];}
   else if(quality==='minor7'){frets=[fret,fret+2,fret,fret,fret,fret];fingers=['1','3','1','1','1','1'];}
+  else if(quality==='major7'){frets=[fret,fret+2,fret+1,fret+1,fret,fret];fingers=['1','3','2','2','1','1'];}
+  else if(quality==='sus2'){frets=[fret,fret+2,fret+4,fret+4,fret,fret];fingers=['1','2','4','4','1','1'];}
   else if(quality==='sus4'){frets=[fret,fret+2,fret+2,fret+3,fret,fret];fingers=['1','2','3','4','1','1'];}
   else if(quality==='dim'){frets=['x',fret,fret+1,fret+2,fret+1,'x'];fingers=['','1','2','4','3',''];}
   else {frets=[fret,fret+2,fret+2,fret+1,fret,fret];fingers=['1','3','4','2','1','1'];}
-  return {frets:frets,fingers:fingers,barre:fret,base:fret,shape:'moveable E-shape'};
+  return {frets:frets,fingers:fingers,barre:fret,base:fret,shape:'E-shape barre'};
 }
-function diagramFor(root,qualityId){
+function barreAShape(root,quality){
+  var idx=noteIndex(root), a=noteIndex('A'), fret=(idx-a+12)%12;
+  if(fret<1)fret+=12;
+  if(quality==='minor')return {frets:['x',fret,fret+2,fret+2,fret+1,fret],fingers:['','1','3','4','2','1'],barre:fret,base:fret,shape:'A-minor-shape barre'};
+  if(quality==='seven')return {frets:['x',fret,fret+2,fret,fret+2,fret],fingers:['','1','3','1','4','1'],barre:fret,base:fret,shape:'A7-shape barre'};
+  if(quality==='minor7')return {frets:['x',fret,fret+2,fret,fret+1,fret],fingers:['','1','3','1','2','1'],barre:fret,base:fret,shape:'Am7-shape barre'};
+  if(quality==='major7')return {frets:['x',fret,fret+2,fret+1,fret+2,fret],fingers:['','1','3','2','4','1'],barre:fret,base:fret,shape:'Amaj7-shape barre'};
+  if(quality==='sus2')return {frets:['x',fret,fret+2,fret+2,fret,fret],fingers:['','1','3','4','1','1'],barre:fret,base:fret,shape:'Asus2-shape barre'};
+  if(quality==='sus4')return {frets:['x',fret,fret+2,fret+2,fret+3,fret],fingers:['','1','2','3','4','1'],barre:fret,base:fret,shape:'Asus4-shape barre'};
+  if(quality==='dim')return null;
+  return {frets:['x',fret,fret+2,fret+2,fret+2,fret],fingers:['','1','3','3','3','1'],barre:fret,base:fret,shape:'A-shape barre'};
+}
+function sameFrets(a,b){return JSON.stringify((a&&a.frets)||[])===JSON.stringify((b&&b.frets)||[]);}
+function diagramVariations(root,qualityId){
   root=normalizeRoot(root);qualityId=qualityId||'major';
   var q=QUALITIES.filter(function(q){return q.id===qualityId})[0]||QUALITIES[0];
-  var name=root+q.suffix;
-  var direct=OPEN_DIAGRAMS[name];
-  return {name:name,quality:q.label,diagram:direct||barreShape(root,qualityId),hint:direct?'Open/common voicing':'Moveable voicing'};
+  var name=root+q.suffix, direct=OPEN_DIAGRAMS[name], variations=[];
+  if(direct)variations.push({name:name,quality:q.label,diagram:direct,hint:'Open/common voicing',label:'Open'});
+  var eShape=barreEShape(root,qualityId);if(eShape&&!variations.some(function(v){return sameFrets(v.diagram,eShape)}))variations.push({name:name,quality:q.label,diagram:eShape,hint:'Moveable voicing',label:'E shape'});
+  var aShape=barreAShape(root,qualityId);if(aShape&&!variations.some(function(v){return sameFrets(v.diagram,aShape)}))variations.push({name:name,quality:q.label,diagram:aShape,hint:'Moveable voicing',label:'A shape'});
+  if(!variations.length)variations.push({name:name,quality:q.label,diagram:eShape||OPEN_DIAGRAMS.C,hint:'Moveable voicing',label:'Shape'});
+  return variations.slice(0,3);
+}
+function diagramFor(root,qualityId,index){
+  var variations=diagramVariations(root,qualityId), i=Math.max(0,Math.min(variations.length-1,parseInt(index,10)||0));
+  var model=variations[i]||variations[0];
+  model.variationIndex=i;model.variationCount=variations.length;model.variations=variations;
+  return model;
 }
 function diagramSvg(model){
   var d=model&&model.diagram?model.diagram:diagramFor('C','major').diagram;
-  var frets=d.frets||[], base=d.base||0, w=260,h=220, x0=36, y0=38, sw=34, fh=29;
-  var out=['<svg class="nns-diagram-svg" viewBox="0 0 '+w+' '+h+'" role="img" aria-label="Chord diagram">'];
-  out.push('<text x="'+x0+'" y="20" class="nns-diagram-base">'+(base>1?('fret '+base):'open')+'</text>');
-  for(var s=0;s<6;s++){var x=x0+s*sw;out.push('<line x1="'+x+'" y1="'+y0+'" x2="'+x+'" y2="'+(y0+fh*4)+'" class="nns-diagram-line"/>');}
-  for(var f=0;f<5;f++){var y=y0+f*fh;out.push('<line x1="'+x0+'" y1="'+y+'" x2="'+(x0+sw*5)+'" y2="'+y+'" class="nns-diagram-line '+(f===0&&base===0?'nut':'')+'"/>');}
-  if(d.barre){var bf=d.barre-base+1;if(bf>=1&&bf<=4){var by=y0+(bf-.5)*fh;out.push('<rect x="'+(x0-10)+'" y="'+(by-9)+'" width="'+(sw*5+20)+'" height="18" rx="9" class="nns-diagram-dot barre"/>');}}
-  for(var i=0;i<6;i++){
-    var val=frets[i], x=x0+i*sw;
-    if(val==='x'||val==='X'){out.push('<text x="'+x+'" y="'+(y0-10)+'" class="nns-diagram-muted">×</text>');continue;}
-    if(Number(val)===0){out.push('<text x="'+x+'" y="'+(y0-10)+'" class="nns-diagram-muted">○</text>');continue;}
-    var rel=Number(val)-base+1;if(rel<1||rel>4)rel=1;
-    var y=y0+(rel-.5)*fh;
-    out.push('<circle cx="'+x+'" cy="'+y+'" r="10" class="nns-diagram-dot"/>');
-    var finger=(d.fingers&&d.fingers[i])||'';if(finger)out.push('<text x="'+x+'" y="'+(y+4)+'" class="nns-diagram-finger">'+finger+'</text>');
-  }
-  out.push('<text x="36" y="198" class="nns-diagram-strings">E      A      D      G      B      e</text>');
-  out.push('</svg>');
-  return out.join('');
+  var frets=d.frets||[], base=d.base||0, xs=[18,39,60,81,102,123], top=38, h=22;
+  var out=['<svg class="chord-diagram-svg guitar nns-diagram-svg" viewBox="0 0 142 160" role="img" aria-label="'+((model&&model.name)||'Chord')+' guitar diagram">'];
+  out.push('<g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">');
+  out.push('<path d="M18 '+top+'H123" stroke-width="'+(base<=1?4.2:2.2)+'"/>');
+  for(var f=1;f<=4;f++)out.push('<path d="M18 '+(top+f*h)+'H123" stroke-width="1.8" opacity=".78"/>');
+  xs.forEach(function(x){out.push('<path d="M'+x+' '+top+'V'+(top+4*h)+'" stroke-width="1.9" opacity=".86"/>')});
+  out.push('</g>');
+  if(base>1)out.push('<text x="132" y="'+(top+11)+'" fill="currentColor" font-size="11" font-weight="800">'+base+'</text>');
+  frets.forEach(function(fr,i){var x=xs[i],mark=fr==='x'||fr==='X'?'×':(Number(fr)===0?'○':'');if(mark)out.push('<text x="'+x+'" y="22" text-anchor="middle" fill="currentColor" font-size="16" font-weight="760">'+mark+'</text>')});
+  if(d.barre){var barreFrom=0,barreTo=5;if(String(frets[0]).toLowerCase()==='x')barreFrom=1;if(String(frets[5]).toLowerCase()==='x')barreTo=4;var y=top+(d.barre-base+.5)*h;out.push('<rect x="'+(xs[barreFrom]-7)+'" y="'+(y-5.5)+'" width="'+((xs[barreTo]-xs[barreFrom])+14)+'" height="11" rx="5.5" fill="currentColor"/>')}
+  frets.forEach(function(fr,i){if(typeof fr!=='number'||fr<=0)return;if(d.barre&&fr===d.barre)return;var y=top+(fr-base+.5)*h,x=xs[i],finger=(d.fingers&&d.fingers[i])||'';out.push('<circle cx="'+x+'" cy="'+y+'" r="8" fill="currentColor"/>');if(finger)out.push('<text x="'+x+'" y="'+(y+4)+'" text-anchor="middle" fill="var(--bg1,#fff)" font-size="10" font-weight="850">'+finger+'</text>')});
+  out.push('</svg>');return out.join('');
 }
 function chordName(root,qualityId){return diagramFor(root,qualityId).name;}
 root.WBChordNnsController={
   ROOTS:ROOTS,QUALITIES:QUALITIES,SCALES:SCALES,
-  normalizeRoot:normalizeRoot,scaleRows:scaleRows,scaleNoteList:scaleNoteList,scaleFormula:scaleFormula,relativeKey:relativeKey,qualityLegend:qualityLegend,theoryRows:theoryRows,pianoChordNotes:pianoChordNotes,pianoDiagramHtml:pianoDiagramHtml,
+  normalizeRoot:normalizeRoot,scaleRows:scaleRows,scaleNoteList:scaleNoteList,scaleFormula:scaleFormula,relativeKey:relativeKey,qualityLegend:qualityLegend,theoryRows:theoryRows,pianoChordNotes:pianoChordNotes,pianoDiagramSvg:pianoDiagramSvg,pianoDiagramHtml:pianoDiagramHtml,
   chordToNns:chordToNns,nnsToChord:nnsToChord,
   tokenizeProgression:tokenizeProgression,convertProgression:convertProgression,transposeProgression:transposeProgression,commonProgressions:commonProgressions,
-  diagramFor:diagramFor,diagramSvg:diagramSvg,chordName:chordName
+  diagramFor:diagramFor,diagramVariations:diagramVariations,diagramSvg:diagramSvg,chordName:chordName
 };
 })(window);

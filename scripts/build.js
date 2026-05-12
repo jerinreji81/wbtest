@@ -159,7 +159,7 @@ function main() {
 
   const ownershipViolations = ownershipChecks(shellHtml);
   if (ownershipViolations.length) {
-    console.error('AUDIT-FIX2 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
+    console.error('AUDIT-FIX3 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
     process.exit(1);
   }
 
@@ -176,13 +176,13 @@ function main() {
   }
 
   const manifest = {
-    phase: 'AUDIT-FIX2',
-    purpose: 'App-native dialog layer, admin ownership isolation, and audit package hardening',
+    phase: 'AUDIT-FIX3',
+    purpose: 'Data safety UX for destructive actions and import review' ,
     baseline: 'v8.17 stability freeze, RC3 notes/cues and readability cleanup; v85 reference artifact included',
     generatedAt: new Date().toISOString(),
     files: {
       'index.html': {
-        source: 'src/legacy/index.phase-d.html + RC1 targeted style fragment + injected RC1 modules',
+        source: 'src/legacy/index.phase-d.html + targeted polish CSS + injected modules',
         sha256: sha256(indexHtml),
         bytes: Buffer.byteLength(indexHtml, 'utf8'),
       },
@@ -209,7 +209,7 @@ function main() {
       inlineScriptSyntaxErrors: syntax.errors.length,
       styleBlocks: countStyleBlocks(indexHtml),
       ownershipViolations: ownershipViolations.length,
-      productBehaviourChanged: 'AUDIT-FIX2 replaces high-risk native dialogs with app-owned dialog flows and isolates admin unlock ownership; no feature redesign' ,
+      productBehaviourChanged: 'AUDIT-FIX3 adds undo affordances, delete impact summaries, and import review statuses while preserving ADD5.5 tools UI'  ,
       visualRedesign: false,
       attachedSongPdfWorkflows: 'cancelled / untouched',
     },
@@ -217,7 +217,7 @@ function main() {
 
   write(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
 
-  console.log('WorshipBase AUDIT-FIX2 build complete.');
+  console.log('WorshipBase AUDIT-FIX3 build complete.');
   console.log(`- ${path.relative(ROOT, DIST_INDEX)}`);
   console.log(`- ${path.relative(ROOT, DIST_SW)}`);
   console.log(`- ${path.relative(ROOT, MANIFEST)}`);

@@ -525,3 +525,86 @@ body.dark .backup-review-panel,body.dark .backup-review-option{background:rgba(2
 body.dark .backup-review-option.active{background:var(--accent-surface);border-color:var(--accent-border);}
 body.dark .backup-review-option.active .backup-review-check{background:var(--accent-strong);border-color:var(--accent-border);}
 body.dark .backup-review-spinner{border-color:rgba(255,255,255,.14);border-top-color:var(--accent);}
+
+/* AUDIT-FIX2.1 — Restore comparison, backup history, and workspace metadata contrast */
+.backup-review-comparison-table{width:100%;border-collapse:separate;border-spacing:0;margin-top:12px;overflow:hidden;border:1px solid var(--surface-border);border-radius:15px;background:var(--bg1);font-size:12px;}
+.backup-review-comparison-table th,.backup-review-comparison-table td{padding:10px 9px;border-top:1px solid var(--surface-border);text-align:left;color:var(--txt2);vertical-align:middle;}
+.backup-review-comparison-table thead th{border-top:0;font-size:10px;font-weight:850;letter-spacing:.06em;text-transform:uppercase;color:var(--txt3);background:var(--surface-tint);}
+.backup-review-comparison-table tbody th{font-size:12px;font-weight:850;color:var(--txt1);}
+.backup-review-comparison-table td{font-weight:760;}
+.backup-review-fewer-warning{margin:12px 0;padding:12px 14px;border-radius:16px;background:var(--wb-danger-fill);border:1px solid var(--wb-danger-border);color:var(--wb-danger-text);}
+.backup-review-fewer-warning[hidden]{display:none!important;}
+.backup-review-fewer-title{font-size:12px;font-weight:900;letter-spacing:-.01em;}
+.backup-review-fewer-copy{font-size:12px;line-height:1.42;margin-top:3px;font-weight:620;}
+.backup-centre-history-card{border:1px solid var(--wb-card-border);background:var(--wb-card-fill);border-radius:18px;box-shadow:var(--wb-card-shadow);padding:10px;}
+.backup-history-list{display:flex;flex-direction:column;gap:8px;}
+.backup-history-entry{border:1px solid var(--surface-border);background:var(--bg1);border-radius:14px;padding:10px 11px;}
+.backup-history-top{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.backup-history-label{font-size:13px;font-weight:850;color:var(--txt1);}
+.backup-history-kind{font-size:10px;font-weight:850;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border:1px solid var(--surface-border);background:var(--surface-tint);border-radius:999px;padding:4px 7px;white-space:nowrap;}
+.backup-history-time{font-size:11.5px;font-weight:720;color:var(--txt2);margin-top:4px;}
+.backup-history-detail,.backup-history-empty{font-size:12px;line-height:1.4;color:var(--txt2);margin-top:3px;}
+.workspace-subview-meta,.workspace-card-sub,.workspace-subview-sub{color:var(--txt2);}
+body.dark .workspace-subview-meta,body.dark .workspace-card-sub,body.dark .workspace-subview-sub{color:rgba(245,244,240,.76);}
+body.dark .backup-review-comparison-table,body.dark .backup-history-entry{background:rgba(255,255,255,.035);border-color:rgba(255,255,255,.09);}
+body.dark .backup-review-comparison-table th,body.dark .backup-review-comparison-table td{border-top-color:rgba(255,255,255,.085);}
+body.dark .backup-review-comparison-table thead th{background:rgba(255,255,255,.045);color:rgba(245,244,240,.62);}
+body.dark .backup-centre-history-card{background:var(--wb-sec-surface);border-color:var(--wb-sec-border);box-shadow:none;}
+body.dark .backup-history-kind{background:var(--accent-surface);border-color:var(--accent-border);color:var(--accent);}
+
+/* ADD5.5 — Music tools UI cleanup: picker sheets, Chord/NNS typography, and diagrams */
+.wb-tool-picker.open{align-items:flex-end;}
+.wb-tool-picker .tool-picker-sheet{max-height:min(82vh,620px);padding-bottom:calc(var(--sab) + 8px)!important;overflow:hidden;}
+.wb-tool-picker .tool-picker-body{padding-bottom:4px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.tool-picker-list{display:grid!important;gap:8px!important;padding:2px 0 8px!important;}
+.tool-picker-list.key-grid{grid-template-columns:repeat(4,minmax(0,1fr));}
+.tool-picker-list.quality-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+.tool-picker-list.stack{grid-template-columns:1fr;}
+.tool-picker-option{min-height:48px;border-radius:15px;border:1px solid var(--surface-border);background:var(--bg1);color:var(--txt1);display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 12px;font-family:inherit;font-size:14px;font-weight:790;letter-spacing:-.01em;text-align:left;}
+.tool-picker-list.key-grid .tool-picker-option{justify-content:center;padding:0 8px;font-size:15px;font-weight:850;}
+.tool-picker-list.quality-grid .tool-picker-option{min-height:46px;}
+.tool-picker-option.on{background:color-mix(in srgb,var(--accent) 12%,var(--bg1));border-color:color-mix(in srgb,var(--accent) 34%,var(--surface-border));color:var(--accent);}
+.tool-picker-label{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.tool-picker-check{display:none;font-weight:950;color:var(--accent);}
+.tool-picker-option.on .tool-picker-check{display:inline-flex;}
+.tool-picker-list.key-grid .tool-picker-check{position:absolute;opacity:0;}
+@media(max-width:360px){.tool-picker-list.key-grid{grid-template-columns:repeat(3,minmax(0,1fr));}.tool-picker-list.quality-grid{grid-template-columns:1fr;}}
+
+.nns-table{table-layout:fixed;min-width:0!important;font-size:12.5px;}
+.nns-table th{padding:9px 7px;font-size:9.5px;text-align:center;}
+.nns-table td{padding:10px 7px;text-align:center;vertical-align:middle;}
+.nns-table .nns-col-chord,.nns-table .nns-chord-cell{text-align:left;width:34%;}
+.nns-table .nns-col-quality,.nns-table .nns-quality-cell{width:23%;}
+.nns-table .nns-col-roman,.nns-table .nns-roman-cell{width:20%;}
+.nns-table .nns-col-number,.nns-table .nns-number-cell{width:23%;}
+.nns-table .nns-chord-cell strong{font-size:15px;font-weight:900;letter-spacing:-.02em;}
+.nns-quality-cell,.nns-roman-cell{font-weight:760;color:var(--txt2);}
+.nns-number-cell span{display:inline-flex;align-items:center;justify-content:center;min-width:34px;min-height:26px;border-radius:999px;background:color-mix(in srgb,var(--accent) 9%,var(--bg2));border:1px solid color-mix(in srgb,var(--accent) 18%,var(--surface-border));color:var(--accent);font-weight:900;letter-spacing:.01em;}
+
+.nns-diagram-field-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;}
+.nns-diagram-field-grid .tool-field{min-width:0;gap:5px;}
+.nns-diagram-field-grid .tool-field>span{font-size:9px;letter-spacing:.055em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.nns-diagram-field-grid .wb-picker-btn{min-height:42px;border-radius:14px;padding:7px 8px;gap:6px;}
+.nns-diagram-field-grid .wb-picker-btn strong{font-size:13px;font-weight:870;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.nns-diagram-field-grid .wb-picker-btn em{display:none;}
+.tool-chord-diagram-card{margin-top:14px!important;width:100%;min-height:0!important;padding:13px 10px 12px!important;background:var(--surface-tint)!important;box-shadow:none!important;}
+.tool-chord-diagram-card .chord-diagram-title{font-size:18px!important;margin-bottom:4px!important;}
+.nns-diagram-graphic{display:flex;align-items:center;justify-content:center;width:100%;min-height:154px;}
+.nns-diagram-graphic .chord-diagram-svg.guitar{max-width:132px;width:100%;}
+.nns-diagram-graphic .chord-diagram-svg.piano{max-width:242px;width:100%;}
+.nns-diagram-hint{margin-top:4px;font-size:11.5px!important;line-height:1.35;color:var(--txt3);font-weight:700;text-align:center;}
+.nns-diagram-variations{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin:2px 0 3px;}
+.nns-diagram-variations[hidden]{display:none!important;}
+.nns-variation-chip{min-height:30px;border-radius:999px;border:1px solid var(--surface-border);background:var(--bg1);color:var(--txt2);padding:0 10px;font-family:inherit;font-size:11px;font-weight:850;}
+.nns-variation-chip.active{background:color-mix(in srgb,var(--accent) 13%,var(--bg1));border-color:color-mix(in srgb,var(--accent) 32%,var(--surface-border));color:var(--accent);}
+.nns-piano-wrap-svg{max-width:260px;gap:7px;}
+.nns-piano-notes{font-size:12px;gap:8px;line-height:1.25;}
+.nns-piano-notes strong{font-size:14px;}
+
+.nns-advanced:not([open]){padding:0!important;border-radius:15px!important;margin-top:10px!important;margin-bottom:10px!important;}
+.nns-advanced:not([open]) summary{min-height:38px!important;padding:0 12px!important;font-size:13.5px!important;}
+.nns-advanced:not([open]) summary::after{font-size:15px;}
+.nns-advanced[open]{padding-top:0!important;}
+.nns-advanced[open] summary{min-height:44px!important;}
+body.dark .tool-picker-option,body.dark .tool-chord-diagram-card,body.dark .nns-variation-chip{background:var(--wb-sec-surface);border-color:var(--wb-sec-border);}
+body.dark .tool-picker-option.on,body.dark .nns-variation-chip.active,body.dark .nns-number-cell span{background:var(--accent-surface);border-color:var(--accent-border);color:var(--accent);}

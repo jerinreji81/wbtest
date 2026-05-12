@@ -6,6 +6,7 @@ function yesNo(value){return value?'Yes':'No';}
 function counts(plan){plan=plan||{};return {
   songs:asNumber(plan.songCount),
   sets:asNumber(plan.setCount),
+  notes:asNumber(plan.notesCount),
   settings:asNumber(plan.settingsCount),
   recents:asNumber(plan.recentCount),
   duplicates:asNumber(plan.dupeCount)
@@ -20,5 +21,13 @@ function restoreAvailability(plan){var c=counts(plan);return {
   settings:c.settings>0,
   recents:c.recents>0
 };}
-root.WBRestoreReviewController={counts:counts,yesNo:yesNo,hasSelection:hasSelection,selectedSummary:selectedSummary,fileLabel:fileLabel,sourceLabel:sourceLabel,availability:restoreAvailability};
+function comparisonRows(current,backup){current=current||{};backup=backup||{};return [
+  {label:'Songs',key:'songs',current:asNumber(current.songs),backup:asNumber(backup.songs)},
+  {label:'Set lists',key:'sets',current:asNumber(current.sets),backup:asNumber(backup.sets)},
+  {label:'Notes / cues',key:'notes',current:asNumber(current.notes),backup:asNumber(backup.notes)},
+  {label:'Settings',key:'settings',current:yesNo(current.settings),backup:yesNo(backup.settings)},
+  {label:'Recents',key:'recents',current:asNumber(current.recents),backup:asNumber(backup.recents)}
+];}
+function fewerMessages(current,backup,selection){current=current||{};backup=backup||{};selection=selection||{};var out=[];if(selection.songs&&asNumber(backup.songs)<asNumber(current.songs))out.push('songs');if(selection.sets&&asNumber(backup.sets)<asNumber(current.sets))out.push('set lists');if(selection.sets&&asNumber(backup.notes)<asNumber(current.notes))out.push('notes/cues');if(selection.recents&&asNumber(backup.recents)<asNumber(current.recents))out.push('recents');return out;}
+root.WBRestoreReviewController={counts:counts,yesNo:yesNo,hasSelection:hasSelection,selectedSummary:selectedSummary,fileLabel:fileLabel,sourceLabel:sourceLabel,availability:restoreAvailability,comparisonRows:comparisonRows,fewerMessages:fewerMessages};
 })();
