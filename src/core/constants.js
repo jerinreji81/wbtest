@@ -3,8 +3,8 @@
 (function(root){
 'use strict';
 
-var VERSION='Rebuild_8.17ADD5.3';
-var REBUILD_PHASE='ADD5.3: chord and NNS reference final polish';
+var VERSION='Rebuild_8.17AUDIT-FIX2';
+var REBUILD_PHASE='AUDIT-FIX2: Backup and Restore review cleanup';
 var REBUILD_REFERENCE='Working-v85.0-fixed.html';
 
 var ASSET_DEFAULTS={

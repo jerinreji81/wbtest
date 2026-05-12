@@ -36,11 +36,14 @@ const MODULES = [
   { id: 'wb-pad-audio-controller', file: path.join(ROOT, 'src', 'features', 'tools', 'pad-audio-controller.js') },
   { id: 'wb-chord-nns-controller', file: path.join(ROOT, 'src', 'features', 'tools', 'chord-nns-controller.js') },
   { id: 'wb-settings-controller', file: path.join(ROOT, 'src', 'features', 'settings', 'settings-controller.js') },
+  { id: 'wb-admin-controller', file: path.join(ROOT, 'src', 'features', 'settings', 'admin-controller.js') },
   { id: 'wb-backup-ui-controller', file: path.join(ROOT, 'src', 'features', 'backup', 'backup-ui-controller.js') },
+  { id: 'wb-restore-review-controller', file: path.join(ROOT, 'src', 'features', 'backup', 'restore-review-controller.js') },
   { id: 'wb-bible-controller', file: path.join(ROOT, 'src', 'features', 'tools', 'bible-controller.js') },
   { id: 'wb-export-pdf-format-controller', file: path.join(ROOT, 'src', 'features', 'export', 'pdf-format-controller.js') },
   { id: 'wb-feature-style-registry', file: path.join(ROOT, 'src', 'styles', 'feature-style-registry.js') },
   { id: 'wb-style-controller', file: path.join(ROOT, 'src', 'styles', 'style-controller.js') },
+  { id: 'wb-ui-dialog-controller', file: path.join(ROOT, 'src', 'ui', 'dialog-controller.js') },
   { id: 'wb-ui-dom', file: path.join(ROOT, 'src', 'ui', 'dom.js') },
 ];
 const DIST_DIR = path.join(ROOT, 'dist');
@@ -156,7 +159,7 @@ function main() {
 
   const ownershipViolations = ownershipChecks(shellHtml);
   if (ownershipViolations.length) {
-    console.error('Phase L2 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
+    console.error('AUDIT-FIX2 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
     process.exit(1);
   }
 
@@ -173,8 +176,8 @@ function main() {
   }
 
   const manifest = {
-    phase: 'ADD5.3',
-    purpose: 'Chord and NNS reference final polish and quick-reference helpers',
+    phase: 'AUDIT-FIX2',
+    purpose: 'App-native dialog layer, admin ownership isolation, and audit package hardening',
     baseline: 'v8.17 stability freeze, RC3 notes/cues and readability cleanup; v85 reference artifact included',
     generatedAt: new Date().toISOString(),
     files: {
@@ -206,7 +209,7 @@ function main() {
       inlineScriptSyntaxErrors: syntax.errors.length,
       styleBlocks: countStyleBlocks(indexHtml),
       ownershipViolations: ownershipViolations.length,
-      productBehaviourChanged: 'ADD5.3 refines Tools chord/NNS reference; no visual redesign' ,
+      productBehaviourChanged: 'AUDIT-FIX2 replaces high-risk native dialogs with app-owned dialog flows and isolates admin unlock ownership; no feature redesign' ,
       visualRedesign: false,
       attachedSongPdfWorkflows: 'cancelled / untouched',
     },
@@ -214,7 +217,7 @@ function main() {
 
   write(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
 
-  console.log('WorshipBase ADD5.3 build complete.');
+  console.log('WorshipBase AUDIT-FIX2 build complete.');
   console.log(`- ${path.relative(ROOT, DIST_INDEX)}`);
   console.log(`- ${path.relative(ROOT, DIST_SW)}`);
   console.log(`- ${path.relative(ROOT, MANIFEST)}`);

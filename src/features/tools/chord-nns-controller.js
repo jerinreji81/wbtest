@@ -1,6 +1,6 @@
-/* WorshipBase ADD5.3 Chord / NNS reference owner.
-   Owns number-system scale tables, chord <-> NNS conversion helpers, progression transpose helpers,
-   slash-chord handling, and guitar diagram lookup data. */
+/* WorshipBase ADD5.4 Chord / NNS reference owner.
+   Owns number-system scale tables, optional progression conversion, guitar/piano diagrams,
+   theory reference helpers, and WorshipBase-style picker data. */
 (function(root){
 'use strict';
 
@@ -11,7 +11,9 @@ var QUALITIES=[
   {id:'major',label:'Major',suffix:'',kind:'maj'},
   {id:'minor',label:'Minor',suffix:'m',kind:'min'},
   {id:'seven',label:'7',suffix:'7',kind:'dom7'},
+  {id:'major7',label:'Maj7',suffix:'maj7',kind:'maj7'},
   {id:'minor7',label:'m7',suffix:'m7',kind:'min7'},
+  {id:'sus2',label:'sus2',suffix:'sus2',kind:'sus2'},
   {id:'sus4',label:'sus4',suffix:'sus4',kind:'sus4'},
   {id:'dim',label:'dim',suffix:'dim',kind:'dim'}
 ];
@@ -82,6 +84,42 @@ function qualityLegend(mode){
     ? [['1m','Minor tonic'],['2°','Diminished'],['3','Major'],['4m','Minor'],['5m','Minor'],['6','Major'],['7','Major / flat seventh']]
     : [['1','Major tonic'],['2m','Minor'],['3m','Minor'],['4','Major'],['5','Major'],['6m','Minor'],['7°','Diminished']];
   return rows.map(function(r){return {nns:r[0],meaning:r[1]};});
+}
+
+function theoryRows(key,mode){
+  var notes=scaleNoteList(key,mode), formula=scaleFormula(mode), rel=relativeKey(key,mode);
+  var solfege=mode==='minor'?['Do','Re','Me','Fa','Sol','Le','Te']:['Do','Re','Mi','Fa','Sol','La','Ti'];
+  var functions=mode==='minor'
+    ? ['Tonic','Predominant','Tonic family','Predominant','Dominant','Predominant','Dominant']
+    : ['Tonic','Predominant','Tonic family','Predominant','Dominant','Tonic family','Dominant'];
+  return [
+    {label:'Scale pattern',value:(formula&&formula.steps)||''},
+    {label:'Number formula',value:(formula&&formula.numbers)||''},
+    {label:(rel&&rel.label)||'Relative key',value:(rel&&rel.key)||''},
+    {label:'Solfege',value:solfege.join(' · ')},
+    {label:'Function families',value:functions.join(' · ')},
+    {label:'Scale notes',value:notes.join(' · ')}
+  ];
+}
+function chordIntervalsForQuality(qualityId){
+  var map={major:[0,4,7],minor:[0,3,7],seven:[0,4,7,10],major7:[0,4,7,11],minor7:[0,3,7,10],sus2:[0,2,7],sus4:[0,5,7],dim:[0,3,6]};
+  return map[qualityId]||map.major;
+}
+function pianoChordNotes(root,qualityId){
+  root=normalizeRoot(root);var useFlats=!!USE_FLATS[root], intervals=chordIntervalsForQuality(qualityId);
+  return intervals.map(function(i){return noteAt(root,i,useFlats);});
+}
+function pianoDiagramHtml(root,qualityId){
+  root=normalizeRoot(root);qualityId=qualityId||'major';
+  var q=QUALITIES.filter(function(q){return q.id===qualityId})[0]||QUALITIES[0];
+  var notes=pianoChordNotes(root,qualityId), active={};notes.forEach(function(n){active[noteIndex(n)]=true});
+  var white=[{n:'C',i:0},{n:'D',i:2},{n:'E',i:4},{n:'F',i:5},{n:'G',i:7},{n:'A',i:9},{n:'B',i:11}];
+  var black=[{n:'C#',i:1,l:'Db'},{n:'D#',i:3,l:'Eb'},{n:'F#',i:6,l:'Gb'},{n:'G#',i:8,l:'Ab'},{n:'A#',i:10,l:'Bb'}];
+  var out=['<div class="nns-piano-wrap" role="img" aria-label="Piano chord diagram">','<div class="nns-piano-keys">'];
+  white.forEach(function(k){out.push('<div class="nns-piano-white '+(active[k.i]?'on':'')+'"><span>'+k.n+'</span></div>')});
+  black.forEach(function(k){out.push('<div class="nns-piano-black key-'+k.n.replace('#','s')+' '+(active[k.i]?'on':'')+'"><span>'+(active[k.i]?(notes.filter(function(n){return noteIndex(n)===k.i})[0]||k.n):k.l)+'</span></div>')});
+  out.push('</div><div class="nns-piano-notes"><strong>'+root+q.suffix+'</strong><span>'+notes.join(' · ')+'</span></div></div>');
+  return out.join('');
 }
 function nnsTokenToInterval(token,mode){
   token=String(token||'').trim().replace(/º/g,'°').replace(/♭/g,'b').replace(/♯/g,'#');
@@ -267,7 +305,7 @@ function diagramSvg(model){
 function chordName(root,qualityId){return diagramFor(root,qualityId).name;}
 root.WBChordNnsController={
   ROOTS:ROOTS,QUALITIES:QUALITIES,SCALES:SCALES,
-  normalizeRoot:normalizeRoot,scaleRows:scaleRows,scaleNoteList:scaleNoteList,scaleFormula:scaleFormula,relativeKey:relativeKey,qualityLegend:qualityLegend,
+  normalizeRoot:normalizeRoot,scaleRows:scaleRows,scaleNoteList:scaleNoteList,scaleFormula:scaleFormula,relativeKey:relativeKey,qualityLegend:qualityLegend,theoryRows:theoryRows,pianoChordNotes:pianoChordNotes,pianoDiagramHtml:pianoDiagramHtml,
   chordToNns:chordToNns,nnsToChord:nnsToChord,
   tokenizeProgression:tokenizeProgression,convertProgression:convertProgression,transposeProgression:transposeProgression,commonProgressions:commonProgressions,
   diagramFor:diagramFor,diagramSvg:diagramSvg,chordName:chordName
