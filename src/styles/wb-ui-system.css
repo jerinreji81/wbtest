@@ -1,0 +1,213 @@
+/* WorshipBase Phase 2b - B2 canonical UI system.
+   Source of truth for repeated app surfaces after the legacy shell.
+   Keep this file focused on shared patterns, not per-build patch layers. */
+
+:root{
+  --wb-ui-hero-min:92px;
+  --wb-ui-hero-radius:24px;
+  --wb-ui-card-radius:19px;
+  --wb-ui-card-min:72px;
+  --wb-ui-card-pad-y:14px;
+  --wb-ui-card-pad-x:16px;
+  --wb-ui-icon:40px;
+  --wb-ui-icon-radius:12px;
+  --wb-ui-back:46px;
+  --wb-ui-action:38px;
+  --wb-ui-meta:color-mix(in srgb,var(--txt2) 78%,var(--txt3));
+}
+
+/* Shared title/hero surfaces */
+.wb-personal-head,
+#wb-set-editor-bar,
+.workspace-hero,
+.workspace-subview-head,
+.tools-hero{
+  min-height:var(--wb-ui-hero-min)!important;
+  border-radius:var(--wb-ui-hero-radius)!important;
+  background:var(--wb-title-fill)!important;
+  border:1px solid var(--wb-title-border)!important;
+  box-shadow:none!important;
+}
+.wb-personal-head,
+.workspace-hero,
+.tools-hero{padding:18px 20px!important;margin-bottom:14px!important;}
+#wb-set-editor-bar,
+.workspace-subview-head{padding:15px 16px!important;margin:12px 16px 10px!important;gap:12px!important;}
+.workspace-subview-head{justify-content:flex-start!important;}
+.wb-personal-title,
+.workspace-title,
+.tools-title,
+.wb-editor-title,
+.workspace-subview-title,
+.tool-detail-title{
+  font-size:24px!important;
+  line-height:1.06!important;
+  font-weight:820!important;
+  letter-spacing:-.05em!important;
+  color:var(--txt1)!important;
+}
+.wb-editor-title,.workspace-subview-title{font-size:21px!important;}
+.wb-personal-meta,
+.wb-editor-sub,
+.workspace-sub,
+.workspace-subview-sub,
+.workspace-detail-copy,
+.tools-sub,
+.tool-card-sub,
+.workspace-card-sub,
+.wb-personal-card-meta,
+.workspace-subview-meta,
+.set-meta{
+  color:var(--wb-ui-meta)!important;
+  font-weight:520!important;
+}
+.wb-personal-local,.wb-editor-local{background:transparent!important;border:0!important;padding:0!important;color:inherit!important;font:inherit!important;}
+
+/* Shared back buttons */
+.wb-editor-back,
+.workspace-subview-back,
+.tool-back-circle{
+  width:var(--wb-ui-back)!important;
+  height:var(--wb-ui-back)!important;
+  min-width:var(--wb-ui-back)!important;
+  flex:0 0 var(--wb-ui-back)!important;
+  border-radius:999px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  background:color-mix(in srgb,var(--bg2) 92%,var(--surface-tint) 8%)!important;
+  border:1px solid var(--surface-border)!important;
+  color:var(--txt1)!important;
+  box-shadow:none!important;
+}
+.wb-editor-back svg,.workspace-subview-back svg,.tool-back-circle svg{width:20px!important;height:20px!important;display:block!important;}
+.wb-editor-back svg path,.workspace-subview-back svg path,.tool-back-circle svg path{stroke:currentColor!important;stroke-width:2.25!important;fill:none!important;stroke-linecap:round!important;stroke-linejoin:round!important;}
+
+/* Shared list cards and icons: copied from the Library avatar language. */
+.wb-personal-card,
+.workspace-subview-card,
+.workspace-card,
+.tool-card,
+.settings-row,
+.ss-card{
+  min-height:var(--wb-ui-card-min)!important;
+  padding:var(--wb-ui-card-pad-y) var(--wb-ui-card-pad-x)!important;
+  border-radius:var(--wb-ui-card-radius)!important;
+  border:1px solid var(--wb-card-border)!important;
+  background:var(--wb-card-fill)!important;
+  box-shadow:var(--wb-card-shadow)!important;
+}
+.workspace-card,.tool-card{gap:12px!important;margin-bottom:10px!important;}
+.wb-personal-name,.workspace-subview-name,.workspace-card-title,.tool-card-title,.settings-row-title,.ss-title{
+  font-size:15px!important;
+  line-height:1.22!important;
+  font-weight:660!important;
+  letter-spacing:-.018em!important;
+  color:var(--txt1)!important;
+}
+.workspace-card-icon,.tool-card-ico,.ss-icon,.settings-icon,.settings-row-icon,.ss-ico{
+  width:var(--wb-ui-icon)!important;
+  height:var(--wb-ui-icon)!important;
+  min-width:var(--wb-ui-icon)!important;
+  flex:0 0 var(--wb-ui-icon)!important;
+  border-radius:var(--wb-ui-icon-radius)!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  background:color-mix(in srgb,var(--tc) 7%,var(--bg2))!important;
+  border:1px solid color-mix(in srgb,var(--tc) 12%,var(--surface-border))!important;
+  color:color-mix(in srgb,var(--tc) 62%,var(--txt3))!important;
+  box-shadow:none!important;
+}
+.workspace-card-icon svg,.tool-card-ico svg,.ss-icon svg,.settings-icon svg,.settings-row-icon svg,.ss-ico svg{width:20px!important;height:20px!important;stroke:currentColor!important;stroke-width:1.85!important;fill:none;}
+
+/* Set-list editor control row: same grid and behaviour for Personal and Workspace. */
+.sl-hdr,.workspace-sl-hdr{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  align-items:center!important;
+  gap:8px!important;
+  min-height:48px!important;
+  padding:8px 16px 10px!important;
+  background:var(--bg1)!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+.sl-hdr-meta,.workspace-editor-meta{display:flex!important;align-items:center!important;gap:6px!important;min-width:0!important;overflow:hidden!important;}
+.sl-btns,.workspace-editor-actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:7px!important;flex:0 0 auto!important;}
+#sl-count,.workspace-editor-count{height:30px!important;padding:0 10px!important;border-radius:999px!important;background:rgba(16,55,74,.028)!important;color:var(--txt2)!important;font-size:11px!important;font-weight:850!important;white-space:nowrap!important;flex:0 0 auto!important;}
+.sl-set-key-info,.workspace-editor-key{height:30px!important;min-width:0!important;max-width:82px!important;padding:0 8px!important;border-radius:999px!important;border:1px solid color-mix(in srgb,var(--surface-border) 62%,transparent)!important;background:color-mix(in srgb,var(--surface-tint) 84%,transparent)!important;color:var(--txt2)!important;font-size:10.8px!important;font-weight:850!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+.sl-option-btn.icon-only,.sl-option-btn,.sl-notes-quick{width:38px!important;height:38px!important;min-width:38px!important;border-radius:999px!important;padding:0!important;display:flex!important;align-items:center!important;justify-content:center!important;}
+.sl-notes-quick::after{content:none!important;display:none!important;}
+.sl-clear-btn{height:38px!important;min-height:38px!important;padding:0 13px!important;border-radius:999px!important;font-size:12.5px!important;font-weight:820!important;}
+@media(max-width:380px){
+  .sl-hdr,.workspace-sl-hdr{padding-left:12px!important;padding-right:12px!important;}
+  .sl-hdr-meta,.workspace-editor-meta{gap:5px!important;}
+  #sl-count,.workspace-editor-count{padding:0 8px!important;font-size:10.5px!important;}
+  .sl-set-key-info,.workspace-editor-key{max-width:70px!important;font-size:10px!important;}
+  .sl-btns,.workspace-editor-actions{gap:6px!important;}
+  .sl-option-btn.icon-only,.sl-option-btn,.sl-notes-quick{width:36px!important;height:36px!important;min-width:36px!important;}
+  .sl-clear-btn{padding:0 11px!important;}
+}
+
+/* Set-list rows */
+.set-section-card{min-height:42px!important;border-radius:14px!important;}
+.set-section-title{font-size:13px!important;font-weight:900!important;letter-spacing:.085em!important;line-height:1.12!important;}
+.drag-handle{min-width:38px!important;min-height:40px!important;align-items:center!important;justify-content:center!important;touch-action:none!important;}
+.drag-handle span{width:20px!important;height:2.2px!important;}
+.add-fab,.workspace-add-fab{position:fixed!important;right:24px!important;bottom:calc(var(--tab-h) + var(--sab) + 16px)!important;z-index:28!important;box-shadow:0 10px 24px color-mix(in srgb,var(--accent) 18%,transparent)!important;}
+
+/* Bible: compact selector and app typography */
+.bible-combo{min-height:42px!important;margin:8px 16px!important;border-radius:15px!important;background:color-mix(in srgb,var(--bg2) 78%,var(--bg1))!important;border:1px solid var(--surface-border)!important;box-shadow:none!important;}
+.bible-combo-btn{height:42px!important;font-size:14.5px!important;font-weight:800!important;padding:0 12px!important;}
+.bible-combo-divider{height:18px!important;}
+.bible-scroll{padding:2px 18px calc(var(--sab) + 24px)!important;}
+.bible-card{background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important;}
+.bible-heading{padding:12px 0 10px!important;font-size:21px!important;font-weight:800!important;letter-spacing:-.03em!important;color:var(--txt1)!important;}
+.bible-heading-sub,.bible-copy-btn{display:none!important;}
+.bible-verse{gap:12px!important;padding:10px 0!important;border-top:.5px solid color-mix(in srgb,var(--bdr) 82%,transparent)!important;}
+.bible-vnum{width:26px!important;height:26px!important;min-width:26px!important;flex:0 0 26px!important;border-radius:999px!important;border:1px solid color-mix(in srgb,var(--accent) 18%,var(--surface-border))!important;background:color-mix(in srgb,var(--accent) 7%,var(--surface-tint))!important;color:var(--accent)!important;font-size:10.8px!important;font-weight:850!important;padding:0!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;}
+.bible-vtext{font-size:15.8px!important;line-height:1.66!important;font-weight:500!important;color:var(--txt1)!important;}
+
+/* Export / PDF preview: neutral print-first preview, no oversized glow. */
+.ev-chip.active,.export-preset.active,.export-preset-btn.active{background:var(--accent)!important;border-color:var(--accent)!important;color:var(--accent-fg)!important;}
+.wb-export-pdf-preview-view .wb-export-pdf-preview-hdr{background:var(--bg1)!important;border-bottom:1px solid var(--bdr)!important;box-shadow:none!important;}
+.wb-export-pdf-preview-title{font-size:17px!important;font-weight:820!important;color:var(--txt1)!important;}
+.wb-export-pdf-preview-btn{min-height:38px!important;padding:0 16px!important;border-radius:999px!important;border:1px solid var(--surface-border)!important;background:var(--bg2)!important;color:var(--txt2)!important;box-shadow:none!important;font-weight:760!important;}
+.wb-export-pdf-preview-btn.primary,.wb-export-pdf-preview-btn.save{background:var(--accent)!important;border-color:var(--accent)!important;color:var(--accent-fg)!important;box-shadow:none!important;}
+.wb-export-pdf-preview-scroll{background:#e9eef1!important;padding:12px 8px calc(var(--sab) + 24px)!important;}
+.wbpdf-svg,.wb-export-pdf-page{box-shadow:0 8px 18px rgba(16,55,74,.12)!important;border:1px solid rgba(16,55,74,.08)!important;border-radius:4px!important;}
+.wb-export-ch{color:#101820!important;font-weight:850!important;}
+.wb-export-section,.wb-export-page-section{color:#66727a!important;background:#eef2f4!important;border-color:#e2e8ec!important;}
+
+/* Chord/NNS: keep table inside app type scale. */
+.nns-table{font-size:12.8px!important;}
+.nns-table th{font-size:10.5px!important;font-weight:900!important;color:color-mix(in srgb,var(--txt2) 86%,var(--txt1))!important;padding:11px 10px!important;letter-spacing:.09em!important;}
+.nns-table td{padding:13px 10px!important;font-size:13px!important;}
+.nns-table td:first-child{padding-left:14px!important;}
+.nns-table td:not(:first-child),.nns-table th:not(:first-child){text-align:center!important;}
+
+body.dark .workspace-card-icon,body.dark .tool-card-ico,body.dark .ss-icon,body.dark .settings-icon,body.dark .settings-row-icon,body.dark .ss-ico{background:color-mix(in srgb,var(--accent) 12%,rgba(255,255,255,.035))!important;border-color:color-mix(in srgb,var(--accent) 22%,rgba(255,255,255,.10))!important;color:color-mix(in srgb,var(--accent) 78%,var(--txt2))!important;}
+body.dark .wb-personal-card,body.dark .workspace-subview-card,body.dark .workspace-card,body.dark .tool-card,body.dark .settings-row,body.dark .ss-card{background:var(--wb-sec-surface)!important;border-color:var(--wb-sec-border)!important;box-shadow:none!important;}
+body.dark .bible-combo,body.dark .tool-back-circle,body.dark .workspace-subview-back,body.dark .wb-editor-back{background:var(--wb-sec-surface-2)!important;border-color:var(--wb-sec-border)!important;}
+body.dark .bible-vnum{background:var(--accent-surface)!important;border-color:var(--accent-border)!important;color:var(--accent)!important;}
+body.dark .wb-export-pdf-preview-scroll{background:#071015!important;}
+body.dark .wb-export-pdf-preview-btn.primary,body.dark .wb-export-pdf-preview-btn.save{color:#000!important;}
+
+/* Phase 2b - B2 shared UI component aliases.
+   New/extracted renderers should use these classes instead of screen-specific duplicates. */
+.wb-ui-back{width:var(--wb-ui-back)!important;height:var(--wb-ui-back)!important;min-width:var(--wb-ui-back)!important;flex:0 0 var(--wb-ui-back)!important;border-radius:999px!important;display:flex!important;align-items:center!important;justify-content:center!important;background:color-mix(in srgb,var(--bg2) 92%,var(--surface-tint) 8%)!important;border:1px solid var(--surface-border)!important;color:var(--txt1)!important;box-shadow:none!important;padding:0!important;}
+.wb-ui-back svg{width:20px!important;height:20px!important;display:block!important;}
+.wb-ui-icon-btn{width:38px!important;height:38px!important;min-width:38px!important;border-radius:999px!important;padding:0!important;display:flex!important;align-items:center!important;justify-content:center!important;background:var(--bg2)!important;border:1px solid var(--surface-border)!important;color:var(--txt2)!important;box-shadow:none!important;}
+.wb-ui-icon-btn svg{width:19px!important;height:19px!important;display:block!important;}
+.wb-ui-meta{display:inline-flex!important;align-items:center!important;gap:5px!important;min-width:0!important;overflow:hidden!important;color:var(--wb-ui-meta)!important;font-weight:520!important;line-height:1.35!important;}
+.wb-ui-meta-dot{opacity:.72!important;}
+.wb-ui-card{min-height:var(--wb-ui-card-min)!important;padding:var(--wb-ui-card-pad-y) var(--wb-ui-card-pad-x)!important;border-radius:var(--wb-ui-card-radius)!important;border:1px solid var(--wb-card-border)!important;background:var(--wb-card-fill)!important;box-shadow:var(--wb-card-shadow)!important;color:var(--txt1)!important;display:flex!important;align-items:center!important;gap:12px!important;width:100%!important;text-align:left!important;}
+.wb-ui-card-icon{width:var(--wb-ui-icon)!important;height:var(--wb-ui-icon)!important;min-width:var(--wb-ui-icon)!important;flex:0 0 var(--wb-ui-icon)!important;border-radius:var(--wb-ui-icon-radius)!important;display:flex!important;align-items:center!important;justify-content:center!important;background:color-mix(in srgb,var(--tc) 7%,var(--bg2))!important;border:1px solid color-mix(in srgb,var(--tc) 12%,var(--surface-border))!important;color:color-mix(in srgb,var(--tc) 62%,var(--txt3))!important;box-shadow:none!important;}
+.wb-ui-card-main{min-width:0!important;display:flex!important;flex-direction:column!important;gap:4px!important;flex:1 1 auto!important;}
+.wb-ui-card-title{font-size:15px!important;line-height:1.22!important;font-weight:660!important;letter-spacing:-.018em!important;color:var(--txt1)!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;}
+.wb-ui-card-meta{font-size:12px!important;}
+.wb-ui-chip{height:24px!important;padding:0 8px!important;border-radius:999px!important;border:1px solid var(--surface-border)!important;background:var(--surface-tint)!important;color:var(--txt2)!important;font-size:10.7px!important;font-weight:820!important;display:inline-flex!important;align-items:center!important;white-space:nowrap!important;}
+.wb-ui-chip-note{background:color-mix(in srgb,var(--accent) 8%,var(--surface-tint))!important;border-color:color-mix(in srgb,var(--accent) 18%,var(--surface-border))!important;color:var(--accent)!important;}
+body.dark .wb-ui-icon-btn,body.dark .wb-ui-back,body.dark .wb-ui-card{background:var(--wb-sec-surface)!important;border-color:var(--wb-sec-border)!important;box-shadow:none!important;}
+body.dark .wb-ui-card-icon{background:color-mix(in srgb,var(--accent) 12%,rgba(255,255,255,.035))!important;border-color:color-mix(in srgb,var(--accent) 22%,rgba(255,255,255,.10))!important;color:color-mix(in srgb,var(--accent) 78%,var(--txt2))!important;}

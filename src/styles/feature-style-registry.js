@@ -5,7 +5,7 @@
 (function(root){
 'use strict';
 
-var PHASE='K4';
+var PHASE='Phase 2b - B2';
 
 var OWNERS=[
   {
@@ -13,56 +13,56 @@ var OWNERS=[
     owner:'legacy shell',
     eventualPath:'src/styles/app-shell.css',
     selectors:['#app','.hdr','.tab-bar','.route','.bs-bg','.bs'],
-    status:'legacy-consolidated-css'
+    status:'canonical-ui-system'
   },
   {
     id:'library',
-    owner:'future library feature owner',
+    owner:'src/styles/wb-ui-system.css until feature split',
     eventualPath:'src/features/library/library.css',
     selectors:['#song-section','.srch-wrap','.song-item','.alpha-letter','.filter-chip'],
-    status:'registry-only'
+    status:'canonical-token-consumer'
   },
   {
     id:'song-view',
     owner:'src/features/song',
     eventualPath:'src/features/song/song-view.css',
     selectors:['#song-view','.sv-hdr','.sheet','.pair-line','.live-tools','.pres-section-rail'],
-    status:'registry-only'
+    status:'canonical-token-consumer'
   },
   {
     id:'setlist',
     owner:'src/features/setlist',
     eventualPath:'src/features/setlist/setlist.css',
     selectors:['#setlist-section','#wb-personal-manager','#wb-set-editor','.set-item','.wb-personal-card'],
-    status:'registry-only'
+    status:'canonical-token-consumer'
   },
   {
     id:'workspace',
     owner:'src/features/workspace',
     eventualPath:'src/features/workspace/workspace.css',
     selectors:['#workspace-section','.workspace-card','.wb806-subview','.wb805-subview','.wb763-subview'],
-    status:'registry-only'
+    status:'canonical-token-consumer'
   },
   {
     id:'tools',
     owner:'src/features/tools',
     eventualPath:'src/features/tools/tools.css',
     selectors:['#tools-section','#bible-section','.bible-combo','.bible-picker-list','.pad-card'],
-    status:'registry-only'
+    status:'canonical-token-consumer'
   },
   {
     id:'settings',
     owner:'src/features/settings',
     eventualPath:'src/features/settings/settings.css',
     selectors:['#settings-section','.settings-card','.theme-sw','.setting-row'],
-    status:'registry-only'
+    status:'canonical-token-consumer'
   },
   {
     id:'backup',
     owner:'src/features/backup',
     eventualPath:'src/features/backup/backup.css',
     selectors:['#backup-section','.backup-card','.restore-review','.drive-row'],
-    status:'registry-only'
+    status:'canonical-token-consumer'
   },
   {
     id:'export-pdf',

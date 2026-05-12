@@ -1,7 +1,7 @@
-/* WorshipBase offline service worker — v8.17 AUDIT-FIX3.5
+/* WorshipBase offline service worker — Phase 2b - L4
    Network-first for the app shell so GitHub/PWA launches do not run a stale index.html.
    Network-first for Bible/PWA shell; cache-first only for static same-origin assets. */
-const WB_CACHE_VERSION = 'worshipbase-offline-v8-17-audit-fix3-5';
+const WB_CACHE_VERSION = 'worshipbase-offline-phase-2b-l8';
 const WB_CACHE_PREFIX = 'worshipbase-offline-';
 const WB_APP_SHELL = './';
 const WB_STATIC_ASSETS = [

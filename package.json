@@ -1,0 +1,13 @@
+{
+  "name": "worshipbase-architecture-refactor",
+  "private": true,
+  "version": "2.0.0-phase-2b-l8",
+  "description": "WorshipBase Phase 2b - L8 Manual browser parity sign-off / final completion gate.",
+  "scripts": {
+    "build": "node scripts/build.js && node scripts/phase-2b-check.js --write",
+    "phase-2b:check": "node scripts/phase-2b-check.js --write",
+    "phase-b:check": "node scripts/phase-2b-check.js --write",
+    "release:check": "node scripts/release-check.js"
+  },
+  "devDependencies": {}
+}

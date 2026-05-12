@@ -3,8 +3,8 @@
 (function(root){
 'use strict';
 
-var VERSION='Rebuild_8.17AUDIT-FIX3.5';
-var REBUILD_PHASE='AUDIT-FIX3.5: Set-list visual parity, Bible/PDF preview correction, and set-list UI audit';
+var VERSION='Phase 2b - L8';
+var REBUILD_PHASE='Phase 2b - L8: Manual browser parity sign-off / final completion gate';
 var REBUILD_REFERENCE='Working-v85.0-fixed.html';
 
 var ASSET_DEFAULTS={

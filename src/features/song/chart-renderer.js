@@ -220,7 +220,7 @@ function createAdapter(deps){
 }
 
 root.WBChartRenderer={
-  version:'Rebuild_8.17H1',
+  version:'Phase 2b - B2 chart-renderer',
   phase:'Phase H.1: chart parser and chord helper ownership extraction',
   createAdapter:createAdapter
 };

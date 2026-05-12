@@ -5,10 +5,10 @@
 (function(root){
 'use strict';
 
-var STYLE_PHASE='K4';
+var STYLE_PHASE='Phase 2b - B2';
 
 var OWNER_AREAS={
-  appShell:'legacy shell until final CSS split',
+  appShell:'src/styles/wb-ui-system.css + legacy shell',
   library:'features/library later + styles/library later',
   songView:'features/song + styles/song later',
   setList:'features/setlist + styles/setlist later',
