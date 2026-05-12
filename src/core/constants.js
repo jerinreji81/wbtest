@@ -3,8 +3,8 @@
 (function(root){
 'use strict';
 
-var VERSION='Rebuild_8.17AUDIT-FIX3.2';
-var REBUILD_PHASE='AUDIT-FIX3.2: Interaction, PDF/export, and Bible UI polish';
+var VERSION='Rebuild_8.17AUDIT-FIX3.4';
+var REBUILD_PHASE='AUDIT-FIX3.4: Set-list parity, key hierarchy, and PDF export correctness';
 var REBUILD_REFERENCE='Working-v85.0-fixed.html';
 
 var ASSET_DEFAULTS={
