@@ -159,7 +159,7 @@ function main() {
 
   const ownershipViolations = ownershipChecks(shellHtml);
   if (ownershipViolations.length) {
-    console.error('AUDIT-FIX3 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
+    console.error('AUDIT-FIX3.2 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
     process.exit(1);
   }
 
@@ -176,8 +176,8 @@ function main() {
   }
 
   const manifest = {
-    phase: 'AUDIT-FIX3',
-    purpose: 'Data safety UX for destructive actions and import review' ,
+    phase: 'AUDIT-FIX3.2',
+    purpose: 'Post-test polish fixes for tools diagrams, backup review, dialogs, and editor actions' ,
     baseline: 'v8.17 stability freeze, RC3 notes/cues and readability cleanup; v85 reference artifact included',
     generatedAt: new Date().toISOString(),
     files: {
@@ -209,7 +209,7 @@ function main() {
       inlineScriptSyntaxErrors: syntax.errors.length,
       styleBlocks: countStyleBlocks(indexHtml),
       ownershipViolations: ownershipViolations.length,
-      productBehaviourChanged: 'AUDIT-FIX3 adds undo affordances, delete impact summaries, and import review statuses while preserving ADD5.5 tools UI'  ,
+      productBehaviourChanged: 'AUDIT-FIX3.2 keeps AUDIT-FIX3.1 fixes and adds interaction, PDF/export, and Bible UI polish'  ,
       visualRedesign: false,
       attachedSongPdfWorkflows: 'cancelled / untouched',
     },
@@ -217,7 +217,7 @@ function main() {
 
   write(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
 
-  console.log('WorshipBase AUDIT-FIX3 build complete.');
+  console.log('WorshipBase AUDIT-FIX3.2 build complete.');
   console.log(`- ${path.relative(ROOT, DIST_INDEX)}`);
   console.log(`- ${path.relative(ROOT, DIST_SW)}`);
   console.log(`- ${path.relative(ROOT, MANIFEST)}`);

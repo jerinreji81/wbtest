@@ -105,26 +105,34 @@ function chordIntervalsForQuality(qualityId){
   var map={major:[0,4,7],minor:[0,3,7],seven:[0,4,7,10],major7:[0,4,7,11],minor7:[0,3,7,10],sus2:[0,2,7],sus4:[0,5,7],dim:[0,3,6]};
   return map[qualityId]||map.major;
 }
-function pianoChordNotes(root,qualityId,inversion){
+function pianoChordVoicing(root,qualityId,inversion){
   root=normalizeRoot(root);qualityId=qualityId||'major';
-  var useFlats=!!USE_FLATS[root], intervals=chordIntervalsForQuality(qualityId).slice();
-  var notes=intervals.map(function(i){return {name:noteAt(root,i,useFlats),interval:i};});
-  inversion=Math.max(0,Math.min(notes.length-1,parseInt(inversion,10)||0));
-  if(inversion){
-    var rotated=notes.slice(inversion).concat(notes.slice(0,inversion).map(function(n){return {name:n.name,interval:n.interval+12};}));
-    notes=rotated;
+  var useFlats=!!USE_FLATS[root], rootPc=noteIndex(root), intervals=chordIntervalsForQuality(qualityId).slice();
+  inversion=Math.max(0,Math.min(intervals.length-1,parseInt(inversion,10)||0));
+  var ordered=intervals.slice(inversion).concat(intervals.slice(0,inversion).map(function(i){return i+12;}));
+  var notes=ordered.map(function(i){return {name:noteAt(root,i,useFlats),abs:rootPc+i,interval:i};});
+  while(notes.length&&Math.max.apply(null,notes.map(function(n){return n.abs;}))>23&&Math.min.apply(null,notes.map(function(n){return n.abs;}))>=12){
+    notes=notes.map(function(n){return {name:n.name,abs:n.abs-12,interval:n.interval-12};});
   }
-  return notes.map(function(n){return n.name;});
+  return notes;
 }
-function pitchClassMap(notes){
-  var active={};(notes||[]).forEach(function(n){active[noteIndex(n)]=true});return active;
+function pianoChordNotes(root,qualityId,inversion){
+  return pianoChordVoicing(root,qualityId,inversion).map(function(n){return n.name;});
 }
-function pianoDiagramSvg(root,qualityId){
+function pianoDiagramVariations(root,qualityId){
+  var count=chordIntervalsForQuality(qualityId).length;
+  var labels=['Root position','1st inversion','2nd inversion','3rd inversion'];
+  return new Array(count).fill(0).map(function(_,i){return {index:i,label:labels[i]||('Inversion '+i),notes:pianoChordNotes(root,qualityId,i)};});
+}
+function absoluteNoteMap(voicing){
+  var active={};(voicing||[]).forEach(function(n){active[n.abs]=true});return active;
+}
+function pianoDiagramSvg(root,qualityId,inversion){
   root=normalizeRoot(root);qualityId=qualityId||'major';
   var q=QUALITIES.filter(function(q){return q.id===qualityId})[0]||QUALITIES[0];
-  var notes=pianoChordNotes(root,qualityId,0), active=pitchClassMap(notes);
+  var voicing=pianoChordVoicing(root,qualityId,inversion), active=absoluteNoteMap(voicing);
   var whites=['C','D','E','F','G','A','B','C','D','E','F','G','A','B'];
-  var whitePc=[0,2,4,5,7,9,11,0,2,4,5,7,9,11];
+  var whiteAbs=[0,2,4,5,7,9,11,12,14,16,17,19,21,23];
   var blackAfter={C:1,D:3,F:6,G:8,A:10};
   var x0=8,w=13.2,h=58,bw=8.8,bh=36,fullW=x0*2+(whites.length*w);
   var out=['<svg class="chord-diagram-svg piano nns-piano-svg" viewBox="0 0 '+fullW+' 92" role="img" aria-label="'+root+q.suffix+' piano chord">'];
@@ -134,20 +142,21 @@ function pianoDiagramSvg(root,qualityId){
   whites.forEach(function(k,i){
     if(i>=whites.length-1)return;
     var pc=blackAfter[k];if(pc==null)return;
+    var abs=pc+(i>=7?12:0);
     var bx=x0+i*w+w-(bw/2);
     out.push('<rect class="piano-black" x="'+bx.toFixed(2)+'" y="14" width="'+bw+'" height="'+bh+'" rx="1.8"/>');
-    if(active[pc])out.push('<circle class="piano-dot-black" cx="'+(bx+bw/2).toFixed(2)+'" cy="37.5" r="2.55"/>');
+    if(active[abs])out.push('<circle class="piano-dot-black" cx="'+(bx+bw/2).toFixed(2)+'" cy="37.5" r="2.55"/>');
   });
   out.push('</g><g class="piano-white-dots">');
-  whites.forEach(function(k,i){var pc=whitePc[i];if(active[pc])out.push('<circle class="piano-dot-white" cx="'+(x0+i*w+w/2).toFixed(2)+'" cy="63.5" r="3.15"/>')});
+  whites.forEach(function(k,i){var abs=whiteAbs[i];if(active[abs])out.push('<circle class="piano-dot-white" cx="'+(x0+i*w+w/2).toFixed(2)+'" cy="63.5" r="3.15"/>')});
   out.push('</g></svg>');
   return out.join('');
 }
-function pianoDiagramHtml(root,qualityId){
+function pianoDiagramHtml(root,qualityId,inversion){
   root=normalizeRoot(root);qualityId=qualityId||'major';
   var q=QUALITIES.filter(function(q){return q.id===qualityId})[0]||QUALITIES[0];
-  var notes=pianoChordNotes(root,qualityId,0);
-  return '<div class="nns-piano-wrap nns-piano-wrap-svg">'+pianoDiagramSvg(root,qualityId)+'<div class="nns-piano-notes"><strong>'+root+q.suffix+'</strong><span>'+notes.join(' · ')+'</span></div></div>';
+  var inv=Math.max(0,parseInt(inversion,10)||0), notes=pianoChordNotes(root,qualityId,inv), vars=pianoDiagramVariations(root,qualityId), label=(vars[inv]&&vars[inv].label)||'Root position';
+  return '<div class="nns-piano-wrap nns-piano-wrap-svg">'+pianoDiagramSvg(root,qualityId,inv)+'<div class="nns-piano-notes"><strong>'+root+q.suffix+'</strong><span>'+notes.join(' · ')+'</span><small>'+label+'</small></div></div>';
 }
 function nnsTokenToInterval(token,mode){
   token=String(token||'').trim().replace(/º/g,'°').replace(/♭/g,'b').replace(/♯/g,'#');
@@ -347,7 +356,7 @@ function diagramSvg(model){
 function chordName(root,qualityId){return diagramFor(root,qualityId).name;}
 root.WBChordNnsController={
   ROOTS:ROOTS,QUALITIES:QUALITIES,SCALES:SCALES,
-  normalizeRoot:normalizeRoot,scaleRows:scaleRows,scaleNoteList:scaleNoteList,scaleFormula:scaleFormula,relativeKey:relativeKey,qualityLegend:qualityLegend,theoryRows:theoryRows,pianoChordNotes:pianoChordNotes,pianoDiagramSvg:pianoDiagramSvg,pianoDiagramHtml:pianoDiagramHtml,
+  normalizeRoot:normalizeRoot,scaleRows:scaleRows,scaleNoteList:scaleNoteList,scaleFormula:scaleFormula,relativeKey:relativeKey,qualityLegend:qualityLegend,theoryRows:theoryRows,pianoChordVoicing:pianoChordVoicing,pianoChordNotes:pianoChordNotes,pianoDiagramVariations:pianoDiagramVariations,pianoDiagramSvg:pianoDiagramSvg,pianoDiagramHtml:pianoDiagramHtml,
   chordToNns:chordToNns,nnsToChord:nnsToChord,
   tokenizeProgression:tokenizeProgression,convertProgression:convertProgression,transposeProgression:transposeProgression,commonProgressions:commonProgressions,
   diagramFor:diagramFor,diagramVariations:diagramVariations,diagramSvg:diagramSvg,chordName:chordName
