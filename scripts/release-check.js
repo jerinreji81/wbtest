@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * WorshipBase AUDIT-FIX3.4 release preflight.
+ * WorshipBase AUDIT-FIX3.5 release preflight.
  * Run after `npm run build` from the repo root.
  */
 const fs = require('fs');
@@ -39,7 +39,7 @@ if (exists(path.join(DIST, 'index.html'))) {
   const html = fs.readFileSync(path.join(DIST, 'index.html'), 'utf8');
   const styleBlocks = count(/<style\b[^>]*>/gi, html);
   if (styleBlocks !== 1) errors.push(`Expected 1 consolidated style block, found ${styleBlocks}`);
-  if (!html.includes('Rebuild_8.17AUDIT-FIX3.4')) errors.push('Dist index does not contain Rebuild_8.17AUDIT-FIX3.4 version label');
+  if (!html.includes('Rebuild_8.17AUDIT-FIX3.5')) errors.push('Dist index does not contain Rebuild_8.17AUDIT-FIX3.5 version label');
   if (/attached song pdf/i.test(html) && !/cancelled|disabled|do not revive/i.test(html)) {
     warnings.push('Potential attached-song PDF wording found; verify cancelled workflow remains inactive.');
   }
@@ -47,7 +47,7 @@ if (exists(path.join(DIST, 'index.html'))) {
 
 if (exists(path.join(DIST, 'wb-offline-sw.js'))) {
   const sw = fs.readFileSync(path.join(DIST, 'wb-offline-sw.js'), 'utf8');
-  if (!sw.includes('audit-fix3-4')) errors.push('Service worker cache version does not contain audit-fix3-4');
+  if (!sw.includes('audit-fix3-5')) errors.push('Service worker cache version does not contain audit-fix3-5');
   if (!sw.includes('WB_SW_ACTIVATED')) warnings.push('Service worker activation message not found');
   if (!sw.includes('esv_chapter_package')) warnings.push('Bible package cache handling not found in service worker');
 }
@@ -58,7 +58,7 @@ if (exists(path.join(DIST, 'build-manifest.json'))) {
   catch (e) { errors.push('build-manifest.json is not valid JSON'); }
 }
 if (manifest) {
-  if (manifest.phase !== 'AUDIT-FIX3.4') errors.push(`Manifest phase is ${manifest.phase}, expected AUDIT-FIX3.4`);
+  if (manifest.phase !== 'AUDIT-FIX3.5') errors.push(`Manifest phase is ${manifest.phase}, expected AUDIT-FIX3.5`);
   if (manifest.validation && manifest.validation.styleBlocks !== 1) errors.push('Manifest style block count is not 1');
   for (const [name, meta] of Object.entries(manifest.files || {})) {
     const p = path.join(DIST, name);
@@ -66,7 +66,7 @@ if (manifest) {
   }
 }
 
-console.log('WorshipBase AUDIT-FIX3.4 release preflight');
+console.log('WorshipBase AUDIT-FIX3.5 release preflight');
 console.log('Runtime outputs:');
 for (const p of REQUIRED_RUNTIME) console.log(`- ${rel(p)} ${exists(p) ? 'OK' : 'MISSING'}`);
 if (warnings.length) {

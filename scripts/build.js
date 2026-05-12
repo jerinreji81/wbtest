@@ -159,7 +159,7 @@ function main() {
 
   const ownershipViolations = ownershipChecks(shellHtml);
   if (ownershipViolations.length) {
-    console.error('AUDIT-FIX3.4 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
+    console.error('AUDIT-FIX3.5 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
     process.exit(1);
   }
 
@@ -176,8 +176,8 @@ function main() {
   }
 
   const manifest = {
-    phase: 'AUDIT-FIX3.4',
-    purpose: 'Set-list parity, notes/key hierarchy, and PDF transpose correctness patch' ,
+    phase: 'AUDIT-FIX3.5',
+    purpose: 'Set-list visual parity, Bible/PDF preview correction, and set-list UI audit patch' ,
     baseline: 'v8.17 stability freeze, RC3 notes/cues and readability cleanup; v85 reference artifact included',
     generatedAt: new Date().toISOString(),
     files: {
@@ -209,7 +209,7 @@ function main() {
       inlineScriptSyntaxErrors: syntax.errors.length,
       styleBlocks: countStyleBlocks(indexHtml),
       ownershipViolations: ownershipViolations.length,
-      productBehaviourChanged: 'AUDIT-FIX3.4 keeps AUDIT-FIX3.3 visual corrections and fixes Personal/Workspace set-list parity, key persistence, and PDF chord transposition'  ,
+      productBehaviourChanged: 'AUDIT-FIX3.5 keeps AUDIT-FIX3.3 visual corrections and fixes Personal/Workspace set-list parity, key persistence, and PDF chord transposition'  ,
       visualRedesign: false,
       attachedSongPdfWorkflows: 'cancelled / untouched',
     },
@@ -217,7 +217,7 @@ function main() {
 
   write(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
 
-  console.log('WorshipBase AUDIT-FIX3.4 build complete.');
+  console.log('WorshipBase AUDIT-FIX3.5 build complete.');
   console.log(`- ${path.relative(ROOT, DIST_INDEX)}`);
   console.log(`- ${path.relative(ROOT, DIST_SW)}`);
   console.log(`- ${path.relative(ROOT, MANIFEST)}`);
