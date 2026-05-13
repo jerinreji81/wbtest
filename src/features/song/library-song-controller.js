@@ -69,7 +69,10 @@ function getSongSearchMatch(song,query,ctx){
   var lyricHit=textMatchesQuery(lyrics,query);
   if(scope==='title'&&!(titleHit||codeHit))return null;
   if(scope==='artist'&&!artistHit)return null;
-  if(scope==='lyrics'&&!lyricHit)return null;
+  if(scope==='lyrics'){
+    if(!lyricHit)return null;
+    titleHit=false;artistHit=false;codeHit=false;
+  }
   if(scope==='smart'&&!titleHit&&!artistHit&&!codeHit&&!lyricHit)return null;
   var score=0;
   var type='Lyric';
@@ -140,6 +143,8 @@ function heartIcon(on){
 function songRowHtml(song,match,ctx){
   ctx=ctx||{};
   var query=(match&&match.query)||'';
+  var rowScope=(ctx.state&&ctx.state.scope)||ctx.scope||'';
+  var titleQuery=rowScope==='lyrics'?'':query;
   var manage=!!ctx.manageMode;
   var selected=!!(ctx.manageSelectedIds||[]).includes(song.id);
   var snippet=(match&&match.snippet)?'<div class="song-snippet"><span class="song-match-label">'+esc(match.type||'Lyric',ctx)+'</span>'+highlightSearchHTML(match.snippet,query,ctx)+'</div>':'';
@@ -147,7 +152,7 @@ function songRowHtml(song,match,ctx){
   var copyIcon='<svg viewBox="0 0 17 17"><rect x="6" y="1" width="10" height="12" rx="2" stroke="currentColor" stroke-width="1.4"/><rect x="1" y="4" width="10" height="12" rx="2" stroke="currentColor" stroke-width="1.4"/></svg>';
   var addIcon='<svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2.5"/></svg>';
   var manageSelect=manage?'<button class="manage-select-circle '+(selected?'selected':'')+'" data-manage-select="'+esc(song.id,ctx)+'" type="button" aria-label="'+(selected?'Deselect':'Select')+' song">'+(selected?'<svg viewBox="0 0 20 20"><path d="M5 10.5l3.2 3.1L15.5 6"/></svg>':'')+'</button>':'';
-  return '<div class="song-row-wrap'+cls+'" data-alpha-row="'+esc(firstLetter(song,ctx),ctx)+'"><button class="song-row-reveal-l" data-song-swipe-action="copy" data-song-id="'+esc(song.id,ctx)+'" type="button" aria-label="Copy lyrics">'+copyIcon+'<span class="rv-lbl">Copy</span></button><button class="song-row-reveal-r" data-song-swipe-action="add" data-song-id="'+esc(song.id,ctx)+'" type="button" aria-label="Add to set">'+addIcon+'<span class="rv-lbl">Add</span></button><div class="song-item'+cls+(manage?' manage-mode-row':'')+'" role="button" tabindex="0" data-song-id="'+esc(song.id,ctx)+'">'+manageSelect+'<div class="song-avatar">'+musicIcon()+'</div><div class="song-info"><div class="song-title-row"><div class="song-title">'+(query?highlightSearchHTML(song.title,query,ctx):esc(song.title,ctx))+'</div>'+(song.inSet?'<span class="in-set-pill">In Set</span>':'')+'</div><div class="song-meta">'+(query?highlightSearchHTML(song.artist||'Unknown',query,ctx):esc(song.artist||'Unknown',ctx))+' · <span class="song-id-badge">'+esc(songCode(song,ctx),ctx)+'</span></div>'+snippet+'</div><button class="song-fav-btn '+(song.favorite?'on':'')+'" type="button" aria-label="Favourite">'+heartIcon(song.favorite)+'</button></div></div>';
+  return '<div class="song-row-wrap'+cls+'" data-alpha-row="'+esc(firstLetter(song,ctx),ctx)+'"><button class="song-row-reveal-l" data-song-swipe-action="copy" data-song-id="'+esc(song.id,ctx)+'" type="button" aria-label="Copy lyrics">'+copyIcon+'<span class="rv-lbl">Copy</span></button><button class="song-row-reveal-r" data-song-swipe-action="add" data-song-id="'+esc(song.id,ctx)+'" type="button" aria-label="Add to set">'+addIcon+'<span class="rv-lbl">Add</span></button><div class="song-item'+cls+(manage?' manage-mode-row':'')+'" role="button" tabindex="0" data-song-id="'+esc(song.id,ctx)+'">'+manageSelect+'<div class="song-avatar">'+musicIcon()+'</div><div class="song-info"><div class="song-title-row"><div class="song-title">'+(titleQuery?highlightSearchHTML(song.title,titleQuery,ctx):esc(song.title,ctx))+'</div>'+(song.inSet?'<span class="in-set-pill">In Set</span>':'')+'</div><div class="song-meta">'+(titleQuery?highlightSearchHTML(song.artist||'Unknown',titleQuery,ctx):esc(song.artist||'Unknown',ctx))+' · <span class="song-id-badge">'+esc(songCode(song,ctx),ctx)+'</span></div>'+snippet+'</div><button class="song-fav-btn '+(song.favorite?'on':'')+'" type="button" aria-label="Favourite">'+heartIcon(song.favorite)+'</button></div></div>';
 }
 function recentsHtml(recentIds,songs,ctx){
   return recentSongs(recentIds,songs,6).map(function(song){

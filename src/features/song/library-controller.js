@@ -39,7 +39,10 @@ function getSongSearchMatch(song,q,ctx){
   var titleHit=textMatchesQuery(title,q),artistHit=textMatchesQuery(artist,q),codeHit=textMatchesQuery(code,q),lyricHit=textMatchesQuery(lyrics,q);
   if(scope==='title'&&!(titleHit||codeHit))return null;
   if(scope==='artist'&&!artistHit)return null;
-  if(scope==='lyrics'&&!lyricHit)return null;
+  if(scope==='lyrics'){
+    if(!lyricHit)return null;
+    titleHit=false;artistHit=false;codeHit=false;
+  }
   if(scope==='smart'&&!titleHit&&!artistHit&&!codeHit&&!lyricHit)return null;
   var score=0,type='Lyric';
   if(titleHit){score=4000;type='Title';}
@@ -123,12 +126,14 @@ function songRowHtml(song,match,ctx){
   var esc=ctx.esc||fallbackEsc,firstLetter=ctx.firstLetter||function(s){var c=String(s&&s.title||'#').trim().charAt(0).toUpperCase();return /^[A-Z0-9]$/.test(c)?c:'#';};
   var musicIcon=ctx.musicIcon||function(){return '';},heartIcon=ctx.heartIcon||function(){return '';};
   var q=(match&&match.query)||'',manage=!!(ctx.adminUnlocked&&ctx.manageMode),selected=(ctx.manageSelectedIds||[]).indexOf(song.id)>=0;
+  var rowScope=(ctx.state&&ctx.state.scope)||ctx.scope||'';
+  var titleQuery=rowScope==='lyrics'?'':q;
   var snippet=(match&&match.snippet)?'<div class="song-snippet"><span class="song-match-label">'+esc(match.type||'Lyric')+'</span>'+highlightSearchHTML(match.snippet,q,esc)+'</div>':'';
   var cls=snippet?' search-result':'';
   var copyIcon='<svg viewBox="0 0 17 17"><rect x="6" y="1" width="10" height="12" rx="2" stroke="currentColor" stroke-width="1.4"/><rect x="1" y="4" width="10" height="12" rx="2" stroke="currentColor" stroke-width="1.4"/></svg>';
   var addIcon='<svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2.5"/></svg>';
   var manageSelect=manage?'<button class="manage-select-circle '+(selected?'selected':'')+'" data-manage-select="'+esc(song.id)+'" type="button" aria-label="'+(selected?'Deselect':'Select')+' song">'+(selected?'<svg viewBox="0 0 20 20"><path d="M5 10.5l3.2 3.1L15.5 6"/></svg>':'')+'</button>':'';
-  return '<div class="song-row-wrap'+cls+'" data-alpha-row="'+esc(firstLetter(song))+'"><button class="song-row-reveal-l" data-song-swipe-action="copy" data-song-id="'+esc(song.id)+'" type="button" aria-label="Copy lyrics">'+copyIcon+'<span class="rv-lbl">Copy</span></button><button class="song-row-reveal-r" data-song-swipe-action="add" data-song-id="'+esc(song.id)+'" type="button" aria-label="Add to set">'+addIcon+'<span class="rv-lbl">Add</span></button><div class="song-item'+cls+(manage?' manage-mode-row':'')+'" role="button" tabindex="0" data-song-id="'+esc(song.id)+'">'+manageSelect+'<div class="song-avatar">'+musicIcon()+'</div><div class="song-info"><div class="song-title-row"><div class="song-title">'+(q?highlightSearchHTML(song.title,q,esc):esc(song.title))+'</div>'+(song.inSet?'<span class="in-set-pill">In Set</span>':'')+'</div><div class="song-meta">'+(q?highlightSearchHTML(song.artist||'Unknown',q,esc):esc(song.artist||'Unknown'))+' · <span class="song-id-badge">'+esc((ctx.songCode||songCode)(song))+'</span></div>'+snippet+'</div><button class="song-fav-btn '+(song.favorite?'on':'')+'" type="button" aria-label="Favourite">'+heartIcon(song.favorite)+'</button></div></div>';
+  return '<div class="song-row-wrap'+cls+'" data-alpha-row="'+esc(firstLetter(song))+'"><button class="song-row-reveal-l" data-song-swipe-action="copy" data-song-id="'+esc(song.id)+'" type="button" aria-label="Copy lyrics">'+copyIcon+'<span class="rv-lbl">Copy</span></button><button class="song-row-reveal-r" data-song-swipe-action="add" data-song-id="'+esc(song.id)+'" type="button" aria-label="Add to set">'+addIcon+'<span class="rv-lbl">Add</span></button><div class="song-item'+cls+(manage?' manage-mode-row':'')+'" role="button" tabindex="0" data-song-id="'+esc(song.id)+'">'+manageSelect+'<div class="song-avatar">'+musicIcon()+'</div><div class="song-info"><div class="song-title-row"><div class="song-title">'+(titleQuery?highlightSearchHTML(song.title,titleQuery,esc):esc(song.title))+'</div>'+(song.inSet?'<span class="in-set-pill">In Set</span>':'')+'</div><div class="song-meta">'+(titleQuery?highlightSearchHTML(song.artist||'Unknown',titleQuery,esc):esc(song.artist||'Unknown'))+' · <span class="song-id-badge">'+esc((ctx.songCode||songCode)(song))+'</span></div>'+snippet+'</div><button class="song-fav-btn '+(song.favorite?'on':'')+'" type="button" aria-label="Favourite">'+heartIcon(song.favorite)+'</button></div></div>';
 }
 function emptyStateHtml(kind){
   if(kind==='search')return '<div class="library-empty"><div class="library-empty-title">No songs found</div><div class="library-empty-sub">Try another search or filter.</div></div>';
