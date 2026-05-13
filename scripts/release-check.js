@@ -9,7 +9,7 @@ const crypto = require('crypto');
 
 const ROOT = path.resolve(__dirname, '..');
 const DIST = path.join(ROOT, 'dist');
-const PHASE = 'Phase 2b - QA3';
+const PHASE = 'Phase 2b - QA4';
 const CACHE_TOKEN = 'phase-2b-l8';
 const REQUIRED_RUNTIME = [
   path.join(DIST, 'index.html'),

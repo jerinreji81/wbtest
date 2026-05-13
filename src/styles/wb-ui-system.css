@@ -289,11 +289,11 @@ body.dark .piano-key-label.black,body.dark .piano-black text{fill:#f8fafc!import
 .restore-review,.restore-review-panel,.backup-review,.backup-centre-restore-review{background:var(--bg1)!important;color:var(--txt1)!important;}.restore-comparison-table,.backup-restore-table{width:100%!important;border-collapse:separate!important;border-spacing:0 8px!important;table-layout:fixed!important;}.restore-comparison-table th,.backup-restore-table th{font-size:11px!important;font-weight:900!important;text-transform:uppercase!important;letter-spacing:.08em!important;color:var(--txt3)!important;text-align:left!important;}.restore-comparison-table td,.backup-restore-table td{background:var(--bg2)!important;border-top:1px solid var(--surface-border)!important;border-bottom:1px solid var(--surface-border)!important;padding:10px!important;color:var(--txt1)!important;font-size:14px!important;}.restore-comparison-table td:first-child,.backup-restore-table td:first-child{border-left:1px solid var(--surface-border)!important;border-radius:14px 0 0 14px!important;font-weight:850!important;}.restore-comparison-table td:last-child,.backup-restore-table td:last-child{border-right:1px solid var(--surface-border)!important;border-radius:0 14px 14px 0!important;}.restore-option-row,.backup-review-option,[data-backup-review-toggle]{background:var(--bg2)!important;border:1px solid var(--surface-border)!important;border-radius:16px!important;color:var(--txt1)!important;margin:8px 0!important;padding:12px 14px!important;}
 @media(max-width:520px){.tool-field-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px!important}.wb-picker-btn{min-height:46px!important;padding:0 12px!important}.wb-picker-btn strong{font-size:16px!important}.wb-picker-btn em{font-size:11px!important}.nns-table td{font-size:15px!important}.wb-personal-head,.wb-editor-head,.workspace-head,.workspace-detail-head{border-radius:22px!important}}
 
-/* Phase 2b - QA3 consolidated source-owned QA fixes. */
+/* Phase 2b - QA4 consolidated source-owned QA fixes. */
 :root{
-  --wb-ui-back:36px;
-  --wb-chevron-size:22px;
-  --wb-chevron-stroke:2.85;
+  --wb-ui-back:46px;
+  --wb-chevron-size:20px;
+  --wb-chevron-stroke:2.25;
   --wb-text-secondary:color-mix(in srgb,var(--txt2) 86%,var(--txt1) 14%);
   --wb-text-muted:color-mix(in srgb,var(--txt2) 76%,var(--txt3) 24%);
   --wb-row-divider:color-mix(in srgb,var(--bdr) 72%,transparent);
@@ -322,12 +322,38 @@ body.dark .wb-ui-back,body.dark .wb-editor-back,body.dark .workspace-subview-bac
 .wb-personal-card-meta,.workspace-subview-meta,.workspace-editor-meta,.tools-kc-suggestion span,.nns-summary-mini,.nns-ref-item span{color:var(--wb-text-secondary)!important;}
 body.dark .tools-sub,body.dark .tool-card-sub,body.dark .workspace-sub,body.dark .workspace-detail-copy{color:var(--wb-text-muted)!important;}
 
-/* Settings standard-card spacing: preserve avatar tiles and Backup Centre layout. */
+/* Settings standard-card spacing: preserve avatar tiles and Backup Centre layout.
+   The shared card token pads .ss-card globally; ordinary Settings rows also carry
+   their own row padding. Keep one owner only so Settings does not get a double
+   left inset. Backup Centre is explicitly excluded because its larger layout is
+   intentionally different. */
 #settings-section .ss-section:not(.backup-centre-section) > .ss-card:not(.backup-centre-card),
 #settings-section .settings-card:not(.backup-centre-card),
-#settings-section .wb-settings-card:not(.backup-centre-card){margin-left:0!important;margin-right:0!important;border-radius:20px!important;}
+#settings-section .wb-settings-card:not(.backup-centre-card){
+  margin-left:0!important;
+  margin-right:0!important;
+  padding:0!important;
+  overflow:hidden!important;
+  border-radius:20px!important;
+}
 #settings-section .ss-section:not(.backup-centre-section) .ss-row,
-#settings-section .settings-row{min-height:62px!important;padding-top:10px!important;padding-bottom:10px!important;}
+#settings-section .settings-row{
+  min-height:64px!important;
+  padding:12px 16px!important;
+}
+#settings-section .ss-section:not(.backup-centre-section) .ss-ico,
+#settings-section .ss-section:not(.backup-centre-section) .ss-icon,
+#settings-section .settings-icon,
+#settings-section .settings-row-icon{
+  width:34px!important;
+  height:34px!important;
+  min-width:34px!important;
+  flex:0 0 34px!important;
+  border-radius:10px!important;
+  margin-right:13px!important;
+}
+#settings-section .ss-section:not(.backup-centre-section) .ss-body,
+#settings-section .settings-row-body{min-width:0!important;}
 #settings-section .ss-section{margin-top:20px!important;}
 #settings-section .ss-section-title,#settings-section .settings-section-title{margin-left:4px!important;margin-bottom:8px!important;}
 #settings-section .backup-centre-card,#settings-section .backup-card{padding:inherit;}
@@ -338,8 +364,9 @@ body.dark .tools-sub,body.dark .tool-card-sub,body.dark .workspace-sub,body.dark
 .wb-editor-title,.workspace-subview-title{font-size:22px!important;line-height:1.08!important;}
 
 /* Library row separators restored from v85 rhythm. */
-.song-row-wrap,.song-item{border-bottom:1px solid var(--wb-row-divider)!important;}
-.song-row-wrap:last-child,.song-item:last-child{border-bottom-color:transparent!important;}
+#song-section .song-row-wrap{border-bottom:1px solid var(--wb-row-divider)!important;}
+#song-section .song-row-wrap .song-item,#song-section .song-item{border-bottom:0!important;}
+#song-section .song-row-wrap:last-child{border-bottom-color:transparent!important;}
 .alpha-heading,.song-group-label{border-bottom:0!important;}
 
 /* Import search rows: selectable circles instead of navigation arrows. */
@@ -418,3 +445,121 @@ body[data-theme="white"] #sv-focus-btn,body.theme-white #sv-focus-btn{color:#111
 .bible-version-sub{display:block!important;color:var(--wb-text-muted)!important;font-size:12.5px!important;line-height:1.35!important;white-space:normal!important;}
 .bible-version-item{align-items:center!important;gap:12px!important;}
 .bible-version-item .setdest-state{flex:0 0 auto!important;}
+
+/* QA4 component-level action/formatting corrections */
+.nns-ref-item strong::after{content:":";}
+.nns-diagram-title{width:100%!important;text-align:center!important;font-weight:850!important;color:var(--txt1)!important;}
+.nns-diagram-svg{width:100%!important;display:flex!important;justify-content:center!important;align-items:center!important;overflow:visible!important;}
+.tools-card,.nns-tool-card{overflow:visible!important;}
+.ug-result-item .pi-meta{color:var(--wb-text-secondary)!important;font-weight:650!important;}
+#song-section .song-row-wrap mark,#song-section .song-row-wrap .search-highlight{border-radius:5px!important;background:color-mix(in srgb,var(--accent) 14%,transparent)!important;box-shadow:none!important;}
+.wb-dialog-backdrop{position:fixed!important;inset:0!important;z-index:2147483000!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:24px!important;background:rgba(15,23,42,.35)!important;backdrop-filter:blur(8px)!important;pointer-events:auto!important;}
+.wb-dialog-box{width:min(92vw,390px)!important;border-radius:24px!important;background:var(--bg1)!important;color:var(--txt1)!important;border:1px solid var(--surface-border)!important;box-shadow:0 24px 80px rgba(0,0,0,.28)!important;padding:20px!important;pointer-events:auto!important;}
+.wb-dialog-title{font-size:20px!important;font-weight:900!important;margin-bottom:8px!important;color:var(--txt1)!important;}
+.wb-dialog-message{font-size:17px!important;font-weight:760!important;line-height:1.35!important;margin-bottom:8px!important;color:var(--txt1)!important;}
+.wb-dialog-detail{font-size:14px!important;line-height:1.45!important;color:var(--wb-text-secondary)!important;margin-bottom:16px!important;}
+.wb-dialog-actions{display:flex!important;justify-content:flex-end!important;gap:10px!important;margin-top:16px!important;}
+.wb-dialog-secondary,.wb-dialog-primary{min-height:44px!important;border-radius:16px!important;padding:0 18px!important;font-weight:850!important;border:1px solid var(--surface-border)!important;}
+.wb-dialog-secondary{background:var(--bg2)!important;color:var(--txt1)!important;}
+.wb-dialog-primary{background:var(--accent)!important;color:#fff!important;border-color:transparent!important;}
+.wb-dialog-primary.danger{background:#dc2626!important;}
+.wb-dialog-input{width:100%!important;min-height:48px!important;border-radius:16px!important;border:1px solid var(--surface-border)!important;background:var(--bg2)!important;color:var(--txt1)!important;padding:0 14px!important;font-size:16px!important;}
+
+/* QA4-F1: Dialog root owns its own top-layer stacking context so centre dialogs are tappable above fixed app panes. */
+#wb-dialog-root{position:fixed!important;inset:0!important;z-index:2147483600!important;pointer-events:none!important;display:block!important;}
+#wb-dialog-root .wb-dialog-backdrop{position:fixed!important;inset:0!important;z-index:2147483601!important;pointer-events:auto!important;}
+#wb-dialog-root .wb-dialog-box,#wb-dialog-root .wb-dialog-box *{pointer-events:auto!important;}
+
+/* QA4-F1: Library search rows keep one wrapper-owned divider and a full-height result card. */
+#song-section .song-row-wrap.search-result{height:92px!important;min-height:92px!important;border-bottom:1px solid var(--wb-row-divider)!important;background:var(--bg1)!important;}
+#song-section .song-row-wrap.search-result .song-item.search-result,#song-section .song-item.search-result{height:92px!important;min-height:92px!important;padding-top:0!important;align-items:center!important;border-bottom:0!important;background:var(--bg1)!important;}
+#song-section .song-row-wrap.search-result + .song-row-wrap.search-result{border-top:0!important;}
+/* QA4-F1 correction: keep the top-layer root itself hittable for mobile/touch hit-testing. */
+#wb-dialog-root{pointer-events:auto!important;}
+
+/* QA4-F1 final dialog hit-test state: no empty overlay; active dialog is a true top layer. */
+#wb-dialog-root{pointer-events:none!important;}
+#wb-dialog-root.active{pointer-events:auto!important;}
+#wb-dialog-root.active .wb-dialog-backdrop{pointer-events:auto!important;}
+
+/* QA4 Fix3: keep chord-diagram piano labels separated and readable. */
+.nns-piano-notes{display:flex;flex-direction:column;align-items:center;gap:4px;line-height:1.25;text-align:center;}
+.nns-piano-notes strong,.nns-piano-notes span,.nns-piano-notes small{display:block;}
+.nns-piano-tone-line{font-variant-numeric:tabular-nums;}
+.nns-piano-variation-label{opacity:.78;}
+
+/* QA4 RC1 visual gates: shared back/top-action/focus controls.
+   These are source-owned shared UI tokens, not page-level legacy shims. */
+#song-view:not(.song-focus):not(.performance-mode) #song-back-btn,
+#dup-review-back{
+  width:var(--wb-ui-back)!important;
+  height:var(--wb-ui-back)!important;
+  min-width:var(--wb-ui-back)!important;
+  flex:0 0 var(--wb-ui-back)!important;
+  border-radius:999px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  background:color-mix(in srgb,var(--bg2) 92%,var(--surface-tint) 8%)!important;
+  border:1px solid var(--surface-border)!important;
+  color:var(--txt1)!important;
+  box-shadow:none!important;
+  padding:0!important;
+}
+#song-view:not(.song-focus):not(.performance-mode) #song-back-btn svg,
+#dup-review-back svg{width:20px!important;height:20px!important;display:block!important;margin-right:0!important;}
+#song-view:not(.song-focus):not(.performance-mode) #song-back-btn svg path,
+#dup-review-back svg path{stroke:currentColor!important;stroke-width:2.25!important;fill:none!important;stroke-linecap:round!important;stroke-linejoin:round!important;}
+body.dark #song-view:not(.song-focus):not(.performance-mode) #song-back-btn,
+body.dark #dup-review-back{background:var(--wb-sec-surface-2)!important;border-color:var(--wb-sec-border)!important;color:var(--txt1)!important;}
+
+.editor-nav-btn,
+.ug-head-btn,
+.editor-save-btn,
+.ug-head-btn.primary,
+.ug-head-btn.secondary,
+.import-dup-nav,
+.import-dup-save,
+.ev-act-btn,
+.ev-ghost,
+.ev-primary{
+  min-height:38px!important;
+  border-radius:999px!important;
+  font-size:13.2px!important;
+  font-weight:850!important;
+  padding-left:14px!important;
+  padding-right:14px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  line-height:1!important;
+}
+.editor-nav-btn,
+.ug-head-btn:not(.primary):not(.secondary),
+.import-dup-nav,
+.ev-ghost{min-width:64px!important;background:transparent!important;color:var(--txt1)!important;}
+.editor-save-btn,
+.ug-head-btn.primary,
+.import-dup-save,
+.ev-primary,
+.ev-act-btn.primary{min-width:72px!important;background:var(--accent)!important;border-color:var(--accent)!important;color:var(--accent-fg)!important;box-shadow:none!important;}
+.ug-head-btn.secondary{min-width:58px!important;background:var(--surface-tint)!important;border:1px solid var(--surface-border)!important;color:var(--txt1)!important;}
+body.dark .editor-nav-btn,
+body.dark .ug-head-btn:not(.primary):not(.secondary),
+body.dark .import-dup-nav,
+body.dark .ev-ghost{color:var(--txt1)!important;}
+body.dark .editor-save-btn,
+body.dark .ug-head-btn.primary,
+body.dark .import-dup-save,
+body.dark .ev-primary,
+body.dark .ev-act-btn.primary{background:var(--accent)!important;border-color:var(--accent)!important;color:var(--accent-fg)!important;}
+body.dark .ug-head-btn.secondary{background:var(--wb-sec-surface-2)!important;border-color:var(--wb-sec-border)!important;color:var(--txt1)!important;}
+
+.sv-floating-focus.live-focus-fab{
+  background:var(--txt1)!important;
+  border:1px solid color-mix(in srgb,var(--txt1) 24%,var(--surface-border))!important;
+  color:var(--bg1)!important;
+  box-shadow:0 10px 24px color-mix(in srgb,var(--txt1) 16%,transparent)!important;
+}
+.sv-floating-focus.live-focus-fab svg{stroke:currentColor!important;stroke-width:2.35!important;}
+body.dark .sv-floating-focus.live-focus-fab{background:var(--txt1)!important;border-color:color-mix(in srgb,var(--txt1) 28%,var(--wb-sec-border))!important;color:var(--bg1)!important;}

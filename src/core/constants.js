@@ -3,8 +3,8 @@
 (function(root){
 'use strict';
 
-var VERSION='Phase 2b - QA3';
-var REBUILD_PHASE='Phase 2b - QA3: consolidated QA regression fixes';
+var VERSION='Phase 2b - QA4';
+var REBUILD_PHASE='Phase 2b - QA4: consolidated QA regression fixes';
 var REBUILD_REFERENCE='Working-v85.0-fixed.html';
 
 var ASSET_DEFAULTS={

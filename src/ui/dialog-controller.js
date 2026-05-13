@@ -27,6 +27,7 @@ function closeActive(result){
   var current=active;
   active=null;
   if(current.node&&current.node.parentNode)current.node.parentNode.removeChild(current.node);
+  try{var host=document.getElementById('wb-dialog-root');if(host&&!host.querySelector('.wb-dialog-backdrop'))host.classList.remove('active');}catch(e){}
   try{document.removeEventListener('keydown',current.keyHandler,true)}catch(e){}
   if(typeof current.resolve==='function')current.resolve(result);
 }
@@ -81,6 +82,7 @@ function dialog(options){
   });
   document.addEventListener('keydown',keyHandler,true);
   active={node:node,resolve:resolver,keyHandler:keyHandler};
+  host.classList.add('active');
   host.appendChild(node);
   focusFirst(node);
   return promise;

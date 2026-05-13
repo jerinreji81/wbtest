@@ -9,6 +9,7 @@ function escFallback(value){return String(value==null?'':value).replace(/[&<>"']
 function escapeFor(ctx,value){return (ctx&&ctx.escape?ctx.escape:escFallback)(value);}
 function qs(ctx,id){return ctx&&ctx.qs?ctx.qs(id):(ctx&&ctx.document?ctx.document.getElementById(id):null);}
 function qsa(ctx,selector){return ctx&&ctx.qsa?ctx.qsa(selector):(ctx&&ctx.document?Array.prototype.slice.call(ctx.document.querySelectorAll(selector)):[]);}
+function setlistsTitleEl(ctx){var d=doc(ctx);return qs(ctx,'workspace-subview-title')||(d&&d.querySelector&&d.querySelector('#workspace-setlists-panel .workspace-subview-title'));}
 function doc(ctx){return ctx&&ctx.document?ctx.document:root.document;}
 function workspaceName(ctx){var state=ctx&&ctx.workspaceState||{};return (state.profile&&state.profile.name)||'Workspace';}
 function workspaceDescription(ctx){var state=ctx&&ctx.workspaceState||{};return (state.profile&&state.profile.description)||'Team planning and shared sets';}
@@ -30,7 +31,7 @@ function showWorkspacePanel(ctx,panel){
   var sc=sec&&sec.querySelector('.workspace-scroll');if(sc)sc.scrollTo({top:0,behavior:'auto'});
   var d=doc(ctx),hero=d&&d.querySelector('#workspace-home-panel .workspace-title'),sub=d&&d.querySelector('#workspace-home-panel .workspace-sub');
   if(hero)hero.textContent=workspaceName(ctx);if(sub)sub.textContent=workspaceDescription(ctx);
-  var title=qs(ctx,'workspace-subview-title');if(title)title.textContent=workspaceName(ctx)+' Set Lists';
+  var title=setlistsTitleEl(ctx);if(title)title.textContent=workspaceName(ctx)+' Set Lists';
   if(ctx.persistRouteMemory)ctx.persistRouteMemory();
 }
 
@@ -40,7 +41,7 @@ function setListCardHtml(ctx,set){
   return '<button class="workspace-subview-card wb-personal-card" data-workspace-set="'+e(set&&set.id)+'" type="button"><span class="wb-personal-main workspace-card-main"><span class="wb-personal-name workspace-subview-name">'+e((set&&set.name)||'Untitled set')+'</span><span class="wb-personal-card-meta workspace-subview-meta"><span>'+e(countLabel(ctx,set))+'</span>'+notes+'<span>'+e(dateLabel(ctx,set))+'</span></span></span><span class="workspace-card-actions wb-personal-actions"><span class="wb-card-btn danger" data-workspace-delete="'+e(set&&set.id)+'" aria-hidden="true">×</span></span></button>';
 }
 function renderWorkspaceSetLists(ctx){
-  ctx=ctx||{};var state=ctx.workspaceState||{};var title=qs(ctx,'workspace-subview-title');if(title)title.textContent=workspaceName(ctx)+' Set Lists';
+  ctx=ctx||{};var state=ctx.workspaceState||{};var title=setlistsTitleEl(ctx);if(title)title.textContent=workspaceName(ctx)+' Set Lists';
   var list=qs(ctx,'workspace-subview-list');if(!list)return false;
   arr(state.sets).forEach(function(set){syncCounts(ctx,set);});
   var editor=setEditor();

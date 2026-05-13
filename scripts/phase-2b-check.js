@@ -13,8 +13,8 @@ const ROOT = path.resolve(__dirname, '..');
 const SRC = path.join(ROOT, 'src');
 const DIST = path.join(ROOT, 'dist');
 const DOCS = path.join(ROOT, 'docs');
-const PHASE = 'Phase 2b - QA3';
-const VERSION = 'Phase 2b - QA3';
+const PHASE = 'Phase 2b - QA4';
+const VERSION = 'Phase 2b - QA4';
 const CACHE_TOKEN = 'phase-2b-l8';
 const WRITE = process.argv.includes('--write');
 const STRICT = process.argv.includes('--strict');
@@ -277,8 +277,8 @@ if (rebuildHitsInActive.length) errors.push('Active source still contains Rebuil
 
 const gates = {
   requiredDocsPresent: requiredDocs.every(name => exists(path.join(DOCS, name))),
-  phaseVersionInConstants: constantsText.includes("var VERSION='Phase 2b - QA3'"),
-  phaseVersionInDist: distHtml.includes('Phase 2b - QA3'),
+  phaseVersionInConstants: constantsText.includes("var VERSION='Phase 2b - QA4'"),
+  phaseVersionInDist: distHtml.includes('Phase 2b - QA4'),
   noRebuild817InActiveDist: !/Rebuild_8\.17/.test(distHtml + '\n' + distSwText),
   serviceWorkerCacheBumped: distSwText.includes(CACHE_TOKEN),
   noTargetedPolishInjection: !buildText.includes('targeted-polish.css'),

@@ -176,7 +176,7 @@ function commitImportedDrafts(drafts,opts,ctx){
 function mapBackendSong(raw,kind,ctx){
   raw=raw||{};
   if(kind==='ug'&&ctx.normalizeUgImportedSong)return ctx.normalizeUgImportedSong(raw);
-  return ctx.normalizeImportedSong({id:raw.id||raw.importId,title:raw.title||raw.name,artist:raw.artist||raw.author,key:raw.key||raw.originalKey||raw.scale,cat:kind==='sop'?'malayalam':'english',chart:raw.chart||raw.content||raw.lyrics||raw.text,bpm:raw.bpm,timeSig:raw.timeSig||raw.timeSignature,url:raw.url||raw.sourceUrl,code:raw.code},kind);
+  return ctx.normalizeImportedSong({id:raw.id||raw.importId,title:raw.title||raw.name,artist:raw.artist||raw.author,key:raw.key||raw.originalKey||raw.scale,originalKey:raw.originalKey||raw.key||raw.scale,chartKey:raw.chartKey||raw.originalKey||raw.key||raw.scale,sourceKey:raw.sourceKey||raw.originalKey||raw.key||raw.scale,tabType:raw.tabType||raw.type||raw.resultType,rating:raw.rating||raw.stars||raw.score,cat:kind==='sop'?'malayalam':'english',chart:raw.chart||raw.content||raw.lyrics||raw.text,bpm:raw.bpm,timeSig:raw.timeSig||raw.timeSignature,url:raw.url||raw.sourceUrl,code:raw.code},kind);
 }
 function searchImport(kind,ctx){
   var isSop=kind==='sop',q=trimmed(ctx.qv(isSop?'sop-search-query':'ug-import-query',''));

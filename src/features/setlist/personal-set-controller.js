@@ -225,6 +225,73 @@ function preserveSetArray(sets){
   return asArray(sets).map(function(set){return syncCounts(set);});
 }
 
+
+function callCtx(ctx,name,args){
+  var fn=ctx&&ctx[name];
+  if(typeof fn==='function')return fn.apply(null,args||[]);
+}
+function oneTime(el,key,handler){
+  if(!el||!handler)return false;
+  key='wbPersonal'+key;
+  if(el.dataset&&el.dataset[key])return false;
+  if(el.dataset)el.dataset[key]='1';
+  el.addEventListener('click',handler);
+  return true;
+}
+function bindPersonalSetControls(ctx){
+  ctx=ctx||{};
+  var qs=ctx.qs||function(){return null;};
+  var list=qs('wb-personal-list');
+  oneTime(list,'ListActions',function(e){
+    var del=e.target.closest&&e.target.closest('[data-delete-set],.wb-card-btn.danger');
+    if(del){
+      e.preventDefault();e.stopPropagation();
+      var id=del.dataset&&del.dataset.deleteSet;
+      if(!id){var card=del.closest&&del.closest('[data-set-id]');id=card&&card.dataset&&card.dataset.setId;}
+      if(id)callCtx(ctx,'confirmDeletePersonalSetById',[id]);
+      return;
+    }
+    var card=e.target.closest&&e.target.closest('[data-set-id]');
+    if(card&&card.dataset&&card.dataset.setId)callCtx(ctx,'openSet',[card.dataset.setId]);
+  });
+  oneTime(qs('wb-personal-new'),'NewSet',function(e){e.preventDefault();callCtx(ctx,'openPersonalNewSheet',[]);});
+  oneTime(qs('wb-editor-back'),'EditorBack',function(e){e.preventDefault();callCtx(ctx,'renderPersonalHome',[]);});
+  var editor=qs('wb-set-editor');
+  oneTime(editor,'EditorActions',function(e){
+    var clear=e.target.closest&&e.target.closest('#clear-set,#sl-clear-btn,.sl-clear-btn,[data-set-action="clear"]');
+    if(clear){e.preventDefault();e.stopPropagation();callCtx(ctx,'clearCurrentSet',[]);return;}
+    var add=e.target.closest&&e.target.closest('#sl-add-btn,[data-set-action="add"]');
+    if(add){e.preventDefault();e.stopPropagation();callCtx(ctx,'openSetSongPicker',[]);return;}
+    var options=e.target.closest&&e.target.closest('#sl-options-btn,[data-set-action="more"]');
+    if(options){e.preventDefault();e.stopPropagation();callCtx(ctx,'openSetOptions',[]);return;}
+    var notes=e.target.closest&&e.target.closest('[data-set-action="notes"]');
+    if(notes){e.preventDefault();e.stopPropagation();callCtx(ctx,'openSetNotes',[]);return;}
+    var setKey=e.target.closest&&e.target.closest('#sl-set-key-info,[data-set-action="set-key"]');
+    if(setKey){e.preventDefault();e.stopPropagation();callCtx(ctx,'openSetKeySheet',[]);return;}
+  });
+  oneTime(qs('wb-editor-publish'),'Publish',function(e){e.preventDefault();callCtx(ctx,'openWorkspacePublishSheet',[]);});
+  var items=qs('sl-items');
+  oneTime(items,'ItemActions',function(e){
+    if(items&&items.dataset&&items.dataset.dragSuppress==='1'){e.preventDefault();e.stopPropagation();return;}
+    var key=e.target.closest&&e.target.closest('.set-key-btn,[data-key-index]');
+    if(key){e.preventDefault();e.stopPropagation();callCtx(ctx,'openSetKeySheet',[parseInt((key.dataset&&key.dataset.keyIndex)||'0',10)]);return;}
+    var rm=e.target.closest&&e.target.closest('[data-remove-index],.set-rm');
+    if(rm){e.preventDefault();e.stopPropagation();callCtx(ctx,'removeSetItem',[parseInt((rm.dataset&&rm.dataset.removeIndex)||(rm.dataset&&rm.dataset.r)||'-1',10)]);return;}
+    var edit=e.target.closest&&e.target.closest('.set-section-card,.text-set-card');
+    if(edit){var idx=parseInt((edit.dataset&&edit.dataset.index)||'-1',10);if(idx>=0){e.preventDefault();e.stopPropagation();callCtx(ctx,'openSetItemEditor',[idx]);return;}}
+    var songCard=e.target.closest&&e.target.closest('[data-song-id]');
+    if(songCard){
+      var songId=songCard.dataset&&songCard.dataset.songId;
+      var songs=callCtx(ctx,'getSongs',[])||[];
+      var song=songs.find? songs.find(function(x){return x&&x.id===songId;}):null;
+      var activeSetId=callCtx(ctx,'getActiveSetId',[]);
+      var idx2=parseInt((songCard.dataset&&songCard.dataset.index)||'-1',10);
+      if(song)callCtx(ctx,'showSong',[song,'setlist',{scope:'personal',setId:activeSetId,index:idx2}]);
+    }
+  });
+  return true;
+}
+
 function mutationContract(){
   return [
     'preserve unknown set and set-entry fields',
@@ -254,6 +321,7 @@ root.WBPersonalSetController={
   toggleSong:toggleSong,
   addSectionOrText:addSectionOrText,
   updateSectionOrText:updateSectionOrText,
+  bindPersonalSetControls:bindPersonalSetControls,
   mutationContract:mutationContract
 };
 })(window);

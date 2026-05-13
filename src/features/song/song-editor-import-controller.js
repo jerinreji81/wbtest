@@ -13,6 +13,7 @@ function qs(ctx,id){return ctx&&ctx.qs?ctx.qs(id):null;}
 function qsa(ctx,sel,rootEl){return ctx&&ctx.qsa?ctx.qsa(sel,rootEl):[];}
 function qv(ctx,id,def){return ctx&&ctx.qv?ctx.qv(id,def):(qs(ctx,id)?qs(ctx,id).value:def);}
 function normalizeKey(ctx,key){return ctx&&ctx.normalizeKeyName?ctx.normalizeKeyName(key):trimmed(key||'C');}
+function ensureSelectOption(select,value){if(!select||!value)return;var found=false;Array.prototype.slice.call(select.options||[]).forEach(function(o){if(String(o.value)===String(value))found=true;});if(!found){var opt=(select.ownerDocument||document).createElement('option');opt.value=value;opt.textContent=value;select.appendChild(opt);}}
 
 function setSongCategory(cat,ctx){
   cat=cat==='malayalam'?'malayalam':'english';
@@ -23,7 +24,7 @@ function setSongCategory(cat,ctx){
 }
 function clearSongForm(ctx){
   ['song-form-title','song-form-artist','song-form-code','song-form-time','song-form-bpm','song-form-spotify','song-form-youtube','song-form-chart'].forEach(function(id){var el=qs(ctx,id);if(el)el.value='';});
-  var k=qs(ctx,'song-form-key');if(k)k.value='C';
+  var k=qs(ctx,'song-form-key');if(k){ensureSelectOption(k,'C');k.value='C';}var chartEl=qs(ctx,'song-form-chart');if(chartEl)chartEl.dataset.sourceKey='C';
   setSongCategory('english',ctx);
   resetEditorHistory('',ctx);
 }
@@ -33,12 +34,12 @@ function fillSongForm(song,ctx){
   set('song-form-title',song.title);
   set('song-form-artist',song.artist||song.author);
   set('song-form-code',song.code);
-  set('song-form-key',normalizeKey(ctx,song.key||'C'));
+  var displayKey=normalizeKey(ctx,song.key||song.displayKey||'C');var sourceKey=normalizeKey(ctx,song.chartKey||song.originalKey||song.sourceKey||song.key||displayKey||'C');var keySel=qs(ctx,'song-form-key');if(keySel){ensureSelectOption(keySel,displayKey);keySel.value=displayKey;}else set('song-form-key',displayKey);
   set('song-form-time',song.timeSig||song.time||'');
   set('song-form-bpm',song.bpm||'');
   set('song-form-spotify',song.spotifyUrl||song.spotify||'');
   set('song-form-youtube',song.youtubeUrl||song.youtube||'');
-  set('song-form-chart',song.chart||'');
+  set('song-form-chart',song.chart||'');var chartBox=qs(ctx,'song-form-chart');if(chartBox)chartBox.dataset.sourceKey=sourceKey;
   setSongCategory(song.cat||song.category||'english',ctx);
   resetEditorHistory(song.chart||'',ctx);
   if(ctx&&ctx.updateSongEditorPreview)ctx.updateSongEditorPreview();
@@ -52,11 +53,24 @@ function setSongEditorPane(mode,ctx){
   if(mode==='preview'&&ctx&&ctx.updateSongEditorPreview)ctx.updateSongEditorPreview();
   return mode;
 }
+function previewChartForDisplay(chart,sourceKey,targetKey){
+  var text=str(chart||'');
+  var sk=normalizeKey(null,sourceKey||'C'),tk=normalizeKey(null,targetKey||sk||'C');
+  if(!text||!sk||!tk||sk===tk)return text;
+  return text.replace(/^(\s*Key\s+of\s+)([A-G](?:#|b)?)(\s*)$/im,function(_,pre,k,post){
+    return pre+tk+post;
+  }).replace(/^(\s*Key\s*[:=-]\s*)([A-G](?:#|b)?)(\s*)$/im,function(_,pre,k,post){
+    return pre+tk+post;
+  });
+}
 function updateSongEditorPreview(ctx){
   var title=trimmed(qv(ctx,'song-form-title','Untitled song'))||'Untitled song';
   var artist=trimmed(qv(ctx,'song-form-artist',''));
-  var key=str(qv(ctx,'song-form-key','C'))||'C';
+  var key=normalizeKey(ctx,str(qv(ctx,'song-form-key','C'))||'C');
+  var chartEl=qs(ctx,'song-form-chart');
+  var sourceKey=normalizeKey(ctx,(chartEl&&chartEl.dataset&&chartEl.dataset.sourceKey)||key||'C');
   var chart=str(qv(ctx,'song-form-chart',''))||'';
+  var previewChart=previewChartForDisplay(chart,sourceKey,key);
   var bpm=trimmed(qv(ctx,'song-form-bpm',''));
   var time=trimmed(qv(ctx,'song-form-time',''));
   var titleEl=qs(ctx,'song-editor-preview-title');if(titleEl)titleEl.textContent=title;
@@ -64,7 +78,7 @@ function updateSongEditorPreview(ctx){
   if(metaEl)metaEl.textContent=[artist,'Key of '+key,time,bpm?bpm+' BPM':''].filter(Boolean).join(' · ');
   var body=qs(ctx,'song-editor-preview-body');
   if(body){
-    body.innerHTML=chart.trim()&&ctx&&ctx.formatChartHtml?ctx.formatChartHtml(chart,'chords',{key:key,title:title,artist:artist,chart:chart}):'<div class="preview-empty">Start typing to preview the chart.</div>';
+    body.innerHTML=chart.trim()&&ctx&&ctx.formatChartHtml?ctx.formatChartHtml(previewChart,'chords',{key:sourceKey,chartKey:sourceKey,originalKey:sourceKey,sourceKey:sourceKey,displayKey:key,title:title,artist:artist,chart:previewChart}):'<div class="preview-empty">Start typing to preview the chart.</div>';
   }
 }
 
@@ -99,8 +113,10 @@ function songPayloadFromForm(ctx){
   var title=trimmed(qv(ctx,'song-form-title',''));
   var artist=trimmed(qv(ctx,'song-form-artist',''));
   var key=normalizeKey(ctx,str(qv(ctx,'song-form-key','C'))||'C');
+  var chartEl=qs(ctx,'song-form-chart');
+  var sourceKey=normalizeKey(ctx,(chartEl&&chartEl.dataset&&chartEl.dataset.sourceKey)||key||'C');
   var chart=str(qv(ctx,'song-form-chart','')).replace(/\r\n?/g,'\n').trim();
-  var raw={title:title,artist:artist,code:trimmed(qv(ctx,'song-form-code','')),key:key,cat:str(qv(ctx,'song-form-category','english'))||'english',chart:chart,bpm:trimmed(qv(ctx,'song-form-bpm','')),timeSig:trimmed(qv(ctx,'song-form-time','')),spotifyUrl:trimmed(qv(ctx,'song-form-spotify','')),youtubeUrl:trimmed(qv(ctx,'song-form-youtube',''))};
+  var raw={title:title,artist:artist,code:trimmed(qv(ctx,'song-form-code','')),key:key,chartKey:sourceKey,originalKey:sourceKey,sourceKey:sourceKey,cat:str(qv(ctx,'song-form-category','english'))||'english',chart:chart,bpm:trimmed(qv(ctx,'song-form-bpm','')),timeSig:trimmed(qv(ctx,'song-form-time','')),spotifyUrl:trimmed(qv(ctx,'song-form-spotify','')),youtubeUrl:trimmed(qv(ctx,'song-form-youtube',''))};
   return ctx&&ctx.normalizeImportedSong?ctx.normalizeImportedSong(raw,'editor'):raw;
 }
 function validateSongPayload(song){if(!song||!trimmed(song.title))return 'Add a song title first.';if(!trimmed(song.chart))return 'Add lyrics/chords before saving.';if(song.bpm&&(!/^\d+$/.test(song.bpm)||+song.bpm<20||+song.bpm>260))return 'BPM should be between 20 and 260.';if(song.timeSig&&!/^\d+\s*\/\s*\d+$/.test(song.timeSig))return 'Time signature should look like 4/4.';return '';}

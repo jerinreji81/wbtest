@@ -16,7 +16,7 @@ function setButton(ctx,id,value,sub){
   var b=qs(id,ctx&&ctx.document);if(!b)return;
   var strong=b.querySelector('strong'),em=b.querySelector('em');
   if(strong)strong.textContent=value;
-  if(em)em.textContent=sub||'Change';
+  if(em){em.textContent=sub||'';em.setAttribute('aria-hidden','true');}
 }
 function toolsRender(){return root.WBToolsRenderModel||{};}
 function toolsController(){return root.WBToolsController||{};}
@@ -46,7 +46,7 @@ function renderKeyCapo(ctx){
   setButton(ctx,'tools-kc-target-btn',calc.target);
   res.innerHTML='<strong>'+esc(calc.original)+' → '+esc(calc.target)+'</strong><br>Transpose '+esc(calc.steps)+' semitone'+(calc.steps===1?'':'s')+' up.';
   var render=toolsRender();
-  if(render.keyCapoResultHtml)sg.innerHTML=render.keyCapoResultHtml(calc).replace(/Play ([^<]+)<\/span>/g,'Play $1 shapes</span>');
+  if(render.keyCapoResultHtml)sg.innerHTML=render.keyCapoResultHtml(calc);
   else sg.innerHTML=asArray(calc.suggestions).map(function(x){return '<div class="tools-kc-suggestion"><strong>Capo '+esc(x.capo)+'</strong><span>Play '+esc(x.shape)+' shapes</span></div>';}).join('');
   return true;
 }

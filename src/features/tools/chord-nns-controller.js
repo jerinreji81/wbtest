@@ -156,7 +156,7 @@ function pianoDiagramHtml(root,qualityId,inversion){
   root=normalizeRoot(root);qualityId=qualityId||'major';
   var q=QUALITIES.filter(function(q){return q.id===qualityId})[0]||QUALITIES[0];
   var inv=Math.max(0,parseInt(inversion,10)||0), notes=pianoChordNotes(root,qualityId,inv), vars=pianoDiagramVariations(root,qualityId), label=(vars[inv]&&vars[inv].label)||'Root position';
-  return '<div class="nns-piano-wrap nns-piano-wrap-svg">'+pianoDiagramSvg(root,qualityId,inv)+'<div class="nns-piano-notes"><strong>'+root+q.suffix+'</strong><span>'+notes.join(' · ')+'</span><small>'+label+'</small></div></div>';
+  return '<div class="nns-piano-wrap nns-piano-wrap-svg">'+pianoDiagramSvg(root,qualityId,inv)+'<div class="nns-piano-notes" aria-label="Piano chord tones"><strong class="nns-piano-name">'+root+q.suffix+'</strong><span class="nns-piano-tone-line">'+notes.join(' · ')+'</span><small class="nns-piano-variation-label">'+label+'</small></div></div>';
 }
 function nnsTokenToInterval(token,mode){
   token=String(token||'').trim().replace(/º/g,'°').replace(/♭/g,'b').replace(/♯/g,'#');

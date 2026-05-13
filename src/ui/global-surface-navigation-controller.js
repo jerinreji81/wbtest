@@ -175,6 +175,8 @@ function installUniversalEdgeSwipeBack(ctx){
     id:'universal-route-back',route:'top-level-subroute',element:root.document,edge:96,threshold:82,
     shouldStart:function(e){
       if(qs(ctx,'song-view')&&qs(ctx,'song-view').classList.contains('visible'))return false;
+      var s=ctx&&ctx.getState?ctx.getState():{},w=ctx&&ctx.getWorkspaceState?ctx.getWorkspaceState():{};
+      if(s.tab==='workspace'&&w.panel&&w.panel!=='home')return false;
       if(e.target.closest&&e.target.closest('.bs-bg.open,.settings-picker-sheet.open,#add-song-modal.open,#backup-centre-modal.open'))return false;
       return true;
     },

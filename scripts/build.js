@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * WorshipBase Phase 2b - QA3 build scaffold.
+ * WorshipBase Phase 2b - QA4 build scaffold.
  *
  * Purpose:
  * - Keep the Phase 2b single deployable output.
@@ -197,7 +197,7 @@ function main() {
 
   const ownershipViolations = ownershipChecks(shellHtml);
   if (ownershipViolations.length) {
-    console.error('Phase 2b - QA3 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
+    console.error('Phase 2b - QA4 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
     process.exit(1);
   }
 
@@ -207,6 +207,12 @@ function main() {
   write(DIST_INDEX, indexHtml);
   write(DIST_SW, swJs);
 
+  // QA4 continuation rule: keep the root deployable files in lock-step with dist.
+  // Previous QA4 packages left a stale root index.html, which made local/manual testing
+  // run old embedded code and caused the `qs is not defined` install blocker.
+  write(path.join(ROOT, 'index.html'), indexHtml);
+  write(path.join(ROOT, 'wb-offline-sw.js'), swJs);
+
   const syntax = syntaxCheckInlineScripts(indexHtml);
   if (syntax.errors.length) {
     console.error('Inline script syntax errors:', JSON.stringify(syntax.errors, null, 2));
@@ -214,7 +220,7 @@ function main() {
   }
 
   const manifest = {
-    phase: 'Phase 2b - QA3',
+    phase: 'Phase 2b - QA4',
     purpose: 'Manual browser parity sign-off / final completion gate',
     baseline: 'Phase 2b - L7 made the source host static and moved runtime into a source-owned adapter. L8 fixes the browser smoke blockers and records final completion readiness.',
     generatedAt: new Date().toISOString(),
@@ -247,7 +253,7 @@ function main() {
       inlineScriptSyntaxErrors: syntax.errors.length,
       styleBlocks: countStyleBlocks(indexHtml),
       ownershipViolations: ownershipViolations.length,
-      productBehaviourChanged: 'No intended product behaviour change; Phase 2b - QA3 applies consolidated QA regression fixes in source owners and canonical styles.',
+      productBehaviourChanged: 'No intended product behaviour change; Phase 2b - QA4 applies consolidated QA regression fixes in source owners and canonical styles.',
       visualRedesign: false,
       modularisationComplete: true,
       activeLegacyShell: null,
@@ -258,7 +264,7 @@ function main() {
 
   write(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
 
-  console.log('WorshipBase Phase 2b - QA3 build complete.');
+  console.log('WorshipBase Phase 2b - QA4 build complete.');
   console.log(`- ${path.relative(ROOT, DIST_INDEX)}`);
   console.log(`- ${path.relative(ROOT, DIST_SW)}`);
   console.log(`- ${path.relative(ROOT, MANIFEST)}`);
