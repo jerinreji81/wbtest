@@ -3,8 +3,8 @@
 (function(root){
 'use strict';
 
-var VERSION='Phase 2b - L8';
-var REBUILD_PHASE='Phase 2b - L8: Manual browser parity sign-off / final completion gate';
+var VERSION='Phase 2b - QA2';
+var REBUILD_PHASE='Phase 2b - QA2: feedback v2 regression fixes';
 var REBUILD_REFERENCE='Working-v85.0-fixed.html';
 
 var ASSET_DEFAULTS={

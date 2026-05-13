@@ -117,7 +117,8 @@ function loadRouteMemory(ctx){
   var mem={};
   try{mem=typeof ctx.readStoredObject==='function'?ctx.readStoredObject(keys.routeMemory,{}):{}}catch(e){mem={}}
   if(mem.libraryFilter)state.filter=mem.libraryFilter;
-  if(mem.libraryScope)state.scope=mem.libraryScope;
+  // QA2: keep Library search scope session-only so a previous Lyrics search does not become the cold-launch default.
+    state.scope='smart';
   if(mem.bible&&bibleState){
     bibleState.book=mem.bible.book||bibleState.book;
     bibleState.chapter=parseInt(mem.bible.chapter,10)||bibleState.chapter;

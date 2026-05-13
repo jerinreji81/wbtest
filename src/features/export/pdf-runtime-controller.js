@@ -45,6 +45,7 @@ function wbPdfEsc(s){return wbPdfSafe(s).replace(/[&<>"']/g,function(c){return {
 function wbPdfEscPreserve(s){return wbPdfPairSafe(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function wbPdfSongCode(song){return songCode(song)||song.code||song.songCode||''}
 function wbPdfThemeHex(){try{return activeThemeHex&&activeThemeHex()||'#10374A'}catch(e){return '#10374A'}}
+function wbPdfContentLabel(opts){return (opts&&opts.exportContent)==='lyrics'?'Lyrics only':(opts&&opts.exportContent)==='nns'?'NNS':'Lyrics + chords'}
 function wbPdfRgb(hex){var raw=String(hex||'#10374A').replace('#','');if(raw.length===3)raw=raw.split('').map(function(c){return c+c}).join('');var n=parseInt(raw.slice(0,6),16);if(!Number.isFinite(n))return '0.063 0.216 0.290';return [((n>>16)&255)/255,((n>>8)&255)/255,(n&255)/255].map(function(v){return v.toFixed(4)}).join(' ')}
 function wbPdfIsChordToken(t){return /^[A-G](?:#|b)?(?:(?:maj|major|min|minor|dim|aug|sus2|sus4|sus|add2|add4|add9|add11|add13|add|no3|no5|no|ø|m|b5|#5|b9|#9|b11|#11|b13|#13|2|4|5|6|7|9|11|13))*(?:\/[A-G](?:#|b)?)?$/i.test(String(t||'').trim())}
 function wbPdfIsSectionLine(line){var m=String(line||'').trim().match(/^\[([^\]]+)\]$/);return !!(m&&!wbPdfIsChordToken(m[1]))}
