@@ -4,8 +4,14 @@
 'use strict';
 
 function fallbackEsc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]});}
+function displaySongForState(song,state){
+  song=song||{};state=state||{};
+  var sourceKey=song.chartKey||song.originalKey||song.sourceKey||song.key||'C';
+  var renderKey=state.displayKey||song.displayKey||song.key||sourceKey||'C';
+  return Object.assign({},song,{sourceKey:sourceKey,chartKey:sourceKey,originalKey:sourceKey,displayKey:renderKey,renderKey:renderKey,targetKey:renderKey});
+}
 function chordsUsedHtml(song,ctx){
-  ctx=ctx||{};song=song||{};
+  ctx=ctx||{};song=displaySongForState(song,ctx.state||{});
   var esc=ctx.esc||fallbackEsc;
   var extract=ctx.extractChordNames||function(){return [];};
   var display=ctx.displayChord||function(c){return c;};
@@ -13,7 +19,7 @@ function chordsUsedHtml(song,ctx){
   return chords.length?'Chords used: '+chords.map(function(c){return '<strong>'+esc(c)+'</strong>';}).join(' '):'';
 }
 function renderSheetBodyHtml(song,ctx){
-  ctx=ctx||{};song=song||{};
+  ctx=ctx||{};song=displaySongForState(song,ctx.state||{});
   var format=ctx.formatChartHtml||function(text){return fallbackEsc(text);};
   var state=ctx.state||{};
   return format(song.chart||'',state.mode,song);
@@ -48,6 +54,7 @@ root.WBSongViewRenderController={
   chordsUsedHtml:chordsUsedHtml,
   renderSheetBodyHtml:renderSheetBodyHtml,
   renderSongSheet:renderSongSheet,
+  displaySongForState:displaySongForState,
   renderContract:renderContract,
   diagnostics:renderContract
 };

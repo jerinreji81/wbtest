@@ -136,7 +136,7 @@ function applyThemeVars(doc,settings,defaults,palette){
     rootEl.style.setProperty('--accent-border',hexToRgba(d.accentStrong||theme.c||'#ffffff',.46));
     rootEl.style.setProperty('--accent-bg',hexToRgba(d.accentStrong||theme.c||'#ffffff',.18));
     rootEl.style.setProperty('--chord-color',d.chord||d.accent||theme.c||'#ffffff');
-    rootEl.style.setProperty('--accent-fg',d.accentFg||'#ffffff');
+    rootEl.style.setProperty('--accent-fg',accentTextFor(d.accent||d.accentStrong||theme.c||'#ffffff'));
   }else{
     rootEl.style.setProperty('--tc',theme.c||'#10374A');
     rootEl.style.setProperty('--tc2',theme.c2||theme.c||'#17506c');
