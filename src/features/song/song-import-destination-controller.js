@@ -197,12 +197,18 @@ function importFromUrl(kind,ctx){
   fetchJson(importUrl(kind,url,false)).then(function(data){var draft=mapBackendSong(data.song||data,kind,ctx);draft.sourceUrl=url;ctx.setImportedDraft(kind,draft);call(ctx,'showToast','Chart imported');}).catch(function(err){setText(meta,'Import failed');setHtml(body,'<div class="preview-empty">'+esc(ctx,err.message||'Import failed. Try another URL.')+'</div>');call(ctx,'showToast','Import failed');});
 }
 function importResultByIdOrUrl(kind,draft,ctx){
-  if(!draft)return;
-  if(draft.chart){ctx.setImportedDraft(kind,draft);return;}
+  if(!draft)return Promise.resolve(null);
+  function finish(row){ctx.setImportedDraft(kind,row);call(ctx,'showToast','Imported');return row;}
+  if(draft.chart)return Promise.resolve(finish(draft));
   if(draft.importId||draft.sourceUrl){
     var url=draft.importId?importUrl(kind,draft.importId,true):importUrl(kind,draft.sourceUrl,false);
-    return fetchJson(url).then(function(data){ctx.setImportedDraft(kind,mapBackendSong(data.song||data,kind,ctx));}).catch(function(){call(ctx,'showToast',kind==='sop'?'Songs of Praise import failed':'UG import failed');});
+    return fetchJson(url).then(function(data){
+      var raw=data.song||data||{};
+      var merged=Object.assign({},draft,raw,{key:raw.key||raw.originalKey||draft.key||draft.originalKey||draft.scale,originalKey:raw.originalKey||raw.key||draft.originalKey||draft.key});
+      return finish(mapBackendSong(merged,kind,ctx));
+    }).catch(function(){call(ctx,'showToast',kind==='sop'?'Songs of Praise import failed':'UG import failed');});
   }
+  return Promise.resolve(null);
 }
 function renderContract(){return {phase:'Phase 2b - I4',owner:'WBSongImportDestinationController',contracts:['fetchJson','searchImport','importFromUrl','importResultByIdOrUrl','chooseImportDestination','resolveImportDestination','putFirebaseSongsBulk','saveImportedSongsToDestination','saveManualSongToDestination','saveManualNewSong','saveManualEditedSong','commitImportedDrafts'],legacyShellHost:true,nonDestructive:true};}
 

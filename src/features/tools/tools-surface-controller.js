@@ -95,8 +95,8 @@ function renderScaleSummary(ctx){
   var box=qs('nns-scale-summary',ctx.document||root.document);if(!owner||!box)return false;
   var notes=owner.scaleNoteList?owner.scaleNoteList(state.key,state.mode):[];
   var rel=owner.relativeKey?owner.relativeKey(state.key,state.mode):null;
-  box.innerHTML='<div class="nns-summary-pill"><strong>'+esc(state.key+' '+(state.mode==='minor'?'Minor':'Major'))+'</strong><span>'+esc(notes.join(' · '))+'</span></div>'+
-    (rel?'<div class="nns-summary-mini"><span>'+esc(rel.label)+': '+esc(rel.key)+'</span></div>':'');
+  box.innerHTML='<div class="nns-summary-pill"><strong>'+esc(state.key+' '+(state.mode==='minor'?'Minor':'Major'))+':</strong><span>'+esc(notes.join(' · '))+'</span></div>'+
+    (rel?'<div class="nns-summary-mini"><strong>'+esc(rel.label)+':</strong><span>'+esc(rel.key)+'</span></div>':'');
   return true;
 }
 function renderReference(ctx){
@@ -161,9 +161,9 @@ function renderDiagram(ctx){
     if(isPiano){
       var notes=owner.pianoChordNotes?owner.pianoChordNotes(state.root,state.quality,state.variation):[];
       var label=variations&&variations[state.variation]&&variations[state.variation].label?variations[state.variation].label:'Root position';
-      hint.textContent='Piano tones · '+notes.join(' · ')+' · '+label;
+      hint.textContent=label+' · '+notes.join(' · ');
     }else{
-      hint.textContent=model.hint+(model.diagram&&model.diagram.shape?' · '+model.diagram.shape:'')+(model.variationCount>1?' · '+(model.variationIndex+1)+' of '+model.variationCount:'');
+      hint.textContent=(model.diagram&&model.diagram.shape?model.diagram.shape:model.hint)+(model.variationCount>1?' · '+(model.variationIndex+1)+' of '+model.variationCount:'');
     }
   }
   return true;

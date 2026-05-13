@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * WorshipBase Phase 2b - QA2 build scaffold.
+ * WorshipBase Phase 2b - QA3 build scaffold.
  *
  * Purpose:
  * - Keep the Phase 2b single deployable output.
@@ -197,7 +197,7 @@ function main() {
 
   const ownershipViolations = ownershipChecks(shellHtml);
   if (ownershipViolations.length) {
-    console.error('Phase 2b - QA2 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
+    console.error('Phase 2b - QA3 ownership violations:', JSON.stringify(ownershipViolations, null, 2));
     process.exit(1);
   }
 
@@ -214,7 +214,7 @@ function main() {
   }
 
   const manifest = {
-    phase: 'Phase 2b - QA2',
+    phase: 'Phase 2b - QA3',
     purpose: 'Manual browser parity sign-off / final completion gate',
     baseline: 'Phase 2b - L7 made the source host static and moved runtime into a source-owned adapter. L8 fixes the browser smoke blockers and records final completion readiness.',
     generatedAt: new Date().toISOString(),
@@ -247,7 +247,7 @@ function main() {
       inlineScriptSyntaxErrors: syntax.errors.length,
       styleBlocks: countStyleBlocks(indexHtml),
       ownershipViolations: ownershipViolations.length,
-      productBehaviourChanged: 'No intended product behaviour change; Phase 2b - QA2 applies feedback v2 regression fixes in source owners and canonical styles.',
+      productBehaviourChanged: 'No intended product behaviour change; Phase 2b - QA3 applies consolidated QA regression fixes in source owners and canonical styles.',
       visualRedesign: false,
       modularisationComplete: true,
       activeLegacyShell: null,
@@ -258,7 +258,7 @@ function main() {
 
   write(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
 
-  console.log('WorshipBase Phase 2b - QA2 build complete.');
+  console.log('WorshipBase Phase 2b - QA3 build complete.');
   console.log(`- ${path.relative(ROOT, DIST_INDEX)}`);
   console.log(`- ${path.relative(ROOT, DIST_SW)}`);
   console.log(`- ${path.relative(ROOT, MANIFEST)}`);

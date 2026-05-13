@@ -35,12 +35,15 @@ function icon(name,options){
   else if(name==='more')p='<circle cx="5" cy="12" fill="currentColor" r="1.9"></circle><circle cx="12" cy="12" fill="currentColor" r="1.9"></circle><circle cx="19" cy="12" fill="currentColor" r="1.9"></circle>';
   else if(name==='plus')p='<path d="M12 5v14M5 12h14" stroke="currentColor" stroke-linecap="round" stroke-width="'+esc(stroke)+'"></path>';
   else if(name==='chevronRight')p='<path d="M9 5l7 7-7 7" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="'+esc(stroke)+'"></path>';
+  else if(name==='chevronUp')p='<path d="M6 15l6-6 6 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="'+esc(stroke)+'"></path>';
+  else if(name==='chevronDown')p='<path d="M6 9l6 6 6-6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="'+esc(stroke)+'"></path>';
+  else if(name==='checkCircle')p='<circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="'+esc(stroke)+'"></circle><path d="M8.3 12.2l2.3 2.3 5-5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="'+esc(stroke)+'"></path>';
   else p='<circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="'+esc(stroke)+'"></circle>';
   return '<svg'+common+'>'+p+'</svg>';
 }
 function backButton(options){
   options=options||{};
-  return '<button type="button" class="'+esc(classes('wb-ui-back',options.className))+'"'+attrs({id:options.id,'data-back':options.backTarget,'aria-label':options.label||'Back'})+'>'+icon('back',{size:20,stroke:2.25})+'</button>';
+  return '<button type="button" class="'+esc(classes('wb-ui-back',options.className))+'"'+attrs({id:options.id,'data-back':options.backTarget,'aria-label':options.label||'Back'})+'>'+icon('back',{size:22,stroke:2.8})+'</button>';
 }
 function iconButton(options){
   options=options||{};

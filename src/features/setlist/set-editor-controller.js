@@ -46,9 +46,9 @@ function listCard(scope,set,options){
   var name=esc(setName(set));
   var note=notesPill(set,scope);
   if(scope==='workspace'){
-    return '<button class="workspace-subview-card wb-personal-card" data-workspace-set="'+id+'" type="button"><span class="wb-personal-main workspace-card-main"><span class="wb-personal-name workspace-subview-name">'+name+'</span><span class="wb-personal-card-meta workspace-subview-meta"><span>'+count+'</span>'+note+'<span>'+updated+'</span></span></span><span class="workspace-card-actions wb-personal-actions"><span class="wb-card-btn danger" data-workspace-delete="'+id+'" aria-hidden="true">×</span></span></button>';
+    return '<div class="workspace-subview-card wb-personal-card" data-workspace-set="'+id+'" role="button" tabindex="0"><span class="wb-personal-main workspace-card-main"><span class="wb-personal-name workspace-subview-name">'+name+'</span><span class="wb-personal-card-meta workspace-subview-meta"><span>'+count+'</span>'+note+'<span>'+updated+'</span></span></span><span class="workspace-card-actions wb-personal-actions"><button class="wb-card-btn danger" data-workspace-delete="'+id+'" type="button" aria-label="Delete set">×</button></span></div>';
   }
-  return '<button class="wb-personal-card" type="button" data-set-id="'+id+'"><span class="wb-personal-main"><span class="wb-personal-name">'+name+'</span><span class="wb-personal-card-meta"><span>'+count+'</span>'+note+'<span>'+updated+'</span></span></span><span class="wb-personal-actions"><span class="wb-card-btn danger" data-delete-set="'+id+'">×</span></span></button>';
+  return '<div class="wb-personal-card" role="button" tabindex="0" data-set-id="'+id+'"><span class="wb-personal-main"><span class="wb-personal-name">'+name+'</span><span class="wb-personal-card-meta"><span>'+count+'</span>'+note+'<span>'+updated+'</span></span></span><span class="wb-personal-actions"><button class="wb-card-btn danger" data-delete-set="'+id+'" type="button" aria-label="Delete set">×</button></span></div>';
 }
 function listCards(scope,sets,options){
   scope=normalizeScope(scope);sets=asArray(sets);options=options||{};

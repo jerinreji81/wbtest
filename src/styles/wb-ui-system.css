@@ -288,3 +288,133 @@ body.dark .piano-key-label.black,body.dark .piano-black text{fill:#f8fafc!import
 .nns-scale-summary{font-size:18px!important;font-weight:800!important;line-height:1.35!important;color:var(--txt1)!important;margin:12px 0 8px!important;}.nns-scale-summary small,.nns-scale-sub{display:block!important;font-size:13px!important;font-weight:650!important;color:var(--txt3)!important;margin-top:3px!important;}.nns-table{width:100%!important;border-collapse:separate!important;border-spacing:0 8px!important;table-layout:fixed!important;}.nns-table th{font-size:11px!important;font-weight:900!important;text-transform:uppercase!important;letter-spacing:.13em!important;color:var(--txt3)!important;text-align:center!important;padding:0 4px 4px!important;}.nns-table td{background:transparent!important;color:var(--txt1)!important;font-size:16px!important;font-weight:650!important;text-align:center!important;padding:9px 4px!important;border:0!important;}.nns-table td:first-child{font-weight:850!important;text-align:left!important;}.nns-theory summary{font-size:18px!important;font-weight:650!important;color:var(--txt1)!important;padding:12px 0!important;}.nns-diagram-card,.tool-chord-diagram-card{background:var(--bg2)!important;border:1px solid var(--surface-border)!important;border-radius:18px!important;padding:16px!important;color:var(--txt1)!important;}
 .restore-review,.restore-review-panel,.backup-review,.backup-centre-restore-review{background:var(--bg1)!important;color:var(--txt1)!important;}.restore-comparison-table,.backup-restore-table{width:100%!important;border-collapse:separate!important;border-spacing:0 8px!important;table-layout:fixed!important;}.restore-comparison-table th,.backup-restore-table th{font-size:11px!important;font-weight:900!important;text-transform:uppercase!important;letter-spacing:.08em!important;color:var(--txt3)!important;text-align:left!important;}.restore-comparison-table td,.backup-restore-table td{background:var(--bg2)!important;border-top:1px solid var(--surface-border)!important;border-bottom:1px solid var(--surface-border)!important;padding:10px!important;color:var(--txt1)!important;font-size:14px!important;}.restore-comparison-table td:first-child,.backup-restore-table td:first-child{border-left:1px solid var(--surface-border)!important;border-radius:14px 0 0 14px!important;font-weight:850!important;}.restore-comparison-table td:last-child,.backup-restore-table td:last-child{border-right:1px solid var(--surface-border)!important;border-radius:0 14px 14px 0!important;}.restore-option-row,.backup-review-option,[data-backup-review-toggle]{background:var(--bg2)!important;border:1px solid var(--surface-border)!important;border-radius:16px!important;color:var(--txt1)!important;margin:8px 0!important;padding:12px 14px!important;}
 @media(max-width:520px){.tool-field-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px!important}.wb-picker-btn{min-height:46px!important;padding:0 12px!important}.wb-picker-btn strong{font-size:16px!important}.wb-picker-btn em{font-size:11px!important}.nns-table td{font-size:15px!important}.wb-personal-head,.wb-editor-head,.workspace-head,.workspace-detail-head{border-radius:22px!important}}
+
+/* Phase 2b - QA3 consolidated source-owned QA fixes. */
+:root{
+  --wb-ui-back:36px;
+  --wb-chevron-size:22px;
+  --wb-chevron-stroke:2.85;
+  --wb-text-secondary:color-mix(in srgb,var(--txt2) 86%,var(--txt1) 14%);
+  --wb-text-muted:color-mix(in srgb,var(--txt2) 76%,var(--txt3) 24%);
+  --wb-row-divider:color-mix(in srgb,var(--bdr) 72%,transparent);
+  --wb-page-inset:14px;
+  --wb-title-top:10px;
+}
+body.dark{
+  --wb-text-secondary:color-mix(in srgb,var(--txt2) 88%,#fff 12%);
+  --wb-text-muted:color-mix(in srgb,var(--txt2) 82%,var(--txt3) 18%);
+  --wb-row-divider:rgba(255,255,255,.072);
+}
+.wb-ui-back,.wb-editor-back,.workspace-subview-back,.tool-back-circle,.settings-back,.workspace-back,.wb-back-btn,.back-btn,.m-back{
+  width:var(--wb-ui-back)!important;height:var(--wb-ui-back)!important;min-width:var(--wb-ui-back)!important;flex:0 0 var(--wb-ui-back)!important;
+  background:color-mix(in srgb,var(--bg2) 88%,var(--bg1) 12%)!important;border:1px solid var(--surface-border)!important;color:var(--txt1)!important;
+}
+.wb-ui-back svg,.wb-editor-back svg,.workspace-subview-back svg,.tool-back-circle svg{width:var(--wb-chevron-size)!important;height:var(--wb-chevron-size)!important;}
+.wb-ui-back svg path,.wb-editor-back svg path,.workspace-subview-back svg path,.tool-back-circle svg path{stroke-width:var(--wb-chevron-stroke)!important;}
+body.dark .wb-ui-back,body.dark .wb-editor-back,body.dark .workspace-subview-back,body.dark .tool-back-circle,body.dark .settings-back,body.dark .workspace-back,body.dark .wb-back-btn,body.dark .back-btn,body.dark .m-back{background:rgba(255,255,255,.045)!important;border-color:rgba(255,255,255,.11)!important;color:var(--txt1)!important;}
+.search-scope-select-wrap::before{width:22px!important;height:22px!important;transform:rotate(-90deg)!important;}
+.search-scope-icon svg,.search-scope-icon span{display:none!important;}
+#scroll-top-btn::before,.scroll-top-btn::before{width:22px!important;height:22px!important;transform:rotate(90deg)!important;}
+#scroll-top-btn,.scroll-top-btn{background:color-mix(in srgb,var(--bg2) 70%,transparent)!important;color:var(--txt2)!important;backdrop-filter:blur(8px) saturate(1.05)!important;-webkit-backdrop-filter:blur(8px) saturate(1.05)!important;}
+
+/* Unified metadata tokens. */
+.wb-ui-meta,.wb-personal-meta,.wb-editor-sub,.workspace-sub,.workspace-meta,.workspace-subview-sub,.workspace-detail-copy,.tools-sub,.tool-card-sub,.tool-card-static-sub,.settings-row-sub,.settings-subtitle,.ss-sub,.set-meta,.song-meta,.restore-review-sub,.backup-centre-sub,.preview-meta,.ug-top-hint,.ug-bottom-hint,.field-hint,.editor-helper-meta,.pi-meta,.bible-copy{color:var(--wb-text-muted)!important;}
+.wb-personal-card-meta,.workspace-subview-meta,.workspace-editor-meta,.tools-kc-suggestion span,.nns-summary-mini,.nns-ref-item span{color:var(--wb-text-secondary)!important;}
+body.dark .tools-sub,body.dark .tool-card-sub,body.dark .workspace-sub,body.dark .workspace-detail-copy{color:var(--wb-text-muted)!important;}
+
+/* Settings standard-card spacing: preserve avatar tiles and Backup Centre layout. */
+#settings-section .ss-section:not(.backup-centre-section) > .ss-card:not(.backup-centre-card),
+#settings-section .settings-card:not(.backup-centre-card),
+#settings-section .wb-settings-card:not(.backup-centre-card){margin-left:0!important;margin-right:0!important;border-radius:20px!important;}
+#settings-section .ss-section:not(.backup-centre-section) .ss-row,
+#settings-section .settings-row{min-height:62px!important;padding-top:10px!important;padding-bottom:10px!important;}
+#settings-section .ss-section{margin-top:20px!important;}
+#settings-section .ss-section-title,#settings-section .settings-section-title{margin-left:4px!important;margin-bottom:8px!important;}
+#settings-section .backup-centre-card,#settings-section .backup-card{padding:inherit;}
+
+/* Title/header container alignment across Set List and Workspace surfaces. */
+.wb-personal-head,.workspace-hero,.tools-hero{margin-top:var(--wb-title-top)!important;margin-left:0!important;margin-right:0!important;width:100%!important;box-sizing:border-box!important;}
+#wb-set-editor-bar,.workspace-subview-head,.workspace-detail-head{margin:var(--wb-title-top) 0 12px!important;width:100%!important;box-sizing:border-box!important;}
+.wb-editor-title,.workspace-subview-title{font-size:22px!important;line-height:1.08!important;}
+
+/* Library row separators restored from v85 rhythm. */
+.song-row-wrap,.song-item{border-bottom:1px solid var(--wb-row-divider)!important;}
+.song-row-wrap:last-child,.song-item:last-child{border-bottom-color:transparent!important;}
+.alpha-heading,.song-group-label{border-bottom:0!important;}
+
+/* Import search rows: selectable circles instead of navigation arrows. */
+.ug-result-item{min-height:56px!important;display:flex!important;align-items:center!important;gap:12px!important;padding:12px 14px!important;text-align:left!important;background:var(--bg1)!important;border-bottom:1px solid var(--surface-border)!important;color:var(--txt1)!important;}
+.ug-result-item .pi-copy{flex:1 1 auto!important;min-width:0!important;display:flex!important;flex-direction:column!important;gap:3px!important;}
+.ug-result-item .pi-title{font-size:15px!important;font-weight:780!important;color:var(--txt1)!important;}
+.ug-result-item .pi-ck{width:28px!important;height:28px!important;border-radius:999px!important;border:2px solid color-mix(in srgb,var(--surface-border) 80%,var(--txt3) 20%)!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;font-size:16px!important;font-weight:900!important;color:var(--accent)!important;background:var(--bg2)!important;}
+.ug-result-item.selected .pi-ck{background:var(--accent)!important;border-color:var(--accent)!important;color:var(--accent-fg)!important;}
+
+/* Top action buttons shared sizing. */
+#add-song-close,#song-form-cancel,#song-form-save,.ug-head-btn,.ug-action-btn,.editor-head-action,.modal-top-action,.import-top-btn,.export-top-btn,.wb-top-action{min-height:44px!important;border-radius:999px!important;padding:0 20px!important;font-size:14px!important;font-weight:820!important;letter-spacing:.01em!important;}
+#song-form-save,.ug-head-btn.primary,.ug-action-btn.primary,.editor-head-action.primary,.import-top-btn.primary,.export-top-btn.primary{background:var(--accent)!important;border-color:var(--accent)!important;color:var(--accent-fg)!important;}
+#add-song-close,#song-form-cancel,.ug-head-btn:not(.primary),.ug-action-btn:not(.primary),.editor-head-action:not(.primary){background:var(--bg2)!important;border:1px solid var(--surface-border)!important;color:var(--txt1)!important;}
+
+/* Tools selectors and detail formatting. */
+.wb-native-hidden{position:absolute!important;opacity:0!important;pointer-events:none!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;}
+.wb-picker-btn em{display:none!important;}
+.wb-picker-btn::after{content:"";width:18px;height:18px;background:currentColor;mask-image:var(--wb-chevron-svg);-webkit-mask-image:var(--wb-chevron-svg);mask-size:contain;-webkit-mask-size:contain;transform:rotate(-90deg);opacity:.85;}
+.tool-field-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;}
+.nns-diagram-field-grid{grid-template-columns:1fr 1fr 1fr!important;align-items:end!important;}
+.nns-scale-summary{margin:14px 0 10px!important;}
+.nns-summary-pill{display:flex!important;align-items:center!important;gap:6px!important;flex-wrap:wrap!important;color:var(--accent)!important;font-weight:760!important;}
+.nns-summary-pill strong,.nns-summary-mini strong{font-weight:850!important;color:var(--accent)!important;}
+.nns-summary-pill span,.nns-summary-mini span{color:var(--wb-text-secondary)!important;font-weight:650!important;}
+.nns-summary-mini{display:flex!important;gap:6px!important;align-items:center!important;margin-top:3px!important;}
+.nns-table{border-collapse:separate!important;border-spacing:0!important;background:var(--bg2)!important;border:1px solid var(--surface-border)!important;border-radius:16px!important;overflow:hidden!important;}
+.nns-table th{background:color-mix(in srgb,var(--accent) 15%,var(--bg2))!important;color:var(--txt1)!important;font-weight:950!important;text-align:center!important;padding:10px 6px!important;}
+body.dark .nns-table th{background:color-mix(in srgb,var(--accent) 28%,#fff 8%)!important;color:#101014!important;}
+.nns-table td{border-top:1px solid var(--surface-border)!important;text-align:center!important;padding:12px 6px!important;}
+.nns-table td:first-child{text-align:center!important;}
+.nns-reference-grid{display:grid!important;gap:8px!important;margin-top:8px!important;}
+.nns-ref-item{display:grid!important;grid-template-columns:minmax(110px,.7fr) minmax(0,1fr)!important;gap:12px!important;align-items:start!important;padding:8px 0!important;border-top:1px solid color-mix(in srgb,var(--surface-border) 70%,transparent)!important;}
+.nns-ref-item strong{font-weight:850!important;color:var(--txt1)!important;}
+.nns-ref-item span{line-height:1.45!important;}
+.nns-ref-note{margin-top:10px!important;line-height:1.5!important;color:var(--wb-text-secondary)!important;}
+.nns-diagram-card,.tool-chord-diagram-card{display:flex!important;flex-direction:column!important;align-items:center!important;gap:10px!important;}
+.nns-diagram-variations{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;gap:8px!important;}
+.nns-variation-chip{min-height:32px!important;border-radius:999px!important;padding:0 12px!important;border:1px solid var(--surface-border)!important;background:var(--bg1)!important;color:var(--txt2)!important;font-weight:750!important;}
+.nns-variation-chip.active{background:var(--accent)!important;border-color:var(--accent)!important;color:var(--accent-fg)!important;}
+.nns-diagram-hint{font-size:12px!important;font-weight:650!important;color:var(--wb-text-secondary)!important;text-align:center!important;}
+@media(max-width:430px){.nns-diagram-field-grid{grid-template-columns:1fr!important}.tool-field-grid{grid-template-columns:1fr 1fr!important}.nns-ref-item{grid-template-columns:1fr!important;gap:2px!important}}
+
+/* Piano diagrams use semantic piano colours, not accent fills. */
+.piano-white{fill:#fff!important;stroke:#101418!important;stroke-width:.8!important;}
+.piano-black{fill:#101418!important;stroke:#101418!important;stroke-width:.8!important;}
+.piano-dot-white{fill:#101418!important;stroke:#101418!important;}
+.piano-dot-black{fill:#fff!important;stroke:#fff!important;}
+body.dark .piano-white{fill:transparent!important;stroke:rgba(255,255,255,.72)!important;stroke-width:.95!important;}
+body.dark .piano-black{fill:rgba(255,255,255,.78)!important;stroke:rgba(255,255,255,.88)!important;}
+body.dark .piano-dot-white{fill:#fff!important;stroke:#fff!important;}
+body.dark .piano-dot-black{fill:#15171d!important;stroke:#15171d!important;}
+
+/* Focus floating button icon contrast: semantic filled-button icon contrast. */
+#sv-focus-btn,.sv-focus-btn,.focus-fab{color:var(--accent-fg)!important;}
+#sv-focus-btn svg,.sv-focus-btn svg,.focus-fab svg{stroke:currentColor!important;fill:none!important;}
+body[data-theme="white"] #sv-focus-btn,body.theme-white #sv-focus-btn{color:#111827!important;}
+
+/* Restore Review table polish. */
+.backup-review-comparison-table th,.restore-comparison-table th,.backup-restore-table th{font-weight:950!important;color:var(--txt1)!important;text-align:center!important;}
+.backup-review-comparison-table th:first-child,.restore-comparison-table th:first-child,.backup-restore-table th:first-child{text-align:left!important;}
+.backup-review-comparison-table td:nth-child(n+2),.restore-comparison-table td:nth-child(n+2),.backup-restore-table td:nth-child(n+2){text-align:center!important;}
+
+/* Bible selector and rails. */
+.bible-version-option .bible-version-title,.bible-version-title{display:block!important;font-weight:800!important;color:var(--txt1)!important;}
+.bible-version-option .bible-version-meta,.bible-version-meta{display:block!important;margin-top:3px!important;color:var(--wb-text-muted)!important;font-size:12.5px!important;line-height:1.35!important;}
+.bible-fab,.bible-prev,.bible-next,.bible-rail-btn{background:transparent!important;border-color:transparent!important;box-shadow:none!important;color:var(--accent)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
+.bible-fab:hover,.bible-prev:hover,.bible-next:hover,.bible-rail-btn:hover{background:color-mix(in srgb,var(--accent) 7%,transparent)!important;}
+
+/* Song menu toggles: ensure rows are independent and label matches state. */
+#mi-dark .wbsm-toggle.on,#mi-flats .wbsm-toggle.on,#mi-highlight-chords .wbsm-toggle.on{background:var(--accent)!important;}
+#mi-dark,#mi-flats,#mi-highlight-chords{isolation:isolate!important;}
+#mi-dark .wbsm-toggle,#mi-flats .wbsm-toggle,#mi-highlight-chords .wbsm-toggle{pointer-events:none!important;}
+
+.bible-version-copy{display:flex!important;flex-direction:column!important;gap:3px!important;min-width:0!important;}
+.bible-version-title{display:block!important;white-space:normal!important;line-height:1.22!important;}
+.bible-version-sub{display:block!important;color:var(--wb-text-muted)!important;font-size:12.5px!important;line-height:1.35!important;white-space:normal!important;}
+.bible-version-item{align-items:center!important;gap:12px!important;}
+.bible-version-item .setdest-state{flex:0 0 auto!important;}

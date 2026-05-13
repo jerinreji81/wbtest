@@ -1,8 +1,8 @@
 {
-  "name": "worshipbase-phase2b-qa2",
+  "name": "worshipbase-phase2b-qa3",
   "private": true,
-  "version": "2.0.0-phase-2b-qa2",
-  "description": "WorshipBase Phase 2b - QA2 feedback v2 regression fixes.",
+  "version": "2.0.0-phase-2b-qa3",
+  "description": "WorshipBase Phase 2b - QA3 consolidated post-modularisation QA fixes.",
   "scripts": {
     "build": "node scripts/build.js && node scripts/phase-2b-check.js --write",
     "phase-2b:check": "node scripts/phase-2b-check.js --write",
