@@ -4258,6 +4258,257 @@ body.dark .nns-table thead th{background:color-mix(in srgb,var(--accent) 22%,rgb
 .backup-history-detail{font-size:12.5px!important;line-height:1.35!important;color:var(--txt3)!important;}
 .backup-history-empty{border:1px solid var(--surface-border)!important;border-radius:16px!important;background:color-mix(in srgb,var(--bg1) 96%,var(--surface-tint) 4%)!important;padding:14px!important;color:var(--txt3)!important;font-size:13px!important;}
 body.dark .backup-history-entry,body.dark .backup-history-empty{background:rgba(255,255,255,.045)!important;border-color:rgba(255,255,255,.10)!important;}
+
+/* QA4-RC1.2 follow-up: outstanding fresh issues + focus toolrail/pads icon */
+/* FRESH-002 final lock: song page back button must be a true circle. */
+body #song-view #song-back-btn,
+body #song-view #song-back-btn.back-btn,
+body #song-view:not(.song-focus):not(.performance-mode) #song-back-btn,
+body #song-view.song-focus #song-back-btn,
+body #song-view.performance-mode #song-back-btn{
+  inline-size:54px!important;
+  block-size:54px!important;
+  width:54px!important;
+  height:54px!important;
+  min-width:54px!important;
+  max-width:54px!important;
+  min-height:54px!important;
+  max-height:54px!important;
+  flex:0 0 54px!important;
+  aspect-ratio:1/1!important;
+  border-radius:50%!important;
+  padding:0!important;
+  box-sizing:border-box!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  overflow:hidden!important;
+}
+body #song-view #song-back-btn::before{width:22px!important;height:22px!important;margin:0!important;transform:none!important;}
+body #song-view #song-back-btn svg{display:none!important;}
+
+/* FRESH-003 final lock: chord highlight should read as rounded square/rectangle. */
+body .sheet.chords-highlight .chord-token,
+body .preview-body.chords-highlight .chord-token,
+body .pair-chord .chord-token,
+body span.chord-token{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-width:1.68em!important;
+  min-height:1.22em!important;
+  padding:.07em .42em .09em!important;
+  margin:0 .065em!important;
+  border-radius:.33em!important;
+  line-height:1!important;
+  text-align:center!important;
+  box-sizing:border-box!important;
+  background:var(--chord-highlight-bg)!important;
+}
+
+/* FRESH-004 final lock: alpha strip stays tiny and secondary. */
+body #alpha-strip{
+  right:1px!important;
+  width:16px!important;
+  opacity:.52!important;
+  color:color-mix(in srgb,var(--txt2) 48%,transparent)!important;
+}
+body #alpha-strip .alpha-letter,
+body .alpha-letter{
+  width:16px!important;
+  min-height:13px!important;
+  font-size:7.4px!important;
+  line-height:1!important;
+  font-weight:620!important;
+  letter-spacing:0!important;
+  color:inherit!important;
+}
+body #alpha-strip .alpha-letter.available{color:color-mix(in srgb,var(--txt2) 60%,transparent)!important;}
+
+/* FRESH-010 final lock: use Library avatar sizing/formatting everywhere. */
+body .wb-ui-card-icon,
+body .workspace-card-icon,
+body .tool-card-ico,
+body .settings-row-icon,
+body .settings-icon,
+body .ss-icon,
+body .ss-ico,
+body .song-avatar{
+  width:40px!important;
+  height:40px!important;
+  min-width:40px!important;
+  max-width:40px!important;
+  min-height:40px!important;
+  max-height:40px!important;
+  border-radius:12px!important;
+  padding:0!important;
+  box-sizing:border-box!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  background:color-mix(in srgb,var(--accent) 7%,var(--bg2))!important;
+  border:1px solid color-mix(in srgb,var(--accent) 12%,var(--surface-border))!important;
+  color:color-mix(in srgb,var(--accent) 58%,var(--txt3))!important;
+}
+body .wb-ui-card-icon svg,
+body .workspace-card-icon svg,
+body .tool-card-ico svg,
+body .settings-row-icon svg,
+body .settings-icon svg,
+body .ss-icon svg,
+body .ss-ico svg,
+body .song-avatar svg{
+  width:20px!important;
+  height:20px!important;
+}
+body.dark .wb-ui-card-icon,
+body.dark .workspace-card-icon,
+body.dark .tool-card-ico,
+body.dark .settings-row-icon,
+body.dark .settings-icon,
+body.dark .ss-icon,
+body.dark .ss-ico,
+body.dark .song-avatar{
+  background:color-mix(in srgb,var(--accent) 11%,rgba(255,255,255,.035))!important;
+  border-color:color-mix(in srgb,var(--accent) 20%,rgba(255,255,255,.10))!important;
+  color:color-mix(in srgb,var(--accent) 74%,var(--txt2))!important;
+}
+
+/* FRESH-011 clarification: top card spacing in Set List should match Workspace. */
+body #wb-set-editor .sl-hdr{
+  padding-bottom:8px!important;
+  margin-bottom:0!important;
+}
+body #wb-set-editor .sl-scroll{padding-top:0!important;}
+body #wb-set-editor .sl-items{
+  padding-top:0!important;
+  margin-top:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:12px!important;
+}
+body #wb-set-editor .sl-items>.set-card,
+body #wb-set-editor .sl-items>.set-section-card{
+  margin-top:0!important;
+  margin-bottom:0!important;
+}
+body #wb-set-editor .sl-items>*:first-child{margin-top:0!important;}
+
+/* Focus mode expanded toolrail: match v85 order/shape, no notes button, no shape shift. */
+body #live-tool-notes{display:none!important;}
+body .live-tools,
+body #live-tools{
+  right:10px!important;
+  left:auto!important;
+  bottom:calc(var(--sab) + 12px)!important;
+  display:flex!important;
+  flex-direction:row-reverse!important;
+  align-items:center!important;
+  gap:8px!important;
+  max-width:calc(100vw - 20px)!important;
+}
+body #song-view.live-tools-expanded .live-tool-stack,
+body .live-tools.expanded .live-tool-stack{
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:6px!important;
+  left:auto!important;
+  right:auto!important;
+  width:auto!important;
+  max-width:calc(100vw - 92px)!important;
+  overflow-x:auto!important;
+  overflow-y:hidden!important;
+  padding:5px!important;
+  border-radius:999px!important;
+  background:color-mix(in srgb,var(--bg1) 86%,transparent)!important;
+  border:1px solid color-mix(in srgb,var(--surface-border) 82%,transparent)!important;
+  box-shadow:0 14px 34px rgba(16,55,74,.14)!important;
+  backdrop-filter:blur(22px) saturate(1.22)!important;
+  -webkit-backdrop-filter:blur(22px) saturate(1.22)!important;
+}
+body #song-view.live-tools-expanded .live-tool,
+body .live-tools.expanded .live-tool{
+  flex:0 0 54px!important;
+  width:54px!important;
+  min-width:54px!important;
+  height:54px!important;
+  min-height:54px!important;
+  max-height:54px!important;
+  border-radius:999px!important;
+  padding:0 6px!important;
+  font-size:10.5px!important;
+  line-height:1.02!important;
+  letter-spacing:.025em!important;
+  font-weight:850!important;
+  white-space:normal!important;
+  overflow:hidden!important;
+}
+body #song-view.live-tools-expanded .live-tool.soft,
+body .live-tools.expanded .live-tool.soft{font-size:17px!important;letter-spacing:0!important;}
+body #song-view.live-tools-expanded .live-tool .two-line,
+body .live-tools.expanded .live-tool .two-line{font-size:10.5px!important;line-height:1.02!important;}
+body #live-tool-main.live-tool-main{
+  flex:0 0 56px!important;
+  width:56px!important;
+  height:56px!important;
+  min-width:56px!important;
+  min-height:56px!important;
+  max-width:56px!important;
+  max-height:56px!important;
+  border-radius:50%!important;
+  padding:0!important;
+  aspect-ratio:1/1!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  transform:none!important;
+  transition:background-color .18s ease,color .18s ease,border-color .18s ease,box-shadow .18s ease!important;
+}
+body #live-tool-main.live-tool-main svg{width:22px!important;height:22px!important;transition:transform .18s ease!important;}
+body .live-tools.expanded #live-tool-main svg,
+body #song-view.live-tools-expanded #live-tool-main svg{transform:rotate(45deg)!important;}
+body.dark #song-view.live-tools-expanded .live-tool-stack,
+body.dark .live-tools.expanded .live-tool-stack{background:rgba(24,30,38,.88)!important;border-color:rgba(255,255,255,.13)!important;box-shadow:0 16px 38px rgba(0,0,0,.34)!important;}
+@media(max-width:390px){
+  body #song-view.live-tools-expanded .live-tool,
+  body .live-tools.expanded .live-tool{flex-basis:50px!important;width:50px!important;min-width:50px!important;height:50px!important;font-size:9.8px!important;}
+  body #song-view.live-tools-expanded .live-tool .two-line,
+  body .live-tools.expanded .live-tool .two-line{font-size:9.8px!important;}
+  body #live-tool-main.live-tool-main{width:54px!important;min-width:54px!important;height:54px!important;}
+}
+
+/* Pads pill: v85-style stop symbol rather than a word button. */
+#pad-now-playing-pill button[data-pad-stop-global]{
+  width:34px!important;
+  min-width:34px!important;
+  height:34px!important;
+  min-height:34px!important;
+  padding:0!important;
+  border-radius:999px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  font-size:0!important;
+  color:#d93448!important;
+  background:color-mix(in srgb,#d93448 10%,var(--bg1))!important;
+  border:1px solid color-mix(in srgb,#d93448 22%,var(--surface-border))!important;
+}
+#pad-now-playing-pill .pad-stop-icon,
+#pad-now-playing-pill button[data-pad-stop-global]::before{
+  content:""!important;
+  display:block!important;
+  width:8px!important;
+  height:8px!important;
+  border-radius:2px!important;
+  background:currentColor!important;
+}
+body.dark #pad-now-playing-pill button[data-pad-stop-global]{
+  color:#ff6374!important;
+  background:rgba(255,99,116,.11)!important;
+  border-color:rgba(255,99,116,.22)!important;
+}
 </style>
 
 </head>
@@ -4593,7 +4844,6 @@ body.dark .backup-history-entry,body.dark .backup-history-empty{background:rgba(
 <button aria-label="Chart view" class="live-tool" id="live-tool-view" type="button"><span class="two-line"><span>VIEW</span><span id="live-view-label">CHORDS</span></span></button>
 <button aria-label="Smaller text" class="live-tool soft" id="live-tool-smaller" type="button">A−</button>
 <button aria-label="Larger text" class="live-tool soft" id="live-tool-larger" type="button">A+</button>
-<button aria-label="Open notes and cues" class="live-tool" id="live-tool-notes" type="button"><span class="two-line"><span>NOTES</span><span id="live-notes-label">—</span></span></button>
 <button aria-label="Show or hide cues" class="live-tool" id="live-tool-cues" type="button"><span class="two-line"><span>CUES</span><span id="live-cues-label">ON</span></span></button>
 </div>
 </div>
@@ -15933,7 +16183,7 @@ function renderPadSheet(){var s=activeSong(),wb=window.WorshipBasePad||{},st=wb.
 function openPadSheet(){var s=activeSong();if(window.WorshipBasePad&&window.WorshipBasePad.setKey&&s&&!window.WorshipBasePad.state.on)window.WorshipBasePad.setKey(state.displayKey||s.key||'C');renderPadSheet();var m=qs('bs-pad');if(m){m.classList.add('open');m.setAttribute('aria-hidden','false')}}
 function closePadSheet(){closeSheetElement(qs('bs-pad'))}
 function updatePadNowPlayingPill(){var el=qs('pad-now-playing-pill'),wb=window.WorshipBasePad;if(!el||!wb||!wb.state){if(el){el.hidden=true;el.classList.remove('show')}return}var st=wb.state||{},on=!!st.on;if(!on){el.hidden=true;el.classList.remove('show');return}el.hidden=false;el.classList.add('show');var title=el.querySelector('[data-pad-now-title]'),sub=el.querySelector('[data-pad-now-sub]');var modeLabel=String(st.mode||'peaceful').charAt(0).toUpperCase()+String(st.mode||'peaceful').slice(1);var keyLabel=normalPadKey(st.key||state.displayKey||'C');if(title)title.textContent=modeLabel+' · '+keyLabel;if(sub)sub.textContent=''}
-function ensurePadNowPlayingPill(){var el=qs('pad-now-playing-pill');if(el)return el;el=document.createElement('div');el.id='pad-now-playing-pill';el.className='pad-now-playing-pill';el.hidden=true;el.innerHTML='<div class="pad-now-copy"><strong data-pad-now-title>Peaceful · C</strong><span data-pad-now-sub></span></div><button type="button" data-pad-stop-global>Stop</button>';document.body.appendChild(el);el.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-pad-stop-global]');if(!b)return;e.preventDefault();if(window.WorshipBasePad&&window.WorshipBasePad.stop)window.WorshipBasePad.stop();updatePadNowPlayingPill();renderPadSheet();updateSongTopActionStates();});return el}
+function ensurePadNowPlayingPill(){var el=qs('pad-now-playing-pill');if(el)return el;el=document.createElement('div');el.id='pad-now-playing-pill';el.className='pad-now-playing-pill';el.hidden=true;el.innerHTML='<div class="pad-now-copy"><strong data-pad-now-title>Peaceful · C</strong><span data-pad-now-sub></span></div><button type="button" data-pad-stop-global aria-label="Stop pads"><span class="pad-stop-icon" aria-hidden="true"></span></button>';document.body.appendChild(el);el.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-pad-stop-global]');if(!b)return;e.preventDefault();if(window.WorshipBasePad&&window.WorshipBasePad.stop)window.WorshipBasePad.stop();updatePadNowPlayingPill();renderPadSheet();updateSongTopActionStates();});return el}
 function installPadNowPlayingPill(){ensurePadNowPlayingPill();var wb=window.WorshipBasePad;if(wb&&!wb._wbGlobalPillWrapped){['start','stop','setKey','setMode'].forEach(function(k){if(typeof wb[k]!=='function')return;var orig=wb[k];wb[k]=function(){var ret=orig.apply(wb,arguments);function sync(){updatePadNowPlayingPill();try{renderPadSheet()}catch(e){}try{updateSongTopActionStates()}catch(e){}};if(ret&&typeof ret.then==='function')ret.then(sync,sync);else setTimeout(sync,0);return ret};});wb._wbGlobalPillWrapped=true}updatePadNowPlayingPill()}
 function handlePadSheetClick(e){var key=e.target.closest('[data-pad-key]'),mode=e.target.closest('[data-pad-mode]'),power=e.target.closest('[data-pad-power]');if(!window.WorshipBasePad)return;if(key){window.WorshipBasePad.setKey(key.dataset.padKey);renderPadSheet();updateSongTopActionStates();updatePadNowPlayingPill();return}if(mode){window.WorshipBasePad.setMode(mode.dataset.padMode);renderPadSheet();updateSongTopActionStates();updatePadNowPlayingPill();return}if(power){if(window.WorshipBasePad.state&&window.WorshipBasePad.state.on)window.WorshipBasePad.stop();else window.WorshipBasePad.start();renderPadSheet();updateSongTopActionStates();updatePadNowPlayingPill();return}}
 function orderedVisibleSongs(){return SongLifecycleController.orderedVisibleSongs(songLifecycleCtx())}

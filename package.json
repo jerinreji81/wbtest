@@ -1,7 +1,7 @@
 {
   "name": "worshipbase-phase2b-qa4",
   "private": true,
-  "version": "2.0.0-phase-2b-qa4",
+  "version": "2.0.0-qa4-rc1.2",
   "description": "WorshipBase Phase 2b - QA4 correct-build modular fixes and targeted verification.",
   "scripts": {
     "build": "node scripts/build.js && node scripts/phase-2b-check.js --write",
