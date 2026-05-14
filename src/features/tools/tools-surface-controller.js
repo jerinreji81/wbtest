@@ -132,14 +132,13 @@ function updateConversion(ctx){
     if(ctx.syncPickerButtons)ctx.syncPickerButtons();
     return true;
   }
-  var converted=owner.convertProgression?owner.convertProgression(value,state.key,state.mode):null;
+  var baseKey=state.transposeTarget||state.key||'C';
+  var converted=owner.convertProgression?owner.convertProgression(value,baseKey,state.mode):null;
   var line=converted&&converted.line?converted.line:'';
-  var label=converted&&converted.direction==='numbers-to-chords'?'Numbers → chords':'Chords → numbers';
+  var label=converted&&converted.direction==='numbers-to-chords'?'Chords in '+baseKey:'Numbers';
   out.innerHTML='<span class="nns-result-label">'+esc(label)+'</span><div class="nns-result-line">'+esc(line||'?')+'</div>';
-  var trans=owner.transposeProgression?owner.transposeProgression(value,state.key,state.transposeTarget,state.mode):null;
-  var transLine=trans&&trans.line?trans.line:'';
-  if(tr)tr.innerHTML='<span class="nns-result-label">Transposed to '+esc(state.transposeTarget)+'</span><div class="nns-result-line">'+esc(transLine||'?')+'</div>';
-  state.lastCopy=(label+': '+(line||'?')+'\nTransposed to '+state.transposeTarget+': '+(transLine||'?'));
+  if(tr)tr.innerHTML='<span class="nns-result-label">Selected key</span><div class="nns-result-line">'+esc(baseKey)+'</div>';
+  state.lastCopy=(label+': '+(line||'?'));
   if(copy)copy.disabled=false;
   if(ctx.syncPickerButtons)ctx.syncPickerButtons();
   return true;

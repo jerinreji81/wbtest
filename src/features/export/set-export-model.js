@@ -76,7 +76,9 @@ function resolveSetKey(set,song,env){
   env=env||{};
   set=asObject(set);
   if(!set||!Object.keys(set).length)return defaultKeyFor(song,null,env);
-  return resolveChoiceKey(set.setKey||set.defaultKey||'original',song,set,env);
+  var choice=normalizeKeyChoice(set.setKey||set.defaultKey||'original');
+  if(choice==='original'||choice==='default')return defaultKeyFor(song,set,env);
+  return resolveChoiceKey(choice,song,set,env);
 }
 function resolveSetItemChoice(set,item){
   if(itemHasExplicitKey(item))return normalizeKeyChoice(item.setKey);
@@ -84,7 +86,9 @@ function resolveSetItemChoice(set,item){
   return normalizeKeyChoice(set.setKey||set.defaultKey||'original');
 }
 function resolveSetItemKey(set,item,song,env){
-  return resolveChoiceKey(resolveSetItemChoice(set,item),song,set,env||{});
+  env=env||{};
+  if(itemHasExplicitKey(item))return resolveChoiceKey(item.setKey,song,set,env);
+  return resolveSetKey(set,song,env);
 }
 function findSetById(list,id){
   id=String(id||'');

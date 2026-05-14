@@ -199,16 +199,29 @@ function importFromUrl(kind,ctx){
 function importResultByIdOrUrl(kind,draft,ctx){
   if(!draft)return Promise.resolve(null);
   function finish(row){ctx.setImportedDraft(kind,row);call(ctx,'showToast','Imported');return row;}
-  if(draft.chart)return Promise.resolve(finish(draft));
-  if(draft.importId||draft.sourceUrl){
+  var hasRemote=!!(draft.importId||draft.sourceUrl);
+  if(hasRemote){
     var url=draft.importId?importUrl(kind,draft.importId,true):importUrl(kind,draft.sourceUrl,false);
     return fetchJson(url).then(function(data){
       var raw=data.song||data||{};
-      var canonicalKey=draft.key||draft.originalKey||draft.sourceKey||draft.chartKey||draft.detectedKey||draft.scale||raw.key||raw.originalKey||raw.sourceKey||raw.chartKey||raw.detectedKey||raw.scale;
-      var merged=Object.assign({},raw,draft,{key:canonicalKey,originalKey:canonicalKey,sourceKey:canonicalKey,chartKey:canonicalKey,displayKey:canonicalKey});
+      var canonicalKey=raw.key||raw.originalKey||raw.sourceKey||raw.chartKey||raw.detectedKey||raw.scale||draft.key||draft.originalKey||draft.sourceKey||draft.chartKey||draft.detectedKey||draft.scale;
+      var rawChart=raw.chart||raw.content||raw.lyrics||raw.body||raw.text||'';
+      var merged=Object.assign({},draft,raw,{
+        key:canonicalKey,
+        originalKey:canonicalKey,
+        sourceKey:canonicalKey,
+        chartKey:canonicalKey,
+        displayKey:canonicalKey,
+        chart:rawChart||draft.chart||''
+      });
       return finish(mapBackendSong(merged,kind,ctx));
-    }).catch(function(){call(ctx,'showToast',kind==='sop'?'Songs of Praise import failed':'UG import failed');});
+    }).catch(function(err){
+      if(draft.chart&&String(draft.chart).trim())return finish(draft);
+      call(ctx,'showToast',kind==='sop'?'Songs of Praise import failed':'UG import failed');
+      return null;
+    });
   }
+  if(draft.chart)return Promise.resolve(finish(draft));
   return Promise.resolve(null);
 }
 function renderContract(){return {phase:'Phase 2b - I4',owner:'WBSongImportDestinationController',contracts:['fetchJson','searchImport','importFromUrl','importResultByIdOrUrl','chooseImportDestination','resolveImportDestination','putFirebaseSongsBulk','saveImportedSongsToDestination','saveManualSongToDestination','saveManualNewSong','saveManualEditedSong','commitImportedDrafts'],legacyShellHost:true,nonDestructive:true};}

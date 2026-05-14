@@ -4739,52 +4739,87 @@ body.dark #song-view .live-tools.expanded .live-tool-stack{background:rgba(24,30
 #pad-now-playing-pill .pad-stop-icon rect{fill:currentColor!important;}
 
 
-/* QA4-RC1.4: consolidated issue-intake fixes (001-010). */
+/* QA4-RC1.6 canonical component tokens and state rules.
+   This replaces the RC1.4/RC1.5 issue-layer block with one source of truth for
+   control sizing, sheet actions, filled-button contrast, song/focus headers,
+   editor highlights, and home-card rhythm. */
 :root{
-  --wb-ui-back:40px;
-  --wb-ui-action:40px;
-  --wb-song-top-control:40px;
-  --wb-focus-main:48px;
-  --wb-focus-tool:42px;
-  --wb-dark-solid-action-bg:color-mix(in srgb,var(--accent) 72%,#fff 28%);
-  --wb-dark-solid-action-fg:#101114;
-  --wb-dark-muted-action-bg:rgba(255,255,255,.055);
-  --wb-dark-muted-action-border:rgba(255,255,255,.12);
+  --wb-control-size:40px;
+  --wb-avatar-tile-size:40px;
+  --wb-avatar-tile-radius:12px;
+  --wb-avatar-icon-size:20px;
+  --wb-sheet-action-height:40px;
+  --wb-filled-action-bg:var(--accent);
+  --wb-filled-action-fg:var(--accent-fg,#fff);
+  --wb-muted-action-bg:color-mix(in srgb,var(--bg1) 92%,var(--surface-tint) 8%);
+  --wb-muted-action-border:var(--surface-border);
+  --wb-home-card-min-height:78px;
+  --wb-home-card-gap:14px;
+  --wb-home-card-pad-y:16px;
+  --wb-home-card-pad-x:18px;
+  --wb-focus-main-size:48px;
+  --wb-focus-tool-size:42px;
+}
+body.dark{
+  --wb-muted-action-bg:rgba(255,255,255,.055);
+  --wb-muted-action-border:rgba(255,255,255,.13);
 }
 
-/* QA4-RC1.4-001: Settings icon/avatar tiles must match the Library 40x40 rounded-square geometry. */
+/* Avatar/source-of-truth tiles: Library, Workspace, Tools, Settings all share the same square geometry. */
+body .workspace-card-icon,
+body .tool-card-ico,
+body .ss-icon,
+body .ss-ico,
+body .settings-icon,
+body .settings-row-icon,
+body .settings-action-icon,
+body .pref-icon,
 body #settings-section .ss-ico,
 body #settings-section .settings-row-icon,
 body #settings-section .settings-action-icon,
 body #settings-section .settings-icon,
 body #settings-section .pref-icon{
-  flex:0 0 40px!important;
-  width:40px!important;
-  min-width:40px!important;
-  max-width:40px!important;
-  height:40px!important;
-  min-height:40px!important;
-  max-height:40px!important;
+  flex:0 0 var(--wb-avatar-tile-size)!important;
+  width:var(--wb-avatar-tile-size)!important;
+  min-width:var(--wb-avatar-tile-size)!important;
+  max-width:var(--wb-avatar-tile-size)!important;
+  height:var(--wb-avatar-tile-size)!important;
+  min-height:var(--wb-avatar-tile-size)!important;
+  max-height:var(--wb-avatar-tile-size)!important;
   aspect-ratio:1/1!important;
-  border-radius:12px!important;
+  border-radius:var(--wb-avatar-tile-radius)!important;
   padding:0!important;
   display:inline-flex!important;
   align-items:center!important;
   justify-content:center!important;
   box-sizing:border-box!important;
 }
+body .workspace-card-icon svg,
+body .tool-card-ico svg,
+body .ss-icon svg,
+body .ss-ico svg,
+body .settings-icon svg,
+body .settings-row-icon svg,
+body .settings-action-icon svg,
+body .pref-icon svg,
 body #settings-section .ss-ico svg,
 body #settings-section .settings-row-icon svg,
 body #settings-section .settings-action-icon svg,
 body #settings-section .settings-icon svg,
 body #settings-section .pref-icon svg{
-  width:20px!important;
-  height:20px!important;
-  flex:0 0 20px!important;
-  display:block!important;
+  width:var(--wb-avatar-icon-size)!important;
+  height:var(--wb-avatar-icon-size)!important;
+  flex:0 0 var(--wb-avatar-icon-size)!important;
 }
 
-/* QA4-RC1.4-002/009: normalize all song-page top controls and transition clones to the same 40px control language. */
+/* Song header states: normal and focus modes are separate states, not shared layouts. */
+body #song-view .sv-top{
+  display:grid!important;
+  grid-template-columns:var(--wb-control-size) minmax(0,1fr) auto!important;
+  align-items:center!important;
+  column-gap:10px!important;
+  width:100%!important;
+}
 body #song-view #song-back-btn,
 body #song-view #song-back-btn.back-btn,
 body #song-view .sv-hdr .back-btn,
@@ -4795,13 +4830,13 @@ body #song-view .sv-actions .sv-fav-btn,
 body .song-transition-pane .back-btn,
 body .song-transition-pane .sv-hdr .back-btn,
 body.song-motion-freeze .sv-hdr .back-btn{
-  flex:0 0 40px!important;
-  width:40px!important;
-  min-width:40px!important;
-  max-width:40px!important;
-  height:40px!important;
-  min-height:40px!important;
-  max-height:40px!important;
+  flex:0 0 var(--wb-control-size)!important;
+  width:var(--wb-control-size)!important;
+  min-width:var(--wb-control-size)!important;
+  max-width:var(--wb-control-size)!important;
+  height:var(--wb-control-size)!important;
+  min-height:var(--wb-control-size)!important;
+  max-height:var(--wb-control-size)!important;
   aspect-ratio:1/1!important;
   border-radius:50%!important;
   padding:0!important;
@@ -4810,76 +4845,39 @@ body.song-motion-freeze .sv-hdr .back-btn{
   justify-content:center!important;
   box-sizing:border-box!important;
 }
-body #song-view .sv-actions .sv-pad-btn,
-body #song-view .sv-pad-btn{
-  min-height:40px!important;
-  height:40px!important;
-  max-height:40px!important;
-  border-radius:999px!important;
-  padding:0 14px!important;
-  display:inline-flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  box-sizing:border-box!important;
-}
-body #song-view .sv-actions{gap:8px!important;align-items:center!important;}
-body #song-view #song-back-btn>svg,
-body #song-view .sv-hdr .back-btn>svg,
-body .song-transition-pane .back-btn>svg,
-body.song-motion-freeze .sv-hdr .back-btn>svg{display:none!important;}
-body #song-view #song-back-btn::before,
-body #song-view .sv-hdr .back-btn::before,
-body .song-transition-pane .back-btn::before,
-body.song-motion-freeze .sv-hdr .back-btn::before{
-  content:""!important;
-  display:block!important;
-  width:20px!important;
-  height:20px!important;
-  background:currentColor!important;
-  -webkit-mask:var(--wb-chevron-svg) center/contain no-repeat!important;
-  mask:var(--wb-chevron-svg) center/contain no-repeat!important;
-  opacity:1!important;
-}
-body .song-transition-pane .sv-hdr{visibility:visible!important;opacity:1!important;}
-
-
-/* QA4-RC1.5 canonical song header state. Normal and focus headers share sizing tokens but not visibility. */
-body #song-view .sv-top{
-  display:flex!important;
-  align-items:center!important;
-  justify-content:space-between!important;
-  gap:10px!important;
-}
-body #song-view .sv-actions{
-  margin-left:auto!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:flex-end!important;
-}
-body #song-view:not(.song-focus):not(.performance-mode) .pres-exit-btn{
-  display:none!important;
-}
-body #song-view:not(.song-focus):not(.performance-mode) .sv-actions{
-  display:flex!important;
-}
+body #song-view .sv-actions{grid-column:3!important;justify-self:end!important;margin-left:0!important;display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:8px!important;}
+body #song-view .sv-pres-title{grid-column:2!important;justify-self:center!important;min-width:0!important;}
+body #song-view .pres-exit-btn{grid-column:3!important;justify-self:end!important;}
+body #song-view:not(.song-focus):not(.performance-mode) .pres-exit-btn{display:none!important;}
+body #song-view:not(.song-focus):not(.performance-mode) .sv-actions{display:flex!important;}
 body #song-view.song-focus .sv-actions,
-body #song-view.performance-mode .sv-actions{
-  display:none!important;
-}
+body #song-view.performance-mode .sv-actions{display:none!important;}
 body #song-view.song-focus .pres-exit-btn,
 body #song-view.performance-mode .pres-exit-btn{
   display:inline-flex!important;
   align-items:center!important;
   justify-content:center!important;
-  height:var(--wb-song-top-control)!important;
-  min-height:var(--wb-song-top-control)!important;
-  max-height:var(--wb-song-top-control)!important;
+  height:var(--wb-control-size)!important;
+  min-height:var(--wb-control-size)!important;
+  max-height:var(--wb-control-size)!important;
   min-width:64px!important;
   padding:0 16px!important;
   border-radius:999px!important;
 }
+body.song-focus #song-view:not(.song-focus):not(.performance-mode) .sv-actions{display:flex!important;}
+body.song-focus #song-view:not(.song-focus):not(.performance-mode) .pres-exit-btn{display:none!important;}
+body #song-view .sv-pad-btn{height:var(--wb-control-size)!important;min-height:var(--wb-control-size)!important;border-radius:999px!important;padding:0 14px!important;}
+body #song-view #song-back-btn>svg,
+body #song-view .sv-hdr .back-btn>svg,
+body .song-transition-pane .back-btn>svg{display:none!important;}
+body #song-view #song-back-btn::before,
+body #song-view .sv-hdr .back-btn::before,
+body .song-transition-pane .back-btn::before{
+  content:""!important;display:block!important;width:20px!important;height:20px!important;background:currentColor!important;
+  -webkit-mask:var(--wb-chevron-svg) center/contain no-repeat!important;mask:var(--wb-chevron-svg) center/contain no-repeat!important;opacity:1!important;
+}
 
-/* QA4-RC1.4-003: full-page/save/cancel/preview/close buttons use 40px height; dropdown selectors and Bible segmented controls are intentionally excluded. */
+/* Full-page top buttons and sheet actions: one height token, no clipped fixed-width pills. */
 body #add-song-close,
 body #song-form-cancel,
 body #song-form-save,
@@ -4910,243 +4908,145 @@ body #import-dup-cancel,
 body .btn-p,
 body .btn-s,
 body .btn-danger,
-body .m-close,
-body .settings-picker-close,
-body .sheet-close,
-body .bs-close,
 body .bs-cancel,
 body .bs-done{
-  min-height:40px!important;
-  height:40px!important;
-  max-height:40px!important;
+  min-height:var(--wb-sheet-action-height)!important;
+  height:var(--wb-sheet-action-height)!important;
   border-radius:999px!important;
   box-sizing:border-box!important;
   display:inline-flex!important;
   align-items:center!important;
   justify-content:center!important;
 }
-body .m-close,
-body .settings-picker-close,
-body .sheet-close,
-body .bs-close{
-  width:40px!important;
-  min-width:40px!important;
-  max-width:40px!important;
-  padding:0!important;
-  aspect-ratio:1/1!important;
+body .m-close,body .settings-picker-close,body .sheet-close,body .bs-close{
+  width:var(--wb-control-size)!important;min-width:var(--wb-control-size)!important;height:var(--wb-control-size)!important;min-height:var(--wb-control-size)!important;
+  border-radius:50%!important;padding:0!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;box-sizing:border-box!important;
 }
+body .settings-picker-sheet .bs > .settings-picker-close.bs-cancel{
+  width:calc(100% - 40px)!important;max-width:none!important;margin:20px 20px 0!important;padding:0 18px!important;border-radius:999px!important;
+}
+body .workspace-sheet-actions{display:flex!important;gap:12px!important;width:100%!important;margin-top:18px!important;align-items:center!important;box-sizing:border-box!important;}
+body .workspace-sheet-actions > button{flex:1 1 0!important;min-width:0!important;max-width:none!important;position:static!important;transform:none!important;}
 
-/* QA4-RC1.4-006/007: dark-mode action contrast token pairings. */
-body.dark #song-form-save,
-body.dark .ug-head-btn.primary,
-body.dark .ug-action-btn.primary,
-body.dark .editor-head-action.primary,
-body.dark .modal-top-action.primary,
-body.dark .import-top-btn.primary,
-body.dark .export-top-btn.primary,
-body.dark .wb-top-action.primary,
-body.dark .wb-export-pdf-preview-btn,
-body.dark .wb-export-pdf-preview-btn.primary,
-body.dark #export-view-preview-top,
-body.dark #export-view-preview-bottom,
-body.dark .ev-act-btn.primary,
-body.dark .ev-primary,
-body.dark #wb-editor-publish,
-body.dark .workspace-action-pill.primary,
-body.dark .workspace-subview-new.primary,
-body.dark .btn-p,
-body.dark #import-dup-continue,
-body.dark .backup-review-primary,
-body.dark #tools-pad-play-btn,
-body.dark .tools-pad-chip.active,
-body.dark .tools-pad-key.active,
-body.dark .nns-voice-tab.active,
-body.dark .nns-preset-tab.active{
-  background:var(--wb-dark-solid-action-bg)!important;
-  border-color:color-mix(in srgb,var(--wb-dark-solid-action-bg) 82%,#000 18%)!important;
-  color:var(--wb-dark-solid-action-fg)!important;
-  -webkit-text-fill-color:var(--wb-dark-solid-action-fg)!important;
+/* Filled actions use paired fill/foreground tokens in every theme. */
+body #song-form-save,
+body .ug-head-btn.primary,
+body .ug-action-btn.primary,
+body .editor-head-action.primary,
+body .modal-top-action.primary,
+body .import-top-btn.primary,
+body .export-top-btn.primary,
+body .wb-top-action.primary,
+body .wb-export-pdf-preview-btn,
+body .wb-export-pdf-preview-btn.primary,
+body #export-view-preview-top,
+body #export-view-preview-bottom,
+body .ev-act-btn.primary,
+body .ev-primary,
+body #wb-editor-publish,
+body .workspace-action-pill.primary,
+body .workspace-subview-new.primary,
+body .btn-p,
+body #import-dup-continue,
+body .backup-review-primary,
+body [data-backup-confirm-run],
+body #tools-pad-play-btn,
+body .tools-pad-chip.active,
+body .tools-pad-key.active,
+body .nns-voice-tab.active,
+body .nns-preset-tab.active,
+body .cat-opt.active,
+body .song-editor-mode-btn.active,
+body .editor-mode-btn.active{
+  background:var(--wb-filled-action-bg)!important;
+  border-color:var(--wb-filled-action-bg)!important;
+  color:var(--wb-filled-action-fg)!important;
+  -webkit-text-fill-color:var(--wb-filled-action-fg)!important;
 }
-body.dark #song-form-save svg,
-body.dark .ug-head-btn.primary svg,
-body.dark .ug-action-btn.primary svg,
-body.dark .editor-head-action.primary svg,
-body.dark .modal-top-action.primary svg,
-body.dark .import-top-btn.primary svg,
-body.dark .export-top-btn.primary svg,
-body.dark .wb-top-action.primary svg,
-body.dark .wb-export-pdf-preview-btn svg,
-body.dark #export-view-preview-top svg,
-body.dark #tools-pad-play-btn svg,
-body.dark .tools-pad-chip.active svg,
-body.dark .tools-pad-key.active svg{color:var(--wb-dark-solid-action-fg)!important;fill:currentColor!important;stroke:currentColor!important;}
+body #song-form-save svg,
+body .ug-head-btn.primary svg,
+body .ug-action-btn.primary svg,
+body .editor-head-action.primary svg,
+body .modal-top-action.primary svg,
+body .import-top-btn.primary svg,
+body .export-top-btn.primary svg,
+body .wb-top-action.primary svg,
+body .wb-export-pdf-preview-btn svg,
+body #export-view-preview-top svg,
+body #tools-pad-play-btn svg,
+body .tools-pad-chip.active svg,
+body .tools-pad-key.active svg{color:var(--wb-filled-action-fg)!important;fill:currentColor!important;stroke:currentColor!important;}
+body .backup-review-danger,
+body #backup-centre-modal .backup-review-danger,
+body [data-backup-review-action="cancel"],
+body [data-backup-confirm-cancel]{color:var(--wb-danger-text,#ba3352)!important;-webkit-text-fill-color:var(--wb-danger-text,#ba3352)!important;}
 body.dark .backup-review-danger,
 body.dark #backup-centre-modal .backup-review-danger,
 body.dark [data-backup-review-action="cancel"],
-body.dark [data-backup-confirm-cancel]{
-  background:rgba(239,143,162,.12)!important;
-  border-color:rgba(239,143,162,.32)!important;
-  color:var(--wb-danger-text,#ff9aaa)!important;
-  -webkit-text-fill-color:var(--wb-danger-text,#ff9aaa)!important;
-}
-body.dark .btn-s,
-body.dark .backup-review-secondary,
-body.dark #tools-pad-stop-btn,
-body.dark .tools-pad-chip:not(.active),
-body.dark .tools-pad-key:not(.active){
-  background:var(--wb-dark-muted-action-bg)!important;
-  border-color:var(--wb-dark-muted-action-border)!important;
-  color:var(--wb-muted,#d4d7df)!important;
-}
-body.dark #tools-pad-status{color:var(--wb-muted,#b8bdc8)!important;border-color:var(--wb-dark-muted-action-border)!important;}
+body.dark [data-backup-confirm-cancel]{background:rgba(239,143,162,.12)!important;border-color:rgba(239,143,162,.32)!important;color:var(--wb-danger-text,#ff9aaa)!important;-webkit-text-fill-color:var(--wb-danger-text,#ff9aaa)!important;}
+body .btn-s,body .backup-review-secondary,body #tools-pad-stop-btn,body .tools-pad-chip:not(.active),body .tools-pad-key:not(.active){background:var(--wb-muted-action-bg)!important;border-color:var(--wb-muted-action-border)!important;color:var(--txt2)!important;}
 
-/* QA4-RC1.4-005: Chord/NNS converter expander should follow the rest of the app's lighter card rhythm. */
+/* Workspace cards should follow the Tools tab card rhythm. */
+body #workspace-section .workspace-card{
+  min-height:var(--wb-home-card-min-height)!important;
+  padding:var(--wb-home-card-pad-y) var(--wb-home-card-pad-x)!important;
+  border-radius:22px!important;
+  gap:14px!important;
+  align-items:center!important;
+}
+body #workspace-section .workspace-card + .workspace-card{margin-top:var(--wb-home-card-gap)!important;}
+body #workspace-section .workspace-card-title{font-size:17px!important;line-height:1.16!important;font-weight:820!important;letter-spacing:-.028em!important;}
+body #workspace-section .workspace-card-sub{font-size:13.5px!important;line-height:1.38!important;}
+body #workspace-section .workspace-card-chevron{align-self:center!important;margin-left:auto!important;}
+
+/* Song editor: theme-driven selected states and less cramped chart/editor rhythm. */
+body #add-song-modal .cat-toggle,
+body #add-song-modal .song-editor-mode-toggle{gap:0!important;margin-top:8px!important;margin-bottom:14px!important;}
+body #add-song-modal .field-label{margin-top:14px!important;margin-bottom:7px!important;}
+body #add-song-modal input,
+body #add-song-modal textarea,
+body #add-song-modal select{min-height:48px!important;}
+body #add-song-modal .editor-helper-row,
+body #add-song-modal .m-subacts{display:flex!important;align-items:center!important;gap:10px!important;overflow-x:auto!important;padding:10px 0 8px!important;}
+body #add-song-modal .editor-helper-row button,
+body #add-song-modal .m-subacts button{flex:0 0 auto!important;min-height:40px!important;}
+body #add-song-modal .chart-editor,
+body #add-song-modal textarea#song-chart,
+body #add-song-modal textarea[name="chart"]{min-height:300px!important;line-height:1.55!important;padding:18px!important;}
+body #add-song-modal .editor-preview-card,
+body #add-song-modal .song-preview-card,
+body #add-song-modal .preview-wrap{margin-top:10px!important;border-radius:18px!important;overflow:hidden!important;}
+body #add-song-modal .song-editor-mode-btn:not(.active),
+body #add-song-modal .cat-opt:not(.active){color:var(--txt2)!important;}
+
+/* Chord/NNS converter card follows app rhythm and selected-key output labels. */
 body #nns-converter-details.tool-card-static,
 body details#nns-converter-details,
-body details.nns-advanced{
-  margin-top:14px!important;
-  padding:0!important;
-  border-radius:22px!important;
-  background:var(--wb-card-fill)!important;
-  border:1px solid var(--wb-card-border)!important;
-  box-shadow:none!important;
-  overflow:hidden!important;
-}
+body details.nns-advanced{margin-top:14px!important;padding:0!important;border-radius:22px!important;background:var(--wb-card-fill)!important;border:1px solid var(--wb-card-border)!important;box-shadow:none!important;overflow:hidden!important;}
 body #nns-converter-details>summary,
-body details.nns-advanced>summary{
-  min-height:60px!important;
-  padding:0 18px!important;
-  display:flex!important;
-  align-items:center!important;
-  gap:10px!important;
-  font-size:17px!important;
-  line-height:1.18!important;
-  font-weight:840!important;
-  letter-spacing:-.018em!important;
-  color:var(--txt1)!important;
-  list-style:none!important;
-  cursor:pointer!important;
-}
-body #nns-converter-details>summary::-webkit-details-marker,
-body details.nns-advanced>summary::-webkit-details-marker{display:none!important;}
-body #nns-converter-details>summary::marker,
-body details.nns-advanced>summary::marker{content:""!important;}
-body #nns-converter-details>summary::before,
-body details.nns-advanced>summary::before{
-  content:""!important;
-  width:0!important;
-  height:0!important;
-  border-left:8px solid currentColor!important;
-  border-top:5px solid transparent!important;
-  border-bottom:5px solid transparent!important;
-  opacity:.92!important;
-  transform-origin:50% 50%!important;
-  transition:transform .18s ease!important;
-}
-body #nns-converter-details[open]>summary::before,
-body details.nns-advanced[open]>summary::before{transform:rotate(90deg)!important;}
-body #nns-converter-details .nns-converter-body,
-body #nns-converter-details .tool-card-static-body,
-body details.nns-advanced .nns-advanced-body{
-  padding:0 18px 18px!important;
-  color:var(--txt2)!important;
-}
-body.dark #nns-converter-details.tool-card-static,
-body.dark details#nns-converter-details,
-body.dark details.nns-advanced{
-  background:rgba(255,255,255,.035)!important;
-  border-color:rgba(255,255,255,.11)!important;
-}
+body details.nns-advanced>summary{min-height:60px!important;padding:0 18px!important;display:flex!important;align-items:center!important;gap:10px!important;font-size:17px!important;line-height:1.18!important;font-weight:840!important;letter-spacing:-.018em!important;color:var(--txt1)!important;list-style:none!important;cursor:pointer!important;}
+body #nns-converter-details>summary::-webkit-details-marker,body details.nns-advanced>summary::-webkit-details-marker{display:none!important;}
+body #nns-converter-details>summary::marker,body details.nns-advanced>summary::marker{content:""!important;}
+body #nns-converter-details>summary::before,body details.nns-advanced>summary::before{content:""!important;width:0!important;height:0!important;border-left:8px solid currentColor!important;border-top:5px solid transparent!important;border-bottom:5px solid transparent!important;opacity:.92!important;transition:transform .18s ease!important;}
+body #nns-converter-details[open]>summary::before,body details.nns-advanced[open]>summary::before{transform:rotate(90deg)!important;}
+body #nns-converter-details .nns-converter-body,body #nns-converter-details .tool-card-static-body,body details.nns-advanced .nns-advanced-body{padding:0 18px 18px!important;color:var(--txt2)!important;}
+body.dark #nns-converter-details.tool-card-static,body.dark details#nns-converter-details,body.dark details.nns-advanced{background:rgba(255,255,255,.035)!important;border-color:rgba(255,255,255,.11)!important;}
 
-/* QA4-RC1.4-008: piano chord diagrams invert/theme like guitar diagrams in dark mode. */
-body.dark .chord-diagram-svg.piano .piano-white,
-body.dark .chord-diagram-svg .piano-white,
-body.dark .nns-piano-svg .piano-white,
-body.dark svg.piano .piano-white,
-body.dark .piano-chord-svg .piano-white{
-  fill:transparent!important;
-  stroke:rgba(245,246,250,.68)!important;
-  stroke-width:1.25!important;
-}
-body.dark .chord-diagram-svg.piano .piano-black,
-body.dark .chord-diagram-svg .piano-black,
-body.dark .nns-piano-svg .piano-black,
-body.dark svg.piano .piano-black,
-body.dark .piano-chord-svg .piano-black{
-  fill:rgba(245,246,250,.82)!important;
-  stroke:rgba(245,246,250,.9)!important;
-  stroke-width:.8!important;
-}
-body.dark .chord-diagram-svg.piano .piano-dot-white,
-body.dark .chord-diagram-svg .piano-dot-white,
-body.dark .nns-piano-svg .piano-dot-white,
-body.dark svg.piano .piano-dot-white,
-body.dark .piano-chord-svg .piano-dot-white{
-  fill:rgba(245,246,250,.92)!important;
-  stroke:rgba(245,246,250,.92)!important;
-}
-body.dark .chord-diagram-svg.piano .piano-dot-black,
-body.dark .chord-diagram-svg .piano-dot-black,
-body.dark .nns-piano-svg .piano-dot-black,
-body.dark svg.piano .piano-dot-black,
-body.dark .piano-chord-svg .piano-dot-black{
-  fill:rgba(17,18,23,.98)!important;
-  stroke:rgba(17,18,23,.98)!important;
-}
-body.dark .chord-diagram-svg.piano text,
-body.dark .nns-piano-svg text,
-body.dark .piano-chord-svg text{fill:rgba(245,246,250,.86)!important;}
+/* Piano diagrams are theme-aware like guitar diagrams. */
+body.dark .chord-diagram-svg.piano .piano-white,body.dark .chord-diagram-svg .piano-white,body.dark .nns-piano-svg .piano-white,body.dark svg.piano .piano-white,body.dark .piano-chord-svg .piano-white{fill:transparent!important;stroke:rgba(245,246,250,.68)!important;stroke-width:1.25!important;}
+body.dark .chord-diagram-svg.piano .piano-black,body.dark .chord-diagram-svg .piano-black,body.dark .nns-piano-svg .piano-black,body.dark svg.piano .piano-black,body.dark .piano-chord-svg .piano-black{fill:rgba(245,246,250,.82)!important;stroke:rgba(245,246,250,.9)!important;stroke-width:.8!important;}
+body.dark .chord-diagram-svg.piano .piano-dot-white,body.dark .chord-diagram-svg .piano-dot-white,body.dark .nns-piano-svg .piano-dot-white,body.dark svg.piano .piano-dot-white,body.dark .piano-chord-svg .piano-dot-white{fill:rgba(245,246,250,.92)!important;stroke:rgba(245,246,250,.92)!important;}
+body.dark .chord-diagram-svg.piano .piano-dot-black,body.dark .chord-diagram-svg .piano-dot-black,body.dark .nns-piano-svg .piano-dot-black,body.dark svg.piano .piano-dot-black,body.dark .piano-chord-svg .piano-dot-black{fill:rgba(17,18,23,.98)!important;stroke:rgba(17,18,23,.98)!important;}
+body.dark .chord-diagram-svg.piano text,body.dark .nns-piano-svg text,body.dark .piano-chord-svg text{fill:rgba(245,246,250,.86)!important;}
 
-/* QA4-RC1.4-010: focus-mode expanded rail rebalanced closer to v85 without clipping CUES ON. */
-body #song-view.live-tools-expanded .live-tool-stack,
-body #song-view .live-tools.expanded .live-tool-stack{
-  gap:5px!important;
-  max-width:calc(100vw - 76px)!important;
-  padding:5px!important;
-  border-radius:999px!important;
-}
-body #song-view.live-tools-expanded .live-tool,
-body #song-view .live-tools.expanded .live-tool{
-  flex-basis:var(--wb-focus-tool)!important;
-  width:var(--wb-focus-tool)!important;
-  min-width:var(--wb-focus-tool)!important;
-  height:var(--wb-focus-tool)!important;
-  min-height:var(--wb-focus-tool)!important;
-  max-height:var(--wb-focus-tool)!important;
-  font-size:10.4px!important;
-  line-height:1.04!important;
-  padding:0 6px!important;
-}
-body #song-view.live-tools-expanded #live-tool-metronome,
-body #song-view .live-tools.expanded #live-tool-metronome{flex-basis:46px!important;width:46px!important;min-width:46px!important;}
-body #song-view.live-tools-expanded #live-tool-view,
-body #song-view .live-tools.expanded #live-tool-view{flex-basis:56px!important;width:56px!important;min-width:56px!important;}
-body #song-view.live-tools-expanded #live-tool-cues,
-body #song-view .live-tools.expanded #live-tool-cues{flex-basis:54px!important;width:54px!important;min-width:54px!important;}
-body #song-view.live-tools-expanded .live-tool .two-line,
-body #song-view .live-tools.expanded .live-tool .two-line{font-size:10px!important;line-height:1.03!important;gap:1px!important;}
-body #live-tool-main.live-tool-main{
-  flex-basis:48px!important;
-  width:48px!important;
-  min-width:48px!important;
-  max-width:48px!important;
-  height:48px!important;
-  min-height:48px!important;
-  max-height:48px!important;
-}
-body #live-tool-main.live-tool-main svg{width:21px!important;height:21px!important;}
-@media(max-width:380px){
-  :root{--wb-focus-main:46px;--wb-focus-tool:40px;}
-  body #song-view.live-tools-expanded .live-tool-stack,
-  body #song-view .live-tools.expanded .live-tool-stack{gap:4px!important;padding:4px!important;max-width:calc(100vw - 72px)!important;}
-  body #song-view.live-tools-expanded #live-tool-metronome,
-  body #song-view .live-tools.expanded #live-tool-metronome{flex-basis:44px!important;width:44px!important;min-width:44px!important;}
-  body #song-view.live-tools-expanded #live-tool-view,
-  body #song-view .live-tools.expanded #live-tool-view{flex-basis:54px!important;width:54px!important;min-width:54px!important;}
-  body #song-view.live-tools-expanded #live-tool-cues,
-  body #song-view .live-tools.expanded #live-tool-cues{flex-basis:52px!important;width:52px!important;min-width:52px!important;}
-  body #live-tool-main.live-tool-main{width:46px!important;height:46px!important;min-width:46px!important;min-height:46px!important;}
-}
+/* Focus rail rebalanced to v85 scale while fitting all controls. */
+body #song-view.live-tools-expanded .live-tool-stack,body #song-view .live-tools.expanded .live-tool-stack{gap:5px!important;max-width:calc(100vw - 76px)!important;padding:5px!important;border-radius:999px!important;}
+body #song-view.live-tools-expanded .live-tool,body #song-view .live-tools.expanded .live-tool{flex-basis:var(--wb-focus-tool-size)!important;width:var(--wb-focus-tool-size)!important;min-width:var(--wb-focus-tool-size)!important;height:var(--wb-focus-tool-size)!important;min-height:var(--wb-focus-tool-size)!important;max-height:var(--wb-focus-tool-size)!important;font-size:10.4px!important;line-height:1.04!important;padding:0 6px!important;}
+body #song-view.live-tools-expanded #live-tool-metronome,body #song-view .live-tools.expanded #live-tool-metronome{flex-basis:46px!important;width:46px!important;min-width:46px!important;}
+body #song-view.live-tools-expanded #live-tool-view,body #song-view .live-tools.expanded #live-tool-view{flex-basis:56px!important;width:56px!important;min-width:56px!important;}
+body #song-view.live-tools-expanded #live-tool-cues,body #song-view .live-tools.expanded #live-tool-cues{flex-basis:54px!important;width:54px!important;min-width:54px!important;}
+body #live-tool-main.live-tool-main{flex-basis:48px!important;width:48px!important;min-width:48px!important;max-width:48px!important;height:48px!important;min-height:48px!important;max-height:48px!important;}
+@media(max-width:380px){:root{--wb-focus-main-size:46px;--wb-focus-tool-size:40px;}body #song-view.live-tools-expanded .live-tool-stack,body #song-view .live-tools.expanded .live-tool-stack{gap:4px!important;padding:4px!important;max-width:calc(100vw - 72px)!important;}body #song-view.live-tools-expanded #live-tool-metronome,body #song-view .live-tools.expanded #live-tool-metronome{flex-basis:44px!important;width:44px!important;min-width:44px!important;}body #song-view.live-tools-expanded #live-tool-view,body #song-view .live-tools.expanded #live-tool-view{flex-basis:54px!important;width:54px!important;min-width:54px!important;}body #song-view.live-tools-expanded #live-tool-cues,body #song-view .live-tools.expanded #live-tool-cues{flex-basis:52px!important;width:52px!important;min-width:52px!important;}body #live-tool-main.live-tool-main{width:46px!important;height:46px!important;min-width:46px!important;min-height:46px!important;}}
 </style>
 
 </head>
@@ -5655,7 +5555,7 @@ line 18 | vocals in"></textarea><p class="m-hint">Use <strong>line or section te
 'use strict';
 
 var VERSION='Phase 2b - QA4';
-var REBUILD_PHASE='Phase 2b - QA4: consolidated QA regression fixes';
+var REBUILD_PHASE='Phase 2b - QA4-RC1.6: source-of-truth refactor and regression repair';
 var REBUILD_REFERENCE='Working-v85.0-fixed.html';
 
 var ASSET_DEFAULTS={
@@ -8621,7 +8521,9 @@ function resolveSetKey(set,song,env){
   env=env||{};
   set=asObject(set);
   if(!set||!Object.keys(set).length)return defaultKeyFor(song,null,env);
-  return resolveChoiceKey(set.setKey||set.defaultKey||'original',song,set,env);
+  var choice=normalizeKeyChoice(set.setKey||set.defaultKey||'original');
+  if(choice==='original'||choice==='default')return defaultKeyFor(song,set,env);
+  return resolveChoiceKey(choice,song,set,env);
 }
 function resolveSetItemChoice(set,item){
   if(itemHasExplicitKey(item))return normalizeKeyChoice(item.setKey);
@@ -8629,7 +8531,9 @@ function resolveSetItemChoice(set,item){
   return normalizeKeyChoice(set.setKey||set.defaultKey||'original');
 }
 function resolveSetItemKey(set,item,song,env){
-  return resolveChoiceKey(resolveSetItemChoice(set,item),song,set,env||{});
+  env=env||{};
+  if(itemHasExplicitKey(item))return resolveChoiceKey(item.setKey,song,set,env);
+  return resolveSetKey(set,song,env);
 }
 function findSetById(list,id){
   id=String(id||'');
@@ -8955,8 +8859,8 @@ function defaultMode(settings){
 }
 
 function defaultFocusForOrigin(origin){
-  origin=normalizeOrigin(origin);
-  return origin==='setlist'||origin==='workspace-set';
+  normalizeOrigin(origin);
+  return false;
 }
 
 function ensureState(appState){
@@ -10160,16 +10064,29 @@ function importFromUrl(kind,ctx){
 function importResultByIdOrUrl(kind,draft,ctx){
   if(!draft)return Promise.resolve(null);
   function finish(row){ctx.setImportedDraft(kind,row);call(ctx,'showToast','Imported');return row;}
-  if(draft.chart)return Promise.resolve(finish(draft));
-  if(draft.importId||draft.sourceUrl){
+  var hasRemote=!!(draft.importId||draft.sourceUrl);
+  if(hasRemote){
     var url=draft.importId?importUrl(kind,draft.importId,true):importUrl(kind,draft.sourceUrl,false);
     return fetchJson(url).then(function(data){
       var raw=data.song||data||{};
-      var canonicalKey=draft.key||draft.originalKey||draft.sourceKey||draft.chartKey||draft.detectedKey||draft.scale||raw.key||raw.originalKey||raw.sourceKey||raw.chartKey||raw.detectedKey||raw.scale;
-      var merged=Object.assign({},raw,draft,{key:canonicalKey,originalKey:canonicalKey,sourceKey:canonicalKey,chartKey:canonicalKey,displayKey:canonicalKey});
+      var canonicalKey=raw.key||raw.originalKey||raw.sourceKey||raw.chartKey||raw.detectedKey||raw.scale||draft.key||draft.originalKey||draft.sourceKey||draft.chartKey||draft.detectedKey||draft.scale;
+      var rawChart=raw.chart||raw.content||raw.lyrics||raw.body||raw.text||'';
+      var merged=Object.assign({},draft,raw,{
+        key:canonicalKey,
+        originalKey:canonicalKey,
+        sourceKey:canonicalKey,
+        chartKey:canonicalKey,
+        displayKey:canonicalKey,
+        chart:rawChart||draft.chart||''
+      });
       return finish(mapBackendSong(merged,kind,ctx));
-    }).catch(function(){call(ctx,'showToast',kind==='sop'?'Songs of Praise import failed':'UG import failed');});
+    }).catch(function(err){
+      if(draft.chart&&String(draft.chart).trim())return finish(draft);
+      call(ctx,'showToast',kind==='sop'?'Songs of Praise import failed':'UG import failed');
+      return null;
+    });
   }
+  if(draft.chart)return Promise.resolve(finish(draft));
   return Promise.resolve(null);
 }
 function renderContract(){return {phase:'Phase 2b - I4',owner:'WBSongImportDestinationController',contracts:['fetchJson','searchImport','importFromUrl','importResultByIdOrUrl','chooseImportDestination','resolveImportDestination','putFirebaseSongsBulk','saveImportedSongsToDestination','saveManualSongToDestination','saveManualNewSong','saveManualEditedSong','commitImportedDrafts'],legacyShellHost:true,nonDestructive:true};}
@@ -12392,14 +12309,13 @@ function updateConversion(ctx){
     if(ctx.syncPickerButtons)ctx.syncPickerButtons();
     return true;
   }
-  var converted=owner.convertProgression?owner.convertProgression(value,state.key,state.mode):null;
+  var baseKey=state.transposeTarget||state.key||'C';
+  var converted=owner.convertProgression?owner.convertProgression(value,baseKey,state.mode):null;
   var line=converted&&converted.line?converted.line:'';
-  var label=converted&&converted.direction==='numbers-to-chords'?'Numbers → chords':'Chords → numbers';
+  var label=converted&&converted.direction==='numbers-to-chords'?'Chords in '+baseKey:'Numbers';
   out.innerHTML='<span class="nns-result-label">'+esc(label)+'</span><div class="nns-result-line">'+esc(line||'?')+'</div>';
-  var trans=owner.transposeProgression?owner.transposeProgression(value,state.key,state.transposeTarget,state.mode):null;
-  var transLine=trans&&trans.line?trans.line:'';
-  if(tr)tr.innerHTML='<span class="nns-result-label">Transposed to '+esc(state.transposeTarget)+'</span><div class="nns-result-line">'+esc(transLine||'?')+'</div>';
-  state.lastCopy=(label+': '+(line||'?')+'\nTransposed to '+state.transposeTarget+': '+(transLine||'?'));
+  if(tr)tr.innerHTML='<span class="nns-result-label">Selected key</span><div class="nns-result-line">'+esc(baseKey)+'</div>';
+  state.lastCopy=(label+': '+(line||'?'));
   if(copy)copy.disabled=false;
   if(ctx.syncPickerButtons)ctx.syncPickerButtons();
   return true;
@@ -16500,14 +16416,14 @@ function defaultKeyFor(song,set){var owner=keyModel();if(owner&&owner.defaultKey
 function configuredAppDefaultKey(){var choice=normalizeKeyChoice(settings&&settings.defaultDisplayKey||'original');return choice&&choice!=='original'&&choice!=='inherit'&&choice!=='default'?choice:null}
 function appDefaultKeySubtitle(){return configuredAppDefaultKey()||'Not set'}
 function resolveChoiceKey(choice,song,set){var owner=keyModel();if(owner&&owner.resolveChoiceKey)return owner.resolveChoiceKey(choice,song,set,keyModelEnv());choice=normalizeKeyChoice(choice);if(choice==='inherit')return resolveSetKey(set,song);if(choice==='default')return defaultKeyFor(song,set);if(choice==='original')return (song&&song.key)||firstSongKey(set)||'G';return choice}
-function resolveSetKey(set,song){var owner=keyModel();if(owner&&owner.resolveSetKey)return owner.resolveSetKey(set,song,keyModelEnv());if(!set)return defaultKeyFor(song,null);set=ensureSetShape(set);return resolveChoiceKey(set.setKey||'original',song,set)}
+function resolveSetKey(set,song){var owner=keyModel();if(owner&&owner.resolveSetKey)return owner.resolveSetKey(set,song,keyModelEnv());if(!set)return defaultKeyFor(song,null);set=ensureSetShape(set);var choice=normalizeKeyChoice(set.setKey||set.defaultKey||'original');if(choice==='original'||choice==='default')return defaultKeyFor(song,set);return resolveChoiceKey(choice,song,set)}
 function itemHasExplicitKey(item){var owner=keyModel();if(owner&&owner.itemHasExplicitKey)return owner.itemHasExplicitKey(item);return !!(item&&item.keyOverride===true&&item.setKey&&item.setKey!=='inherit')}
 function resolveSetItemChoice(set,item){var owner=keyModel();if(owner&&owner.resolveSetItemChoice)return owner.resolveSetItemChoice(set,item);if(itemHasExplicitKey(item))return normalizeKeyChoice(item.setKey);return normalizeKeyChoice((set&&set.setKey)||'original')}
-function resolveSetItemKey(set,item,song){var owner=keyModel();if(owner&&owner.resolveSetItemKey)return owner.resolveSetItemKey(set,item,song,keyModelEnv());return resolveChoiceKey(resolveSetItemChoice(set,item),song,set)}
+function resolveSetItemKey(set,item,song){var owner=keyModel();if(owner&&owner.resolveSetItemKey)return owner.resolveSetItemKey(set,item,song,keyModelEnv());if(itemHasExplicitKey(item))return resolveChoiceKey(item.setKey,song,set);return resolveSetKey(set,song)}
 function resolveEffectiveKeyForSong(song,ctx){var owner=keyModel();if(owner&&owner.resolveEffectiveKeyForSong)return owner.resolveEffectiveKeyForSong(song,ctx,keyModelEnv());ctx=ctx||null;var set=null,item=null;if(ctx&&ctx.scope==='workspace'){set=(workspaceState.sets||[]).find(function(x){return x.id===ctx.setId})||activeWorkspaceSet()||null}else if(ctx&&ctx.scope==='personal'){set=personalSets.find(function(x){return x.id===ctx.setId})||currentSet()||null}else if(ctx&&ctx.setId){set=personalSets.find(function(x){return x.id===ctx.setId})||(workspaceState.sets||[]).find(function(x){return x.id===ctx.setId})||null}if(ctx&&ctx.item)item=ctx.item;if(!item&&set&&ctx&&typeof ctx.index==='number')item=(set.items||[])[ctx.index]||null;if(set)return resolveSetItemKey(set,item,song);return defaultKeyFor(song,null)}
 function setKeyLabel(set){var owner=keyModel();if(owner&&owner.setKeyLabel)return owner.setKeyLabel(set,keyModelEnv());set=ensureSetShape(set);var k=normalizeKeyChoice(set&&set.setKey||'original');if(k==='default')return 'App key';if(k==='original')return 'Original';return 'Key '+resolveSetKey(set)}
 function findSongContextSet(ctx){ctx=ctx||state.songContext;if(!ctx)return null;if(ctx.scope==='workspace')return workspaceState.sets.find(function(x){return x.id===ctx.setId})||null;return personalSets.find(function(x){return x.id===ctx.setId})||null}
-function resolveSongOpenKey(song,ctx){var set=findSongContextSet(ctx),item=null;if(set&&ctx&&typeof ctx.index==='number')item=(set.items||[])[ctx.index];return set?resolveSetItemKey(set,item,song):defaultKeyFor(song,null)}
+function resolveSongOpenKey(song,ctx){var set=findSongContextSet(ctx),item=ctx&&ctx.item?ctx.item:null;if(set&&!item&&ctx&&typeof ctx.index==='number')item=(set.items||[])[ctx.index]||null;if(set&&!item&&song&&song.id){item=(set.items||[]).find(function(it){return it&&(String(it.songId||it.id||'')===String(song.id));})||null;}return set?resolveSetItemKey(set,item,song):defaultKeyFor(song,null)}
 function refreshOpenSongKeyFromContext(){var s=songs.find(function(x){return x.id===state.selectedId});if(!s||!state.songContext)return;state.displayKey=resolveSongOpenKey(s,state.songContext);var meta=qs('sv-author');if(meta)meta.innerHTML='<span class="sv-meta-artist">'+esc(s.artist)+'</span><span class="sv-meta-sep"> · </span><span class="sv-meta-key">Originally in '+esc(s.key)+'</span><span class="sv-meta-sep"> · </span><span class="sv-song-code">Song ID: '+esc(songCode(s))+'</span>';renderSongSheet()}
 function setHasNotes(set){return PersonalSetController&&PersonalSetController.setHasNotes?PersonalSetController.setHasNotes(set):(function(){set=ensureSetShape(set);return !!(set&&(set.setNotes||Object.keys(set.songNotes||{}).some(function(k){return String(set.songNotes[k]||'').trim()})||Object.keys(set.songCues||{}).some(function(k){return String(set.songCues[k]||'').trim()})))})()}
 function syncSetCounts(set){if(PersonalSetController&&PersonalSetController.syncCounts){PersonalSetController.syncCounts(set);return;}set=ensureSetShape(set);if(!set)return;set.entries=(set.items||[]).filter(function(it){return it.type==='song'}).map(function(it){return it.songId});set.textItems=(set.items||[]).filter(function(it){return it.type!=='song'});set.songCount=set.entries.length;set.itemCount=set.textItems.length;set.notes=setHasNotes(set);if(!set.updated)set.updated='Updated now'}
@@ -16703,7 +16619,7 @@ var sa=qs('bs-set-add');if(sa&&!sa.dataset.ready){sa.dataset.ready='1';sa.addEve
 
 
 function confirmDeletePersonalSetById(id){var doomed=personalSets.find(function(x){return x.id===id});return appConfirm('Delete this set list?',{title:'Delete set list',detail:doomed?('This set list has '+countLabel(doomed)+'. You can undo immediately after deleting.'):'You can undo immediately after deleting.',confirmText:'Delete',danger:true}).then(function(ok){if(!ok)return;var snap=dataSafetySnapshot('delete set list');personalSets=personalSets.filter(function(x){return x.id!==id});persistSets();renderPersonalHome();renderSettings();offerDataUndo('Set deleted',snap)});}
-function personalSetActionCtx(){return {qs:qs,qsa:qsa,getSongs:function(){return songs||[]},getActiveSetId:function(){return activeSetId},getActiveSet:function(){return currentSet()},openSet:openSet,openPersonalNewSheet:openPersonalNewSheet,renderPersonalHome:renderPersonalHome,clearCurrentSet:clearCurrentSet,openSetSongPicker:openSetSongPicker,openSetOptions:openSetOptions,openSetNotes:openSetNotes,openSetKeySheet:openSetKeySheet,openWorkspacePublishSheet:openWorkspacePublishSheet,removeSetItem:removeSetItem,openSetItemEditor:openSetItemEditor,showSong:showSong,confirmDeletePersonalSetById:confirmDeletePersonalSetById};}
+function personalSetActionCtx(){return {qs:qs,qsa:qsa,getSongs:function(){return songs||[]},getActiveSetId:function(){return activeSetId},getActiveSet:function(){return currentSet()},openSet:openSet,openPersonalNewSheet:openPersonalNewSheet,renderPersonalHome:renderPersonalHome,clearCurrentSet:clearCurrentSet,openSetSongPicker:openSetSongPicker,openSetOptions:openSetOptions,openSetNotes:openSetNotes,openSetKeySheet:openSetKeySheet,openWorkspacePublishSheet:function(){state.setOptionsContext='personal';return openWorkspacePublishSheet();},removeSetItem:removeSetItem,openSetItemEditor:openSetItemEditor,showSong:showSong,confirmDeletePersonalSetById:confirmDeletePersonalSetById};}
 function bindPersonalSetActionControls(){if(window.WBPersonalSetController&&WBPersonalSetController.bindPersonalSetControls)return WBPersonalSetController.bindPersonalSetControls(personalSetActionCtx());return false;}
 
 var manageMode=false;
@@ -17013,14 +16929,13 @@ function updateNnsConversion(){
   var surface=window.WBToolsSurfaceController,owner=window.WBChordNnsController;if(surface&&surface.updateConversion&&surface.updateConversion({document:document,state:chordNnsState,owner:owner,syncPickerButtons:syncNnsPickerButtons}))return;
   var inp=qs('nns-convert-input'),out=qs('nns-convert-result'),tr=qs('nns-transpose-result'),copy=qs('nns-copy-result');if(!owner||!out)return;
   var value=inp?inp.value.trim():'';if(!value){out.textContent='Enter a progression to convert chords to numbers, or numbers to chords.';if(tr)tr.textContent='Transpose preview will appear here.';chordNnsState.lastCopy='';if(copy)copy.disabled=true;syncNnsPickerButtons();return}
-  var converted=owner.convertProgression?owner.convertProgression(value,chordNnsState.key,chordNnsState.mode):null;
+  var baseKey=chordNnsState.transposeTarget||chordNnsState.key||'C';
+  var converted=owner.convertProgression?owner.convertProgression(value,baseKey,chordNnsState.mode):null;
   var line=converted&&converted.line?converted.line:'';
-  var label=converted&&converted.direction==='numbers-to-chords'?'Numbers → chords':'Chords → numbers';
-  out.innerHTML='<span class="nns-result-label">'+label+'</span><div class="nns-result-line">'+esc(line||'?')+'</div>';
-  var trans=owner.transposeProgression?owner.transposeProgression(value,chordNnsState.key,chordNnsState.transposeTarget,chordNnsState.mode):null;
-  var transLine=trans&&trans.line?trans.line:'';
-  if(tr)tr.innerHTML='<span class="nns-result-label">Transposed to '+esc(chordNnsState.transposeTarget)+'</span><div class="nns-result-line">'+esc(transLine||'?')+'</div>';
-  chordNnsState.lastCopy=(label+': '+(line||'?')+'\nTransposed to '+chordNnsState.transposeTarget+': '+(transLine||'?'));
+  var label=converted&&converted.direction==='numbers-to-chords'?'Chords in '+baseKey:'Numbers';
+  out.innerHTML='<span class="nns-result-label">'+esc(label)+'</span><div class="nns-result-line">'+esc(line||'?')+'</div>';
+  if(tr)tr.innerHTML='<span class="nns-result-label">Selected key</span><div class="nns-result-line">'+esc(baseKey)+'</div>';
+  chordNnsState.lastCopy=(label+': '+(line||'?'));
   if(copy)copy.disabled=false;syncNnsPickerButtons();
 }
 function renderNnsDiagram(){
@@ -17384,7 +17299,7 @@ function installWorkspaceSetDrag(){return window.WBWorkspaceActionController&&wi
 function installWorkspaceControls(){return window.WBWorkspaceActionController&&window.WBWorkspaceActionController.installWorkspaceControls?window.WBWorkspaceActionController.installWorkspaceControls(workspaceActionCtx()):renderWorkspaceSetLists()}
 
 
-function install(){unlockUiInteraction();loadPersisted();if(window.WBAddToSetController&&window.WBAddToSetController.normalizeSettings){settings=window.WBAddToSetController.normalizeSettings(settings);persistSettings()}registerPhaseGNavigationScaffold();rebuildSongsCache();renderLibrary();renderPersonalHome();renderSettings();applyBrandAssets();markUiReady();clearLaunchTheme();ensureOfflineFirstRuntime();scheduleLaunchFailsafe();if(songs&&songs.length){try{hideLoading('cache')}catch(e){}showSync('Loaded from cache')}migrateV85IndexedDBSongs();connectFirebaseRuntimeIfConfigured();qs('srch-inp').addEventListener('input',function(){state.query=this.value;qs('srch-clr').style.display=state.query?'block':'none';renderLibrary()});qs('srch-clr').addEventListener('click',function(){state.query='';qs('srch-inp').value='';this.style.display='none';renderLibrary()});qs('search-scope-select').addEventListener('change',function(){setSearchScope(this.value)});state.scope='smart';setSearchScope('smart');qs('library-filter-row').addEventListener('click',function(e){var b=e.target.closest('[data-filter]');if(!b)return;state.filter=b.dataset.filter;syncLibraryFilterChips();renderLibrary()});qs('vinner').addEventListener('click',function(e){var ms=e.target.closest('[data-manage-select]');if(ms){e.preventDefault();e.stopPropagation();toggleManageSelection(ms.dataset.manageSelect);return}if(adminUnlocked&&manageMode){var mi=e.target.closest('.song-item[data-song-id]');if(mi){e.preventDefault();e.stopPropagation();toggleManageSelection(mi.dataset.songId);return}}var action=e.target.closest('[data-song-swipe-action]');if(action){e.preventDefault();e.stopPropagation();var sid=action.dataset.songId;if(action.dataset.songSwipeAction==='copy')copySongLyricsById(sid);else openSetDestinationForSong(sid);resetLibrarySwipe(action.closest('.song-row-wrap')&&action.closest('.song-row-wrap').querySelector('.song-item'));return}var fav=e.target.closest('.song-fav-btn');if(fav){e.stopPropagation();var host=fav.closest('.song-item[data-song-id]');var fs=host&&songs.find(function(x){return x.id===host.dataset.songId});if(fs){setSongFavorite(fs.id,!fs.favorite)}return}var item=e.target.closest('.song-item[data-song-id]');if(item){if(item.classList.contains('swiped-r')||item.classList.contains('swiped-l')){resetLibrarySwipe(item);return}var ss=songs.find(function(x){return x.id===item.dataset.songId});if(ss)showSong(ss,'library')}});qs('vinner').addEventListener('keydown',function(e){if(e.key!=='Enter'&&e.key!==' ')return;var item=e.target.closest('.song-item[data-song-id]');if(!item)return;e.preventDefault();var s=songs.find(function(x){return x.id===item.dataset.songId});if(s)showSong(s)});qs('recent-songs-scroll').addEventListener('click',function(e){var item=e.target.closest('[data-song-id]');if(item){var s=songs.find(function(x){return x.id===item.dataset.songId});if(s)showSong(s,'library')}});qs('clear-recents').addEventListener('click',function(){if(!recentIds.length)return;var snap=dataSafetySnapshot('clear recents');recentIds=[];persistRecents();renderRecents();offerDataUndo('Recents cleared',snap)});installAlphaStrip();installLibraryRowSwipe();qs('vscroll').addEventListener('scroll',function(){qs('scroll-top-btn').classList.toggle('show',this.scrollTop>500)},{passive:true});qs('scroll-top-btn').addEventListener('click',function(){qs('vscroll').scrollTo({top:0,behavior:'smooth'})});var msa=qs('manage-select-all');if(msa)msa.addEventListener('click',selectManageAll);var md=qs('manage-duplicates');if(md)md.addEventListener('click',openAdminDuplicateReview);var mf=qs('manage-select-firebase');if(mf)mf.addEventListener('click',function(){selectManageBySource('firebase')});var ml=qs('manage-select-local');if(ml)ml.addEventListener('click',function(){selectManageBySource('local')});var mdel=qs('manage-delete');if(mdel)mdel.addEventListener('click',deleteManageSelected);var mdone=qs('manage-done');if(mdone)mdone.addEventListener('click',function(){toggleManageMode(false)});qsa('.tab-btn').forEach(function(b){b.addEventListener('click',function(){window.WBNavigationController?window.WBNavigationController.showTab(b.dataset.tab,'tab-click'):switchTab(b.dataset.tab)})});bindPersonalSetActionControls();qs('song-back-btn').addEventListener('click',closeSongViewSmooth);qsa('.seg-btn').forEach(function(b){b.addEventListener('click',function(){setSongMode(b.dataset.mode)})});qs('add-song-close').addEventListener('click',closeAddSongModal);qs('song-form-cancel').addEventListener('click',closeAddSongModal);qs('song-form-save').addEventListener('click',saveSongFromForm);qs('add-song-modal').addEventListener('click',function(e){if(e.target===this)closeAddSongModal()});qs('hdr-add-btn').addEventListener('click',openAddSongMenu);if(window.WBSettingsAdminDomController&&window.WBSettingsAdminDomController.bindSettingsPickerSheets){window.WBSettingsAdminDomController.bindSettingsPickerSheets(document,{closeSettingsPicker:closeSettingsPicker,updateSetting:updateSetting})}else{qsa('.settings-picker-close').forEach(function(b){b.addEventListener('click',closeSettingsPicker)});qsa('.settings-picker-sheet').forEach(function(m){m.addEventListener('click',function(e){if(e.target===this)closeSettingsPicker()})});qsa('.settings-picker-options').forEach(function(c){c.addEventListener('click',function(e){var opt=e.target.closest('[data-picker-key]');if(!opt)return;updateSetting(opt.dataset.pickerKey,opt.dataset.pickerValue);closeSettingsPicker()})})};qs('backup-centre-close').addEventListener('click',closeBackupCentre);qs('backup-centre-done').addEventListener('click',closeBackupCentre);qs('backup-centre-modal').addEventListener('click',function(e){if(e.target===this)closeBackupCentre()});qs('backup-centre-body').addEventListener('click',function(e){var DSdom=window.WBDataSafetyDomController||null;if(DSdom&&DSdom.handleBackupCentreClick&&DSdom.handleBackupCentreClick(e,{openBackupCentre:openBackupCentre,runBackupActionConfirmed:runBackupActionConfirmed,handleBackupReviewToggle:handleBackupReviewToggle,handleBackupReviewAction:handleBackupReviewAction,handleBackupAction:handleBackupAction}))return;var confirmCancel=e.target.closest('[data-backup-confirm-cancel]');if(confirmCancel){openBackupCentre();return}var confirmRun=e.target.closest('[data-backup-confirm-run]');if(confirmRun){runBackupActionConfirmed(confirmRun.dataset.backupConfirmRun);return}var toggle=e.target.closest('[data-backup-review-toggle]');if(toggle){handleBackupReviewToggle(toggle.dataset.backupReviewToggle);return}var reviewAction=e.target.closest('[data-backup-review-action]');if(reviewAction){handleBackupReviewAction(reviewAction.dataset.backupReviewAction);return}var action=e.target.closest('[data-backup-action]');if(action)handleBackupAction(action.dataset.backupAction);});qs('sv-fav-btn').addEventListener('click',function(){var s=songs.find(function(x){return x.id===state.selectedId});if(!s)return;setSongFavorite(s.id,!s.favorite);});var snq=qs('sl-notes-quick-btn');if(snq)snq.addEventListener('click',openSetNotes);var svNotes=qs('sv-notes-btn');if(svNotes)svNotes.addEventListener('click',openSongNotesSheet);var liveNotes=qs('live-tool-notes');if(liveNotes)liveNotes.addEventListener('click',openSongNotesSheet);qs('sv-add-set-btn').addEventListener('click',openSetDestination);var sds=qs('set-destination-scope');if(sds&&!sds.dataset.ready){sds.dataset.ready='1';sds.addEventListener('click',function(e){var b=e.target.closest('[data-setdest-scope]');if(b)setSetDestinationScope(b.dataset.setdestScope)})};qs('sv-pad-btn').addEventListener('click',openPadSheet);qs('sv-play-btn').addEventListener('click',openPlaybackOptions);qs('sv-menu-btn').addEventListener('click',openSongMenu);qs('sv-key-down').addEventListener('click',function(){transposeSong(-1)});qs('sv-key-up').addEventListener('click',function(){transposeSong(1)});qs('sv-key-select').addEventListener('change',function(){transposeToKey(this.value)});qs('sv-focus-btn').addEventListener('click',function(){toggleFocusMode()});qs('pres-exit-btn').addEventListener('click',function(){toggleFocusMode(false)});qs('live-tool-main').addEventListener('click',toggleLiveToolsExpanded);qs('live-tool-view').addEventListener('click',cycleLiveViewMode);qs('live-tool-smaller').addEventListener('click',function(){stepSongText(-1)});qs('live-tool-larger').addEventListener('click',function(){stepSongText(1)});qs('live-tool-cues').addEventListener('click',toggleFocusCues);qs('live-tool-autoscroll').addEventListener('click',toggleAutoscrollPanel);qs('live-tool-metronome').addEventListener('click',toggleMetronomePanel);qs('pres-auto-toggle').addEventListener('click',function(){toggleAutoscroll();});qs('pres-auto-slower').addEventListener('click',function(){adjustAutoscrollSpeed(-.1);});qs('pres-auto-faster').addEventListener('click',function(){adjustAutoscrollSpeed(.1);});qs('metro-toggle').addEventListener('click',function(){toggleMetronome();});qs('metro-bpm-down').addEventListener('click',function(){adjustMetronomeBpm(-1);});qs('metro-bpm-up').addEventListener('click',function(){adjustMetronomeBpm(1);});qs('metro-tap').addEventListener('click',tapMetronomeTempo);var smc=qs('song-menu-close');if(smc)smc.addEventListener('click',closeSongMenu);qs('song-menu-done').addEventListener('click',closeSongMenu);var tsm=qs('text-size-menu-slider');if(tsm)tsm.addEventListener('input',function(){updateSetting('textSize',String(Math.max(.85,Math.min(1.25,(parseInt(this.value,10)||100)/100))),true);this.style.setProperty('--pct',Math.max(0,Math.min(100,((parseInt(this.value,10)||100)-85)/40*100))+'%');var v=qs('text-size-menu-val');if(v)v.textContent=this.value+'%';renderSongSheet()});var rail=qs('pres-section-rail');if(rail)rail.addEventListener('click',function(e){var b=e.target.closest('[data-section-jump]');if(b)jumpToSongSection(b.dataset.sectionJump)});qs('bs-song-menu').addEventListener('click',function(e){if(e.target===this){closeSongMenu();return}var a=e.target.closest('[data-song-action]');if(a){e.preventDefault();e.stopPropagation();handleSongMenuAction(a.dataset.songAction)}});var cd=qs('bs-chord-diagrams');if(cd&&!cd.dataset.ready){cd.dataset.ready='1';cd.addEventListener('click',function(e){var tab=e.target.closest&&e.target.closest('[data-chord-diagram-tab]');if(tab){e.preventDefault();e.stopPropagation();chordDiagramMode=tab.dataset.chordDiagramTab||'guitar';renderChordDiagramCards();return}if(e.target===cd||e.target.id==='chord-diagrams-close'||e.target.id==='chord-diagrams-done')closeChordDiagramsSheet()})};var pb=qs('bs-playback');if(pb)pb.addEventListener('click',function(e){if(e.target===this||e.target.id==='playback-close'||e.target.id==='playback-cancel'){closePlaybackOptions();return}var btn=e.target.closest('[data-playback-index]');if(btn){var links=collectPlaybackLinks(activeSong()),link=links[parseInt(btn.dataset.playbackIndex,10)];closePlaybackOptions();if(link&&link.url)setTimeout(function(){openExternalPlaybackUrl(link.url)},60)}});var padSheet=qs('bs-pad');if(padSheet)padSheet.addEventListener('click',function(e){if(e.target===this||e.target.id==='pad-close'||e.target.id==='pad-cancel'){closePadSheet();return}handlePadSheetClick(e)});qs('sv-scroll').addEventListener('scroll',function(){updateRailFromScroll();wakeLiveChrome()},{passive:true});qs('song-view').addEventListener('pointerdown',function(){wakeLiveChrome()},{passive:true});installPullToRefresh();installBottomSheetDrag();installSongSwipeBack();installSetListNotes();installBibleControls();installToolsSwipeBack();installSetListSwipeBack();installWorkspaceSwipeBack();installWorkspaceControls();var wsBack=qs('workspace-detail-back');if(wsBack&&!wsBack.dataset.qa2WorkspaceBackReady){wsBack.dataset.qa2WorkspaceBackReady='1';wsBack.addEventListener('click',function(e){if(workspaceState&&workspaceState.detailType==='set'){e.preventDefault();e.stopPropagation();workspaceState.activeSetId=null;workspaceState.detailType=null;renderWorkspaceSetLists();showWorkspacePanel('setlists');persistRouteMemory();}},true);}installUniversalEdgeSwipeBack();installExportControls();installImportEditorControls();installPadNowPlayingPill();
+function install(){unlockUiInteraction();loadPersisted();if(window.WBAddToSetController&&window.WBAddToSetController.normalizeSettings){settings=window.WBAddToSetController.normalizeSettings(settings);persistSettings()}registerPhaseGNavigationScaffold();rebuildSongsCache();renderLibrary();renderPersonalHome();renderSettings();applyBrandAssets();markUiReady();clearLaunchTheme();ensureOfflineFirstRuntime();scheduleLaunchFailsafe();if(songs&&songs.length){try{hideLoading('cache')}catch(e){}showSync('Loaded from cache')}migrateV85IndexedDBSongs();connectFirebaseRuntimeIfConfigured();qs('srch-inp').addEventListener('input',function(){state.query=this.value;qs('srch-clr').style.display=state.query?'block':'none';renderLibrary()});qs('srch-clr').addEventListener('click',function(){state.query='';qs('srch-inp').value='';this.style.display='none';renderLibrary()});qs('search-scope-select').addEventListener('change',function(){setSearchScope(this.value)});state.scope='smart';setSearchScope('smart');qs('library-filter-row').addEventListener('click',function(e){var b=e.target.closest('[data-filter]');if(!b)return;state.filter=b.dataset.filter;syncLibraryFilterChips();renderLibrary()});qs('vinner').addEventListener('click',function(e){var ms=e.target.closest('[data-manage-select]');if(ms){e.preventDefault();e.stopPropagation();toggleManageSelection(ms.dataset.manageSelect);return}if(adminUnlocked&&manageMode){var mi=e.target.closest('.song-item[data-song-id]');if(mi){e.preventDefault();e.stopPropagation();toggleManageSelection(mi.dataset.songId);return}}var action=e.target.closest('[data-song-swipe-action]');if(action){e.preventDefault();e.stopPropagation();var sid=action.dataset.songId;if(action.dataset.songSwipeAction==='copy')copySongLyricsById(sid);else openSetDestinationForSong(sid);resetLibrarySwipe(action.closest('.song-row-wrap')&&action.closest('.song-row-wrap').querySelector('.song-item'));return}var fav=e.target.closest('.song-fav-btn');if(fav){e.stopPropagation();var host=fav.closest('.song-item[data-song-id]');var fs=host&&songs.find(function(x){return x.id===host.dataset.songId});if(fs){setSongFavorite(fs.id,!fs.favorite)}return}var item=e.target.closest('.song-item[data-song-id]');if(item){if(item.classList.contains('swiped-r')||item.classList.contains('swiped-l')){resetLibrarySwipe(item);return}var ss=songs.find(function(x){return x.id===item.dataset.songId});if(ss)showSong(ss,'library')}});qs('vinner').addEventListener('keydown',function(e){if(e.key!=='Enter'&&e.key!==' ')return;var item=e.target.closest('.song-item[data-song-id]');if(!item)return;e.preventDefault();var s=songs.find(function(x){return x.id===item.dataset.songId});if(s)showSong(s)});qs('recent-songs-scroll').addEventListener('click',function(e){var item=e.target.closest('[data-song-id]');if(item){var s=songs.find(function(x){return x.id===item.dataset.songId});if(s)showSong(s,'library')}});qs('clear-recents').addEventListener('click',function(){if(!recentIds.length)return;var snap=dataSafetySnapshot('clear recents');recentIds=[];persistRecents();renderRecents();offerDataUndo('Recents cleared',snap)});installAlphaStrip();installLibraryRowSwipe();qs('vscroll').addEventListener('scroll',function(){qs('scroll-top-btn').classList.toggle('show',this.scrollTop>500)},{passive:true});qs('scroll-top-btn').addEventListener('click',function(){qs('vscroll').scrollTo({top:0,behavior:'smooth'})});var msa=qs('manage-select-all');if(msa)msa.addEventListener('click',selectManageAll);var md=qs('manage-duplicates');if(md)md.addEventListener('click',openAdminDuplicateReview);var mf=qs('manage-select-firebase');if(mf)mf.addEventListener('click',function(){selectManageBySource('firebase')});var ml=qs('manage-select-local');if(ml)ml.addEventListener('click',function(){selectManageBySource('local')});var mdel=qs('manage-delete');if(mdel)mdel.addEventListener('click',deleteManageSelected);var mdone=qs('manage-done');if(mdone)mdone.addEventListener('click',function(){toggleManageMode(false)});qsa('.tab-btn').forEach(function(b){b.addEventListener('click',function(){window.WBNavigationController?window.WBNavigationController.showTab(b.dataset.tab,'tab-click'):switchTab(b.dataset.tab)})});bindPersonalSetActionControls();qs('song-back-btn').addEventListener('click',closeSongViewSmooth);qsa('.seg-btn').forEach(function(b){b.addEventListener('click',function(){setSongMode(b.dataset.mode)})});qs('add-song-close').addEventListener('click',closeAddSongModal);qs('song-form-cancel').addEventListener('click',closeAddSongModal);qs('song-form-save').addEventListener('click',saveSongFromForm);qs('add-song-modal').addEventListener('click',function(e){if(e.target===this)closeAddSongModal()});qs('hdr-add-btn').addEventListener('click',openAddSongMenu);if(window.WBSettingsAdminDomController&&window.WBSettingsAdminDomController.bindSettingsPickerSheets){window.WBSettingsAdminDomController.bindSettingsPickerSheets(document,{closeSettingsPicker:closeSettingsPicker,updateSetting:updateSetting})}else{qsa('.settings-picker-close').forEach(function(b){b.addEventListener('click',closeSettingsPicker)});qsa('.settings-picker-sheet').forEach(function(m){m.addEventListener('click',function(e){if(e.target===this)closeSettingsPicker()})});qsa('.settings-picker-options').forEach(function(c){c.addEventListener('click',function(e){var opt=e.target.closest('[data-picker-key]');if(!opt)return;updateSetting(opt.dataset.pickerKey,opt.dataset.pickerValue);closeSettingsPicker()})})};qs('backup-centre-close').addEventListener('click',closeBackupCentre);qs('backup-centre-done').addEventListener('click',closeBackupCentre);qs('backup-centre-modal').addEventListener('click',function(e){if(e.target===this)closeBackupCentre()});qs('backup-centre-body').addEventListener('click',function(e){var DSdom=window.WBDataSafetyDomController||null;if(DSdom&&DSdom.handleBackupCentreClick&&DSdom.handleBackupCentreClick(e,{openBackupCentre:openBackupCentre,runBackupActionConfirmed:runBackupActionConfirmed,handleBackupReviewToggle:handleBackupReviewToggle,handleBackupReviewAction:handleBackupReviewAction,handleBackupAction:handleBackupAction}))return;var confirmCancel=e.target.closest('[data-backup-confirm-cancel]');if(confirmCancel){openBackupCentre();return}var confirmRun=e.target.closest('[data-backup-confirm-run]');if(confirmRun){runBackupActionConfirmed(confirmRun.dataset.backupConfirmRun);return}var toggle=e.target.closest('[data-backup-review-toggle]');if(toggle){handleBackupReviewToggle(toggle.dataset.backupReviewToggle);return}var reviewAction=e.target.closest('[data-backup-review-action]');if(reviewAction){handleBackupReviewAction(reviewAction.dataset.backupReviewAction);return}var action=e.target.closest('[data-backup-action]');if(action)handleBackupAction(action.dataset.backupAction);});qs('sv-fav-btn').addEventListener('click',function(){var s=songs.find(function(x){return x.id===state.selectedId});if(!s)return;setSongFavorite(s.id,!s.favorite);});var snq=qs('sl-notes-quick-btn');if(snq)snq.addEventListener('click',openSetNotes);var svNotes=qs('sv-notes-btn');if(svNotes)svNotes.addEventListener('click',openSongNotesSheet);var liveNotes=qs('live-tool-notes');if(liveNotes)liveNotes.addEventListener('click',openSongNotesSheet);qs('sv-add-set-btn').addEventListener('click',openSetDestination);var sds=qs('set-destination-scope');if(sds&&!sds.dataset.ready){sds.dataset.ready='1';sds.addEventListener('click',function(e){var b=e.target.closest('[data-setdest-scope]');if(b)setSetDestinationScope(b.dataset.setdestScope)})};qs('sv-pad-btn').addEventListener('click',openPadSheet);qs('sv-play-btn').addEventListener('click',openPlaybackOptions);qs('sv-menu-btn').addEventListener('click',openSongMenu);qs('sv-key-down').addEventListener('click',function(){transposeSong(-1)});qs('sv-key-up').addEventListener('click',function(){transposeSong(1)});qs('sv-key-select').addEventListener('change',function(){transposeToKey(this.value)});qs('sv-focus-btn').addEventListener('click',function(){toggleFocusMode()});qs('pres-exit-btn').addEventListener('click',function(){toggleFocusMode(false)});qs('live-tool-main').addEventListener('click',toggleLiveToolsExpanded);qs('live-tool-view').addEventListener('click',cycleLiveViewMode);qs('live-tool-smaller').addEventListener('click',function(){stepSongText(-1)});qs('live-tool-larger').addEventListener('click',function(){stepSongText(1)});qs('live-tool-cues').addEventListener('click',toggleFocusCues);qs('live-tool-autoscroll').addEventListener('click',toggleAutoscrollPanel);qs('live-tool-metronome').addEventListener('click',toggleMetronomePanel);qs('pres-auto-toggle').addEventListener('click',function(){toggleAutoscroll();});qs('pres-auto-slower').addEventListener('click',function(){adjustAutoscrollSpeed(-.1);});qs('pres-auto-faster').addEventListener('click',function(){adjustAutoscrollSpeed(.1);});qs('metro-toggle').addEventListener('click',function(){toggleMetronome();});qs('metro-bpm-down').addEventListener('click',function(){adjustMetronomeBpm(-1);});qs('metro-bpm-up').addEventListener('click',function(){adjustMetronomeBpm(1);});qs('metro-tap').addEventListener('click',tapMetronomeTempo);var smc=qs('song-menu-close');if(smc)smc.addEventListener('click',closeSongMenu);qs('song-menu-done').addEventListener('click',closeSongMenu);var tsm=qs('text-size-menu-slider');if(tsm)tsm.addEventListener('input',function(){updateSetting('textSize',String(Math.max(.85,Math.min(1.25,(parseInt(this.value,10)||100)/100))),true);this.style.setProperty('--pct',Math.max(0,Math.min(100,((parseInt(this.value,10)||100)-85)/40*100))+'%');var v=qs('text-size-menu-val');if(v)v.textContent=this.value+'%';renderSongSheet()});var rail=qs('pres-section-rail');if(rail)rail.addEventListener('click',function(e){var b=e.target.closest('[data-section-jump]');if(b)jumpToSongSection(b.dataset.sectionJump)});qs('bs-song-menu').addEventListener('click',function(e){if(e.target===this){closeSongMenu();return}var a=e.target.closest('[data-song-action]');if(a){e.preventDefault();e.stopPropagation();handleSongMenuAction(a.dataset.songAction)}});var cd=qs('bs-chord-diagrams');if(cd&&!cd.dataset.ready){cd.dataset.ready='1';cd.addEventListener('click',function(e){var tab=e.target.closest&&e.target.closest('[data-chord-diagram-tab]');if(tab){e.preventDefault();e.stopPropagation();chordDiagramMode=tab.dataset.chordDiagramTab||'guitar';renderChordDiagramCards();return}if(e.target===cd||e.target.id==='chord-diagrams-close'||e.target.id==='chord-diagrams-done')closeChordDiagramsSheet()})};var pb=qs('bs-playback');if(pb)pb.addEventListener('click',function(e){if(e.target===this||e.target.id==='playback-close'||e.target.id==='playback-cancel'){closePlaybackOptions();return}var btn=e.target.closest('[data-playback-index]');if(btn){var links=collectPlaybackLinks(activeSong()),link=links[parseInt(btn.dataset.playbackIndex,10)];closePlaybackOptions();if(link&&link.url)setTimeout(function(){openExternalPlaybackUrl(link.url)},60)}});var padSheet=qs('bs-pad');if(padSheet)padSheet.addEventListener('click',function(e){if(e.target===this||e.target.id==='pad-close'||e.target.id==='pad-cancel'){closePadSheet();return}handlePadSheetClick(e)});qs('sv-scroll').addEventListener('scroll',function(){updateRailFromScroll();wakeLiveChrome()},{passive:true});qs('song-view').addEventListener('pointerdown',function(){wakeLiveChrome()},{passive:true});installPullToRefresh();installBottomSheetDrag();installSongSwipeBack();installSetListNotes();installBibleControls();installToolsSwipeBack();installSetListSwipeBack();installWorkspaceSwipeBack();installWorkspaceControls();var wsBack=qs('workspace-detail-back');if(wsBack&&!wsBack.dataset.qa2WorkspaceBackReady){wsBack.dataset.qa2WorkspaceBackReady='1';wsBack.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();workspaceBack();},true);}installUniversalEdgeSwipeBack();installExportControls();installImportEditorControls();installPadNowPlayingPill();
 var toolsDom=window.WBToolsDomController;
 if(toolsDom&&toolsDom.bindTools){
   var actionAdapters=toolsActionAdapters()||{};

@@ -4,7 +4,7 @@
 'use strict';
 
 var VERSION='Phase 2b - QA4';
-var REBUILD_PHASE='Phase 2b - QA4: consolidated QA regression fixes';
+var REBUILD_PHASE='Phase 2b - QA4-RC1.6: source-of-truth refactor and regression repair';
 var REBUILD_REFERENCE='Working-v85.0-fixed.html';
 
 var ASSET_DEFAULTS={

@@ -26,8 +26,8 @@ function defaultMode(settings){
 }
 
 function defaultFocusForOrigin(origin){
-  origin=normalizeOrigin(origin);
-  return origin==='setlist'||origin==='workspace-set';
+  normalizeOrigin(origin);
+  return false;
 }
 
 function ensureState(appState){
