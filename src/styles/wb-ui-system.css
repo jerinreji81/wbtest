@@ -2130,3 +2130,377 @@ body.dark #song-view .live-tools.expanded .live-tool-stack{background:rgba(24,30
 }
 #pad-now-playing-pill .pad-stop-icon rect{fill:currentColor!important;}
 
+
+/* QA4-RC1.4: consolidated issue-intake fixes (001-010). */
+:root{
+  --wb-ui-back:40px;
+  --wb-ui-action:40px;
+  --wb-song-top-control:40px;
+  --wb-focus-main:48px;
+  --wb-focus-tool:42px;
+  --wb-dark-solid-action-bg:color-mix(in srgb,var(--accent) 72%,#fff 28%);
+  --wb-dark-solid-action-fg:#101114;
+  --wb-dark-muted-action-bg:rgba(255,255,255,.055);
+  --wb-dark-muted-action-border:rgba(255,255,255,.12);
+}
+
+/* QA4-RC1.4-001: Settings icon/avatar tiles must match the Library 40x40 rounded-square geometry. */
+body #settings-section .ss-ico,
+body #settings-section .settings-row-icon,
+body #settings-section .settings-action-icon,
+body #settings-section .settings-icon,
+body #settings-section .pref-icon{
+  flex:0 0 40px!important;
+  width:40px!important;
+  min-width:40px!important;
+  max-width:40px!important;
+  height:40px!important;
+  min-height:40px!important;
+  max-height:40px!important;
+  aspect-ratio:1/1!important;
+  border-radius:12px!important;
+  padding:0!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  box-sizing:border-box!important;
+}
+body #settings-section .ss-ico svg,
+body #settings-section .settings-row-icon svg,
+body #settings-section .settings-action-icon svg,
+body #settings-section .settings-icon svg,
+body #settings-section .pref-icon svg{
+  width:20px!important;
+  height:20px!important;
+  flex:0 0 20px!important;
+  display:block!important;
+}
+
+/* QA4-RC1.4-002/009: normalize all song-page top controls and transition clones to the same 40px control language. */
+body #song-view #song-back-btn,
+body #song-view #song-back-btn.back-btn,
+body #song-view .sv-hdr .back-btn,
+body #song-view .sv-actions .sv-round-btn,
+body #song-view .sv-actions .menu-btn,
+body #song-view .sv-actions .sv-mini-action,
+body #song-view .sv-actions .sv-fav-btn,
+body .song-transition-pane .back-btn,
+body .song-transition-pane .sv-hdr .back-btn,
+body.song-motion-freeze .sv-hdr .back-btn{
+  flex:0 0 40px!important;
+  width:40px!important;
+  min-width:40px!important;
+  max-width:40px!important;
+  height:40px!important;
+  min-height:40px!important;
+  max-height:40px!important;
+  aspect-ratio:1/1!important;
+  border-radius:50%!important;
+  padding:0!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  box-sizing:border-box!important;
+}
+body #song-view .sv-actions .sv-pad-btn,
+body #song-view .sv-pad-btn{
+  min-height:40px!important;
+  height:40px!important;
+  max-height:40px!important;
+  border-radius:999px!important;
+  padding:0 14px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  box-sizing:border-box!important;
+}
+body #song-view .sv-actions{gap:8px!important;align-items:center!important;}
+body #song-view #song-back-btn>svg,
+body #song-view .sv-hdr .back-btn>svg,
+body .song-transition-pane .back-btn>svg,
+body.song-motion-freeze .sv-hdr .back-btn>svg{display:none!important;}
+body #song-view #song-back-btn::before,
+body #song-view .sv-hdr .back-btn::before,
+body .song-transition-pane .back-btn::before,
+body.song-motion-freeze .sv-hdr .back-btn::before{
+  content:""!important;
+  display:block!important;
+  width:20px!important;
+  height:20px!important;
+  background:currentColor!important;
+  -webkit-mask:var(--wb-chevron-svg) center/contain no-repeat!important;
+  mask:var(--wb-chevron-svg) center/contain no-repeat!important;
+  opacity:1!important;
+}
+body .song-transition-pane .sv-hdr{visibility:visible!important;opacity:1!important;}
+
+/* QA4-RC1.4-003: full-page/save/cancel/preview/close buttons use 40px height; dropdown selectors and Bible segmented controls are intentionally excluded. */
+body #add-song-close,
+body #song-form-cancel,
+body #song-form-save,
+body .ug-head-btn,
+body .ug-action-btn,
+body .editor-head-action,
+body .modal-top-action,
+body .import-top-btn,
+body .export-top-btn,
+body .wb-top-action,
+body .wb-export-pdf-preview-btn,
+body #export-view-preview-top,
+body #export-view-preview-bottom,
+body #export-view-back,
+body .ev-nav-btn,
+body .ev-act-btn,
+body #pres-exit-btn,
+body .pres-exit-btn,
+body #wb-editor-back,
+body #wb-editor-publish,
+body .workspace-subview-new,
+body .workspace-action-pill,
+body .workspace-copy-btn,
+body .backup-review-primary,
+body .backup-review-secondary,
+body .backup-review-danger,
+body .import-dup-nav,
+body #import-dup-continue,
+body #import-dup-cancel,
+body .btn-p,
+body .btn-s,
+body .btn-danger,
+body .m-close,
+body .settings-picker-close,
+body .sheet-close,
+body .bs-close,
+body .bs-cancel,
+body .bs-done{
+  min-height:40px!important;
+  height:40px!important;
+  max-height:40px!important;
+  border-radius:999px!important;
+  box-sizing:border-box!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+body .m-close,
+body .settings-picker-close,
+body .sheet-close,
+body .bs-close{
+  width:40px!important;
+  min-width:40px!important;
+  max-width:40px!important;
+  padding:0!important;
+  aspect-ratio:1/1!important;
+}
+
+/* QA4-RC1.4-006/007: dark-mode action contrast token pairings. */
+body.dark #song-form-save,
+body.dark .ug-head-btn.primary,
+body.dark .ug-action-btn.primary,
+body.dark .editor-head-action.primary,
+body.dark .modal-top-action.primary,
+body.dark .import-top-btn.primary,
+body.dark .export-top-btn.primary,
+body.dark .wb-top-action.primary,
+body.dark .wb-export-pdf-preview-btn,
+body.dark .wb-export-pdf-preview-btn.primary,
+body.dark #export-view-preview-top,
+body.dark #export-view-preview-bottom,
+body.dark .ev-act-btn.primary,
+body.dark .ev-primary,
+body.dark #wb-editor-publish,
+body.dark .workspace-action-pill.primary,
+body.dark .workspace-subview-new.primary,
+body.dark .btn-p,
+body.dark #import-dup-continue,
+body.dark .backup-review-primary,
+body.dark #tools-pad-play-btn,
+body.dark .tools-pad-chip.active,
+body.dark .tools-pad-key.active,
+body.dark .nns-voice-tab.active,
+body.dark .nns-preset-tab.active{
+  background:var(--wb-dark-solid-action-bg)!important;
+  border-color:color-mix(in srgb,var(--wb-dark-solid-action-bg) 82%,#000 18%)!important;
+  color:var(--wb-dark-solid-action-fg)!important;
+  -webkit-text-fill-color:var(--wb-dark-solid-action-fg)!important;
+}
+body.dark #song-form-save svg,
+body.dark .ug-head-btn.primary svg,
+body.dark .ug-action-btn.primary svg,
+body.dark .editor-head-action.primary svg,
+body.dark .modal-top-action.primary svg,
+body.dark .import-top-btn.primary svg,
+body.dark .export-top-btn.primary svg,
+body.dark .wb-top-action.primary svg,
+body.dark .wb-export-pdf-preview-btn svg,
+body.dark #export-view-preview-top svg,
+body.dark #tools-pad-play-btn svg,
+body.dark .tools-pad-chip.active svg,
+body.dark .tools-pad-key.active svg{color:var(--wb-dark-solid-action-fg)!important;fill:currentColor!important;stroke:currentColor!important;}
+body.dark .backup-review-danger,
+body.dark #backup-centre-modal .backup-review-danger,
+body.dark [data-backup-review-action="cancel"],
+body.dark [data-backup-confirm-cancel]{
+  background:rgba(239,143,162,.12)!important;
+  border-color:rgba(239,143,162,.32)!important;
+  color:var(--wb-danger-text,#ff9aaa)!important;
+  -webkit-text-fill-color:var(--wb-danger-text,#ff9aaa)!important;
+}
+body.dark .btn-s,
+body.dark .backup-review-secondary,
+body.dark #tools-pad-stop-btn,
+body.dark .tools-pad-chip:not(.active),
+body.dark .tools-pad-key:not(.active){
+  background:var(--wb-dark-muted-action-bg)!important;
+  border-color:var(--wb-dark-muted-action-border)!important;
+  color:var(--wb-muted,#d4d7df)!important;
+}
+body.dark #tools-pad-status{color:var(--wb-muted,#b8bdc8)!important;border-color:var(--wb-dark-muted-action-border)!important;}
+
+/* QA4-RC1.4-005: Chord/NNS converter expander should follow the rest of the app's lighter card rhythm. */
+body #nns-converter-details.tool-card-static,
+body details#nns-converter-details,
+body details.nns-advanced{
+  margin-top:14px!important;
+  padding:0!important;
+  border-radius:22px!important;
+  background:var(--wb-card-fill)!important;
+  border:1px solid var(--wb-card-border)!important;
+  box-shadow:none!important;
+  overflow:hidden!important;
+}
+body #nns-converter-details>summary,
+body details.nns-advanced>summary{
+  min-height:60px!important;
+  padding:0 18px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:10px!important;
+  font-size:17px!important;
+  line-height:1.18!important;
+  font-weight:840!important;
+  letter-spacing:-.018em!important;
+  color:var(--txt1)!important;
+  list-style:none!important;
+  cursor:pointer!important;
+}
+body #nns-converter-details>summary::-webkit-details-marker,
+body details.nns-advanced>summary::-webkit-details-marker{display:none!important;}
+body #nns-converter-details>summary::marker,
+body details.nns-advanced>summary::marker{content:""!important;}
+body #nns-converter-details>summary::before,
+body details.nns-advanced>summary::before{
+  content:""!important;
+  width:0!important;
+  height:0!important;
+  border-left:8px solid currentColor!important;
+  border-top:5px solid transparent!important;
+  border-bottom:5px solid transparent!important;
+  opacity:.92!important;
+  transform-origin:50% 50%!important;
+  transition:transform .18s ease!important;
+}
+body #nns-converter-details[open]>summary::before,
+body details.nns-advanced[open]>summary::before{transform:rotate(90deg)!important;}
+body #nns-converter-details .nns-converter-body,
+body #nns-converter-details .tool-card-static-body,
+body details.nns-advanced .nns-advanced-body{
+  padding:0 18px 18px!important;
+  color:var(--txt2)!important;
+}
+body.dark #nns-converter-details.tool-card-static,
+body.dark details#nns-converter-details,
+body.dark details.nns-advanced{
+  background:rgba(255,255,255,.035)!important;
+  border-color:rgba(255,255,255,.11)!important;
+}
+
+/* QA4-RC1.4-008: piano chord diagrams invert/theme like guitar diagrams in dark mode. */
+body.dark .chord-diagram-svg.piano .piano-white,
+body.dark .chord-diagram-svg .piano-white,
+body.dark .nns-piano-svg .piano-white,
+body.dark svg.piano .piano-white,
+body.dark .piano-chord-svg .piano-white{
+  fill:transparent!important;
+  stroke:rgba(245,246,250,.68)!important;
+  stroke-width:1.25!important;
+}
+body.dark .chord-diagram-svg.piano .piano-black,
+body.dark .chord-diagram-svg .piano-black,
+body.dark .nns-piano-svg .piano-black,
+body.dark svg.piano .piano-black,
+body.dark .piano-chord-svg .piano-black{
+  fill:rgba(245,246,250,.82)!important;
+  stroke:rgba(245,246,250,.9)!important;
+  stroke-width:.8!important;
+}
+body.dark .chord-diagram-svg.piano .piano-dot-white,
+body.dark .chord-diagram-svg .piano-dot-white,
+body.dark .nns-piano-svg .piano-dot-white,
+body.dark svg.piano .piano-dot-white,
+body.dark .piano-chord-svg .piano-dot-white{
+  fill:rgba(245,246,250,.92)!important;
+  stroke:rgba(245,246,250,.92)!important;
+}
+body.dark .chord-diagram-svg.piano .piano-dot-black,
+body.dark .chord-diagram-svg .piano-dot-black,
+body.dark .nns-piano-svg .piano-dot-black,
+body.dark svg.piano .piano-dot-black,
+body.dark .piano-chord-svg .piano-dot-black{
+  fill:rgba(17,18,23,.98)!important;
+  stroke:rgba(17,18,23,.98)!important;
+}
+body.dark .chord-diagram-svg.piano text,
+body.dark .nns-piano-svg text,
+body.dark .piano-chord-svg text{fill:rgba(245,246,250,.86)!important;}
+
+/* QA4-RC1.4-010: focus-mode expanded rail rebalanced closer to v85 without clipping CUES ON. */
+body #song-view.live-tools-expanded .live-tool-stack,
+body #song-view .live-tools.expanded .live-tool-stack{
+  gap:5px!important;
+  max-width:calc(100vw - 76px)!important;
+  padding:5px!important;
+  border-radius:999px!important;
+}
+body #song-view.live-tools-expanded .live-tool,
+body #song-view .live-tools.expanded .live-tool{
+  flex-basis:var(--wb-focus-tool)!important;
+  width:var(--wb-focus-tool)!important;
+  min-width:var(--wb-focus-tool)!important;
+  height:var(--wb-focus-tool)!important;
+  min-height:var(--wb-focus-tool)!important;
+  max-height:var(--wb-focus-tool)!important;
+  font-size:10.4px!important;
+  line-height:1.04!important;
+  padding:0 6px!important;
+}
+body #song-view.live-tools-expanded #live-tool-metronome,
+body #song-view .live-tools.expanded #live-tool-metronome{flex-basis:46px!important;width:46px!important;min-width:46px!important;}
+body #song-view.live-tools-expanded #live-tool-view,
+body #song-view .live-tools.expanded #live-tool-view{flex-basis:56px!important;width:56px!important;min-width:56px!important;}
+body #song-view.live-tools-expanded #live-tool-cues,
+body #song-view .live-tools.expanded #live-tool-cues{flex-basis:54px!important;width:54px!important;min-width:54px!important;}
+body #song-view.live-tools-expanded .live-tool .two-line,
+body #song-view .live-tools.expanded .live-tool .two-line{font-size:10px!important;line-height:1.03!important;gap:1px!important;}
+body #live-tool-main.live-tool-main{
+  flex-basis:48px!important;
+  width:48px!important;
+  min-width:48px!important;
+  max-width:48px!important;
+  height:48px!important;
+  min-height:48px!important;
+  max-height:48px!important;
+}
+body #live-tool-main.live-tool-main svg{width:21px!important;height:21px!important;}
+@media(max-width:380px){
+  :root{--wb-focus-main:46px;--wb-focus-tool:40px;}
+  body #song-view.live-tools-expanded .live-tool-stack,
+  body #song-view .live-tools.expanded .live-tool-stack{gap:4px!important;padding:4px!important;max-width:calc(100vw - 72px)!important;}
+  body #song-view.live-tools-expanded #live-tool-metronome,
+  body #song-view .live-tools.expanded #live-tool-metronome{flex-basis:44px!important;width:44px!important;min-width:44px!important;}
+  body #song-view.live-tools-expanded #live-tool-view,
+  body #song-view .live-tools.expanded #live-tool-view{flex-basis:54px!important;width:54px!important;min-width:54px!important;}
+  body #song-view.live-tools-expanded #live-tool-cues,
+  body #song-view .live-tools.expanded #live-tool-cues{flex-basis:52px!important;width:52px!important;min-width:52px!important;}
+  body #live-tool-main.live-tool-main{width:46px!important;height:46px!important;min-width:46px!important;min-height:46px!important;}
+}

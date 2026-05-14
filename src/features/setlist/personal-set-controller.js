@@ -238,6 +238,39 @@ function oneTime(el,key,handler){
   el.addEventListener('click',handler);
   return true;
 }
+
+function personalSetKeyIndexFromButton(btn){
+  if(!btn)return -1;
+  var raw=null;
+  if(btn.dataset){
+    raw=btn.dataset.keyIndex;
+    if(raw==null)raw=btn.dataset.setIndex;
+  }
+  if((raw==null||raw==='')&&btn.closest){
+    var host=btn.closest('[data-key-index],[data-set-index]');
+    if(host&&host.dataset){
+      raw=host.dataset.keyIndex;
+      if(raw==null)raw=host.dataset.setIndex;
+    }
+  }
+  var idx=parseInt(raw,10);
+  return isNaN(idx)?-1:idx;
+}
+
+function handlePersonalSetKeyPill(e,ctx,items){
+  if(!e||!e.target)return false;
+  if(items&&items.dataset&&items.dataset.dragSuppress==='1')return false;
+  var key=e.target.closest&&e.target.closest('.set-key-btn,[data-key-index]');
+  if(!key)return false;
+  var idx=personalSetKeyIndexFromButton(key);
+  if(idx<0)return false;
+  e.preventDefault();
+  e.stopPropagation();
+  if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+  callCtx(ctx,'openSetKeySheet',[idx,'personal']);
+  return true;
+}
+
 function bindPersonalSetControls(ctx){
   ctx=ctx||{};
   var qs=ctx.qs||function(){return null;};
@@ -271,10 +304,13 @@ function bindPersonalSetControls(ctx){
   });
   oneTime(qs('wb-editor-publish'),'Publish',function(e){e.preventDefault();callCtx(ctx,'openWorkspacePublishSheet',[]);});
   var items=qs('sl-items');
+  if(items&&items.dataset&&!items.dataset.personalSetKeyCaptureReady){
+    items.dataset.personalSetKeyCaptureReady='1';
+    items.addEventListener('click',function(e){handlePersonalSetKeyPill(e,ctx,items);},true);
+  }
   oneTime(items,'ItemActions',function(e){
     if(items&&items.dataset&&items.dataset.dragSuppress==='1'){e.preventDefault();e.stopPropagation();return;}
-    var key=e.target.closest&&e.target.closest('.set-key-btn,[data-key-index]');
-    if(key){e.preventDefault();e.stopPropagation();callCtx(ctx,'openSetKeySheet',[parseInt((key.dataset&&key.dataset.keyIndex)||'0',10)]);return;}
+    if(handlePersonalSetKeyPill(e,ctx,items))return;
     var rm=e.target.closest&&e.target.closest('[data-remove-index],.set-rm');
     if(rm){e.preventDefault();e.stopPropagation();callCtx(ctx,'removeSetItem',[parseInt((rm.dataset&&rm.dataset.removeIndex)||(rm.dataset&&rm.dataset.r)||'-1',10)]);return;}
     var edit=e.target.closest&&e.target.closest('.set-section-card,.text-set-card');
