@@ -3569,6 +3569,195 @@ body.dark .nns-table td{border-top-color:rgba(255,255,255,.065)!important;}
 }
 .nns-diagram-field-grid .wb-picker-btn{padding:0 10px!important;gap:6px!important;}
 .nns-diagram-field-grid .wb-picker-btn strong{font-size:15px!important;letter-spacing:-.015em!important;}
+
+
+/* QA4 RC1 DC user-feedback correction pass.
+   Source-owned shared component rules for bottom sheets, Tools width, pads pill,
+   safe-area spacing, contrast and focus controls. Keep these as shared system
+   rules, not screen-by-screen legacy patches. */
+:root{
+  --wb-safe-top:min(max(var(--sat,0px),44px),64px);
+  --wb-bottom-sheet-surface:var(--bg1);
+  --wb-bottom-sheet-subtle:var(--wb-surface-soft);
+  --wb-bottom-sheet-border:var(--wb-border-soft);
+  --wb-tools-page-x:16px;
+}
+body.dark{
+  --wb-bottom-sheet-surface:#1c1c21;
+  --wb-bottom-sheet-subtle:#232329;
+  --wb-bottom-sheet-border:rgba(255,255,255,.105);
+}
+
+/* App-wide bottom sheets: v85-like single surface, bottom-anchored action. */
+.bs-bg.open{align-items:flex-end!important;justify-content:center!important;background:rgba(0,0,0,.46)!important;}
+.bs-bg.open>.bs{
+  width:100%!important;
+  max-height:calc(100dvh - var(--wb-safe-top) - 8px)!important;
+  min-height:min(72dvh,calc(100dvh - var(--wb-safe-top) - 8px))!important;
+  display:flex!important;
+  flex-direction:column!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  border-radius:28px 28px 0 0!important;
+  background:var(--wb-bottom-sheet-surface)!important;
+  border-top:1px solid var(--wb-bottom-sheet-border)!important;
+  box-shadow:0 -18px 54px rgba(0,0,0,.20)!important;
+  padding-bottom:0!important;
+  overscroll-behavior:contain!important;
+}
+body.dark .bs-bg.open>.bs{background:var(--wb-bottom-sheet-surface)!important;box-shadow:0 -22px 64px rgba(0,0,0,.50)!important;}
+.bs-bg.open .bs-handle{flex:0 0 auto!important;margin:12px auto 8px!important;background:color-mix(in srgb,var(--txt3) 25%,transparent)!important;}
+.bs-bg.open .m-tr,.bs-bg.open .bs-title{flex:0 0 auto!important;}
+.bs-bg.open .m-body,.bs-bg.open .song-menu-list,.bs-bg.open .set-options-list,.bs-bg.open .settings-picker-options,.bs-bg.open .tool-picker-body,.bs-bg.open .bible-picker-wrap,.bs-bg.open .bible-version-list,.bs-bg.open .setdest-list,.bs-bg.open .chord-diagram-grid,.bs-bg.open .pad-panel,.bs-bg.open .workspace-publish-list{
+  min-height:0!important;
+}
+.bs-bg.open .bs-cancel{
+  flex:0 0 auto!important;
+  margin-top:auto!important;
+  margin-left:16px!important;
+  margin-right:16px!important;
+  margin-bottom:calc(var(--sab) + 12px)!important;
+  width:calc(100% - 32px)!important;
+  min-height:50px!important;
+  border-radius:999px!important;
+  background:var(--wb-bottom-sheet-subtle)!important;
+  border:1px solid var(--wb-bottom-sheet-border)!important;
+  color:var(--txt1)!important;
+  font-weight:780!important;
+  box-shadow:none!important;
+}
+body.dark .bs-bg.open .bs-cancel{background:#222228!important;border-color:rgba(255,255,255,.12)!important;color:#f3f4f6!important;}
+body.dark .bs-bg.open .mi,body.dark .bs-bg.open .wbsm-toggle-row,body.dark .bs-bg.open .song-menu-list button{border-color:rgba(255,255,255,.065)!important;}
+
+/* Settings key pickers use compact musical-key grid instead of vertical list. */
+#defkey-options.settings-picker-options{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:9px!important;padding-bottom:14px!important;}
+#defkey-options .settings-option{min-height:46px!important;justify-content:center!important;text-align:center!important;padding:0 8px!important;border-radius:16px!important;font-weight:780!important;}
+#defkey-options .settings-option[data-picker-value="original"]{grid-column:span 2!important;}
+#defkey-options .settings-option.active{background:color-mix(in srgb,var(--accent) 16%,var(--bg2))!important;border-color:color-mix(in srgb,var(--accent) 34%,var(--surface-border))!important;color:var(--accent)!important;}
+body.dark #defkey-options .settings-option.active{background:var(--accent-surface)!important;border-color:var(--accent-border)!important;color:var(--accent)!important;}
+
+/* Tools pages use the same page width as the rest of the app; Bible excluded. */
+#tools-section .tools-scroll{padding-left:var(--wb-tools-page-x)!important;padding-right:var(--wb-tools-page-x)!important;}
+#tools-section .tools-panel{padding-left:0!important;padding-right:0!important;margin-left:0!important;margin-right:0!important;width:100%!important;max-width:none!important;box-sizing:border-box!important;}
+#tools-section .tools-hero,#tools-section .tool-card,#tools-section .tool-card-static,#tools-section .tool-detail-head{width:100%!important;max-width:none!important;margin-left:0!important;margin-right:0!important;box-sizing:border-box!important;}
+#tools-section .tool-detail-head{padding-left:0!important;padding-right:0!important;}
+#bible-section .tools-bible-bar,#bible-section .bible-combo,#bible-section .bible-scroll{ /* Bible layout intentionally left under its own existing rules. */ }
+
+/* Tools selector height: closer to the Bible selector height, still touch-safe. */
+#tools-section .wb-picker-btn{min-height:44px!important;height:44px!important;border-radius:15px!important;padding-left:12px!important;padding-right:12px!important;}
+#tools-section .wb-picker-btn strong{font-size:15.5px!important;}
+#tools-section .tool-field{gap:6px!important;}
+
+/* Settings section headings: v85-like and less dominant. */
+#settings-section .ss-title{
+  font-size:10px!important;
+  line-height:1.15!important;
+  font-weight:780!important;
+  letter-spacing:.13em!important;
+  color:var(--wb-meta-strong)!important;
+  margin-bottom:7px!important;
+  padding-left:3px!important;
+}
+
+/* Set List and Workspace set detail action parity/alignment. */
+.sl-hdr,.workspace-sl-hdr{padding:8px 16px 12px!important;align-items:center!important;}
+.sl-hdr-meta,.workspace-editor-meta{justify-content:flex-start!important;gap:7px!important;}
+#sl-count,.workspace-editor-count,.sl-set-key-info,.workspace-editor-key{height:30px!important;min-height:30px!important;}
+.sl-btns,.workspace-editor-actions{gap:8px!important;}
+.sl-option-btn.icon-only,.sl-option-btn,.sl-notes-quick,#workspace-editor-notes-btn,.workspace-editor-actions .sl-option-btn{width:38px!important;height:38px!important;min-width:38px!important;border-radius:999px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;}
+.sl-clear-btn,.workspace-editor-actions .sl-clear-btn{height:38px!important;min-height:38px!important;border-radius:999px!important;padding:0 14px!important;font-size:12.5px!important;font-weight:820!important;}
+.set-section-card{background:color-mix(in srgb,var(--accent) 7%,var(--bg2))!important;border-color:color-mix(in srgb,var(--accent) 18%,var(--surface-border))!important;}
+body.dark .set-section-card{background:color-mix(in srgb,var(--accent) 14%,rgba(255,255,255,.035))!important;border-color:color-mix(in srgb,var(--accent) 28%,rgba(255,255,255,.10))!important;}
+
+/* Back buttons: optically centred chevron and stable during song scrolling. */
+#song-back-btn,.back-btn,.tool-back-circle,.workspace-subview-back,.wb-editor-back{transform:translateZ(0)!important;backface-visibility:hidden!important;}
+#song-back-btn::before{width:22px!important;height:22px!important;margin-left:-1px!important;margin-top:0!important;}
+#song-view.visible #song-back-btn{opacity:1!important;visibility:visible!important;transition:background-color .16s ease,border-color .16s ease,color .16s ease!important;}
+#song-view.dragging-song #song-back-btn,#song-view.dragging-back #song-back-btn{opacity:1!important;}
+
+/* Chord highlight optical padding. */
+.sheet.chords-highlight .chord-token,.pair-chord .chord-token{
+  padding:.055em .23em .075em!important;
+  margin:0 .025em!important;
+  border-radius:.28em!important;
+  line-height:1.05!important;
+}
+
+/* Focus / floating controls: no fixed white dark-mode FAB, fit all rail buttons. */
+.sv-floating-focus.live-focus-fab,.live-tool-main,#focus-tools-btn{
+  background:var(--accent)!important;
+  border-color:color-mix(in srgb,var(--accent) 55%,transparent)!important;
+  color:var(--accent-fg)!important;
+  box-shadow:0 16px 34px color-mix(in srgb,var(--accent) 22%,transparent)!important;
+}
+body.dark .sv-floating-focus.live-focus-fab,body.dark .live-tool-main,body.dark #focus-tools-btn{
+  background:var(--accent)!important;
+  border-color:var(--accent-border)!important;
+  color:var(--accent-fg)!important;
+  box-shadow:0 18px 40px rgba(0,0,0,.36)!important;
+}
+#song-view.live-tools-expanded .live-tool-stack{
+  display:grid!important;
+  grid-template-columns:repeat(6,minmax(0,1fr))!important;
+  left:12px!important;
+  right:82px!important;
+  max-width:none!important;
+  width:auto!important;
+  gap:5px!important;
+  overflow:hidden!important;
+  padding:5px!important;
+}
+#song-view.live-tools-expanded .live-tool{
+  min-width:0!important;
+  width:auto!important;
+  height:46px!important;
+  padding:0 4px!important;
+  font-size:9.2px!important;
+  letter-spacing:.025em!important;
+  line-height:1.02!important;
+}
+#song-view.live-tools-expanded .live-tool .two-line{font-size:9.2px!important;line-height:1!important;}
+@media(max-width:370px){#song-view.live-tools-expanded .live-tool-stack{left:8px!important;right:76px!important;gap:4px!important}.live-tool{font-size:8.6px!important}}
+
+/* Pads now-playing pill: compact bottom control above tab bar. */
+.pad-now-playing-pill{
+  top:auto!important;
+  left:50%!important;
+  right:auto!important;
+  bottom:calc(var(--tab-h,52px) + var(--sab,0px) + 10px)!important;
+  width:min(340px,calc(100vw - 26px))!important;
+  min-height:42px!important;
+  transform:translateX(-50%)!important;
+  z-index:80!important;
+  padding:7px 8px 7px 13px!important;
+  border-radius:999px!important;
+  background:color-mix(in srgb,var(--bg1) 88%,var(--accent) 12%)!important;
+  border:1px solid color-mix(in srgb,var(--accent) 20%,var(--surface-border))!important;
+  box-shadow:0 10px 26px rgba(16,55,74,.16)!important;
+  backdrop-filter:blur(18px) saturate(1.08)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(1.08)!important;
+}
+.pad-now-copy{display:flex!important;flex-direction:row!important;align-items:center!important;gap:6px!important;min-width:0!important;}
+.pad-now-copy strong{font-size:12.5px!important;font-weight:820!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+.pad-now-copy span{display:none!important;}
+.pad-now-playing-pill button{min-height:30px!important;padding:0 12px!important;border-radius:999px!important;background:var(--accent)!important;color:var(--accent-fg)!important;font-size:12px!important;font-weight:850!important;}
+body.dark .pad-now-playing-pill{background:rgba(28,28,33,.88)!important;border-color:rgba(255,255,255,.13)!important;box-shadow:0 14px 32px rgba(0,0,0,.38)!important;}
+
+/* Contrast-safe filled actions, without changing already-good segmented controls. */
+.editor-save-btn,.ug-head-btn.primary,.import-dup-save,.ev-primary,.ev-act-btn.primary,.workspace-action-pill.primary,.wb-personal-new,.workspace-subview-new,.tools-pad-main,.pad-power:not(.stop){color:var(--accent-fg)!important;}
+body.dark .editor-save-btn,body.dark .ug-head-btn.primary,body.dark .import-dup-save,body.dark .ev-primary,body.dark .ev-act-btn.primary,body.dark .workspace-action-pill.primary,body.dark .wb-personal-new,body.dark .workspace-subview-new,body.dark .tools-pad-main,body.dark .pad-power:not(.stop){color:var(--accent-fg)!important;}
+
+/* Backup Centre full-screen modal safe-area repair. */
+#backup-centre-modal.open>.bs{min-height:100dvh!important;height:100dvh!important;max-height:100dvh!important;border-radius:0!important;}
+#backup-centre-modal .m-tr{
+  min-height:calc(var(--wb-safe-top) + 58px)!important;
+  padding-top:calc(var(--wb-safe-top) + 10px)!important;
+  padding-bottom:13px!important;
+  align-items:flex-end!important;
+}
+#backup-centre-modal .m-h2{line-height:1.08!important;}
+#backup-centre-modal .m-body{padding-top:16px!important;}
+#backup-centre-modal .bs-cancel{margin-top:auto!important;margin-bottom:calc(var(--sab) + 12px)!important;}
 </style>
 
 </head>
@@ -14423,7 +14612,7 @@ function normalizeUgImportedSong(raw){
   var chart=ugCleanChordSheetText(raw.chart||raw.content||raw.lyrics||raw.text||raw.body||'');
   var title=String(raw.title||raw.name||raw.song_name||'').trim()||'Imported song';
   var artist=String(raw.artist||raw.author||raw.artist_name||raw.writer||'').trim();
-  var chartKey=inferKeyFromChordProgression(chart)||normalizeKeyName(raw.chartKey||raw.sourceKey||raw.originalKey)||detectImportKey(chart)||normalizeKeyName(raw.key||raw.scale)||'C';
+  var explicitKey=normalizeKeyName(raw.chartKey||raw.sourceKey||raw.originalKey||raw.key||raw.scale);var chartKey=explicitKey||detectImportKey(chart)||inferKeyFromChordProgression(chart)||'C';
   var key=chartKey||'C';
   var capo=String(raw.capo||'').trim();
   if(capo&&!/^capo\b/im.test(chart))chart=('Capo '+capo+'\n\n'+chart).trim();
@@ -15243,7 +15432,7 @@ function normalPadKey(k){k=String(k||'C').trim();var aliases={'Db':'C#','D#':'Eb
 function renderPadSheet(){var s=activeSong(),wb=window.WorshipBasePad||{},st=wb.state||{on:false,key:(s&&s.key)||'C',mode:'peaceful',volume:.35},key=normalPadKey(st.key||(state.displayKey)||(s&&s.key)||'C'),mode=st.mode||'peaceful',box=qs('pad-sheet-body');if(!box)return;box.innerHTML='<div class="pad-status-card"><div class="pad-status-copy"><div class="pad-status-title">'+(st.on?'Pad playing':'Pad ready')+'</div><div class="pad-status-sub">'+esc(mode.charAt(0).toUpperCase()+mode.slice(1))+' · '+esc(key)+'</div></div><button class="pad-power '+(st.on?'stop':'')+'" data-pad-power type="button">'+(st.on?'Stop':'Start')+'</button></div><div class="pad-section-label">Sound</div><div class="pad-chip-row">'+['peaceful','analog','drones'].map(function(m){return '<button class="pad-chip '+(mode===m?'active':'')+'" data-pad-mode="'+m+'" type="button">'+esc(m.charAt(0).toUpperCase()+m.slice(1))+'</button>'}).join('')+'</div><div class="pad-section-label">Key</div><div class="pad-key-grid">'+NOTES.map(function(n){return '<button class="pad-key '+(key===n?'active':'')+'" data-pad-key="'+esc(n)+'" type="button">'+esc(n)+'</button>'}).join('')+'</div>'}
 function openPadSheet(){var s=activeSong();if(window.WorshipBasePad&&window.WorshipBasePad.setKey&&s&&!window.WorshipBasePad.state.on)window.WorshipBasePad.setKey(state.displayKey||s.key||'C');renderPadSheet();var m=qs('bs-pad');if(m){m.classList.add('open');m.setAttribute('aria-hidden','false')}}
 function closePadSheet(){closeSheetElement(qs('bs-pad'))}
-function updatePadNowPlayingPill(){var el=qs('pad-now-playing-pill'),wb=window.WorshipBasePad;if(!el||!wb||!wb.state){if(el)el.hidden=true;return}var st=wb.state||{},on=!!st.on;el.hidden=!on;el.classList.toggle('show',on);var title=el.querySelector('[data-pad-now-title]'),sub=el.querySelector('[data-pad-now-sub]');if(title)title.textContent=on?'Pad playing':'Pad ready';if(sub)sub.textContent=(String(st.mode||'peaceful').charAt(0).toUpperCase()+String(st.mode||'peaceful').slice(1))+' · '+normalPadKey(st.key||state.displayKey||'C')}
+function updatePadNowPlayingPill(){var el=qs('pad-now-playing-pill'),wb=window.WorshipBasePad;if(!el||!wb||!wb.state){if(el)el.hidden=true;return}var st=wb.state||{},on=!!st.on;el.hidden=!on;el.classList.toggle('show',on);var title=el.querySelector('[data-pad-now-title]'),sub=el.querySelector('[data-pad-now-sub]');var modeLabel=String(st.mode||'peaceful').charAt(0).toUpperCase()+String(st.mode||'peaceful').slice(1);var keyLabel=normalPadKey(st.key||state.displayKey||'C');if(title)title.textContent=on?(modeLabel+' · '+keyLabel):'Pad ready';if(sub)sub.textContent=modeLabel+' · '+keyLabel}
 function ensurePadNowPlayingPill(){var el=qs('pad-now-playing-pill');if(el)return el;el=document.createElement('div');el.id='pad-now-playing-pill';el.className='pad-now-playing-pill';el.hidden=true;el.innerHTML='<div class="pad-now-copy"><strong data-pad-now-title>Pad playing</strong><span data-pad-now-sub>Peaceful · C</span></div><button type="button" data-pad-stop-global>Stop</button>';document.body.appendChild(el);el.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-pad-stop-global]');if(!b)return;e.preventDefault();if(window.WorshipBasePad&&window.WorshipBasePad.stop)window.WorshipBasePad.stop();updatePadNowPlayingPill();renderPadSheet();updateSongTopActionStates();});return el}
 function installPadNowPlayingPill(){ensurePadNowPlayingPill();var wb=window.WorshipBasePad;if(wb&&!wb._wbGlobalPillWrapped){['start','stop','setKey','setMode'].forEach(function(k){if(typeof wb[k]!=='function')return;var orig=wb[k];wb[k]=function(){var ret=orig.apply(wb,arguments);function sync(){updatePadNowPlayingPill();try{renderPadSheet()}catch(e){}try{updateSongTopActionStates()}catch(e){}};if(ret&&typeof ret.then==='function')ret.then(sync,sync);else setTimeout(sync,0);return ret};});wb._wbGlobalPillWrapped=true}updatePadNowPlayingPill()}
 function handlePadSheetClick(e){var key=e.target.closest('[data-pad-key]'),mode=e.target.closest('[data-pad-mode]'),power=e.target.closest('[data-pad-power]');if(!window.WorshipBasePad)return;if(key){window.WorshipBasePad.setKey(key.dataset.padKey);renderPadSheet();updateSongTopActionStates();updatePadNowPlayingPill();return}if(mode){window.WorshipBasePad.setMode(mode.dataset.padMode);renderPadSheet();updateSongTopActionStates();updatePadNowPlayingPill();return}if(power){if(window.WorshipBasePad.state&&window.WorshipBasePad.state.on)window.WorshipBasePad.stop();else window.WorshipBasePad.start();renderPadSheet();updateSongTopActionStates();updatePadNowPlayingPill();return}}
