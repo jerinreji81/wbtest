@@ -77,7 +77,8 @@ function resolveSetKey(set,song,env){
   set=asObject(set);
   if(!set||!Object.keys(set).length)return defaultKeyFor(song,null,env);
   var choice=normalizeKeyChoice(set.setKey||set.defaultKey||'original');
-  if(choice==='original'||choice==='default')return defaultKeyFor(song,set,env);
+  if(choice==='original')return songOriginalKey(song,firstSongKey(set,env)||'G');
+  if(choice==='default')return defaultKeyFor(song,set,env);
   return resolveChoiceKey(choice,song,set,env);
 }
 function resolveSetItemChoice(set,item){
@@ -192,8 +193,8 @@ function exportPreviewLines(subject,env){
 function keyHierarchy(){
   return [
     'individual song item key override',
-    'set default key choice',
-    'app default display key when selected or needed as fallback',
+    'explicit set default key choice',
+    'app/settings default display key',
     'song original/stored key'
   ];
 }

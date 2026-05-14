@@ -5047,6 +5047,167 @@ body #song-view.live-tools-expanded #live-tool-view,body #song-view .live-tools.
 body #song-view.live-tools-expanded #live-tool-cues,body #song-view .live-tools.expanded #live-tool-cues{flex-basis:54px!important;width:54px!important;min-width:54px!important;}
 body #live-tool-main.live-tool-main{flex-basis:48px!important;width:48px!important;min-width:48px!important;max-width:48px!important;height:48px!important;min-height:48px!important;max-height:48px!important;}
 @media(max-width:380px){:root{--wb-focus-main-size:46px;--wb-focus-tool-size:40px;}body #song-view.live-tools-expanded .live-tool-stack,body #song-view .live-tools.expanded .live-tool-stack{gap:4px!important;padding:4px!important;max-width:calc(100vw - 72px)!important;}body #song-view.live-tools-expanded #live-tool-metronome,body #song-view .live-tools.expanded #live-tool-metronome{flex-basis:44px!important;width:44px!important;min-width:44px!important;}body #song-view.live-tools-expanded #live-tool-view,body #song-view .live-tools.expanded #live-tool-view{flex-basis:54px!important;width:54px!important;min-width:54px!important;}body #song-view.live-tools-expanded #live-tool-cues,body #song-view .live-tools.expanded #live-tool-cues{flex-basis:52px!important;width:52px!important;min-width:52px!important;}body #live-tool-main.live-tool-main{width:46px!important;height:46px!important;min-width:46px!important;min-height:46px!important;}}
+
+/* Stage 11B source-of-truth contracts: sheet actions, live headers, contrast, and worship layout. */
+:root{
+  --wb-sheet-action-height:50px;
+  --wb-sheet-action-gap:12px;
+  --wb-page-action-height:40px;
+  --wb-filled-action-bg:var(--accent);
+  --wb-filled-action-fg:var(--accent-fg,#fff);
+  --wb-live-header-side:92px;
+}
+body .bs-bg.open .workspace-sheet-form{box-sizing:border-box!important;width:100%!important;min-width:0!important;}
+body .bs-bg.open .workspace-sheet-actions,
+body .bs-bg.open .m-acts,
+body .bs-bg.open .wb-sheet-actions{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:var(--wb-sheet-action-gap)!important;
+  width:100%!important;
+  max-width:100%!important;
+  margin:16px 0 0!important;
+  padding:0!important;
+  box-sizing:border-box!important;
+  align-items:center!important;
+}
+body .bs-bg.open .workspace-sheet-actions>button,
+body .bs-bg.open .m-acts>button,
+body .bs-bg.open .wb-sheet-actions>button{
+  position:static!important;
+  transform:none!important;
+  min-width:0!important;
+  width:auto!important;
+  max-width:100%!important;
+  height:var(--wb-sheet-action-height)!important;
+  min-height:var(--wb-sheet-action-height)!important;
+  margin:0!important;
+  padding:0 14px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border-radius:999px!important;
+  box-sizing:border-box!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+body .bs-bg.open .workspace-action-pill.primary,
+body .bs-bg.open .btn-p,
+body .bs-bg.open .sheet-action-primary,
+body .bs-bg.open [data-wb-confirm]{
+  background:var(--wb-filled-action-bg)!important;
+  border-color:var(--wb-filled-action-bg)!important;
+  color:var(--wb-filled-action-fg)!important;
+  -webkit-text-fill-color:var(--wb-filled-action-fg)!important;
+}
+body .settings-picker-sheet.open .bs>.settings-picker-close.bs-cancel,
+body .settings-picker-sheet.open .bs>button.bs-cancel.settings-picker-close{
+  width:calc(100% - 36px)!important;
+  max-width:none!important;
+  min-height:var(--wb-sheet-action-height)!important;
+  height:var(--wb-sheet-action-height)!important;
+  margin:14px 18px calc(var(--sab) + 12px)!important;
+  padding:0 16px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border-radius:999px!important;
+  position:static!important;
+  transform:none!important;
+  background:var(--wb-bottom-sheet-subtle,var(--wb-surface-soft))!important;
+  border:1px solid var(--wb-bottom-sheet-border,var(--wb-border-soft))!important;
+  color:var(--txt1)!important;
+  -webkit-text-fill-color:var(--txt1)!important;
+  font-size:15px!important;
+  font-weight:780!important;
+}
+body #bs-workspace-new .workspace-sheet-actions,
+body #bs-personal-new .workspace-sheet-actions,
+body #bs-workspace-publish .workspace-sheet-actions{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;}
+body #bs-workspace-new .workspace-sheet-actions>button,
+body #bs-personal-new .workspace-sheet-actions>button,
+body #bs-workspace-publish .workspace-sheet-actions>button{min-width:0!important;max-width:100%!important;}
+
+body .editor-save-btn,
+body .ug-head-btn.primary,
+body .ug-action-btn.primary,
+body .import-dup-save,
+body .ev-primary,
+body .ev-act-btn.primary,
+body .workspace-action-pill.primary,
+body .wb-personal-new,
+body .workspace-subview-new,
+body .tools-pad-main,
+body .pad-power:not(.stop),
+body .backup-review-primary,
+body [data-backup-action="restore-local-file"],
+body [data-backup-confirm-run],
+body #backup-file-label{
+  background:var(--wb-filled-action-bg)!important;
+  border-color:var(--wb-filled-action-bg)!important;
+  color:var(--wb-filled-action-fg)!important;
+  -webkit-text-fill-color:var(--wb-filled-action-fg)!important;
+}
+body.dark .editor-save-btn,
+body.dark .ug-head-btn.primary,
+body.dark .ug-action-btn.primary,
+body.dark .import-dup-save,
+body.dark .ev-primary,
+body.dark .ev-act-btn.primary,
+body.dark .workspace-action-pill.primary,
+body.dark .wb-personal-new,
+body.dark .workspace-subview-new,
+body.dark .tools-pad-main,
+body.dark .pad-power:not(.stop),
+body.dark .backup-review-primary,
+body.dark [data-backup-action="restore-local-file"],
+body.dark [data-backup-confirm-run],
+body.dark #backup-file-label{
+  background:var(--wb-filled-action-bg)!important;
+  border-color:var(--wb-filled-action-bg)!important;
+  color:var(--wb-filled-action-fg)!important;
+  -webkit-text-fill-color:var(--wb-filled-action-fg)!important;
+}
+
+body #song-view.song-focus .sv-top,
+body #song-view.performance-mode .sv-top{
+  position:relative!important;
+  display:grid!important;
+  grid-template-columns:var(--wb-control-size) minmax(0,1fr) auto!important;
+  align-items:center!important;
+  min-height:var(--wb-control-size)!important;
+  width:100%!important;
+}
+body #song-view.song-focus .sv-pres-title,
+body #song-view.performance-mode .sv-pres-title{
+  display:block!important;
+  position:absolute!important;
+  left:50%!important;
+  top:50%!important;
+  transform:translate(-50%,-50%)!important;
+  width:auto!important;
+  max-width:calc(100vw - (2 * var(--wb-live-header-side)))!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  pointer-events:none!important;
+  z-index:0!important;
+}
+body #song-view.song-focus #song-back-btn,
+body #song-view.performance-mode #song-back-btn{grid-column:1!important;justify-self:start!important;z-index:1!important;}
+body #song-view.song-focus .pres-exit-btn,
+body #song-view.performance-mode .pres-exit-btn{grid-column:3!important;justify-self:end!important;z-index:1!important;}
+body #song-view:not(.song-focus):not(.performance-mode) .sv-pres-title{display:none!important;}
+body .song-transition-pane .sv-hdr .back-btn,
+body .song-transition-pane #song-back-btn{width:var(--wb-control-size)!important;height:var(--wb-control-size)!important;min-width:var(--wb-control-size)!important;max-width:var(--wb-control-size)!important;}
+
+body .sheet .pair-line .pair-chord,
+body .sheet .pair-line .pair-lyric,
+body .pair-chord,
+body .pair-lyric{white-space:pre-wrap!important;overflow-wrap:normal!important;word-break:normal!important;tab-size:2!important;}
+body .sv-title,.workspace-subview-title,.m-h2{min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;}
 </style>
 
 </head>
@@ -5488,7 +5649,7 @@ line 18 | vocals in"></textarea><p class="m-hint">Use <strong>line or section te
 <div class="bs-handle"></div>
 <div class="m-tr"><h2 class="m-h2" id="defaultkey-title">Default display key</h2><button aria-label="Close" class="m-close settings-picker-close" type="button">×</button></div>
 <div class="m-body"><p class="settings-picker-sub">When you open a song, it will default to this key instead of its original key. You can always transpose individually.</p><div class="settings-picker-options" data-picker-options="defaultDisplayKey" id="defkey-options"></div></div>
-<button class="bs-cancel settings-picker-close" type="button">Done</button>
+<button class="bs-cancel settings-picker-close" data-wb-close="true" type="button">Done</button>
 </div>
 </div>
 <div aria-hidden="true" class="bs-bg settings-picker-sheet" data-picker-sheet="defaultSongView" id="bs-defaultsongview">
@@ -5496,7 +5657,7 @@ line 18 | vocals in"></textarea><p class="m-hint">Use <strong>line or section te
 <div class="bs-handle"></div>
 <div class="m-tr"><h2 class="m-h2" id="defaultsongview-title">Default song view</h2><button aria-label="Close" class="m-close settings-picker-close" type="button">×</button></div>
 <div class="m-body"><p class="settings-picker-sub">Choose how songs open by default. You can still switch between Lyrics, Chords, and NNS on any song page.</p><div class="settings-picker-options" data-picker-options="defaultSongView" id="defsongview-options"></div></div>
-<button class="bs-cancel settings-picker-close" type="button">Done</button>
+<button class="bs-cancel settings-picker-close" data-wb-close="true" type="button">Done</button>
 </div>
 </div>
 <div aria-hidden="true" id="export-view">
@@ -5521,7 +5682,7 @@ line 18 | vocals in"></textarea><p class="m-hint">Use <strong>line or section te
 <div class="bs-handle"></div>
 <div class="m-tr"><h2 class="m-h2" id="defaultpdfpreset-title">Default PDF preset</h2><button aria-label="Close" class="m-close settings-picker-close" type="button">×</button></div>
 <div class="m-body"><p class="settings-picker-sub">Choose which preset the PDF export page opens with by default.</p><div class="settings-picker-options" data-picker-options="defaultPdfPreset" id="defpdf-options"></div></div>
-<button class="bs-cancel settings-picker-close" type="button">Done</button>
+<button class="bs-cancel settings-picker-close" data-wb-close="true" type="button">Done</button>
 </div>
 </div>
 <div aria-hidden="true" class="bs-bg settings-picker-sheet" data-picker-sheet="addToSetBehavior" id="bs-addtosetbehavior">
@@ -5529,7 +5690,7 @@ line 18 | vocals in"></textarea><p class="m-hint">Use <strong>line or section te
 <div class="bs-handle"></div>
 <div class="m-tr"><h2 class="m-h2" id="addtosetbehavior-title">Add to set list</h2><button aria-label="Close" class="m-close settings-picker-close" type="button">×</button></div>
 <div class="m-body"><p class="settings-picker-sub">Choose whether adding a song should ask you every time or use the current active set list automatically.</p><div class="settings-picker-options" data-picker-options="addToSetBehavior" id="addtoset-options"></div></div>
-<button class="bs-cancel settings-picker-close" type="button">Done</button>
+<button class="bs-cancel settings-picker-close" data-wb-close="true" type="button">Done</button>
 </div>
 </div>
 <div aria-hidden="true" class="bs-bg settings-picker-sheet" data-picker-sheet="defaultBibleVersion" id="bs-defaultbibleversion">
@@ -5537,7 +5698,7 @@ line 18 | vocals in"></textarea><p class="m-hint">Use <strong>line or section te
 <div class="bs-handle"></div>
 <div class="m-tr"><h2 class="m-h2" id="defaultbibleversion-title">Default Bible version</h2><button aria-label="Close" class="m-close settings-picker-close" type="button">×</button></div>
 <div class="m-body"><p class="settings-picker-sub">Choose the default Bible version. Any versions you add later will automatically appear here.</p><div class="settings-picker-options" data-picker-options="defaultBibleVersion" id="defbible-options"></div></div>
-<button class="bs-cancel settings-picker-close" type="button">Done</button>
+<button class="bs-cancel settings-picker-close" data-wb-close="true" type="button">Done</button>
 </div>
 </div>
 <div aria-hidden="true" class="bs-bg" id="backup-centre-modal">
@@ -8522,7 +8683,8 @@ function resolveSetKey(set,song,env){
   set=asObject(set);
   if(!set||!Object.keys(set).length)return defaultKeyFor(song,null,env);
   var choice=normalizeKeyChoice(set.setKey||set.defaultKey||'original');
-  if(choice==='original'||choice==='default')return defaultKeyFor(song,set,env);
+  if(choice==='original')return songOriginalKey(song,firstSongKey(set,env)||'G');
+  if(choice==='default')return defaultKeyFor(song,set,env);
   return resolveChoiceKey(choice,song,set,env);
 }
 function resolveSetItemChoice(set,item){
@@ -8637,8 +8799,8 @@ function exportPreviewLines(subject,env){
 function keyHierarchy(){
   return [
     'individual song item key override',
-    'set default key choice',
-    'app default display key when selected or needed as fallback',
+    'explicit set default key choice',
+    'app/settings default display key',
     'song original/stored key'
   ];
 }
@@ -9881,6 +10043,21 @@ function promiseValue(v){return v&&typeof v.then==='function'?v:Promise.resolve(
 
 var importDestinationResolver=null;
 
+var activeImportTokens={ug:0,sop:0};
+function importSurfaceIds(kind){return kind==='sop'?{meta:'sop-preview-meta',body:'sop-preview-body'}:{meta:'ug-preview-meta',body:'ug-import-preview'};}
+function setImportPreviewState(kind,state,message,ctx){
+  var ids=importSurfaceIds(kind),meta=qs(ctx,ids.meta),body=qs(ctx,ids.body);
+  var text=message||'';
+  if(state==='loading'){setText(meta,'Loading selected chart…');setHtml(body,'<div class="preview-empty">Loading selected chart…</div>');return;}
+  if(state==='error'){setText(meta,'Import failed');setHtml(body,'<div class="preview-empty">'+esc(ctx,text||'Unable to load this chart. Choose another result or paste a URL.')+'</div>');return;}
+  if(state==='empty'){setText(meta,'Choose a result to import.');setHtml(body,'<div class="preview-empty">Choose a result to preview the chart here.</div>');return;}
+}
+function clearImportedDraft(kind,ctx){
+  if(kind==='sop')root._sopImportedSong=null;else root._ugImportedSong=null;
+  if(ctx&&ctx.clearImportedDraft)ctx.clearImportedDraft(kind);
+}
+
+
 function ugBackendBase(){return 'https://worshipbase-ug.worshipbase.workers.dev';}
 function sopBackendBase(){return 'https://wb-sop.jerinreji81.workers.dev';}
 function importBackendBase(kind){return kind==='sop'?sopBackendBase():ugBackendBase();}
@@ -10063,11 +10240,27 @@ function importFromUrl(kind,ctx){
 }
 function importResultByIdOrUrl(kind,draft,ctx){
   if(!draft)return Promise.resolve(null);
-  function finish(row){ctx.setImportedDraft(kind,row);call(ctx,'showToast','Imported');return row;}
+  kind=kind==='sop'?'sop':'ug';
+  ctx=ctx||{};
+  var token=++activeImportTokens[kind];
+  clearImportedDraft(kind,ctx);
+  setImportPreviewState(kind,'loading','',ctx);
+  function stillActive(){return token===activeImportTokens[kind];}
+  function finish(row){
+    if(!stillActive())return null;
+    row=mapBackendSong(row,kind,ctx);
+    if(!row||!String(row.chart||'').trim()){
+      setImportPreviewState(kind,'error','The selected result did not return chart content.',ctx);
+      call(ctx,'showToast',kind==='sop'?'Songs of Praise chart unavailable':'UG chart unavailable');
+      return null;
+    }
+    ctx.setImportedDraft(kind,row);call(ctx,'showToast','Imported');return row;
+  }
   var hasRemote=!!(draft.importId||draft.sourceUrl);
   if(hasRemote){
     var url=draft.importId?importUrl(kind,draft.importId,true):importUrl(kind,draft.sourceUrl,false);
     return fetchJson(url).then(function(data){
+      if(!stillActive())return null;
       var raw=data.song||data||{};
       var canonicalKey=raw.key||raw.originalKey||raw.sourceKey||raw.chartKey||raw.detectedKey||raw.scale||draft.key||draft.originalKey||draft.sourceKey||draft.chartKey||draft.detectedKey||draft.scale;
       var rawChart=raw.chart||raw.content||raw.lyrics||raw.body||raw.text||'';
@@ -10079,14 +10272,17 @@ function importResultByIdOrUrl(kind,draft,ctx){
         displayKey:canonicalKey,
         chart:rawChart||draft.chart||''
       });
-      return finish(mapBackendSong(merged,kind,ctx));
+      return finish(merged);
     }).catch(function(err){
+      if(!stillActive())return null;
       if(draft.chart&&String(draft.chart).trim())return finish(draft);
+      setImportPreviewState(kind,'error',err&&err.message||'Import failed. Try another result or paste a URL.',ctx);
       call(ctx,'showToast',kind==='sop'?'Songs of Praise import failed':'UG import failed');
       return null;
     });
   }
-  if(draft.chart)return Promise.resolve(finish(draft));
+  if(draft.chart&&String(draft.chart).trim())return Promise.resolve(finish(draft));
+  setImportPreviewState(kind,'error','This result has no chart content yet. Try another result or paste a URL.',ctx);
   return Promise.resolve(null);
 }
 function renderContract(){return {phase:'Phase 2b - I4',owner:'WBSongImportDestinationController',contracts:['fetchJson','searchImport','importFromUrl','importResultByIdOrUrl','chooseImportDestination','resolveImportDestination','putFirebaseSongsBulk','saveImportedSongsToDestination','saveManualSongToDestination','saveManualNewSong','saveManualEditedSong','commitImportedDrafts'],legacyShellHost:true,nonDestructive:true};}
@@ -10116,6 +10312,7 @@ root.WBSongImportDestinationController={
   searchImport:searchImport,
   importFromUrl:importFromUrl,
   importResultByIdOrUrl:importResultByIdOrUrl,
+  setImportPreviewState:setImportPreviewState,
   renderContract:renderContract,
   diagnostics:renderContract
 };
@@ -10892,7 +11089,7 @@ function bindPersonalSetControls(ctx){
     var setKey=e.target.closest&&e.target.closest('#sl-set-key-info,[data-set-action="set-key"]');
     if(setKey){e.preventDefault();e.stopPropagation();callCtx(ctx,'openSetKeySheet',[]);return;}
   });
-  oneTime(qs('wb-editor-publish'),'Publish',function(e){e.preventDefault();callCtx(ctx,'openWorkspacePublishSheet',[]);});
+  oneTime(qs('wb-editor-publish'),'Publish',function(e){e.preventDefault();callCtx(ctx,'openWorkspacePublishSheet',[callCtx(ctx,'getActiveSetId',[])]);});
   var items=qs('sl-items');
   if(items&&items.dataset&&!items.dataset.personalSetKeyCaptureReady){
     items.dataset.personalSetKeyCaptureReady='1';
@@ -10904,7 +11101,7 @@ function bindPersonalSetControls(ctx){
     var rm=e.target.closest&&e.target.closest('[data-remove-index],.set-rm');
     if(rm){e.preventDefault();e.stopPropagation();callCtx(ctx,'removeSetItem',[parseInt((rm.dataset&&rm.dataset.removeIndex)||(rm.dataset&&rm.dataset.r)||'-1',10)]);return;}
     var edit=e.target.closest&&e.target.closest('.set-section-card,.text-set-card');
-    if(edit){var idx=parseInt((edit.dataset&&edit.dataset.index)||'-1',10);if(idx>=0){e.preventDefault();e.stopPropagation();callCtx(ctx,'openSetItemEditor',[idx]);return;}}
+    if(edit){var idx=personalSetItemIndexFromElement(edit);if(idx>=0){e.preventDefault();e.stopPropagation();callCtx(ctx,'openSetItemEditor',[idx]);return;}}
     var songCard=e.target.closest&&e.target.closest('[data-song-id]');
     if(songCard){
       var songId=songCard.dataset&&songCard.dataset.songId;
@@ -11399,7 +11596,11 @@ function persistWorkspace(ctx){
 }
 function openWorkspaceHome(ctx){ctx.workspaceState.detailType=null;ctx.workspaceState.activeSetId=null;safeCall(ctx,'showWorkspacePanel',['home']);return true;}
 function openWorkspaceSetLists(ctx){ctx.workspaceState.detailType=null;safeCall(ctx,'renderWorkspaceSetLists',[]);safeCall(ctx,'showWorkspacePanel',['setlists']);return true;}
-function openWorkspacePublishSheet(ctx){ctx=ctx||{};var state=ctx.workspaceState||{};state.selectedPublishId=(ctx.activeSetId&&arr(ctx.personalSets).some(function(x){return x.id===ctx.activeSetId}))?ctx.activeSetId:(ctx.state&&ctx.state.setOptionsContext==='personal'&&ctx.activeSetId?ctx.activeSetId:null);safeCall(ctx,'renderWorkspacePublishList',[]);var m=qs(ctx,'bs-workspace-publish');if(m){m.classList.add('open','wb-transfer-sheet');m.setAttribute('aria-hidden','false')}return true;}
+function openWorkspacePublishSheet(ctx,sourceSet){ctx=ctx||{};var state=ctx.workspaceState||{};
+  var explicitId=typeof sourceSet==='string'?sourceSet:(sourceSet&&sourceSet.id);
+  if(explicitId&&arr(ctx.personalSets).some(function(x){return x&&String(x.id)===String(explicitId)}))state.selectedPublishId=String(explicitId);
+  else state.selectedPublishId=(ctx.activeSetId&&arr(ctx.personalSets).some(function(x){return x.id===ctx.activeSetId}))?ctx.activeSetId:(ctx.state&&ctx.state.setOptionsContext==='personal'&&ctx.activeSetId?ctx.activeSetId:null);
+  safeCall(ctx,'renderWorkspacePublishList',[]);var m=qs(ctx,'bs-workspace-publish');if(m){m.classList.add('open','wb-transfer-sheet');m.setAttribute('aria-hidden','false')}return true;}
 function closeWorkspacePublishSheet(ctx){var m=qs(ctx,'bs-workspace-publish');if(m&&ctx.closeSheetElement)ctx.closeSheetElement(m);else if(m){m.classList.remove('open');m.setAttribute('aria-hidden','true')}return true;}
 function saveWorkspacePublish(ctx){
   ctx=ctx||{};var state=ctx.workspaceState||{};
@@ -17389,9 +17590,9 @@ if(LegacyRuntimeAdapterController.installRuntimeHost)LegacyRuntimeAdapterControl
 <script id="wb-rebuild-consolidated-script">
 /* Phase 2b - L8: runtime remains source-owned in src/core/host-runtime-adapter.js; final completion gate injected. */
 </script>
-<div aria-hidden="true" class="bs-bg" id="bs-workspace-publish"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><div class="m-h2">Publish to Workspace</div><button class="m-close" id="workspace-publish-close-static" type="button">×</button></div><div class="workspace-sheet-form"><label for="workspace-publish-name-static">Workspace set name</label><input id="workspace-publish-name-static" placeholder="Set name" type="text"/></div><div class="workspace-publish-list" id="workspace-publish-list-static"></div><div class="workspace-sheet-form"><div class="workspace-sheet-actions"><button class="bs-cancel" id="workspace-publish-cancel-static" type="button">Cancel</button><button class="workspace-action-pill primary" id="workspace-publish-save-static" type="button">Publish</button></div></div></div></div>
+<div aria-hidden="true" class="bs-bg" id="bs-workspace-publish"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><div class="m-h2">Publish to Workspace</div><button class="m-close" id="workspace-publish-close-static" type="button">×</button></div><div class="workspace-sheet-form"><label for="workspace-publish-name-static">Workspace set name</label><input id="workspace-publish-name-static" placeholder="Set name" type="text"/></div><div class="workspace-publish-list" id="workspace-publish-list-static"></div><div class="workspace-sheet-form"><div class="workspace-sheet-actions"><button class="bs-cancel" id="workspace-publish-cancel-static" data-wb-cancel="true" type="button">Cancel</button><button class="workspace-action-pill primary" id="workspace-publish-save-static" data-wb-confirm="true" type="button">Publish</button></div></div></div></div>
 <div aria-hidden="true" class="bs-bg" id="bs-personal-new"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><div class="m-h2" id="personal-new-title">New Set List</div><button class="m-close" id="personal-new-close" type="button">×</button></div><div class="workspace-sheet-form"><label for="personal-new-name">Set name</label><input id="personal-new-name" placeholder="e.g. Sunday Set" type="text"/><div class="workspace-sheet-actions"><button class="bs-cancel" id="personal-new-cancel" type="button">Cancel</button><button class="workspace-action-pill primary" id="personal-new-save" type="button">Save</button></div></div></div></div>
-<div aria-hidden="true" class="bs-bg" id="bs-workspace-new"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><div class="m-h2" id="workspace-new-title">New Workspace Set</div><button class="m-close" id="workspace-new-close" type="button">×</button></div><div class="workspace-sheet-form"><label for="workspace-new-name">Set name</label><input id="workspace-new-name" placeholder="e.g. Sunday Team Set" type="text"/><div class="workspace-sheet-actions"><button class="bs-cancel" id="workspace-new-cancel" type="button">Cancel</button><button class="workspace-action-pill primary" id="workspace-new-save" type="button">Save</button></div></div></div></div>
+<div aria-hidden="true" class="bs-bg" id="bs-workspace-new"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><div class="m-h2" id="workspace-new-title">New Workspace Set</div><button class="m-close" id="workspace-new-close" type="button">×</button></div><div class="workspace-sheet-form"><label for="workspace-new-name">Set name</label><input id="workspace-new-name" placeholder="e.g. Sunday Team Set" type="text"/><div class="workspace-sheet-actions"><button class="bs-cancel" id="workspace-new-cancel" data-wb-cancel="true" type="button">Cancel</button><button class="workspace-action-pill primary" id="workspace-new-save" data-wb-confirm="true" type="button">Save</button></div></div></div></div>
 <div aria-hidden="true" class="bs-bg" id="bs-biblepicker"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><div class="m-h2">Select book &amp; chapter</div><button class="m-close" id="biblepicker-close" type="button">×</button></div><div class="bible-picker-wrap"><div class="bible-picker-col"><div class="bible-picker-h">Book</div><div class="bible-picker-list" id="bible-book-picker-list"></div></div><div class="bible-picker-col"><div class="bible-picker-h">Chapter</div><div class="bible-picker-list" id="bible-chapter-picker-list"></div></div></div><button class="bs-cancel" onclick="closeBiblePicker()" type="button">Close</button></div></div>
 <div aria-hidden="true" class="bs-bg" id="bs-bibleversion"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><div class="m-h2">Select version</div><button class="m-close" id="bibleversion-close" type="button">×</button></div><div class="bible-version-list" id="bible-version-list"></div><button class="bs-cancel" onclick="closeBibleVersionPicker()" type="button">Close</button></div></div>
 <div aria-hidden="true" class="bs-bg" id="bs-playback"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><div class="m-h2">Song links</div><button aria-label="Close" class="m-close" id="playback-close" type="button">×</button></div><div class="song-menu-list" id="playback-list"></div><button class="bs-cancel" id="playback-cancel" type="button">Cancel</button></div></div><div aria-hidden="true" class="bs-bg" id="bs-pad"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><div class="m-h2">Pad</div><button aria-label="Close" class="m-close" id="pad-close" type="button">×</button></div><div class="pad-panel" id="pad-sheet-body"></div><button class="bs-cancel" id="pad-cancel" type="button">Close</button></div></div>

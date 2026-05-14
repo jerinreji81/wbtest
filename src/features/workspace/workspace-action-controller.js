@@ -58,7 +58,11 @@ function persistWorkspace(ctx){
 }
 function openWorkspaceHome(ctx){ctx.workspaceState.detailType=null;ctx.workspaceState.activeSetId=null;safeCall(ctx,'showWorkspacePanel',['home']);return true;}
 function openWorkspaceSetLists(ctx){ctx.workspaceState.detailType=null;safeCall(ctx,'renderWorkspaceSetLists',[]);safeCall(ctx,'showWorkspacePanel',['setlists']);return true;}
-function openWorkspacePublishSheet(ctx){ctx=ctx||{};var state=ctx.workspaceState||{};state.selectedPublishId=(ctx.activeSetId&&arr(ctx.personalSets).some(function(x){return x.id===ctx.activeSetId}))?ctx.activeSetId:(ctx.state&&ctx.state.setOptionsContext==='personal'&&ctx.activeSetId?ctx.activeSetId:null);safeCall(ctx,'renderWorkspacePublishList',[]);var m=qs(ctx,'bs-workspace-publish');if(m){m.classList.add('open','wb-transfer-sheet');m.setAttribute('aria-hidden','false')}return true;}
+function openWorkspacePublishSheet(ctx,sourceSet){ctx=ctx||{};var state=ctx.workspaceState||{};
+  var explicitId=typeof sourceSet==='string'?sourceSet:(sourceSet&&sourceSet.id);
+  if(explicitId&&arr(ctx.personalSets).some(function(x){return x&&String(x.id)===String(explicitId)}))state.selectedPublishId=String(explicitId);
+  else state.selectedPublishId=(ctx.activeSetId&&arr(ctx.personalSets).some(function(x){return x.id===ctx.activeSetId}))?ctx.activeSetId:(ctx.state&&ctx.state.setOptionsContext==='personal'&&ctx.activeSetId?ctx.activeSetId:null);
+  safeCall(ctx,'renderWorkspacePublishList',[]);var m=qs(ctx,'bs-workspace-publish');if(m){m.classList.add('open','wb-transfer-sheet');m.setAttribute('aria-hidden','false')}return true;}
 function closeWorkspacePublishSheet(ctx){var m=qs(ctx,'bs-workspace-publish');if(m&&ctx.closeSheetElement)ctx.closeSheetElement(m);else if(m){m.classList.remove('open');m.setAttribute('aria-hidden','true')}return true;}
 function saveWorkspacePublish(ctx){
   ctx=ctx||{};var state=ctx.workspaceState||{};

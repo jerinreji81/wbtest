@@ -16,6 +16,21 @@ function promiseValue(v){return v&&typeof v.then==='function'?v:Promise.resolve(
 
 var importDestinationResolver=null;
 
+var activeImportTokens={ug:0,sop:0};
+function importSurfaceIds(kind){return kind==='sop'?{meta:'sop-preview-meta',body:'sop-preview-body'}:{meta:'ug-preview-meta',body:'ug-import-preview'};}
+function setImportPreviewState(kind,state,message,ctx){
+  var ids=importSurfaceIds(kind),meta=qs(ctx,ids.meta),body=qs(ctx,ids.body);
+  var text=message||'';
+  if(state==='loading'){setText(meta,'Loading selected chart…');setHtml(body,'<div class="preview-empty">Loading selected chart…</div>');return;}
+  if(state==='error'){setText(meta,'Import failed');setHtml(body,'<div class="preview-empty">'+esc(ctx,text||'Unable to load this chart. Choose another result or paste a URL.')+'</div>');return;}
+  if(state==='empty'){setText(meta,'Choose a result to import.');setHtml(body,'<div class="preview-empty">Choose a result to preview the chart here.</div>');return;}
+}
+function clearImportedDraft(kind,ctx){
+  if(kind==='sop')root._sopImportedSong=null;else root._ugImportedSong=null;
+  if(ctx&&ctx.clearImportedDraft)ctx.clearImportedDraft(kind);
+}
+
+
 function ugBackendBase(){return 'https://worshipbase-ug.worshipbase.workers.dev';}
 function sopBackendBase(){return 'https://wb-sop.jerinreji81.workers.dev';}
 function importBackendBase(kind){return kind==='sop'?sopBackendBase():ugBackendBase();}
@@ -198,11 +213,27 @@ function importFromUrl(kind,ctx){
 }
 function importResultByIdOrUrl(kind,draft,ctx){
   if(!draft)return Promise.resolve(null);
-  function finish(row){ctx.setImportedDraft(kind,row);call(ctx,'showToast','Imported');return row;}
+  kind=kind==='sop'?'sop':'ug';
+  ctx=ctx||{};
+  var token=++activeImportTokens[kind];
+  clearImportedDraft(kind,ctx);
+  setImportPreviewState(kind,'loading','',ctx);
+  function stillActive(){return token===activeImportTokens[kind];}
+  function finish(row){
+    if(!stillActive())return null;
+    row=mapBackendSong(row,kind,ctx);
+    if(!row||!String(row.chart||'').trim()){
+      setImportPreviewState(kind,'error','The selected result did not return chart content.',ctx);
+      call(ctx,'showToast',kind==='sop'?'Songs of Praise chart unavailable':'UG chart unavailable');
+      return null;
+    }
+    ctx.setImportedDraft(kind,row);call(ctx,'showToast','Imported');return row;
+  }
   var hasRemote=!!(draft.importId||draft.sourceUrl);
   if(hasRemote){
     var url=draft.importId?importUrl(kind,draft.importId,true):importUrl(kind,draft.sourceUrl,false);
     return fetchJson(url).then(function(data){
+      if(!stillActive())return null;
       var raw=data.song||data||{};
       var canonicalKey=raw.key||raw.originalKey||raw.sourceKey||raw.chartKey||raw.detectedKey||raw.scale||draft.key||draft.originalKey||draft.sourceKey||draft.chartKey||draft.detectedKey||draft.scale;
       var rawChart=raw.chart||raw.content||raw.lyrics||raw.body||raw.text||'';
@@ -214,14 +245,17 @@ function importResultByIdOrUrl(kind,draft,ctx){
         displayKey:canonicalKey,
         chart:rawChart||draft.chart||''
       });
-      return finish(mapBackendSong(merged,kind,ctx));
+      return finish(merged);
     }).catch(function(err){
+      if(!stillActive())return null;
       if(draft.chart&&String(draft.chart).trim())return finish(draft);
+      setImportPreviewState(kind,'error',err&&err.message||'Import failed. Try another result or paste a URL.',ctx);
       call(ctx,'showToast',kind==='sop'?'Songs of Praise import failed':'UG import failed');
       return null;
     });
   }
-  if(draft.chart)return Promise.resolve(finish(draft));
+  if(draft.chart&&String(draft.chart).trim())return Promise.resolve(finish(draft));
+  setImportPreviewState(kind,'error','This result has no chart content yet. Try another result or paste a URL.',ctx);
   return Promise.resolve(null);
 }
 function renderContract(){return {phase:'Phase 2b - I4',owner:'WBSongImportDestinationController',contracts:['fetchJson','searchImport','importFromUrl','importResultByIdOrUrl','chooseImportDestination','resolveImportDestination','putFirebaseSongsBulk','saveImportedSongsToDestination','saveManualSongToDestination','saveManualNewSong','saveManualEditedSong','commitImportedDrafts'],legacyShellHost:true,nonDestructive:true};}
@@ -251,6 +285,7 @@ root.WBSongImportDestinationController={
   searchImport:searchImport,
   importFromUrl:importFromUrl,
   importResultByIdOrUrl:importResultByIdOrUrl,
+  setImportPreviewState:setImportPreviewState,
   renderContract:renderContract,
   diagnostics:renderContract
 };

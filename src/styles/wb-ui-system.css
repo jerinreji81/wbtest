@@ -2440,3 +2440,165 @@ body #song-view.live-tools-expanded #live-tool-view,body #song-view .live-tools.
 body #song-view.live-tools-expanded #live-tool-cues,body #song-view .live-tools.expanded #live-tool-cues{flex-basis:54px!important;width:54px!important;min-width:54px!important;}
 body #live-tool-main.live-tool-main{flex-basis:48px!important;width:48px!important;min-width:48px!important;max-width:48px!important;height:48px!important;min-height:48px!important;max-height:48px!important;}
 @media(max-width:380px){:root{--wb-focus-main-size:46px;--wb-focus-tool-size:40px;}body #song-view.live-tools-expanded .live-tool-stack,body #song-view .live-tools.expanded .live-tool-stack{gap:4px!important;padding:4px!important;max-width:calc(100vw - 72px)!important;}body #song-view.live-tools-expanded #live-tool-metronome,body #song-view .live-tools.expanded #live-tool-metronome{flex-basis:44px!important;width:44px!important;min-width:44px!important;}body #song-view.live-tools-expanded #live-tool-view,body #song-view .live-tools.expanded #live-tool-view{flex-basis:54px!important;width:54px!important;min-width:54px!important;}body #song-view.live-tools-expanded #live-tool-cues,body #song-view .live-tools.expanded #live-tool-cues{flex-basis:52px!important;width:52px!important;min-width:52px!important;}body #live-tool-main.live-tool-main{width:46px!important;height:46px!important;min-width:46px!important;min-height:46px!important;}}
+
+/* Stage 11B source-of-truth contracts: sheet actions, live headers, contrast, and worship layout. */
+:root{
+  --wb-sheet-action-height:50px;
+  --wb-sheet-action-gap:12px;
+  --wb-page-action-height:40px;
+  --wb-filled-action-bg:var(--accent);
+  --wb-filled-action-fg:var(--accent-fg,#fff);
+  --wb-live-header-side:92px;
+}
+body .bs-bg.open .workspace-sheet-form{box-sizing:border-box!important;width:100%!important;min-width:0!important;}
+body .bs-bg.open .workspace-sheet-actions,
+body .bs-bg.open .m-acts,
+body .bs-bg.open .wb-sheet-actions{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:var(--wb-sheet-action-gap)!important;
+  width:100%!important;
+  max-width:100%!important;
+  margin:16px 0 0!important;
+  padding:0!important;
+  box-sizing:border-box!important;
+  align-items:center!important;
+}
+body .bs-bg.open .workspace-sheet-actions>button,
+body .bs-bg.open .m-acts>button,
+body .bs-bg.open .wb-sheet-actions>button{
+  position:static!important;
+  transform:none!important;
+  min-width:0!important;
+  width:auto!important;
+  max-width:100%!important;
+  height:var(--wb-sheet-action-height)!important;
+  min-height:var(--wb-sheet-action-height)!important;
+  margin:0!important;
+  padding:0 14px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border-radius:999px!important;
+  box-sizing:border-box!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+body .bs-bg.open .workspace-action-pill.primary,
+body .bs-bg.open .btn-p,
+body .bs-bg.open .sheet-action-primary,
+body .bs-bg.open [data-wb-confirm]{
+  background:var(--wb-filled-action-bg)!important;
+  border-color:var(--wb-filled-action-bg)!important;
+  color:var(--wb-filled-action-fg)!important;
+  -webkit-text-fill-color:var(--wb-filled-action-fg)!important;
+}
+body .settings-picker-sheet.open .bs>.settings-picker-close.bs-cancel,
+body .settings-picker-sheet.open .bs>button.bs-cancel.settings-picker-close{
+  width:calc(100% - 36px)!important;
+  max-width:none!important;
+  min-height:var(--wb-sheet-action-height)!important;
+  height:var(--wb-sheet-action-height)!important;
+  margin:14px 18px calc(var(--sab) + 12px)!important;
+  padding:0 16px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border-radius:999px!important;
+  position:static!important;
+  transform:none!important;
+  background:var(--wb-bottom-sheet-subtle,var(--wb-surface-soft))!important;
+  border:1px solid var(--wb-bottom-sheet-border,var(--wb-border-soft))!important;
+  color:var(--txt1)!important;
+  -webkit-text-fill-color:var(--txt1)!important;
+  font-size:15px!important;
+  font-weight:780!important;
+}
+body #bs-workspace-new .workspace-sheet-actions,
+body #bs-personal-new .workspace-sheet-actions,
+body #bs-workspace-publish .workspace-sheet-actions{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;}
+body #bs-workspace-new .workspace-sheet-actions>button,
+body #bs-personal-new .workspace-sheet-actions>button,
+body #bs-workspace-publish .workspace-sheet-actions>button{min-width:0!important;max-width:100%!important;}
+
+body .editor-save-btn,
+body .ug-head-btn.primary,
+body .ug-action-btn.primary,
+body .import-dup-save,
+body .ev-primary,
+body .ev-act-btn.primary,
+body .workspace-action-pill.primary,
+body .wb-personal-new,
+body .workspace-subview-new,
+body .tools-pad-main,
+body .pad-power:not(.stop),
+body .backup-review-primary,
+body [data-backup-action="restore-local-file"],
+body [data-backup-confirm-run],
+body #backup-file-label{
+  background:var(--wb-filled-action-bg)!important;
+  border-color:var(--wb-filled-action-bg)!important;
+  color:var(--wb-filled-action-fg)!important;
+  -webkit-text-fill-color:var(--wb-filled-action-fg)!important;
+}
+body.dark .editor-save-btn,
+body.dark .ug-head-btn.primary,
+body.dark .ug-action-btn.primary,
+body.dark .import-dup-save,
+body.dark .ev-primary,
+body.dark .ev-act-btn.primary,
+body.dark .workspace-action-pill.primary,
+body.dark .wb-personal-new,
+body.dark .workspace-subview-new,
+body.dark .tools-pad-main,
+body.dark .pad-power:not(.stop),
+body.dark .backup-review-primary,
+body.dark [data-backup-action="restore-local-file"],
+body.dark [data-backup-confirm-run],
+body.dark #backup-file-label{
+  background:var(--wb-filled-action-bg)!important;
+  border-color:var(--wb-filled-action-bg)!important;
+  color:var(--wb-filled-action-fg)!important;
+  -webkit-text-fill-color:var(--wb-filled-action-fg)!important;
+}
+
+body #song-view.song-focus .sv-top,
+body #song-view.performance-mode .sv-top{
+  position:relative!important;
+  display:grid!important;
+  grid-template-columns:var(--wb-control-size) minmax(0,1fr) auto!important;
+  align-items:center!important;
+  min-height:var(--wb-control-size)!important;
+  width:100%!important;
+}
+body #song-view.song-focus .sv-pres-title,
+body #song-view.performance-mode .sv-pres-title{
+  display:block!important;
+  position:absolute!important;
+  left:50%!important;
+  top:50%!important;
+  transform:translate(-50%,-50%)!important;
+  width:auto!important;
+  max-width:calc(100vw - (2 * var(--wb-live-header-side)))!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  pointer-events:none!important;
+  z-index:0!important;
+}
+body #song-view.song-focus #song-back-btn,
+body #song-view.performance-mode #song-back-btn{grid-column:1!important;justify-self:start!important;z-index:1!important;}
+body #song-view.song-focus .pres-exit-btn,
+body #song-view.performance-mode .pres-exit-btn{grid-column:3!important;justify-self:end!important;z-index:1!important;}
+body #song-view:not(.song-focus):not(.performance-mode) .sv-pres-title{display:none!important;}
+body .song-transition-pane .sv-hdr .back-btn,
+body .song-transition-pane #song-back-btn{width:var(--wb-control-size)!important;height:var(--wb-control-size)!important;min-width:var(--wb-control-size)!important;max-width:var(--wb-control-size)!important;}
+
+body .sheet .pair-line .pair-chord,
+body .sheet .pair-line .pair-lyric,
+body .pair-chord,
+body .pair-lyric{white-space:pre-wrap!important;overflow-wrap:normal!important;word-break:normal!important;tab-size:2!important;}
+body .sv-title,.workspace-subview-title,.m-h2{min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+

@@ -324,7 +324,7 @@ function bindPersonalSetControls(ctx){
     var setKey=e.target.closest&&e.target.closest('#sl-set-key-info,[data-set-action="set-key"]');
     if(setKey){e.preventDefault();e.stopPropagation();callCtx(ctx,'openSetKeySheet',[]);return;}
   });
-  oneTime(qs('wb-editor-publish'),'Publish',function(e){e.preventDefault();callCtx(ctx,'openWorkspacePublishSheet',[]);});
+  oneTime(qs('wb-editor-publish'),'Publish',function(e){e.preventDefault();callCtx(ctx,'openWorkspacePublishSheet',[callCtx(ctx,'getActiveSetId',[])]);});
   var items=qs('sl-items');
   if(items&&items.dataset&&!items.dataset.personalSetKeyCaptureReady){
     items.dataset.personalSetKeyCaptureReady='1';
@@ -336,7 +336,7 @@ function bindPersonalSetControls(ctx){
     var rm=e.target.closest&&e.target.closest('[data-remove-index],.set-rm');
     if(rm){e.preventDefault();e.stopPropagation();callCtx(ctx,'removeSetItem',[parseInt((rm.dataset&&rm.dataset.removeIndex)||(rm.dataset&&rm.dataset.r)||'-1',10)]);return;}
     var edit=e.target.closest&&e.target.closest('.set-section-card,.text-set-card');
-    if(edit){var idx=parseInt((edit.dataset&&edit.dataset.index)||'-1',10);if(idx>=0){e.preventDefault();e.stopPropagation();callCtx(ctx,'openSetItemEditor',[idx]);return;}}
+    if(edit){var idx=personalSetItemIndexFromElement(edit);if(idx>=0){e.preventDefault();e.stopPropagation();callCtx(ctx,'openSetItemEditor',[idx]);return;}}
     var songCard=e.target.closest&&e.target.closest('[data-song-id]');
     if(songCard){
       var songId=songCard.dataset&&songCard.dataset.songId;

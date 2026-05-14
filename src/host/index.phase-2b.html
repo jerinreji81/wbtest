@@ -3042,7 +3042,7 @@ line 18 | vocals in"></textarea><p class="m-hint">Use <strong>line or section te
 <div class="bs-handle"></div>
 <div class="m-tr"><h2 class="m-h2" id="defaultkey-title">Default display key</h2><button aria-label="Close" class="m-close settings-picker-close" type="button">×</button></div>
 <div class="m-body"><p class="settings-picker-sub">When you open a song, it will default to this key instead of its original key. You can always transpose individually.</p><div class="settings-picker-options" data-picker-options="defaultDisplayKey" id="defkey-options"></div></div>
-<button class="bs-cancel settings-picker-close" type="button">Done</button>
+<button class="bs-cancel settings-picker-close" data-wb-close="true" type="button">Done</button>
 </div>
 </div>
 <div aria-hidden="true" class="bs-bg settings-picker-sheet" data-picker-sheet="defaultSongView" id="bs-defaultsongview">
@@ -3050,7 +3050,7 @@ line 18 | vocals in"></textarea><p class="m-hint">Use <strong>line or section te
 <div class="bs-handle"></div>
 <div class="m-tr"><h2 class="m-h2" id="defaultsongview-title">Default song view</h2><button aria-label="Close" class="m-close settings-picker-close" type="button">×</button></div>
 <div class="m-body"><p class="settings-picker-sub">Choose how songs open by default. You can still switch between Lyrics, Chords, and NNS on any song page.</p><div class="settings-picker-options" data-picker-options="defaultSongView" id="defsongview-options"></div></div>
-<button class="bs-cancel settings-picker-close" type="button">Done</button>
+<button class="bs-cancel settings-picker-close" data-wb-close="true" type="button">Done</button>
 </div>
 </div>
 <div aria-hidden="true" id="export-view">
@@ -3075,7 +3075,7 @@ line 18 | vocals in"></textarea><p class="m-hint">Use <strong>line or section te
 <div class="bs-handle"></div>
 <div class="m-tr"><h2 class="m-h2" id="defaultpdfpreset-title">Default PDF preset</h2><button aria-label="Close" class="m-close settings-picker-close" type="button">×</button></div>
 <div class="m-body"><p class="settings-picker-sub">Choose which preset the PDF export page opens with by default.</p><div class="settings-picker-options" data-picker-options="defaultPdfPreset" id="defpdf-options"></div></div>
-<button class="bs-cancel settings-picker-close" type="button">Done</button>
+<button class="bs-cancel settings-picker-close" data-wb-close="true" type="button">Done</button>
 </div>
 </div>
 <div aria-hidden="true" class="bs-bg settings-picker-sheet" data-picker-sheet="addToSetBehavior" id="bs-addtosetbehavior">
@@ -3083,7 +3083,7 @@ line 18 | vocals in"></textarea><p class="m-hint">Use <strong>line or section te
 <div class="bs-handle"></div>
 <div class="m-tr"><h2 class="m-h2" id="addtosetbehavior-title">Add to set list</h2><button aria-label="Close" class="m-close settings-picker-close" type="button">×</button></div>
 <div class="m-body"><p class="settings-picker-sub">Choose whether adding a song should ask you every time or use the current active set list automatically.</p><div class="settings-picker-options" data-picker-options="addToSetBehavior" id="addtoset-options"></div></div>
-<button class="bs-cancel settings-picker-close" type="button">Done</button>
+<button class="bs-cancel settings-picker-close" data-wb-close="true" type="button">Done</button>
 </div>
 </div>
 <div aria-hidden="true" class="bs-bg settings-picker-sheet" data-picker-sheet="defaultBibleVersion" id="bs-defaultbibleversion">
@@ -3091,7 +3091,7 @@ line 18 | vocals in"></textarea><p class="m-hint">Use <strong>line or section te
 <div class="bs-handle"></div>
 <div class="m-tr"><h2 class="m-h2" id="defaultbibleversion-title">Default Bible version</h2><button aria-label="Close" class="m-close settings-picker-close" type="button">×</button></div>
 <div class="m-body"><p class="settings-picker-sub">Choose the default Bible version. Any versions you add later will automatically appear here.</p><div class="settings-picker-options" data-picker-options="defaultBibleVersion" id="defbible-options"></div></div>
-<button class="bs-cancel settings-picker-close" type="button">Done</button>
+<button class="bs-cancel settings-picker-close" data-wb-close="true" type="button">Done</button>
 </div>
 </div>
 <div aria-hidden="true" class="bs-bg" id="backup-centre-modal">
@@ -3105,9 +3105,9 @@ line 18 | vocals in"></textarea><p class="m-hint">Use <strong>line or section te
 <script id="wb-rebuild-consolidated-script">
 /* Phase 2b - L8: runtime remains source-owned in src/core/host-runtime-adapter.js; final completion gate injected. */
 </script>
-<div aria-hidden="true" class="bs-bg" id="bs-workspace-publish"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><div class="m-h2">Publish to Workspace</div><button class="m-close" id="workspace-publish-close-static" type="button">×</button></div><div class="workspace-sheet-form"><label for="workspace-publish-name-static">Workspace set name</label><input id="workspace-publish-name-static" placeholder="Set name" type="text"/></div><div class="workspace-publish-list" id="workspace-publish-list-static"></div><div class="workspace-sheet-form"><div class="workspace-sheet-actions"><button class="bs-cancel" id="workspace-publish-cancel-static" type="button">Cancel</button><button class="workspace-action-pill primary" id="workspace-publish-save-static" type="button">Publish</button></div></div></div></div>
+<div aria-hidden="true" class="bs-bg" id="bs-workspace-publish"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><div class="m-h2">Publish to Workspace</div><button class="m-close" id="workspace-publish-close-static" type="button">×</button></div><div class="workspace-sheet-form"><label for="workspace-publish-name-static">Workspace set name</label><input id="workspace-publish-name-static" placeholder="Set name" type="text"/></div><div class="workspace-publish-list" id="workspace-publish-list-static"></div><div class="workspace-sheet-form"><div class="workspace-sheet-actions"><button class="bs-cancel" id="workspace-publish-cancel-static" data-wb-cancel="true" type="button">Cancel</button><button class="workspace-action-pill primary" id="workspace-publish-save-static" data-wb-confirm="true" type="button">Publish</button></div></div></div></div>
 <div aria-hidden="true" class="bs-bg" id="bs-personal-new"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><div class="m-h2" id="personal-new-title">New Set List</div><button class="m-close" id="personal-new-close" type="button">×</button></div><div class="workspace-sheet-form"><label for="personal-new-name">Set name</label><input id="personal-new-name" placeholder="e.g. Sunday Set" type="text"/><div class="workspace-sheet-actions"><button class="bs-cancel" id="personal-new-cancel" type="button">Cancel</button><button class="workspace-action-pill primary" id="personal-new-save" type="button">Save</button></div></div></div></div>
-<div aria-hidden="true" class="bs-bg" id="bs-workspace-new"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><div class="m-h2" id="workspace-new-title">New Workspace Set</div><button class="m-close" id="workspace-new-close" type="button">×</button></div><div class="workspace-sheet-form"><label for="workspace-new-name">Set name</label><input id="workspace-new-name" placeholder="e.g. Sunday Team Set" type="text"/><div class="workspace-sheet-actions"><button class="bs-cancel" id="workspace-new-cancel" type="button">Cancel</button><button class="workspace-action-pill primary" id="workspace-new-save" type="button">Save</button></div></div></div></div>
+<div aria-hidden="true" class="bs-bg" id="bs-workspace-new"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><div class="m-h2" id="workspace-new-title">New Workspace Set</div><button class="m-close" id="workspace-new-close" type="button">×</button></div><div class="workspace-sheet-form"><label for="workspace-new-name">Set name</label><input id="workspace-new-name" placeholder="e.g. Sunday Team Set" type="text"/><div class="workspace-sheet-actions"><button class="bs-cancel" id="workspace-new-cancel" data-wb-cancel="true" type="button">Cancel</button><button class="workspace-action-pill primary" id="workspace-new-save" data-wb-confirm="true" type="button">Save</button></div></div></div></div>
 <div aria-hidden="true" class="bs-bg" id="bs-biblepicker"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><div class="m-h2">Select book &amp; chapter</div><button class="m-close" id="biblepicker-close" type="button">×</button></div><div class="bible-picker-wrap"><div class="bible-picker-col"><div class="bible-picker-h">Book</div><div class="bible-picker-list" id="bible-book-picker-list"></div></div><div class="bible-picker-col"><div class="bible-picker-h">Chapter</div><div class="bible-picker-list" id="bible-chapter-picker-list"></div></div></div><button class="bs-cancel" onclick="closeBiblePicker()" type="button">Close</button></div></div>
 <div aria-hidden="true" class="bs-bg" id="bs-bibleversion"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><div class="m-h2">Select version</div><button class="m-close" id="bibleversion-close" type="button">×</button></div><div class="bible-version-list" id="bible-version-list"></div><button class="bs-cancel" onclick="closeBibleVersionPicker()" type="button">Close</button></div></div>
 <div aria-hidden="true" class="bs-bg" id="bs-playback"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><div class="m-h2">Song links</div><button aria-label="Close" class="m-close" id="playback-close" type="button">×</button></div><div class="song-menu-list" id="playback-list"></div><button class="bs-cancel" id="playback-cancel" type="button">Cancel</button></div></div><div aria-hidden="true" class="bs-bg" id="bs-pad"><div class="bs"><div class="bs-handle"></div><div class="m-tr"><div class="m-h2">Pad</div><button aria-label="Close" class="m-close" id="pad-close" type="button">×</button></div><div class="pad-panel" id="pad-sheet-body"></div><button class="bs-cancel" id="pad-cancel" type="button">Close</button></div></div>
