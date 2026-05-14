@@ -245,12 +245,34 @@ function personalSetKeyIndexFromButton(btn){
   if(btn.dataset){
     raw=btn.dataset.keyIndex;
     if(raw==null)raw=btn.dataset.setIndex;
+    if(raw==null)raw=btn.dataset.index;
   }
   if((raw==null||raw==='')&&btn.closest){
-    var host=btn.closest('[data-key-index],[data-set-index]');
+    var host=btn.closest('[data-key-index],[data-set-index],[data-index]');
     if(host&&host.dataset){
       raw=host.dataset.keyIndex;
       if(raw==null)raw=host.dataset.setIndex;
+      if(raw==null)raw=host.dataset.index;
+    }
+  }
+  var idx=parseInt(raw,10);
+  return isNaN(idx)?-1:idx;
+}
+
+function personalSetItemIndexFromElement(el){
+  if(!el)return -1;
+  var raw=null;
+  if(el.dataset){
+    raw=el.dataset.setIndex;
+    if(raw==null)raw=el.dataset.index;
+    if(raw==null)raw=el.dataset.keyIndex;
+  }
+  if((raw==null||raw==='')&&el.closest){
+    var host=el.closest('[data-set-index],[data-index],[data-key-index]');
+    if(host&&host.dataset){
+      raw=host.dataset.setIndex;
+      if(raw==null)raw=host.dataset.index;
+      if(raw==null)raw=host.dataset.keyIndex;
     }
   }
   var idx=parseInt(raw,10);
@@ -321,8 +343,10 @@ function bindPersonalSetControls(ctx){
       var songs=callCtx(ctx,'getSongs',[])||[];
       var song=songs.find? songs.find(function(x){return x&&x.id===songId;}):null;
       var activeSetId=callCtx(ctx,'getActiveSetId',[]);
-      var idx2=parseInt((songCard.dataset&&songCard.dataset.index)||'-1',10);
-      if(song)callCtx(ctx,'showSong',[song,'setlist',{scope:'personal',setId:activeSetId,index:idx2}]);
+      var idx2=personalSetItemIndexFromElement(songCard);
+      var activeSet=callCtx(ctx,'getActiveSet',[])||null;
+      var item=(activeSet&&activeSet.items&&idx2>=0)?activeSet.items[idx2]:null;
+      if(song)callCtx(ctx,'showSong',[song,'setlist',{scope:'personal',setId:activeSetId,index:idx2,item:item}]);
     }
   });
   return true;

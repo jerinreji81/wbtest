@@ -11,8 +11,9 @@
   --wb-ui-card-pad-x:16px;
   --wb-ui-icon:40px;
   --wb-ui-icon-radius:12px;
-  --wb-ui-back:46px;
-  --wb-ui-action:38px;
+  --wb-ui-back:40px;
+  --wb-ui-action:40px;
+  --wb-song-top-control:40px;
   --wb-ui-meta:color-mix(in srgb,var(--txt2) 78%,var(--txt3));
 }
 
@@ -291,7 +292,7 @@ body.dark .piano-key-label.black,body.dark .piano-black text{fill:#f8fafc!import
 
 /* Phase 2b - QA4 consolidated source-owned QA fixes. */
 :root{
-  --wb-ui-back:46px;
+  --wb-ui-back:40px;
   --wb-chevron-size:20px;
   --wb-chevron-stroke:2.25;
   --wb-text-secondary:color-mix(in srgb,var(--txt2) 86%,var(--txt1) 14%);
@@ -345,11 +346,11 @@ body.dark .tools-sub,body.dark .tool-card-sub,body.dark .workspace-sub,body.dark
 #settings-section .ss-section:not(.backup-centre-section) .ss-icon,
 #settings-section .settings-icon,
 #settings-section .settings-row-icon{
-  width:34px!important;
-  height:34px!important;
-  min-width:34px!important;
-  flex:0 0 34px!important;
-  border-radius:10px!important;
+  width:var(--wb-ui-icon)!important;
+  height:var(--wb-ui-icon)!important;
+  min-width:var(--wb-ui-icon)!important;
+  flex:0 0 var(--wb-ui-icon)!important;
+  border-radius:var(--wb-ui-icon-radius)!important;
   margin-right:13px!important;
 }
 #settings-section .ss-section:not(.backup-centre-section) .ss-body,
@@ -783,7 +784,7 @@ body.dark{
   align-items:center!important;
 }
 .wb-ui-card-icon,.workspace-card-icon,.tool-card-ico,.settings-row-icon,.settings-icon,.ss-icon,.ss-ico,.song-avatar{
-  border-radius:14px!important;
+  border-radius:var(--wb-ui-icon-radius)!important;
   background:color-mix(in srgb,var(--accent) 7%,var(--bg2))!important;
   border-color:color-mix(in srgb,var(--accent) 12%,var(--surface-border))!important;
   color:color-mix(in srgb,var(--accent) 58%,var(--txt3))!important;
@@ -817,10 +818,10 @@ body.dark .wb-ui-card-icon,body.dark .workspace-card-icon,body.dark .tool-card-i
 
 /* Back and chevron icon language. */
 .back-btn,.wb-ui-back,.wb-editor-back,.workspace-subview-back,.tool-back-circle,.ug-back-btn,.editor-back-btn,.tools-bible-bar .tool-back-circle{
-  width:46px!important;height:46px!important;min-width:46px!important;border-radius:999px!important;
+  width:var(--wb-ui-back)!important;height:var(--wb-ui-back)!important;min-width:var(--wb-ui-back)!important;border-radius:999px!important;
   background:var(--wb-surface-soft)!important;border:1px solid var(--wb-border-soft)!important;color:var(--txt1)!important;box-shadow:none!important;
 }
-.back-btn svg,.wb-ui-back svg,.wb-editor-back svg,.workspace-subview-back svg,.tool-back-circle svg,.ug-back-btn svg,.editor-back-btn svg{width:22px!important;height:22px!important;}
+.back-btn svg,.wb-ui-back svg,.wb-editor-back svg,.workspace-subview-back svg,.tool-back-circle svg,.ug-back-btn svg,.editor-back-btn svg{width:20px!important;height:20px!important;}
 .back-btn svg path,.wb-ui-back svg path,.wb-editor-back svg path,.workspace-subview-back svg path,.tool-back-circle svg path,.ug-back-btn svg path,.editor-back-btn svg path{stroke-width:2.85!important;stroke-linecap:round!important;stroke-linejoin:round!important;}
 .workspace-card-chevron,.tool-card-chev,.settings-chevron,.ss-chevron{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',sans-serif!important;font-size:24px!important;font-weight:500!important;color:color-mix(in srgb,var(--wb-meta-global) 72%,transparent)!important;}
 
@@ -1244,7 +1245,7 @@ body.dark .bs-bg.open:not(.ug-page):not(.sop-page):not(.file-page):not(.editor-p
 /* 4) Song page back button: stable, centered, no transition-flicker during song changes. */
 #song-back-btn,
 .sv-hdr .back-btn{
-  width:54px!important;height:54px!important;min-width:54px!important;min-height:54px!important;
+  width:var(--wb-song-top-control)!important;height:var(--wb-song-top-control)!important;min-width:var(--wb-song-top-control)!important;min-height:var(--wb-song-top-control)!important;
   display:inline-flex!important;align-items:center!important;justify-content:center!important;
   padding:0!important;line-height:1!important;position:relative!important;
 }
@@ -1558,8 +1559,8 @@ body #song-view #song-back-btn{justify-content:center!important;align-items:cent
 /* FRESH-002: song back button remains a true circle. */
 #song-view #song-back-btn.back-btn,
 #song-back-btn.back-btn{
-  width:54px!important;height:54px!important;min-width:54px!important;max-width:54px!important;min-height:54px!important;max-height:54px!important;
-  aspect-ratio:1/1!important;border-radius:50%!important;box-sizing:border-box!important;padding:0!important;flex:0 0 54px!important;
+  width:var(--wb-song-top-control)!important;height:var(--wb-song-top-control)!important;min-width:var(--wb-song-top-control)!important;max-width:var(--wb-song-top-control)!important;min-height:var(--wb-song-top-control)!important;max-height:var(--wb-song-top-control)!important;
+  aspect-ratio:1/1!important;border-radius:50%!important;box-sizing:border-box!important;padding:0!important;flex:0 0 var(--wb-song-top-control)!important;
   display:inline-flex!important;align-items:center!important;justify-content:center!important;
 }
 
@@ -1610,10 +1611,10 @@ body #song-view #song-back-btn{justify-content:center!important;align-items:cent
 #settings-section .ss-sub{line-height:1.22!important;display:block!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;max-width:100%!important;}
 #settings-section .ss-ico,
 .ss-ico{
-  width:46px!important;height:46px!important;min-width:46px!important;border-radius:14px!important;
+  width:var(--wb-ui-icon)!important;height:var(--wb-ui-icon)!important;min-width:var(--wb-ui-icon)!important;border-radius:var(--wb-ui-icon-radius)!important;
   display:inline-flex!important;align-items:center!important;justify-content:center!important;
 }
-#settings-section .ss-ico svg,.ss-ico svg{width:22px!important;height:22px!important;}
+#settings-section .ss-ico svg,.ss-ico svg{width:20px!important;height:20px!important;}
 
 /* FRESH-008/009: compact Settings right indicators and metadata. */
 #def-pdf-val{max-width:84px!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;}
@@ -1659,15 +1660,15 @@ body #song-view #song-back-btn.back-btn,
 body #song-view:not(.song-focus):not(.performance-mode) #song-back-btn,
 body #song-view.song-focus #song-back-btn,
 body #song-view.performance-mode #song-back-btn{
-  inline-size:54px!important;
-  block-size:54px!important;
-  width:54px!important;
-  height:54px!important;
-  min-width:54px!important;
-  max-width:54px!important;
-  min-height:54px!important;
-  max-height:54px!important;
-  flex:0 0 54px!important;
+  inline-size:var(--wb-song-top-control)!important;
+  block-size:var(--wb-song-top-control)!important;
+  width:var(--wb-song-top-control)!important;
+  height:var(--wb-song-top-control)!important;
+  min-width:var(--wb-song-top-control)!important;
+  max-width:var(--wb-song-top-control)!important;
+  min-height:var(--wb-song-top-control)!important;
+  max-height:var(--wb-song-top-control)!important;
+  flex:0 0 var(--wb-song-top-control)!important;
   aspect-ratio:1/1!important;
   border-radius:50%!important;
   padding:0!important;
@@ -1907,7 +1908,7 @@ body.dark #pad-now-playing-pill button[data-pad-stop-global]{
 /* QA4-RC1.3 sense-check corrections after iPhone verification.
    This block deliberately uses the owning shared selectors with enough specificity
    to beat older host rules that still carried !important values. */
-:root{--wb-song-top-control:48px;--wb-focus-main:46px;--wb-focus-tool:40px;}
+:root{--wb-song-top-control:40px;--wb-focus-main:48px;--wb-focus-tool:42px;}
 
 /* FRESH-002: normal song back button should be a circle that matches the top-right circular controls, not a larger oval. */
 body #song-view #song-back-btn,
@@ -1978,15 +1979,15 @@ body #settings-section .ss-ico,
 body #settings-section .ss-icon,
 body #settings-section .settings-icon,
 body #settings-section .settings-row-icon{
-  width:46px!important;
-  height:46px!important;
-  min-width:46px!important;
-  max-width:46px!important;
-  min-height:46px!important;
-  max-height:46px!important;
-  flex:0 0 46px!important;
+  width:var(--wb-ui-icon)!important;
+  height:var(--wb-ui-icon)!important;
+  min-width:var(--wb-ui-icon)!important;
+  max-width:var(--wb-ui-icon)!important;
+  min-height:var(--wb-ui-icon)!important;
+  max-height:var(--wb-ui-icon)!important;
+  flex:0 0 var(--wb-ui-icon)!important;
   aspect-ratio:1/1!important;
-  border-radius:14px!important;
+  border-radius:var(--wb-ui-icon-radius)!important;
   padding:0!important;
   box-sizing:border-box!important;
   display:inline-flex!important;
@@ -1996,7 +1997,7 @@ body #settings-section .settings-row-icon{
 body #settings-section .ss-ico svg,
 body #settings-section .ss-icon svg,
 body #settings-section .settings-icon svg,
-body #settings-section .settings-row-icon svg{width:22px!important;height:22px!important;}
+body #settings-section .settings-row-icon svg{width:20px!important;height:20px!important;}
 
 /* FRESH-011: Set List detail should follow the Workspace detail page rhythm, using the same edge, header and row gaps. */
 body #wb-set-editor{padding:14px 16px 0!important;box-sizing:border-box!important;}
@@ -2234,6 +2235,43 @@ body.song-motion-freeze .sv-hdr .back-btn::before{
 }
 body .song-transition-pane .sv-hdr{visibility:visible!important;opacity:1!important;}
 
+
+/* QA4-RC1.5 canonical song header state. Normal and focus headers share sizing tokens but not visibility. */
+body #song-view .sv-top{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:10px!important;
+}
+body #song-view .sv-actions{
+  margin-left:auto!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+}
+body #song-view:not(.song-focus):not(.performance-mode) .pres-exit-btn{
+  display:none!important;
+}
+body #song-view:not(.song-focus):not(.performance-mode) .sv-actions{
+  display:flex!important;
+}
+body #song-view.song-focus .sv-actions,
+body #song-view.performance-mode .sv-actions{
+  display:none!important;
+}
+body #song-view.song-focus .pres-exit-btn,
+body #song-view.performance-mode .pres-exit-btn{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  height:var(--wb-song-top-control)!important;
+  min-height:var(--wb-song-top-control)!important;
+  max-height:var(--wb-song-top-control)!important;
+  min-width:64px!important;
+  padding:0 16px!important;
+  border-radius:999px!important;
+}
+
 /* QA4-RC1.4-003: full-page/save/cancel/preview/close buttons use 40px height; dropdown selectors and Bible segmented controls are intentionally excluded. */
 body #add-song-close,
 body #song-form-cancel,
@@ -2251,8 +2289,6 @@ body #export-view-preview-bottom,
 body #export-view-back,
 body .ev-nav-btn,
 body .ev-act-btn,
-body #pres-exit-btn,
-body .pres-exit-btn,
 body #wb-editor-back,
 body #wb-editor-publish,
 body .workspace-subview-new,
