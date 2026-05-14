@@ -1903,230 +1903,315 @@ body.dark #pad-now-playing-pill button[data-pad-stop-global]{
   border-color:rgba(255,99,116,.22)!important;
 }
 
+/* =========================================================
+   QA4-RC1.3 — targeted follow-up fixes from user feedback
+   ========================================================= */
 
-/* QA4-RC1.3 sense-check corrections after iPhone verification.
-   This block deliberately uses the owning shared selectors with enough specificity
-   to beat older host rules that still carried !important values. */
-:root{--wb-song-top-control:48px;--wb-focus-main:46px;--wb-focus-tool:40px;}
-
-/* FRESH-002: normal song back button should be a circle that matches the top-right circular controls, not a larger oval. */
+/* -------------------------------------------------------
+   FIX 1 · FRESH-002: Back button = 36px (matches .menu-btn)
+   Not 54px. 3-dots button is 36x36; back button must match.
+   ------------------------------------------------------- */
 body #song-view #song-back-btn,
 body #song-view #song-back-btn.back-btn,
 body #song-view:not(.song-focus):not(.performance-mode) #song-back-btn,
 body #song-view.song-focus #song-back-btn,
 body #song-view.performance-mode #song-back-btn{
-  inline-size:var(--wb-song-top-control)!important;
-  block-size:var(--wb-song-top-control)!important;
-  width:var(--wb-song-top-control)!important;
-  height:var(--wb-song-top-control)!important;
-  min-width:var(--wb-song-top-control)!important;
-  max-width:var(--wb-song-top-control)!important;
-  min-height:var(--wb-song-top-control)!important;
-  max-height:var(--wb-song-top-control)!important;
-  flex:0 0 var(--wb-song-top-control)!important;
+  inline-size:36px!important;
+  block-size:36px!important;
+  width:36px!important;
+  height:36px!important;
+  min-width:36px!important;
+  max-width:36px!important;
+  min-height:36px!important;
+  max-height:36px!important;
+  flex:0 0 36px!important;
+  aspect-ratio:1/1!important;
   border-radius:50%!important;
-  aspect-ratio:1/1!important;
-  padding:0!important;
-}
-body #song-view #song-back-btn::before{width:20px!important;height:20px!important;margin:0!important;}
-
-/* FRESH-003: the no-padding bug was a specificity conflict with the old #song-view .wb-chord-pair rule.
-   Apply the padding directly to the live song/preview pair tokens. */
-body #song-view .sheet.chords-highlight .wb-chord-pair .chord-token,
-body #song-view .sheet.chords-highlight .chord-row .chord-token,
-body #song-view .sheet.chords-highlight .pair-chord .chord-token,
-body #song-view .sheet.chords-highlight span.chord-token,
-body #song-editor-preview-body.preview-body.chords-highlight .wb-chord-pair .chord-token,
-body #song-editor-preview-body.preview-body.chords-highlight .chord-row .chord-token,
-body #song-editor-preview-body.preview-body.chords-highlight span.chord-token,
-body .preview-body.chords-highlight .wb-chord-pair .chord-token,
-body .preview-body.chords-highlight span.chord-token{
-  display:inline-block!important;
-  min-width:0!important;
-  min-height:0!important;
-  padding:.055em .28em .075em!important;
-  margin:0 .012em!important;
-  border-radius:.26em!important;
-  line-height:1.05!important;
-  vertical-align:baseline!important;
-  box-sizing:border-box!important;
-  background:var(--chord-highlight-bg)!important;
-  color:var(--chord-color,var(--accent))!important;
-}
-body #song-view .sheet:not(.chords-highlight) .wb-chord-pair .chord-token,
-body #song-view .sheet:not(.chords-highlight) .chord-row .chord-token{
-  background:transparent!important;
-  padding:0!important;
-  margin:0!important;
-}
-
-/* FRESH-004: alpha strip was reduced too far in RC1.2; restore a small but usable reference size. */
-body #alpha-strip{right:1px!important;width:18px!important;opacity:.60!important;padding:6px 0!important;}
-body #alpha-strip .alpha-letter,
-body .alpha-letter{
-  width:18px!important;
-  min-height:14px!important;
-  font-size:8.4px!important;
-  line-height:1!important;
-  font-weight:650!important;
-  letter-spacing:0!important;
-}
-body #alpha-strip .alpha-letter.available{color:color-mix(in srgb,var(--txt2) 64%,transparent)!important;}
-
-/* FRESH-010: settings icons were being stretched by competing row rules. Lock them as actual rounded squares. */
-body #settings-section .ss-ico,
-body #settings-section .ss-icon,
-body #settings-section .settings-icon,
-body #settings-section .settings-row-icon{
-  width:46px!important;
-  height:46px!important;
-  min-width:46px!important;
-  max-width:46px!important;
-  min-height:46px!important;
-  max-height:46px!important;
-  flex:0 0 46px!important;
-  aspect-ratio:1/1!important;
-  border-radius:14px!important;
   padding:0!important;
   box-sizing:border-box!important;
   display:inline-flex!important;
   align-items:center!important;
   justify-content:center!important;
+  overflow:hidden!important;
 }
-body #settings-section .ss-ico svg,
-body #settings-section .ss-icon svg,
-body #settings-section .settings-icon svg,
-body #settings-section .settings-row-icon svg{width:22px!important;height:22px!important;}
+body #song-view #song-back-btn::before{
+  width:18px!important;
+  height:18px!important;
+  margin:0!important;
+  transform:none!important;
+}
 
-/* FRESH-011: Set List detail should follow the Workspace detail page rhythm, using the same edge, header and row gaps. */
-body #wb-set-editor{padding:14px 16px 0!important;box-sizing:border-box!important;}
-body #wb-set-editor-bar{margin:12px 0 12px!important;width:100%!important;box-sizing:border-box!important;}
-body #wb-set-editor .sl-scroll-host{margin-left:-16px!important;margin-right:-16px!important;}
-body #wb-set-editor .sl-scroll{padding:0 16px calc(var(--tab-h) + var(--sab) + 22px)!important;}
-body #wb-set-editor .sl-hdr,
-body #workspace-detail-panel .workspace-sl-hdr,
-body #workspace-detail-panel .workspace-editor-toolbar{
-  padding:10px 0 12px!important;
-  margin:0 0 2px!important;
-  min-height:48px!important;
-  border-bottom:.5px solid var(--bdr)!important;
-  box-sizing:border-box!important;
+/* -------------------------------------------------------
+   FIX 2 · FRESH-003: Chord highlight – theme-coloured
+   background + real horizontal padding, highlight mode only.
+   Also reset the too-broad RC1.2 final-lock so pair-chord
+   tokens don't get a background when highlight is OFF.
+   ------------------------------------------------------- */
+
+/* Reset the overly-broad RC1.2 selectors that leaked background
+   outside of chords-highlight mode */
+body .pair-chord .chord-token,
+body span.chord-token{
+  background:transparent!important;
+  padding:0!important;
+  min-width:unset!important;
+  min-height:unset!important;
+  margin:0!important;
+  display:inline-block!important;
 }
-body #wb-set-editor .sl-items,
-body #workspace-detail-panel .workspace-editor-items,
-body #workspace-detail-panel .sl-items{
+
+/* Properly scoped highlight – only fires when parent has .chords-highlight */
+body .sheet.chords-highlight .chord-token,
+body .preview-body.chords-highlight .chord-token,
+body #song-view .sheet.chords-highlight span.chord-token,
+body #song-view .preview-body.chords-highlight span.chord-token{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:.04em .52em .06em!important;
+  min-width:1.65em!important;
+  min-height:1.2em!important;
+  border-radius:.3em!important;
+  margin:0 .06em!important;
+  box-sizing:border-box!important;
+  line-height:1!important;
+  background:color-mix(in srgb,var(--accent) 16%,var(--bg2))!important;
+  color:var(--accent)!important;
+}
+body.dark .sheet.chords-highlight .chord-token,
+body.dark .preview-body.chords-highlight .chord-token,
+body.dark #song-view .sheet.chords-highlight span.chord-token{
+  background:color-mix(in srgb,var(--accent) 28%,rgba(255,255,255,.04))!important;
+  color:color-mix(in srgb,var(--accent) 80%,#fff)!important;
+}
+
+/* -------------------------------------------------------
+   FIX 3 · FRESH-004: Alpha strip – slightly wider/bigger
+   (RC1.2 over-reduced it; increase just a touch)
+   ------------------------------------------------------- */
+body #alpha-strip{
+  right:2px!important;
+  width:18px!important;
+  opacity:.60!important;
+  color:color-mix(in srgb,var(--txt2) 52%,transparent)!important;
+}
+body #alpha-strip .alpha-letter,
+body .alpha-letter{
+  width:18px!important;
+  min-height:14px!important;
+  font-size:9px!important;
+  line-height:1!important;
+  font-weight:640!important;
+  letter-spacing:0!important;
+  color:inherit!important;
+}
+body #alpha-strip .alpha-letter.available{
+  color:color-mix(in srgb,var(--txt2) 68%,transparent)!important;
+}
+
+/* -------------------------------------------------------
+   FIX 4 · FRESH-010: Icon tiles – enforce equal W & H,
+   prevent flex-stretch widening tiles.
+   ------------------------------------------------------- */
+body .wb-ui-card-icon,
+body .workspace-card-icon,
+body .tool-card-ico,
+body .settings-row-icon,
+body .settings-icon,
+body .ss-icon,
+body .ss-ico,
+body .song-avatar{
+  flex:0 0 40px!important;
+  width:40px!important;
+  height:40px!important;
+  min-width:40px!important;
+  max-width:40px!important;
+  min-height:40px!important;
+  max-height:40px!important;
+  border-radius:12px!important;
+  padding:0!important;
+  box-sizing:border-box!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  align-self:center!important;
+}
+
+/* -------------------------------------------------------
+   FIX 5 · FRESH-011: Set List full spacing pass.
+   Reference: Set List tab → then match Workspace set list.
+   ------------------------------------------------------- */
+
+/* Set List tab top area */
+body #wb-personal-manager .wb-personal-head{
+  padding:16px 20px!important;
+  min-height:76px!important;
+  border-radius:22px!important;
+  margin:0 0 14px!important;
+}
+body #wb-personal-manager .wb-personal-scroll{
+  padding-top:0!important;
+}
+
+/* Set editor header bar (when editing a set) */
+body #wb-set-editor-bar{
+  min-height:72px!important;
+  padding:14px 18px!important;
+  margin:0 0 10px!important;
+  border-radius:22px!important;
+  gap:12px!important;
+}
+
+/* Set list item cards – consistent heights + gaps */
+body #wb-set-editor .sl-scroll{
+  padding:4px 16px calc(var(--sab,0px) + 28px)!important;
+}
+body #wb-set-editor .sl-hdr{
+  padding:0 0 10px!important;
+  margin-bottom:0!important;
+}
+body #wb-set-editor .sl-items{
   display:flex!important;
   flex-direction:column!important;
-  gap:12px!important;
+  gap:10px!important;
   padding-top:0!important;
   margin-top:0!important;
 }
-body #wb-set-editor .sl-items > .set-card,
-body #wb-set-editor .sl-items > .set-section-card,
-body #workspace-detail-panel .workspace-editor-items > .set-card,
-body #workspace-detail-panel .workspace-editor-items > .set-section-card{
+body #wb-set-editor .sl-items .set-card{
+  min-height:70px!important;
+  padding-top:11px!important;
+  padding-bottom:11px!important;
   margin:0!important;
 }
+body #wb-set-editor .sl-items .set-section-card{
+  min-height:40px!important;
+  margin:0!important;
+}
+body #wb-set-editor .sl-items>*:first-child{margin-top:0!important;}
 
-/* FRESH-020: live tool rail belongs only to focus/performance mode. Normal song view must show only the focus FAB. */
-body #song-view:not(.song-focus):not(.performance-mode) #live-tools,
-body #song-view:not(.song-focus):not(.performance-mode) .live-tools{
+/* Workspace set list – align to Set List tab as reference */
+body .workspace-editor-items{
+  gap:10px!important;
+  padding-bottom:calc(var(--sab,0px) + 28px)!important;
+}
+body .workspace-editor-items .set-card{
+  min-height:70px!important;
+  padding-top:11px!important;
+  padding-bottom:11px!important;
+  margin:0!important;
+}
+body .workspace-editor-items .set-section-card{
+  min-height:40px!important;
+  margin:0!important;
+}
+body .workspace-editor-toolbar{
+  padding:10px 0 12px!important;
+  margin-bottom:4px!important;
+}
+
+/* -------------------------------------------------------
+   FIX 6 · FRESH-020: Toolrail
+   (a) Only show in performance/focus mode — not normal song page.
+   (b) Reduce expanded tool buttons so cues toggle fits.
+   ------------------------------------------------------- */
+
+/* Override the RC1.2 "always display:flex" — toolrail is hidden by default */
+body .live-tools,
+body #live-tools{
   display:none!important;
-  pointer-events:none!important;
 }
-body #song-view.song-focus #live-tools,
+
+/* Show only in performance/focus mode */
+body #song-view.performance-mode .live-tools,
 body #song-view.song-focus .live-tools,
+body .performance-mode .live-tools,
+body .song-focus .live-tools,
 body #song-view.performance-mode #live-tools,
-body #song-view.performance-mode .live-tools{
+body #song-view.song-focus #live-tools{
   display:flex!important;
-}
-body #live-tool-notes{display:none!important;}
-body #song-view .live-tools,
-body #song-view #live-tools{
   right:10px!important;
   left:auto!important;
-  bottom:calc(var(--sab) + 12px)!important;
+  bottom:calc(var(--sab,0px) + 14px)!important;
   flex-direction:row-reverse!important;
   align-items:center!important;
-  gap:7px!important;
+  gap:8px!important;
   max-width:calc(100vw - 20px)!important;
 }
+
+/* Expanded tool stack – use auto-width pills like v85 so all tools fit */
 body #song-view.live-tools-expanded .live-tool-stack,
-body #song-view .live-tools.expanded .live-tool-stack{
+body .live-tools.expanded .live-tool-stack,
+body #song-view.performance-mode .live-tools.expanded .live-tool-stack,
+body #song-view.song-focus .live-tools.expanded .live-tool-stack{
   display:flex!important;
   flex-direction:row!important;
   align-items:center!important;
-  justify-content:flex-start!important;
-  gap:4px!important;
-  max-width:calc(100vw - 72px)!important;
-  overflow:hidden!important;
-  padding:4px!important;
+  gap:5px!important;
+  padding:4px 6px!important;
   border-radius:999px!important;
-  background:rgba(255,255,255,.82)!important;
-  border:1px solid rgba(16,55,74,.14)!important;
-  box-shadow:0 14px 34px rgba(16,55,74,.16)!important;
-  backdrop-filter:blur(22px) saturate(1.35)!important;
-  -webkit-backdrop-filter:blur(22px) saturate(1.35)!important;
+  max-width:calc(100vw - 80px)!important;
+  overflow-x:auto!important;
+  overflow-y:hidden!important;
+  scrollbar-width:none!important;
+  background:color-mix(in srgb,var(--bg1) 86%,transparent)!important;
+  border:1px solid color-mix(in srgb,var(--surface-border) 80%,transparent)!important;
+  box-shadow:0 12px 32px rgba(16,55,74,.13)!important;
+  backdrop-filter:blur(20px) saturate(1.2)!important;
+  -webkit-backdrop-filter:blur(20px) saturate(1.2)!important;
 }
+body #song-view.live-tools-expanded .live-tool-stack::-webkit-scrollbar,
+body .live-tools.expanded .live-tool-stack::-webkit-scrollbar{display:none!important;}
+
+/* Individual expanded tools: auto-width pills, compact */
 body #song-view.live-tools-expanded .live-tool,
-body #song-view .live-tools.expanded .live-tool{
-  flex:0 0 var(--wb-focus-tool)!important;
-  width:var(--wb-focus-tool)!important;
-  min-width:var(--wb-focus-tool)!important;
-  height:var(--wb-focus-tool)!important;
-  min-height:var(--wb-focus-tool)!important;
-  max-height:var(--wb-focus-tool)!important;
-  padding:0 6px!important;
+body .live-tools.expanded .live-tool{
+  flex:0 0 auto!important;
+  width:auto!important;
+  min-width:40px!important;
+  height:40px!important;
+  min-height:40px!important;
+  max-height:40px!important;
+  padding:0 10px!important;
   border-radius:999px!important;
   font-size:10px!important;
-  line-height:1.02!important;
-  letter-spacing:.015em!important;
-  font-weight:860!important;
-  overflow:hidden!important;
-  white-space:normal!important;
+  font-weight:850!important;
+  letter-spacing:.02em!important;
+  line-height:1!important;
+  white-space:nowrap!important;
+  overflow:visible!important;
 }
-body #song-view.live-tools-expanded #live-tool-metronome,
-body #song-view .live-tools.expanded #live-tool-metronome{flex-basis:44px!important;width:44px!important;min-width:44px!important;}
-body #song-view.live-tools-expanded #live-tool-view,
-body #song-view .live-tools.expanded #live-tool-view{flex-basis:52px!important;width:52px!important;min-width:52px!important;}
-body #song-view.live-tools-expanded #live-tool-cues,
-body #song-view .live-tools.expanded #live-tool-cues{flex-basis:48px!important;width:48px!important;min-width:48px!important;}
 body #song-view.live-tools-expanded .live-tool .two-line,
-body #song-view .live-tools.expanded .live-tool .two-line{font-size:9.6px!important;line-height:1.02!important;gap:1px!important;}
+body .live-tools.expanded .live-tool .two-line{
+  font-size:10px!important;
+  line-height:1.05!important;
+}
+
+/* Main FAB stays a 48px circle; icon rotates on expand */
 body #live-tool-main.live-tool-main{
-  flex:0 0 var(--wb-focus-main)!important;
-  width:var(--wb-focus-main)!important;
-  height:var(--wb-focus-main)!important;
-  min-width:var(--wb-focus-main)!important;
-  min-height:var(--wb-focus-main)!important;
-  max-width:var(--wb-focus-main)!important;
-  max-height:var(--wb-focus-main)!important;
+  flex:0 0 48px!important;
+  width:48px!important;
+  height:48px!important;
+  min-width:48px!important;
+  min-height:48px!important;
+  max-width:48px!important;
+  max-height:48px!important;
   border-radius:50%!important;
   padding:0!important;
-  aspect-ratio:1/1!important;
 }
-body #live-tool-main.live-tool-main svg{width:20px!important;height:20px!important;}
-@media(max-width:380px){
-  :root{--wb-focus-main:44px;--wb-focus-tool:38px;}
-  body #song-view.live-tools-expanded #live-tool-metronome,
-  body #song-view .live-tools.expanded #live-tool-metronome{flex-basis:42px!important;width:42px!important;min-width:42px!important;}
-  body #song-view.live-tools-expanded #live-tool-view,
-  body #song-view .live-tools.expanded #live-tool-view{flex-basis:50px!important;width:50px!important;min-width:50px!important;}
-  body #song-view.live-tools-expanded #live-tool-cues,
-  body #song-view .live-tools.expanded #live-tool-cues{flex-basis:46px!important;width:46px!important;min-width:46px!important;}
-}
-body.dark #song-view.live-tools-expanded .live-tool-stack,
-body.dark #song-view .live-tools.expanded .live-tool-stack{background:rgba(24,30,38,.88)!important;border-color:rgba(255,255,255,.13)!important;box-shadow:0 16px 38px rgba(0,0,0,.34)!important;}
 
-/* FRESH-021: use one stop-square glyph only. The previous span + pseudo-element drew a double square. */
-#pad-now-playing-pill button[data-pad-stop-global]::before{content:none!important;display:none!important;}
+/* -------------------------------------------------------
+   FIX 7 · FRESH-021: Pads pill stop icon – single square.
+   Hide any .pad-stop-icon child element; use ::before only.
+   ------------------------------------------------------- */
 #pad-now-playing-pill .pad-stop-icon{
-  display:block!important;
-  width:14px!important;
-  height:14px!important;
-  fill:currentColor!important;
-  background:transparent!important;
-  border-radius:0!important;
+  display:none!important;
 }
-#pad-now-playing-pill .pad-stop-icon rect{fill:currentColor!important;}
-
+#pad-now-playing-pill button[data-pad-stop-global]::before{
+  content:""!important;
+  display:block!important;
+  width:10px!important;
+  height:10px!important;
+  border-radius:2px!important;
+  background:currentColor!important;
+  flex:0 0 auto!important;
+}
