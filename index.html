@@ -3758,6 +3758,391 @@ body.dark .editor-save-btn,body.dark .ug-head-btn.primary,body.dark .import-dup-
 #backup-centre-modal .m-h2{line-height:1.08!important;}
 #backup-centre-modal .m-body{padding-top:16px!important;}
 #backup-centre-modal .bs-cancel{margin-top:auto!important;margin-bottom:calc(var(--sab) + 12px)!important;}
+
+/* QA4 RC1 FINAL REPAIR PASS — owner-level visual/interaction corrections */
+/* 1) Full-page import/create/edit routes must not inherit bottom-sheet chrome. */
+.bs-bg.ug-page.open,
+.bs-bg.sop-page.open,
+.bs-bg.file-page.open,
+.bs-bg.editor-page.open{
+  position:fixed!important;
+  inset:0!important;
+  display:block!important;
+  align-items:stretch!important;
+  justify-content:stretch!important;
+  padding:0!important;
+  background:var(--bg1)!important;
+  z-index:220!important;
+  overflow:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+.bs-bg.ug-page.open>.bs,
+.bs-bg.sop-page.open>.bs,
+.bs-bg.file-page.open>.bs,
+.bs-bg.editor-page.open>.bs,
+.ug-page.open>.ug-page-panel,
+.sop-page.open>.sop-page-panel,
+.file-page.open>.file-page-panel,
+.editor-page.open>.editor-page-panel{
+  width:100%!important;
+  min-height:100dvh!important;
+  height:auto!important;
+  max-height:none!important;
+  border-radius:0!important;
+  border:0!important;
+  box-shadow:none!important;
+  background:var(--bg1)!important;
+  margin:0!important;
+  padding-top:calc(var(--sat) + 16px)!important;
+  overflow:visible!important;
+  display:block!important;
+}
+
+/* 2) Adaptive bottom sheets: short sheets wrap content; long sheets scroll. */
+.bs-bg.open:not(.ug-page):not(.sop-page):not(.file-page):not(.editor-page):not(#backup-centre-modal)>.bs{
+  min-height:0!important;
+  height:auto!important;
+  max-height:calc(100dvh - var(--sat) - 10px)!important;
+  display:block!important;
+  overflow:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+  padding-bottom:calc(var(--sab) + 18px)!important;
+  border-radius:30px 30px 0 0!important;
+  background:var(--wb-sheet-bg,var(--bg1))!important;
+}
+.bs-bg.open:not(.ug-page):not(.sop-page):not(.file-page):not(.editor-page):not(#backup-centre-modal) .bs-cancel{
+  margin-top:14px!important;
+  margin-bottom:0!important;
+  flex:none!important;
+}
+.bs-bg.open:not(.ug-page):not(.sop-page):not(.file-page):not(.editor-page):not(#backup-centre-modal) .bs-list,
+.bs-bg.open:not(.ug-page):not(.sop-page):not(.file-page):not(.editor-page):not(#backup-centre-modal) .bs-scroll{
+  max-height:58dvh!important;
+  overflow:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+}
+body.dark .bs-bg.open:not(.ug-page):not(.sop-page):not(.file-page):not(.editor-page):not(#backup-centre-modal)>.bs{
+  --wb-sheet-bg:#1c1c22;
+  background:#1c1c22!important;
+  border-color:rgba(255,255,255,.10)!important;
+}
+body.dark .bs-bg.open:not(.ug-page):not(.sop-page):not(.file-page):not(.editor-page):not(#backup-centre-modal){
+  background:rgba(0,0,0,.56)!important;
+}
+
+/* 3) Backup Centre keeps full-screen safe-area layout; no duplicate inline cancel. */
+#backup-centre-modal.open>.bs{
+  padding-top:calc(var(--sat) + 24px)!important;
+  border-radius:0!important;
+  min-height:100dvh!important;
+  max-height:100dvh!important;
+  background:var(--bg1)!important;
+}
+#backup-centre-modal .backup-review-actions [data-backup-confirm-cancel]{display:none!important;}
+#backup-centre-modal .backup-review-actions{margin-bottom:18px!important;}
+#backup-centre-modal .backup-review-primary,
+#backup-centre-modal .backup-review-danger,
+#backup-centre-modal .backup-review-actions button:not(.backup-review-secondary){
+  color:#101114!important;
+}
+
+/* 4) Song page back button: stable, centered, no transition-flicker during song changes. */
+#song-back-btn,
+.sv-hdr .back-btn{
+  width:54px!important;height:54px!important;min-width:54px!important;min-height:54px!important;
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  padding:0!important;line-height:1!important;position:relative!important;
+}
+#song-back-btn svg,
+.sv-hdr .back-btn svg{
+  width:18px!important;height:18px!important;margin:0!important;display:block!important;
+  transform:translateX(0)!important;position:static!important;flex:0 0 auto!important;
+}
+.song-switching #song-view>.sv-hdr,
+.song-switching .sv-hdr{
+  visibility:visible!important;opacity:1!important;filter:none!important;transform:none!important;
+}
+.song-switching #song-view>.sv-scroll{visibility:hidden!important;}
+#song-back-btn{transition:background-color .14s ease,border-color .14s ease,color .14s ease!important;}
+
+/* 5) Chord highlight optical padding: more horizontal breathing room without moving anchors. */
+.sheet.chords-highlight .chord-token,
+.pair-chord .chord-token,
+.chord-token.hl,
+span.chord-token{
+  box-decoration-break:clone!important;
+  -webkit-box-decoration-break:clone!important;
+}
+.sheet.chords-highlight .chord-token,
+.pair-chord .chord-token{
+  padding:.08em .36em .10em!important;
+  margin-left:-.15em!important;
+  margin-right:-.15em!important;
+  border-radius:.32em!important;
+  line-height:1!important;
+  min-width:1.22em!important;
+  text-align:center!important;
+}
+
+/* 6) Solid action buttons with light/themed fill get dark text in dark mode. */
+body.dark .editor-save-btn,
+body.dark .ug-head-btn.primary,
+body.dark .import-dup-save,
+body.dark .ev-primary,
+body.dark .export-preview-btn,
+body.dark .preview-pdf-btn,
+body.dark .btn-p,
+body.dark .backup-review-primary,
+body.dark .backup-review-danger,
+body.dark .workspace-subview-new,
+body.dark .wb-personal-new,
+body.dark .workspace-action-pill.primary,
+body.dark .workspace-copy-btn,
+body.dark .sl-rename-confirm,
+body.dark .workspace-rename-confirm,
+body.dark .rename-confirm,
+body.dark .nns-variation-chip.active,
+body.dark .tools-diagram-chip.active,
+body.dark .tools-pad-chip.active,
+body.dark .tools-pad-key.active,
+body.dark .bs-option.active,
+body.dark .key-grid button.active,
+body.dark .key-grid-option.active{
+  color:#101114!important;
+}
+body.dark .editor-save-btn svg,
+body.dark .ug-head-btn.primary svg,
+body.dark .ev-primary svg,
+body.dark .backup-review-primary svg,
+body.dark .backup-review-danger svg,
+body.dark .workspace-subview-new svg,
+body.dark .wb-personal-new svg,
+body.dark .nns-variation-chip.active svg{color:#101114!important;stroke:#101114!important;}
+
+/* 7) Tools piano diagrams: instrument-like dots, no theme-coloured pink dots. */
+.nns-piano-notes{display:none!important;}
+.nns-piano-svg .piano-white{fill:#f8f8f7!important;stroke:#bfc4c8!important;}
+.nns-piano-svg .piano-black{fill:#0d0d0f!important;stroke:#0d0d0f!important;}
+.nns-piano-svg .piano-dot-white{fill:#14181d!important;stroke:#14181d!important;}
+.nns-piano-svg .piano-dot-black{fill:#ffffff!important;stroke:#ffffff!important;}
+body.dark .nns-piano-svg .piano-white{fill:#f5f5f2!important;stroke:#d8d8d4!important;}
+body.dark .nns-piano-svg .piano-black{fill:#08080a!important;stroke:#08080a!important;}
+body.dark .nns-piano-svg .piano-dot-white{fill:#111417!important;stroke:#111417!important;}
+body.dark .nns-piano-svg .piano-dot-black{fill:#ffffff!important;stroke:#ffffff!important;}
+
+/* 8) Chord/NNS converter: designed tool section, full-width input, clear rhythm. */
+.nns-converter,
+.convert-progression-card{
+  padding:0!important;overflow:hidden!important;
+}
+.nns-converter .converter-body,
+.convert-progression-card .converter-body,
+#nns-converter-body,
+#nns-converter{
+  display:flex!important;flex-direction:column!important;gap:14px!important;
+}
+.nns-convert-copy,
+.converter-copy,
+.nns-converter-help{
+  font-size:14px!important;line-height:1.42!important;color:var(--txt3)!important;margin:0!important;
+}
+.nns-converter input[type="text"],
+.nns-converter textarea,
+.convert-progression-card input[type="text"],
+.convert-progression-card textarea,
+#nns-progression-input,
+#nns-converter-input{
+  width:100%!important;max-width:none!important;min-height:48px!important;border-radius:17px!important;
+  padding:13px 14px!important;font-size:15px!important;font-weight:600!important;
+  background:var(--bg2)!important;border:1px solid var(--surface-border)!important;color:var(--txt1)!important;
+}
+.nns-converter .converter-actions,
+.convert-progression-card .converter-actions,
+.nns-convert-actions{
+  display:grid!important;grid-template-columns:1fr 1fr!important;gap:12px!important;align-items:end!important;margin:2px 0 0!important;
+}
+.nns-converter .converter-actions>*{min-width:0!important;}
+.nns-converter .converter-output,
+.nns-converter .converter-preview,
+.convert-progression-card .converter-output,
+.convert-progression-card .converter-preview,
+#nns-converter-output,
+#nns-converter-preview{
+  width:100%!important;border-radius:17px!important;padding:14px 15px!important;margin:0!important;
+  background:color-mix(in srgb,var(--bg2) 82%,var(--surface-tint) 18%)!important;
+  border:1px solid var(--surface-border)!important;color:var(--txt1)!important;line-height:1.38!important;
+}
+.nns-converter .converter-examples,
+.convert-progression-card .converter-examples,
+.nns-example-grid{
+  display:flex!important;flex-wrap:wrap!important;gap:10px!important;margin-top:2px!important;
+}
+.nns-converter .converter-examples button,
+.convert-progression-card .converter-examples button,
+.nns-example-chip{
+  min-height:44px!important;border-radius:15px!important;padding:8px 12px!important;text-align:left!important;
+  background:var(--bg2)!important;border:1px solid var(--surface-border)!important;color:var(--txt1)!important;
+}
+body.dark .nns-converter input[type="text"],body.dark .nns-converter textarea,
+body.dark .convert-progression-card input[type="text"],body.dark .convert-progression-card textarea,
+body.dark #nns-progression-input,body.dark #nns-converter-input,
+body.dark .nns-converter .converter-output,body.dark .nns-converter .converter-preview,
+body.dark .convert-progression-card .converter-output,body.dark .convert-progression-card .converter-preview,
+body.dark #nns-converter-output,body.dark #nns-converter-preview,
+body.dark .nns-example-chip{
+  background:rgba(255,255,255,.045)!important;border-color:rgba(255,255,255,.10)!important;color:var(--txt1)!important;
+}
+
+/* 9) Set List + Workspace set detail summary row aligns with page edge. */
+.sl-hdr,
+.workspace-sl-hdr,
+.workspace-editor-toolbar{
+  padding-left:0!important;padding-right:0!important;margin-left:0!important;margin-right:0!important;
+}
+.sl-hdr-meta,
+.workspace-editor-meta{margin-left:0!important;padding-left:0!important;}
+.workspace-editor-count,.workspace-editor-key,.sl-set-count,.sl-set-key-info{margin-left:0!important;}
+.set-section-card,
+.workspace-editor-items .set-section-card{
+  background:color-mix(in srgb,var(--accent) 8%,var(--bg2))!important;
+  border-color:color-mix(in srgb,var(--accent) 22%,var(--surface-border))!important;
+}
+body.dark .set-section-card,body.dark .workspace-editor-items .set-section-card{
+  background:color-mix(in srgb,var(--accent) 12%,rgba(255,255,255,.045))!important;
+  border-color:color-mix(in srgb,var(--accent) 24%,rgba(255,255,255,.12))!important;
+}
+
+/* 10) Workspace drag/reorder: match Set List smoothness, avoid blur/friction. */
+.workspace-editor-items .drag-ghost,
+.drag-ghost{
+  transition:none!important;filter:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+  will-change:transform!important;transform:translate3d(0,0,0);opacity:.995!important;
+  -webkit-font-smoothing:antialiased!important;contain:layout paint!important;
+}
+.workspace-editor-items .set-card,
+.workspace-editor-items .set-section-card{transition:transform .12s cubic-bezier(.2,.85,.25,1),opacity .12s ease!important;}
+.workspace-editor-items .set-drag-placeholder{transition:height .08s linear,margin .08s linear!important;}
+
+/* 11) Global pads now-playing pill: compact bottom placement above tab bar. */
+.pad-now-playing-pill,.wb-pad-now-pill,.wb-now-playing-pill,#pad-now-playing-pill,#wb-pad-now-playing{
+  position:fixed!important;left:16px!important;right:16px!important;top:auto!important;
+  bottom:calc(var(--tab-h) + var(--sab) + 10px)!important;z-index:950!important;
+  min-height:38px!important;max-height:44px!important;border-radius:999px!important;padding:7px 10px 7px 14px!important;
+  display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;
+  background:color-mix(in srgb,var(--accent) 11%,var(--bg1))!important;border:1px solid color-mix(in srgb,var(--accent) 22%,var(--surface-border))!important;
+  color:var(--txt1)!important;box-shadow:0 8px 24px rgba(15,23,42,.14)!important;
+}
+.pad-now-playing-pill button,.wb-pad-now-pill button,.wb-now-playing-pill button,#pad-now-playing-pill button,#wb-pad-now-playing button{
+  min-height:30px!important;border-radius:999px!important;padding:0 12px!important;background:var(--accent)!important;border:1px solid var(--accent)!important;color:var(--accent-fg)!important;font-weight:850!important;
+}
+body.dark .pad-now-playing-pill,body.dark .wb-pad-now-pill,body.dark .wb-now-playing-pill,body.dark #pad-now-playing-pill,body.dark #wb-pad-now-playing{
+  background:rgba(28,28,34,.94)!important;border-color:rgba(255,255,255,.12)!important;box-shadow:0 10px 28px rgba(0,0,0,.32)!important;
+}
+body.dark .pad-now-playing-pill button,body.dark .wb-pad-now-pill button,body.dark .wb-now-playing-pill button,body.dark #pad-now-playing-pill button,body.dark #wb-pad-now-playing button{
+  background:color-mix(in srgb,var(--accent) 78%,#fff)!important;border-color:color-mix(in srgb,var(--accent) 78%,#fff)!important;color:#101114!important;
+}
+
+/* 12) Focus floating button follows theme rather than fixed white. */
+.focus-fab,.song-focus-btn,.focus-mode-btn,.focus-floating-btn{
+  background:var(--accent)!important;color:var(--accent-fg)!important;border-color:var(--accent)!important;
+}
+body.dark .focus-fab,body.dark .song-focus-btn,body.dark .focus-mode-btn,body.dark .focus-floating-btn{
+  background:color-mix(in srgb,var(--accent) 76%,#fff)!important;color:#101114!important;border-color:color-mix(in srgb,var(--accent) 76%,#fff)!important;
+}
+
+@media (max-width:430px){
+  .nns-converter .converter-actions,.convert-progression-card .converter-actions,.nns-convert-actions{grid-template-columns:1fr!important;}
+}
+
+/* QA4 RC1 final repair — exact Chord/NNS converter markup polish */
+#nns-converter-details.tool-card-static{
+  padding:0!important;overflow:hidden!important;border-radius:24px!important;
+}
+#nns-converter-details>summary{
+  padding:18px 20px!important;font-size:19px!important;font-weight:860!important;letter-spacing:-.02em!important;
+  border-bottom:1px solid var(--surface-border)!important;
+}
+#nns-converter-details .tool-card-static-sub{
+  padding:16px 20px 4px!important;margin:0!important;max-width:none!important;
+  font-size:14.5px!important;line-height:1.48!important;color:var(--txt3)!important;
+}
+#nns-convert-input.nns-input{
+  display:block!important;width:calc(100% - 40px)!important;max-width:none!important;margin:12px 20px 2px!important;
+  height:50px!important;min-height:50px!important;border-radius:18px!important;padding:0 15px!important;
+  font-size:15px!important;font-weight:650!important;background:var(--bg2)!important;border:1px solid var(--surface-border)!important;color:var(--txt1)!important;
+}
+#nns-converter-details .nns-action-row{
+  display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:12px!important;
+  padding:8px 20px 0!important;margin:0!important;align-items:end!important;
+}
+#nns-copy-result.nns-small-btn,
+#nns-transpose-target-btn.wb-picker-btn{
+  width:100%!important;height:48px!important;min-height:48px!important;border-radius:17px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;font-size:14px!important;font-weight:850!important;
+}
+#nns-converter-details .nns-mini-field{margin:0!important;width:100%!important;display:flex!important;flex-direction:column!important;gap:6px!important;}
+#nns-converter-details .nns-mini-field>span{font-size:10.5px!important;font-weight:900!important;letter-spacing:.14em!important;text-align:left!important;color:var(--txt3)!important;}
+#nns-convert-result.nns-convert-result,
+#nns-transpose-result.nns-convert-result{
+  width:calc(100% - 40px)!important;margin:12px 20px 0!important;border-radius:17px!important;padding:14px 15px!important;
+  font-size:14.5px!important;line-height:1.45!important;border:1px solid var(--surface-border)!important;background:color-mix(in srgb,var(--bg2) 86%,var(--surface-tint) 14%)!important;color:var(--txt1)!important;
+}
+#nns-transpose-result.nns-convert-result.secondary{margin-top:8px!important;color:var(--txt2)!important;}
+#nns-common-progressions.nns-example-row{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;padding:14px 20px 20px!important;margin:0!important;
+}
+#nns-common-progressions .nns-example-btn,
+#nns-common-progressions button{
+  min-height:56px!important;border-radius:16px!important;padding:10px 12px!important;text-align:left!important;background:var(--bg2)!important;border:1px solid var(--surface-border)!important;color:var(--txt1)!important;
+}
+#nns-common-progressions .nns-example-btn strong,
+#nns-common-progressions button strong{display:block!important;font-size:13.5px!important;font-weight:850!important;color:var(--txt1)!important;}
+#nns-common-progressions .nns-example-btn small,
+#nns-common-progressions button small{display:block!important;font-size:12px!important;line-height:1.25!important;color:var(--txt3)!important;margin-top:2px!important;}
+body.dark #nns-converter-details>summary{border-color:rgba(255,255,255,.085)!important;}
+body.dark #nns-convert-input.nns-input,
+body.dark #nns-copy-result.nns-small-btn,
+body.dark #nns-transpose-target-btn.wb-picker-btn,
+body.dark #nns-convert-result.nns-convert-result,
+body.dark #nns-transpose-result.nns-convert-result,
+body.dark #nns-common-progressions button{
+  background:rgba(255,255,255,.045)!important;border-color:rgba(255,255,255,.10)!important;color:var(--txt1)!important;
+}
+@media(max-width:430px){#nns-converter-details .nns-action-row{grid-template-columns:1fr!important;}#nns-common-progressions.nns-example-row{grid-template-columns:1fr 1fr!important;}}
+
+/* QA4 RC1 final repair follow-up: remove duplicate chevron source and compact picker sheets */
+#song-back-btn svg{display:none!important;}
+#song-back-btn::before{
+  content:""!important;display:block!important;width:22px!important;height:22px!important;margin:0!important;
+  background:currentColor!important;-webkit-mask:var(--wb-chevron-svg) center/contain no-repeat!important;mask:var(--wb-chevron-svg) center/contain no-repeat!important;
+  flex:0 0 auto!important;transform:translateX(0)!important;
+}
+.settings-picker-sheet.open>.bs,
+#bs-defaultsongview.open>.bs,
+#bs-defaultpdfpreset.open>.bs,
+#bs-defaultkey.open>.bs,
+#bs-addtosetbehavior.open>.bs,
+#bs-defaultbibleversion.open>.bs{
+  min-height:0!important;height:auto!important;display:block!important;max-height:calc(100dvh - var(--sat) - 14px)!important;
+  padding-bottom:calc(var(--sab) + 16px)!important;
+}
+.settings-picker-sheet.open .m-body{flex:none!important;min-height:0!important;overflow:visible!important;}
+.settings-picker-sheet.open .bs-cancel{margin-top:14px!important;margin-bottom:0!important;}
+#bs-defaultkey.open .m-body{overflow:visible!important;}
+
+/* Final specificity lock for song page back chevron centering */
+body #song-view #song-back-btn svg,
+body #song-view:not(.song-focus):not(.performance-mode) #song-back-btn svg,
+body #song-view:not(.song-focus):not(.performance-mode) #song-back-btn svg path{display:none!important;visibility:hidden!important;opacity:0!important;}
+body #song-view #song-back-btn::before,
+body #song-view:not(.song-focus):not(.performance-mode) #song-back-btn::before{
+  content:""!important;display:block!important;visibility:visible!important;opacity:1!important;width:22px!important;height:22px!important;margin:0!important;
+  background:currentColor!important;-webkit-mask:var(--wb-chevron-svg) center/contain no-repeat!important;mask:var(--wb-chevron-svg) center/contain no-repeat!important;
+  flex:0 0 auto!important;transform:none!important;position:static!important;
+}
+body #song-view #song-back-btn{justify-content:center!important;align-items:center!important;overflow:hidden!important;}
 </style>
 
 </head>
@@ -8777,7 +9162,8 @@ function importResultByIdOrUrl(kind,draft,ctx){
     var url=draft.importId?importUrl(kind,draft.importId,true):importUrl(kind,draft.sourceUrl,false);
     return fetchJson(url).then(function(data){
       var raw=data.song||data||{};
-      var merged=Object.assign({},draft,raw,{key:raw.key||raw.originalKey||draft.key||draft.originalKey||draft.scale,originalKey:raw.originalKey||raw.key||draft.originalKey||draft.key});
+      var canonicalKey=draft.key||draft.originalKey||draft.sourceKey||draft.chartKey||draft.detectedKey||draft.scale||raw.key||raw.originalKey||raw.sourceKey||raw.chartKey||raw.detectedKey||raw.scale;
+      var merged=Object.assign({},raw,draft,{key:canonicalKey,originalKey:canonicalKey,sourceKey:canonicalKey,chartKey:canonicalKey,displayKey:canonicalKey});
       return finish(mapBackendSong(merged,kind,ctx));
     }).catch(function(){call(ctx,'showToast',kind==='sop'?'Songs of Praise import failed':'UG import failed');});
   }
@@ -11570,9 +11956,7 @@ function pianoDiagramSvg(root,qualityId,inversion){
 }
 function pianoDiagramHtml(root,qualityId,inversion){
   root=normalizeRoot(root);qualityId=qualityId||'major';
-  var q=QUALITIES.filter(function(q){return q.id===qualityId})[0]||QUALITIES[0];
-  var inv=Math.max(0,parseInt(inversion,10)||0), notes=pianoChordNotes(root,qualityId,inv), vars=pianoDiagramVariations(root,qualityId), label=(vars[inv]&&vars[inv].label)||'Root position';
-  return '<div class="nns-piano-wrap nns-piano-wrap-svg">'+pianoDiagramSvg(root,qualityId,inv)+'<div class="nns-piano-notes" aria-label="Piano chord tones"><strong class="nns-piano-name">'+root+q.suffix+'</strong><span class="nns-piano-tone-line">'+notes.join(' · ')+'</span><small class="nns-piano-variation-label">'+label+'</small></div></div>';
+  return '<div class="nns-piano-wrap nns-piano-wrap-svg">'+pianoDiagramSvg(root,qualityId,inversion)+'</div>';
 }
 function nnsTokenToInterval(token,mode){
   token=String(token||'').trim().replace(/º/g,'°').replace(/♭/g,'b').replace(/♯/g,'#');
@@ -12373,8 +12757,8 @@ return '<div class="backup-centre-section"><div class="backup-centre-section-tit
 '<button class="backup-centre-action" data-backup-action="drive-snapshot" type="button"><span class="backup-centre-action-icon">'+icon('shield')+'</span><span class="backup-centre-action-copy"><span class="backup-centre-title">Download pre-restore snapshot</span><span class="backup-centre-sub">Download the safety snapshot saved before restore.</span></span></button>'+
 '<button class="backup-centre-action" data-backup-action="drive-disconnect" type="button"><span class="backup-centre-action-icon">'+icon('cloud')+'</span><span class="backup-centre-action-copy"><span class="backup-centre-title">Disconnect on this device</span><span class="backup-centre-sub">Forget the Drive connection state locally.</span></span></button>'+
 '</div></div>';}
-function renderActionConfirm(action,state,env){env=asObject(env);var qs=env.qs||function(id){return root.document&&root.document.getElementById(id);};var modal=qs('backup-centre-modal'),body=qs('backup-centre-body'),title=qs('backup-centre-title'),done=qs('backup-centre-done');if(!modal||!body)return;var meta=actionMeta(action),summary=buildBackupSummary(state,meta.kind,env.helpers),isDanger=meta.kind==='drive-danger';if(title)title.textContent='Confirm Action';if(done)done.textContent='Cancel';modal.classList.add('open');modal.setAttribute('aria-hidden','false');modal.classList.remove('restore-review','backup-action-result');var summaryHtml=(meta.kind==='restore'||meta.kind==='snapshot'||meta.kind==='drive'||meta.kind==='drive-danger')?'':backupSummaryCells(summary);body.innerHTML='<div class="backup-review-hero"><div class="backup-review-kicker">Review before continuing</div><div class="backup-review-title">'+esc(meta.title)+'</div><div class="backup-review-sub">'+esc(meta.body)+'</div></div>'+summaryHtml+(isDanger?'<div class="backup-review-warning">Disconnecting is local to this device, but you may need to reconnect before future Drive backups or restores.</div>':'<div class="backup-review-muted">This extra step prevents accidental backup, restore or disconnect actions.</div>')+'<div class="backup-review-actions"><button class="'+(isDanger?'backup-review-danger':'backup-review-primary')+'" data-backup-confirm-run="'+esc(action)+'" type="button">'+esc(meta.verb)+'</button><button class="backup-review-secondary" data-backup-confirm-cancel type="button">Cancel</button></div>';}
-function renderActionResult(action,state,env,opts){env=asObject(env);opts=asObject(opts);var qs=env.qs||function(id){return root.document&&root.document.getElementById(id);};var modal=qs('backup-centre-modal'),body=qs('backup-centre-body'),title=qs('backup-centre-title'),done=qs('backup-centre-done');if(!modal||!body)return;var meta=actionMeta(action),summary=buildBackupSummary(state,meta.kind==='restore'?'full':meta.kind,env.helpers),stamp=new Date().toLocaleString();if(title)title.textContent='Backup Summary';if(done)done.textContent='Done';modal.classList.add('open','backup-action-result');modal.setAttribute('aria-hidden','false');modal.classList.remove('restore-review');var where=opts.where||((String(action).indexOf('drive-')===0)?'Google Drive':'This device');var message=opts.message||((String(action).indexOf('restore')>=0)?'Ready to review.':'Completed successfully.');body.innerHTML='<div class="backup-review-hero"><div class="backup-review-kicker">'+esc(where)+'</div><div class="backup-review-title">'+esc(meta.title.replace(/\?$/,''))+'</div><div class="backup-review-sub">'+esc(message)+' '+esc(stamp)+'</div></div>'+((meta.kind==='restore'||meta.kind==='snapshot'||meta.kind==='drive'||meta.kind==='drive-danger')?'':backupSummaryCells(summary))+'<div class="backup-review-actions"><button class="backup-review-primary" data-backup-confirm-cancel type="button">Done</button></div>';}
+function renderActionConfirm(action,state,env){env=asObject(env);var qs=env.qs||function(id){return root.document&&root.document.getElementById(id);};var modal=qs('backup-centre-modal'),body=qs('backup-centre-body'),title=qs('backup-centre-title'),done=qs('backup-centre-done');if(!modal||!body)return;var meta=actionMeta(action),summary=buildBackupSummary(state,meta.kind,env.helpers),isDanger=meta.kind==='drive-danger';if(title)title.textContent='Confirm Action';if(done)done.textContent='Cancel';modal.classList.add('open');modal.setAttribute('aria-hidden','false');modal.classList.remove('restore-review','backup-action-result');var summaryHtml=(meta.kind==='restore'||meta.kind==='snapshot'||meta.kind==='drive'||meta.kind==='drive-danger')?'':backupSummaryCells(summary);body.innerHTML='<div class="backup-review-hero"><div class="backup-review-kicker">Review before continuing</div><div class="backup-review-title">'+esc(meta.title)+'</div><div class="backup-review-sub">'+esc(meta.body)+'</div></div>'+summaryHtml+(isDanger?'<div class="backup-review-warning">Disconnecting is local to this device, but you may need to reconnect before future Drive backups or restores.</div>':'<div class="backup-review-muted">This extra step prevents accidental backup, restore or disconnect actions.</div>')+'<div class="backup-review-actions"><button class="'+(isDanger?'backup-review-danger':'backup-review-primary')+'" data-backup-confirm-run="'+esc(action)+'" type="button">'+esc(meta.verb)+'</button></div>';}
+function renderActionResult(action,state,env,opts){env=asObject(env);opts=asObject(opts);var qs=env.qs||function(id){return root.document&&root.document.getElementById(id);};var modal=qs('backup-centre-modal'),body=qs('backup-centre-body'),title=qs('backup-centre-title'),done=qs('backup-centre-done');if(!modal||!body)return;var meta=actionMeta(action),summary=buildBackupSummary(state,meta.kind==='restore'?'full':meta.kind,env.helpers),stamp=new Date().toLocaleString();if(title)title.textContent='Backup Summary';if(done)done.textContent='Done';modal.classList.add('open','backup-action-result');modal.setAttribute('aria-hidden','false');modal.classList.remove('restore-review');var where=opts.where||((String(action).indexOf('drive-')===0)?'Google Drive':'This device');var message=opts.message||((String(action).indexOf('restore')>=0)?'Ready to review.':'Completed successfully.');body.innerHTML='<div class="backup-review-hero"><div class="backup-review-kicker">'+esc(where)+'</div><div class="backup-review-title">'+esc(meta.title.replace(/\?$/,''))+'</div><div class="backup-review-sub">'+esc(message)+' '+esc(stamp)+'</div></div>'+((meta.kind==='restore'||meta.kind==='snapshot'||meta.kind==='drive'||meta.kind==='drive-danger')?'':backupSummaryCells(summary));}
 function renderLoadingState(titleText,subText,env){env=asObject(env);var qs=env.qs||function(id){return root.document&&root.document.getElementById(id);};var modal=qs('backup-centre-modal'),body=qs('backup-centre-body'),title=qs('backup-centre-title'),done=qs('backup-centre-done');if(!modal||!body)return;if(title)title.textContent='Backup Centre';if(done)done.textContent='Cancel';modal.classList.add('open');modal.classList.remove('restore-review','backup-action-result');modal.setAttribute('aria-hidden','false');body.innerHTML='<div class="backup-review-loading-card"><div class="backup-review-spinner" aria-hidden="true"></div><div class="backup-review-title">'+esc(titleText||'Working…')+'</div><div class="backup-review-sub">'+esc(subText||'Please keep WorshipBase open while this finishes.')+'</div></div>';}
 function backupRestoreContract(){return {owner:'WBBackupRestoreController',phase:'Phase 2b - K2',backup:['buildLocalBackupPayload','buildBackupPayload','performLocalBackup','readBackupHistory','recordBackupHistory','backupCentreHtml'],restore:['makeBackupRestorePlan','defaultRestoreSelectionForMode','applyRestoreSelection','restoreSelectionSummary','hasRestoreSelection'],ui:['backupActionIcon','actionMeta','renderActionConfirm','renderActionResult','renderLoadingState'],guarantee:'Backup/restore/import residual ownership lives behind one source module while the legacy shell remains only a state and DOM adapter.'};}
 function diagnostics(){return {owner:'WBBackupRestoreController',phase:'Phase 2b - K2',contract:backupRestoreContract(),methods:['buildLocalBackupPayload','buildBackupPayload','performLocalBackup','makeBackupRestorePlan','applyRestoreSelection','backupCentreHtml','renderActionConfirm','renderActionResult','renderLoadingState']};}
@@ -14612,7 +14996,7 @@ function normalizeUgImportedSong(raw){
   var chart=ugCleanChordSheetText(raw.chart||raw.content||raw.lyrics||raw.text||raw.body||'');
   var title=String(raw.title||raw.name||raw.song_name||'').trim()||'Imported song';
   var artist=String(raw.artist||raw.author||raw.artist_name||raw.writer||'').trim();
-  var explicitKey=normalizeKeyName(raw.chartKey||raw.sourceKey||raw.originalKey||raw.key||raw.scale);var chartKey=explicitKey||detectImportKey(chart)||inferKeyFromChordProgression(chart)||'C';
+  var explicitKey=normalizeKeyName(raw.key||raw.originalKey||raw.sourceKey||raw.chartKey||raw.detectedKey||raw.scale);var chartKey=explicitKey||detectImportKey(chart)||inferKeyFromChordProgression(chart)||'C';
   var key=chartKey||'C';
   var capo=String(raw.capo||'').trim();
   if(capo&&!/^capo\b/im.test(chart))chart=('Capo '+capo+'\n\n'+chart).trim();

@@ -667,7 +667,7 @@ function normalizeUgImportedSong(raw){
   var chart=ugCleanChordSheetText(raw.chart||raw.content||raw.lyrics||raw.text||raw.body||'');
   var title=String(raw.title||raw.name||raw.song_name||'').trim()||'Imported song';
   var artist=String(raw.artist||raw.author||raw.artist_name||raw.writer||'').trim();
-  var explicitKey=normalizeKeyName(raw.chartKey||raw.sourceKey||raw.originalKey||raw.key||raw.scale);var chartKey=explicitKey||detectImportKey(chart)||inferKeyFromChordProgression(chart)||'C';
+  var explicitKey=normalizeKeyName(raw.key||raw.originalKey||raw.sourceKey||raw.chartKey||raw.detectedKey||raw.scale);var chartKey=explicitKey||detectImportKey(chart)||inferKeyFromChordProgression(chart)||'C';
   var key=chartKey||'C';
   var capo=String(raw.capo||'').trim();
   if(capo&&!/^capo\b/im.test(chart))chart=('Capo '+capo+'\n\n'+chart).trim();

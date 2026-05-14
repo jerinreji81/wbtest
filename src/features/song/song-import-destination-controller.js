@@ -204,7 +204,8 @@ function importResultByIdOrUrl(kind,draft,ctx){
     var url=draft.importId?importUrl(kind,draft.importId,true):importUrl(kind,draft.sourceUrl,false);
     return fetchJson(url).then(function(data){
       var raw=data.song||data||{};
-      var merged=Object.assign({},draft,raw,{key:raw.key||raw.originalKey||draft.key||draft.originalKey||draft.scale,originalKey:raw.originalKey||raw.key||draft.originalKey||draft.key});
+      var canonicalKey=draft.key||draft.originalKey||draft.sourceKey||draft.chartKey||draft.detectedKey||draft.scale||raw.key||raw.originalKey||raw.sourceKey||raw.chartKey||raw.detectedKey||raw.scale;
+      var merged=Object.assign({},raw,draft,{key:canonicalKey,originalKey:canonicalKey,sourceKey:canonicalKey,chartKey:canonicalKey,displayKey:canonicalKey});
       return finish(mapBackendSong(merged,kind,ctx));
     }).catch(function(){call(ctx,'showToast',kind==='sop'?'Songs of Praise import failed':'UG import failed');});
   }
