@@ -1536,3 +1536,118 @@ body #song-view:not(.song-focus):not(.performance-mode) #song-back-btn::before{
   flex:0 0 auto!important;transform:none!important;position:static!important;
 }
 body #song-view #song-back-btn{justify-content:center!important;align-items:center!important;overflow:hidden!important;}
+
+/* Fresh issues pass 2026-05-14 — FRESH-001..019 controlled repair */
+/* FRESH-001: pads pill only visible when playing, compact, bottom anchored. */
+#pad-now-playing-pill[hidden],
+.pad-now-playing-pill[hidden],
+.wb-pad-now-pill[hidden],
+.wb-now-playing-pill[hidden]{display:none!important;visibility:hidden!important;pointer-events:none!important;}
+#pad-now-playing-pill.pad-now-playing-pill{
+  left:50%!important;right:auto!important;top:auto!important;
+  bottom:calc(var(--tab-h,52px) + var(--sab,0px) + 12px)!important;
+  width:auto!important;min-width:0!important;max-width:calc(100vw - 32px)!important;
+  min-height:38px!important;max-height:42px!important;padding:6px 8px 6px 12px!important;
+  display:inline-flex!important;transform:translateX(-50%)!important;gap:8px!important;white-space:nowrap!important;
+}
+#pad-now-playing-pill .pad-now-copy{display:flex!important;flex-direction:row!important;align-items:center!important;gap:0!important;min-width:0!important;}
+#pad-now-playing-pill .pad-now-copy strong{max-width:180px!important;font-size:12px!important;line-height:1.1!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+#pad-now-playing-pill .pad-now-copy span{display:none!important;}
+#pad-now-playing-pill button{min-height:28px!important;padding:0 12px!important;font-size:12px!important;}
+
+/* FRESH-002: song back button remains a true circle. */
+#song-view #song-back-btn.back-btn,
+#song-back-btn.back-btn{
+  width:54px!important;height:54px!important;min-width:54px!important;max-width:54px!important;min-height:54px!important;max-height:54px!important;
+  aspect-ratio:1/1!important;border-radius:50%!important;box-sizing:border-box!important;padding:0!important;flex:0 0 54px!important;
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+}
+
+/* FRESH-003: chord highlight as rounded square/rectangle with real horizontal breathing room. */
+.sheet.chords-highlight .chord-token,
+.preview-body.chords-highlight .chord-token,
+.pair-chord .chord-token{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  min-width:1.55em!important;min-height:1.18em!important;
+  padding:.06em .28em .08em!important;margin:0 .025em!important;
+  border-radius:.28em!important;line-height:1!important;text-align:center!important;
+  box-sizing:border-box!important;
+}
+
+/* FRESH-004: alpha strip should be small and subtle. */
+#alpha-strip{right:2px!important;width:18px!important;padding:6px 0!important;}
+.alpha-letter{font-size:8px!important;width:18px!important;font-weight:650!important;color:color-mix(in srgb,var(--txt2) 54%,transparent)!important;}
+.alpha-letter.available{color:color-mix(in srgb,var(--txt2) 66%,transparent)!important;}
+
+/* FRESH-005: import and backup centre are full pages, not sheets. */
+.bs-bg.ug-page.open,
+#bs-ug-import.open,#bs-sop-import.open,#bs-file-import.open,
+#backup-centre-modal.open{
+  position:fixed!important;inset:0!important;display:flex!important;align-items:stretch!important;justify-content:stretch!important;
+  padding:0!important;margin:0!important;background:var(--bg1)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+}
+.bs-bg.ug-page.open>.bs,
+#bs-ug-import.open>.bs,#bs-sop-import.open>.bs,#bs-file-import.open>.bs,
+#backup-centre-modal.open>.bs{
+  width:100%!important;height:100dvh!important;min-height:100dvh!important;max-height:100dvh!important;max-width:none!important;
+  border-radius:0!important;border:0!important;box-shadow:none!important;margin:0!important;padding:0!important;background:var(--bg1)!important;
+  display:flex!important;flex-direction:column!important;overflow:hidden!important;animation:none!important;
+}
+#bs-ug-import .ug-page-panel,#bs-sop-import .ug-page-panel,#bs-file-import .ug-page-panel{padding-top:0!important;}
+#backup-centre-modal .m-tr{flex-shrink:0!important;}
+#backup-centre-modal .m-body{flex:1 1 auto!important;min-height:0!important;overflow:auto!important;}
+
+/* FRESH-006: search focus ring should not be clipped by filter row. */
+.srch-inner{position:relative!important;z-index:3!important;}
+.srch-inp:focus{border-color:color-mix(in srgb,var(--accent) 52%,var(--surface-border))!important;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)!important;}
+#library-filter-row,.filter-row{position:relative!important;z-index:1!important;margin-top:8px!important;padding-top:1px!important;}
+.srch-wrap{overflow:visible!important;padding-bottom:9px!important;}
+
+/* FRESH-007,010: settings row rhythm and avatar/icon tiles follow library tile sizing. */
+#settings-section .ss-row{min-height:66px!important;padding-top:11px!important;padding-bottom:11px!important;}
+#settings-section .ss-body{gap:3px!important;}
+#settings-section .ss-lbl{line-height:1.14!important;}
+#settings-section .ss-sub{line-height:1.22!important;display:block!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;max-width:100%!important;}
+#settings-section .ss-ico,
+.ss-ico{
+  width:46px!important;height:46px!important;min-width:46px!important;border-radius:14px!important;
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+}
+#settings-section .ss-ico svg,.ss-ico svg{width:22px!important;height:22px!important;}
+
+/* FRESH-008/009: compact Settings right indicators and metadata. */
+#def-pdf-val{max-width:84px!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;}
+#wb-backup-restore-section .wb-bc-entry-row .ss-sub{white-space:nowrap!important;}
+
+/* FRESH-011/012: Set List spacing matches Workspace; section titles use theme text. */
+#wb-set-editor .sl-hdr{padding:0 0 10px!important;margin:0 0 8px!important;}
+#wb-set-editor .sl-items>.set-section-card:first-child{margin-top:0!important;}
+#wb-set-editor .sl-items,.workspace-editor-items{padding-top:0!important;}
+.set-section-title{color:var(--accent)!important;}
+body.dark .set-section-title{color:var(--accent)!important;}
+
+/* FRESH-013..017: Chord/NNS polish pass. */
+.nns-diagram-card,.nns-diagram-panel,.nns-diagram-box{padding-top:20px!important;padding-bottom:20px!important;}
+.nns-diagram-svg.guitar{width:190px!important;max-width:82%!important;height:auto!important;}
+.nns-piano-wrap-svg{width:100%!important;display:flex!important;align-items:center!important;justify-content:center!important;margin:8px 0 18px!important;}
+.nns-piano-svg{width:250px!important;max-width:88%!important;height:auto!important;}
+.nns-variation-row,#nns-diagram-variations{display:flex!important;flex-wrap:nowrap!important;gap:10px!important;align-items:center!important;justify-content:center!important;width:100%!important;}
+.nns-variation-chip{min-width:0!important;flex:0 1 auto!important;min-height:42px!important;padding:0 22px!important;border-radius:999px!important;font-size:13px!important;font-weight:850!important;}
+.nns-diagram-summary,#nns-diagram-summary{font-size:13px!important;font-weight:800!important;color:var(--txt2)!important;text-align:center!important;margin-top:14px!important;}
+.nns-table thead th{background:color-mix(in srgb,var(--accent) 14%,var(--bg2))!important;color:var(--accent)!important;font-size:10.5px!important;font-weight:950!important;letter-spacing:.16em!important;text-align:center!important;vertical-align:middle!important;}
+.nns-table tbody td{text-align:center!important;vertical-align:middle!important;}
+.nns-table .nns-chord-cell strong{font-weight:900!important;}
+body.dark .nns-table thead th{background:color-mix(in srgb,var(--accent) 22%,rgba(255,255,255,.05))!important;color:color-mix(in srgb,var(--accent) 88%,#fff)!important;}
+#nns-converter-details>summary{color:var(--txt1)!important;}
+#nns-converter-details .tool-card-static-sub strong{color:var(--accent)!important;}
+
+/* FRESH-018/019: Backup history rows/cards. */
+.backup-history-list{display:flex!important;flex-direction:column!important;gap:10px!important;padding:12px!important;}
+.backup-history-entry{border:1px solid var(--surface-border)!important;border-radius:16px!important;background:color-mix(in srgb,var(--bg1) 96%,var(--surface-tint) 4%)!important;padding:12px 13px!important;}
+.backup-history-top{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;margin-bottom:4px!important;}
+.backup-history-label{font-size:14px!important;font-weight:850!important;color:var(--txt1)!important;white-space:normal!important;}
+.backup-history-kind{font-size:10px!important;font-weight:900!important;text-transform:uppercase!important;letter-spacing:.08em!important;color:var(--accent)!important;background:color-mix(in srgb,var(--accent) 10%,transparent)!important;border:1px solid color-mix(in srgb,var(--accent) 18%,transparent)!important;border-radius:999px!important;padding:4px 8px!important;white-space:nowrap!important;}
+.backup-history-time{font-size:12px!important;font-weight:700!important;color:var(--txt2)!important;margin-bottom:3px!important;}
+.backup-history-detail{font-size:12.5px!important;line-height:1.35!important;color:var(--txt3)!important;}
+.backup-history-empty{border:1px solid var(--surface-border)!important;border-radius:16px!important;background:color-mix(in srgb,var(--bg1) 96%,var(--surface-tint) 4%)!important;padding:14px!important;color:var(--txt3)!important;font-size:13px!important;}
+body.dark .backup-history-entry,body.dark .backup-history-empty{background:rgba(255,255,255,.045)!important;border-color:rgba(255,255,255,.10)!important;}

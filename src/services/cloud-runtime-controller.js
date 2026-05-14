@@ -158,7 +158,7 @@ function uploadLatestBackupToDrive(ctx){
   payload.format=payload.format||'worshipbase-google-drive-backup';payload.backupKind=payload.backupKind||'personal-appdatafolder';payload.fileName=payload.fileName||googleDriveBackupName(ctx);payload.driveSchema=payload.driveSchema||'rebuild-v7';
   return driveFindFileByName(ctx,googleDriveBackupName(ctx)).then(function(out){return driveUploadJsonFile(ctx,googleDriveBackupName(ctx),payload,out.file&&out.file.id);}).then(function(file){
     var now=new Date().toISOString(),state=cloudState(ctx);state.googleDrive.connected=true;state.googleDrive.fileId=file.id||state.googleDrive.fileId||'';state.googleDrive.lastBackupAt=now;state.googleDrive.lastModifiedTime=file.modifiedTime||now;
-    call(ctx,'recordBackupHistory',[{kind:'Google Drive',label:'Back up now',detail:'Uploaded hidden personal backup to Google Drive app data storage.',when:now,summary:call(ctx,'backupPayloadSummary',['full'],function(){return null;})}]);
+    call(ctx,'recordBackupHistory',[{kind:'Google Drive',label:'Backed up to Google Drive',detail:'Hidden personal backup uploaded successfully.',when:now,summary:call(ctx,'backupPayloadSummary',['full'],function(){return null;})}]);
     persistCloudState(ctx);refreshDriveBackupUi(ctx);call(ctx,'showToast',['Google Drive backup complete']);return file;
   }).catch(function(err){try{console.error(err);}catch(e){}return call(ctx,'appAlert',[err&&err.message?err.message:'Google Drive backup failed']);});
 }

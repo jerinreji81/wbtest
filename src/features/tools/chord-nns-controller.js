@@ -121,7 +121,7 @@ function pianoChordNotes(root,qualityId,inversion){
 }
 function pianoDiagramVariations(root,qualityId){
   var count=chordIntervalsForQuality(qualityId).length;
-  var labels=['Root position','1st inversion','2nd inversion','3rd inversion'];
+  var labels=['Root','1st','2nd','3rd'];
   return new Array(count).fill(0).map(function(_,i){return {index:i,label:labels[i]||('Inversion '+i),notes:pianoChordNotes(root,qualityId,i)};});
 }
 function absoluteNoteMap(voicing){

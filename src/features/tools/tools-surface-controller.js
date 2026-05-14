@@ -156,7 +156,7 @@ function renderDiagram(ctx){
   var model=owner.diagramFor(state.root,state.quality,state.variation),title=qs('nns-diagram-title',doc),svg=qs('nns-diagram-svg',doc),hint=qs('nns-diagram-hint',doc),varBox=qs('nns-diagram-variations',doc);
   if(title)title.textContent=model.name;
   if(svg)svg.innerHTML=isPiano&&owner.pianoDiagramHtml?owner.pianoDiagramHtml(state.root,state.quality,state.variation):owner.diagramSvg(model);
-  if(varBox){varBox.hidden=!variations||variations.length<2;varBox.innerHTML=varBox.hidden?'':variations.map(function(v,i){return '<button class="nns-variation-chip '+(i===state.variation?'active':'')+'" data-nns-variation="'+i+'" type="button">'+esc(v.label||((isPiano?'Voicing ':'Shape ')+(i+1)))+'</button>';}).join('');}
+  if(varBox){varBox.hidden=!variations||variations.length<2;varBox.innerHTML=varBox.hidden?'':variations.map(function(v,i){var label=v.label||((isPiano?'Voicing ':'Shape ')+(i+1));if(isPiano){label=i===0?'Root':(i===1?'1st':(i===2?'2nd':(i+1)+'th'));}return '<button class="nns-variation-chip '+(i===state.variation?'active':'')+'" data-nns-variation="'+i+'" type="button">'+esc(label)+'</button>';}).join('');}
   if(hint){
     if(isPiano){
       var notes=owner.pianoChordNotes?owner.pianoChordNotes(state.root,state.quality,state.variation):[];
